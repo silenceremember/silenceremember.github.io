@@ -1,0 +1,15 @@
+/* Стили для социальных ссылок */
+
+.social-link {
+  display: block;
+  width: 24px;
+  height: 24px;
+  background-color: #888888;
+  transition: background-color 0.2s ease;
+  text-decoration: none;
+}
+
+.social-link:hover {
+  background-color: var(--color-accent);
+}
+

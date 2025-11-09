@@ -1,0 +1,99 @@
+/* Базовые стили типографики */
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-base);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Заголовки */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-heading);
+  letter-spacing: var(--letter-spacing-tight);
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+}
+
+h1 {
+  font-size: var(--font-size-h1);
+}
+
+h2 {
+  font-size: var(--font-size-h2);
+}
+
+h3 {
+  font-size: var(--font-size-h3);
+}
+
+h4 {
+  font-size: var(--font-size-h4);
+}
+
+h5 {
+  font-size: var(--font-size-h5);
+}
+
+h6 {
+  font-size: var(--font-size-h6);
+}
+
+/* Крупный заголовок для hero-секций */
+.display-large {
+  font-size: var(--font-size-display);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-heading);
+  letter-spacing: var(--letter-spacing-tight);
+  text-transform: uppercase;
+}
+
+/* Параграфы */
+p {
+  margin: 0 0 var(--spacing-md) 0;
+  line-height: var(--line-height-base);
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+/* Ссылки */
+a {
+  color: var(--color-text-primary);
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--color-accent);
+}
+
+/* Маленький текст */
+.text-small {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-base);
+}
+
+/* Адаптивность для заголовков */
+@media (min-width: 481px) {
+  h1 {
+    font-size: var(--font-size-h1);
+  }
+}
+
+@media (min-width: 1025px) {
+  h1 {
+    font-size: var(--font-size-display);
+  }
+}
+

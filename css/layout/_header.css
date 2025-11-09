@@ -1,0 +1,141 @@
+/* Стили хедера */
+
+.header {
+  width: 100%;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.header-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 var(--spacing-sm);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  height: 100%;
+}
+
+/* Левая часть хедера (язык и иконки) */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.header-language {
+  width: 24px;
+  height: 24px;
+  display: block;
+  background-color: #888888;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: background-color 0.2s ease;
+}
+
+.header-language:hover {
+  background-color: var(--color-accent);
+}
+
+
+.header-theme {
+  width: 24px;
+  height: 24px;
+  display: block;
+  background-color: #888888;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: background-color 0.2s ease;
+}
+
+.header-theme:hover {
+  background-color: var(--color-accent);
+}
+
+/* Правая часть хедера (навигация) */
+.header-nav {
+  display: none;
+}
+
+.header-nav-list {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.header-nav-item {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+  transition: color 0.2s ease;
+}
+
+.header-nav-item:hover {
+  color: var(--color-accent);
+}
+
+.header-nav-item.active {
+  color: var(--color-accent);
+}
+
+/* Кнопка меню для мобильных */
+.header-menu-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-base);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.header-menu-button:hover {
+  color: var(--color-accent);
+}
+
+/* Адаптивность для планшетов */
+@media (min-width: 481px) {
+  .header-container {
+    padding: 0 var(--spacing-md);
+    max-width: var(--max-width-tablet);
+  }
+}
+
+/* Адаптивность для десктопов */
+@media (min-width: 769px) {
+  .header-container {
+    padding: 0 var(--spacing-lg);
+    max-width: var(--max-width-desktop);
+  }
+
+  .header-nav {
+    display: block;
+  }
+
+  .header-menu-button {
+    display: none;
+  }
+}
+
+/* Адаптивность для больших экранов */
+@media (min-width: 1025px) {
+  .header-container {
+    padding: 0 var(--spacing-xl);
+    max-width: var(--max-width-large);
+  }
+
+  .header-nav-list {
+    gap: var(--spacing-lg);
+  }
+}
+

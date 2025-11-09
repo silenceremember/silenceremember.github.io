@@ -1,0 +1,280 @@
+/* Контейнеры и сетки */
+
+/* Основной контейнер */
+.container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 var(--spacing-sm);
+  position: relative;
+}
+
+/* Обёртка страницы с вертикальными линиями */
+.page-wrapper {
+  position: relative;
+  height: 100vh;
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Вертикальные декоративные линии */
+.page-wrapper::before,
+.page-wrapper::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: var(--line-width);
+  background-color: var(--line-color);
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+}
+
+/* Контентная область */
+.content-wrapper {
+  position: relative;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 var(--spacing-sm);
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Показываем вертикальные линии на десктопе и позиционируем их */
+@media (min-width: 769px) {
+  .page-wrapper::before,
+  .page-wrapper::after {
+    opacity: 1;
+  }
+
+  /* Позиционируем линии на расстоянии padding от краёв контента шириной 960px */
+  .page-wrapper::before {
+    left: calc((100% - 960px) / 2 - 32px);
+  }
+
+  .page-wrapper::after {
+    right: calc((100% - 960px) / 2 - 32px);
+  }
+}
+
+@media (min-width: 1025px) {
+  /* Позиционируем линии на расстоянии padding от краёв контента шириной 1200px */
+  .page-wrapper::before {
+    left: calc((100% - 1200px) / 2 - 48px);
+  }
+
+  .page-wrapper::after {
+    right: calc((100% - 1200px) / 2 - 48px);
+  }
+}
+
+/* Горизонтальные декоративные линии */
+.decorative-line-horizontal {
+  width: 100vw;
+  height: var(--line-width);
+  background-color: var(--line-color);
+  margin: 0;
+  flex-shrink: 0;
+}
+
+/* Основная сетка для контента */
+.main-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) 0;
+  width: 100%;
+  align-items: center;
+}
+
+/* Колонки контента */
+.main-content-left,
+.main-content-right {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+}
+
+.main-content-left {
+  justify-content: center;
+}
+
+.main-content-right {
+  align-items: stretch;
+}
+
+/* Адаптивность для планшетов */
+@media (min-width: 481px) {
+  .container {
+    max-width: var(--max-width-tablet);
+    padding: 0 var(--spacing-md);
+  }
+
+  .content-wrapper {
+    padding: 0 var(--spacing-md);
+  }
+
+  .main-grid {
+    gap: var(--spacing-lg);
+    padding: var(--spacing-lg) 0;
+  }
+}
+
+/* Адаптивность для десктопов */
+@media (min-width: 769px) {
+  .container {
+    max-width: var(--max-width-desktop);
+    padding: 0 var(--spacing-lg);
+  }
+
+  .content-wrapper {
+    padding: 0 var(--spacing-lg);
+    max-width: var(--max-width-desktop);
+  }
+
+  .main-grid {
+    grid-template-columns: auto 1fr;
+    gap: var(--spacing-md);
+    padding: var(--spacing-lg) 0;
+    position: relative;
+    align-items: stretch;
+  }
+
+  .main-content-left {
+    padding-right: 0;
+    align-items: center;
+    width: auto;
+  }
+
+  .main-content-right {
+    padding-left: 0;
+    align-items: stretch;
+    max-width: 500px;
+  }
+}
+
+/* Адаптивность для больших экранов */
+@media (min-width: 1025px) {
+  .container {
+    max-width: var(--max-width-large);
+    padding: 0 var(--spacing-xl);
+  }
+
+  .content-wrapper {
+    padding: 0 var(--spacing-xl);
+    max-width: var(--max-width-large);
+  }
+
+  .main-grid {
+    grid-template-columns: auto 1fr;
+    gap: var(--spacing-md);
+    padding: var(--spacing-xl) 0;
+  }
+
+  .main-content-left {
+    padding-right: 0;
+    width: auto;
+  }
+
+  .main-content-right {
+    padding-left: 0;
+    max-width: 500px;
+  }
+}
+
+/* Стили для портрета */
+.portrait-container {
+  width: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.portrait-image {
+  width: 100%;
+  max-width: 280px;
+  max-height: 420px;
+  height: auto;
+  aspect-ratio: 280 / 420;
+  border: 1px solid var(--color-text-primary);
+  object-fit: cover;
+}
+
+@media (min-width: 769px) {
+  .portrait-image {
+    width: 280px;
+    height: 420px;
+    max-width: 280px;
+    max-height: 420px;
+  }
+}
+
+/* Стили для текстового контента */
+.main-content-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100%;
+  gap: var(--spacing-md);
+}
+
+.main-content-top {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.main-content-bottom {
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content-name {
+  font-size: 48px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: var(--letter-spacing-tight);
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.main-content-tagline {
+  font-size: 20px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin: 0;
+}
+
+.main-content-title {
+  font-size: 32px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.main-content-description {
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+@media (min-width: 1025px) {
+  .main-content-text {
+    min-height: 420px;
+  }
+}
+

@@ -1,0 +1,10 @@
+/* Декоративный разделитель (иконка X) */
+
+.icon-divider {
+  width: 14px;
+  height: 14px;
+  display: block;
+  background-color: #888888;
+  flex-shrink: 0;
+}
+
