@@ -1,0 +1,73 @@
+:root {
+  /* === ЦВЕТА === */
+  /* Основные цвета */
+  --color-text: #F5F5F5;           /* Основной цвет текста */
+  --color-bg: #121212;              /* Основной цвет фона */
+  
+  /* Акцентные цвета */
+  --color-accent: #D90429;          /* Акцентный цвет для текста и элементов */
+  --color-accent-bg: #641912;       /* Акцентный цвет для фонов */
+  
+  /* Дополнительные цвета (опционально, для градиентов, теней и т.д.) */
+  --color-text-muted: rgba(245, 245, 245, 0.7);  /* Приглушенный текст */
+  --color-border: rgba(245, 245, 245, 0.1);      /* Цвет границ */
+  
+  /* === ШРИФТЫ === */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  
+  /* Размеры шрифтов */
+  --font-size-base: 1rem;        /* 16px */
+  --font-size-small: 0.875rem;   /* 14px */
+  --font-size-h6: 1rem;          /* 16px */
+  --font-size-h5: 1.125rem;      /* 18px */
+  --font-size-h4: 1.25rem;       /* 20px */
+  --font-size-h3: 1.5rem;        /* 24px */
+  --font-size-h2: 2rem;          /* 32px */
+  --font-size-h1: 2.5rem;        /* 40px */
+  --font-size-display: 3rem;     /* 48px */
+  
+  /* Насыщенность шрифта */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  
+  /* Высота строки */
+  --line-height-base: 1.6;
+  --line-height-heading: 1.3;
+  
+  /* Межбуквенный интервал */
+  --letter-spacing-tight: -0.01em;
+  --letter-spacing-normal: 0;
+  
+  /* === BREAKPOINTS (для справки) === */
+  /* Примечание: CSS-переменные не могут быть использованы напрямую в медиа-запросах */
+  --breakpoint-mobile: 480px;
+  --breakpoint-tablet: 481px;
+  --breakpoint-desktop: 769px;
+  --breakpoint-large: 1025px;
+  
+  /* === МАКСИМАЛЬНАЯ ШИРИНА КОНТЕНТА === */
+  --max-width-mobile: 100%;
+  --max-width-tablet: 720px;
+  --max-width-desktop: 960px;
+  --max-width-large: 1200px;
+  
+  /* === ОТСТУПЫ === */
+  --spacing-xs: 0.5rem;    /* 8px */
+  --spacing-sm: 1rem;      /* 16px */
+  --spacing-md: 1.5rem;    /* 24px */
+  --spacing-lg: 2rem;      /* 32px */
+  --spacing-xl: 3rem;      /* 48px */
+  --spacing-xxl: 4rem;     /* 64px */
+}
+
+/* === ПОДДЕРЖКА СВЕТЛОЙ ТЕМЫ (опционально) === */
+/* Для переключения темы добавьте класс .light-theme к элементу <html> или <body> */
+.light-theme {
+  --color-text: #121212;           /* Инвертированный: темный текст */
+  --color-bg: #F5F5F5;             /* Инвертированный: светлый фон */
+  --color-text-muted: rgba(18, 18, 18, 0.7);
+  --color-border: rgba(18, 18, 18, 0.1);
+  /* Акцентные цвета остаются без изменений */
+}

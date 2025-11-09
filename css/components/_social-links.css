@@ -1,0 +1,95 @@
+/* === СОЦИАЛЬНЫЕ ССЫЛКИ === */
+
+.social-links {
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: center;
+  justify-content: center;
+  margin-top: var(--spacing-md);
+}
+
+/* === СОЦИАЛЬНАЯ ССЫЛКА === */
+
+.social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: 2px solid var(--color-border);
+  color: var(--color-text);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  font-size: var(--font-size-h5);
+}
+
+.social-link:hover,
+.social-link:focus {
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-text);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(217, 4, 41, 0.3);
+}
+
+.social-link:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* === РАЗМЕРЫ === */
+
+.social-link-small {
+  width: 32px;
+  height: 32px;
+  font-size: var(--font-size-small);
+}
+
+.social-link-large {
+  width: 48px;
+  height: 48px;
+  font-size: var(--font-size-h4);
+}
+
+/* === ИКОНКИ (можно использовать Font Awesome, Material Icons и т.д.) === */
+
+.social-link svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+.social-link-small svg {
+  width: 16px;
+  height: 16px;
+}
+
+.social-link-large svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* === ТЕКСТОВЫЕ ССЫЛКИ (альтернативный вариант) === */
+
+.social-link-text {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  color: var(--color-text-muted);
+  text-decoration: none;
+  font-size: var(--font-size-base);
+  transition: color 0.2s ease;
+}
+
+.social-link-text:hover,
+.social-link-text:focus {
+  color: var(--color-accent);
+}
+
+.social-link-text svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
