@@ -1,0 +1,23 @@
+/* === ГЛАВНЫЙ ФАЙЛ СТИЛЕЙ === */
+/* Единственная задача этого файла — импортировать все остальные CSS-файлы в правильном порядке */
+
+/* 1. БАЗОВЫЕ СТИЛИ (переменные, сброс, типографика) */
+@import 'base/_variables.css';
+@import 'base/_reset.css';
+@import 'base/_typography.css';
+
+/* 2. СТИЛИ МАКЕТА (сетка, хедер, футер) */
+@import 'layout/_grid.css';
+@import 'layout/_header.css';
+@import 'layout/_footer.css';
+
+/* 3. СТИЛИ КОМПОНЕНТОВ (переиспользуемые элементы) */
+@import 'components/_button.css';
+@import 'components/_project-card.css';
+@import 'components/_social-links.css';
+@import 'components/_skip-link.css';
+
+/* 4. СПЕЦИФИЧНЫЕ СТИЛИ СТРАНИЦ (уникальные правила) */
+@import 'pages/_index-page.css';
+@import 'pages/_community-page.css';
+@import 'pages/_cv-page.css';
