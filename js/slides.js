@@ -134,7 +134,6 @@ function initSlidesManager() {
         if (shouldBeMobile === isMobileLayout) return;
 
         isMobileLayout = shouldBeMobile;
-
         if (isMobileLayout) {
             // На мобильных устройствах показываем все слайды с обычной прокруткой
             slides.forEach((slide, i) => {
@@ -188,3 +187,4 @@ if (document.readyState === 'loading') {
 } else {
     initSlidesManager();
 }
+

@@ -6,12 +6,11 @@
 @import 'base/_typography.css';
 
 /* 2. СТИЛИ МАКЕТА (сетка, хедер, футер) */
-@import 'layout/_grid.css';
-@import 'layout/_header.css';
-@import 'layout/_footer.css';
+@import url('layout/_grid.css');
+@import url('layout/_header.css');
+@import url('layout/_footer.css');
 
 /* 3. СТИЛИ КОМПОНЕНТОВ (переиспользуемые элементы) */
-@import 'components/_social-links.css';
-@import 'components/_icon-divider.css';
+@import url('../components/_icon-divider.css');
 @import 'components/_slides.css';
 

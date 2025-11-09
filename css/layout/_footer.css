@@ -11,14 +11,14 @@
 
 .footer-container {
   width: 100%;
-  max-width: 100%;
   margin: 0 auto;
-  padding: 0 var(--spacing-sm);
   display: grid;
-  grid-template-columns: 1fr;
   gap: var(--spacing-md);
   align-items: center;
   height: 100%;
+  padding: 0 var(--spacing-xs);
+  max-width: var(--max-width-large);
+  grid-template-columns: 1fr auto 1fr;
 }
 
 /* Левая колонка (социальные ссылки и email) */
@@ -26,6 +26,7 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+  align-items: flex-start;
 }
 
 .footer-social {
@@ -46,16 +47,9 @@
 
 /* Центральная колонка (декоративные элементы) */
 .footer-center {
-  display: none;
+  display: flex;
   justify-content: center;
   align-items: center;
-}
-
-/* На мобильных устройствах скрываем индикаторы прогресса */
-@media (max-width: 799px) {
-  .footer-center {
-    display: none !important;
-  }
 }
 
 .footer-decorative {
@@ -67,8 +61,8 @@
 
 .footer-decorative-square {
   /* Базовый размер для планшетов (481px+) */
-  width: 10px;
-  height: 10px;
+  width: 16px;
+  height: 16px;
   /* Неактивное состояние: белая внутренняя обводка */
   border: 1px solid var(--color-text-primary);
   background-color: transparent;
@@ -89,50 +83,12 @@
   cursor: default;
 }
 
-/* Адаптивные размеры квадратиков согласно README.md breakpoints */
-
-/* Планшеты (481px - 768px) */
-@media (min-width: 481px) {
-  .footer-decorative-square {
-    width: 10px;
-    height: 10px;
-  }
-  
-  .footer-decorative {
-    gap: 0.5rem; /* 8px */
-  }
-}
-
-/* Десктоп (769px - 1024px) */
-@media (min-width: 769px) {
-  .footer-decorative-square {
-    width: 16px;
-    height: 16px;
-  }
-  
-  .footer-decorative {
-    gap: 0.5rem; /* 8px */
-  }
-}
-
-/* Большие экраны (1025px и выше) - целевой размер */
-@media (min-width: 1025px) {
-  .footer-decorative-square {
-    width: 16px;
-    height: 16px;
-  }
-  
-  .footer-decorative {
-    gap: 0.5rem; /* 8px */
-  }
-}
-
 /* Правая колонка (логотип и копирайт) */
 .footer-right {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  align-items: flex-start;
+  align-items: flex-end;
 }
 
 .footer-logo {
@@ -158,44 +114,6 @@
 .footer-copyright {
   font-size: var(--font-size-small);
   color: #888888;
-}
-
-/* Адаптивность для планшетов */
-@media (min-width: 481px) {
-  .footer-container {
-    padding: 0 var(--spacing-md);
-    max-width: var(--max-width-tablet);
-    grid-template-columns: 1fr auto 1fr;
-    align-items: center;
-  }
-
-  .footer-center {
-    display: flex;
-  }
-
-  .footer-left {
-    align-items: flex-start;
-  }
-
-  .footer-right {
-    align-items: flex-end;
-  }
-}
-
-/* Адаптивность для десктопов */
-@media (min-width: 769px) {
-  .footer-container {
-    padding: 0 var(--spacing-xs);
-    max-width: var(--max-width-desktop);
-  }
-}
-
-/* Адаптивность для больших экранов */
-@media (min-width: 1025px) {
-  .footer-container {
-    padding: 0 var(--spacing-xs);
-    max-width: var(--max-width-large);
-  }
 }
 
 

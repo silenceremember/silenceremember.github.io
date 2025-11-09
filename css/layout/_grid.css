@@ -3,9 +3,9 @@
 /* Основной контейнер */
 .container {
   width: 100%;
-  max-width: 100%;
+  max-width: var(--max-width-large);
   margin: 0 auto;
-  padding: 0 var(--spacing-sm);
+  padding: 0 var(--spacing-lg);
   position: relative;
 }
 
@@ -31,7 +31,16 @@
   background-color: var(--line-color);
   z-index: 1;
   pointer-events: none;
-  opacity: 0;
+  opacity: 1;
+}
+
+/* Позиционируем линии на расстоянии padding от краёв контента шириной 1200px */
+.page-wrapper::before {
+  left: calc((100% - 1200px) / 2 - 8px);
+}
+
+.page-wrapper::after {
+  right: calc((100% - 1200px) / 2 - 8px);
 }
 
 /* Контентная область */
@@ -40,42 +49,9 @@
   flex-grow: 1;
   width: 100%;
   overflow: hidden;
-}
-
-/* На мобильных устройствах разрешаем прокрутку */
-@media (max-width: 799px) {
-  .content-wrapper {
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
-}
-
-/* Показываем вертикальные линии на десктопе и позиционируем их */
-@media (min-width: 769px) {
-  .page-wrapper::before,
-  .page-wrapper::after {
-    opacity: 1;
-  }
-
-  /* Позиционируем линии на расстоянии padding от краёв контента шириной 960px */
-  .page-wrapper::before {
-    left: calc((100% - 960px) / 2 - 8px);
-  }
-
-  .page-wrapper::after {
-    right: calc((100% - 960px) / 2 - 8px);
-  }
-}
-
-@media (min-width: 1025px) {
-  /* Позиционируем линии на расстоянии padding от краёв контента шириной 1200px */
-  .page-wrapper::before {
-    left: calc((100% - 1200px) / 2 - 8px);
-  }
-
-  .page-wrapper::after {
-    right: calc((100% - 1200px) / 2 - 8px);
-  }
+  max-width: var(--max-width-large);
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
 }
 
 /* Горизонтальные декоративные линии */
@@ -90,11 +66,13 @@
 /* Основная сетка для контента */
 .main-grid {
   display: grid;
-  grid-template-rows: auto auto 1fr;
-  gap: var(--spacing-lg);
-  max-width: var(--max-width-desktop);
+  grid-template-columns: auto 1fr;
+  gap: var(--spacing-md);
   margin: 0 auto;
   box-sizing: border-box;
+  padding: var(--spacing-lg) 0;
+  position: relative;
+  align-items: stretch;
 }
 
 /* Колонки контента */
@@ -107,100 +85,14 @@
 
 .main-content-left {
   justify-content: center;
+  padding-right: 0;
+  width: auto;
 }
 
 .main-content-right {
   align-items: stretch;
-}
-
-/* Адаптивность для планшетов */
-@media (min-width: 481px) {
-  .container {
-    max-width: var(--max-width-tablet);
-    padding: 0 var(--spacing-md);
-  }
-
-  .content-wrapper {
-    padding: 0 var(--spacing-md);
-  }
-
-  .main-grid {
-    gap: var(--spacing-lg);
-    padding: var(--spacing-lg) 0;
-  }
-}
-
-/* Адаптивность для десктопов */
-@media (min-width: 769px) {
-  .container {
-    max-width: var(--max-width-desktop);
-    padding: 0 var(--spacing-lg);
-  }
-
-  .content-wrapper {
-    padding: 0 var(--spacing-lg);
-    max-width: var(--max-width-desktop);
-    margin: 0 auto;
-  }
-
-  .main-grid {
-    grid-template-columns: auto 1fr;
-    gap: var(--spacing-md);
-    padding: var(--spacing-lg) 0;
-    position: relative;
-    align-items: stretch;
-  }
-
-  .main-content-left {
-    padding-right: 0;
-    align-items: center;
-    width: auto;
-  }
-
-  .main-content-right {
-    padding-left: 0;
-    align-items: stretch;
-    max-width: 500px;
-  }
-}
-
-/* Адаптивность для больших экранов */
-@media (min-width: 1025px) {
-  /* Позиционируем линии на расстоянии padding от краёв контента шириной 1200px */
-  .page-wrapper::before {
-    left: calc((100% - 1200px) / 2 - 8px);
-  }
-
-  .page-wrapper::after {
-    right: calc((100% - 1200px) / 2 - 8px);
-  }
-
-  .container {
-    max-width: var(--max-width-large);
-    padding: 0 var(--spacing-lg);
-  }
-
-  .content-wrapper {
-    padding: 0 var(--spacing-lg);
-    max-width: var(--max-width-large);
-    margin: 0 auto;
-  }
-
-  .main-grid {
-    grid-template-columns: auto 1fr;
-    gap: var(--spacing-md);
-    padding: var(--spacing-lg) 0;
-  }
-
-  .main-content-left {
-    padding-right: 0;
-    width: auto;
-  }
-
-  .main-content-right {
-    padding-left: 0;
-    max-width: 500px;
-  }
+  padding-left: 0;
+  max-width: 525px;
 }
 
 /* Стили для портрета */
@@ -212,22 +104,12 @@
 }
 
 .portrait-image {
-  width: 100%;
+  width: 280px;
+  height: 420px;
   max-width: 280px;
   max-height: 420px;
-  height: auto;
-  aspect-ratio: 280 / 420;
   border: 1px solid var(--color-text-primary);
   object-fit: cover;
-}
-
-@media (min-width: 769px) {
-  .portrait-image {
-    width: 280px;
-    height: 420px;
-    max-width: 280px;
-    max-height: 420px;
-  }
 }
 
 /* Стили для текстового контента */
@@ -235,7 +117,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 100%;
+  min-height: 420px;
   gap: var(--spacing-md);
 }
 
@@ -283,11 +165,5 @@
   line-height: var(--line-height-base);
   color: var(--color-text-primary);
   margin: 0;
-}
-
-@media (min-width: 1025px) {
-  .main-content-text {
-    min-height: 420px;
-  }
 }
 
