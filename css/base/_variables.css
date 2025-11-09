@@ -56,5 +56,8 @@
   /* Декоративные линии */
   --line-color: var(--color-text-primary);
   --line-width: 1px;
+  
+  /* Анимации */
+  --animation-duration: 0.3s; /* 300ms - длительность перехода слайдов */
 }
 

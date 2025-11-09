@@ -36,16 +36,18 @@
 
 /* Контентная область */
 .content-wrapper {
-  position: relative;
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 0 var(--spacing-sm);
-  flex: 1 1 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 0;
+  display: grid; /* Используем grid для стабильного контекста позиционирования */
+  flex-grow: 1;
+  width: 100%;
   overflow: hidden;
+}
+
+/* На мобильных устройствах разрешаем прокрутку */
+@media (max-width: 799px) {
+  .content-wrapper {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
 }
 
 /* Показываем вертикальные линии на десктопе и позиционируем их */
@@ -57,22 +59,22 @@
 
   /* Позиционируем линии на расстоянии padding от краёв контента шириной 960px */
   .page-wrapper::before {
-    left: calc((100% - 960px) / 2 - 32px);
+    left: calc((100% - 960px) / 2 - 4px);
   }
 
   .page-wrapper::after {
-    right: calc((100% - 960px) / 2 - 32px);
+    right: calc((100% - 960px) / 2 - 4px);
   }
 }
 
 @media (min-width: 1025px) {
   /* Позиционируем линии на расстоянии padding от краёв контента шириной 1200px */
   .page-wrapper::before {
-    left: calc((100% - 1200px) / 2 - 48px);
+    left: calc((100% - 1200px) / 2 - 4px);
   }
 
   .page-wrapper::after {
-    right: calc((100% - 1200px) / 2 - 48px);
+    right: calc((100% - 1200px) / 2 - 4px);
   }
 }
 
@@ -88,11 +90,11 @@
 /* Основная сетка для контента */
 .main-grid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--spacing-md);
-  padding: var(--spacing-md) 0;
-  width: 100%;
-  align-items: center;
+  grid-template-rows: auto auto 1fr;
+  gap: var(--spacing-lg);
+  max-width: var(--max-width-desktop);
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
 /* Колонки контента */
@@ -138,6 +140,7 @@
   .content-wrapper {
     padding: 0 var(--spacing-lg);
     max-width: var(--max-width-desktop);
+    margin: 0 auto;
   }
 
   .main-grid {
@@ -171,6 +174,7 @@
   .content-wrapper {
     padding: 0 var(--spacing-xl);
     max-width: var(--max-width-large);
+    margin: 0 auto;
   }
 
   .main-grid {

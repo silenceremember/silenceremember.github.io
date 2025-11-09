@@ -1,0 +1,359 @@
+/* Стили для системы слайдов */
+
+/* Контейнер слайдов */
+.slides-container {
+  grid-row: 1 / -1;    /* Растягиваем на всю высоту грид-контейнера */
+  grid-column: 1 / -1; /* Растягиваем на всю ширину грид-контейнера */
+  position: relative;
+  overflow: hidden;
+}
+
+/* Базовый стиль слайда */
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex; /* Возвращаем flex для надежного центрирования */
+  justify-content: center; /* Центрируем контент по горизонтали */
+  align-items: center; /* Центрируем контент по вертикали */
+  padding: var(--spacing-md) var(--spacing-sm);
+  box-sizing: border-box;
+  opacity: 0;
+  visibility: hidden;
+  /* Transition для opacity: половина длительности анимации */
+  /* Transition для visibility: мгновенно, но с задержкой в половину длительности */
+  transition: opacity calc(var(--animation-duration) / 2) ease-in-out, 
+              visibility 0s calc(var(--animation-duration) / 2);
+  z-index: 1;
+  pointer-events: none; /* Отключаем взаимодействие со скрытыми слайдами */
+}
+
+/* Активный слайд - видимый */
+.slide.active {
+  opacity: 1;
+  visibility: visible;
+  z-index: 10;
+  pointer-events: auto; /* Включаем взаимодействие с активным слайдом */
+  /* Задержка для появления: половина длительности анимации */
+  /* Это означает, что слайд появится после того, как предыдущий исчезнет */
+  transition-delay: calc(var(--animation-duration) / 2);
+}
+
+/* Первый слайд использует существующую grid-структуру */
+.slide:first-child {
+  padding: 0;
+}
+
+.slide:first-child .main-grid {
+  padding: var(--spacing-md) var(--spacing-sm);
+}
+
+/* Стили для проектных слайдов */
+.project-slide-content {
+  max-width: var(--max-width-desktop);
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  box-sizing: border-box;
+}
+
+.project-main-area {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.project-description {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.project-slide-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.section-title {
+  font-size: 32px;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.project-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: baseline;
+  gap: var(--spacing-md);
+  margin-bottom: 0;
+}
+
+.project-title {
+  font-size: 24px;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin: 0;
+}
+
+.project-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: var(--font-size-small);
+  color: var(--color-text-primary);
+  opacity: 0.7;
+}
+
+.meta-separator {
+  opacity: 0.5;
+}
+
+.project-visual {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+}
+
+.project-placeholder {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background-color: #444444;
+  border: 1px solid var(--color-text-primary);
+}
+
+.project-image-previews {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  width: 100%;
+}
+
+.preview-placeholder {
+  width: 48px;
+  height: 48px;
+  background-color: #888888;
+}
+
+.project-details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.details-block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.details-heading {
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin: 0;
+}
+
+.details-text {
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+/* Стили для CTA слайда */
+.cta-slide-content {
+  max-width: var(--max-width-desktop);
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-lg);
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.cta-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  width: 100%;
+  max-width: 400px;
+}
+
+.cta-button {
+  display: inline-block;
+  padding: var(--spacing-sm) var(--spacing-xxl);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-text-primary);
+  background-color: transparent;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.cta-button:hover {
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-bg-primary);
+}
+
+.cta-button-primary {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.cta-button-primary:hover {
+  background-color: var(--color-accent);
+  color: var(--color-bg-primary);
+}
+
+.cta-separator {
+  width: 100%;
+  max-width: 200px;
+  height: 1px;
+  background-color: var(--color-text-primary);
+  opacity: 0.3;
+}
+
+/* Адаптивность для планшетов */
+@media (min-width: 481px) {
+  .slide {
+    padding: var(--spacing-md) var(--spacing-md);
+  }
+
+  .slide:first-child .main-grid {
+    padding: var(--spacing-lg) var(--spacing-md);
+  }
+
+  .project-slide-content {
+    padding: 0 var(--spacing-lg);
+  }
+
+  .cta-slide-content {
+    padding: 0 var(--spacing-lg);
+  }
+
+  .cta-buttons {
+    max-width: 400px;
+    width: 100%;
+  }
+
+  .cta-button {
+    flex: 1;
+    min-width: 150px;
+  }
+}
+
+/* Адаптивность для десктопов */
+@media (min-width: 769px) {
+  .slide {
+    padding: var(--spacing-lg) var(--spacing-lg);
+  }
+
+  .project-slide-content {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spacing-sm);
+    max-width: var(--max-width-desktop);
+    padding: 0 var(--spacing-xl);
+  }
+
+  .project-main-area {
+    flex-direction: row;
+    gap: var(--spacing-md);
+  }
+
+  .project-visual {
+    width: 640px;
+    height: auto;
+    flex-shrink: 0;
+  }
+
+  .project-placeholder {
+    height: 360px;
+    aspect-ratio: auto;
+  }
+
+  .project-description {
+    flex: 1;
+  }
+
+  .cta-slide-content {
+    max-width: var(--max-width-desktop);
+    padding: 0 var(--spacing-xl);
+  }
+
+  .slide:first-child .main-grid {
+    padding: var(--spacing-lg) var(--spacing-lg);
+  }
+}
+
+/* Адаптивность для больших экранов */
+@media (min-width: 1025px) {
+  .slide {
+    padding: var(--spacing-xl) var(--spacing-xl);
+  }
+
+  .project-slide-content {
+    gap: var(--spacing-sm);
+    max-width: var(--max-width-large);
+  }
+
+  .project-main-area {
+    gap: var(--spacing-md);
+  }
+
+  .cta-slide-content {
+    max-width: var(--max-width-large);
+  }
+
+  .slide:first-child .main-grid {
+    padding: var(--spacing-xl) var(--spacing-xl);
+  }
+}
+
+/* Мобильная версия - обычная прокрутка */
+@media (max-width: 799px) {
+  .slides-container {
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .slide {
+    position: relative !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    min-height: auto;
+    padding: var(--spacing-xl) var(--spacing-sm);
+  }
+
+  .slide.active {
+    position: relative !important;
+  }
+
+  .slide:first-child {
+    padding: 0;
+  }
+
+  .slide:first-child .main-grid {
+    padding: var(--spacing-md) var(--spacing-sm);
+  }
+}

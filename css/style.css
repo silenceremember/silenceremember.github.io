@@ -13,4 +13,5 @@
 /* 3. СТИЛИ КОМПОНЕНТОВ (переиспользуемые элементы) */
 @import 'components/_social-links.css';
 @import 'components/_icon-divider.css';
+@import 'components/_slides.css';
 

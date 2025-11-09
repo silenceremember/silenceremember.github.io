@@ -51,15 +51,80 @@
   align-items: center;
 }
 
+/* На мобильных устройствах скрываем индикаторы прогресса */
+@media (max-width: 799px) {
+  .footer-center {
+    display: none !important;
+  }
+}
+
 .footer-decorative {
   display: flex;
-  gap: var(--spacing-xs);
+  gap: 0.5rem; /* 8px - базовое расстояние */
+  align-items: center;
+  justify-content: center;
 }
 
 .footer-decorative-square {
-  width: 8px;
-  height: 8px;
+  /* Базовый размер для планшетов (481px+) */
+  width: 10px;
+  height: 10px;
+  /* Неактивное состояние: белая внутренняя обводка */
+  border: 1px solid var(--color-text-primary);
+  background-color: transparent;
+  cursor: pointer;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+  flex-shrink: 0;
+}
+
+/* Наведенное состояние: красная внутренняя обводка */
+.footer-decorative-square:hover:not(.active) {
+  border-color: var(--color-accent);
+}
+
+/* Активное состояние: красный фон */
+.footer-decorative-square.active {
   background-color: var(--color-accent);
+  border-color: var(--color-accent);
+  cursor: default;
+}
+
+/* Адаптивные размеры квадратиков согласно README.md breakpoints */
+
+/* Планшеты (481px - 768px) */
+@media (min-width: 481px) {
+  .footer-decorative-square {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .footer-decorative {
+    gap: 0.5rem; /* 8px */
+  }
+}
+
+/* Десктоп (769px - 1024px) */
+@media (min-width: 769px) {
+  .footer-decorative-square {
+    width: 12px;
+    height: 12px;
+  }
+  
+  .footer-decorative {
+    gap: 0.5rem; /* 8px */
+  }
+}
+
+/* Большие экраны (1025px и выше) - целевой размер */
+@media (min-width: 1025px) {
+  .footer-decorative-square {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .footer-decorative {
+    gap: 0.5rem; /* 8px */
+  }
 }
 
 /* Правая колонка (логотип и копирайт) */
@@ -120,7 +185,7 @@
 /* Адаптивность для десктопов */
 @media (min-width: 769px) {
   .footer-container {
-    padding: 0 var(--spacing-lg);
+    padding: 0 4px;
     max-width: var(--max-width-desktop);
   }
 }
@@ -128,7 +193,7 @@
 /* Адаптивность для больших экранов */
 @media (min-width: 1025px) {
   .footer-container {
-    padding: 0 var(--spacing-xl);
+    padding: 0 4px;
     max-width: var(--max-width-large);
   }
 }
