@@ -17,8 +17,8 @@ function initSlidesManager() {
     const SLIDE_TRANSITION_DURATION = 300; // Длительность анимации в миллисекундах (0.3s)
     let currentSlideIndex = 0;
     let isScrolling = false;
-    // Полное время перехода: исчезновение (150ms) + задержка (150ms) + появление (150ms) + запас (50ms) = 500ms
-    const scrollTimeout = SLIDE_TRANSITION_DURATION / 2 + SLIDE_TRANSITION_DURATION / 2 + SLIDE_TRANSITION_DURATION / 2 + 50;
+    // Общее время анимации (300ms) + небольшой запас, чтобы избежать прерываний
+    const scrollTimeout = SLIDE_TRANSITION_DURATION + 50;
     const progressDots = [];
     let slideTransitionTimeout = null; // Таймер для отслеживания перехода слайдов
 

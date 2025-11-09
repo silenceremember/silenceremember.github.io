@@ -59,22 +59,22 @@
 
   /* Позиционируем линии на расстоянии padding от краёв контента шириной 960px */
   .page-wrapper::before {
-    left: calc((100% - 960px) / 2 - 4px);
+    left: calc((100% - 960px) / 2 - 8px);
   }
 
   .page-wrapper::after {
-    right: calc((100% - 960px) / 2 - 4px);
+    right: calc((100% - 960px) / 2 - 8px);
   }
 }
 
 @media (min-width: 1025px) {
   /* Позиционируем линии на расстоянии padding от краёв контента шириной 1200px */
   .page-wrapper::before {
-    left: calc((100% - 1200px) / 2 - 4px);
+    left: calc((100% - 1200px) / 2 - 8px);
   }
 
   .page-wrapper::after {
-    right: calc((100% - 1200px) / 2 - 4px);
+    right: calc((100% - 1200px) / 2 - 8px);
   }
 }
 
@@ -166,13 +166,22 @@
 
 /* Адаптивность для больших экранов */
 @media (min-width: 1025px) {
+  /* Позиционируем линии на расстоянии padding от краёв контента шириной 1200px */
+  .page-wrapper::before {
+    left: calc((100% - 1200px) / 2 - 8px);
+  }
+
+  .page-wrapper::after {
+    right: calc((100% - 1200px) / 2 - 8px);
+  }
+
   .container {
     max-width: var(--max-width-large);
-    padding: 0 var(--spacing-xl);
+    padding: 0 var(--spacing-lg);
   }
 
   .content-wrapper {
-    padding: 0 var(--spacing-xl);
+    padding: 0 var(--spacing-lg);
     max-width: var(--max-width-large);
     margin: 0 auto;
   }
@@ -180,7 +189,7 @@
   .main-grid {
     grid-template-columns: auto 1fr;
     gap: var(--spacing-md);
-    padding: var(--spacing-xl) 0;
+    padding: var(--spacing-lg) 0;
   }
 
   .main-content-left {

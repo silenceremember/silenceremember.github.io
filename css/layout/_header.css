@@ -114,7 +114,7 @@
 /* Адаптивность для десктопов */
 @media (min-width: 769px) {
   .header-container {
-    padding: 0 4px;
+    padding: 0 var(--spacing-xs);
     max-width: var(--max-width-desktop);
   }
 
@@ -130,12 +130,12 @@
 /* Адаптивность для больших экранов */
 @media (min-width: 1025px) {
   .header-container {
-    padding: 0 4px;
+    padding: 0 var(--spacing-xs);
     max-width: var(--max-width-large);
   }
 
   .header-nav-list {
-    gap: var(--spacing-lg);
+    gap: var(--spacing-md);
   }
 }
 

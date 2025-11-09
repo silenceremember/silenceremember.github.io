@@ -67,12 +67,6 @@
   gap: var(--spacing-lg);
 }
 
-.project-description {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-lg);
-}
-
 .project-slide-header {
   display: flex;
   flex-direction: column;
@@ -80,8 +74,8 @@
 }
 
 .section-title {
-  font-size: 32px;
-  font-weight: 900;
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-bold);
   text-transform: uppercase;
   color: var(--color-text-primary);
   margin: 0;
@@ -92,13 +86,13 @@
   flex-direction: row;
   justify-content: flex-start;
   align-items: baseline;
-  gap: var(--spacing-md);
+  gap: var(--spacing-sm);
   margin-bottom: 0;
 }
 
 .project-title {
-  font-size: 24px;
-  font-weight: 900;
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-bold);
   text-transform: uppercase;
   color: var(--color-accent);
   margin: 0;
@@ -113,8 +107,11 @@
   opacity: 0.7;
 }
 
-.meta-separator {
-  opacity: 0.5;
+.meta-square-separator {
+  width: 8px;
+  height: 8px;
+  background-color: #888888;
+  flex-shrink: 0;
 }
 
 .project-visual {
@@ -159,7 +156,7 @@
 }
 
 .details-heading {
-  font-size: 18px;
+  font-size: var(--font-size-h5);
   font-weight: var(--font-weight-bold);
   text-transform: uppercase;
   color: var(--color-accent);
@@ -224,14 +221,6 @@
   color: var(--color-bg-primary);
 }
 
-.cta-separator {
-  width: 100%;
-  max-width: 200px;
-  height: 1px;
-  background-color: var(--color-text-primary);
-  opacity: 0.3;
-}
-
 /* Адаптивность для планшетов */
 @media (min-width: 481px) {
   .slide {
@@ -278,21 +267,22 @@
   .project-main-area {
     flex-direction: row;
     gap: var(--spacing-md);
+    align-items: flex-start; /* Выравниваем колонки по верху */
   }
 
   .project-visual {
-    width: 640px;
-    height: auto;
-    flex-shrink: 0;
+    flex: 3; /* Задаем пропорцию для изображения */
+    min-width: 0; /* Предотвращаем переполнение */
   }
 
   .project-placeholder {
-    height: 360px;
-    aspect-ratio: auto;
+    height: auto;
+    aspect-ratio: 16 / 9;
   }
 
-  .project-description {
-    flex: 1;
+  .project-details {
+    flex: 2; /* Задаем пропорцию для текста */
+    min-width: 0; /* Предотвращаем переполнение */
   }
 
   .cta-slide-content {

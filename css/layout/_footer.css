@@ -30,7 +30,7 @@
 
 .footer-social {
   display: flex;
-  gap: 12px;
+  gap: var(--spacing-xs);
 }
 
 .footer-email {
@@ -106,8 +106,8 @@
 /* Десктоп (769px - 1024px) */
 @media (min-width: 769px) {
   .footer-decorative-square {
-    width: 12px;
-    height: 12px;
+    width: 16px;
+    height: 16px;
   }
   
   .footer-decorative {
@@ -138,7 +138,7 @@
 .footer-logo {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--spacing-xs);
 }
 
 .footer-logo-text {
@@ -185,7 +185,7 @@
 /* Адаптивность для десктопов */
 @media (min-width: 769px) {
   .footer-container {
-    padding: 0 4px;
+    padding: 0 var(--spacing-xs);
     max-width: var(--max-width-desktop);
   }
 }
@@ -193,7 +193,7 @@
 /* Адаптивность для больших экранов */
 @media (min-width: 1025px) {
   .footer-container {
-    padding: 0 4px;
+    padding: 0 var(--spacing-xs);
     max-width: var(--max-width-large);
   }
 }
