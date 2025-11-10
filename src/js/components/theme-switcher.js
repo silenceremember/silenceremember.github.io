@@ -2,8 +2,8 @@ export function initThemeSwitcher() {
   const themeButton = document.querySelector('.header-theme');
   if (!themeButton) return;
 
-  const moonIcon = themeButton.querySelector('.icon-moon');
-  const sunIcon = themeButton.querySelector('.icon-sun');
+  const moonIcon = themeButton.querySelector('.theme-icon-moon');
+  const sunIcon = themeButton.querySelector('.theme-icon-sun');
   const documentElement = document.documentElement;
 
   const applyTheme = (theme) => {
