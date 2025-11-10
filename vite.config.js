@@ -12,6 +12,12 @@ export default defineConfig({
         server.middlewares.use(async (req, res, next) => {
           const cleanUrl = req.url.split('?')[0].split('#')[0];
 
+          // Пропускаем внутренние пути Vite (HMR, клиент и т.д.)
+          if (cleanUrl.startsWith('/@') || cleanUrl.startsWith('/node_modules/')) {
+            return next();
+          }
+
+          // Пропускаем статические ресурсы (файлы с расширениями)
           if (cleanUrl.includes('.') && !cleanUrl.endsWith('.html')) {
             return next();
           }
