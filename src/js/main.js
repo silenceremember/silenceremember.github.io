@@ -3,6 +3,7 @@ import initSlidesManager from './components/slides';
 import { initLayout } from './layout';
 import { initThemeSwitcher } from './components/theme-switcher';
 import initSvgLoader from './components/svg-loader';
+import { initScrollHandler } from './components/scroll';
 
 function debounce(func, wait) {
   let timeout;
@@ -47,6 +48,8 @@ async function onDomReady() {
 
   if (document.querySelector('.slides-container')) {
     initSlidesManager();
+  } else if (document.body.classList.contains('page-404')) {
+    initScrollHandler('.page-wrapper');
   }
 
   updateFadeInElements();

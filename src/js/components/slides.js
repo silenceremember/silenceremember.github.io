@@ -3,6 +3,8 @@
  * Аналогично transitions.js из референса
  */
 
+import { initScrollHandler } from './scroll';
+
 const initSlidesManager = () => {
     const slidesContainer = document.querySelector('.slides-container');
     const slides = document.querySelectorAll('.slide');
@@ -68,31 +70,14 @@ const initSlidesManager = () => {
     }
 
     // Функция проверки размера окна
-    function checkViewport() {
-        const isNowTablet = window.innerWidth <= 768 || window.innerHeight < 1024;
-        if (isNowTablet === isTabletMode) {
-            return; // Режим не изменился
-        }
-
-        isTabletMode = isNowTablet;
-
-        if (isTabletMode) {
-            // Включаем режим планшета
+    function checkViewport(isTablet) {
+        if (isTablet) {
             slidesContainer.classList.add('tablet-scroll-mode');
-            // Убираем 'active' со всех слайдов, чтобы они отображались в потоке
             slides.forEach(slide => slide.classList.remove('active'));
-            slidesContainer.addEventListener('scroll', handleTabletScroll);
         } else {
-            // Возвращаемся в режим десктопа
             slidesContainer.classList.add('is-resizing');
             slidesContainer.classList.remove('tablet-scroll-mode');
-            slidesContainer.removeEventListener('scroll', handleTabletScroll);
-            header.classList.remove('hidden');
-            footer.classList.remove('hidden');
-            decorativeLines.forEach(line => line.classList.remove('hidden'));
-            // Восстанавливаем текущий слайд
             showSlideImmediate(currentSlideIndex);
-
             setTimeout(() => {
                 slidesContainer.classList.remove('is-resizing');
             }, 50);
@@ -208,11 +193,11 @@ const initSlidesManager = () => {
     // Инициализируем индикаторы
     createProgressDots();
     
-    // Первоначальная проверка размера окна
-    checkViewport();
-
-    // Добавляем обработчик на изменение размера окна
-    window.addEventListener('resize', checkViewport);
+    // Инициализируем обработчик скролла
+    initScrollHandler('.slides-container', (isTablet) => {
+        isTabletMode = isTablet;
+        checkViewport(isTablet);
+    });
 
     // Первоначальная настройка
     // На десктопе - показываем первый слайд сразу (без анимации при загрузке)

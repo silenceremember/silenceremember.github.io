@@ -141,4 +141,29 @@
   .footer-decorative {
     display: none;
   }
+
+  body.page-404 .page-wrapper {
+    display: block;
+    height: 100vh;
+    overflow-y: auto;
+    padding-top: 64px;
+    padding-bottom: 64px;
+    box-sizing: border-box;
+    -ms-overflow-style: none;  
+    scrollbar-width: none;
+  }
+
+  body.page-404 .page-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+
+  body.page-404 .content-wrapper {
+    min-height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: var(--spacing-xxl);
+    padding-bottom: var(--spacing-xxl);
+  }
 }
