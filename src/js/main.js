@@ -2,6 +2,7 @@ import initCustomCursor from './components/custom-cursor';
 import initSlidesManager from './components/slides';
 import { initLayout } from './layout';
 import { initThemeSwitcher } from './components/theme-switcher';
+import initSvgLoader from './components/svg-loader';
 
 function debounce(func, wait) {
   let timeout;
@@ -37,8 +38,9 @@ function updateFadeInElements() {
   });
 }
 
-document.addEventListener('DOMContentLoaded', async () => {
+async function onDomReady() {
   await initLayout();
+  await initSvgLoader();
   initThemeSwitcher();
 
   initCustomCursor();
@@ -50,4 +52,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   updateFadeInElements();
 
   window.addEventListener('resize', debounce(updateFadeInElements, 200));
-});
+}
+
+document.addEventListener('DOMContentLoaded', onDomReady);
