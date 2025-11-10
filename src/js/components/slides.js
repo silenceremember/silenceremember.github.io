@@ -12,7 +12,8 @@ const initSlidesManager = () => {
     const decorativeLines = document.querySelectorAll('.decorative-line-horizontal');
     
     if (!slidesContainer || slides.length === 0 || !progressContainer || !header || !footer || decorativeLines.length === 0) {
-        console.warn('Slides manager: Required elements not found');
+        // Тихая проверка - если элементов нет, просто выходим без предупреждения
+        // Это нормально для страниц без слайдера
         return;
     }
 
@@ -224,13 +225,6 @@ const initSlidesManager = () => {
         showSlideImmediate(0);
     }
 };
-
-// Инициализация при загрузке DOM
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initSlidesManager);
-} else {
-    initSlidesManager();
-}
 
 export default initSlidesManager;
 
