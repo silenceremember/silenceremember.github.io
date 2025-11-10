@@ -20,47 +20,32 @@
 
 /* 4. АНИМАЦИИ ПОЯВЛЕНИЯ КОНТЕНТА */
 /* Fade-in анимация для контента при загрузке страницы */
+.header-content,
+.footer-content,
+.content-wrapper,
+main {
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+}
+
+.header-content.fade-in-visible,
+.footer-content.fade-in-visible,
+.content-wrapper.fade-in-visible,
+main.fade-in-visible {
+  opacity: 1;
+}
+
 /* Применяем только для десктопного режима (min-width: 769px) */
 @media (min-width: 769px) {
   .header,
   .footer {
     transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
   }
-
-  .header-content,
-  .footer-content {
-    opacity: 0;
-    transition: opacity 0.3s ease-out;
-  }
-
-  .content-wrapper,
-  main {
-    opacity: 0;
-    transition: opacity 0.3s ease-out;
-  }
-
-  .header-content.fade-in-visible,
-  .footer-content.fade-in-visible,
-  .content-wrapper.fade-in-visible,
-  main.fade-in-visible {
-    opacity: 1;
-  }
 }
 
 /* В мобильном режиме header и footer управляются через transform, поэтому opacity не применяем */
 /* content-wrapper и main могут получать fade-in в обоих режимах */
 @media (max-width: 768px) {
-  .content-wrapper,
-  main {
-    opacity: 0;
-    transition: opacity 0.3s ease-out;
-  }
-
-  .content-wrapper.fade-in-visible,
-  main.fade-in-visible {
-    opacity: 1;
-  }
-
   /* В мобильном режиме header и footer всегда видимы (управляются через transform) */
   .header,
   .footer {
