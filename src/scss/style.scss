@@ -18,3 +18,33 @@
 @import 'layout/tablet';
 @import 'layout/mobile';
 
+/* 4. АНИМАЦИИ ПОЯВЛЕНИЯ КОНТЕНТА */
+/* Fade-in анимация для контента при загрузке страницы */
+.header,
+.footer,
+.content-wrapper,
+main {
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+}
+
+.header.fade-in-visible,
+.footer.fade-in-visible,
+.content-wrapper.fade-in-visible,
+main.fade-in-visible {
+  opacity: 1;
+}
+
+/* Декоративные линии остаются видимыми всегда (исключены из анимации) */
+/* Горизонтальные декоративные линии */
+.decorative-line-horizontal {
+  opacity: 1 !important;
+  transition: none !important;
+}
+
+/* Вертикальные декоративные линии (псевдоэлементы page-wrapper) */
+.page-wrapper::before,
+.page-wrapper::after {
+  opacity: 1 !important;
+}
+
