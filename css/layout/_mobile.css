@@ -60,3 +60,18 @@
     grid-template-columns: 1fr auto;
   }
 }
+@media (max-width: 342px) {
+  .portrait-image {
+    width: clamp(260px, 90.9vw - 30.9px, 280px);
+    height: clamp(390px, 136.4vw - 46.4px, 420px);
+  }
+}
+@media (max-width: 319px) {
+  .page-wrapper {
+    min-width: 320px;
+    overflow-x: auto;
+  }
+  .slides-container.tablet-scroll-mode .slide:not(:last-child)::after {
+    width: 320px;
+  }
+}
