@@ -27,11 +27,6 @@ export function initThemeSwitcher() {
   themeButton.addEventListener('click', toggleTheme);
 
   // Apply saved theme on initial load
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme) {
-    applyTheme(savedTheme);
-  } else {
-    // If no theme is saved, use light theme as default
-    applyTheme('light');
-  }
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  applyTheme(savedTheme);
 }
