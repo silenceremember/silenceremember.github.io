@@ -229,3 +229,17 @@
   background-color: var(--color-accent);
   color: var(--color-bg-primary);
 }
+
+/* Адаптивность для проектных слайдов */
+@media (max-width: 1024px) {
+  .project-main-area {
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 1025px) {
+  .project-slide-content {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}

@@ -66,33 +66,22 @@
 /* Основная сетка для контента */
 .main-grid {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 1fr; /* Одна колонка по умолчанию (mobile-first) */
   gap: var(--spacing-md);
   margin: 0 auto;
   box-sizing: border-box;
   padding: var(--spacing-lg) 0;
-  position: relative;
-  align-items: stretch;
+  align-items: center; /* Центрируем элементы по вертикали */
+  justify-items: start; /* Выравниваем элементы по левому краю */
 }
 
 /* Колонки контента */
-.main-content-left,
-.main-content-right {
+.main-content-left {
   min-width: 0;
   display: flex;
-  align-items: center;
-}
-
-.main-content-left {
   justify-content: center;
-  padding-right: 0;
+  align-items: center;
   width: auto;
-}
-
-.main-content-right {
-  align-items: stretch;
-  padding-left: 0;
-  max-width: 525px;
 }
 
 /* Стили для портрета */
@@ -113,23 +102,18 @@
 }
 
 /* Стили для текстового контента */
-.main-content-text {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 420px;
-  gap: var(--spacing-md);
-}
-
 .main-content-top {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  text-align: left; /* Выравниваем текст по левому краю на мобильных */
 }
 
 .main-content-bottom {
   display: flex;
   flex-direction: column;
+  max-width: 525px; /* Ограничиваем ширину описания */
+  text-align: left; /* Выравниваем текст по левому краю на мобильных */
 }
 
 .main-content-name {
@@ -165,5 +149,36 @@
   line-height: var(--line-height-base);
   color: var(--color-text-primary);
   margin: 0;
+}
+
+/* Адаптивность для больших экранов */
+@media (min-width: 1025px) {
+  .main-grid {
+    grid-template-columns: auto 1fr;
+    grid-template-rows: 1fr auto;
+    gap: var(--spacing-md) var(--spacing-lg);
+    align-items: stretch;
+    justify-items: start;
+  }
+
+  .main-content-top {
+    grid-column: 2;
+    grid-row: 1;
+    text-align: left; /* Возвращаем выравнивание по левому краю */
+    align-self: start; /* Прижимаем к верху ячейки */
+  }
+
+  .main-content-left {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+  }
+
+  .main-content-bottom {
+    grid-column: 2;
+    grid-row: 2;
+    text-align: left; /* Возвращаем выравнивание по левому краю */
+    align-self: end; /* Прижимаем к низу ячейки */
+    justify-content: flex-end;
+  }
 }
 
