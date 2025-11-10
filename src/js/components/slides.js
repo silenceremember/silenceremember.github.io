@@ -69,7 +69,7 @@ const initSlidesManager = () => {
 
     // Функция проверки размера окна
     function checkViewport() {
-        const isNowTablet = window.innerWidth <= 768;
+        const isNowTablet = window.innerWidth <= 768 || window.innerHeight < 1024;
         if (isNowTablet === isTabletMode) {
             return; // Режим не изменился
         }

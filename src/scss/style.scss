@@ -23,7 +23,10 @@
 /* Применяем только для десктопного режима (min-width: 769px) */
 @media (min-width: 769px) {
   .header,
-  .footer,
+  .footer {
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease-out;
+  }
   .content-wrapper,
   main {
     opacity: 0;
