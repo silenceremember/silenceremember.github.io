@@ -1,0 +1,67 @@
+@media (min-width: 481px) and (max-width: 768px) {
+  /* Стили для tablet-версии */
+
+  .content-wrapper {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .slides-container.tablet-scroll-mode {
+    display: block;
+    overflow-y: auto;
+    height: 100%;
+    scroll-snap-type: none;
+    /* Скрываем скроллбар */
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
+  /* Скрываем скроллбар для Webkit-браузеров (Chrome, Safari) */
+  .slides-container.tablet-scroll-mode::-webkit-scrollbar {
+    display: none;
+  }
+
+  .slides-container.tablet-scroll-mode .slide {
+    display: block;
+    position: relative; /* Необходимо для позиционирования псевдо-элемента */
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    height: auto;
+    min-height: auto; /* Убираем лишнюю высоту */
+    padding: var(--spacing-xl) var(--spacing-lg); /* Единые отступы, как на десктопе */
+  }
+
+  /* Убираем лишние отступы у дочерних контейнеров, так как они теперь на .slide */
+  .slides-container.tablet-scroll-mode .slide:first-child .main-grid,
+  .slides-container.tablet-scroll-mode .project-slide-content,
+  .slides-container.tablet-scroll-mode .cta-slide-content {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  /* Скрываем дублирующиеся заголовки "Избранные работы" */
+  .slides-container.tablet-scroll-mode .slide[data-slide="1"] ~ .slide .project-slide-header .section-title {
+    display: none;
+  }
+
+  /* Добавляем разделители между слайдами */
+  .slides-container.tablet-scroll-mode .slide {
+    position: relative; /* Необходимо для позиционирования псевдо-элемента */
+  }
+
+  .slides-container.tablet-scroll-mode .slide:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw; /* Ширина равна ширине вьюпорта */
+    height: var(--line-width, 1px);
+    background-color: #888888; /* Серый цвет */
+  }
+
+  .footer-decorative {
+    display: none;
+  }
+}

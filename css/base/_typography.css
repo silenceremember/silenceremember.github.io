@@ -60,8 +60,7 @@ h6 {
 
 /* Параграфы */
 p {
-  margin: 0 0 var(--spacing-md) 0;
-  line-height: var(--line-height-base);
+  margin-bottom: var(--spacing-md);
 }
 
 p:last-child {
@@ -82,5 +81,11 @@ a:hover {
 .text-small {
   font-size: var(--font-size-small);
   line-height: var(--line-height-base);
+}
+
+/* Стили для выделения текста */
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-bg-primary);
 }
 

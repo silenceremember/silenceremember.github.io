@@ -13,7 +13,6 @@ function initSlidesManager() {
         return;
     }
 
-    const MOBILE_BREAKPOINT = 800;
     const SLIDE_TRANSITION_DURATION = 300; // Длительность анимации в миллисекундах (0.3s)
     let currentSlideIndex = 0;
     let isScrolling = false;
@@ -21,8 +20,34 @@ function initSlidesManager() {
     const scrollTimeout = SLIDE_TRANSITION_DURATION + 50;
     const progressDots = [];
     let slideTransitionTimeout = null; // Таймер для отслеживания перехода слайдов
+    let isTabletMode = false;
 
-    let isMobileLayout = window.innerWidth < MOBILE_BREAKPOINT;
+    // Функция проверки размера окна
+    function checkViewport() {
+        const isNowTablet = window.innerWidth >= 481 && window.innerWidth <= 768;
+        if (isNowTablet === isTabletMode) {
+            return; // Режим не изменился
+        }
+
+        isTabletMode = isNowTablet;
+
+        if (isTabletMode) {
+            // Включаем режим планшета
+            slidesContainer.classList.add('tablet-scroll-mode');
+            // Убираем 'active' со всех слайдов, чтобы они отображались в потоке
+            slides.forEach(slide => slide.classList.remove('active'));
+        } else {
+            // Возвращаемся в режим десктопа
+            slidesContainer.classList.add('is-resizing');
+            slidesContainer.classList.remove('tablet-scroll-mode');
+            // Восстанавливаем текущий слайд
+            showSlideImmediate(currentSlideIndex);
+
+            setTimeout(() => {
+                slidesContainer.classList.remove('is-resizing');
+            }, 50);
+        }
+    }
 
     // Функция создания индикаторов прогресса
     function createProgressDots() {
@@ -44,8 +69,6 @@ function initSlidesManager() {
 
     // Показываем активный слайд (без анимации, сразу) - используется при инициализации
     function showSlideImmediate(index) {
-        if (isMobileLayout) return;
-        
         currentSlideIndex = index;
         
         // Обновляем видимость слайдов
@@ -100,7 +123,6 @@ function initSlidesManager() {
     
     // Показываем активный слайд - улучшенная логика с защитой от наложения
     function showSlide(index) {
-        if (isMobileLayout) return;
         currentSlideIndex = index;
         slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
         progressDots.forEach((dot, i) => dot.classList.toggle('active', i === index));
@@ -108,9 +130,14 @@ function initSlidesManager() {
 
     // Переключение слайда
     function changeSlide(newIndex) {
-        if (isMobileLayout || isScrolling) return;
+        if (isScrolling) return;
         
         if (newIndex >= 0 && newIndex < slides.length) {
+            // Сбрасываем выделение текста
+            if (window.getSelection) {
+                window.getSelection().removeAllRanges();
+            }
+
             isScrolling = true;
             showSlide(newIndex);
             setTimeout(() => { 
@@ -121,62 +148,30 @@ function initSlidesManager() {
 
     // Обработка колесика мыши
     window.addEventListener('wheel', (event) => {
-        if (isMobileLayout || isScrolling) return;
+        if (isScrolling || isTabletMode) return;
         
         const direction = event.deltaY > 0 ? 1 : -1;
         const nextIndex = currentSlideIndex + direction;
         changeSlide(nextIndex);
     });
 
-    // Обработка изменения размера окна
-    function updateLayout() {
-        const shouldBeMobile = window.innerWidth < MOBILE_BREAKPOINT;
-        if (shouldBeMobile === isMobileLayout) return;
-
-        isMobileLayout = shouldBeMobile;
-        if (isMobileLayout) {
-            // На мобильных устройствах показываем все слайды с обычной прокруткой
-            slides.forEach((slide, i) => {
-                slide.classList.remove('active');
-                slide.style.position = 'relative';
-                slide.style.opacity = '1';
-                slide.style.visibility = 'visible';
-            });
-        } else {
-            // На десктопе показываем только активный слайд
-            slides.forEach((slide, i) => {
-                slide.style.position = '';
-                slide.style.opacity = '';
-                slide.style.visibility = '';
-            });
-            // Пересоздаем индикаторы перед показом слайда
-            createProgressDots();
-            // Используем immediate версию при изменении размера, чтобы избежать задержки
-            showSlideImmediate(currentSlideIndex);
-        }
-    }
-
-    window.addEventListener('resize', updateLayout);
-
     // Инициализируем индикаторы
     createProgressDots();
+    
+    // Первоначальная проверка размера окна
+    checkViewport();
+
+    // Добавляем обработчик на изменение размера окна
+    window.addEventListener('resize', checkViewport);
 
     // Первоначальная настройка
-    if (isMobileLayout) {
-        // На мобильных - обычная прокрутка, показываем все слайды
-        slides.forEach((slide, i) => {
-            slide.classList.remove('active');
-            slide.style.position = 'relative';
-            slide.style.opacity = '1';
-            slide.style.visibility = 'visible';
-        });
-    } else {
-        // На десктопе - показываем первый слайд сразу (без анимации при загрузке)
-        // Сначала убедимся, что все слайды скрыты
-        slides.forEach((slide, i) => {
-            slide.classList.remove('active');
-        });
-        // Затем показываем первый слайд
+    // На десктопе - показываем первый слайд сразу (без анимации при загрузке)
+    // Сначала убедимся, что все слайды скрыты
+    slides.forEach((slide, i) => {
+        slide.classList.remove('active');
+    });
+    // Затем показываем первый слайд, если не в режиме планшета
+    if (!isTabletMode) {
         showSlideImmediate(0);
     }
 }

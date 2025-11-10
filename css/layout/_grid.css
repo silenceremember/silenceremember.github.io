@@ -99,6 +99,7 @@
   max-height: 420px;
   border: 1px solid var(--color-text-primary);
   object-fit: cover;
+  user-select: none; /* Запрещаем выделение изображения */
 }
 
 /* Стили для текстового контента */

@@ -15,7 +15,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  display: flex; /* Возвращаем flex для надежного центрирования */
+  display: flex; /* Используем flex для позиционирования */
   justify-content: center; /* Центрируем контент по горизонтали */
   align-items: center; /* Центрируем контент по вертикали */
   padding: var(--spacing-xl) var(--spacing-xl);
@@ -39,6 +39,13 @@
   /* Задержка для появления: половина длительности анимации */
   /* Это означает, что слайд появится после того, как предыдущий исчезнет */
   transition-delay: calc(var(--animation-duration) / 2);
+}
+
+/* Отключаем анимации во время изменения размера окна */
+.slides-container.is-resizing .slide,
+.slides-container.is-resizing .slide.active {
+  transition: none !important;
+  transition-delay: 0s !important;
 }
 
 /* Первый слайд использует существующую grid-структуру */
@@ -177,6 +184,10 @@
   margin: 0;
 }
 
+.details-block:last-child .details-text {
+  min-height: 4.8em; /* Резервируем место для 3 строк текста (1.6 * 3) */
+}
+
 /* Стили для CTA слайда */
 .cta-slide-content {
   max-width: var(--max-width-large);
@@ -234,6 +245,16 @@
 @media (max-width: 1024px) {
   .project-main-area {
     flex-direction: column;
+  }
+
+  .slide {
+    padding-left: var(--spacing-md);
+    padding-right: var(--spacing-md);
+  }
+
+  .slide:first-child .main-grid {
+    padding-left: var(--spacing-md);
+    padding-right: var(--spacing-md);
   }
 }
 
