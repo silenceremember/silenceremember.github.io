@@ -1,0 +1,34 @@
+/* Стили для кастомного курсора */
+* {
+  cursor: none !important;
+}
+
+.custom-cursor {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--color-text-primary);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 9999;
+  transition: width 0.2s ease-out, height 0.2s ease-out;
+  background-color: rgba(18, 18, 18, 0.5); /* Полупрозрачный --color-bg-primary */
+}
+
+.custom-cursor.hover {
+  width: 30px;
+  height: 30px;
+}
+
+/* Скрываем кастомный курсор на мобильных устройствах, где нет мыши */
+@media (max-width: 768px) {
+  html,
+  body {
+    cursor: auto;
+  }
+
+  .custom-cursor {
+    display: none;
+  }
+}

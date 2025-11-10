@@ -7,8 +7,11 @@ function initSlidesManager() {
     const slidesContainer = document.querySelector('.slides-container');
     const slides = document.querySelectorAll('.slide');
     const progressContainer = document.querySelector('.footer-decorative');
+    const header = document.querySelector('.header');
+    const footer = document.querySelector('.footer');
+    const decorativeLines = document.querySelectorAll('.decorative-line-horizontal');
     
-    if (!slidesContainer || slides.length === 0 || !progressContainer) {
+    if (!slidesContainer || slides.length === 0 || !progressContainer || !header || !footer || decorativeLines.length === 0) {
         console.warn('Slides manager: Required elements not found');
         return;
     }
@@ -21,6 +24,7 @@ function initSlidesManager() {
     const progressDots = [];
     let slideTransitionTimeout = null; // Таймер для отслеживания перехода слайдов
     let isTabletMode = false;
+    let lastScrollTop = 0;
     const menuButton = document.querySelector('.header-menu-button');
     const ctaSection = document.getElementById('cta-section');
 
@@ -30,6 +34,36 @@ function initSlidesManager() {
                 ctaSection.scrollIntoView({ behavior: 'smooth' });
             }
         });
+    }
+
+    function handleTabletScroll() {
+        if (!isTabletMode) return;
+    
+        const scrollTop = slidesContainer.scrollTop;
+        const scrollHeight = slidesContainer.scrollHeight;
+        const clientHeight = slidesContainer.clientHeight;
+
+        // Проверяем, находится ли пользователь в самом низу
+        const atBottom = scrollTop + clientHeight >= scrollHeight - 2; // Допуск в 2px
+    
+        if (atBottom) {
+            // Если внизу, принудительно показываем панели
+            header.classList.remove('hidden');
+            footer.classList.remove('hidden');
+            decorativeLines.forEach(line => line.classList.remove('hidden'));
+        } else if (scrollTop > lastScrollTop && scrollTop > header.offsetHeight) {
+            // Прокрутка вниз
+            header.classList.add('hidden');
+            footer.classList.add('hidden');
+            decorativeLines.forEach(line => line.classList.add('hidden'));
+        } else if (scrollTop < lastScrollTop) {
+            // Прокрутка вверх
+            header.classList.remove('hidden');
+            footer.classList.remove('hidden');
+            decorativeLines.forEach(line => line.classList.remove('hidden'));
+        }
+    
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
     }
 
     // Функция проверки размера окна
@@ -46,19 +80,17 @@ function initSlidesManager() {
             slidesContainer.classList.add('tablet-scroll-mode');
             // Убираем 'active' со всех слайдов, чтобы они отображались в потоке
             slides.forEach(slide => slide.classList.remove('active'));
-            if (menuButton) {
-                menuButton.textContent = 'МЕНЮ';
-            }
+            slidesContainer.addEventListener('scroll', handleTabletScroll);
         } else {
             // Возвращаемся в режим десктопа
             slidesContainer.classList.add('is-resizing');
             slidesContainer.classList.remove('tablet-scroll-mode');
+            slidesContainer.removeEventListener('scroll', handleTabletScroll);
+            header.classList.remove('hidden');
+            footer.classList.remove('hidden');
+            decorativeLines.forEach(line => line.classList.remove('hidden'));
             // Восстанавливаем текущий слайд
             showSlideImmediate(currentSlideIndex);
-
-            if (menuButton) {
-                menuButton.textContent = '☰';
-            }
 
             setTimeout(() => {
                 slidesContainer.classList.remove('is-resizing');

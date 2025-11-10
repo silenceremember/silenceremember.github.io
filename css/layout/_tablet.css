@@ -1,6 +1,50 @@
 @media (min-width: 481px) and (max-width: 768px) {
   /* Стили для tablet-версии */
 
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+  
+  .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+  }
+
+  .header.hidden {
+    transform: translateY(-100%);
+  }
+
+  .footer.hidden {
+    transform: translateY(100%);
+  }
+
+  /* Стили для декоративных линий в режиме планшета */
+  .header + .decorative-line-horizontal,
+  main + .decorative-line-horizontal {
+    position: fixed;
+    left: 0;
+    transition: transform 0.3s ease;
+  }
+
+  .header + .decorative-line-horizontal {
+    top: 64px; /* Высота хедера */
+  }
+
+  main + .decorative-line-horizontal {
+    bottom: 64px; /* Высота футера */
+  }
+
+  .header + .decorative-line-horizontal.hidden {
+    transform: translateY(-65px); /* Сдвигаем вверх, чтобы скрыть */
+  }
+
+  main + .decorative-line-horizontal.hidden {
+    transform: translateY(65px); /* Сдвигаем вниз, чтобы скрыть */
+  }
+
   .content-wrapper {
     padding-left: 0;
     padding-right: 0;
@@ -9,9 +53,11 @@
   .slides-container.tablet-scroll-mode {
     display: block;
     overflow-y: auto;
-    height: calc(100% - 2px); /* Уменьшаем высоту, чтобы создать отступ */
-    margin-top: 1px; /* Создаем отступ сверху */
+    height: 100%; /* Уменьшаем высоту, чтобы создать отступ */
     scroll-snap-type: none;
+    padding-top: 64px;
+    padding-bottom: 64px;
+    box-sizing: border-box;
     /* Скрываем скроллбар */
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */

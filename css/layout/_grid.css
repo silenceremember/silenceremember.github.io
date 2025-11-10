@@ -29,7 +29,7 @@
   bottom: 0;
   width: var(--line-width);
   background-color: var(--line-color);
-  z-index: 1;
+  z-index: 11;
   pointer-events: none;
   opacity: 1;
 }

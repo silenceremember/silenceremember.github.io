@@ -6,19 +6,18 @@
 
   .header-menu-button {
     display: flex;
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-bold);
-    text-transform: uppercase;
-    color: var(--color-text-primary);
-    background-color: transparent;
+    width: 24px; /* Размер иконки */
+    height: 24px; /* Размер иконки */
+    background-color: #888888; /* Цвет плейсхолдера */
     border: none;
     padding: 0;
-    width: auto;
-    height: auto;
+    font-size: 0; /* Скрываем текст, если он есть */
+    cursor: pointer;
+    transition: background-color 0.2s ease;
   }
   
   .header-menu-button:hover {
-    color: var(--color-accent);
+    background-color: var(--color-accent);
   }
 }
 

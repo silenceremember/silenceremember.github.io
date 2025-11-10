@@ -9,6 +9,7 @@
   flex-shrink: 0;
   z-index: 10;
   background-color: var(--color-bg-primary);
+  transition: transform 0.3s ease;
 }
 
 .footer-container {
