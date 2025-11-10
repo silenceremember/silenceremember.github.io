@@ -61,6 +61,8 @@
   background-color: var(--line-color);
   margin: 0;
   flex-shrink: 0;
+  position: relative;
+  z-index: 10;
 }
 
 /* Основная сетка для контента */

@@ -5,14 +5,15 @@
 @import 'base/_reset.css';
 @import 'base/_typography.css';
 
-/* 2. СТИЛИ МАКЕТА (сетка, хедер, футер) */
+/* 2. СТИЛИ КОМПОНЕНТОВ (переиспользуемые элементы) */
+@import url('components/_icon-divider.css');
+@import url('components/_social-links.css');
+@import 'components/_slides.css';
+
+/* 3. СТИЛИ МАКЕТА (сетка, хедер, футер) */
 @import url('layout/_grid.css');
 @import url('layout/_header.css');
 @import url('layout/_footer.css');
 @import url('layout/_tablet.css');
-
-/* 3. СТИЛИ КОМПОНЕНТОВ (переиспользуемые элементы) */
-@import url('components/_icon-divider.css');
-@import url('components/_social-links.css');
-@import 'components/_slides.css';
+@import url('layout/_mobile.css');
 

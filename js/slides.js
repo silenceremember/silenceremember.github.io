@@ -21,10 +21,20 @@ function initSlidesManager() {
     const progressDots = [];
     let slideTransitionTimeout = null; // Таймер для отслеживания перехода слайдов
     let isTabletMode = false;
+    const menuButton = document.querySelector('.header-menu-button');
+    const ctaSection = document.getElementById('cta-section');
+
+    if (menuButton) {
+        menuButton.addEventListener('click', () => {
+            if (isTabletMode && ctaSection) {
+                ctaSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    }
 
     // Функция проверки размера окна
     function checkViewport() {
-        const isNowTablet = window.innerWidth >= 481 && window.innerWidth <= 768;
+        const isNowTablet = window.innerWidth <= 768;
         if (isNowTablet === isTabletMode) {
             return; // Режим не изменился
         }
@@ -36,12 +46,19 @@ function initSlidesManager() {
             slidesContainer.classList.add('tablet-scroll-mode');
             // Убираем 'active' со всех слайдов, чтобы они отображались в потоке
             slides.forEach(slide => slide.classList.remove('active'));
+            if (menuButton) {
+                menuButton.textContent = 'МЕНЮ';
+            }
         } else {
             // Возвращаемся в режим десктопа
             slidesContainer.classList.add('is-resizing');
             slidesContainer.classList.remove('tablet-scroll-mode');
             // Восстанавливаем текущий слайд
             showSlideImmediate(currentSlideIndex);
+
+            if (menuButton) {
+                menuButton.textContent = '☰';
+            }
 
             setTimeout(() => {
                 slidesContainer.classList.remove('is-resizing');

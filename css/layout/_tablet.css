@@ -9,7 +9,8 @@
   .slides-container.tablet-scroll-mode {
     display: block;
     overflow-y: auto;
-    height: 100%;
+    height: calc(100% - 2px); /* Уменьшаем высоту, чтобы создать отступ */
+    margin-top: 1px; /* Создаем отступ сверху */
     scroll-snap-type: none;
     /* Скрываем скроллбар */
     -ms-overflow-style: none;  /* IE and Edge */
@@ -30,6 +31,7 @@
     height: auto;
     min-height: auto; /* Убираем лишнюю высоту */
     padding: var(--spacing-xl) var(--spacing-lg); /* Единые отступы, как на десктопе */
+    pointer-events: auto !important; /* Включаем клики в режиме прокрутки */
   }
 
   /* Убираем лишние отступы у дочерних контейнеров, так как они теперь на .slide */
@@ -63,5 +65,13 @@
 
   .footer-decorative {
     display: none;
+  }
+}
+
+@media (max-width: 599px) {
+  .project-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-xxs);
   }
 }
