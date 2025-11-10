@@ -20,28 +20,54 @@
 
 /* 4. АНИМАЦИИ ПОЯВЛЕНИЯ КОНТЕНТА */
 /* Fade-in анимация для контента при загрузке страницы */
-.header,
-.footer,
-.content-wrapper,
-main {
-  opacity: 0;
-  transition: opacity 0.3s ease-out;
+/* Применяем только для десктопного режима (min-width: 769px) */
+@media (min-width: 769px) {
+  .header,
+  .footer,
+  .content-wrapper,
+  main {
+    opacity: 0;
+    transition: opacity 0.3s ease-out;
+  }
+
+  .header.fade-in-visible,
+  .footer.fade-in-visible,
+  .content-wrapper.fade-in-visible,
+  main.fade-in-visible {
+    opacity: 1;
+  }
 }
 
-.header.fade-in-visible,
-.footer.fade-in-visible,
-.content-wrapper.fade-in-visible,
-main.fade-in-visible {
-  opacity: 1;
+/* В мобильном режиме header и footer управляются через transform, поэтому opacity не применяем */
+/* content-wrapper и main могут получать fade-in в обоих режимах */
+@media (max-width: 768px) {
+  .content-wrapper,
+  main {
+    opacity: 0;
+    transition: opacity 0.3s ease-out;
+  }
+
+  .content-wrapper.fade-in-visible,
+  main.fade-in-visible {
+    opacity: 1;
+  }
+
+  /* В мобильном режиме header и footer всегда видимы (управляются через transform) */
+  .header,
+  .footer {
+    opacity: 1 !important;
+  }
 }
 
-/* Декоративные линии остаются видимыми всегда (исключены из анимации) */
-/* Горизонтальные декоративные линии */
-.decorative-line-horizontal {
-  opacity: 1 !important;
-  transition: none !important;
+/* Декоративные линии остаются видимыми всегда (исключены из fade-in анимации) */
+/* Горизонтальные декоративные линии - только на десктопе исключаем из fade-in */
+@media (min-width: 769px) {
+  .decorative-line-horizontal {
+    opacity: 1 !important;
+  }
 }
 
+/* В мобильном режиме декоративные линии управляются через transform в _tablet.scss */
 /* Вертикальные декоративные линии (псевдоэлементы page-wrapper) */
 .page-wrapper::before,
 .page-wrapper::after {

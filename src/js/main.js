@@ -13,7 +13,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   // Добавляем fade-in анимацию для контента
-  // Собираем все элементы, которые нужно анимировать
+  // В мобильном режиме header и footer не получают fade-in (управляются через transform)
+  // В десктопном режиме все элементы получают fade-in
   const fadeInElements = new Set();
   
   const header = document.querySelector('.header');
@@ -21,8 +22,16 @@ document.addEventListener('DOMContentLoaded', async () => {
   const contentWrapper = document.querySelector('.content-wrapper');
   const main = document.querySelector('main');
   
-  if (header) fadeInElements.add(header);
-  if (footer) fadeInElements.add(footer);
+  // Проверяем, находимся ли мы в мобильном режиме
+  const isMobile = window.innerWidth <= 768;
+  
+  // В десктопном режиме добавляем header и footer
+  if (!isMobile) {
+    if (header) fadeInElements.add(header);
+    if (footer) fadeInElements.add(footer);
+  }
+  
+  // content-wrapper и main всегда получают fade-in
   if (contentWrapper) fadeInElements.add(contentWrapper);
   if (main && !fadeInElements.has(main)) fadeInElements.add(main);
 
