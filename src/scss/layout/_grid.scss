@@ -62,7 +62,8 @@
   margin: 0;
   flex-shrink: 0;
   position: relative;
-  z-index: 10;
+  z-index: 12;
+  transition: transform 0.3s ease;
 }
 
 /* Основная сетка для контента */
