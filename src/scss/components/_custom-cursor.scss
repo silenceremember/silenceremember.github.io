@@ -25,15 +25,3 @@
   width: 25px;
   height: 25px;
 }
-
-/* Скрываем кастомный курсор на мобильных устройствах, где нет мыши */
-@media (max-width: 768px) {
-  html,
-  body {
-    cursor: auto;
-  }
-
-  .custom-cursor {
-    display: none;
-  }
-}

@@ -9,6 +9,23 @@ const initCustomCursor = () => {
     return;
   }
 
+  let isTouching = false;
+  let touchTimeout;
+
+  window.addEventListener(
+    'touchstart',
+    () => {
+      isTouching = true;
+      cursor.classList.remove('visible');
+      // After a touch, we want to ignore mousemove for a bit
+      clearTimeout(touchTimeout);
+      touchTimeout = setTimeout(() => {
+        isTouching = false;
+      }, 500);
+    },
+    { passive: true }
+  );
+
   // Get last known position from session storage
   const lastX = sessionStorage.getItem('cursorX');
   const lastY = sessionStorage.getItem('cursorY');
@@ -37,6 +54,10 @@ const initCustomCursor = () => {
   }
 
   window.addEventListener('mousemove', (e) => {
+    if (isTouching) {
+      return;
+    }
+
     const x = e.clientX;
     const y = e.clientY;
 
