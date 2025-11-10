@@ -3,7 +3,7 @@
  * Аналогично transitions.js из референса
  */
 
-function initSlidesManager() {
+const initSlidesManager = () => {
     const slidesContainer = document.querySelector('.slides-container');
     const slides = document.querySelectorAll('.slide');
     const progressContainer = document.querySelector('.footer-decorative');
@@ -223,7 +223,7 @@ function initSlidesManager() {
     if (!isTabletMode) {
         showSlideImmediate(0);
     }
-}
+};
 
 // Инициализация при загрузке DOM
 if (document.readyState === 'loading') {
@@ -231,4 +231,6 @@ if (document.readyState === 'loading') {
 } else {
     initSlidesManager();
 }
+
+export default initSlidesManager;
 

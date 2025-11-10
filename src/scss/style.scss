@@ -1,0 +1,20 @@
+/* Главный файл стилей - импорт всех модулей */
+
+/* 1. БАЗОВЫЕ СТИЛИ (переменные, сброс, типографика) */
+@import 'base/variables';
+@import 'base/reset';
+@import 'base/typography';
+
+/* 2. СТИЛИ КОМПОНЕНТОВ (переиспользуемые элементы) */
+@import 'components/icon-divider';
+@import 'components/social-links';
+@import 'components/slides';
+@import 'components/custom-cursor';
+
+/* 3. СТИЛИ МАКЕТА (сетка, хедер, футер) */
+@import 'layout/grid';
+@import 'layout/header';
+@import 'layout/footer';
+@import 'layout/tablet';
+@import 'layout/mobile';
+

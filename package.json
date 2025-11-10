@@ -1,0 +1,35 @@
+{
+  "name": "site2-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Portfolio website for a game designer.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "format": "prettier --write .",
+    "lint:js": "eslint .",
+    "lint:css": "stylelint \"src/scss/**/*.scss\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/silenceremember/portfolio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/silenceremember/portfolio/issues"
+  },
+  "homepage": "https://github.com/silenceremember/portfolio#readme",
+  "devDependencies": {
+    "eslint": "^9.39.1",
+    "prettier": "^3.6.2",
+    "sass": "^1.93.3",
+    "stylelint": "^16.25.0",
+    "stylelint-config-prettier": "^9.0.5",
+    "stylelint-config-standard": "^39.0.1",
+    "vite": "^7.2.2"
+  }
+}
