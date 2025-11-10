@@ -1,4 +1,8 @@
 @media (max-width: 768px) {
+  body.page-404 .header-menu-button {
+    display: none;
+  }
+  
   /* Стили для мобильной навигации */
   .header-nav {
     display: none;
