@@ -75,6 +75,7 @@
   padding: var(--spacing-lg) 0;
   align-items: center; /* Центрируем элементы по вертикали */
   justify-items: start; /* Выравниваем элементы по левому краю */
+  transition: gap 0.3s ease;
 }
 
 /* Колонки контента */
@@ -102,6 +103,7 @@
   border: 1px solid var(--color-text-primary);
   object-fit: cover;
   user-select: none; /* Запрещаем выделение изображения */
+  transition: width 0.3s ease, height 0.3s ease;
 }
 
 /* Стили для текстового контента */
@@ -127,6 +129,7 @@
   text-transform: uppercase;
   color: var(--color-text-primary);
   margin: 0;
+  transition: font-size 0.3s ease;
 }
 
 .main-content-tagline {
@@ -145,6 +148,7 @@
   text-transform: uppercase;
   color: var(--color-text-primary);
   margin: 0;
+  transition: font-size 0.3s ease;
 }
 
 .main-content-description {
