@@ -1,9 +1,11 @@
 import initCustomCursor from './components/custom-cursor';
 import initSlidesManager from './components/slides';
 import { initLayout } from './layout';
+import { initThemeSwitcher } from './components/theme-switcher';
 
 document.addEventListener('DOMContentLoaded', async () => {
   await initLayout();
+  initThemeSwitcher();
 
   initCustomCursor();
 
@@ -17,8 +19,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   // В десктопном режиме все элементы получают fade-in
   const fadeInElements = new Set();
   
-  const header = document.querySelector('.header');
-  const footer = document.querySelector('.footer');
+  const headerContent = document.querySelector('.header-content');
+  const footerContent = document.querySelector('.footer-content');
   const contentWrapper = document.querySelector('.content-wrapper');
   const main = document.querySelector('main');
   
@@ -27,8 +29,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   
   // В десктопном режиме добавляем header и footer
   if (!isMobile) {
-    if (header) fadeInElements.add(header);
-    if (footer) fadeInElements.add(footer);
+    if (headerContent) fadeInElements.add(headerContent);
+    if (footerContent) fadeInElements.add(footerContent);
   }
   
   // content-wrapper и main всегда получают fade-in

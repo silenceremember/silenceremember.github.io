@@ -24,17 +24,23 @@
 @media (min-width: 769px) {
   .header,
   .footer {
-    opacity: 0;
-    transition: transform 0.3s ease, opacity 0.3s ease-out;
+    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
   }
+
+  .header-content,
+  .footer-content {
+    opacity: 0;
+    transition: opacity 0.3s ease-out;
+  }
+
   .content-wrapper,
   main {
     opacity: 0;
     transition: opacity 0.3s ease-out;
   }
 
-  .header.fade-in-visible,
-  .footer.fade-in-visible,
+  .header-content.fade-in-visible,
+  .footer-content.fade-in-visible,
   .content-wrapper.fade-in-visible,
   main.fade-in-visible {
     opacity: 1;
