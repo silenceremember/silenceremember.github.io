@@ -1,4 +1,4 @@
-@media (min-width: 481px) and (max-width: 768px) {
+@media (max-width: 768px) {
   /* Стили для tablet-версии */
 
   .header {
@@ -111,13 +111,5 @@
 
   .footer-decorative {
     display: none;
-  }
-}
-
-@media (max-width: 599px) {
-  .project-info {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--spacing-xxs);
   }
 }

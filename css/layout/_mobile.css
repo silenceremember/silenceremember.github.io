@@ -28,3 +28,35 @@
     gap: var(--spacing-xxs);
   }
 }
+@media (max-width: 424px) {
+  .cta-button {
+    font-size: var(--font-size-small);
+    padding: var(--spacing-xs) var(--spacing-lg);
+  }
+  .project-meta {
+    font-size: var(--font-size-small);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+  }
+  .project-meta .meta-square-separator {
+    display: none;
+  }
+  .main-content-name {
+    font-size: var(--font-size-h2);
+  }
+  .main-content-title {
+    font-size: var(--font-size-h4);
+  }
+  .section-title {
+    font-size: var(--font-size-h3);
+  }
+}
+@media (max-width: 374px) {
+  .footer-left {
+    display: none;
+  }
+  .footer-container {
+    grid-template-columns: 1fr auto;
+  }
+}
