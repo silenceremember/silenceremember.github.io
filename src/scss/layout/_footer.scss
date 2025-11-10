@@ -111,7 +111,8 @@
   width: 24px;
   height: 24px;
   display: block;
-  background-color: #888888;
+  color: var(--color-text-primary);
+  fill: currentColor;
 }
 
 .footer-copyright {
