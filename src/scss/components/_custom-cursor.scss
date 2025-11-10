@@ -12,13 +12,18 @@
   transform: translate(-50%, -50%);
   pointer-events: none;
   z-index: 9999;
-  transition: width 0.2s ease-out, height 0.2s ease-out;
+  transition: width 0.2s ease-out, height 0.2s ease-out, opacity 0.2s ease-out;
   background-color: rgba(18, 18, 18, 0.5); /* Полупрозрачный --color-bg-primary */
+  opacity: 0;
+}
+
+.custom-cursor.visible {
+  opacity: 1;
 }
 
 .custom-cursor.hover {
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
 }
 
 /* Скрываем кастомный курсор на мобильных устройствах, где нет мыши */
