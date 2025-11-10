@@ -8,6 +8,15 @@
   overflow: hidden;
 }
 
+/* Wrapper для слайдов - в desktop режиме не должен влиять на layout */
+.slide-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
 /* Базовый стиль слайда */
 .slide {
   position: absolute;
