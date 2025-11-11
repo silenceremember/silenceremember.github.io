@@ -236,85 +236,13 @@
   display: inline-block;
 }
 
-/* Кнопка разворачивания раздела */
-.projects-section-expand {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-xs);
-  padding: var(--spacing-xs) var(--spacing-sm);
-  background-color: transparent;
-  border: var(--line-width) solid var(--color-divider);
-  color: var(--color-text-primary);
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-medium);
-  line-height: 1;
-  cursor: pointer;
-  transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out, color 0.3s ease-in-out;
-  font-family: var(--font-family);
-  white-space: nowrap;
-  box-sizing: border-box;
-  /* Фиксированная высота для всех кнопок */
-  min-height: calc(var(--font-size-small) + (var(--spacing-xs) * 2) + (var(--line-width) * 2) + 4px);
-  height: calc(var(--font-size-small) + (var(--spacing-xs) * 2) + (var(--line-width) * 2) + 4px);
-  
-  &:hover {
-    border-color: var(--color-accent);
-    background-color: var(--color-accent);
-    color: var(--color-bg-primary);
-  }
-  
-  &:focus {
-    outline: none;
-  }
-  
-  &[aria-expanded="true"] {
-    background-color: var(--color-text-primary);
-    border-color: var(--color-text-primary);
-    color: var(--color-bg-primary);
-    
-    &:hover {
-      border-color: var(--color-accent);
-      background-color: var(--color-accent);
-      color: var(--color-bg-primary);
-    }
-  }
-}
+/* Стили для .projects-section-expand теперь в _button.scss */
 
 .projects-section-expand-text {
   flex-grow: 1;
 }
 
-.projects-section-expand-count {
-  padding: 2px var(--spacing-xs);
-  border-radius: 2px;
-  font-weight: var(--font-weight-bold);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-  
-  /* Светлый режим: черный фон */
-  background-color: var(--theme-light-text-primary);
-  color: var(--theme-light-bg-primary);
-  
-  /* Темный режим: белый фон */
-  [data-theme='dark'] & {
-    background-color: var(--theme-dark-text-primary);
-    color: var(--theme-dark-bg-primary);
-  }
-  
-  .projects-section-expand:hover &,
-  .projects-section-expand[aria-expanded="true"] & {
-    /* При наведении и активном состоянии инвертируем цвета */
-    background-color: var(--theme-light-bg-primary);
-    color: var(--theme-light-text-primary);
-    
-    [data-theme='dark'] & {
-      background-color: var(--theme-dark-bg-primary);
-      color: var(--theme-dark-text-primary);
-    }
-  }
-}
+/* Стили для .projects-section-expand-count теперь в _count-badge.scss */
 
 /* Сетка для проектов внутри раздела */
 .projects-section-grid {

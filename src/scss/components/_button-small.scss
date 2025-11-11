@@ -1,0 +1,110 @@
+/* Общий стиль для маленьких кнопок (фильтры, переключатели) */
+/* Используется для project-filters-option, projects-section-expand, project-filters-year-button и других маленьких кнопок */
+
+%button-base {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: transparent;
+  border: var(--line-width) solid var(--color-divider);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  font-family: var(--font-family);
+  white-space: nowrap;
+  box-sizing: border-box;
+  /* Фиксированная высота для всех кнопок */
+  min-height: calc(var(--font-size-small) + (var(--spacing-xs) * 2) + (var(--line-width) * 2) + 4px);
+  height: calc(var(--font-size-small) + (var(--spacing-xs) * 2) + (var(--line-width) * 2) + 4px);
+  
+  &:hover {
+    border-color: var(--color-accent);
+    background-color: var(--color-accent);
+    color: var(--color-bg-primary);
+  }
+  
+  &:focus {
+    outline: none;
+  }
+}
+
+/* Базовый класс для кнопок */
+.button {
+  @extend %button-base;
+}
+
+/* Кнопки фильтров проектов */
+.project-filters-option {
+  @extend %button-base;
+  
+  &[aria-pressed="true"] {
+    background-color: var(--color-text-primary);
+    border-color: var(--color-text-primary);
+    color: var(--color-bg-primary);
+    
+    &:hover {
+      border-color: var(--color-accent);
+      background-color: var(--color-accent);
+      color: var(--color-bg-primary);
+    }
+  }
+}
+
+/* Кнопка разворачивания разделов */
+.projects-section-expand {
+  @extend %button-base;
+  
+  &[aria-expanded="true"] {
+    background-color: var(--color-text-primary);
+    border-color: var(--color-text-primary);
+    color: var(--color-bg-primary);
+    
+    &:hover {
+      border-color: var(--color-accent);
+      background-color: var(--color-accent);
+      color: var(--color-bg-primary);
+    }
+  }
+}
+
+/* Кнопка выбора года */
+.project-filters-year-button {
+  @extend %button-base;
+  width: auto;
+  min-width: fit-content;
+  
+  // Ширина может быть установлена через JavaScript
+  &[style*="width"] {
+    min-width: unset;
+  }
+  
+  &[aria-expanded="true"] {
+    background-color: var(--color-text-primary);
+    border-color: var(--color-text-primary);
+    color: var(--color-bg-primary);
+    
+    &:hover {
+      border-color: var(--color-accent);
+      background-color: var(--color-accent);
+      color: var(--color-bg-primary);
+    }
+  }
+  
+  // Активное состояние когда выбран год (не прочерк)
+  &.has-count {
+    background-color: var(--color-text-primary);
+    border-color: var(--color-text-primary);
+    color: var(--color-bg-primary);
+    
+    &:hover {
+      border-color: var(--color-accent);
+      background-color: var(--color-accent);
+      color: var(--color-bg-primary);
+    }
+  }
+}
+

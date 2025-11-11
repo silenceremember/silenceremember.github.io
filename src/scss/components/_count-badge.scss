@@ -1,0 +1,83 @@
+/* Общий стиль для счетчиков (badge) */
+/* Используется для project-filters-option-count, projects-section-expand-count и других счетчиков */
+
+%count-badge-base {
+  padding: 1px calc(var(--spacing-xs) + 2px);
+  border-radius: 2px;
+  font-weight: var(--font-weight-bold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  
+  /* Светлый режим: черный фон */
+  background-color: var(--theme-light-text-primary);
+  color: var(--theme-light-bg-primary);
+  
+  /* Темный режим: белый фон */
+  [data-theme='dark'] & {
+    background-color: var(--theme-dark-text-primary);
+    color: var(--theme-dark-bg-primary);
+  }
+}
+
+/* Базовый класс для счетчиков */
+.count-badge {
+  @extend %count-badge-base;
+}
+
+/* Стили для счетчиков в кнопках фильтров */
+.project-filters-option-count {
+  @extend %count-badge-base;
+  
+  .project-filters-option:hover &,
+  .project-filters-option[aria-pressed="true"] & {
+    /* При наведении и активном состоянии инвертируем цвета */
+    background-color: var(--theme-light-bg-primary);
+    color: var(--theme-light-text-primary);
+    
+    [data-theme='dark'] & {
+      background-color: var(--theme-dark-bg-primary);
+      color: var(--theme-dark-text-primary);
+    }
+  }
+}
+
+/* Стили для счетчиков в кнопках разворачивания разделов */
+.projects-section-expand-count {
+  @extend %count-badge-base;
+  
+  .projects-section-expand:hover &,
+  .projects-section-expand[aria-expanded="true"] & {
+    /* При наведении и активном состоянии инвертируем цвета */
+    background-color: var(--theme-light-bg-primary);
+    color: var(--theme-light-text-primary);
+    
+    [data-theme='dark'] & {
+      background-color: var(--theme-dark-bg-primary);
+      color: var(--theme-dark-text-primary);
+    }
+  }
+}
+
+/* Стили для счетчиков в dropdown года */
+.project-filters-year-button-count,
+.project-filters-year-option-count {
+  @extend %count-badge-base;
+  
+  .project-filters-year-button:hover &,
+  .project-filters-year-button.has-count &,
+  .project-filters-year-option:hover &,
+  .project-filters-year-option:focus & {
+    /* При наведении и активном состоянии инвертируем цвета */
+    background-color: var(--theme-light-bg-primary);
+    color: var(--theme-light-text-primary);
+    
+    [data-theme='dark'] & {
+      background-color: var(--theme-dark-bg-primary);
+      color: var(--theme-dark-text-primary);
+    }
+  }
+}
+
