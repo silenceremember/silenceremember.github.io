@@ -215,11 +215,12 @@
   flex-wrap: nowrap;
   gap: var(--spacing-xs) var(--spacing-sm);
   font-size: var(--font-size-small);
-  color: var(--color-divider);
+  color: var(--color-text-primary);
+  opacity: 0.7;
   white-space: nowrap;
   overflow: hidden;
   min-height: 1.5em;
-  transition: color 0.3s ease-in-out;
+  transition: color 0.3s ease-in-out, opacity 0.3s ease-in-out;
   
   span {
     position: relative;

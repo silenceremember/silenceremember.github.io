@@ -4,12 +4,16 @@
   --theme-light-accent: #D90429;
   --theme-light-accent-bg: #f9d5db;
   --theme-light-divider: #cccccc;
+  --theme-light-placeholder: #444444;
+  --theme-light-secondary: #888888;
 
   --theme-dark-text-primary: #F5F5F5;
   --theme-dark-bg-primary: #121212;
   --theme-dark-accent: #D90429;
   --theme-dark-accent-bg: #641912;
   --theme-dark-divider: #888888;
+  --theme-dark-placeholder: #444444;
+  --theme-dark-secondary: #888888;
 
   /* По умолчанию используется светлая тема */
   --color-text-primary: var(--theme-light-text-primary);
@@ -17,6 +21,8 @@
   --color-accent: var(--theme-light-accent);
   --color-accent-bg: var(--theme-light-accent-bg);
   --color-divider: var(--theme-light-divider);
+  --color-placeholder: var(--theme-light-placeholder);
+  --color-secondary: var(--theme-light-secondary);
   
   /* Шрифты */
   --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -80,5 +86,7 @@
   --color-accent: var(--theme-dark-accent);
   --color-accent-bg: var(--theme-dark-accent-bg);
   --color-divider: var(--theme-dark-divider);
+  --color-placeholder: var(--theme-dark-placeholder);
+  --color-secondary: var(--theme-dark-secondary);
 }
 

@@ -98,6 +98,7 @@
   text-transform: uppercase;
   color: var(--color-text-primary);
   margin: 0;
+  letter-spacing: var(--letter-spacing-tight);
   transition: font-size 0.3s ease;
 }
 
@@ -116,6 +117,8 @@
   text-transform: uppercase;
   color: var(--color-accent);
   margin: 0;
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: var(--line-height-heading);
 }
 
 .project-meta {
@@ -125,13 +128,13 @@
   font-size: var(--font-size-small);
   color: var(--color-text-primary);
   opacity: 0.7;
-  transition: font-size 0.3s ease;
+  transition: font-size 0.3s ease, color 0.3s ease-in-out;
 }
 
 .meta-square-separator {
   width: 8px;
   height: 8px;
-  background-color: #888888;
+  background-color: var(--color-secondary);
   flex-shrink: 0;
 }
 
@@ -149,7 +152,7 @@
 .project-placeholder {
   width: 100%;
   aspect-ratio: 16 / 9;
-  background-color: #444444;
+  background-color: var(--color-placeholder);
   border: 1px solid var(--color-text-primary);
   height: auto;
 }
@@ -164,7 +167,7 @@
 .preview-placeholder {
   width: 48px;
   height: 48px;
-  background-color: #888888;
+  background-color: var(--color-secondary);
 }
 
 .project-details {
@@ -229,12 +232,14 @@
   text-transform: uppercase;
   text-decoration: none;
   color: var(--color-text-primary);
-  border: 1px solid var(--color-text-primary);
+  border: var(--line-width) solid var(--color-text-primary);
   background-color: transparent;
-  transition: all 0.3s ease;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, border-color 0.3s ease-in-out;
   text-align: center;
   flex: 1;
   min-width: 150px;
+  font-family: var(--font-family);
+  cursor: pointer;
 }
 
 .cta-button:hover {

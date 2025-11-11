@@ -12,7 +12,7 @@
     display: flex;
     width: 24px; /* Размер иконки */
     height: 24px; /* Размер иконки */
-    background-color: #888888; /* Цвет плейсхолдера */
+    background-color: var(--color-secondary);
     border: none;
     padding: 0;
     font-size: 0; /* Скрываем текст, если он есть */

@@ -39,7 +39,7 @@
 
 .footer-email {
   font-size: var(--font-size-small);
-  color: #888888;
+  color: var(--color-secondary);
   text-decoration: none;
   transition: color 0.2s ease;
 }
@@ -104,7 +104,7 @@
   width: 24px;
   height: 24px;
   display: block;
-  background-color: #888888;
+  background-color: var(--color-secondary);
 }
 
 .footer-logo-icon {
@@ -117,7 +117,7 @@
 
 .footer-copyright {
   font-size: var(--font-size-small);
-  color: #888888;
+  color: var(--color-secondary);
 }
 
 
