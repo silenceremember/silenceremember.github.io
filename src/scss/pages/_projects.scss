@@ -194,6 +194,18 @@
   align-items: center;
   gap: var(--spacing-md);
   flex-wrap: wrap;
+  
+  .project-filters-option-count {
+    font-size: inherit;
+    line-height: 1;
+  }
+  
+  /* Уменьшаем отступ между текстом и счетчиком в заголовке результатов фильтров */
+  &#project-filters-results {
+    .projects-section-title-text + .project-filters-option-count {
+      margin-left: calc(-1 * var(--spacing-md) + var(--spacing-sm));
+    }
+  }
 }
 
 .projects-section-title-text {
@@ -217,6 +229,9 @@
   font-family: var(--font-family);
   white-space: nowrap;
   box-sizing: border-box;
+  /* Фиксированная высота для всех кнопок */
+  min-height: calc(var(--font-size-small) + (var(--spacing-xs) * 2) + (var(--line-width) * 2) + 4px);
+  height: calc(var(--font-size-small) + (var(--spacing-xs) * 2) + (var(--line-width) * 2) + 4px);
   
   &:hover {
     border-color: var(--color-accent);
@@ -249,6 +264,10 @@
   padding: 2px var(--spacing-xs);
   border-radius: 2px;
   font-weight: var(--font-weight-bold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
   
   /* Светлый режим: черный фон */
   background-color: var(--theme-light-text-primary);

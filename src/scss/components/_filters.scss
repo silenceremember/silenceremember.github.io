@@ -51,6 +51,9 @@
   font-family: var(--font-family);
   white-space: nowrap;
   box-sizing: border-box;
+  /* Фиксированная высота для всех кнопок */
+  min-height: calc(var(--font-size-small) + (var(--spacing-xs) * 2) + (var(--line-width) * 2) + 4px);
+  height: calc(var(--font-size-small) + (var(--spacing-xs) * 2) + (var(--line-width) * 2) + 4px);
   
   &:hover {
     border-color: var(--color-accent);
@@ -80,9 +83,13 @@
 }
 
 .project-filters-option-count {
-  padding: 2px var(--spacing-xs);
+  padding: 1px calc(var(--spacing-xs) + 2px);
   border-radius: 2px;
   font-weight: var(--font-weight-bold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
   transition: background-color 0.3s ease, color 0.3s ease;
   
   /* Светлый режим: черный фон */
