@@ -95,13 +95,9 @@ function createProjectCard(project) {
   }
   
   // Мета-информация
+  // Скрываем категорию, так как карточки уже сгруппированы по категориям
   if (category) {
-    const categoryLabels = {
-      'games': 'Игровые проекты',
-      'tools': 'Инструменты',
-      'research': 'Исследования'
-    };
-    category.textContent = categoryLabels[project.category] || project.category;
+    category.style.display = 'none';
   }
   
   if (type) {
@@ -146,9 +142,22 @@ function createProjectCard(project) {
   }
   
   // Обработчик клика для открытия деталей проекта
-  card.addEventListener('click', () => {
+  // Вся карточка работает как кнопка
+  card.addEventListener('click', (e) => {
+    // Предотвращаем всплытие события от кнопки "Подробнее"
+    // но все равно открываем детали проекта
+    e.stopPropagation();
     openProjectDetails(project);
   });
+  
+  // Кнопка "Подробнее" также открывает детали проекта
+  const detailsButton = card.querySelector('.project-card-button');
+  if (detailsButton) {
+    detailsButton.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openProjectDetails(project);
+    });
+  }
   
   return card;
 }
@@ -355,10 +364,19 @@ function applyFilters() {
       const originalCard = allProjectCards.get(project.id);
       if (originalCard) {
         const clonedCard = originalCard.cloneNode(true);
-        // Добавляем обработчик клика
-        clonedCard.addEventListener('click', () => {
+        // Добавляем обработчик клика на всю карточку
+        clonedCard.addEventListener('click', (e) => {
+          e.stopPropagation();
           openProjectDetails(project);
         });
+        // Добавляем обработчик на кнопку "Подробнее"
+        const detailsButton = clonedCard.querySelector('.project-card-button');
+        if (detailsButton) {
+          detailsButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openProjectDetails(project);
+          });
+        }
         grid.appendChild(clonedCard);
       }
     });
@@ -564,7 +582,7 @@ function renderGroupedProjects() {
         expandButton.setAttribute('aria-label', 'Показать все проекты');
         expandButton.innerHTML = `
           <span class="projects-section-expand-text">Показать все</span>
-          <span class="projects-section-expand-count">+${otherProjects.length}</span>
+          <span class="projects-section-expand-count">${allCategoryProjects.length}</span>
         `;
         expandButton.addEventListener('click', () => {
           toggleSectionExpansion(category, expandButton, otherProjects);
@@ -584,9 +602,19 @@ function renderGroupedProjects() {
         const originalCard = allProjectCards.get(project.id);
         if (originalCard) {
           const clonedCard = originalCard.cloneNode(true);
-          clonedCard.addEventListener('click', () => {
+          // Добавляем обработчик клика на всю карточку
+          clonedCard.addEventListener('click', (e) => {
+            e.stopPropagation();
             openProjectDetails(project);
           });
+          // Добавляем обработчик на кнопку "Подробнее"
+          const detailsButton = clonedCard.querySelector('.project-card-button');
+          if (detailsButton) {
+            detailsButton.addEventListener('click', (e) => {
+              e.stopPropagation();
+              openProjectDetails(project);
+            });
+          }
           sectionGrid.appendChild(clonedCard);
         }
       });
@@ -599,9 +627,19 @@ function renderGroupedProjects() {
             const clonedCard = originalCard.cloneNode(true);
             clonedCard.classList.add('project-card-hidden');
             clonedCard.style.display = 'none';
-            clonedCard.addEventListener('click', () => {
+            // Добавляем обработчик клика на всю карточку
+            clonedCard.addEventListener('click', (e) => {
+              e.stopPropagation();
               openProjectDetails(project);
             });
+            // Добавляем обработчик на кнопку "Подробнее"
+            const detailsButton = clonedCard.querySelector('.project-card-button');
+            if (detailsButton) {
+              detailsButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openProjectDetails(project);
+              });
+            }
             sectionGrid.appendChild(clonedCard);
           }
         });

@@ -9,6 +9,7 @@
   cursor: pointer;
   overflow: hidden;
   height: 100%;
+  min-height: 100%;
   
   &:hover {
     transform: translateY(-4px);
@@ -65,8 +66,8 @@
 .project-card-status {
   align-self: flex-start;
   padding: var(--spacing-xs) var(--spacing-sm);
-  background-color: var(--color-accent);
-  color: var(--color-bg-primary);
+  background-color: transparent;
+  color: var(--color-text-primary);
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-semibold);
   text-transform: uppercase;
@@ -100,10 +101,21 @@
 
 .project-card-tag {
   padding: 4px var(--spacing-xs);
-  background-color: rgba(255, 255, 255, 0.9);
-  color: var(--color-text-primary);
   font-size: var(--font-size-small);
   border-radius: 2px;
+  font-weight: var(--font-weight-medium);
+  
+  /* Светлый режим: темный текст на светлом фоне */
+  background-color: var(--theme-light-bg-primary);
+  color: var(--theme-light-text-primary);
+  border: var(--line-width) solid var(--theme-light-text-primary);
+  
+  /* Темный режим: светлый текст на темном фоне */
+  [data-theme='dark'] & {
+    background-color: var(--theme-dark-bg-primary);
+    color: var(--theme-dark-text-primary);
+    border: var(--line-width) solid var(--theme-dark-text-primary);
+  }
 }
 
 .project-card-content {
@@ -112,6 +124,7 @@
   padding: var(--spacing-md);
   flex-grow: 1;
   gap: var(--spacing-sm);
+  min-height: 0;
 }
 
 .project-card-title {
@@ -125,6 +138,8 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-xs);
+  flex-shrink: 0;
+  min-height: calc(var(--font-size-h4) * var(--line-height-heading));
 }
 
 /* Звездочка для избранных проектов */
@@ -148,15 +163,30 @@
 
 .project-card-meta {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: var(--spacing-xs) var(--spacing-sm);
   font-size: var(--font-size-small);
   color: var(--color-divider);
+  white-space: nowrap;
+  overflow: hidden;
+  min-height: 1.5em;
   
   span {
     position: relative;
+    flex-shrink: 0;
+    white-space: nowrap;
     
-    &:not(:last-child)::after {
+    // Скрываем разделитель для скрытых элементов
+    &[style*="display: none"] {
+      display: none !important;
+      
+      &::after {
+        display: none;
+      }
+    }
+    
+    // Разделитель только для видимых элементов, которые не последние
+    &:not(:last-child):not([style*="display: none"])::after {
       content: '•';
       margin-left: var(--spacing-xs);
       color: var(--color-divider);
@@ -183,6 +213,8 @@
   color: var(--color-text-primary);
   margin: 0;
   flex-grow: 1;
+  flex-shrink: 1;
+  min-height: 0;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -196,6 +228,7 @@
   margin-top: auto;
   padding-top: var(--spacing-sm);
   border-top: var(--line-width) solid var(--color-divider);
+  flex-shrink: 0;
 }
 
 .project-card-role {
@@ -216,6 +249,7 @@
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
   font-family: var(--font-family);
+  pointer-events: auto; /* Кнопка остается кликабельной */
   
   &:hover,
   &:focus {
