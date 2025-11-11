@@ -43,6 +43,8 @@
     max-height: none !important;
     overflow: visible !important;
     display: block !important; /* Меняем с flex на block для нормального потока документа */
+    padding-bottom: 64px; /* Отступ снизу для футера, как в mobile режиме */
+    box-sizing: border-box;
   }
 
   /* Вертикальные линии должны проходить сквозь контент и быть поверх header/footer */
@@ -56,13 +58,15 @@
     overflow: visible !important;
     min-height: calc(100vh - 128px); /* 100vh минус высота header (64px) и footer (64px) */
     height: auto;
-    display: block !important; /* Меняем с grid на block для нормального потока документа */
+    display: flex !important; /* Используем flex для растягивания .projects-page на всю высоту */
+    flex-direction: column;
     padding-top: 64px; /* Только высота header, без дополнительного отступа */
-    padding-bottom: calc(64px + var(--spacing-xl));
+    padding-bottom: 0; /* Убираем нижний отступ, так как page-wrapper уже имеет padding-bottom: 64px */
     max-width: 100% !important; /* Убираем ограничение по ширине */
     margin: 0 !important; /* Убираем центрирование */
     padding-left: 0 !important;
     padding-right: 0 !important;
+    box-sizing: border-box;
   }
 
   /* Стили для скрытия header/footer на десктопе при скролле */
@@ -150,19 +154,23 @@
 
 .projects-page {
   padding: var(--spacing-lg) var(--spacing-lg);
+  padding-bottom: 0; /* Убираем нижний отступ, чтобы совпадало с mobile режимом */
   /* Контент ограничивается вертикальными линиями */
   /* Вертикальные линии находятся на: calc((100% - 1200px) / 2 - 8px) от краёв */
   /* Ширина между линиями: 1200px + 16px (8px с каждой стороны) */
   max-width: calc(1200px + 16px);
   margin: 0 auto;
-  min-height: 100%; /* Занимает всю высоту родителя (content-wrapper) */
+  flex: 1; /* Растягивается на всю доступную высоту родителя (content-wrapper) */
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* Позволяет flex-элементу сжиматься */
   
   /* На мобильных устройствах контент на всю ширину с отступами */
   @media (max-width: 768px) {
     max-width: 100%;
     padding-left: var(--spacing-lg);
     padding-right: var(--spacing-lg);
-    min-height: 100%; /* Занимает всю высоту родителя (content-wrapper) */
+    flex: 1; /* Растягивается на всю доступную высоту родителя (content-wrapper) */
   }
 }
 
