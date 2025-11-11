@@ -300,7 +300,7 @@
 .projects-navigation {
   display: none; /* Скрыто по умолчанию */
   margin-top: var(--spacing-xxl);
-  margin-bottom: var(--spacing-xl);
+  margin-bottom: 0;
   padding-top: var(--spacing-xl);
   padding-bottom: var(--spacing-xl);
   text-align: center;
@@ -336,6 +336,7 @@
 @media (max-width: 768px) {
   .projects-page {
     padding: var(--spacing-lg) var(--spacing-lg);
+    padding-bottom: 0; /* Убираем нижний отступ, чтобы общий отступ совпадал с секцией CTA */
   }
   
   .projects-grid {
