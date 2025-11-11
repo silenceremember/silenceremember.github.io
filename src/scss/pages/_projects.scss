@@ -353,6 +353,42 @@
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
+/* Навигационное меню для tablet режима */
+.projects-navigation {
+  display: none; /* Скрыто по умолчанию */
+  margin-top: var(--spacing-xxl);
+  margin-bottom: var(--spacing-xl);
+  padding-top: var(--spacing-xl);
+  padding-bottom: var(--spacing-xl);
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Показываем навигацию только в tablet режиме (только по ширине для страницы проектов) */
+@media (max-width: 768px) {
+  .projects-navigation {
+    display: block;
+  }
+  
+  .projects-navigation .section-title {
+    margin-bottom: var(--spacing-lg);
+    text-align: center;
+  }
+  
+  .projects-navigation .cta-buttons {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+}
+
+/* Скрываем навигацию на десктопе */
+@media (min-width: 769px) {
+  .projects-navigation {
+    display: none !important;
+  }
+}
+
 /* Адаптивность */
 @media (max-width: 768px) {
   .projects-page {
@@ -398,78 +434,99 @@
 /* Кнопка "Наверх" */
 .scroll-to-top {
   position: fixed;
-  bottom: calc(64px + var(--spacing-md));
-  right: calc((100% - var(--max-width-large)) / 2 + var(--spacing-lg));
-  width: 48px;
-  height: 48px;
+  bottom: calc(64px + var(--spacing-md) - 8px);
+  right: calc((100% - var(--max-width-large)) / 2 + var(--spacing-lg) - 24px);
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--color-text-primary); /* Белый primary - заливка */
-  border: none; /* Без обводки */
-  border-radius: 50%;
-  color: var(--color-bg-primary); /* bg - стрелка */
+  background: transparent;
+  border: none;
   cursor: pointer;
   z-index: 15; /* Выше footer (z-index: 10) и декоративных линий (z-index: 12) */
   opacity: 0;
   visibility: hidden;
   transform: translateY(0); /* Без смещения по умолчанию */
   transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out,
-              background-color 0.3s ease-in-out, color 0.3s ease-in-out,
               bottom 0.3s ease; /* Синхронизировано с футером (transform 0.3s ease) */
   padding: 0;
   box-sizing: border-box;
   
+  > span,
   svg {
-    width: 24px;
-    height: 24px;
+    width: 100%;
+    height: 100%;
     display: block;
+  }
+  
+  svg path.scroll-to-top-icon,
+  path.scroll-to-top-icon {
+    fill: #F5F5F5;
+    transition: fill 0.3s ease-in-out;
   }
   
   &:hover,
   &:focus {
-    background-color: var(--color-accent);
-    color: var(--color-bg-primary);
     outline: none;
+    
+    svg path.scroll-to-top-icon,
+    path.scroll-to-top-icon {
+      fill: var(--color-accent);
+    }
   }
   
   &.visible {
     opacity: 1;
     visibility: visible;
     transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out, transform 0.3s ease-in-out,
-                background-color 0.3s ease-in-out, color 0.3s ease-in-out,
                 bottom 0.3s ease; /* Добавляем transform в transition только когда видна */
   }
   
   /* Когда футер скрыт, кнопка перемещается ниже */
   &.footer-hidden {
-    bottom: var(--spacing-md);
+    bottom: calc(var(--spacing-md) - 8px);
   }
 }
 
 /* Адаптивность для кнопки "Наверх" */
 @media (max-width: 1200px) {
   .scroll-to-top {
-    right: var(--spacing-lg);
+    right: calc(var(--spacing-lg) - 24px);
+  }
+}
+
+/* Tablet режим - увеличенный размер */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .scroll-to-top {
+    width: 32px;
+    height: 32px;
+    
+    > span,
+    svg {
+      width: 100%;
+      height: 100%;
+    }
   }
 }
 
 @media (max-width: 768px) {
   .scroll-to-top {
     /* На мобильных устройствах футер может быть виден или скрыт */
-    bottom: calc(64px + var(--spacing-md));
-    right: var(--spacing-md);
-    width: 44px;
-    height: 44px;
+    bottom: calc(64px + var(--spacing-md) - 8px);
+    right: calc(var(--spacing-md) - 16px);
+    width: 28px;
+    height: 28px;
     
+    > span,
     svg {
-      width: 20px;
-      height: 20px;
+      width: 100%;
+      height: 100%;
     }
     
     /* Когда футер скрыт на мобильных устройствах */
     &.footer-hidden {
-      bottom: var(--spacing-md);
+      bottom: calc(var(--spacing-md) - 8px);
     }
   }
 }

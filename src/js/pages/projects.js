@@ -1113,6 +1113,41 @@ async function initProjectsPage() {
   
   // Инициализируем кнопку "Наверх"
   initScrollToTop();
+  
+  // Инициализируем обработчик кнопки меню для прокрутки до навигации
+  initMenuButtonScroll();
+}
+
+/**
+ * Инициализирует обработчик кнопки меню для прокрутки до навигации в tablet режиме
+ */
+function initMenuButtonScroll() {
+  const menuButton = document.querySelector('.header-menu-button');
+  const navigationSection = document.querySelector('.projects-navigation');
+  const pageWrapper = document.querySelector('.page-wrapper');
+  
+  if (!menuButton || !navigationSection || !pageWrapper) {
+    return;
+  }
+  
+  menuButton.addEventListener('click', () => {
+    // Проверяем, находимся ли мы в tablet режиме (max-width: 768px)
+    const isTabletMode = window.innerWidth <= 768;
+    
+    if (isTabletMode) {
+      // Вычисляем позицию навигационного меню относительно page-wrapper
+      const wrapperRect = pageWrapper.getBoundingClientRect();
+      const navRect = navigationSection.getBoundingClientRect();
+      const scrollTop = pageWrapper.scrollTop;
+      const targetPosition = scrollTop + navRect.top - wrapperRect.top;
+      
+      // Прокручиваем до навигационного меню
+      pageWrapper.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth'
+      });
+    }
+  });
 }
 
 /**
@@ -1123,9 +1158,34 @@ function initScrollToTop() {
   if (!scrollToTopButton) return;
   
   const footer = document.querySelector('.footer');
+  const pageWrapper = document.querySelector('.page-wrapper');
   
-  // Порог для показа кнопки (в пикселях от верха страницы)
-  const SCROLL_THRESHOLD = 300;
+  // Отслеживаем предыдущую позицию скролла для определения направления
+  let lastScrollTop = 0;
+  
+  // Определяем, находимся ли мы в tablet режиме
+  function isTabletMode() {
+    return window.innerWidth <= 768;
+  }
+  
+  // Получаем элемент для скролла
+  function getScrollElement() {
+    return isTabletMode() && pageWrapper ? pageWrapper : window;
+  }
+  
+  // Получаем текущую позицию скролла
+  function getScrollTop() {
+    const scrollElement = getScrollElement();
+    if (scrollElement === window) {
+      return window.pageYOffset || document.documentElement.scrollTop;
+    } else {
+      return scrollElement.scrollTop;
+    }
+  }
+  
+  // Отслеживаем таймеры для управления анимациями
+  let hideTimeout = null;
+  let isAnimating = false;
   
   // Функция для обновления позиции кнопки в зависимости от состояния футера
   function updateButtonPosition() {
@@ -1138,6 +1198,8 @@ function initScrollToTop() {
     // Проверяем, скрыт ли футер
     const isFooterHidden = footer.classList.contains('hidden');
     
+    // Обновляем позицию только если кнопка видна или если она не в процессе анимации скрытия
+    // Это предотвращает резкое изменение позиции во время анимации
     if (isFooterHidden) {
       scrollToTopButton.classList.add('footer-hidden');
     } else {
@@ -1145,51 +1207,127 @@ function initScrollToTop() {
     }
   }
   
-  // Обработчик скролла
-  function handleScroll() {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    
-    if (scrollTop > SCROLL_THRESHOLD) {
-      // Сначала показываем элемент
-      if (scrollToTopButton.style.display === 'none') {
-        scrollToTopButton.style.display = 'flex';
-        // Ждем один кадр, чтобы браузер успел применить display, затем добавляем класс для анимации
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            scrollToTopButton.classList.add('visible');
-          });
-        });
-      } else {
-        // Если элемент уже видим, просто добавляем класс
-        scrollToTopButton.classList.add('visible');
-      }
-    } else {
-      // Сначала убираем класс для анимации исчезновения
-      scrollToTopButton.classList.remove('visible');
-      // Убираем display после завершения анимации
-      setTimeout(() => {
-        if (!scrollToTopButton.classList.contains('visible')) {
-          scrollToTopButton.style.display = 'none';
-        }
-      }, 300);
+  // Показывает кнопку с анимацией
+  function showButton() {
+    // Отменяем таймер скрытия, если он активен
+    if (hideTimeout) {
+      clearTimeout(hideTimeout);
+      hideTimeout = null;
+      // Сбрасываем флаг анимации, так как мы прерываем анимацию скрытия
+      isAnimating = false;
     }
     
+    // Если кнопка уже видна и не анимируется, просто обновляем позицию
+    if (scrollToTopButton.classList.contains('visible') && !isAnimating) {
+      updateButtonPosition();
+      return;
+    }
+    
+    isAnimating = true;
+    
+    if (scrollToTopButton.style.display === 'none') {
+      scrollToTopButton.style.display = 'flex';
+      // Сначала обновляем позицию до показа, чтобы избежать визуального скачка
+      updateButtonPosition();
+      // Ждем один кадр, чтобы браузер успел применить display и позицию, затем добавляем класс для анимации
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          scrollToTopButton.classList.add('visible');
+          // Сбрасываем флаг анимации после завершения transition
+          setTimeout(() => {
+            isAnimating = false;
+          }, 300);
+        });
+      });
+    } else {
+      // Если элемент уже видим, обновляем позицию перед добавлением класса
+      updateButtonPosition();
+      scrollToTopButton.classList.add('visible');
+      // Сбрасываем флаг анимации после завершения transition
+      setTimeout(() => {
+        isAnimating = false;
+      }, 300);
+    }
+  }
+  
+  // Скрывает кнопку с анимацией
+  function hideButton() {
+    // Если кнопка уже скрыта, ничего не делаем
+    if (!scrollToTopButton.classList.contains('visible') && scrollToTopButton.style.display === 'none') {
+      return;
+    }
+    
+    // Отменяем предыдущий таймер скрытия, если он есть
+    if (hideTimeout) {
+      clearTimeout(hideTimeout);
+    }
+    
+    isAnimating = true;
+    
+    // Сначала убираем класс для анимации исчезновения
+    scrollToTopButton.classList.remove('visible');
+    
+    // Убираем display после завершения анимации
+    hideTimeout = setTimeout(() => {
+      if (!scrollToTopButton.classList.contains('visible')) {
+        scrollToTopButton.style.display = 'none';
+      }
+      isAnimating = false;
+      hideTimeout = null;
+    }, 300);
+  }
+  
+  // Обработчик скролла
+  function handleScroll() {
+    const scrollTop = getScrollTop();
+    const isScrollingUp = scrollTop < lastScrollTop;
+    const isAtTop = scrollTop <= 0;
+    
+    // Кнопка показывается только когда:
+    // 1. Прокручиваем вверх (isScrollingUp)
+    // 2. И не в самом верху страницы (!isAtTop)
+    if (isScrollingUp && !isAtTop) {
+      showButton();
+    } else {
+      // Скрываем кнопку когда:
+      // - Прокручиваем вниз
+      // - Или в самом верху страницы
+      hideButton();
+    }
+    
+    // Обновляем предыдущую позицию скролла
+    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    
     // Обновляем позицию кнопки в зависимости от состояния футера
-    updateButtonPosition();
+    // Откладываем обновление позиции, чтобы оно происходило после изменения видимости
+    requestAnimationFrame(() => {
+      updateButtonPosition();
+    });
   }
   
   // Обработчик клика - плавный скролл наверх
   scrollToTopButton.addEventListener('click', () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
+    const scrollElement = getScrollElement();
+    if (scrollElement === window) {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    } else {
+      scrollElement.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
   });
   
   // Наблюдаем за изменениями класса футера
   if (footer) {
     const footerObserver = new MutationObserver(() => {
-      updateButtonPosition();
+      // Откладываем обновление позиции для синхронизации с анимациями
+      requestAnimationFrame(() => {
+        updateButtonPosition();
+      });
     });
     
     footerObserver.observe(footer, {
@@ -1198,8 +1336,38 @@ function initScrollToTop() {
     });
   }
   
-  // Добавляем обработчик скролла
-  window.addEventListener('scroll', handleScroll, { passive: true });
+  // Добавляем обработчик скролла в зависимости от режима
+  function setupScrollListener() {
+    const scrollElement = getScrollElement();
+    if (scrollElement === window) {
+      window.addEventListener('scroll', handleScroll, { passive: true });
+    } else {
+      scrollElement.addEventListener('scroll', handleScroll, { passive: true });
+    }
+  }
+  
+  // Удаляем старые обработчики и добавляем новые
+  function updateScrollListener() {
+    window.removeEventListener('scroll', handleScroll);
+    if (pageWrapper) {
+      pageWrapper.removeEventListener('scroll', handleScroll);
+    }
+    // Обновляем lastScrollTop при переключении режима
+    lastScrollTop = getScrollTop();
+    setupScrollListener();
+  }
+  
+  // Инициализируем обработчик скролла
+  setupScrollListener();
+  
+  // Обновляем обработчик при изменении размера окна
+  window.addEventListener('resize', () => {
+    updateScrollListener();
+    handleScroll();
+  });
+  
+  // Инициализируем lastScrollTop при первой загрузке
+  lastScrollTop = getScrollTop();
   
   // Проверяем начальное состояние
   handleScroll();

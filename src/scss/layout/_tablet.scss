@@ -218,4 +218,105 @@
     padding-top: var(--spacing-xxl);
     padding-bottom: var(--spacing-xxl);
   }
+
+  /* Фиксированное позиционирование header и footer для страницы проектов в tablet режиме */
+  body.page-with-scroll .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    z-index: 10;
+    background-color: var(--color-bg-primary);
+    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+    pointer-events: none; /* Пропускаем события прокрутки через header */
+  }
+
+  /* Восстанавливаем pointer-events для интерактивных элементов внутри header */
+  body.page-with-scroll .header-content,
+  body.page-with-scroll .header-content * {
+    pointer-events: auto;
+  }
+
+  body.page-with-scroll .header.hidden {
+    transform: translateY(-100%);
+  }
+
+  body.page-with-scroll .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    z-index: 10;
+    background-color: var(--color-bg-primary);
+    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+    pointer-events: none; /* Пропускаем события прокрутки через footer */
+  }
+
+  /* Восстанавливаем pointer-events для интерактивных элементов внутри footer */
+  body.page-with-scroll .footer-content,
+  body.page-with-scroll .footer-content * {
+    pointer-events: auto;
+  }
+
+  body.page-with-scroll .footer.hidden {
+    transform: translateY(100%);
+  }
+
+  /* Стили для декоративных линий в режиме планшета для страницы проектов */
+  body.page-with-scroll .header + .decorative-line-horizontal,
+  body.page-with-scroll main + .decorative-line-horizontal {
+    position: fixed;
+    left: 0;
+    width: 100vw;
+    height: var(--line-width);
+    background-color: var(--line-color);
+    transition: transform 0.3s ease;
+    pointer-events: none; /* Пропускаем события прокрутки через декоративные линии */
+    z-index: 12; /* Выше header/footer (z-index: 10) */
+  }
+
+  body.page-with-scroll .header + .decorative-line-horizontal {
+    top: 64px; /* Высота хедера */
+  }
+
+  body.page-with-scroll main + .decorative-line-horizontal {
+    bottom: 64px; /* Высота футера */
+  }
+
+  body.page-with-scroll .header + .decorative-line-horizontal.hidden {
+    transform: translateY(-65px); /* Сдвигаем вверх, чтобы скрыть */
+  }
+
+  body.page-with-scroll main + .decorative-line-horizontal.hidden {
+    transform: translateY(65px); /* Сдвигаем вниз, чтобы скрыть */
+  }
+
+  /* Стили для кнопки "Наверх" в tablet режиме */
+  body.page-with-scroll .scroll-to-top {
+    position: fixed;
+    bottom: calc(64px + var(--spacing-md) - 8px);
+    right: calc(var(--spacing-md) - 16px);
+    width: 32px;
+    height: 32px;
+    z-index: 15; /* Выше footer (z-index: 10) и декоративных линий (z-index: 12) */
+    
+    > span,
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+    
+    /* Когда футер скрыт на мобильных устройствах */
+    &.footer-hidden {
+      bottom: calc(var(--spacing-md) - 8px);
+    }
+  }
 }
