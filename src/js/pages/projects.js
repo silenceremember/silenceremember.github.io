@@ -97,13 +97,9 @@ function createProjectCard(project) {
   // Мета-информация
   if (category) {
     const categoryLabels = {
-      'featured': 'Избранное',
-      'skillbox': 'Skillbox',
-      'ranhigs-gamedesign': 'РАНХиГС',
-      'ranhigs-narrative': 'РАНХиГС',
-      'jam': 'Джем',
-      'tools': 'Инструмент',
-      'scripts': 'Скрипт'
+      'games': 'Игровые проекты',
+      'tools': 'Инструменты',
+      'research': 'Исследования'
     };
     category.textContent = categoryLabels[project.category] || project.category;
   }
@@ -116,6 +112,15 @@ function createProjectCard(project) {
       'script': 'Скрипт'
     };
     type.textContent = typeLabels[project.type] || project.type;
+  }
+  
+  // Добавляем звездочку для избранных проектов
+  if (project.featured && title) {
+    const starIcon = document.createElement('span');
+    starIcon.className = 'project-card-star';
+    starIcon.setAttribute('data-svg-src', 'assets/images/icon-star.svg');
+    starIcon.setAttribute('aria-label', 'Избранный проект');
+    title.appendChild(starIcon);
   }
   
   if (year && project.year) {
@@ -164,7 +169,7 @@ function initFilters(projects) {
   if (!filtersContainer) return;
   
   // Получаем уникальные значения для фильтров
-  const types = [...new Set(projects.map(p => p.type))];
+  const categories = [...new Set(projects.map(p => p.category))];
   const statuses = [...new Set(projects.map(p => p.status))];
   const years = [...new Set(projects.map(p => p.year).filter(Boolean).sort((a, b) => b - a))];
   
@@ -200,13 +205,13 @@ function initFilters(projects) {
  * Обновляет счетчики в фильтрах
  */
 function updateFilterCounts(projects) {
-  // Подсчитываем проекты по типам, статусам и годам
-  const typeCounts = {};
+  // Подсчитываем проекты по категориям, статусам и годам
+  const categoryCounts = {};
   const statusCounts = {};
   const yearCounts = {};
   
   projects.forEach(project => {
-    typeCounts[project.type] = (typeCounts[project.type] || 0) + 1;
+    categoryCounts[project.category] = (categoryCounts[project.category] || 0) + 1;
     statusCounts[project.status] = (statusCounts[project.status] || 0) + 1;
     if (project.year) {
       yearCounts[project.year] = (yearCounts[project.year] || 0) + 1;
@@ -225,8 +230,8 @@ function updateFilterCounts(projects) {
     const filterType = parent.getAttribute('data-filter');
     let count = 0;
     
-    if (filterType === 'type') {
-      count = typeCounts[value] || 0;
+    if (filterType === 'category') {
+      count = categoryCounts[value] || 0;
     } else if (filterType === 'status') {
       count = statusCounts[value] || 0;
     } else if (filterType === 'year') {
@@ -269,7 +274,7 @@ function initFilterButtons() {
  * Переключает фильтр
  */
 let activeFilters = {
-  type: [],
+  category: [],
   status: [],
   year: []
 };
@@ -300,7 +305,7 @@ function toggleFilter(type, value, button) {
  */
 function clearAllFilters() {
   activeFilters = {
-    type: [],
+    category: [],
     status: [],
     year: []
   };
@@ -324,16 +329,63 @@ function clearAllFilters() {
  * Применяет фильтры и обновляет отображение
  */
 function applyFilters() {
+  const grid = document.getElementById('projects-grid');
+  if (!grid) return;
+  
+  // Проверяем, есть ли активные фильтры
+  const hasActiveFilters = Object.values(activeFilters).some(arr => arr.length > 0);
+  
+  if (!hasActiveFilters) {
+    // Если фильтров нет, группируем по разделам
+    // Сбрасываем состояние развернутости при переключении на группировку
+    expandedSections.clear();
+    renderGroupedProjects();
+    return;
+  }
+  
+  // Если есть фильтры, показываем отфильтрованные проекты в обычной сетке
+  // Сначала переключаемся на обычную сетку если была группировка
+  if (grid.querySelector('.projects-section-title')) {
+    // Очищаем группировку и создаем обычную сетку
+    grid.innerHTML = '';
+    grid.className = 'projects-grid';
+    
+    // Добавляем все карточки с обработчиками событий
+    allProjects.forEach(project => {
+      const originalCard = allProjectCards.get(project.id);
+      if (originalCard) {
+        const clonedCard = originalCard.cloneNode(true);
+        // Добавляем обработчик клика
+        clonedCard.addEventListener('click', () => {
+          openProjectDetails(project);
+        });
+        grid.appendChild(clonedCard);
+      }
+    });
+    
+    // Загружаем SVG для звездочек после добавления карточек
+    requestAnimationFrame(async () => {
+      try {
+        const svgLoaderModule = await import('../components/svg-loader.js');
+        if (svgLoaderModule.default) {
+          await svgLoaderModule.default();
+        }
+      } catch (error) {
+        console.error('Ошибка загрузки SVG:', error);
+      }
+    });
+  }
+  
   const cards = document.querySelectorAll('.project-card');
   let visibleCount = 0;
   
   cards.forEach(card => {
     let visible = true;
     
-    // Проверяем тип
-    if (visible && activeFilters.type.length > 0) {
-      const cardType = card.getAttribute('data-type');
-      if (!activeFilters.type.includes(cardType)) {
+    // Проверяем категорию
+    if (visible && activeFilters.category.length > 0) {
+      const cardCategory = card.getAttribute('data-category');
+      if (!activeFilters.category.includes(cardCategory)) {
         visible = false;
       }
     }
@@ -370,9 +422,6 @@ function applyFilters() {
     resultsCountText.textContent = visibleCount;
   }
   
-  // Проверяем, есть ли активные фильтры
-  const hasActiveFilters = Object.values(activeFilters).some(arr => arr.length > 0);
-  
   // Показываем/скрываем кнопку результатов только если есть активные фильтры
   if (resultsCount) {
     resultsCount.hidden = !hasActiveFilters;
@@ -382,6 +431,202 @@ function applyFilters() {
   const empty = document.getElementById('projects-empty');
   if (empty) {
     empty.style.display = visibleCount === 0 ? '' : 'none';
+  }
+}
+
+/**
+ * Группирует и отображает проекты по разделам
+ */
+let allProjects = [];
+let allProjectCards = new Map();
+let isRendering = false;
+const expandedSections = new Set();
+
+/**
+ * Переключает развернутость раздела
+ */
+function toggleSectionExpansion(category, button, hiddenProjects) {
+  const section = document.querySelector(`[data-category="${category}"]`);
+  if (!section) return;
+  
+  const isExpanded = expandedSections.has(category);
+  const hiddenCards = Array.from(section.querySelectorAll('.project-card-hidden'));
+  
+  if (isExpanded) {
+    // Сворачиваем
+    hiddenCards.forEach(card => {
+      card.style.display = 'none';
+    });
+    expandedSections.delete(category);
+    button.setAttribute('aria-expanded', 'false');
+    button.querySelector('.projects-section-expand-text').textContent = 'Показать все';
+  } else {
+    // Разворачиваем
+    hiddenCards.forEach(card => {
+      card.style.display = '';
+      // Небольшая задержка для плавного появления
+      requestAnimationFrame(() => {
+        card.style.opacity = '1';
+      });
+    });
+    expandedSections.add(category);
+    button.setAttribute('aria-expanded', 'true');
+    button.querySelector('.projects-section-expand-text').textContent = 'Скрыть';
+  }
+}
+
+function renderGroupedProjects() {
+  // Защита от повторных вызовов
+  if (isRendering) {
+    console.warn('renderGroupedProjects уже выполняется');
+    return;
+  }
+  
+  const grid = document.getElementById('projects-grid');
+  if (!grid) {
+    console.warn('Сетка проектов не найдена');
+    return;
+  }
+  
+  // Проверяем, что карточки созданы
+  if (allProjectCards.size === 0) {
+    console.warn('Карточки проектов еще не созданы');
+    return;
+  }
+  
+  isRendering = true;
+  
+  // Сбрасываем состояние развернутости при новом рендеринге
+  expandedSections.clear();
+  
+  try {
+    // Очищаем сетку
+    grid.innerHTML = '';
+    grid.className = 'projects-grid';
+    
+    // Группируем проекты по категориям
+    const grouped = {
+      games: [],
+      tools: [],
+      research: []
+    };
+    
+    allProjects.forEach(project => {
+      if (grouped[project.category]) {
+        grouped[project.category].push(project);
+      }
+    });
+    
+    // Заголовки разделов
+    const sectionTitles = {
+      games: 'Игровые проекты',
+      tools: 'Инструменты',
+      research: 'Исследования'
+    };
+    
+    // Отображаем каждый раздел
+    Object.keys(grouped).forEach(category => {
+      const allCategoryProjects = grouped[category];
+      if (allCategoryProjects.length === 0) return;
+      
+      // Разделяем на отмеченные и неотмеченные
+      const featuredProjects = allCategoryProjects.filter(p => p.featured);
+      const otherProjects = allCategoryProjects.filter(p => !p.featured);
+      
+      // Если нет отмеченных проектов, показываем все
+      const hasFeatured = featuredProjects.length > 0;
+      const projectsToShow = hasFeatured ? featuredProjects : allCategoryProjects;
+      const hasMoreProjects = hasFeatured && otherProjects.length > 0;
+      
+      // Создаем контейнер раздела
+      const sectionContainer = document.createElement('div');
+      sectionContainer.className = 'projects-section';
+      sectionContainer.setAttribute('data-category', category);
+      
+      // Создаем заголовок раздела с кнопкой
+      const sectionHeader = document.createElement('div');
+      sectionHeader.className = 'projects-section-header';
+      
+      const sectionTitle = document.createElement('h2');
+      sectionTitle.className = 'projects-section-title';
+      
+      // Создаем контейнер для названия и кнопки
+      const titleContainer = document.createElement('span');
+      titleContainer.className = 'projects-section-title-text';
+      titleContainer.textContent = sectionTitles[category];
+      sectionTitle.appendChild(titleContainer);
+      
+      // Добавляем кнопку "Показать все" рядом с названием если есть скрытые проекты
+      if (hasMoreProjects) {
+        const expandButton = document.createElement('button');
+        expandButton.className = 'projects-section-expand';
+        expandButton.setAttribute('aria-expanded', 'false');
+        expandButton.setAttribute('aria-label', 'Показать все проекты');
+        expandButton.innerHTML = `
+          <span class="projects-section-expand-text">Показать все</span>
+          <span class="projects-section-expand-count">+${otherProjects.length}</span>
+        `;
+        expandButton.addEventListener('click', () => {
+          toggleSectionExpansion(category, expandButton, otherProjects);
+        });
+        sectionTitle.appendChild(expandButton);
+      }
+      
+      sectionHeader.appendChild(sectionTitle);
+      sectionContainer.appendChild(sectionHeader);
+      
+      // Создаем контейнер для проектов раздела
+      const sectionGrid = document.createElement('div');
+      sectionGrid.className = 'projects-section-grid';
+      
+      // Добавляем отмеченные проекты (или все, если нет отмеченных)
+      projectsToShow.forEach(project => {
+        const originalCard = allProjectCards.get(project.id);
+        if (originalCard) {
+          const clonedCard = originalCard.cloneNode(true);
+          clonedCard.addEventListener('click', () => {
+            openProjectDetails(project);
+          });
+          sectionGrid.appendChild(clonedCard);
+        }
+      });
+      
+      // Добавляем скрытые проекты (если есть)
+      if (hasMoreProjects) {
+        otherProjects.forEach(project => {
+          const originalCard = allProjectCards.get(project.id);
+          if (originalCard) {
+            const clonedCard = originalCard.cloneNode(true);
+            clonedCard.classList.add('project-card-hidden');
+            clonedCard.style.display = 'none';
+            clonedCard.addEventListener('click', () => {
+              openProjectDetails(project);
+            });
+            sectionGrid.appendChild(clonedCard);
+          }
+        });
+      }
+      
+      sectionContainer.appendChild(sectionGrid);
+      grid.appendChild(sectionContainer);
+    });
+    
+    // Загружаем SVG для звездочек после рендеринга
+    requestAnimationFrame(async () => {
+      try {
+        const svgLoaderModule = await import('../components/svg-loader.js');
+        if (svgLoaderModule.default) {
+          await svgLoaderModule.default();
+        }
+      } catch (error) {
+        console.error('Ошибка загрузки SVG:', error);
+      } finally {
+        isRendering = false;
+      }
+    });
+  } catch (error) {
+    console.error('Ошибка при рендеринге проектов:', error);
+    isRendering = false;
   }
 }
 
@@ -403,27 +648,27 @@ async function initProjectsPage() {
     return;
   }
   
+  // Сохраняем проекты для группировки
+  allProjects = projects;
+  
   // Инициализируем фильтры
   initFilters(projects);
   
-  // Отображаем проекты
-  const grid = document.getElementById('projects-grid');
-  if (!grid) return;
-  
-  // Очищаем загрузку
-  grid.innerHTML = '';
-  
+  // Создаем карточки проектов и сохраняем их
   projects.forEach(project => {
     const card = createProjectCard(project);
     if (card) {
-      grid.appendChild(card);
+      allProjectCards.set(project.id, card);
     }
   });
   
-  // Обновляем счетчик
-  const resultsText = document.getElementById('projects-results-count');
-  if (resultsText) {
-    resultsText.textContent = projects.length;
+  // Отображаем проекты с группировкой (без фильтров)
+  renderGroupedProjects();
+  
+  // Загружаем SVG для звездочек
+  const svgLoaderModule = await import('../components/svg-loader.js');
+  if (svgLoaderModule.default) {
+    svgLoaderModule.default();
   }
 }
 
