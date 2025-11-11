@@ -379,21 +379,21 @@ function initYearDropdown() {
       dropdownMenu.style.left = '';
       // Устанавливаем начальное состояние
       dropdownMenu.style.opacity = '0';
-      // Запускаем анимацию появления
+      // Запускаем анимацию появления быстрее, как у карточек
       requestAnimationFrame(() => {
-        dropdownMenu.style.transition = 'opacity 0.3s ease-in-out';
+        dropdownMenu.style.transition = 'opacity 0.15s ease-in-out';
         dropdownMenu.style.opacity = '1';
       });
     } else {
       // Закрываем меню с анимацией
-      dropdownMenu.style.transition = 'opacity 0.3s ease-in-out';
+      dropdownMenu.style.transition = 'opacity 0.15s ease-in-out';
       dropdownMenu.style.opacity = '0';
       setTimeout(() => {
         dropdownMenu.hidden = true;
         // Очищаем inline стили после анимации
         dropdownMenu.style.opacity = '';
         dropdownMenu.style.transition = '';
-      }, 300);
+      }, 150);
     }
   });
   
@@ -401,14 +401,14 @@ function initYearDropdown() {
   const handleDocumentClick = (e) => {
     if (!dropdownButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
       dropdownButton.setAttribute('aria-expanded', 'false');
-      dropdownMenu.style.transition = 'opacity 0.3s ease-in-out';
+      dropdownMenu.style.transition = 'opacity 0.15s ease-in-out';
       dropdownMenu.style.opacity = '0';
       setTimeout(() => {
         dropdownMenu.hidden = true;
         // Очищаем inline стили после анимации
         dropdownMenu.style.opacity = '';
         dropdownMenu.style.transition = '';
-      }, 300);
+      }, 150);
     }
   };
   
@@ -433,14 +433,14 @@ function initYearDropdown() {
     
     // Закрываем dropdown с анимацией
     dropdownButton.setAttribute('aria-expanded', 'false');
-    dropdownMenu.style.transition = 'opacity 0.3s ease-in-out';
+    dropdownMenu.style.transition = 'opacity 0.15s ease-in-out';
     dropdownMenu.style.opacity = '0';
     setTimeout(() => {
       dropdownMenu.hidden = true;
       // Очищаем inline стили после анимации
       dropdownMenu.style.opacity = '';
       dropdownMenu.style.transition = '';
-    }, 300);
+    }, 150);
     
     // Если выбран прочерк (пустое значение) или тот же год, снимаем фильтр
     if (!year || year === '' || (activeFilters.year.length > 0 && activeFilters.year[0] === year)) {
@@ -650,6 +650,10 @@ function applyFilters() {
       const originalCard = allProjectCards.get(project.id);
       if (originalCard) {
         const clonedCard = originalCard.cloneNode(true);
+        // Устанавливаем начальное состояние для анимации ПЕРЕД добавлением в DOM
+        clonedCard.style.opacity = '0';
+        clonedCard.style.transform = 'translateY(10px)';
+        clonedCard.style.transition = 'none'; // Отключаем transition для мгновенного применения начального состояния
         // Добавляем обработчик клика на всю карточку
         clonedCard.addEventListener('click', (e) => {
           e.stopPropagation();
@@ -689,22 +693,37 @@ function applyFilters() {
     });
   });
   
-  // Плавное появление карточек с задержкой
-  const cards = sectionGrid.querySelectorAll('.project-card');
-  cards.forEach((card, index) => {
-    card.style.opacity = '0';
-    card.style.transform = 'translateY(10px)';
-    setTimeout(() => {
-      card.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
-      card.style.opacity = '1';
-      card.style.transform = 'translateY(0)';
-      // Убираем inline стили после анимации, чтобы hover эффект работал
-      setTimeout(() => {
-        card.style.transform = '';
-        card.style.opacity = '';
-        card.style.transition = '';
-      }, 300);
-    }, index * 30); // Небольшая задержка для каждой карточки
+  // Плавное появление карточек одновременно
+  // Используем двойной requestAnimationFrame для синхронизации с браузером
+  // Первый RAF дает браузеру время применить начальное состояние
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      const cards = sectionGrid.querySelectorAll('.project-card');
+      cards.forEach((card) => {
+        // Убеждаемся, что начальное состояние установлено
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(10px)';
+        card.style.transition = 'none';
+      });
+      
+      // Применяем анимацию одновременно для всех карточек
+      requestAnimationFrame(() => {
+        cards.forEach((card) => {
+          card.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        });
+        
+        // Убираем inline стили после анимации, чтобы hover эффект работал
+        setTimeout(() => {
+          cards.forEach((card) => {
+            card.style.transform = '';
+            card.style.opacity = '';
+            card.style.transition = '';
+          });
+        }, 300);
+      });
+    });
   });
   
   // Загружаем SVG для звездочек после добавления карточек
@@ -790,6 +809,7 @@ function toggleSectionExpansion(category, button, hiddenProjects) {
       card.style.display = '';
       card.style.opacity = '0';
       card.style.transform = 'translateY(10px)';
+      card.style.transition = 'none'; // Отключаем transition для мгновенного применения начального состояния
     });
     requestAnimationFrame(() => {
       hiddenCards.forEach((card) => {
@@ -925,6 +945,10 @@ function renderGroupedProjects() {
         const originalCard = allProjectCards.get(project.id);
         if (originalCard) {
           const clonedCard = originalCard.cloneNode(true);
+          // Устанавливаем начальное состояние для анимации ПЕРЕД добавлением в DOM
+          clonedCard.style.opacity = '0';
+          clonedCard.style.transform = 'translateY(10px)';
+          clonedCard.style.transition = 'none'; // Отключаем transition для мгновенного применения начального состояния
           // Добавляем обработчик клика на всю карточку
           clonedCard.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -951,6 +975,10 @@ function renderGroupedProjects() {
             clonedCard.classList.add('project-card-hidden');
             clonedCard.setAttribute('data-hidden-card', 'true');
             clonedCard.style.display = 'none';
+            // Устанавливаем начальное состояние для анимации (на случай если карточка будет показана)
+            clonedCard.style.opacity = '0';
+            clonedCard.style.transform = 'translateY(10px)';
+            clonedCard.style.transition = 'none';
             // Добавляем обработчик клика на всю карточку
             clonedCard.addEventListener('click', (e) => {
               e.stopPropagation();
@@ -983,22 +1011,37 @@ function renderGroupedProjects() {
         });
       });
       
-      // Плавное появление карточек с задержкой
-      const sectionCards = sectionGrid.querySelectorAll('.project-card');
-      sectionCards.forEach((card, cardIndex) => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(10px)';
-        setTimeout(() => {
-          card.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
-          card.style.opacity = '1';
-          card.style.transform = 'translateY(0)';
-          // Убираем inline стили после анимации, чтобы hover эффект работал
-          setTimeout(() => {
-            card.style.transform = '';
-            card.style.opacity = '';
-            card.style.transition = '';
-          }, 300);
-        }, (sectionIndex * 100) + (cardIndex * 30)); // Задержка зависит от секции и карточки
+      // Плавное появление карточек одновременно
+      // Используем двойной requestAnimationFrame для синхронизации с браузером
+      // Первый RAF дает браузеру время применить начальное состояние
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          const sectionCards = sectionGrid.querySelectorAll('.project-card:not(.project-card-hidden)');
+          sectionCards.forEach((card) => {
+            // Убеждаемся, что начальное состояние установлено
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(10px)';
+            card.style.transition = 'none';
+          });
+          
+          // Применяем анимацию одновременно для всех карточек
+          requestAnimationFrame(() => {
+            sectionCards.forEach((card) => {
+              card.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
+              card.style.opacity = '1';
+              card.style.transform = 'translateY(0)';
+            });
+            
+            // Убираем inline стили после анимации, чтобы hover эффект работал
+            setTimeout(() => {
+              sectionCards.forEach((card) => {
+                card.style.transform = '';
+                card.style.opacity = '';
+                card.style.transition = '';
+              });
+            }, 300);
+          });
+        });
       });
     });
     
