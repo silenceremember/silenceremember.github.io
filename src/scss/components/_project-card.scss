@@ -14,6 +14,11 @@
   transform: translateZ(0); /* Создает новый слой для GPU ускорения */
   will-change: transform; /* Оптимизация для анимаций */
   isolation: isolate; /* Создает новый контекст стекирования для предотвращения промежутков */
+  /* Исправление размытых границ */
+  border-style: solid;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   
   /* Для плавного появления/исчезновения при фильтрации */
   opacity: 1;
@@ -110,6 +115,12 @@
   letter-spacing: 0.05em;
   border-radius: 2px;
   transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  /* Исправление размытия */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
   
   /* Светлый режим: светлый фон с темным текстом */
   background-color: var(--theme-light-bg-primary);
@@ -129,6 +140,8 @@
     background-color: currentColor;
     border-radius: 50%;
     margin-right: var(--spacing-xs);
+    transform: translateZ(0);
+    backface-visibility: hidden;
   }
   
   &.status-completed::before {
@@ -153,6 +166,12 @@
   border-radius: 2px;
   font-weight: var(--font-weight-medium);
   transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  /* Исправление размытия */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
   
   /* Светлый режим: темный текст на светлом фоне */
   background-color: var(--theme-light-bg-primary);
@@ -198,6 +217,11 @@
   flex-shrink: 0;
   min-height: calc(var(--font-size-h4) * var(--line-height-heading));
   transition: color 0.3s ease-in-out;
+  /* Исправление размытия текста */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Звездочка для избранных проектов */
@@ -210,12 +234,17 @@
   flex-shrink: 0;
   color: var(--color-accent);
   transition: color 0.3s ease-in-out;
+  /* Исправление размытия */
+  transform: translateZ(0);
+  backface-visibility: hidden;
   
   svg {
     width: 100%;
     height: 100%;
     fill: currentColor;
     transition: fill 0.3s ease-in-out;
+    transform: translateZ(0);
+    backface-visibility: hidden;
   }
 }
 
@@ -230,6 +259,11 @@
   overflow: hidden;
   min-height: 1.5em;
   transition: color 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  /* Исправление размытия текста */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   
   span {
     position: relative;
@@ -252,6 +286,8 @@
       margin-left: var(--spacing-xs);
       color: var(--color-divider);
       transition: color 0.3s ease-in-out;
+      transform: translateZ(0);
+      backface-visibility: hidden;
     }
   }
 }
@@ -282,6 +318,11 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   transition: color 0.3s ease-in-out;
+  /* Исправление размытия текста */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .project-card-footer {
@@ -291,8 +332,15 @@
   margin-top: auto;
   padding-top: var(--spacing-sm);
   border-top: var(--line-width) solid var(--color-divider);
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
   flex-shrink: 0;
   transition: border-color 0.3s ease-in-out;
+  /* Исправление размытых границ */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  box-sizing: border-box;
 }
 
 .project-card-role {
@@ -300,6 +348,11 @@
   color: var(--color-divider);
   text-transform: capitalize;
   transition: color 0.3s ease-in-out;
+  /* Исправление размытия текста */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .project-card-button {
@@ -315,6 +368,15 @@
   transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, border-color 0.3s ease-in-out;
   font-family: var(--font-family);
   pointer-events: auto; /* Кнопка остается кликабельной */
+  
+  /* Исправление размытых границ при GPU ускорении */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Обеспечиваем четкий рендеринг границ */
+  border-style: solid;
+  box-sizing: border-box;
   
   /* При наведении/нажатии на карточку кнопка ведет себя как cta-button */
   .project-card:hover &,
