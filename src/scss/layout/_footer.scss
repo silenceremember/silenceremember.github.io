@@ -29,8 +29,8 @@
   /* На мобильных устройствах контент на всю ширину с отступами */
   @media (max-width: 768px) {
     max-width: 100%;
-    padding-left: var(--spacing-md);
-    padding-right: var(--spacing-md);
+    padding-left: var(--spacing-xs);
+    padding-right: var(--spacing-xs);
   }
 }
 

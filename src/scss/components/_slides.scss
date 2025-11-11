@@ -64,13 +64,13 @@
 }
 
 .slide:first-child .main-grid {
-  padding: var(--spacing-xl) var(--spacing-xl);
+  padding: var(--spacing-xl) 0;
 }
 
 /* Стили для проектных слайдов */
 .project-slide-content {
   margin: 0 auto;
-  padding: 0 var(--spacing-xl);
+  padding: 0;
   display: flex;
   box-sizing: border-box;
   flex-direction: column;
@@ -207,7 +207,7 @@
 /* Стили для CTA слайда */
 .cta-slide-content {
   margin: 0 auto;
-  padding: 0 var(--spacing-xl);
+  padding: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -272,8 +272,8 @@
   }
 
   .slide:first-child .main-grid {
-    padding-left: var(--spacing-md);
-    padding-right: var(--spacing-md);
+    padding-left: 0;
+    padding-right: 0;
   }
 }
 
