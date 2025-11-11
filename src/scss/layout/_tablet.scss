@@ -1,7 +1,8 @@
 @media (max-width: 768px), (max-height: 1023px) {
   /* Стили для tablet-версии */
 
-  .header {
+  /* Исключаем стили для страницы проектов при высоте <1024px */
+  body:not(.page-with-scroll) .header {
     position: fixed;
     top: 0;
     left: 0;
@@ -9,12 +10,12 @@
   }
 
   /* Восстанавливаем pointer-events для интерактивных элементов внутри header */
-  .header-content,
-  .header-content * {
+  body:not(.page-with-scroll) .header-content,
+  body:not(.page-with-scroll) .header-content * {
     pointer-events: auto;
   }
   
-  .footer {
+  body:not(.page-with-scroll) .footer {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -22,45 +23,46 @@
   }
 
   /* Восстанавливаем pointer-events для интерактивных элементов внутри footer */
-  .footer-content,
-  .footer-content * {
+  body:not(.page-with-scroll) .footer-content,
+  body:not(.page-with-scroll) .footer-content * {
     pointer-events: auto;
   }
 
-  .header.hidden {
+  body:not(.page-with-scroll) .header.hidden {
     transform: translateY(-100%);
   }
 
-  .footer.hidden {
+  body:not(.page-with-scroll) .footer.hidden {
     transform: translateY(100%);
   }
 
   /* Стили для декоративных линий в режиме планшета */
-  .header + .decorative-line-horizontal,
-  main + .decorative-line-horizontal {
+  body:not(.page-with-scroll) .header + .decorative-line-horizontal,
+  body:not(.page-with-scroll) main + .decorative-line-horizontal {
     position: fixed;
     left: 0;
     transition: transform 0.3s ease;
     pointer-events: none; /* Пропускаем события прокрутки через декоративные линии */
   }
 
-  .header + .decorative-line-horizontal {
+  body:not(.page-with-scroll) .header + .decorative-line-horizontal {
     top: 64px; /* Высота хедера */
   }
 
-  main + .decorative-line-horizontal {
+  body:not(.page-with-scroll) main + .decorative-line-horizontal {
     bottom: 64px; /* Высота футера */
   }
 
-  .header + .decorative-line-horizontal.hidden {
+  body:not(.page-with-scroll) .header + .decorative-line-horizontal.hidden {
     transform: translateY(-65px); /* Сдвигаем вверх, чтобы скрыть */
   }
 
-  main + .decorative-line-horizontal.hidden {
+  body:not(.page-with-scroll) main + .decorative-line-horizontal.hidden {
     transform: translateY(65px); /* Сдвигаем вниз, чтобы скрыть */
   }
 
-  .content-wrapper {
+  /* Исключаем стили для страницы проектов при высоте <1024px */
+  body:not(.page-with-scroll) .content-wrapper {
     padding-left: 0;
     padding-right: 0;
     max-width: none; /* Убираем ограничение ширины */
@@ -166,9 +168,11 @@
     padding-top: var(--spacing-xxl);
     padding-bottom: var(--spacing-xxl);
   }
+}
 
-  /* Стили для страницы проектов в режиме планшета/мобильного */
-  /* Аналогично index.html - скролл через .page-wrapper с обработкой header/footer */
+/* Стили для страницы проектов в режиме планшета/мобильного */
+/* Только по ширине, без учета высоты */
+@media (max-width: 768px) {
   body.page-with-scroll {
     overflow: hidden !important;
     height: 100vh !important;

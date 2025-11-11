@@ -63,7 +63,10 @@ export function initScrollHandler(scrollContainerSelector, isTabletModeCallback)
     }
 
     function checkViewportForScroll() {
-        const isNowTablet = window.innerWidth <= 768 || window.innerHeight < 1024;
+        // Для страницы проектов не учитываем высоту экрана
+        const isNowTablet = isScrollPage 
+            ? window.innerWidth <= 768 
+            : window.innerWidth <= 768 || window.innerHeight < 1024;
         if (isNowTablet === isTabletMode && !isScrollPage) {
             return;
         }
