@@ -456,6 +456,35 @@ function applyFilters() {
   // Добавляем секцию в grid
   grid.appendChild(sectionContainer);
   
+  // Плавное появление секции
+  requestAnimationFrame(() => {
+    sectionContainer.style.opacity = '0';
+    sectionContainer.style.transform = 'translateY(10px)';
+    requestAnimationFrame(() => {
+      sectionContainer.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
+      sectionContainer.style.opacity = '1';
+      sectionContainer.style.transform = 'translateY(0)';
+    });
+  });
+  
+  // Плавное появление карточек с задержкой
+  const cards = sectionGrid.querySelectorAll('.project-card');
+  cards.forEach((card, index) => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(10px)';
+    setTimeout(() => {
+      card.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
+      card.style.opacity = '1';
+      card.style.transform = 'translateY(0)';
+      // Убираем inline стили после анимации, чтобы hover эффект работал
+      setTimeout(() => {
+        card.style.transform = '';
+        card.style.opacity = '';
+        card.style.transition = '';
+      }, 300);
+    }, index * 30); // Небольшая задержка для каждой карточки
+  });
+  
   // Загружаем SVG для звездочек после добавления карточек
   requestAnimationFrame(async () => {
     try {
@@ -471,7 +500,25 @@ function applyFilters() {
   // Показываем сообщение об отсутствии проектов
   const empty = document.getElementById('projects-empty');
   if (empty) {
-    empty.style.display = visibleCount === 0 ? '' : 'none';
+    if (visibleCount === 0) {
+      empty.style.display = '';
+      requestAnimationFrame(() => {
+        empty.style.opacity = '0';
+        empty.style.transform = 'translateY(10px)';
+        requestAnimationFrame(() => {
+          empty.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
+          empty.style.opacity = '1';
+          empty.style.transform = 'translateY(0)';
+        });
+      });
+    } else {
+      empty.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
+      empty.style.opacity = '0';
+      empty.style.transform = 'translateY(-10px)';
+      setTimeout(() => {
+        empty.style.display = 'none';
+      }, 300);
+    }
   }
 }
 
@@ -491,24 +538,54 @@ function toggleSectionExpansion(category, button, hiddenProjects) {
   if (!section) return;
   
   const isExpanded = expandedSections.has(category);
-  const hiddenCards = Array.from(section.querySelectorAll('.project-card-hidden'));
+  // Находим карточки по data-атрибуту или по классу
+  const hiddenCards = Array.from(section.querySelectorAll('[data-hidden-card="true"], .project-card-hidden'));
   
   if (isExpanded) {
-    // Сворачиваем
-    hiddenCards.forEach(card => {
-      card.style.display = 'none';
+    // Сворачиваем с плавной анимацией - все карточки одновременно
+    hiddenCards.forEach((card) => {
+      card.style.transition = 'opacity 0.3s ease-in-out, visibility 0.3s ease-in-out, transform 0.3s ease-in-out';
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(-10px)';
     });
+    setTimeout(() => {
+      hiddenCards.forEach((card) => {
+        card.style.display = 'none';
+        // Убираем inline стили и возвращаем класс после анимации
+        card.style.transform = '';
+        card.style.opacity = '';
+        card.style.transition = '';
+        card.classList.add('project-card-hidden');
+        card.setAttribute('data-hidden-card', 'true');
+      });
+    }, 300);
     expandedSections.delete(category);
     button.setAttribute('aria-expanded', 'false');
     button.querySelector('.projects-section-expand-text').textContent = 'Показать все';
   } else {
-    // Разворачиваем
-    hiddenCards.forEach(card => {
+    // Разворачиваем с плавной анимацией - все карточки одновременно
+    hiddenCards.forEach((card) => {
       card.style.display = '';
-      // Небольшая задержка для плавного появления
-      requestAnimationFrame(() => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(10px)';
+    });
+    requestAnimationFrame(() => {
+      hiddenCards.forEach((card) => {
+        card.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
         card.style.opacity = '1';
+        card.style.transform = 'translateY(0)';
       });
+      // Убираем inline стили после анимации, чтобы hover эффект работал
+      setTimeout(() => {
+        hiddenCards.forEach((card) => {
+          card.style.transform = '';
+          card.style.opacity = '';
+          card.style.transition = '';
+          card.classList.remove('project-card-hidden');
+          // Сохраняем data-атрибут для возможности найти карточку при сворачивании
+          card.setAttribute('data-hidden-card', 'true');
+        });
+      }, 300);
     });
     expandedSections.add(category);
     button.setAttribute('aria-expanded', 'true');
@@ -566,7 +643,8 @@ function renderGroupedProjects() {
     };
     
     // Отображаем каждый раздел
-    Object.keys(grouped).forEach(category => {
+    const categories = Object.keys(grouped);
+    categories.forEach((category, sectionIndex) => {
       const allCategoryProjects = grouped[category];
       if (allCategoryProjects.length === 0) return;
       
@@ -649,6 +727,7 @@ function renderGroupedProjects() {
           if (originalCard) {
             const clonedCard = originalCard.cloneNode(true);
             clonedCard.classList.add('project-card-hidden');
+            clonedCard.setAttribute('data-hidden-card', 'true');
             clonedCard.style.display = 'none';
             // Добавляем обработчик клика на всю карточку
             clonedCard.addEventListener('click', (e) => {
@@ -670,6 +749,35 @@ function renderGroupedProjects() {
       
       sectionContainer.appendChild(sectionGrid);
       grid.appendChild(sectionContainer);
+      
+      // Плавное появление секции
+      requestAnimationFrame(() => {
+        sectionContainer.style.opacity = '0';
+        sectionContainer.style.transform = 'translateY(10px)';
+        requestAnimationFrame(() => {
+          sectionContainer.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
+          sectionContainer.style.opacity = '1';
+          sectionContainer.style.transform = 'translateY(0)';
+        });
+      });
+      
+      // Плавное появление карточек с задержкой
+      const sectionCards = sectionGrid.querySelectorAll('.project-card');
+      sectionCards.forEach((card, cardIndex) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(10px)';
+        setTimeout(() => {
+          card.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+          // Убираем inline стили после анимации, чтобы hover эффект работал
+          setTimeout(() => {
+            card.style.transform = '';
+            card.style.opacity = '';
+            card.style.transition = '';
+          }, 300);
+        }, (sectionIndex * 100) + (cardIndex * 30)); // Задержка зависит от секции и карточки
+      });
     });
     
     // Загружаем SVG для звездочек после рендеринга

@@ -169,6 +169,8 @@
 .projects-section {
   grid-column: 1 / -1;
   margin-bottom: var(--spacing-xl);
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
   
   &:first-child {
     .projects-section-header {
@@ -225,7 +227,7 @@
   font-weight: var(--font-weight-medium);
   line-height: 1;
   cursor: pointer;
-  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out, color 0.3s ease-in-out, transform 0.2s ease-in-out;
   font-family: var(--font-family);
   white-space: nowrap;
   box-sizing: border-box;
@@ -237,6 +239,7 @@
     border-color: var(--color-accent);
     background-color: var(--color-accent);
     color: var(--color-bg-primary);
+    transform: translateY(-1px);
   }
   
   &:focus {
@@ -298,18 +301,23 @@
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: var(--spacing-lg);
   align-items: stretch;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
   
   .project-card {
     height: 100%;
     display: flex;
     flex-direction: column;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
   }
 }
 
 /* Скрытые карточки проектов */
 .project-card-hidden {
   opacity: 0;
-  transition: opacity 0.3s ease;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out, transform 0.3s ease-in-out;
   
   &[style*="display: none"] {
     display: none !important;
@@ -317,6 +325,7 @@
   
   &:not([style*="display: none"]) {
     opacity: 1;
+    visibility: visible;
   }
 }
 
@@ -334,6 +343,8 @@
   padding: var(--spacing-xl);
   color: var(--color-text-primary);
   font-size: var(--font-size-base);
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
 /* Адаптивность */

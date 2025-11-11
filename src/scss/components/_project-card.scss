@@ -5,11 +5,25 @@
   flex-direction: column;
   background-color: var(--color-bg-primary);
   border: var(--line-width) solid var(--color-text-primary);
-  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out, border-color 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
   cursor: pointer;
   overflow: hidden;
   height: 100%;
   min-height: 100%;
+  
+  /* Для плавного появления/исчезновения при фильтрации */
+  opacity: 1;
+  visibility: visible;
+  
+  &.project-card-hidden {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out, transform 0.3s ease-in-out;
+  }
+  
+  &[style*="display: none"] {
+    display: none !important;
+  }
   
   &:hover {
     transform: translateY(-4px);
