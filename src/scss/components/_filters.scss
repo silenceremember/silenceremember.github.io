@@ -108,79 +108,30 @@
   }
 }
 
-.project-filters-results {
-  margin-top: var(--spacing-md);
-  margin-left: auto;
-  margin-right: auto;
-  padding: var(--spacing-xs) var(--spacing-sm);
-  background-color: transparent;
-  border: var(--line-width) solid var(--color-text-primary);
-  color: var(--color-text-primary);
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-medium);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-  font-family: var(--font-family);
-  width: auto;
-  text-align: center;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 40px;
+.project-filters-results-header {
+  margin: var(--spacing-xl) 0 var(--spacing-md) 0;
   
   &[hidden] {
     display: none;
   }
-  
-  &:hover,
-  &:focus {
-    background-color: var(--color-accent);
-    color: var(--color-bg-primary);
-    border-color: var(--color-accent);
-    outline: none;
-    
-    .project-filters-results-text {
-      opacity: 0;
-    }
-    
-    .project-filters-results-hover {
-      opacity: 1;
-    }
-  }
-  
-  &:focus {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 2px;
-  }
 }
 
-.project-filters-results-text {
-  font-size: var(--font-size-small);
-  color: inherit;
-  opacity: 1;
-  transition: opacity 0.3s ease;
-  display: inline-block;
-}
-
-.project-filters-results-count {
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-accent);
-  transition: color 0.3s ease;
+.project-filters-results {
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-tight);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
   
-  .project-filters-results:hover & {
-    color: var(--color-bg-primary);
+  .project-filters-option-count {
+    font-size: inherit;
+    line-height: 1;
   }
-}
-
-.project-filters-results-hover {
-  position: absolute;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  font-weight: var(--font-weight-semibold);
-  pointer-events: none;
 }
 
 /* Адаптивность */
@@ -201,6 +152,15 @@
   .project-filters-option {
     flex: 1 1 auto;
     min-width: calc(50% - var(--spacing-xs));
+  }
+  
+  .project-filters-results-header {
+    margin: var(--spacing-lg) 0 var(--spacing-sm) 0;
+  }
+  
+  .project-filters-results {
+    font-size: var(--font-size-h4);
+    gap: var(--spacing-sm);
   }
 }
 

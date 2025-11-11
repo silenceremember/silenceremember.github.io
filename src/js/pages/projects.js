@@ -270,10 +270,10 @@ function initFilterButtons() {
     });
   });
   
-  // Кнопка результатов (сброс фильтров)
-  const resultsButton = document.getElementById('project-filters-results');
-  if (resultsButton) {
-    resultsButton.addEventListener('click', () => {
+  // Кнопка сброса фильтров
+  const resetButton = document.getElementById('project-filters-reset');
+  if (resetButton) {
+    resetButton.addEventListener('click', () => {
       clearAllFilters();
     });
   }
@@ -325,10 +325,10 @@ function clearAllFilters() {
     button.classList.remove('active');
   });
   
-  // Скрываем кнопку результатов
-  const resultsButton = document.getElementById('project-filters-results');
-  if (resultsButton) {
-    resultsButton.hidden = true;
+  // Скрываем контейнер результатов
+  const resultsHeader = document.getElementById('project-filters-results-header');
+  if (resultsHeader) {
+    resultsHeader.hidden = true;
   }
   
   applyFilters();
@@ -344,10 +344,10 @@ function applyFilters() {
   // Проверяем, есть ли активные фильтры
   const hasActiveFilters = Object.values(activeFilters).some(arr => arr.length > 0);
   
-  // Обновляем видимость кнопки результатов в зависимости от наличия активных фильтров
-  const resultsCount = document.getElementById('project-filters-results');
-  if (resultsCount) {
-    resultsCount.hidden = !hasActiveFilters;
+  // Обновляем видимость контейнера результатов в зависимости от наличия активных фильтров
+  const resultsHeader = document.getElementById('project-filters-results-header');
+  if (resultsHeader) {
+    resultsHeader.hidden = !hasActiveFilters;
   }
   
   if (!hasActiveFilters) {
@@ -439,10 +439,19 @@ function applyFilters() {
     }
   });
   
-  // Обновляем счетчик результатов
-  const resultsCountText = document.querySelector('.project-filters-results-count');
-  if (resultsCountText) {
-    resultsCountText.textContent = visibleCount;
+  // Обновляем счетчик результатов и текст кнопки
+  const resultsContainer = document.getElementById('project-filters-results');
+  if (resultsContainer) {
+    const countElement = resultsContainer.querySelector('.project-filters-option-count');
+    const resetButton = resultsContainer.querySelector('#project-filters-reset');
+    
+    if (countElement) {
+      countElement.textContent = visibleCount;
+    }
+    
+    if (resetButton) {
+      resetButton.textContent = `Показать все ${visibleCount}`;
+    }
   }
   
   // Показываем сообщение об отсутствии проектов
