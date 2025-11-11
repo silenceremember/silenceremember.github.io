@@ -144,21 +144,20 @@
 /* Адаптивность */
 @media (max-width: 768px) {
   .project-filters-content {
-    flex-direction: column;
-    gap: var(--spacing-md);
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--spacing-md) var(--spacing-lg);
+    align-items: flex-start;
   }
   
   .project-filters-group {
-    width: 100%;
-  }
-  
-  .project-filters-options {
-    flex-wrap: wrap;
-  }
-  
-  .project-filters-option {
-    flex: 1 1 auto;
-    min-width: calc(50% - var(--spacing-xs));
+    flex: 0 1 auto;
+    
+    // Категория занимает всю ширину, так как там много кнопок
+    &:first-child {
+      flex: 1 1 100%;
+      width: 100%;
+    }
   }
   
   .project-filters-results-header {
@@ -168,13 +167,6 @@
   .project-filters-results {
     font-size: var(--font-size-h4);
     gap: var(--spacing-sm);
-  }
-}
-
-/* Стили для активных фильтров в мобильной версии */
-@media (max-width: 768px) {
-  .project-filters-option[aria-pressed="true"] {
-    order: -1; /* Активные фильтры показываются первыми */
   }
 }
 
@@ -309,8 +301,8 @@
   display: flex;
   flex-direction: column;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  min-width: 100%;
   width: max-content;
+  min-width: 100%;
   
   // Ширина может быть установлена через JavaScript
   &[style*="width"] {
@@ -407,16 +399,18 @@
 /* Адаптивность для dropdown года */
 @media (max-width: 768px) {
   .project-filters-year-dropdown {
-    width: 100%;
-  }
-  
-  .project-filters-year-button {
-    width: 100%;
+    width: auto;
+    max-width: 100%;
   }
   
   .project-filters-year-dropdown-menu {
     max-height: 200px;
-    width: 100%;
+    min-width: 0 !important;
+    
+    // В mobile режиме ширина должна быть установлена через JavaScript
+    &[style*="width"] {
+      min-width: 0 !important;
+    }
   }
 }
 

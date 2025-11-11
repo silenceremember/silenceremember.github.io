@@ -231,55 +231,86 @@ function initFilters(projects) {
       
       // Устанавливаем ширину кнопки равной самому широкому элементу в dropdown
       if (yearDropdownButton) {
-        // Используем requestAnimationFrame для измерения после рендеринга
-        requestAnimationFrame(() => {
-          // Временно показываем меню для измерения ширины
-          const originalHidden = yearDropdownMenu.hidden;
-          const originalDisplay = yearDropdownMenu.style.display;
-          const originalVisibility = yearDropdownMenu.style.visibility;
-          const originalPosition = yearDropdownMenu.style.position;
-          const originalTop = yearDropdownMenu.style.top;
-          const originalLeft = yearDropdownMenu.style.left;
-          
-          yearDropdownMenu.hidden = false;
-          yearDropdownMenu.style.display = 'flex';
-          yearDropdownMenu.style.visibility = 'hidden';
-          yearDropdownMenu.style.position = 'absolute';
-          yearDropdownMenu.style.top = '0';
-          yearDropdownMenu.style.left = '0';
-          
-          // Находим максимальную ширину среди всех опций
-          const options = yearDropdownMenu.querySelectorAll('.project-filters-year-option');
-          let maxWidth = 0;
-          options.forEach(option => {
-            // Временно показываем опцию для измерения
-            const optionDisplay = option.style.display;
-            option.style.display = '';
-            const width = option.scrollWidth || option.offsetWidth;
-            option.style.display = optionDisplay;
+        const updateYearDropdownWidth = () => {
+          // Используем requestAnimationFrame для измерения после рендеринга
+          requestAnimationFrame(() => {
+            // Сохраняем текущие inline стили
+            const buttonOriginalWidth = yearDropdownButton.style.width;
+            const menuOriginalWidth = yearDropdownMenu.style.width;
             
-            if (width > maxWidth) {
-              maxWidth = width;
+            // Временно убираем inline стили для правильного измерения
+            yearDropdownButton.style.width = '';
+            yearDropdownMenu.style.width = '';
+            
+            // Временно показываем меню для измерения ширины
+            const originalHidden = yearDropdownMenu.hidden;
+            const originalDisplay = yearDropdownMenu.style.display;
+            const originalVisibility = yearDropdownMenu.style.visibility;
+            const originalPosition = yearDropdownMenu.style.position;
+            const originalTop = yearDropdownMenu.style.top;
+            const originalLeft = yearDropdownMenu.style.left;
+            
+            yearDropdownMenu.hidden = false;
+            yearDropdownMenu.style.display = 'flex';
+            yearDropdownMenu.style.visibility = 'hidden';
+            yearDropdownMenu.style.position = 'absolute';
+            yearDropdownMenu.style.top = '0';
+            yearDropdownMenu.style.left = '0';
+            
+            // Находим максимальную ширину среди всех опций
+            const options = yearDropdownMenu.querySelectorAll('.project-filters-year-option');
+            let maxWidth = 0;
+            options.forEach(option => {
+              // Временно показываем опцию для измерения
+              const optionDisplay = option.style.display;
+              option.style.display = '';
+              const width = option.scrollWidth || option.offsetWidth;
+              option.style.display = optionDisplay;
+              
+              if (width > maxWidth) {
+                maxWidth = width;
+              }
+            });
+            
+            // Также проверяем ширину самой кнопки (на случай если она шире)
+            const buttonWidth = yearDropdownButton.scrollWidth || yearDropdownButton.offsetWidth;
+            const finalWidth = Math.max(maxWidth, buttonWidth);
+            
+            // Возвращаем меню в исходное состояние
+            yearDropdownMenu.hidden = originalHidden;
+            yearDropdownMenu.style.display = originalDisplay;
+            yearDropdownMenu.style.visibility = originalVisibility;
+            yearDropdownMenu.style.position = originalPosition;
+            yearDropdownMenu.style.top = originalTop;
+            yearDropdownMenu.style.left = originalLeft;
+            
+            // Устанавливаем ширину для кнопки и меню (работает и в desktop, и в mobile)
+            if (finalWidth > 0) {
+              yearDropdownButton.style.width = `${finalWidth}px`;
+              // В mobile режиме используем setProperty с important для переопределения CSS
+              const isMobile = window.innerWidth <= 768;
+              if (isMobile) {
+                yearDropdownMenu.style.setProperty('width', `${finalWidth}px`, 'important');
+                yearDropdownMenu.style.setProperty('min-width', '0', 'important');
+              } else {
+                yearDropdownMenu.style.width = `${finalWidth}px`;
+              }
+            } else {
+              // Если что-то пошло не так, восстанавливаем оригинальные стили
+              yearDropdownButton.style.width = buttonOriginalWidth;
+              yearDropdownMenu.style.width = menuOriginalWidth;
             }
           });
-          
-          // Также проверяем ширину самой кнопки (на случай если она шире)
-          const buttonWidth = yearDropdownButton.scrollWidth || yearDropdownButton.offsetWidth;
-          const finalWidth = Math.max(maxWidth, buttonWidth);
-          
-          // Устанавливаем ширину для кнопки и меню
-          if (finalWidth > 0) {
-            yearDropdownButton.style.width = `${finalWidth}px`;
-            yearDropdownMenu.style.width = `${finalWidth}px`;
-          }
-          
-          // Возвращаем меню в исходное состояние
-          yearDropdownMenu.hidden = originalHidden;
-          yearDropdownMenu.style.display = originalDisplay;
-          yearDropdownMenu.style.visibility = originalVisibility;
-          yearDropdownMenu.style.position = originalPosition;
-          yearDropdownMenu.style.top = originalTop;
-          yearDropdownMenu.style.left = originalLeft;
+        };
+        
+        // Устанавливаем ширину при инициализации
+        updateYearDropdownWidth();
+        
+        // Обновляем ширину при изменении размера окна
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+          clearTimeout(resizeTimeout);
+          resizeTimeout = setTimeout(updateYearDropdownWidth, 100);
         });
       }
     }
