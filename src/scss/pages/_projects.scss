@@ -54,7 +54,7 @@
 
   body.page-with-scroll .content-wrapper {
     overflow: visible !important;
-    min-height: auto;
+    min-height: calc(100vh - 128px); /* 100vh минус высота header (64px) и footer (64px) */
     height: auto;
     display: block !important; /* Меняем с grid на block для нормального потока документа */
     padding-top: 64px; /* Только высота header, без дополнительного отступа */
@@ -155,7 +155,7 @@
   /* Ширина между линиями: 1200px + 16px (8px с каждой стороны) */
   max-width: calc(1200px + 16px);
   margin: 0 auto;
-  min-height: calc(100vh - 200px); /* Минимальная высота с учетом header/footer */
+  min-height: 100%; /* Занимает всю высоту родителя (content-wrapper) */
   
   /* На мобильных устройствах контент на всю ширину с отступами */
   @media (max-width: 768px) {
@@ -178,6 +178,14 @@
   gap: var(--spacing-lg);
   margin-bottom: var(--spacing-xl);
   align-items: stretch;
+  
+  /* Когда показывается индикатор загрузки, используем flex для распределения пространства */
+  &:has(.projects-loading:not(.hidden)) {
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
   
   .project-card {
     height: 100%;
@@ -280,10 +288,98 @@
 
 /* Сообщение о загрузке */
 .projects-loading {
-  text-align: center;
-  padding: var(--spacing-xl);
-  color: var(--color-text-primary);
-  font-size: var(--font-size-base);
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xxl) var(--spacing-xl);
+  /* Занимает оставшееся пространство от фильтров до низа страницы */
+  /* Используем flex: 1 для автоматического заполнения доступного пространства */
+  flex: 1;
+  min-height: 0;
+  box-sizing: border-box;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  
+  &.hidden {
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+  }
+}
+
+/* Когда показывается индикатор загрузки, убираем лишние отступы у родительских контейнеров */
+.projects-grid:has(.projects-loading:not(.hidden)) {
+  margin-bottom: 0;
+  min-height: 0;
+}
+
+.projects-page:has(.projects-loading:not(.hidden)) {
+  min-height: 0;
+  /* Используем flex для распределения пространства между фильтрами и индикатором загрузки */
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 64px - 64px - var(--spacing-xl)); /* viewport - header - footer - content-wrapper padding-bottom */
+}
+
+.projects-loading-squares {
+  display: flex;
+  gap: 0.5rem; /* 8px - как в footer-decorative */
+  align-items: center;
+  justify-content: center;
+}
+
+.projects-loading-square {
+  width: 16px;
+  height: 16px;
+  background-color: var(--color-accent);
+  animation: projects-loading-bounce 1.4s ease-in-out infinite;
+  flex-shrink: 0;
+  
+  /* Задержка для каждого квадратика для эффекта волны */
+  &:nth-child(1) {
+    animation-delay: 0s;
+  }
+  
+  &:nth-child(2) {
+    animation-delay: 0.1s;
+  }
+  
+  &:nth-child(3) {
+    animation-delay: 0.2s;
+  }
+}
+
+@keyframes projects-loading-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  /* Подпрыгивание происходит в первые 0.6s */
+  21.4% {
+    transform: translateY(-18px);
+  }
+  42.8% {
+    transform: translateY(0);
+  }
+  /* Пауза с 42.8% до 100% (остается внизу) */
+}
+
+/* Адаптивность для индикатора загрузки */
+@media (max-width: 768px) {
+  .projects-page:has(.projects-loading:not(.hidden)) {
+    /* На мобильных также используем flex для распределения пространства */
+    height: calc(100vh - 64px - 64px - var(--spacing-xl));
+  }
+  
+  .projects-loading {
+    padding: var(--spacing-xl) var(--spacing-lg);
+  }
+  
+  .projects-loading-square {
+    width: 14px;
+    height: 14px;
+  }
 }
 
 /* Сообщение об отсутствии проектов */

@@ -594,6 +594,9 @@ function applyFilters() {
   const grid = document.getElementById('projects-grid');
   if (!grid) return;
   
+  // Убеждаемся, что индикатор загрузки скрыт (на случай, если он остался)
+  hideLoadingIndicator();
+  
   // Проверяем, есть ли активные фильтры
   const hasActiveFilters = Object.values(activeFilters).some(arr => arr.length > 0);
   
@@ -801,6 +804,108 @@ function applyFilters() {
 }
 
 /**
+ * Скрывает индикатор загрузки с плавной анимацией
+ */
+function hideLoadingIndicator() {
+  const loadingElement = document.getElementById('projects-loading');
+  if (!loadingElement) return;
+  
+  // Добавляем класс для анимации скрытия
+  loadingElement.classList.add('hidden');
+  
+  // Удаляем элемент после завершения анимации
+  setTimeout(() => {
+    if (loadingElement.parentNode) {
+      loadingElement.remove();
+    }
+  }, 300);
+}
+
+/* ============================================
+ * DEBUG FUNCTIONS - Удалить после тестирования
+ * ============================================ */
+
+/**
+ * Показывает индикатор загрузки (для дебага - клавиша R)
+ */
+function showLoadingIndicator() {
+  const grid = document.getElementById('projects-grid');
+  if (!grid) return;
+  
+  // Скрываем сообщение об отсутствии проектов
+  const emptyElement = document.getElementById('projects-empty');
+  if (emptyElement) {
+    emptyElement.style.display = 'none';
+  }
+  
+  // Проверяем, есть ли уже индикатор загрузки
+  let loadingElement = document.getElementById('projects-loading');
+  
+  if (!loadingElement) {
+    // Создаем новый индикатор загрузки
+    loadingElement = document.createElement('div');
+    loadingElement.className = 'projects-loading';
+    loadingElement.id = 'projects-loading';
+    loadingElement.innerHTML = `
+      <div class="projects-loading-squares">
+        <div class="projects-loading-square"></div>
+        <div class="projects-loading-square"></div>
+        <div class="projects-loading-square"></div>
+      </div>
+    `;
+    grid.innerHTML = '';
+    grid.appendChild(loadingElement);
+  } else {
+    // Если индикатор уже есть, просто очищаем grid и показываем его
+    grid.innerHTML = '';
+    grid.appendChild(loadingElement);
+  }
+  
+  // Убираем класс hidden и показываем с анимацией
+  loadingElement.classList.remove('hidden');
+  loadingElement.style.display = '';
+  loadingElement.style.opacity = '0';
+  loadingElement.style.transform = 'translateY(10px)';
+  
+  requestAnimationFrame(() => {
+    loadingElement.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
+    loadingElement.style.opacity = '1';
+    loadingElement.style.transform = 'translateY(0)';
+  });
+  
+  console.log('🔍 [DEBUG] Индикатор загрузки показан (клавиша R)');
+}
+
+/**
+ * Показывает сообщение об отсутствии проектов (для дебага - клавиша E)
+ */
+function showEmptyProjectsMessage() {
+  const grid = document.getElementById('projects-grid');
+  const emptyElement = document.getElementById('projects-empty');
+  
+  if (!grid || !emptyElement) return;
+  
+  // Скрываем индикатор загрузки
+  hideLoadingIndicator();
+  
+  // Очищаем grid
+  grid.innerHTML = '';
+  
+  // Показываем сообщение об отсутствии проектов
+  emptyElement.style.display = '';
+  emptyElement.style.opacity = '0';
+  emptyElement.style.transform = 'translateY(10px)';
+  
+  requestAnimationFrame(() => {
+    emptyElement.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
+    emptyElement.style.opacity = '1';
+    emptyElement.style.transform = 'translateY(0)';
+  });
+  
+  console.log('🔍 [DEBUG] Сообщение об отсутствии проектов показано (клавиша E)');
+}
+
+/**
  * Группирует и отображает проекты по разделам
  */
 let allProjects = [];
@@ -893,11 +998,14 @@ function renderGroupedProjects() {
   
   isRendering = true;
   
+  // Скрываем индикатор загрузки перед рендерингом
+  hideLoadingIndicator();
+  
   // Сбрасываем состояние развернутости при новом рендеринге
   expandedSections.clear();
   
   try {
-    // Очищаем сетку
+    // Очищаем сетку (индикатор загрузки уже удален через hideLoadingIndicator)
     grid.innerHTML = '';
     grid.className = 'projects-grid';
     
@@ -1110,6 +1218,9 @@ async function initProjectsPage() {
   
   // Загружаем проекты
   const projects = await loadProjectsData();
+  
+  // Скрываем индикатор загрузки
+  hideLoadingIndicator();
   
   if (projects.length === 0) {
     const grid = document.getElementById('projects-grid');
@@ -1411,3 +1522,26 @@ if (document.readyState === 'loading') {
 } else {
   initProjectsPage();
 }
+
+/* ============================================
+ * DEBUG KEYBOARD HANDLERS - Удалить после тестирования
+ * ============================================ */
+document.addEventListener('keydown', (e) => {
+  // Показываем индикатор загрузки по клавише R
+  if (e.key === 'r' || e.key === 'R') {
+    // Предотвращаем стандартное поведение только если не в поле ввода
+    if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+      e.preventDefault();
+      showLoadingIndicator();
+    }
+  }
+  
+  // Показываем сообщение об отсутствии проектов по клавише E
+  if (e.key === 'e' || e.key === 'E') {
+    // Предотвращаем стандартное поведение только если не в поле ввода
+    if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+      e.preventDefault();
+      showEmptyProjectsMessage();
+    }
+  }
+});
