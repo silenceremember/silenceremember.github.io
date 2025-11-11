@@ -217,6 +217,10 @@
     display: block;
     padding-top: var(--spacing-xxl);
     padding-bottom: var(--spacing-xxl);
+    max-width: 100% !important; /* Убираем ограничение по ширине */
+    margin: 0 !important; /* Убираем центрирование */
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 
   /* Фиксированное позиционирование header и footer для страницы проектов в tablet режиме */

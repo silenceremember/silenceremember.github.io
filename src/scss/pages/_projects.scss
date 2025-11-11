@@ -59,6 +59,10 @@
     display: block !important; /* Меняем с grid на block для нормального потока документа */
     padding-top: 64px; /* Только высота header, без дополнительного отступа */
     padding-bottom: calc(64px + var(--spacing-xl));
+    max-width: 100% !important; /* Убираем ограничение по ширине */
+    margin: 0 !important; /* Убираем центрирование */
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 
   /* Стили для скрытия header/footer на десктопе при скролле */
@@ -146,9 +150,19 @@
 
 .projects-page {
   padding: var(--spacing-xl) var(--spacing-lg);
-  max-width: var(--max-width-large);
+  /* Контент ограничивается вертикальными линиями */
+  /* Вертикальные линии находятся на: calc((100% - 1200px) / 2 - 8px) от краёв */
+  /* Ширина между линиями: 1200px + 16px (8px с каждой стороны) */
+  max-width: calc(1200px + 16px);
   margin: 0 auto;
   min-height: calc(100vh - 200px); /* Минимальная высота с учетом header/footer */
+  
+  /* На мобильных устройствах контент на всю ширину с отступами */
+  @media (max-width: 768px) {
+    max-width: 100%;
+    padding-left: var(--spacing-md);
+    padding-right: var(--spacing-md);
+  }
 }
 
 /* Контейнер фильтров */

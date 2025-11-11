@@ -49,9 +49,27 @@
   flex-grow: 1;
   width: 100%;
   overflow: hidden;
-  max-width: var(--max-width-large);
+  /* Контент ограничивается вертикальными линиями */
+  /* Вертикальные линии находятся на: calc((100% - 1200px) / 2 - 8px) от краёв */
+  /* Ширина между линиями: 1200px + 16px (8px с каждой стороны) */
+  max-width: calc(1200px + 16px);
   margin: 0 auto;
   padding: 0 var(--spacing-lg);
+  
+  /* Для страницы проектов стили переопределяются в _projects.scss */
+  body.page-with-scroll & {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  
+  /* На мобильных устройствах контент на всю ширину с отступами */
+  @media (max-width: 768px) {
+    max-width: 100%;
+    padding-left: var(--spacing-md);
+    padding-right: var(--spacing-md);
+  }
 }
 
 /* Горизонтальные декоративные линии */
@@ -77,6 +95,7 @@
   align-items: center; /* Центрируем элементы по вертикали */
   justify-items: start; /* Выравниваем элементы по левому краю */
   transition: gap 0.3s ease;
+  width: 100%;
 }
 
 /* Колонки контента */

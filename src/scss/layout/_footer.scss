@@ -20,8 +20,18 @@
   align-items: center;
   height: 100%;
   padding: 0 var(--spacing-xs);
-  max-width: var(--max-width-large);
+  /* Контент ограничивается вертикальными линиями */
+  /* Вертикальные линии находятся на: calc((100% - 1200px) / 2 - 8px) от краёв */
+  /* Ширина между линиями: 1200px + 16px (8px с каждой стороны) */
+  max-width: calc(1200px + 16px);
   grid-template-columns: 1fr auto 1fr;
+  
+  /* На мобильных устройствах контент на всю ширину с отступами */
+  @media (max-width: 768px) {
+    max-width: 100%;
+    padding-left: var(--spacing-md);
+    padding-right: var(--spacing-md);
+  }
 }
 
 /* Левая колонка (социальные ссылки и email) */

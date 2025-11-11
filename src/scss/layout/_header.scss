@@ -14,7 +14,10 @@
 
 .header-content {
   width: 100%;
-  max-width: var(--max-width-large);
+  /* Контент ограничивается вертикальными линиями */
+  /* Вертикальные линии находятся на: calc((100% - 1200px) / 2 - 8px) от краёв */
+  /* Ширина между линиями: 1200px + 16px (8px с каждой стороны) */
+  max-width: calc(1200px + 16px);
   margin: 0 auto;
   padding: 0 var(--spacing-xs);
   display: flex;
@@ -22,6 +25,13 @@
   align-items: center;
   position: relative;
   height: 100%;
+  
+  /* На мобильных устройствах контент на всю ширину с отступами */
+  @media (max-width: 768px) {
+    max-width: 100%;
+    padding-left: var(--spacing-md);
+    padding-right: var(--spacing-md);
+  }
 }
 
 /* Левая часть хедера (язык и иконки) */
