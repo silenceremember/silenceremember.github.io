@@ -212,10 +212,10 @@
   }
 
   body.page-with-scroll .content-wrapper {
-    min-height: 100%;
+    min-height: calc(100vh - 128px); /* 100vh минус высота header (64px) и footer (64px) */
     box-sizing: border-box;
     display: block;
-    padding-top: var(--spacing-xxl);
+    padding-top: 0; /* Убираем лишний отступ сверху, так как page-wrapper уже имеет padding-top: 64px */
     padding-bottom: var(--spacing-xxl);
     max-width: 100% !important; /* Убираем ограничение по ширине */
     margin: 0 !important; /* Убираем центрирование */

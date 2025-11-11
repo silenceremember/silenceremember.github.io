@@ -149,7 +149,7 @@
 }
 
 .projects-page {
-  padding: var(--spacing-xl) var(--spacing-lg);
+  padding: var(--spacing-lg) var(--spacing-lg);
   /* Контент ограничивается вертикальными линиями */
   /* Вертикальные линии находятся на: calc((100% - 1200px) / 2 - 8px) от краёв */
   /* Ширина между линиями: 1200px + 16px (8px с каждой стороны) */
@@ -160,8 +160,9 @@
   /* На мобильных устройствах контент на всю ширину с отступами */
   @media (max-width: 768px) {
     max-width: 100%;
-    padding-left: var(--spacing-md);
-    padding-right: var(--spacing-md);
+    padding-left: var(--spacing-lg);
+    padding-right: var(--spacing-lg);
+    min-height: 100%; /* Занимает всю высоту родителя (content-wrapper) */
   }
 }
 
@@ -406,7 +407,7 @@
 /* Адаптивность */
 @media (max-width: 768px) {
   .projects-page {
-    padding: var(--spacing-lg) var(--spacing-md);
+    padding: var(--spacing-lg) var(--spacing-lg);
   }
   
   .projects-grid {
