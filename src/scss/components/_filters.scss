@@ -45,29 +45,33 @@
   color: var(--color-text-primary);
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-medium);
+  line-height: 1;
   cursor: pointer;
   transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
   font-family: var(--font-family);
-  text-align: left;
+  white-space: nowrap;
+  box-sizing: border-box;
   
   &:hover {
-    border-color: var(--color-text-primary);
-  }
-  
-  &[aria-pressed="true"] {
-    background-color: var(--color-accent);
     border-color: var(--color-accent);
+    background-color: var(--color-accent);
     color: var(--color-bg-primary);
-    
-    .project-filters-option-count {
-      background-color: rgba(255, 255, 255, 0.2);
-      color: var(--color-bg-primary);
-    }
   }
   
   &:focus {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 2px;
+    outline: none;
+  }
+  
+  &[aria-pressed="true"] {
+    background-color: var(--color-text-primary);
+    border-color: var(--color-text-primary);
+    color: var(--color-bg-primary);
+    
+    &:hover {
+      border-color: var(--color-accent);
+      background-color: var(--color-accent);
+      color: var(--color-bg-primary);
+    }
   }
 }
 
@@ -77,14 +81,31 @@
 
 .project-filters-option-count {
   padding: 2px var(--spacing-xs);
-  background-color: var(--color-divider);
-  color: var(--color-text-primary);
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-semibold);
   border-radius: 2px;
-  min-width: 24px;
-  text-align: center;
+  font-weight: var(--font-weight-bold);
   transition: background-color 0.3s ease, color 0.3s ease;
+  
+  /* Светлый режим: черный фон */
+  background-color: var(--theme-light-text-primary);
+  color: var(--theme-light-bg-primary);
+  
+  /* Темный режим: белый фон */
+  [data-theme='dark'] & {
+    background-color: var(--theme-dark-text-primary);
+    color: var(--theme-dark-bg-primary);
+  }
+  
+  .project-filters-option:hover &,
+  .project-filters-option[aria-pressed="true"] & {
+    /* При наведении и активном состоянии инвертируем цвета */
+    background-color: var(--theme-light-bg-primary);
+    color: var(--theme-light-text-primary);
+    
+    [data-theme='dark'] & {
+      background-color: var(--theme-dark-bg-primary);
+      color: var(--theme-dark-text-primary);
+    }
+  }
 }
 
 .project-filters-results {

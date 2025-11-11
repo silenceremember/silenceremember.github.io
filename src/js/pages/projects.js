@@ -344,6 +344,12 @@ function applyFilters() {
   // Проверяем, есть ли активные фильтры
   const hasActiveFilters = Object.values(activeFilters).some(arr => arr.length > 0);
   
+  // Обновляем видимость кнопки результатов в зависимости от наличия активных фильтров
+  const resultsCount = document.getElementById('project-filters-results');
+  if (resultsCount) {
+    resultsCount.hidden = !hasActiveFilters;
+  }
+  
   if (!hasActiveFilters) {
     // Если фильтров нет, группируем по разделам
     // Сбрасываем состояние развернутости при переключении на группировку
@@ -434,15 +440,9 @@ function applyFilters() {
   });
   
   // Обновляем счетчик результатов
-  const resultsCount = document.getElementById('project-filters-results');
   const resultsCountText = document.querySelector('.project-filters-results-count');
   if (resultsCountText) {
     resultsCountText.textContent = visibleCount;
-  }
-  
-  // Показываем/скрываем кнопку результатов только если есть активные фильтры
-  if (resultsCount) {
-    resultsCount.hidden = !hasActiveFilters;
   }
   
   // Показываем сообщение об отсутствии проектов

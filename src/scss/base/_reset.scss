@@ -63,3 +63,35 @@ table {
   border-spacing: 0;
 }
 
+/* Плавная смена темы для всех элементов */
+/* Добавляем transition только для цветовых свойств, чтобы не конфликтовать с существующими transition */
+*,
+*::before,
+*::after {
+  transition-property: 
+    color,
+    background-color,
+    border-color,
+    fill,
+    stroke,
+    box-shadow;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+}
+
+/* Для SVG элементов оставляем только цветовые transition */
+svg,
+svg * {
+  transition-property: fill, stroke;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+}
+
+/* Исключаем медиа элементы, которые не должны иметь transition */
+img,
+video,
+canvas,
+iframe {
+  transition: none;
+}
+

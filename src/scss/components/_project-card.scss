@@ -5,7 +5,7 @@
   flex-direction: column;
   background-color: var(--color-bg-primary);
   border: var(--line-width) solid var(--color-text-primary);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
   cursor: pointer;
   overflow: hidden;
   height: 100%;
@@ -25,6 +25,7 @@
     
     .project-card-button {
       background-color: var(--color-accent);
+      border-color: var(--color-accent);
       color: var(--color-bg-primary);
     }
   }
@@ -36,6 +37,7 @@
   padding-top: 56.25%; /* 16:9 aspect ratio */
   overflow: hidden;
   background-color: var(--color-divider);
+  transition: background-color 0.3s ease;
 }
 
 .project-card-image {
@@ -66,12 +68,22 @@
 .project-card-status {
   align-self: flex-start;
   padding: var(--spacing-xs) var(--spacing-sm);
-  background-color: transparent;
-  color: var(--color-text-primary);
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-semibold);
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  border-radius: 2px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  
+  /* Светлый режим: светлый фон с темным текстом */
+  background-color: var(--theme-light-bg-primary);
+  color: var(--theme-light-text-primary);
+  
+  /* Темный режим: темный фон со светлым текстом */
+  [data-theme='dark'] & {
+    background-color: var(--theme-dark-bg-primary);
+    color: var(--theme-dark-text-primary);
+  }
   
   &::before {
     content: '';
@@ -104,6 +116,7 @@
   font-size: var(--font-size-small);
   border-radius: 2px;
   font-weight: var(--font-weight-medium);
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
   
   /* Светлый режим: темный текст на светлом фоне */
   background-color: var(--theme-light-bg-primary);
@@ -140,6 +153,7 @@
   gap: var(--spacing-xs);
   flex-shrink: 0;
   min-height: calc(var(--font-size-h4) * var(--line-height-heading));
+  transition: color 0.3s ease;
 }
 
 /* Звездочка для избранных проектов */
@@ -151,6 +165,7 @@
   height: 20px;
   flex-shrink: 0;
   color: var(--color-accent);
+  transition: color 0.3s ease;
   
   svg {
     width: 100%;
@@ -158,6 +173,7 @@
     fill: currentColor;
     stroke: currentColor;
     stroke-width: 2;
+    transition: fill 0.3s ease, stroke 0.3s ease;
   }
 }
 
@@ -170,11 +186,13 @@
   white-space: nowrap;
   overflow: hidden;
   min-height: 1.5em;
+  transition: color 0.3s ease;
   
   span {
     position: relative;
     flex-shrink: 0;
     white-space: nowrap;
+    transition: color 0.3s ease;
     
     // Скрываем разделитель для скрытых элементов
     &[style*="display: none"] {
@@ -190,6 +208,7 @@
       content: '•';
       margin-left: var(--spacing-xs);
       color: var(--color-divider);
+      transition: color 0.3s ease;
     }
   }
 }
@@ -219,6 +238,7 @@
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  transition: color 0.3s ease;
 }
 
 .project-card-footer {
@@ -229,12 +249,14 @@
   padding-top: var(--spacing-sm);
   border-top: var(--line-width) solid var(--color-divider);
   flex-shrink: 0;
+  transition: border-color 0.3s ease;
 }
 
 .project-card-role {
   font-size: var(--font-size-small);
   color: var(--color-divider);
   text-transform: capitalize;
+  transition: color 0.3s ease;
 }
 
 .project-card-button {
@@ -251,9 +273,20 @@
   font-family: var(--font-family);
   pointer-events: auto; /* Кнопка остается кликабельной */
   
+  /* При наведении/нажатии на карточку кнопка ведет себя как cta-button */
+  .project-card:hover &,
+  .project-card:active &,
+  .project-card:focus-within & {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-bg-primary);
+  }
+  
+  /* Прямой hover на кнопку также работает */
   &:hover,
   &:focus {
-    background-color: var(--color-text-primary);
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
     color: var(--color-bg-primary);
     outline: none;
   }
