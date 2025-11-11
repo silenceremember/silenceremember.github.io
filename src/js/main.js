@@ -48,7 +48,7 @@ async function onDomReady() {
 
   if (document.querySelector('.slides-container')) {
     initSlidesManager();
-  } else if (document.body.classList.contains('page-404')) {
+  } else if (document.body.classList.contains('page-404') || document.body.classList.contains('page-with-scroll')) {
     initScrollHandler('.page-wrapper');
   }
 

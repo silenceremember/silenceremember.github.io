@@ -166,4 +166,35 @@
     padding-top: var(--spacing-xxl);
     padding-bottom: var(--spacing-xxl);
   }
+
+  /* Стили для страницы проектов в режиме планшета/мобильного */
+  /* Аналогично index.html - скролл через .page-wrapper с обработкой header/footer */
+  body.page-with-scroll {
+    overflow: hidden !important;
+    height: 100vh !important;
+  }
+
+  body.page-with-scroll .page-wrapper {
+    display: block;
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-top: 64px;
+    padding-bottom: 64px;
+    box-sizing: border-box;
+    -ms-overflow-style: none;  
+    scrollbar-width: none;
+  }
+
+  body.page-with-scroll .page-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+
+  body.page-with-scroll .content-wrapper {
+    min-height: 100%;
+    box-sizing: border-box;
+    display: block;
+    padding-top: var(--spacing-xxl);
+    padding-bottom: var(--spacing-xxl);
+  }
 }

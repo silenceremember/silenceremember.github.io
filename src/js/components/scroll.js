@@ -10,15 +10,39 @@ export function initScrollHandler(scrollContainerSelector, isTabletModeCallback)
         return;
     }
 
+    // Проверяем, является ли это страницей со скроллом (projects.html)
+    const isScrollPage = document.body.classList.contains('page-with-scroll');
+    
     let isTabletMode = false;
     let lastScrollTop = 0;
 
-    function handleScroll() {
-        if (!isTabletMode) return;
+    // Определяем контейнер для скролла в зависимости от режима
+    function getScrollElement() {
+        if (isTabletMode) {
+            return scrollContainer;
+        } else if (isScrollPage) {
+            // На десктопе для страниц со скроллом используем window
+            return window;
+        }
+        return scrollContainer;
+    }
 
-        const scrollTop = scrollContainer.scrollTop;
-        const scrollHeight = scrollContainer.scrollHeight;
-        const clientHeight = scrollContainer.clientHeight;
+    function handleScroll() {
+        const scrollElement = getScrollElement();
+        let scrollTop;
+        
+        if (scrollElement === window) {
+            scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        } else {
+            scrollTop = scrollElement.scrollTop;
+        }
+
+        // Для страниц со скроллом на десктопе всегда обрабатываем скролл
+        // Для других страниц только в режиме планшета
+        if (!isScrollPage && !isTabletMode) return;
+
+        const scrollHeight = document.documentElement.scrollHeight;
+        const clientHeight = window.innerHeight;
         const atBottom = scrollTop + clientHeight >= scrollHeight - 2;
 
         if (atBottom) {
@@ -40,20 +64,34 @@ export function initScrollHandler(scrollContainerSelector, isTabletModeCallback)
 
     function checkViewportForScroll() {
         const isNowTablet = window.innerWidth <= 768 || window.innerHeight < 1024;
-        if (isNowTablet === isTabletMode) {
+        if (isNowTablet === isTabletMode && !isScrollPage) {
             return;
         }
 
+        const wasTabletMode = isTabletMode;
         isTabletMode = isNowTablet;
+        
         if (isTabletModeCallback) {
             isTabletModeCallback(isTabletMode);
         }
 
+        // Удаляем старые обработчики
+        if (wasTabletMode) {
+            scrollContainer.removeEventListener('scroll', handleScroll);
+        }
+        if (isScrollPage && !wasTabletMode) {
+            window.removeEventListener('scroll', handleScroll);
+        }
+
+        // Добавляем новые обработчики
         if (isTabletMode) {
             scrollContainer.addEventListener('scroll', handleScroll);
             handleScroll();
+        } else if (isScrollPage) {
+            // На десктопе для страниц со скроллом слушаем window
+            window.addEventListener('scroll', handleScroll, { passive: true });
+            handleScroll();
         } else {
-            scrollContainer.removeEventListener('scroll', handleScroll);
             header.classList.remove('hidden');
             footer.classList.remove('hidden');
             decorativeLines.forEach(line => line.classList.remove('hidden'));

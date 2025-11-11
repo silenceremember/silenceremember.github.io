@@ -22,7 +22,10 @@
 @import 'layout/tablet';
 @import 'layout/mobile';
 
-/* 4. АНИМАЦИИ ПОЯВЛЕНИЯ КОНТЕНТА */
+/* 4. СТИЛИ СТРАНИЦ */
+@import 'pages/projects';
+
+/* 5. АНИМАЦИИ ПОЯВЛЕНИЯ КОНТЕНТА */
 /* Fade-in анимация для контента при загрузке страницы */
 .header-content,
 .footer-content,

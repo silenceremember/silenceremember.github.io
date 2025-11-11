@@ -20,13 +20,15 @@
       } else {
         document.documentElement.setAttribute('data-theme', 'light');
       }
+      // Добавляем класс для скролла к html
+      document.documentElement.classList.add('page-with-scroll');
     })();
   </script>
 
   <!-- Main CSS -->
   <link rel="stylesheet" href="/scss/style.scss">
 </head>
-<body>
+<body class="page-with-scroll">
   <div class="page-wrapper">
     <!-- Header -->
     <header class="header"></header>
@@ -36,9 +38,22 @@
 
     <!-- Main Content -->
     <main class="content-wrapper">
-      <div class="container">
-        <h1>ПОРТФОЛИО</h1>
-        <p>Страница проектов будет добавлена позже.</p>
+      <div class="container projects-page">
+        <!-- Фильтры проектов -->
+        <div class="projects-filters-container" id="projects-filters-container"></div>
+        
+        <!-- Контейнер для проектов -->
+        <div class="projects-grid" id="projects-grid">
+          <!-- Проекты будут загружены через JavaScript -->
+          <div class="projects-loading">
+            <p>Загрузка проектов...</p>
+          </div>
+        </div>
+        
+        <!-- Сообщение об отсутствии проектов (скрыто по умолчанию) -->
+        <div class="projects-empty" id="projects-empty" style="display: none;">
+          <p>Проекты не найдены. Попробуйте изменить фильтры.</p>
+        </div>
       </div>
     </main>
 
@@ -53,6 +68,7 @@
 
   <!-- JavaScript -->
   <script type="module" src="/js/main.js"></script>
+  <script type="module" src="/js/pages/projects.js"></script>
 </body>
 </html>
 
