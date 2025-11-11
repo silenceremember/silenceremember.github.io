@@ -116,18 +116,16 @@
   font-size: var(--font-size-small);
   border-radius: 2px;
   font-weight: var(--font-weight-medium);
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
   
   /* Светлый режим: темный текст на светлом фоне */
   background-color: var(--theme-light-bg-primary);
   color: var(--theme-light-text-primary);
-  border: var(--line-width) solid var(--theme-light-text-primary);
   
   /* Темный режим: светлый текст на темном фоне */
   [data-theme='dark'] & {
     background-color: var(--theme-dark-bg-primary);
     color: var(--theme-dark-text-primary);
-    border: var(--line-width) solid var(--theme-dark-text-primary);
   }
 }
 
@@ -289,10 +287,6 @@
     border-color: var(--color-accent);
     color: var(--color-bg-primary);
     outline: none;
-  }
-  
-  &:active {
-    transform: scale(0.98);
   }
 }
 
