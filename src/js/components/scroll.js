@@ -48,13 +48,14 @@ export function initScrollHandler(scrollContainerSelector, isTabletModeCallback)
         // Для других страниц только в режиме планшета
         if (!isScrollPage && !isTabletMode) return;
 
+        const atTop = scrollTop <= 2;
         const atBottom = scrollTop + clientHeight >= scrollHeight - 2;
         const scrollDelta = Math.abs(scrollTop - lastScrollTop);
         const isScrollingDown = scrollTop > lastScrollTop;
         const isScrollingUp = scrollTop < lastScrollTop;
 
-        if (atBottom) {
-            // Если внизу страницы, показываем хедер и футер
+        if (atTop || atBottom) {
+            // Если вверху или внизу страницы, показываем хедер и футер
             header.classList.remove('hidden');
             footer.classList.remove('hidden');
             decorativeLines.forEach(line => line.classList.remove('hidden'));
