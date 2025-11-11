@@ -243,10 +243,43 @@
 .project-filters-year-button-label {
   flex-grow: 1;
   text-align: center;
+  position: relative;
   
   // Когда счетчик видим (есть класс has-count), выравниваем по левому краю
   .project-filters-year-button.has-count & {
     text-align: left;
+  }
+  
+  // Стили для прочерка: создаем горизонтальную линию 1px, когда у кнопки нет has-count
+  .project-filters-year-button:not(.has-count) & {
+    // Сохраняем высоту, соответствующую размеру шрифта
+    min-height: var(--font-size-small);
+    line-height: var(--font-size-small);
+    
+    &::after {
+      content: '';
+      position: absolute;
+      left: calc(50% - 20px);
+      top: 50%;
+      margin-top: -0.5px;
+      width: 40px;
+      height: 1px;
+      background-color: var(--color-text-primary);
+      // Предотвращаем размытие
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      transition: background-color 0.3s ease-in-out;
+    }
+    
+    // Скрываем символ прочерка, но сохраняем высоту
+    font-size: 0;
+    color: transparent;
+  }
+  
+  // Обработка hover и активных состояний для линии
+  .project-filters-year-button:not(.has-count):hover &::after,
+  .project-filters-year-button:not(.has-count)[aria-expanded="true"] &::after {
+    background-color: var(--color-bg-primary);
   }
 }
 
@@ -357,10 +390,39 @@
   flex-grow: 1;
 }
 
-// Когда опция с прочерком, центрируем текст
+// Когда опция с прочерком, создаем горизонтальную линию 1px
 .project-filters-year-option-dash .project-filters-year-option-label {
   text-align: center;
   flex-grow: 1;
+  position: relative;
+  // Сохраняем высоту, соответствующую размеру шрифта
+  min-height: var(--font-size-small);
+  line-height: var(--font-size-small);
+  
+  &::after {
+    content: '';
+    position: absolute;
+    left: calc(50% - 20px);
+    top: 50%;
+    margin-top: -0.5px;
+    width: 40px;
+    height: 1px;
+    background-color: var(--color-text-primary);
+    // Предотвращаем размытие
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  // Скрываем символ прочерка, но сохраняем высоту
+  font-size: 0;
+  color: transparent;
+}
+
+// Обработка hover для линии в опции с прочерком
+.project-filters-year-option-dash:hover .project-filters-year-option-label::after,
+.project-filters-year-option-dash:focus .project-filters-year-option-label::after {
+  background-color: var(--color-bg-primary);
 }
 
 .project-filters-year-option-count {
