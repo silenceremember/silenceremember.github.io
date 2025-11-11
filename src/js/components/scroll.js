@@ -30,19 +30,23 @@ export function initScrollHandler(scrollContainerSelector, isTabletModeCallback)
     function handleScroll() {
         const scrollElement = getScrollElement();
         let scrollTop;
+        let scrollHeight;
+        let clientHeight;
         
         if (scrollElement === window) {
             scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            scrollHeight = document.documentElement.scrollHeight;
+            clientHeight = window.innerHeight;
         } else {
             scrollTop = scrollElement.scrollTop;
+            scrollHeight = scrollElement.scrollHeight;
+            clientHeight = scrollElement.clientHeight;
         }
 
         // Для страниц со скроллом на десктопе всегда обрабатываем скролл
         // Для других страниц только в режиме планшета
         if (!isScrollPage && !isTabletMode) return;
 
-        const scrollHeight = document.documentElement.scrollHeight;
-        const clientHeight = window.innerHeight;
         const atBottom = scrollTop + clientHeight >= scrollHeight - 2;
 
         if (atBottom) {
@@ -63,11 +67,15 @@ export function initScrollHandler(scrollContainerSelector, isTabletModeCallback)
     }
 
     function checkViewportForScroll() {
-        // Для страницы проектов не учитываем высоту экрана
+        // Для страницы проектов проверяем только ширину (<768)
+        // Для главной страницы проверяем ширину (<768) ИЛИ высоту (<1024)
         const isNowTablet = isScrollPage 
             ? window.innerWidth <= 768 
             : window.innerWidth <= 768 || window.innerHeight < 1024;
-        if (isNowTablet === isTabletMode && !isScrollPage) {
+        
+        // Для страницы проектов проверяем изменение состояния
+        // Для главной страницы всегда проверяем (так как может измениться высота)
+        if (isNowTablet === isTabletMode && isScrollPage) {
             return;
         }
 

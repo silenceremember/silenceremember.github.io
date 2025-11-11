@@ -8,6 +8,9 @@
     min-height: 100vh;
     overflow-y: auto;
     overflow-x: hidden;
+    /* Плавный скролл для унификации с главной страницей */
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: auto; /* Отключаем smooth scroll для одинаковой скорости */
     /* Скрываем скроллбар */
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
@@ -22,6 +25,9 @@
     overflow-x: hidden !important;
     height: auto !important;
     min-height: 100vh;
+    /* Плавный скролл для унификации с главной страницей */
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: auto; /* Отключаем smooth scroll для одинаковой скорости */
     /* Скрываем скроллбар */
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */

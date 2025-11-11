@@ -27,7 +27,6 @@ const initSlidesManager = () => {
     const progressDots = [];
     let slideTransitionTimeout = null; // Таймер для отслеживания перехода слайдов
     let isTabletMode = false;
-    let lastScrollTop = 0;
     const menuButton = document.querySelector('.header-menu-button');
     const ctaSection = document.getElementById('cta-section');
 
@@ -37,36 +36,6 @@ const initSlidesManager = () => {
                 ctaSection.scrollIntoView({ behavior: 'smooth' });
             }
         });
-    }
-
-    function handleTabletScroll() {
-        if (!isTabletMode) return;
-    
-        const scrollTop = slidesContainer.scrollTop;
-        const scrollHeight = slidesContainer.scrollHeight;
-        const clientHeight = slidesContainer.clientHeight;
-
-        // Проверяем, находится ли пользователь в самом низу
-        const atBottom = scrollTop + clientHeight >= scrollHeight - 2; // Допуск в 2px
-    
-        if (atBottom) {
-            // Если внизу, принудительно показываем панели
-            header.classList.remove('hidden');
-            footer.classList.remove('hidden');
-            decorativeLines.forEach(line => line.classList.remove('hidden'));
-        } else if (scrollTop > lastScrollTop && scrollTop > header.offsetHeight) {
-            // Прокрутка вниз
-            header.classList.add('hidden');
-            footer.classList.add('hidden');
-            decorativeLines.forEach(line => line.classList.add('hidden'));
-        } else if (scrollTop < lastScrollTop) {
-            // Прокрутка вверх
-            header.classList.remove('hidden');
-            footer.classList.remove('hidden');
-            decorativeLines.forEach(line => line.classList.remove('hidden'));
-        }
-    
-        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
     }
 
     // Функция проверки размера окна
@@ -193,8 +162,8 @@ const initSlidesManager = () => {
     // Инициализируем индикаторы
     createProgressDots();
     
-    // Инициализируем обработчик скролла
-    initScrollHandler('.slides-container', (isTablet) => {
+    // Инициализируем обработчик скролла (используем .page-wrapper для унификации с портфолио)
+    initScrollHandler('.page-wrapper', (isTablet) => {
         isTabletMode = isTablet;
         checkViewport(isTablet);
     });

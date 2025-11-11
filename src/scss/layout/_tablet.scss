@@ -68,25 +68,39 @@
     max-width: none; /* Убираем ограничение ширины */
     width: 100vw; /* Занимаем всю ширину viewport */
     margin-left: calc(50% - 50vw); /* Растягиваем на всю ширину экрана */
+    min-height: 100%; /* Минимальная высота для скролла */
+    box-sizing: border-box;
   }
 
-  .slides-container.tablet-scroll-mode {
+  /* Для главной страницы используем .page-wrapper для скролла (унификация с портфолио) */
+  body:not(.page-with-scroll) .page-wrapper {
     display: block;
+    height: 100vh;
     overflow-y: auto;
-    height: 100%; /* Уменьшаем высоту, чтобы создать отступ */
-    scroll-snap-type: none;
+    overflow-x: hidden;
     padding-top: 64px;
     padding-bottom: 64px;
     box-sizing: border-box;
-    width: 100%; /* Занимаем всю ширину родителя */
+    /* Плавный скролл для унификации с портфолио */
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: auto; /* Отключаем smooth scroll для одинаковой скорости */
     /* Скрываем скроллбар */
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
   }
 
   /* Скрываем скроллбар для Webkit-браузеров (Chrome, Safari) */
-  .slides-container.tablet-scroll-mode::-webkit-scrollbar {
+  body:not(.page-with-scroll) .page-wrapper::-webkit-scrollbar {
     display: none;
+  }
+
+  .slides-container.tablet-scroll-mode {
+    display: block;
+    overflow: visible; /* Убираем overflow, так как скролл теперь в .page-wrapper */
+    height: auto; /* Высота автоматическая */
+    scroll-snap-type: none;
+    box-sizing: border-box;
+    width: 100%; /* Занимаем всю ширину родителя */
   }
 
   /* Широкий wrapper для каждого слайда - занимает всю ширину */
@@ -186,6 +200,9 @@
     padding-top: 64px;
     padding-bottom: 64px;
     box-sizing: border-box;
+    /* Плавный скролл для унификации с главной страницей */
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: auto; /* Отключаем smooth scroll для одинаковой скорости */
     -ms-overflow-style: none;  
     scrollbar-width: none;
   }
