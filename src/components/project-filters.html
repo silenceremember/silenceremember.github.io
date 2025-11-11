@@ -37,8 +37,14 @@
     <!-- Фильтр по году -->
     <div class="project-filters-group">
       <h3 class="project-filters-group-title">Год</h3>
-      <div class="project-filters-options" data-filter="year">
-        <!-- Годы будут добавлены динамически -->
+      <div class="project-filters-year-dropdown" data-filter="year">
+        <button class="project-filters-year-button" type="button" aria-haspopup="true" aria-expanded="false" id="project-filters-year-button">
+          <span class="project-filters-year-button-label">—</span>
+          <span class="project-filters-year-button-count">0</span>
+        </button>
+        <div class="project-filters-year-dropdown-menu" id="project-filters-year-dropdown-menu" hidden>
+          <!-- Годы будут добавлены динамически -->
+        </div>
       </div>
     </div>
   </div>

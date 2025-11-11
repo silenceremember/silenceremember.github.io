@@ -178,3 +178,245 @@
   }
 }
 
+/* Стили для dropdown фильтра по году */
+.project-filters-year-dropdown {
+  position: relative;
+  display: inline-block;
+  width: auto;
+  min-width: fit-content;
+}
+
+.project-filters-year-button {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: transparent;
+  border: var(--line-width) solid var(--color-divider);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  font-family: var(--font-family);
+  white-space: nowrap;
+  box-sizing: border-box;
+  min-height: calc(var(--font-size-small) + (var(--spacing-xs) * 2) + (var(--line-width) * 2) + 4px);
+  height: calc(var(--font-size-small) + (var(--spacing-xs) * 2) + (var(--line-width) * 2) + 4px);
+  width: auto;
+  min-width: fit-content;
+  
+  // Ширина может быть установлена через JavaScript
+  &[style*="width"] {
+    min-width: unset;
+  }
+  
+  &:hover {
+    border-color: var(--color-accent);
+    background-color: var(--color-accent);
+    color: var(--color-bg-primary);
+  }
+  
+  &:focus {
+    outline: none;
+  }
+  
+  &[aria-expanded="true"] {
+    background-color: var(--color-text-primary);
+    border-color: var(--color-text-primary);
+    color: var(--color-bg-primary);
+    
+    &:hover {
+      border-color: var(--color-accent);
+      background-color: var(--color-accent);
+      color: var(--color-bg-primary);
+    }
+  }
+  
+  // Активное состояние когда выбран год (не прочерк)
+  &.has-count {
+    background-color: var(--color-text-primary);
+    border-color: var(--color-text-primary);
+    color: var(--color-bg-primary);
+    
+    &:hover {
+      border-color: var(--color-accent);
+      background-color: var(--color-accent);
+      color: var(--color-bg-primary);
+    }
+  }
+}
+
+.project-filters-year-button-label {
+  flex-grow: 1;
+  text-align: center;
+  
+  // Когда счетчик видим (есть класс has-count), выравниваем по левому краю
+  .project-filters-year-button.has-count & {
+    text-align: left;
+  }
+}
+
+.project-filters-year-button-count {
+  padding: 1px calc(var(--spacing-xs) + 2px);
+  border-radius: 2px;
+  font-weight: var(--font-weight-bold);
+  display: none; /* Скрыт по умолчанию, показывается только при выборе года */
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  
+  /* Светлый режим: черный фон */
+  background-color: var(--theme-light-text-primary);
+  color: var(--theme-light-bg-primary);
+  
+  /* Темный режим: белый фон */
+  [data-theme='dark'] & {
+    background-color: var(--theme-dark-text-primary);
+    color: var(--theme-dark-bg-primary);
+  }
+  
+  /* Показываем счетчик только когда он видим (управляется через JavaScript) */
+  &[style*="display: flex"],
+  &[style*="display:flex"] {
+    display: flex !important;
+  }
+  
+  .project-filters-year-button:hover &,
+  .project-filters-year-button.has-count & {
+    /* При наведении и активном состоянии инвертируем цвета */
+    background-color: var(--theme-light-bg-primary);
+    color: var(--theme-light-text-primary);
+    
+    [data-theme='dark'] & {
+      background-color: var(--theme-dark-bg-primary);
+      color: var(--theme-dark-text-primary);
+    }
+  }
+}
+
+.project-filters-year-dropdown-menu {
+  position: absolute;
+  top: calc(100% + var(--spacing-xs));
+  left: 0;
+  background-color: var(--color-bg-primary);
+  border: var(--line-width) solid var(--color-divider);
+  z-index: 1000;
+  max-height: 300px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  min-width: 100%;
+  width: max-content;
+  
+  // Ширина может быть установлена через JavaScript
+  &[style*="width"] {
+    min-width: unset;
+  }
+  
+  &[hidden] {
+    display: none !important;
+  }
+  
+  [data-theme='dark'] & {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.project-filters-year-option {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: transparent;
+  border: none;
+  border-bottom: var(--line-width) solid var(--color-divider);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  font-family: var(--font-family);
+  text-align: left;
+  width: 100%;
+  box-sizing: border-box;
+  
+  &:last-child {
+    border-bottom: none;
+  }
+  
+  &:hover {
+    background-color: var(--color-accent);
+    color: var(--color-bg-primary);
+  }
+  
+  &:focus {
+    outline: none;
+    background-color: var(--color-accent);
+    color: var(--color-bg-primary);
+  }
+}
+
+.project-filters-year-option-label {
+  flex-grow: 1;
+}
+
+// Когда опция с прочерком, центрируем текст
+.project-filters-year-option-dash .project-filters-year-option-label {
+  text-align: center;
+  flex-grow: 1;
+}
+
+.project-filters-year-option-count {
+  padding: 1px calc(var(--spacing-xs) + 2px);
+  border-radius: 2px;
+  font-weight: var(--font-weight-bold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  
+  /* Светлый режим: черный фон */
+  background-color: var(--theme-light-text-primary);
+  color: var(--theme-light-bg-primary);
+  
+  /* Темный режим: белый фон */
+  [data-theme='dark'] & {
+    background-color: var(--theme-dark-text-primary);
+    color: var(--theme-dark-bg-primary);
+  }
+  
+  .project-filters-year-option:hover &,
+  .project-filters-year-option:focus & {
+    /* При наведении и активном состоянии инвертируем цвета */
+    background-color: var(--theme-light-bg-primary);
+    color: var(--theme-light-text-primary);
+    
+    [data-theme='dark'] & {
+      background-color: var(--theme-dark-bg-primary);
+      color: var(--theme-dark-text-primary);
+    }
+  }
+}
+
+/* Адаптивность для dropdown года */
+@media (max-width: 768px) {
+  .project-filters-year-dropdown {
+    width: 100%;
+  }
+  
+  .project-filters-year-button {
+    width: 100%;
+  }
+  
+  .project-filters-year-dropdown-menu {
+    max-height: 200px;
+    width: 100%;
+  }
+}
+
