@@ -10,6 +10,10 @@
   overflow: hidden;
   height: 100%;
   min-height: 100%;
+  backface-visibility: hidden; /* Улучшает рендеринг при трансформации */
+  transform: translateZ(0); /* Создает новый слой для GPU ускорения */
+  will-change: transform; /* Оптимизация для анимаций */
+  isolation: isolate; /* Создает новый контекст стекирования для предотвращения промежутков */
   
   /* Для плавного появления/исчезновения при фильтрации */
   opacity: 1;
@@ -26,7 +30,7 @@
   }
   
   &:hover {
-    transform: translateY(-4px);
+    transform: translateY(-4px) translateZ(0);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     
     .project-card-image {
@@ -51,7 +55,12 @@
   padding-top: 56.25%; /* 16:9 aspect ratio */
   overflow: hidden;
   background-color: var(--color-divider);
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease-in-out;
+  flex-shrink: 0; /* Предотвращаем сжатие при трансформации */
+  backface-visibility: hidden; /* Улучшает рендеринг при трансформации */
+  transform: translateZ(0); /* Создает новый слой для GPU ускорения */
+  margin: 0; /* Убираем возможные отступы */
+  border: none; /* Убираем возможные границы */
 }
 
 .project-card-image {
@@ -61,7 +70,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease-in-out;
 }
 
 .project-card-overlay {
@@ -76,7 +85,9 @@
   justify-content: space-between;
   padding: var(--spacing-sm);
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease-in-out;
+  z-index: 2; /* Убеждаемся, что overlay поверх изображения */
+  backface-visibility: hidden; /* Улучшает рендеринг при трансформации */
 }
 
 .project-card-status {
@@ -87,7 +98,7 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   border-radius: 2px;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
   
   /* Светлый режим: светлый фон с темным текстом */
   background-color: var(--theme-light-bg-primary);
@@ -122,7 +133,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--spacing-xs);
-  align-self: flex-end;
+  align-self: flex-start; /* Выравниваем теги слева */
 }
 
 .project-card-tag {
@@ -130,7 +141,7 @@
   font-size: var(--font-size-small);
   border-radius: 2px;
   font-weight: var(--font-weight-medium);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
   
   /* Светлый режим: темный текст на светлом фоне */
   background-color: var(--theme-light-bg-primary);
@@ -152,6 +163,14 @@
   min-height: 0;
   background-color: var(--color-bg-primary);
   transition: background-color 0.3s ease-in-out;
+  flex-shrink: 0; /* Предотвращаем сжатие при трансформации */
+  backface-visibility: hidden; /* Улучшает рендеринг при трансформации */
+  transform: translateZ(0); /* Создает новый слой для GPU ускорения */
+  margin: 0; /* Убираем возможные отступы */
+  margin-top: -1px; /* Перекрываем возможный промежуток */
+  border: none; /* Убираем возможные границы */
+  position: relative; /* Создаем контекст для z-index */
+  z-index: 1; /* Убеждаемся, что content поверх wrapper */
 }
 
 .project-card-title {
@@ -167,7 +186,7 @@
   gap: var(--spacing-xs);
   flex-shrink: 0;
   min-height: calc(var(--font-size-h4) * var(--line-height-heading));
-  transition: color 0.3s ease;
+  transition: color 0.3s ease-in-out;
 }
 
 /* Звездочка для избранных проектов */
@@ -179,7 +198,7 @@
   height: 20px;
   flex-shrink: 0;
   color: var(--color-accent);
-  transition: color 0.3s ease;
+  transition: color 0.3s ease-in-out;
   
   svg {
     width: 100%;
@@ -187,7 +206,7 @@
     fill: currentColor;
     stroke: currentColor;
     stroke-width: 2;
-    transition: fill 0.3s ease, stroke 0.3s ease;
+    transition: fill 0.3s ease-in-out, stroke 0.3s ease-in-out;
   }
 }
 
@@ -200,13 +219,13 @@
   white-space: nowrap;
   overflow: hidden;
   min-height: 1.5em;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease-in-out;
   
   span {
     position: relative;
     flex-shrink: 0;
     white-space: nowrap;
-    transition: color 0.3s ease;
+    transition: color 0.3s ease-in-out;
     
     // Скрываем разделитель для скрытых элементов
     &[style*="display: none"] {
@@ -222,7 +241,7 @@
       content: '•';
       margin-left: var(--spacing-xs);
       color: var(--color-divider);
-      transition: color 0.3s ease;
+      transition: color 0.3s ease-in-out;
     }
   }
 }
@@ -252,7 +271,7 @@
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease-in-out;
 }
 
 .project-card-footer {
@@ -263,14 +282,14 @@
   padding-top: var(--spacing-sm);
   border-top: var(--line-width) solid var(--color-divider);
   flex-shrink: 0;
-  transition: border-color 0.3s ease;
+  transition: border-color 0.3s ease-in-out;
 }
 
 .project-card-role {
   font-size: var(--font-size-small);
   color: var(--color-divider);
   text-transform: capitalize;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease-in-out;
 }
 
 .project-card-button {
@@ -283,7 +302,7 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, border-color 0.3s ease-in-out;
   font-family: var(--font-family);
   pointer-events: auto; /* Кнопка остается кликабельной */
   

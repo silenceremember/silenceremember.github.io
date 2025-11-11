@@ -4,6 +4,16 @@
 
 import { loadHTML } from '../layout.js';
 
+// Константы для унифицированных анимаций карточек
+const CARD_ANIMATION = {
+  duration: '0.3s',
+  timing: 'ease-in-out',
+  translateYAppear: '10px',    // Начальное смещение при появлении (снизу)
+  translateYDisappear: '-10px', // Конечное смещение при исчезновении (вверх)
+  translateYFinal: '0',          // Финальная позиция
+  timeout: 300                   // Таймаут в миллисекундах
+};
+
 // Загрузка компонентов
 let projectCardTemplate = null;
 let projectFiltersTemplate = null;
