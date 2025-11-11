@@ -15,6 +15,7 @@ export function initScrollHandler(scrollContainerSelector, isTabletModeCallback)
     
     let isTabletMode = false;
     let lastScrollTop = 0;
+    let isInitialized = false;
 
     // Определяем контейнер для скролла в зависимости от режима
     function getScrollElement() {
@@ -48,16 +49,23 @@ export function initScrollHandler(scrollContainerSelector, isTabletModeCallback)
         if (!isScrollPage && !isTabletMode) return;
 
         const atBottom = scrollTop + clientHeight >= scrollHeight - 2;
+        const scrollDelta = Math.abs(scrollTop - lastScrollTop);
+        const isScrollingDown = scrollTop > lastScrollTop;
+        const isScrollingUp = scrollTop < lastScrollTop;
 
         if (atBottom) {
+            // Если внизу страницы, показываем хедер и футер
             header.classList.remove('hidden');
             footer.classList.remove('hidden');
             decorativeLines.forEach(line => line.classList.remove('hidden'));
-        } else if (scrollTop > lastScrollTop && scrollTop > header.offsetHeight) {
+        } else if (isScrollingDown && scrollDelta > 1) {
+            // Прокрутка вниз: скрываем хедер и футер
+            // Уменьшили порог до 1px для более отзывчивого скрытия
             header.classList.add('hidden');
             footer.classList.add('hidden');
             decorativeLines.forEach(line => line.classList.add('hidden'));
-        } else if (scrollTop < lastScrollTop) {
+        } else if (isScrollingUp && scrollDelta > 1) {
+            // Прокрутка вверх: показываем хедер и футер
             header.classList.remove('hidden');
             footer.classList.remove('hidden');
             decorativeLines.forEach(line => line.classList.remove('hidden'));
@@ -73,13 +81,15 @@ export function initScrollHandler(scrollContainerSelector, isTabletModeCallback)
             ? window.innerWidth <= 768 
             : window.innerWidth <= 768 || window.innerHeight < 1024;
         
-        // Для страницы проектов проверяем изменение состояния
+        const wasTabletMode = isTabletMode;
+        
+        // Для страницы проектов проверяем изменение состояния только если режим действительно изменился
         // Для главной страницы всегда проверяем (так как может измениться высота)
-        if (isNowTablet === isTabletMode && isScrollPage) {
+        // НО: не пропускаем инициализацию при первой загрузке
+        if (isNowTablet === isTabletMode && isScrollPage && isInitialized) {
             return;
         }
-
-        const wasTabletMode = isTabletMode;
+        
         isTabletMode = isNowTablet;
         
         if (isTabletModeCallback) {
@@ -92,6 +102,23 @@ export function initScrollHandler(scrollContainerSelector, isTabletModeCallback)
         }
         if (isScrollPage && !wasTabletMode) {
             window.removeEventListener('scroll', handleScroll);
+        }
+
+        // Инициализируем lastScrollTop перед добавлением обработчиков
+        // Используем обновленное значение isTabletMode
+        let scrollElement;
+        if (isTabletMode) {
+            scrollElement = scrollContainer;
+        } else if (isScrollPage) {
+            scrollElement = window;
+        } else {
+            scrollElement = scrollContainer;
+        }
+        
+        if (scrollElement === window) {
+            lastScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        } else {
+            lastScrollTop = scrollElement.scrollTop;
         }
 
         // Добавляем новые обработчики
@@ -107,6 +134,8 @@ export function initScrollHandler(scrollContainerSelector, isTabletModeCallback)
             footer.classList.remove('hidden');
             decorativeLines.forEach(line => line.classList.remove('hidden'));
         }
+        
+        isInitialized = true;
     }
 
     checkViewportForScroll();
