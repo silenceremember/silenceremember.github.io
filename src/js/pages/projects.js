@@ -3,6 +3,7 @@
  */
 
 import { loadHTML } from '../layout.js';
+import { getRoleLabel } from '../utils/role-mapper.js';
 
 // Константы для унифицированных анимаций карточек
 const CARD_ANIMATION = {
@@ -134,12 +135,7 @@ function createProjectCard(project) {
   }
   
   if (role) {
-    const roleLabels = {
-      'solo': 'Соло',
-      'team-lead': 'Тимлид',
-      'team': 'В команде'
-    };
-    role.textContent = roleLabels[project.role] || project.role;
+    role.textContent = getRoleLabel(project.role, false, project.teamName);
   }
   
   // Добавляем data-атрибут для фильтрации
@@ -1114,6 +1110,100 @@ async function initProjectsPage() {
   if (svgLoaderModule.default) {
     svgLoaderModule.default();
   }
+  
+  // Инициализируем кнопку "Наверх"
+  initScrollToTop();
+}
+
+/**
+ * Инициализирует кнопку "Наверх"
+ */
+function initScrollToTop() {
+  const scrollToTopButton = document.getElementById('scroll-to-top');
+  if (!scrollToTopButton) return;
+  
+  const footer = document.querySelector('.footer');
+  
+  // Порог для показа кнопки (в пикселях от верха страницы)
+  const SCROLL_THRESHOLD = 300;
+  
+  // Функция для обновления позиции кнопки в зависимости от состояния футера
+  function updateButtonPosition() {
+    if (!footer) {
+      // Если футера нет, убираем класс footer-hidden (используем стандартную позицию)
+      scrollToTopButton.classList.remove('footer-hidden');
+      return;
+    }
+    
+    // Проверяем, скрыт ли футер
+    const isFooterHidden = footer.classList.contains('hidden');
+    
+    if (isFooterHidden) {
+      scrollToTopButton.classList.add('footer-hidden');
+    } else {
+      scrollToTopButton.classList.remove('footer-hidden');
+    }
+  }
+  
+  // Обработчик скролла
+  function handleScroll() {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    if (scrollTop > SCROLL_THRESHOLD) {
+      // Сначала показываем элемент
+      if (scrollToTopButton.style.display === 'none') {
+        scrollToTopButton.style.display = 'flex';
+        // Ждем один кадр, чтобы браузер успел применить display, затем добавляем класс для анимации
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            scrollToTopButton.classList.add('visible');
+          });
+        });
+      } else {
+        // Если элемент уже видим, просто добавляем класс
+        scrollToTopButton.classList.add('visible');
+      }
+    } else {
+      // Сначала убираем класс для анимации исчезновения
+      scrollToTopButton.classList.remove('visible');
+      // Убираем display после завершения анимации
+      setTimeout(() => {
+        if (!scrollToTopButton.classList.contains('visible')) {
+          scrollToTopButton.style.display = 'none';
+        }
+      }, 300);
+    }
+    
+    // Обновляем позицию кнопки в зависимости от состояния футера
+    updateButtonPosition();
+  }
+  
+  // Обработчик клика - плавный скролл наверх
+  scrollToTopButton.addEventListener('click', () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
+  
+  // Наблюдаем за изменениями класса футера
+  if (footer) {
+    const footerObserver = new MutationObserver(() => {
+      updateButtonPosition();
+    });
+    
+    footerObserver.observe(footer, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+  }
+  
+  // Добавляем обработчик скролла
+  window.addEventListener('scroll', handleScroll, { passive: true });
+  
+  // Проверяем начальное состояние
+  handleScroll();
+  updateButtonPosition();
 }
 
 // Инициализация при загрузке DOM

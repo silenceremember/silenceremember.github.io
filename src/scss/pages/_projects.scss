@@ -57,7 +57,7 @@
     min-height: auto;
     height: auto;
     display: block !important; /* Меняем с grid на block для нормального потока документа */
-    padding-top: calc(64px + var(--spacing-xl));
+    padding-top: 64px; /* Только высота header, без дополнительного отступа */
     padding-bottom: calc(64px + var(--spacing-xl));
   }
 
@@ -392,6 +392,85 @@
   
   .projects-section-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Кнопка "Наверх" */
+.scroll-to-top {
+  position: fixed;
+  bottom: calc(64px + var(--spacing-md));
+  right: calc((100% - var(--max-width-large)) / 2 + var(--spacing-lg));
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-text-primary); /* Белый primary - заливка */
+  border: none; /* Без обводки */
+  border-radius: 50%;
+  color: var(--color-bg-primary); /* bg - стрелка */
+  cursor: pointer;
+  z-index: 15; /* Выше footer (z-index: 10) и декоративных линий (z-index: 12) */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(0); /* Без смещения по умолчанию */
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out,
+              background-color 0.3s ease-in-out, color 0.3s ease-in-out,
+              bottom 0.3s ease; /* Синхронизировано с футером (transform 0.3s ease) */
+  padding: 0;
+  box-sizing: border-box;
+  
+  svg {
+    width: 24px;
+    height: 24px;
+    display: block;
+  }
+  
+  &:hover,
+  &:focus {
+    background-color: var(--color-accent);
+    color: var(--color-bg-primary);
+    outline: none;
+  }
+  
+  &.visible {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out, transform 0.3s ease-in-out,
+                background-color 0.3s ease-in-out, color 0.3s ease-in-out,
+                bottom 0.3s ease; /* Добавляем transform в transition только когда видна */
+  }
+  
+  /* Когда футер скрыт, кнопка перемещается ниже */
+  &.footer-hidden {
+    bottom: var(--spacing-md);
+  }
+}
+
+/* Адаптивность для кнопки "Наверх" */
+@media (max-width: 1200px) {
+  .scroll-to-top {
+    right: var(--spacing-lg);
+  }
+}
+
+@media (max-width: 768px) {
+  .scroll-to-top {
+    /* На мобильных устройствах футер может быть виден или скрыт */
+    bottom: calc(64px + var(--spacing-md));
+    right: var(--spacing-md);
+    width: 44px;
+    height: 44px;
+    
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+    
+    /* Когда футер скрыт на мобильных устройствах */
+    &.footer-hidden {
+      bottom: var(--spacing-md);
+    }
   }
 }
 

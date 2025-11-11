@@ -39,6 +39,11 @@
       "links": {},
       "tags": ["unity", "bolt", "economy", "simulator", "prototype", "skillbox"],
       "featured": true,
+      "displayMeta": {
+        "genre": "ARCADE ECONOMY SIMULATOR",
+        "platform": "PC (UNITY)"
+      },
+      "keyContribution": "Спроектировал с нуля и реализовал полный игровой цикл: от механики крафта до системы экономики с высоким риском и наградой.",
       "technologies": ["Unity", "Bolt Visual Scripting", "C#"],
       "teamSize": 1,
       "duration": "3 месяца"
@@ -87,6 +92,11 @@
       "links": {},
       "tags": ["top-down", "shooter", "team-lead", "gamedesign", "narrative", "ranhigs"],
       "featured": true,
+      "displayMeta": {
+        "genre": "TOP DOWN SHOOTER",
+        "platform": "PC (В РАЗРАБОТКЕ)"
+      },
+      "keyContribution": "Руковожу командой в качестве гейм-дизайнера и тимлида. Отвечаю за стратегическое видение (Vision), лор (Bible) и проектирование ключевых систем (GDD, UI Flow), формируя ТЗ для разработки.",
       "technologies": [],
       "teamSize": 5,
       "teamName": "2IQ"
@@ -113,6 +123,11 @@
       },
       "tags": ["unity", "editor-tool", "csharp", "shader-graph", "tool"],
       "featured": true,
+      "displayMeta": {
+        "genre": "UNITY EDITOR TOOL",
+        "platform": "C# (UNITY)"
+      },
+      "keyContribution": "Выявил и решил проблему отсутствия сетки в Unity Shader Graph, создав уникальный редакторный аддон с помощью рефлексии.",
       "technologies": ["Unity", "C#", "Reflection"],
       "teamSize": 1
     },
