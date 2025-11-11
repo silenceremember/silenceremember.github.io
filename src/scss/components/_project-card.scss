@@ -34,7 +34,7 @@
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     
     .project-card-image {
-      transform: scale(1.05);
+      transform: scale3d(1.05, 1.05, 1) translateZ(0);
     }
     
     .project-card-overlay {
@@ -71,6 +71,17 @@
   height: 100%;
   object-fit: cover;
   transition: transform 0.3s ease-in-out;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  will-change: transform;
+  /* Улучшаем четкость изображений при масштабировании */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: auto;
+  /* Предотвращаем размытие при масштабировании */
+  -webkit-transform-origin: center center;
+  transform-origin: center center;
 }
 
 .project-card-overlay {
