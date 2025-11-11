@@ -1,0 +1,139 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2025-01-XX",
+  "about": "Я занимаюсь геймдизайном уже несколько лет, создавая игры, которые не только развлекают, но и заставляют игроков задуматься. Моя специализация включает не только проектирование сложных игровых систем, но и обеспечение связи между такими системами и нарративом.",
+  "workExperience": [
+    {
+      "id": "aiti-novatsiya",
+      "period": {
+        "start": "2023-11",
+        "end": "2024-08",
+        "duration": "10 месяцев"
+      },
+      "company": "ООО Айти Новация",
+      "position": "Инженер технической поддержки",
+      "responsibilities": [
+        "Обеспечение технической поддержки клиентов",
+        "Решение проблем и оптимизация рабочих процессов"
+      ],
+      "achievements": [],
+      "skills": [
+        "Работа с клиентами",
+        "Решение технических проблем",
+        "Оптимизация процессов"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "id": "ranhigs-masters",
+      "period": {
+        "start": "2024",
+        "end": "2026"
+      },
+      "institution": "Российская академия народного хозяйства и государственной службы при Президенте Российской Федерации",
+      "institutionShort": "РАНХиГС",
+      "direction": "09.04.03 Прикладная информатика — Разработка компьютерных игр (Гейм-дизайн)",
+      "degree": "Магистр",
+      "graduationYear": 2026,
+      "status": "in-progress",
+      "location": "Москва"
+    },
+    {
+      "id": "kubstu-bachelors",
+      "period": {
+        "start": "2020",
+        "end": "2024"
+      },
+      "institution": "Кубанский государственный технологический университет",
+      "institutionShort": "КубГТУ",
+      "direction": "10.03.01 Информационная безопасность",
+      "degree": "Бакалавр",
+      "graduationYear": 2024,
+      "status": "completed",
+      "location": "Краснодар"
+    }
+  ],
+  "skills": {
+    "gamedev": [
+      "Unity",
+      "Unreal Engine"
+    ],
+    "2d-graphics": [
+      "Adobe Photoshop",
+      "Aseprite",
+      "Krita",
+      "Figma"
+    ],
+    "3d-graphics": [
+      "Blender",
+      "Marmoset Toolbag",
+      "Rizom UV",
+      "Substance Painter"
+    ],
+    "development": [
+      "Visual Studio Code",
+      "C#"
+    ],
+    "documentation": [
+      "Google Docs",
+      "Google Sheets",
+      "Figma",
+      "Miro",
+      "FigJam"
+    ],
+    "project-management": [
+      "Git",
+      "GitHub",
+      "GitHub Projects"
+    ],
+    "additional": [
+      "Notion",
+      "Jira",
+      "Confluence"
+    ]
+  },
+  "certificates": [
+    {
+      "id": "foundational-csharp",
+      "title": "Foundational C# with Microsoft",
+      "organization": "Microsoft",
+      "year": 2025,
+      "url": null
+    }
+  ],
+  "courses": [
+    {
+      "id": "chatgpt-prompt-engineering",
+      "title": "ChatGPT Prompt Engineering for Developers",
+      "organization": "Deeplearning.AI",
+      "year": 2024,
+      "url": null
+    },
+    {
+      "id": "draft-punk",
+      "title": "Draft Punk. 3D-моделирование объектов",
+      "organization": "XYZ School",
+      "year": 2022,
+      "url": null
+    },
+    {
+      "id": "texturniy-trip",
+      "title": "Текстурный трип",
+      "organization": "XYZ School",
+      "year": 2022,
+      "url": null
+    }
+  ],
+  "languages": [
+    {
+      "language": "Русский",
+      "level": "Родной"
+    },
+    {
+      "language": "Английский",
+      "level": "Продвинутый"
+    }
+  ]
+}
+

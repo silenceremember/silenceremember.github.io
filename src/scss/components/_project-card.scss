@@ -1,0 +1,224 @@
+/* Стили для карточки проекта */
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-bg-primary);
+  border: var(--line-width) solid var(--color-text-primary);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  overflow: hidden;
+  height: 100%;
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    
+    .project-card-image {
+      transform: scale(1.05);
+    }
+    
+    .project-card-overlay {
+      opacity: 1;
+    }
+    
+    .project-card-button {
+      background-color: var(--color-accent);
+      color: var(--color-bg-primary);
+    }
+  }
+}
+
+.project-card-image-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 aspect ratio */
+  overflow: hidden;
+  background-color: var(--color-divider);
+}
+
+.project-card-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.project-card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: var(--spacing-sm);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.project-card-status {
+  align-self: flex-start;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: var(--color-accent);
+  color: var(--color-bg-primary);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  
+  &::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: currentColor;
+    border-radius: 50%;
+    margin-right: var(--spacing-xs);
+  }
+  
+  &.status-completed::before {
+    background-color: #4CAF50;
+  }
+  
+  &.status-in-development::before {
+    background-color: #FF9800;
+  }
+}
+
+.project-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+  align-self: flex-end;
+}
+
+.project-card-tag {
+  padding: 4px var(--spacing-xs);
+  background-color: rgba(255, 255, 255, 0.9);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-small);
+  border-radius: 2px;
+}
+
+.project-card-content {
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-md);
+  flex-grow: 1;
+  gap: var(--spacing-sm);
+}
+
+.project-card-title {
+  font-size: var(--font-size-h4);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-heading);
+  color: var(--color-text-primary);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+.project-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-small);
+  color: var(--color-divider);
+  
+  span {
+    position: relative;
+    
+    &:not(:last-child)::after {
+      content: '•';
+      margin-left: var(--spacing-xs);
+      color: var(--color-divider);
+    }
+  }
+}
+
+.project-card-category {
+  text-transform: uppercase;
+  font-weight: var(--font-weight-semibold);
+}
+
+.project-card-type {
+  text-transform: capitalize;
+}
+
+.project-card-year {
+  font-weight: var(--font-weight-medium);
+}
+
+.project-card-description {
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  color: var(--color-text-primary);
+  margin: 0;
+  flex-grow: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.project-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  padding-top: var(--spacing-sm);
+  border-top: var(--line-width) solid var(--color-divider);
+}
+
+.project-card-role {
+  font-size: var(--font-size-small);
+  color: var(--color-divider);
+  text-transform: capitalize;
+}
+
+.project-card-button {
+  padding: var(--spacing-xs) var(--spacing-md);
+  background-color: transparent;
+  border: var(--line-width) solid var(--color-text-primary);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  font-family: var(--font-family);
+  
+  &:hover,
+  &:focus {
+    background-color: var(--color-text-primary);
+    color: var(--color-bg-primary);
+    outline: none;
+  }
+  
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .project-card-content {
+    padding: var(--spacing-sm);
+  }
+  
+  .project-card-title {
+    font-size: var(--font-size-h5);
+  }
+  
+  .project-card-overlay {
+    opacity: 1; /* Всегда показываем overlay на мобильных */
+  }
+}
+

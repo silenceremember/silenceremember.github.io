@@ -1,0 +1,182 @@
+/* Стили для фильтров проектов */
+
+.project-filters {
+  background-color: var(--color-bg-primary);
+  border: var(--line-width) solid var(--color-text-primary);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+}
+
+.project-filters-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-md);
+  border-bottom: var(--line-width) solid var(--color-divider);
+}
+
+.project-filters-title {
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+.project-filters-clear {
+  padding: var(--spacing-xs) var(--spacing-md);
+  background-color: transparent;
+  border: var(--line-width) solid var(--color-text-primary);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: var(--font-family);
+  
+  &:hover,
+  &:focus {
+    background-color: var(--color-accent);
+    color: var(--color-bg-primary);
+    border-color: var(--color-accent);
+    outline: none;
+  }
+  
+  &[hidden] {
+    display: none;
+  }
+}
+
+.project-filters-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.project-filters-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.project-filters-group-title {
+  font-size: var(--font-size-h5);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.project-filters-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+}
+
+.project-filters-option {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: transparent;
+  border: var(--line-width) solid var(--color-divider);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  font-family: var(--font-family);
+  text-align: left;
+  
+  &:hover {
+    border-color: var(--color-text-primary);
+  }
+  
+  &[aria-pressed="true"] {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-bg-primary);
+    
+    .project-filters-option-count {
+      background-color: rgba(255, 255, 255, 0.2);
+      color: var(--color-bg-primary);
+    }
+  }
+  
+  &:focus {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+}
+
+.project-filters-option-label {
+  flex-grow: 1;
+}
+
+.project-filters-option-count {
+  padding: 2px var(--spacing-xs);
+  background-color: var(--color-divider);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+  border-radius: 2px;
+  min-width: 24px;
+  text-align: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.project-filters-results {
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-md);
+  border-top: var(--line-width) solid var(--color-divider);
+  text-align: center;
+}
+
+.project-filters-results-text {
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+}
+
+.project-filters-results-count {
+  font-weight: var(--font-weight-bold);
+  color: var(--color-accent);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .project-filters {
+    padding: var(--spacing-md);
+  }
+  
+  .project-filters-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+  }
+  
+  .project-filters-title {
+    font-size: var(--font-size-h4);
+  }
+  
+  .project-filters-options {
+    flex-direction: column;
+  }
+  
+  .project-filters-option {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+/* Стили для активных фильтров в мобильной версии */
+@media (max-width: 768px) {
+  .project-filters-option[aria-pressed="true"] {
+    order: -1; /* Активные фильтры показываются первыми */
+  }
+}
+

@@ -1,0 +1,36 @@
+<div class="document-viewer-modal" role="dialog" aria-modal="true" aria-labelledby="document-viewer-title" hidden>
+  <div class="document-viewer-backdrop"></div>
+  <div class="document-viewer-container">
+    <div class="document-viewer-header">
+      <h2 class="document-viewer-title" id="document-viewer-title"></h2>
+      <div class="document-viewer-actions">
+        <button class="document-viewer-button document-viewer-fullscreen" aria-label="Полноэкранный режим" title="Полноэкранный режим">
+          <span>⛶</span>
+        </button>
+        <a class="document-viewer-button document-viewer-download" href="" download aria-label="Скачать документ" title="Скачать документ">
+          <span>⬇</span>
+        </a>
+        <button class="document-viewer-button document-viewer-close" aria-label="Закрыть" title="Закрыть">
+          <span>✕</span>
+        </button>
+      </div>
+    </div>
+    <div class="document-viewer-content">
+      <div class="document-viewer-watermark">
+        <img src="assets/images/logo-icon.svg" alt="Logo" class="document-viewer-logo">
+      </div>
+      <div class="document-viewer-iframe-wrapper">
+        <iframe class="document-viewer-iframe" src="" title="Просмотр документа" loading="lazy"></iframe>
+      </div>
+      <div class="document-viewer-loading">
+        <div class="document-viewer-spinner"></div>
+        <p>Загрузка документа...</p>
+      </div>
+      <div class="document-viewer-error" hidden>
+        <p>Не удалось загрузить документ.</p>
+        <a class="document-viewer-error-link" href="" download>Скачать файл напрямую</a>
+      </div>
+    </div>
+  </div>
+</div>
+

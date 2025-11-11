@@ -1,0 +1,81 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2025-01-XX",
+  "discord": {
+    "link": "https://discord.gg/...",
+    "description": "Присоединяйтесь к нашему сообществу разработчиков игр",
+    "stats": {
+      "enabled": false,
+      "apiUrl": null
+    }
+  },
+  "donationLinks": [
+    {
+      "id": "patreon",
+      "platform": "Patreon",
+      "url": "https://patreon.com/...",
+      "description": "Поддержите разработку игр на Patreon",
+      "icon": "patreon"
+    },
+    {
+      "id": "boosty",
+      "platform": "Boosty",
+      "url": "https://boosty.to/...",
+      "description": "Поддержка через Boosty",
+      "icon": "boosty"
+    },
+    {
+      "id": "ko-fi",
+      "platform": "Ko-fi",
+      "url": "https://ko-fi.com/...",
+      "description": "Поддержка через Ko-fi",
+      "icon": "ko-fi"
+    }
+  ],
+  "socialLinks": {
+    "linkedin": "https://linkedin.com/in/...",
+    "headhunter": "https://hh.ru/resume/...",
+    "telegram": "https://t.me/...",
+    "github": "https://github.com/silenceremember",
+    "itch": "https://silenceremember.itch.io/"
+  },
+  "plans": [
+    {
+      "id": "youtube-channel",
+      "title": "YouTube видео- и стрим-канал",
+      "description": "Создание канала о геймдизайне и разработке игр",
+      "status": "planned",
+      "priority": "high"
+    },
+    {
+      "id": "more-publications",
+      "title": "Больше публикаций",
+      "description": "Продолжение научной деятельности",
+      "status": "in-progress",
+      "priority": "high"
+    },
+    {
+      "id": "unique-games",
+      "title": "Разработка своих уникальных игр",
+      "description": "Создание коммерческих проектов",
+      "status": "planned",
+      "priority": "medium"
+    },
+    {
+      "id": "vkr-completion",
+      "title": "Завершение и сдача ВКР",
+      "description": "Завершение дипломной работы",
+      "status": "in-progress",
+      "priority": "high"
+    },
+    {
+      "id": "phd",
+      "title": "Аспирантура",
+      "description": "Поступление в аспирантуру после магистратуры в РАНХиГС",
+      "status": "planned",
+      "priority": "medium"
+    }
+  ],
+  "upcomingEvents": []
+}
+
