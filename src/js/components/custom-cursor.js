@@ -31,7 +31,7 @@ const initCustomCursor = () => {
   const lastY = sessionStorage.getItem('cursorY');
 
   const interactiveSelector =
-    'a, button, .header-language, .header-theme, .social-link, .footer-decorative-square, .header-menu-button';
+    'a, button, .header-language, .header-theme, .social-link, .footer-decorative-square, .header-menu-button, .project-card, .research-card';
 
   if (lastX && lastY) {
     const x = Number(lastX);

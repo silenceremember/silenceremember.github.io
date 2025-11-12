@@ -407,11 +407,23 @@
     opacity: 0.5;
     cursor: not-allowed;
     
-    &:hover {
+    /* Отключаем hover эффекты для disabled кнопки */
+    &:hover,
+    &:focus {
       background-color: transparent;
       border-color: var(--color-text-primary);
       color: var(--color-text-primary);
+      outline: none;
     }
+  }
+  
+  /* Отключаем hover эффекты при hover на карточку для disabled кнопки */
+  .research-card:hover &:disabled,
+  .research-card:active &:disabled,
+  .research-card:focus-within &:disabled {
+    background-color: transparent;
+    border-color: var(--color-text-primary);
+    color: var(--color-text-primary);
   }
 }
 
