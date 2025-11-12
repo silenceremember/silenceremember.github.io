@@ -6,6 +6,7 @@
   background-color: var(--color-bg-primary);
   border: var(--line-width) solid var(--color-text-primary);
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out, border-color 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+  cursor: pointer;
   overflow: hidden;
   height: 100%;
   min-height: 100%;
@@ -38,6 +39,34 @@
   /* Особый стиль для ВКР */
   &.research-card-vkr {
     background-color: var(--color-accent-bg);
+  }
+  
+  &:hover {
+    transform: translate3d(0, -4px, 0);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    will-change: transform;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    transform-origin: center top;
+    
+    .research-card-button {
+      background-color: var(--color-accent);
+      border-color: var(--color-accent);
+      color: var(--color-bg-primary);
+    }
+    
+    .research-card-keywords {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+  
+  /* Убираем will-change когда не hover */
+  &:not(:hover) {
+    will-change: auto;
   }
 }
 
@@ -284,6 +313,9 @@
   gap: var(--spacing-xs);
   margin-top: var(--spacing-xs);
   flex-shrink: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
   
   &[style*="display: none"] {
     display: none !important;
@@ -301,7 +333,7 @@
   box-sizing: border-box;
   position: relative;
   
-  /* Подложка цвета текста с прозрачностью, текст цвета bg */
+  /* Подложка цвета текста, текст цвета bg */
   color: var(--color-bg-primary);
   
   &::before {
@@ -312,7 +344,7 @@
     right: 0;
     bottom: 0;
     background-color: var(--color-text-primary);
-    opacity: 0.25;
+    opacity: 1;
     border-radius: 2px;
     z-index: -1;
   }
@@ -361,6 +393,16 @@
   border-style: solid;
   box-sizing: border-box;
   
+  /* При наведении/нажатии на карточку кнопка ведет себя как cta-button */
+  .research-card:hover &,
+  .research-card:active &,
+  .research-card:focus-within & {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-bg-primary);
+  }
+  
+  /* Прямой hover на кнопку также работает */
   &:hover,
   &:focus {
     background-color: var(--color-accent);
@@ -394,6 +436,12 @@
   .research-card-description {
     font-size: var(--font-size-small);
     padding: var(--spacing-sm);
+  }
+  
+  /* На мобильных теги всегда видны */
+  .research-card-keywords {
+    opacity: 1;
+    visibility: visible;
   }
 }
 

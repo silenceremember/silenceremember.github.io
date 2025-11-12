@@ -214,6 +214,22 @@ function createResearchCard(publication) {
     }
   }
   
+  // Обработчик клика для открытия документа
+  // Вся карточка работает как кнопка
+  if (publication.pdf_url) {
+    card.addEventListener('click', (e) => {
+      // Предотвращаем всплытие события от кнопки "ЧИТАТЬ"
+      // но все равно открываем документ
+      e.stopPropagation();
+      openDocument({
+        url: publication.pdf_url,
+        title: publication.title,
+        isDraft: publication.status === 'in-progress',
+        draftNote: publication.status === 'in-progress' ? 'Черновик' : null
+      });
+    });
+  }
+  
   // Добавляем data-атрибуты
   card.setAttribute('data-research-id', publication.id);
   card.setAttribute('data-type', publication.type);
