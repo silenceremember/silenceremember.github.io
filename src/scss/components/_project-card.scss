@@ -10,15 +10,14 @@
   overflow: hidden;
   height: 100%;
   min-height: 100%;
-  backface-visibility: hidden; /* Улучшает рендеринг при трансформации */
-  transform: translateZ(0); /* Создает новый слой для GPU ускорения */
-  will-change: transform; /* Оптимизация для анимаций */
-  isolation: isolate; /* Создает новый контекст стекирования для предотвращения промежутков */
   /* Исправление размытых границ */
   border-style: solid;
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  /* Выравнивание по целым пикселям для четкости */
+  position: relative;
   
   /* Для плавного появления/исчезновения при фильтрации */
   opacity: 1;
@@ -35,11 +34,12 @@
   }
   
   &:hover {
-    transform: translateY(-4px) translateZ(0);
+    transform: translateY(-4px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    will-change: transform; /* Добавляем только при hover для оптимизации */
     
     .project-card-image {
-      transform: scale3d(1.05, 1.05, 1) translateZ(0);
+      transform: scale(1.05);
     }
     
     .project-card-overlay {
@@ -51,6 +51,11 @@
       border-color: var(--color-accent);
       color: var(--color-bg-primary);
     }
+  }
+  
+  /* Убираем will-change когда не hover */
+  &:not(:hover) {
+    will-change: auto;
   }
 }
 
@@ -76,17 +81,15 @@
   height: 100%;
   object-fit: cover;
   transition: transform 0.3s ease-in-out;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-  will-change: transform;
-  /* Улучшаем четкость изображений при масштабировании */
+  /* Улучшаем четкость изображений */
   image-rendering: -webkit-optimize-contrast;
   image-rendering: auto;
   /* Предотвращаем размытие при масштабировании */
-  -webkit-transform-origin: center center;
   transform-origin: center center;
+  
+  .project-card:hover & {
+    will-change: transform; /* Добавляем только при hover */
+  }
 }
 
 .project-card-overlay {
@@ -103,7 +106,6 @@
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
   z-index: 2; /* Убеждаемся, что overlay поверх изображения */
-  backface-visibility: hidden; /* Улучшает рендеринг при трансформации */
 }
 
 .project-card-status {
@@ -116,8 +118,6 @@
   border-radius: 2px;
   transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
   /* Исправление размытия */
-  transform: translateZ(0);
-  backface-visibility: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
@@ -140,8 +140,6 @@
     background-color: currentColor;
     border-radius: 50%;
     margin-right: var(--spacing-xs);
-    transform: translateZ(0);
-    backface-visibility: hidden;
   }
   
   &.status-completed::before {
@@ -167,8 +165,6 @@
   font-weight: var(--font-weight-medium);
   transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
   /* Исправление размытия */
-  transform: translateZ(0);
-  backface-visibility: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
@@ -218,10 +214,9 @@
   min-height: calc(var(--font-size-h4) * var(--line-height-heading));
   transition: color 0.3s ease-in-out;
   /* Исправление размытия текста */
-  transform: translateZ(0);
-  backface-visibility: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 /* Звездочка для избранных проектов */
@@ -234,17 +229,12 @@
   flex-shrink: 0;
   color: var(--color-accent);
   transition: color 0.3s ease-in-out;
-  /* Исправление размытия */
-  transform: translateZ(0);
-  backface-visibility: hidden;
   
   svg {
     width: 100%;
     height: 100%;
     fill: currentColor;
     transition: fill 0.3s ease-in-out;
-    transform: translateZ(0);
-    backface-visibility: hidden;
   }
 }
 
@@ -260,10 +250,9 @@
   min-height: 1.5em;
   transition: color 0.3s ease-in-out, opacity 0.3s ease-in-out;
   /* Исправление размытия текста */
-  transform: translateZ(0);
-  backface-visibility: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
   
   span {
     position: relative;
@@ -286,8 +275,6 @@
       margin-left: var(--spacing-xs);
       color: var(--color-divider);
       transition: color 0.3s ease-in-out;
-      transform: translateZ(0);
-      backface-visibility: hidden;
     }
   }
 }
@@ -319,10 +306,9 @@
   overflow: hidden;
   transition: color 0.3s ease-in-out;
   /* Исправление размытия текста */
-  transform: translateZ(0);
-  backface-visibility: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 .project-card-footer {
@@ -338,8 +324,6 @@
   flex-shrink: 0;
   transition: border-color 0.3s ease-in-out;
   /* Исправление размытых границ */
-  transform: translateZ(0);
-  backface-visibility: hidden;
   box-sizing: border-box;
 }
 
@@ -349,10 +333,9 @@
   text-transform: capitalize;
   transition: color 0.3s ease-in-out;
   /* Исправление размытия текста */
-  transform: translateZ(0);
-  backface-visibility: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 .project-card-button {
@@ -369,11 +352,10 @@
   font-family: var(--font-family);
   pointer-events: auto; /* Кнопка остается кликабельной */
   
-  /* Исправление размытых границ при GPU ускорении */
-  transform: translateZ(0);
-  backface-visibility: hidden;
+  /* Исправление размытых границ */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
   /* Обеспечиваем четкий рендеринг границ */
   border-style: solid;
   box-sizing: border-box;
