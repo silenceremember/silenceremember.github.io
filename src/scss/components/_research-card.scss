@@ -1,0 +1,400 @@
+/* Стили для карточки исследования */
+
+.research-card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-bg-primary);
+  border: var(--line-width) solid var(--color-text-primary);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out, border-color 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+  overflow: hidden;
+  height: 100%;
+  min-height: 100%;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin-left: 0;
+  margin-right: 0;
+  border-style: solid;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  position: relative;
+  contain: layout style;
+  transform-origin: center top;
+  opacity: 1;
+  visibility: visible;
+  
+  &.research-card-hidden {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out, transform 0.3s ease-in-out;
+  }
+  
+  &[style*="display: none"] {
+    display: none !important;
+  }
+  
+  /* Особый стиль для ВКР */
+  &.research-card-vkr {
+    background-color: var(--color-accent-bg);
+  }
+}
+
+.research-card-content {
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-md);
+  flex-grow: 1;
+  gap: var(--spacing-sm);
+  min-height: 0;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  background-color: var(--color-bg-primary);
+  transition: background-color 0.3s ease-in-out;
+  flex-shrink: 0;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  margin: 0;
+  border: none;
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+}
+
+.research-card-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  flex-shrink: 0;
+}
+
+.research-card-title {
+  font-size: var(--font-size-h4);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-heading);
+  color: var(--color-text-primary);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-tight);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-xs);
+  flex-shrink: 0;
+  min-height: calc(var(--font-size-h4) * var(--line-height-heading));
+  transition: color 0.3s ease-in-out;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+.research-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-small);
+  color: var(--color-text-primary);
+  opacity: 0.7;
+  white-space: nowrap;
+  overflow: hidden;
+  min-height: 1.5em;
+  transition: color 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  
+  span {
+    position: relative;
+    flex-shrink: 0;
+    white-space: nowrap;
+    transition: color 0.3s ease-in-out;
+    
+    &[style*="display: none"] {
+      display: none !important;
+      
+      &::after {
+        display: none;
+      }
+    }
+    
+    &:not(:last-child):not([style*="display: none"])::after {
+      content: '•';
+      margin-left: var(--spacing-xs);
+      color: var(--color-divider);
+      transition: color 0.3s ease-in-out;
+    }
+  }
+}
+
+.research-card-authors {
+  font-size: var(--font-size-small);
+  color: var(--color-text-primary);
+  opacity: 0.7;
+  font-weight: var(--font-weight-medium);
+  transition: color 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  
+  &[style*="display: none"] {
+    display: none !important;
+  }
+}
+
+.research-card-journal {
+  font-size: var(--font-size-small);
+  color: var(--color-text-primary);
+  opacity: 0.7;
+  font-style: italic;
+  transition: color 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  
+  &[style*="display: none"] {
+    display: none !important;
+  }
+}
+
+.research-card-date {
+  color: var(--color-secondary);
+}
+
+.research-card-pages {
+  color: var(--color-secondary);
+}
+
+.research-card-status-level {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-xs);
+  flex-shrink: 0;
+}
+
+.research-card-status {
+  align-self: flex-start;
+  padding: 2px var(--spacing-sm);
+  font-size: 11px;
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 2px;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+  position: relative;
+  
+  /* Подложка цвета текста с прозрачностью, текст цвета bg */
+  color: var(--color-bg-primary);
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--color-text-primary);
+    opacity: 0.5;
+    border-radius: 2px;
+    z-index: -1;
+  }
+}
+
+.research-card-level {
+  align-self: flex-start;
+  padding: 2px var(--spacing-sm);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 2px;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+  
+  /* Подложка цвета текста, текст цвета bg */
+  background-color: var(--color-text-primary);
+  color: var(--color-bg-primary);
+  
+  &[style*="display: none"] {
+    display: none !important;
+  }
+}
+
+.research-card-description-container {
+  margin-top: var(--spacing-xs);
+  flex-shrink: 0;
+  
+  &[style*="display: none"] {
+    display: none !important;
+  }
+}
+
+.research-card-abstract-toggle {
+  display: inline-block;
+  padding: var(--spacing-xs) var(--spacing-md);
+  margin-bottom: var(--spacing-xs);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-primary);
+  background-color: transparent;
+  border: var(--line-width) solid var(--color-text-primary);
+  border-radius: 0;
+  cursor: pointer;
+  font-family: var(--font-family);
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  border-style: solid;
+  box-sizing: border-box;
+  
+  &:hover,
+  &:focus {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-bg-primary);
+    outline: none;
+  }
+}
+
+.research-card-description {
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  color: var(--color-text-primary);
+  margin-top: var(--spacing-sm);
+  padding: var(--spacing-md);
+  background-color: var(--color-bg-primary);
+  border-left: 3px solid var(--color-divider);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+.research-card-keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-xs);
+  flex-shrink: 0;
+  
+  &[style*="display: none"] {
+    display: none !important;
+  }
+}
+
+.research-card-keyword {
+  padding: 4px var(--spacing-xs);
+  font-size: var(--font-size-small);
+  border-radius: 2px;
+  font-weight: var(--font-weight-medium);
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+  position: relative;
+  
+  /* Подложка цвета текста с прозрачностью, текст цвета bg */
+  color: var(--color-bg-primary);
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--color-text-primary);
+    opacity: 0.25;
+    border-radius: 2px;
+    z-index: -1;
+  }
+}
+
+.research-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  padding-top: var(--spacing-sm);
+  border-top: var(--line-width) solid var(--color-divider);
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
+  flex-shrink: 0;
+  transition: border-color 0.3s ease-in-out;
+  box-sizing: border-box;
+}
+
+.research-card-type {
+  font-size: var(--font-size-small);
+  color: var(--color-divider);
+  text-transform: capitalize;
+  transition: color 0.3s ease-in-out;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+.research-card-button {
+  padding: var(--spacing-xs) var(--spacing-md);
+  background-color: transparent;
+  border: var(--line-width) solid var(--color-text-primary);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+  font-family: var(--font-family);
+  pointer-events: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  border-style: solid;
+  box-sizing: border-box;
+  
+  &:hover,
+  &:focus {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-bg-primary);
+    outline: none;
+  }
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    
+    &:hover {
+      background-color: transparent;
+      border-color: var(--color-text-primary);
+      color: var(--color-text-primary);
+    }
+  }
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .research-card-content {
+    padding: var(--spacing-sm);
+  }
+  
+  .research-card-title {
+    font-size: var(--font-size-h5);
+  }
+  
+  .research-card-description {
+    font-size: var(--font-size-small);
+    padding: var(--spacing-sm);
+  }
+}
+

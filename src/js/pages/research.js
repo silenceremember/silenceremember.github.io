@@ -1,8 +1,41 @@
 /**
- * Страница исследований - загрузка и отображение публикаций из JSON
+ * Страница исследований - загрузка и отображение публикаций из JSON в виде карточек
  */
 
+import { loadHTML } from '../layout.js';
 import { openDocument } from '../services/document-viewer.js';
+
+// Константы для унифицированных анимаций карточек
+const CARD_ANIMATION = {
+  duration: '0.3s',
+  timing: 'ease-in-out',
+  translateYAppear: '10px',
+  translateYDisappear: '-10px',
+  translateYFinal: '0',
+  timeout: 300
+};
+
+// Загрузка компонентов
+let researchCardTemplate = null;
+
+/**
+ * Загружает шаблон карточки исследования
+ */
+async function loadTemplates() {
+  if (!researchCardTemplate) {
+    try {
+      const cardHTML = await loadHTML('/components/research-card.html');
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = cardHTML;
+      researchCardTemplate = tempDiv.querySelector('.research-card') || tempDiv.firstElementChild;
+      if (!researchCardTemplate) {
+        console.error('Не удалось найти шаблон карточки исследования');
+      }
+    } catch (error) {
+      console.error('Ошибка загрузки шаблона карточки:', error);
+    }
+  }
+}
 
 /**
  * Загружает данные исследований из JSON
@@ -51,11 +84,6 @@ function formatDate(date) {
     const startDate = new Date(date.start);
     const endDate = new Date(date.end);
     
-    // Если даты в одном месяце
-    if (startDate.getMonth() === endDate.getMonth() && startDate.getFullYear() === endDate.getFullYear()) {
-      return `${startDate.getDate()}.${String(startDate.getMonth() + 1).padStart(2, '0')}.${startDate.getFullYear()} — ${endDate.getDate()}.${String(endDate.getMonth() + 1).padStart(2, '0')}.${endDate.getFullYear()}`;
-    }
-    
     return `${startDate.getDate()}.${String(startDate.getMonth() + 1).padStart(2, '0')}.${startDate.getFullYear()} — ${endDate.getDate()}.${String(endDate.getMonth() + 1).padStart(2, '0')}.${endDate.getFullYear()}`;
   }
   
@@ -92,214 +120,111 @@ function getTypeText(type) {
 }
 
 /**
- * Создает HTML элемент для ВКР
+ * Создает HTML для карточки исследования
  */
-function createVKRElement(vkr) {
-  const vkrSection = document.createElement('div');
-  vkrSection.className = 'research-vkr';
+function createResearchCard(publication) {
+  if (!researchCardTemplate) return null;
   
-  const title = document.createElement('h2');
-  title.className = 'research-section-title';
-  title.textContent = 'Квалификационная работа';
-  vkrSection.appendChild(title);
+  const card = researchCardTemplate.cloneNode(true);
   
-  const vkrContent = document.createElement('div');
-  vkrContent.className = 'research-publication research-publication-vkr';
+  // Заполняем данные
+  const title = card.querySelector('.research-card-title');
+  const authors = card.querySelector('.research-card-authors');
+  const journal = card.querySelector('.research-card-journal');
+  const status = card.querySelector('.research-card-status');
+  const level = card.querySelector('.research-card-level');
+  const type = card.querySelector('.research-card-type');
+  const description = card.querySelector('.research-card-description');
+  const descriptionContainer = card.querySelector('.research-card-description-container');
+  const abstractToggle = card.querySelector('.research-card-abstract-toggle');
+  const keywords = card.querySelector('.research-card-keywords');
+  const button = card.querySelector('.research-card-button');
   
-  const publicationTitle = document.createElement('h3');
-  publicationTitle.className = 'research-publication-title';
-  publicationTitle.textContent = vkr.title;
-  vkrContent.appendChild(publicationTitle);
-  
-  const publicationMeta = document.createElement('div');
-  publicationMeta.className = 'research-publication-meta';
+  if (title) title.textContent = publication.title;
   
   // Авторы
-  if (vkr.authors && vkr.authors.length > 0) {
-    const authorsEl = document.createElement('div');
-    authorsEl.className = 'research-publication-authors';
-    authorsEl.textContent = vkr.authors.join(', ');
-    publicationMeta.appendChild(authorsEl);
+  if (authors && publication.authors && publication.authors.length > 0) {
+    authors.textContent = publication.authors.join(', ');
+  } else if (authors) {
+    authors.style.display = 'none';
   }
   
-  // Тип и статус
-  const typeStatusEl = document.createElement('div');
-  typeStatusEl.className = 'research-publication-type-status';
-  
-  const typeEl = document.createElement('span');
-  typeEl.className = 'research-publication-type';
-  typeEl.textContent = getTypeText(vkr.type);
-  typeStatusEl.appendChild(typeEl);
-  
-  const statusEl = document.createElement('span');
-  statusEl.className = 'research-publication-status research-publication-status-in-progress';
-  statusEl.textContent = getStatusText(vkr.status);
-  typeStatusEl.appendChild(statusEl);
-  
-  publicationMeta.appendChild(typeStatusEl);
-  
-  // Примечание о черновике
-  if (vkr.status === 'in-progress') {
-    const draftNote = document.createElement('div');
-    draftNote.className = 'research-publication-draft-note';
-    draftNote.textContent = 'Черновик. Доступна только первая глава. Остальные главы доступны по запросу.';
-    publicationMeta.appendChild(draftNote);
+  // Журнал
+  if (journal && publication.journal) {
+    let journalText = publication.journal;
+    if (publication.location) {
+      journalText += ` (${publication.location})`;
+    }
+    journal.textContent = journalText;
+  } else if (journal) {
+    journal.style.display = 'none';
   }
   
-  vkrContent.appendChild(publicationMeta);
+  // Статус - скрываем
+  if (status) {
+    status.style.display = 'none';
+  }
   
-  // Кнопка просмотра PDF
-  if (vkr.pdf_url) {
-    const pdfButton = document.createElement('button');
-    pdfButton.className = 'research-publication-pdf-button';
-    pdfButton.textContent = 'Читать первую главу (PDF)';
-    pdfButton.addEventListener('click', () => {
-      openDocument({
-        url: vkr.pdf_url,
-        title: vkr.title,
-        isDraft: true,
-        draftNote: 'Черновик'
+  // Уровень
+  if (level && publication.level) {
+    level.textContent = publication.level;
+  } else if (level) {
+    level.style.display = 'none';
+  }
+  
+  // Тип
+  if (type) {
+    type.textContent = getTypeText(publication.type);
+  }
+  
+  // Аннотация - скрываем
+  if (descriptionContainer) {
+    descriptionContainer.style.display = 'none';
+  }
+  
+  // Ключевые слова
+  if (keywords && publication.keywords && publication.keywords.length > 0) {
+    keywords.innerHTML = '';
+    publication.keywords.forEach(keyword => {
+      const keywordEl = document.createElement('span');
+      keywordEl.className = 'research-card-keyword';
+      keywordEl.textContent = keyword;
+      keywords.appendChild(keywordEl);
+    });
+  } else if (keywords) {
+    keywords.style.display = 'none';
+  }
+  
+  // Кнопка PDF
+  if (button) {
+    if (publication.pdf_url) {
+      button.textContent = publication.type === 'diploma' ? 'ЧИТАТЬ ГЛАВУ' : 'ЧИТАТЬ';
+      button.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openDocument({
+          url: publication.pdf_url,
+          title: publication.title,
+          isDraft: publication.status === 'in-progress',
+          draftNote: publication.status === 'in-progress' ? 'Черновик' : null
+        });
       });
-    });
-    vkrContent.appendChild(pdfButton);
+    } else {
+      button.disabled = true;
+      button.textContent = 'СКОРО';
+    }
   }
   
-  vkrSection.appendChild(vkrContent);
+  // Добавляем data-атрибуты
+  card.setAttribute('data-research-id', publication.id);
+  card.setAttribute('data-type', publication.type);
+  card.setAttribute('data-status', publication.status);
   
-  return vkrSection;
-}
-
-/**
- * Создает HTML элемент для публикации
- */
-function createPublicationElement(publication) {
-  const publicationEl = document.createElement('article');
-  publicationEl.className = 'research-publication';
-  
-  // Заголовок
-  const title = document.createElement('h3');
-  title.className = 'research-publication-title';
-  title.textContent = publication.title;
-  publicationEl.appendChild(title);
-  
-  // Мета-информация
-  const meta = document.createElement('div');
-  meta.className = 'research-publication-meta';
-  
-  // Авторы
-  if (publication.authors && publication.authors.length > 0) {
-    const authorsEl = document.createElement('div');
-    authorsEl.className = 'research-publication-authors';
-    authorsEl.textContent = publication.authors.join(', ');
-    meta.appendChild(authorsEl);
+  // Особый класс для ВКР
+  if (publication.type === 'diploma') {
+    card.classList.add('research-card-vkr');
   }
   
-  // Журнал/Конференция и место
-  const journalInfo = [];
-  if (publication.journal) {
-    journalInfo.push(publication.journal);
-  }
-  if (publication.location) {
-    journalInfo.push(`(${publication.location})`);
-  }
-  
-  if (journalInfo.length > 0) {
-    const journalEl = document.createElement('div');
-    journalEl.className = 'research-publication-journal';
-    journalEl.textContent = journalInfo.join(' ');
-    meta.appendChild(journalEl);
-  }
-  
-  // Дата и страницы
-  const dateYear = getYearFromDate(publication.date);
-  const dateText = formatDate(publication.date);
-  
-  const dateInfo = [];
-  if (dateText) {
-    dateInfo.push(dateText);
-  }
-  if (publication.pages) {
-    dateInfo.push(`С. ${publication.pages}`);
-  }
-  
-  if (dateInfo.length > 0) {
-    const dateEl = document.createElement('div');
-    dateEl.className = 'research-publication-date';
-    dateEl.textContent = dateInfo.join(', ');
-    meta.appendChild(dateEl);
-  }
-  
-  // Статус и уровень
-  const statusLevelEl = document.createElement('div');
-  statusLevelEl.className = 'research-publication-status-level';
-  
-  const statusEl = document.createElement('span');
-  statusEl.className = `research-publication-status research-publication-status-${publication.status}`;
-  statusEl.textContent = getStatusText(publication.status);
-  statusLevelEl.appendChild(statusEl);
-  
-  if (publication.level) {
-    const levelEl = document.createElement('span');
-    levelEl.className = 'research-publication-level';
-    levelEl.textContent = publication.level;
-    statusLevelEl.appendChild(levelEl);
-  }
-  
-  meta.appendChild(statusLevelEl);
-  
-  publicationEl.appendChild(meta);
-  
-  // Кнопка просмотра PDF (если есть)
-  if (publication.pdf_url) {
-    const pdfButton = document.createElement('button');
-    pdfButton.className = 'research-publication-pdf-button';
-    pdfButton.textContent = 'Читать тезисы (PDF)';
-    pdfButton.addEventListener('click', () => {
-      openDocument({
-        url: publication.pdf_url,
-        title: publication.title,
-        isDraft: false
-      });
-    });
-    publicationEl.appendChild(pdfButton);
-  }
-  
-  // Аннотация (раскрывается по клику)
-  if (publication.abstract) {
-    const abstractContainer = document.createElement('div');
-    abstractContainer.className = 'research-publication-abstract-container';
-    
-    const abstractToggle = document.createElement('button');
-    abstractToggle.className = 'research-publication-abstract-toggle';
-    abstractToggle.textContent = 'Показать аннотацию';
-    abstractToggle.setAttribute('aria-expanded', 'false');
-    
-    const abstract = document.createElement('div');
-    abstract.className = 'research-publication-abstract';
-    abstract.hidden = true;
-    abstract.textContent = publication.abstract;
-    
-    abstractToggle.addEventListener('click', () => {
-      const isExpanded = abstractToggle.getAttribute('aria-expanded') === 'true';
-      abstract.hidden = isExpanded;
-      abstractToggle.setAttribute('aria-expanded', !isExpanded);
-      abstractToggle.textContent = isExpanded ? 'Показать аннотацию' : 'Скрыть аннотацию';
-    });
-    
-    abstractContainer.appendChild(abstractToggle);
-    abstractContainer.appendChild(abstract);
-    publicationEl.appendChild(abstractContainer);
-  }
-  
-  // Ключевые слова (опционально)
-  if (publication.keywords && publication.keywords.length > 0) {
-    const keywordsEl = document.createElement('div');
-    keywordsEl.className = 'research-publication-keywords';
-    keywordsEl.innerHTML = `<strong>Ключевые слова:</strong> ${publication.keywords.join(', ')}`;
-    publicationEl.appendChild(keywordsEl);
-  }
-  
-  return publicationEl;
+  return card;
 }
 
 /**
@@ -327,9 +252,11 @@ function groupPublicationsByYear(publications) {
 function hideLoadingIndicator() {
   const loadingElement = document.getElementById('research-loading');
   if (loadingElement) {
-    loadingElement.style.opacity = '0';
+    loadingElement.classList.add('hidden');
     setTimeout(() => {
-      loadingElement.remove();
+      if (loadingElement.parentNode) {
+        loadingElement.remove();
+      }
     }, 300);
   }
 }
@@ -515,6 +442,9 @@ function initScrollToTop() {
  * Инициализирует страницу исследований
  */
 async function initResearchPage() {
+  // Загружаем шаблоны
+  await loadTemplates();
+  
   // Загружаем данные
   const publications = await loadResearchData();
   
@@ -537,8 +467,37 @@ async function initResearchPage() {
   if (vkr) {
     const vkrSection = document.getElementById('research-vkr-section');
     if (vkrSection) {
-      const vkrElement = createVKRElement(vkr);
-      vkrSection.appendChild(vkrElement);
+      const vkrTitle = document.createElement('h2');
+      vkrTitle.className = 'research-section-title';
+      vkrTitle.textContent = 'Квалификационная работа';
+      vkrSection.appendChild(vkrTitle);
+      
+      const vkrGrid = document.createElement('div');
+      vkrGrid.className = 'research-grid research-grid-vkr';
+      
+      const vkrCard = createResearchCard(vkr);
+      if (vkrCard) {
+        vkrCard.style.opacity = '0';
+        vkrCard.style.transform = 'translateY(10px)';
+        vkrCard.style.transition = 'none';
+        vkrGrid.appendChild(vkrCard);
+        
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            vkrCard.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
+            vkrCard.style.opacity = '1';
+            vkrCard.style.transform = 'translateY(0)';
+            
+            setTimeout(() => {
+              vkrCard.style.transform = '';
+              vkrCard.style.opacity = '';
+              vkrCard.style.transition = '';
+            }, 300);
+          });
+        });
+      }
+      
+      vkrSection.appendChild(vkrGrid);
     }
   }
   
@@ -548,10 +507,9 @@ async function initResearchPage() {
     const yearB = getYearFromDate(b.date) || 0;
     
     if (yearB !== yearA) {
-      return yearB - yearA; // От новых к старым
+      return yearB - yearA;
     }
     
-    // Если год одинаковый, сортируем по дате начала
     if (a.date?.start && b.date?.start) {
       return new Date(b.date.start) - new Date(a.date.start);
     }
@@ -573,10 +531,49 @@ async function initResearchPage() {
       yearHeader.textContent = year;
       publicationsSection.appendChild(yearHeader);
       
-      // Публикации года
+      // Сетка для карточек года
+      const yearGrid = document.createElement('div');
+      yearGrid.className = 'research-grid';
+      
+      // Добавляем карточки
       groupedPublications[year].forEach(publication => {
-        const publicationEl = createPublicationElement(publication);
-        publicationsSection.appendChild(publicationEl);
+        const card = createResearchCard(publication);
+        if (card) {
+          card.style.opacity = '0';
+          card.style.transform = 'translateY(10px)';
+          card.style.transition = 'none';
+          yearGrid.appendChild(card);
+        }
+      });
+      
+      publicationsSection.appendChild(yearGrid);
+      
+      // Анимация появления карточек
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          const cards = yearGrid.querySelectorAll('.research-card');
+          cards.forEach((card) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(10px)';
+            card.style.transition = 'none';
+          });
+          
+          requestAnimationFrame(() => {
+            cards.forEach((card) => {
+              card.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
+              card.style.opacity = '1';
+              card.style.transform = 'translateY(0)';
+            });
+            
+            setTimeout(() => {
+              cards.forEach((card) => {
+                card.style.transform = '';
+                card.style.opacity = '';
+                card.style.transition = '';
+              });
+            }, 300);
+          });
+        });
       });
     });
   }
@@ -597,4 +594,3 @@ if (document.readyState === 'loading') {
 } else {
   initResearchPage();
 }
-
