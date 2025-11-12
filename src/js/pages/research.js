@@ -129,38 +129,47 @@ function createResearchCard(publication) {
   
   // Заполняем данные
   const title = card.querySelector('.research-card-title');
-  const authors = card.querySelector('.research-card-authors');
-  const journal = card.querySelector('.research-card-journal');
-  const level = card.querySelector('.research-card-level');
   const type = card.querySelector('.research-card-type');
   const keywords = card.querySelector('.research-card-keywords');
   const button = card.querySelector('.research-card-button');
   
   if (title) title.textContent = publication.title;
   
-  // Авторы
-  if (authors && publication.authors && publication.authors.length > 0) {
-    authors.textContent = publication.authors.join(', ');
-  } else if (authors) {
-    authors.style.display = 'none';
-  }
-  
-  // Журнал
-  if (journal && publication.journal) {
-    let journalText = publication.journal;
-    if (publication.location) {
-      journalText += ` (${publication.location})`;
+  // Журнал и уровень (РИНЦ/SCOPUS) вместе
+  const journalWrapper = card.querySelector('.research-card-journal-wrapper');
+  if (journalWrapper) {
+    const journal = journalWrapper.querySelector('.research-card-journal');
+    const level = journalWrapper.querySelector('.research-card-level');
+    
+    // Журнал
+    if (journal && publication.journal) {
+      let journalText = publication.journal;
+      if (publication.location) {
+        journalText += ` (${publication.location})`;
+      }
+      journal.textContent = journalText;
+    } else if (journal) {
+      journal.style.display = 'none';
     }
-    journal.textContent = journalText;
-  } else if (journal) {
-    journal.style.display = 'none';
-  }
-  
-  // Уровень
-  if (level && publication.level) {
-    level.textContent = publication.level;
-  } else if (level) {
-    level.style.display = 'none';
+    
+    // Уровень (РИНЦ/SCOPUS) рядом с журналом
+    if (level && publication.level) {
+      level.textContent = publication.level;
+      // Добавляем разделитель перед уровнем, если есть журнал
+      const journalVisible = journal && publication.journal && journal.style.display !== 'none';
+      if (journalVisible) {
+        level.classList.add('has-separator');
+      }
+    } else if (level) {
+      level.style.display = 'none';
+    }
+    
+    // Скрываем обертку, если и журнал, и уровень скрыты
+    const journalVisible = journal && publication.journal && journal.style.display !== 'none';
+    const levelVisible = level && publication.level && level.style.display !== 'none';
+    if (!journalVisible && !levelVisible) {
+      journalWrapper.style.display = 'none';
+    }
   }
   
   // Тип
@@ -196,7 +205,7 @@ function createResearchCard(publication) {
       });
     } else {
       button.disabled = true;
-      button.textContent = 'СКОРО';
+      button.style.display = 'none';
     }
   }
   
