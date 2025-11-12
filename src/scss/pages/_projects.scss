@@ -197,6 +197,9 @@
   
   .project-card {
     height: 100%;
+    width: 100%;
+    min-width: 0; /* Позволяет карточке сжиматься в grid */
+    max-width: 100%; /* Предотвращает расширение за пределы ячейки */
     display: flex;
     flex-direction: column;
   }
@@ -271,6 +274,9 @@
   
   .project-card {
     height: 100%;
+    width: 100%;
+    min-width: 0; /* Позволяет карточке сжиматься в grid */
+    max-width: 100%; /* Предотвращает расширение за пределы ячейки */
     display: flex;
     flex-direction: column;
     opacity: 1;

@@ -10,6 +10,11 @@
   overflow: hidden;
   height: 100%;
   min-height: 100%;
+  width: 100%; /* Фиксируем ширину, чтобы карточка не расширялась */
+  max-width: 100%; /* Предотвращаем расширение за пределы ячейки сетки */
+  min-width: 0; /* Позволяет карточке сжиматься в grid */
+  margin-left: 0; /* Убираем возможные отступы */
+  margin-right: 0; /* Убираем возможные отступы */
   /* Исправление размытых границ */
   border-style: solid;
   box-sizing: border-box;
@@ -18,6 +23,10 @@
   text-rendering: optimizeLegibility;
   /* Выравнивание по целым пикселям для четкости */
   position: relative;
+  /* Изоляция карточки для предотвращения влияния на размеры */
+  contain: layout style;
+  /* Точка трансформации - центр верхнего края, чтобы не было смещения влево */
+  transform-origin: center top;
   
   /* Для плавного появления/исчезновения при фильтрации */
   opacity: 1;
@@ -34,9 +43,16 @@
   }
   
   &:hover {
-    transform: translateY(-4px);
+    transform: translate3d(0, -4px, 0); /* Используем translate3d для стабильности и предотвращения subpixel смещений */
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     will-change: transform; /* Добавляем только при hover для оптимизации */
+    width: 100% !important; /* Сохраняем ширину при hover */
+    max-width: 100% !important; /* Предотвращаем расширение */
+    min-width: 0 !important; /* Предотвращаем расширение */
+    margin-left: 0 !important; /* Фиксируем отступ слева */
+    margin-right: 0 !important; /* Фиксируем отступ справа */
+    /* Убеждаемся, что transform-origin остается в центре */
+    transform-origin: center top;
     
     .project-card-image {
       transform: scale(1.05);
@@ -63,7 +79,7 @@
   position: relative;
   width: 100%;
   padding-top: 56.25%; /* 16:9 aspect ratio */
-  overflow: hidden;
+  overflow: hidden; /* Важно: скрываем переполнение при масштабировании изображения */
   background-color: var(--color-divider);
   transition: background-color 0.3s ease-in-out;
   flex-shrink: 0; /* Предотвращаем сжатие при трансформации */
@@ -71,6 +87,7 @@
   transform: translateZ(0); /* Создает новый слой для GPU ускорения */
   margin: 0; /* Убираем возможные отступы */
   border: none; /* Убираем возможные границы */
+  max-width: 100%; /* Предотвращаем расширение */
 }
 
 .project-card-image {
@@ -187,6 +204,9 @@
   flex-grow: 1;
   gap: var(--spacing-sm);
   min-height: 0;
+  width: 100%; /* Фиксируем ширину контента */
+  max-width: 100%; /* Предотвращаем расширение */
+  min-width: 0; /* Позволяет сжиматься */
   background-color: var(--color-bg-primary);
   transition: background-color 0.3s ease-in-out;
   flex-shrink: 0; /* Предотвращаем сжатие при трансформации */
@@ -197,6 +217,7 @@
   border: none; /* Убираем возможные границы */
   position: relative; /* Создаем контекст для z-index */
   z-index: 1; /* Убеждаемся, что content поверх wrapper */
+  box-sizing: border-box; /* Убеждаемся, что padding включен в ширину */
 }
 
 .project-card-title {
