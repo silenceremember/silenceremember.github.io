@@ -273,6 +273,38 @@ function hideLoadingIndicator() {
 }
 
 /**
+ * Инициализирует обработчик кнопки меню для прокрутки до навигации в tablet режиме
+ */
+function initMenuButtonScroll() {
+  const menuButton = document.querySelector('.header-menu-button');
+  const navigationSection = document.querySelector('.research-navigation');
+  const pageWrapper = document.querySelector('.page-wrapper');
+  
+  if (!menuButton || !navigationSection || !pageWrapper) {
+    return;
+  }
+  
+  menuButton.addEventListener('click', () => {
+    // Проверяем, находимся ли мы в tablet режиме (max-width: 1023px)
+    const isTabletMode = window.innerWidth < 1024;
+    
+    if (isTabletMode) {
+      // Вычисляем позицию навигационного меню относительно page-wrapper
+      const wrapperRect = pageWrapper.getBoundingClientRect();
+      const navRect = navigationSection.getBoundingClientRect();
+      const scrollTop = pageWrapper.scrollTop;
+      const targetPosition = scrollTop + navRect.top - wrapperRect.top;
+      
+      // Прокручиваем до навигационного меню
+      pageWrapper.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth'
+      });
+    }
+  });
+}
+
+/**
  * Инициализирует кнопку "Наверх"
  */
 function initScrollToTop() {
@@ -588,6 +620,9 @@ async function initResearchPage() {
       });
     });
   }
+  
+  // Инициализируем кнопку меню для прокрутки до навигации
+  initMenuButtonScroll();
   
   // Инициализируем кнопку "Наверх"
   initScrollToTop();
