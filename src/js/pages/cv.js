@@ -141,11 +141,10 @@ function createHeaderSection(communityData, aboutText) {
   photoContainer.appendChild(contactButtons);
   headerContent.appendChild(photoContainer);
   
-  // Правая часть: заголовок, подзаголовок и "О себе"
-  const rightColumn = document.createElement('div');
-  rightColumn.className = 'cv-header-right';
+  // Верхняя часть: заголовок и подзаголовок (слева сверху)
+  const topSection = document.createElement('div');
+  topSection.className = 'cv-header-top';
   
-  // Заголовок и подзаголовок
   const nameTitle = document.createElement('h2');
   nameTitle.className = 'cv-header-name';
   nameTitle.textContent = 'MAXIM ELCHANINOV';
@@ -154,8 +153,13 @@ function createHeaderSection(communityData, aboutText) {
   roleSubtitle.className = 'cv-header-role';
   roleSubtitle.textContent = 'SYSTEM GAME DESIGNER';
   
-  rightColumn.appendChild(nameTitle);
-  rightColumn.appendChild(roleSubtitle);
+  topSection.appendChild(nameTitle);
+  topSection.appendChild(roleSubtitle);
+  headerContent.appendChild(topSection);
+  
+  // Правая часть: "О себе"
+  const rightColumn = document.createElement('div');
+  rightColumn.className = 'cv-header-right';
   
   // "О себе"
   if (aboutText) {
