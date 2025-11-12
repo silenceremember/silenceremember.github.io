@@ -20,13 +20,15 @@
       } else {
         document.documentElement.setAttribute('data-theme', 'light');
       }
+      // Добавляем класс для скролла к html
+      document.documentElement.classList.add('page-with-scroll');
     })();
   </script>
 
   <!-- Main CSS -->
   <link rel="stylesheet" href="/scss/style.scss">
 </head>
-<body>
+<body class="page-with-scroll">
   <div class="page-wrapper">
     <!-- Header -->
     <header class="header"></header>
@@ -36,9 +38,69 @@
 
     <!-- Main Content -->
     <main class="content-wrapper">
-      <div class="container">
-        <h1>РЕЗЮМЕ</h1>
-        <p>Страница резюме будет добавлена позже.</p>
+      <div class="container cv-page">
+        <h1 class="cv-page-title">РЕЗЮМЕ</h1>
+        
+        <!-- Индикатор загрузки -->
+        <div class="cv-loading" id="cv-loading">
+          <div class="cv-loading-squares">
+            <div class="cv-loading-square"></div>
+            <div class="cv-loading-square"></div>
+            <div class="cv-loading-square"></div>
+          </div>
+        </div>
+        
+        <!-- Секция "Заголовок с фото и контактами" -->
+        <section class="cv-section cv-header-section" id="cv-header-section">
+          <!-- Будет загружено через JavaScript -->
+        </section>
+        
+        <!-- Секция "О себе" -->
+        <section class="cv-section cv-about-section" id="cv-about-section">
+          <!-- Будет загружено через JavaScript -->
+        </section>
+        
+        <!-- Секция "Опыт работы" -->
+        <section class="cv-section cv-work-section" id="cv-work-section">
+          <!-- Будет загружено через JavaScript -->
+        </section>
+        
+        <!-- Секция "Образование" -->
+        <section class="cv-section cv-education-section" id="cv-education-section">
+          <!-- Будет загружено через JavaScript -->
+        </section>
+        
+        <!-- Секция "Навыки" -->
+        <section class="cv-section cv-skills-section" id="cv-skills-section">
+          <!-- Будет загружено через JavaScript -->
+        </section>
+        
+        <!-- Секция "Сертификаты" -->
+        <section class="cv-section cv-certificates-section" id="cv-certificates-section">
+          <!-- Будет загружено через JavaScript -->
+        </section>
+        
+        <!-- Секция "Курсы" -->
+        <section class="cv-section cv-courses-section" id="cv-courses-section">
+          <!-- Будет загружено через JavaScript -->
+        </section>
+        
+        <!-- Кнопка скачивания PDF -->
+        <div class="cv-download-section" id="cv-download-section">
+          <!-- Будет загружено через JavaScript -->
+        </div>
+        
+        <!-- Навигационное меню для tablet режима -->
+        <div class="cv-navigation">
+          <h2 class="section-title">НАВИГАЦИЯ</h2>
+          <div class="cta-buttons">
+            <a href="index.html" class="cta-button">ГЛАВНАЯ</a>
+            <a href="projects.html" class="cta-button">ПОРТФОЛИО</a>
+            <a href="research.html" class="cta-button">ИССЛЕДОВАНИЯ</a>
+            <a href="cv.html" class="cta-button">РЕЗЮМЕ</a>
+            <a href="community.html" class="cta-button">СООБЩЕСТВО</a>
+          </div>
+        </div>
       </div>
     </main>
 
@@ -48,11 +110,17 @@
     <!-- Footer -->
     <footer class="footer"></footer>
   </div>
-
+  
   <div class="custom-cursor"></div>
+
+  <!-- Кнопка "Наверх" -->
+  <button class="scroll-to-top" id="scroll-to-top" aria-label="Прокрутить наверх" style="display: none;">
+    <span data-svg-src="assets/images/icon-scroll-to-top.svg"></span>
+  </button>
 
   <!-- JavaScript -->
   <script type="module" src="/js/main.js"></script>
+  <script type="module" src="/js/pages/cv.js"></script>
 </body>
 </html>
 

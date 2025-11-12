@@ -18,6 +18,7 @@
 @import 'components/button-small';
 @import 'components/count-badge';
 @import 'components/filters';
+@import 'components/timeline';
 
 /* 3. СТИЛИ МАКЕТА (сетка, хедер, футер) */
 @import 'layout/grid';
@@ -29,6 +30,7 @@
 /* 4. СТИЛИ СТРАНИЦ */
 @import 'pages/projects';
 @import 'pages/research';
+@import 'pages/cv';
 
 /* 5. АНИМАЦИИ ПОЯВЛЕНИЯ КОНТЕНТА */
 /* Fade-in анимация для контента при загрузке страницы */
