@@ -11,7 +11,7 @@
     left: 0;
     top: 0;
     bottom: 0;
-    width: 2px;
+    width: 1px;
     background-color: var(--color-divider);
   }
   
@@ -38,17 +38,17 @@
 
 .timeline-marker {
   position: absolute;
-  left: calc(-1 * var(--spacing-xl) - 6px);
+  left: calc(-1 * var(--spacing-xl) - 8px);
   top: 0;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background-color: var(--color-accent);
-  border: 2px solid var(--color-bg-primary);
+  width: 16px;
+  height: 16px;
+  border-radius: 0;
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-divider);
   z-index: 1;
   
   @media (max-width: 1023px) {
-    left: calc(-1 * var(--spacing-lg) - 6px);
+    left: calc(-1 * var(--spacing-lg) - 8px);
   }
 }
 

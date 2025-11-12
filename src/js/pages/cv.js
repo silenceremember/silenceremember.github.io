@@ -87,7 +87,7 @@ function formatPeriod(period) {
 /**
  * Создает секцию заголовка с фото, контактами и "О себе"
  */
-function createHeaderSection(communityData, aboutText) {
+function createHeaderSection(communityData, aboutText, skills) {
   const section = document.createElement('div');
   section.className = 'cv-header';
   
@@ -164,6 +164,19 @@ function createHeaderSection(communityData, aboutText) {
   }
   
   section.appendChild(headerContent);
+  
+  // Раздел навыков сразу после cv-header-content
+  if (skills) {
+    const skillsTitle = document.createElement('h2');
+    skillsTitle.className = 'cv-section-title';
+    skillsTitle.textContent = 'Навыки';
+    section.appendChild(skillsTitle);
+    
+    const skillsGrid = createSkillsSection(skills);
+    if (skillsGrid) {
+      section.appendChild(skillsGrid);
+    }
+  }
   
   return section;
 }
@@ -733,7 +746,7 @@ async function initCVPage() {
   // Секция "Заголовок с фото, контактами и "О себе""
   const headerSection = document.getElementById('cv-header-section');
   if (headerSection) {
-    const headerContent = createHeaderSection(communityData, cvData.about);
+    const headerContent = createHeaderSection(communityData, cvData.about, cvData.skills);
     if (headerContent) {
       headerSection.appendChild(headerContent);
       animateElementAppearance(headerSection);
@@ -796,19 +809,10 @@ async function initCVPage() {
     animateElementAppearance(educationSection);
   }
   
-  // Секция "Навыки"
+  // Секция "Навыки" - скрываем, так как она теперь в заголовке
   const skillsSection = document.getElementById('cv-skills-section');
-  if (skillsSection && cvData.skills) {
-    const skillsTitle = document.createElement('h2');
-    skillsTitle.className = 'cv-section-title';
-    skillsTitle.textContent = 'Навыки';
-    skillsSection.appendChild(skillsTitle);
-    
-    const skillsGrid = createSkillsSection(cvData.skills);
-    if (skillsGrid) {
-      skillsSection.appendChild(skillsGrid);
-      animateElementAppearance(skillsSection);
-    }
+  if (skillsSection) {
+    skillsSection.style.display = 'none';
   }
   
   // Секция "Сертификаты"
