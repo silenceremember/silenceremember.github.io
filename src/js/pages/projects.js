@@ -1263,6 +1263,29 @@ async function initProjectsPage() {
   
   // Инициализируем обработчик кнопки меню для прокрутки до навигации
   initMenuButtonScroll();
+  
+  // Выделяем активную страницу в навигации
+  setActiveNavigationLink();
+}
+
+/**
+ * Выделяет активную страницу в навигации projects-navigation
+ */
+function setActiveNavigationLink() {
+  const navLinks = document.querySelectorAll('.projects-navigation .cta-button');
+  let currentPage = window.location.pathname.split('/').pop();
+  if (currentPage === '' || currentPage === 'index.html') {
+    currentPage = 'index.html';
+  }
+
+  navLinks.forEach((link) => {
+    const linkPage = link.getAttribute('href').split('/').pop();
+    if (linkPage === currentPage) {
+      link.classList.add('active');
+    } else {
+      link.classList.remove('active');
+    }
+  });
 }
 
 /**

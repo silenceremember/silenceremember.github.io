@@ -126,6 +126,29 @@ async function initIndexPage() {
       populateProjectSlide(projectSlides[index], project);
     }
   });
+  
+  // Выделяем активную страницу в навигации
+  setActiveNavigationLink();
+}
+
+/**
+ * Выделяет активную страницу в навигации #cta-section
+ */
+function setActiveNavigationLink() {
+  const navLinks = document.querySelectorAll('#cta-section .cta-buttons:first-of-type .cta-button');
+  let currentPage = window.location.pathname.split('/').pop();
+  if (currentPage === '' || currentPage === 'index.html') {
+    currentPage = 'index.html';
+  }
+
+  navLinks.forEach((link) => {
+    const linkPage = link.getAttribute('href').split('/').pop();
+    if (linkPage === currentPage) {
+      link.classList.add('active');
+    } else {
+      link.classList.remove('active');
+    }
+  });
 }
 
 // Инициализация при загрузке DOM

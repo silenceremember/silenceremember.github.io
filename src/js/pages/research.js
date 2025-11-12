@@ -273,6 +273,26 @@ function hideLoadingIndicator() {
 }
 
 /**
+ * Выделяет активную страницу в навигации research-navigation
+ */
+function setActiveNavigationLink() {
+  const navLinks = document.querySelectorAll('.research-navigation .cta-button');
+  let currentPage = window.location.pathname.split('/').pop();
+  if (currentPage === '' || currentPage === 'index.html') {
+    currentPage = 'index.html';
+  }
+
+  navLinks.forEach((link) => {
+    const linkPage = link.getAttribute('href').split('/').pop();
+    if (linkPage === currentPage) {
+      link.classList.add('active');
+    } else {
+      link.classList.remove('active');
+    }
+  });
+}
+
+/**
  * Инициализирует обработчик кнопки меню для прокрутки до навигации в tablet режиме
  */
 function initMenuButtonScroll() {
@@ -626,6 +646,9 @@ async function initResearchPage() {
   
   // Инициализируем кнопку "Наверх"
   initScrollToTop();
+  
+  // Выделяем активную страницу в навигации
+  setActiveNavigationLink();
   
   // Загружаем SVG для кнопки "Наверх"
   const svgLoaderModule = await import('../components/svg-loader.js');
