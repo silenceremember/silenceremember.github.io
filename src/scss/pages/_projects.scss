@@ -323,12 +323,21 @@
   min-height: 0;
 }
 
+/* Когда показывается индикатор загрузки, content-wrapper должен занимать всю высоту */
+/* С box-sizing: border-box padding-top включается в высоту */
+/* Нужно установить высоту так, чтобы внутренний контент занимал 100vh - header - footer */
+/* Высота = (100vh - header - footer) + padding-top = 100vh - 64px - 64px + 64px = 100vh - 64px */
+body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
+  height: calc(100vh - 64px); /* viewport - footer (padding-top уже включен в box-sizing) */
+  min-height: calc(100vh - 64px);
+}
+
 .projects-page:has(.projects-loading:not(.hidden)) {
   min-height: 0;
   /* Используем flex для распределения пространства между фильтрами и индикатором загрузки */
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 64px - 64px - var(--spacing-xl)); /* viewport - header - footer - content-wrapper padding-bottom */
+  flex: 1; /* Растягивается на всю доступную высоту родителя */
 }
 
 .projects-loading-squares {
@@ -375,9 +384,22 @@
 
 /* Адаптивность для индикатора загрузки */
 @media (max-width: 768px) {
+  /* В mobile режиме page-wrapper имеет height: 100vh с padding-top: 64px и padding-bottom: 64px (box-sizing: border-box) */
+  /* Внутренний контент page-wrapper имеет высоту 100vh - 64px - 64px */
+  /* content-wrapper должен занимать 100% высоты внутреннего контента page-wrapper */
+  body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
+    height: 100%; /* Занимает всю доступную высоту внутри page-wrapper */
+    min-height: 100%;
+    display: flex !important; /* Используем flex для растягивания .projects-page */
+    flex-direction: column;
+  }
+  
   .projects-page:has(.projects-loading:not(.hidden)) {
-    /* На мобильных также используем flex для распределения пространства */
-    height: calc(100vh - 64px - 64px - var(--spacing-xl));
+    /* На мобильных используем flex для распределения пространства */
+    flex: 1; /* Растягивается на всю доступную высоту родителя */
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
   }
   
   .projects-loading {
