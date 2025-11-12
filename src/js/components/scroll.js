@@ -76,11 +76,11 @@ export function initScrollHandler(scrollContainerSelector, isTabletModeCallback)
     }
 
     function checkViewportForScroll() {
-        // Для страницы проектов проверяем только ширину (<768)
-        // Для главной страницы проверяем ширину (<768) ИЛИ высоту (<1024)
+        // Для страницы проектов проверяем только ширину (<1024)
+        // Для главной страницы проверяем ширину (<1024) ИЛИ высоту (<1024)
         const isNowTablet = isScrollPage 
-            ? window.innerWidth <= 768 
-            : window.innerWidth <= 768 || window.innerHeight < 1024;
+            ? window.innerWidth < 1024 
+            : window.innerWidth < 1024 || window.innerHeight < 1024;
         
         const wasTabletMode = isTabletMode;
         

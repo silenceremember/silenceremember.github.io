@@ -28,7 +28,7 @@
   grid-template-columns: 1fr auto 1fr;
   
   /* На мобильных устройствах контент на всю ширину с отступами */
-  @media (max-width: 768px) {
+  @media (max-width: 1023px) {
     max-width: 100%;
     padding-left: 16px;
     padding-right: 16px;

@@ -47,8 +47,8 @@ main.fade-in-visible {
   opacity: 1;
 }
 
-/* Применяем только для десктопного режима (min-width: 769px) */
-@media (min-width: 769px) {
+/* Применяем только для десктопного режима (min-width: 1024px) */
+@media (min-width: 1024px) {
   .header,
   .footer {
     transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
@@ -57,7 +57,7 @@ main.fade-in-visible {
 
 /* В мобильном режиме header и footer управляются через transform, поэтому opacity не применяем */
 /* content-wrapper и main могут получать fade-in в обоих режимах */
-@media (max-width: 768px) {
+@media (max-width: 1023px) {
   /* В мобильном режиме header и footer всегда видимы (управляются через transform) */
   .header,
   .footer {
@@ -67,7 +67,7 @@ main.fade-in-visible {
 
 /* Декоративные линии остаются видимыми всегда (исключены из fade-in анимации) */
 /* Горизонтальные декоративные линии - только на десктопе исключаем из fade-in */
-@media (min-width: 769px) {
+@media (min-width: 1024px) {
   .decorative-line-horizontal {
     opacity: 1 !important;
   }

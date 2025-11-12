@@ -1,8 +1,8 @@
 /* Стили для страницы проектов */
 
 /* Переопределяем стили для страницы проектов, чтобы она прокручивалась */
-/* На десктопе (min-width: 769px) страница прокручивается через body (как обычная страница) */
-@media (min-width: 769px) {
+/* На десктопе (min-width: 1024px) страница прокручивается через body (как обычная страница) */
+@media (min-width: 1024px) {
   html.page-with-scroll {
     height: auto;
     min-height: 100vh;
@@ -166,7 +166,7 @@
   min-height: 0; /* Позволяет flex-элементу сжиматься */
   
   /* На мобильных устройствах контент на всю ширину с отступами */
-  @media (max-width: 768px) {
+  @media (max-width: 1023px) {
     max-width: 100%;
     padding-left: var(--spacing-lg);
     padding-right: var(--spacing-lg);
@@ -389,7 +389,7 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
 }
 
 /* Адаптивность для индикатора загрузки */
-@media (max-width: 768px) {
+@media (max-width: 1023px) {
   /* В mobile режиме page-wrapper имеет height: 100vh с padding-top: 64px и padding-bottom: 64px (box-sizing: border-box) */
   /* Внутренний контент page-wrapper имеет высоту 100vh - 64px - 64px */
   /* content-wrapper должен занимать 100% высоты внутреннего контента page-wrapper */
@@ -463,7 +463,7 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
 }
 
 /* Показываем навигацию только в tablet режиме (только по ширине для страницы проектов) */
-@media (max-width: 768px) {
+@media (max-width: 1023px) {
   .projects-navigation {
     display: block;
   }
@@ -480,14 +480,15 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
 }
 
 /* Скрываем навигацию на десктопе */
-@media (min-width: 769px) {
+@media (min-width: 1024px) {
   .projects-navigation {
     display: none !important;
   }
 }
 
 /* Адаптивность */
-@media (max-width: 768px) {
+/* Мобильные устройства (до 767px) - 1 колонка */
+@media (max-width: 767px) {
   .projects-page {
     padding: var(--spacing-lg) var(--spacing-lg);
     padding-bottom: 0; /* Убираем нижний отступ, чтобы общий отступ совпадал с секцией CTA */
@@ -527,13 +528,44 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
   }
 }
 
-@media (min-width: 769px) and (max-width: 1024px) {
+/* Планшеты (от 768px до 1023px) - 2 колонки */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .projects-page {
+    padding: var(--spacing-lg) var(--spacing-lg);
+    padding-bottom: 0;
+  }
+  
   .projects-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
   }
   
   .projects-section-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+  }
+  
+  .projects-section-header {
+    margin: var(--spacing-lg) 0 var(--spacing-sm) 0;
+  }
+  
+  .projects-section-title {
+    font-size: var(--font-size-h3);
+    margin: 0;
+    gap: var(--spacing-sm);
+  }
+  
+  .projects-section-expand {
+    font-size: var(--font-size-small);
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+  
+  .projects-empty-title {
+    font-size: var(--font-size-h3);
+  }
+  
+  .projects-empty-subtitle {
+    font-size: var(--font-size-base);
   }
 }
 
@@ -613,7 +645,7 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
 }
 
 /* Tablet режим - увеличенный размер */
-@media (min-width: 769px) and (max-width: 1024px) {
+@media (min-width: 1024px) and (max-width: 1200px) {
   .scroll-to-top {
     width: 32px;
     height: 32px;
@@ -626,7 +658,7 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1023px) {
   .scroll-to-top {
     /* На мобильных устройствах футер может быть виден или скрыт */
     bottom: calc(64px + var(--spacing-md) - 8px);

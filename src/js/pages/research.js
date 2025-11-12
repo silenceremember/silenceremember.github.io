@@ -278,7 +278,7 @@ function initScrollToTop() {
   let isAnimating = false;
   
   function isTabletMode() {
-    return window.innerWidth <= 768;
+    return window.innerWidth < 1024;
   }
   
   function getScrollElement() {

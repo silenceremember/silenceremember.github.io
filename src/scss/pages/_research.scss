@@ -1,8 +1,8 @@
 /* Стили для страницы исследований */
 
 /* Переопределяем стили для страницы исследований, чтобы она прокручивалась */
-/* На десктопе (min-width: 769px) страница прокручивается через body (как обычная страница) */
-@media (min-width: 769px) {
+/* На десктопе (min-width: 1024px) страница прокручивается через body (как обычная страница) */
+@media (min-width: 1024px) {
   html.page-with-scroll {
     height: auto;
     min-height: 100vh;
@@ -153,7 +153,7 @@
   flex-direction: column;
   min-height: 0;
   
-  @media (max-width: 768px) {
+  @media (max-width: 1023px) {
     max-width: 100%;
     padding-left: var(--spacing-lg);
     padding-right: var(--spacing-lg);
@@ -171,7 +171,7 @@
   letter-spacing: var(--letter-spacing-tight);
   line-height: var(--line-height-heading);
   
-  @media (max-width: 768px) {
+  @media (max-width: 1023px) {
     font-size: var(--font-size-h2);
     margin-bottom: var(--spacing-lg);
   }
@@ -195,7 +195,7 @@
   letter-spacing: var(--letter-spacing-tight);
   line-height: var(--line-height-heading);
   
-  @media (max-width: 768px) {
+  @media (max-width: 1023px) {
     font-size: var(--font-size-h3);
     margin-bottom: var(--spacing-md);
   }
@@ -245,7 +245,7 @@
     margin-top: 0;
   }
   
-  @media (max-width: 768px) {
+  @media (max-width: 1023px) {
     font-size: var(--font-size-h4);
     margin-top: var(--spacing-lg);
     margin-bottom: var(--spacing-md);
@@ -264,7 +264,7 @@
     padding-bottom: 0;
   }
   
-  @media (max-width: 768px) {
+  @media (max-width: 1023px) {
     margin-bottom: var(--spacing-lg);
     padding-bottom: var(--spacing-md);
   }
@@ -277,7 +277,7 @@
   border: var(--line-width) solid var(--color-accent);
   border-radius: 0;
   
-  @media (max-width: 768px) {
+  @media (max-width: 1023px) {
     padding: var(--spacing-md);
   }
 }
@@ -290,7 +290,7 @@
   margin: 0 0 var(--spacing-md) 0;
   line-height: var(--line-height-heading);
   
-  @media (max-width: 768px) {
+  @media (max-width: 1023px) {
     font-size: var(--font-size-h5);
     margin-bottom: var(--spacing-sm);
   }
@@ -306,7 +306,7 @@
   line-height: var(--line-height-base);
   color: var(--color-text-primary);
   
-  @media (max-width: 768px) {
+  @media (max-width: 1023px) {
     font-size: var(--font-size-small);
     gap: 0.25rem;
     margin-bottom: var(--spacing-sm);
@@ -404,7 +404,7 @@
     color: var(--color-bg-primary);
   }
   
-  @media (max-width: 768px) {
+  @media (max-width: 1023px) {
     font-size: var(--font-size-small);
     padding: var(--spacing-xs) var(--spacing-md);
     margin-top: var(--spacing-sm);
@@ -444,7 +444,7 @@
   background-color: var(--color-bg-primary);
   border-left: 3px solid var(--color-divider);
   
-  @media (max-width: 768px) {
+  @media (max-width: 1023px) {
     font-size: var(--font-size-small);
     padding: var(--spacing-sm);
   }
@@ -526,7 +526,7 @@
   box-sizing: border-box;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1023px) {
   .research-navigation {
     display: block;
   }
@@ -551,14 +551,14 @@
   }
 }
 
-@media (min-width: 769px) {
+@media (min-width: 1024px) {
   .research-navigation {
     display: none !important;
   }
 }
 
 /* Адаптивность */
-@media (max-width: 768px) {
+@media (max-width: 1023px) {
   .research-page {
     padding: var(--spacing-lg) var(--spacing-lg);
     padding-bottom: 0;

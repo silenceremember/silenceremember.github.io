@@ -1,4 +1,4 @@
-@media (max-width: 768px), (max-height: 1023px) {
+@media (max-width: 1023px), (max-height: 1023px) {
   /* Стили для tablet-версии */
 
   /* Исключаем стили для страницы проектов при высоте <1024px */
@@ -186,7 +186,7 @@
 
 /* Стили для страницы проектов в режиме планшета/мобильного */
 /* Только по ширине, без учета высоты */
-@media (max-width: 768px) {
+@media (max-width: 1023px) {
   body.page-with-scroll {
     overflow: hidden !important;
     height: 100vh !important;

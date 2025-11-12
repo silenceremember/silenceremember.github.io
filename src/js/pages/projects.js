@@ -293,7 +293,7 @@ function initFilters(projects) {
             if (finalWidth > 0) {
               yearDropdownButton.style.width = `${finalWidth}px`;
               // В mobile режиме используем setProperty с important для переопределения CSS
-              const isMobile = window.innerWidth <= 768;
+              const isMobile = window.innerWidth < 1024;
               if (isMobile) {
                 yearDropdownMenu.style.setProperty('width', `${finalWidth}px`, 'important');
                 yearDropdownMenu.style.setProperty('min-width', '0', 'important');
@@ -1278,8 +1278,8 @@ function initMenuButtonScroll() {
   }
   
   menuButton.addEventListener('click', () => {
-    // Проверяем, находимся ли мы в tablet режиме (max-width: 768px)
-    const isTabletMode = window.innerWidth <= 768;
+    // Проверяем, находимся ли мы в tablet режиме (max-width: 1023px)
+    const isTabletMode = window.innerWidth < 1024;
     
     if (isTabletMode) {
       // Вычисляем позицию навигационного меню относительно page-wrapper
@@ -1312,7 +1312,7 @@ function initScrollToTop() {
   
   // Определяем, находимся ли мы в tablet режиме
   function isTabletMode() {
-    return window.innerWidth <= 768;
+    return window.innerWidth < 1024;
   }
   
   // Получаем элемент для скролла
