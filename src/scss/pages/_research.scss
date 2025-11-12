@@ -1,0 +1,410 @@
+/* Стили для страницы исследований */
+
+/* Используем те же стили для прокрутки, что и для projects */
+.research-page {
+  padding: var(--spacing-lg) var(--spacing-lg);
+  padding-bottom: 0;
+  max-width: calc(1200px + 16px);
+  margin: 0 auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  
+  @media (max-width: 768px) {
+    max-width: 100%;
+    padding-left: var(--spacing-lg);
+    padding-right: var(--spacing-lg);
+    flex: 1;
+  }
+}
+
+/* Заголовок страницы */
+.research-page-title {
+  font-size: var(--font-size-h1);
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-xl) 0;
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: var(--line-height-heading);
+  
+  @media (max-width: 768px) {
+    font-size: var(--font-size-h2);
+    margin-bottom: var(--spacing-lg);
+  }
+}
+
+/* Секция ВКР */
+.research-vkr-section {
+  margin-bottom: var(--spacing-xxl);
+}
+
+.research-vkr {
+  margin-bottom: var(--spacing-xl);
+}
+
+.research-section-title {
+  font-size: var(--font-size-h2);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-lg) 0;
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: var(--line-height-heading);
+  
+  @media (max-width: 768px) {
+    font-size: var(--font-size-h3);
+    margin-bottom: var(--spacing-md);
+  }
+}
+
+/* Секция публикаций */
+.research-publications-section {
+  margin-bottom: var(--spacing-xl);
+}
+
+/* Заголовок года */
+.research-year-header {
+  font-size: var(--font-size-h3);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+  margin: var(--spacing-xl) 0 var(--spacing-lg) 0;
+  padding-bottom: var(--spacing-sm);
+  border-bottom: var(--line-width) solid var(--color-divider);
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: var(--line-height-heading);
+  
+  &:first-of-type {
+    margin-top: 0;
+  }
+  
+  @media (max-width: 768px) {
+    font-size: var(--font-size-h4);
+    margin-top: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+  }
+}
+
+/* Элемент публикации (академический формат) */
+.research-publication {
+  margin-bottom: var(--spacing-xl);
+  padding-bottom: var(--spacing-lg);
+  border-bottom: 1px solid var(--color-divider);
+  
+  &:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+  
+  @media (max-width: 768px) {
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
+  }
+}
+
+/* ВКР - особое выделение */
+.research-publication-vkr {
+  background-color: var(--color-accent-bg);
+  padding: var(--spacing-lg);
+  border: var(--line-width) solid var(--color-accent);
+  border-radius: 0;
+  
+  @media (max-width: 768px) {
+    padding: var(--spacing-md);
+  }
+}
+
+/* Заголовок публикации */
+.research-publication-title {
+  font-size: var(--font-size-h4);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-md) 0;
+  line-height: var(--line-height-heading);
+  
+  @media (max-width: 768px) {
+    font-size: var(--font-size-h5);
+    margin-bottom: var(--spacing-sm);
+  }
+}
+
+/* Мета-информация */
+.research-publication-meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-md);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  color: var(--color-text-primary);
+  
+  @media (max-width: 768px) {
+    font-size: var(--font-size-small);
+    gap: 0.25rem;
+    margin-bottom: var(--spacing-sm);
+  }
+}
+
+.research-publication-authors {
+  font-weight: var(--font-weight-medium);
+}
+
+.research-publication-journal {
+  font-style: italic;
+}
+
+.research-publication-date {
+  color: var(--color-secondary);
+}
+
+/* Статус и уровень */
+.research-publication-status-level {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-xs);
+}
+
+.research-publication-status {
+  display: inline-block;
+  padding: 0.25rem var(--spacing-sm);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  border: var(--line-width) solid var(--color-text-primary);
+  background-color: transparent;
+  color: var(--color-text-primary);
+  
+  &.research-publication-status-published {
+    background-color: var(--color-text-primary);
+    color: var(--color-bg-primary);
+  }
+  
+  &.research-publication-status-in-publication {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+  
+  &.research-publication-status-in-progress {
+    border-color: var(--color-accent);
+    background-color: var(--color-accent-bg);
+    color: var(--color-accent);
+  }
+}
+
+.research-publication-level {
+  display: inline-block;
+  padding: 0.25rem var(--spacing-sm);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  border: var(--line-width) solid var(--color-divider);
+  background-color: transparent;
+  color: var(--color-secondary);
+}
+
+/* Примечание о черновике */
+.research-publication-draft-note {
+  margin-top: var(--spacing-sm);
+  padding: var(--spacing-sm);
+  background-color: var(--color-bg-primary);
+  border-left: 3px solid var(--color-accent);
+  font-size: var(--font-size-small);
+  color: var(--color-secondary);
+  font-style: italic;
+}
+
+/* Кнопка просмотра PDF */
+.research-publication-pdf-button {
+  display: inline-block;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  margin-top: var(--spacing-md);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--color-text-primary);
+  border: var(--line-width) solid var(--color-text-primary);
+  background-color: transparent;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+  font-family: var(--font-family);
+  cursor: pointer;
+  
+  &:hover {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-bg-primary);
+  }
+  
+  @media (max-width: 768px) {
+    font-size: var(--font-size-small);
+    padding: var(--spacing-xs) var(--spacing-md);
+    margin-top: var(--spacing-sm);
+  }
+}
+
+/* Аннотация */
+.research-publication-abstract-container {
+  margin-top: var(--spacing-md);
+}
+
+.research-publication-abstract-toggle {
+  display: inline-block;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  margin-bottom: var(--spacing-sm);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  text-decoration: underline;
+  color: var(--color-accent);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-family);
+  transition: color 0.3s ease;
+  
+  &:hover {
+    color: var(--color-text-primary);
+  }
+}
+
+.research-publication-abstract {
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  color: var(--color-text-primary);
+  margin-top: var(--spacing-sm);
+  padding: var(--spacing-md);
+  background-color: var(--color-bg-primary);
+  border-left: 3px solid var(--color-divider);
+  
+  @media (max-width: 768px) {
+    font-size: var(--font-size-small);
+    padding: var(--spacing-sm);
+  }
+}
+
+/* Ключевые слова */
+.research-publication-keywords {
+  margin-top: var(--spacing-sm);
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-base);
+  color: var(--color-secondary);
+  
+  strong {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+}
+
+/* Индикатор загрузки */
+.research-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--spacing-xxl);
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+  
+  &.hidden {
+    opacity: 0;
+  }
+}
+
+.research-loading-squares {
+  display: flex;
+  gap: var(--spacing-xs);
+  align-items: center;
+  justify-content: center;
+}
+
+.research-loading-square {
+  width: 16px;
+  height: 16px;
+  background-color: var(--color-accent);
+  animation: research-loading-pulse 1.4s ease-in-out infinite;
+  
+  &:nth-child(1) {
+    animation-delay: 0s;
+  }
+  
+  &:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  
+  &:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+}
+
+@keyframes research-loading-pulse {
+  0%, 80%, 100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Навигационное меню для tablet режима */
+.research-navigation {
+  display: none;
+  margin-top: var(--spacing-xxl);
+  margin-bottom: 0;
+  padding-top: var(--spacing-xl);
+  padding-bottom: var(--spacing-xl);
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .research-navigation {
+    display: block;
+  }
+  
+  .research-navigation .section-title {
+    margin-bottom: var(--spacing-lg);
+    text-align: center;
+  }
+  
+  .research-navigation .cta-buttons {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .research-loading {
+    padding: var(--spacing-xl) var(--spacing-lg);
+  }
+  
+  .research-loading-square {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+@media (min-width: 769px) {
+  .research-navigation {
+    display: none !important;
+  }
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .research-page {
+    padding: var(--spacing-lg) var(--spacing-lg);
+    padding-bottom: 0;
+  }
+  
+  .research-publication {
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .research-year-header {
+    margin-top: var(--spacing-lg);
+  }
+}
+

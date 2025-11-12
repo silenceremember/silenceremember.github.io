@@ -20,13 +20,15 @@
       } else {
         document.documentElement.setAttribute('data-theme', 'light');
       }
+      // Добавляем класс для скролла к html
+      document.documentElement.classList.add('page-with-scroll');
     })();
   </script>
 
   <!-- Main CSS -->
   <link rel="stylesheet" href="/scss/style.scss">
 </head>
-<body>
+<body class="page-with-scroll">
   <div class="page-wrapper">
     <!-- Header -->
     <header class="header"></header>
@@ -36,9 +38,37 @@
 
     <!-- Main Content -->
     <main class="content-wrapper">
-      <div class="container">
-        <h1>ИССЛЕДОВАНИЯ</h1>
-        <p>Страница исследований будет добавлена позже.</p>
+      <div class="container research-page">
+        <h1 class="research-page-title">ИССЛЕДОВАНИЯ</h1>
+        
+        <!-- Контейнер для ВКР -->
+        <section class="research-vkr-section" id="research-vkr-section">
+          <!-- ВКР будет загружена через JavaScript -->
+        </section>
+        
+        <!-- Контейнер для публикаций -->
+        <section class="research-publications-section" id="research-publications-section">
+          <!-- Индикатор загрузки -->
+          <div class="research-loading" id="research-loading">
+            <div class="research-loading-squares">
+              <div class="research-loading-square"></div>
+              <div class="research-loading-square"></div>
+              <div class="research-loading-square"></div>
+            </div>
+          </div>
+          <!-- Публикации будут загружены через JavaScript -->
+        </section>
+        
+        <!-- Навигационное меню для tablet режима -->
+        <div class="research-navigation">
+          <h2 class="section-title">НАВИГАЦИЯ</h2>
+          <div class="cta-buttons">
+            <a href="index.html" class="cta-button">ГЛАВНАЯ</a>
+            <a href="projects.html" class="cta-button">ПОРТФОЛИО</a>
+            <a href="cv.html" class="cta-button">РЕЗЮМЕ</a>
+            <a href="community.html" class="cta-button">СООБЩЕСТВО</a>
+          </div>
+        </div>
       </div>
     </main>
 
@@ -48,11 +78,17 @@
     <!-- Footer -->
     <footer class="footer"></footer>
   </div>
-
+  
   <div class="custom-cursor"></div>
+
+  <!-- Кнопка "Наверх" -->
+  <button class="scroll-to-top" id="scroll-to-top" aria-label="Прокрутить наверх" style="display: none;">
+    <span data-svg-src="assets/images/icon-scroll-to-top.svg"></span>
+  </button>
 
   <!-- JavaScript -->
   <script type="module" src="/js/main.js"></script>
+  <script type="module" src="/js/pages/research.js"></script>
 </body>
 </html>
 
