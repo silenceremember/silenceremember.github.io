@@ -148,24 +148,22 @@ function createHeaderSection(communityData, aboutText) {
   topSection.appendChild(roleSubtitle);
   topSection.appendChild(contactsWrapper);
   headerContent.appendChild(topSection);
-  section.appendChild(headerContent);
   
-  // "О себе" отдельным блоком под cv-header-content
+  // "О себе" внутри cv-header-content, рядом с фото и контактами
   if (aboutText) {
     const aboutContainer = document.createElement('div');
     aboutContainer.className = 'cv-header-about';
     
-    // Разбиваем текст на параграфы по двойному переносу строки
-    const paragraphs = aboutText.split('\n\n').filter(p => p.trim());
-    paragraphs.forEach(paragraphText => {
-      const aboutTextEl = document.createElement('p');
-      aboutTextEl.className = 'cv-about-text';
-      aboutTextEl.textContent = paragraphText.trim();
-      aboutContainer.appendChild(aboutTextEl);
-    });
+    // Весь текст одним блоком
+    const aboutTextEl = document.createElement('p');
+    aboutTextEl.className = 'cv-about-text';
+    aboutTextEl.textContent = aboutText.trim();
+    aboutContainer.appendChild(aboutTextEl);
     
-    section.appendChild(aboutContainer);
+    headerContent.appendChild(aboutContainer);
   }
+  
+  section.appendChild(headerContent);
   
   return section;
 }
