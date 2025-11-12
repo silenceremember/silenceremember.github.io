@@ -1230,7 +1230,7 @@ async function initProjectsPage() {
   if (projects.length === 0) {
     const grid = document.getElementById('projects-grid');
     if (grid) {
-      grid.innerHTML = '<p>Проекты не найдены.</p>';
+      grid.innerHTML = '<h2 class="projects-empty-title">ПРОЕКТЫ НЕ НАЙДЕНЫ</h2><p class="projects-empty-subtitle">ПОПРОБУЙТЕ ИЗМЕНИТЬ ФИЛЬТРЫ</p>';
     }
     return;
   }

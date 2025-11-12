@@ -422,10 +422,32 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
 .projects-empty {
   text-align: center;
   padding: var(--spacing-xl);
-  color: var(--color-text-primary);
-  font-size: var(--font-size-base);
   opacity: 1;
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.projects-empty-title {
+  font-size: var(--font-size-h2);
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+  margin: 0;
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: 1;
+}
+
+.projects-empty-subtitle {
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin: 0;
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: 1;
 }
 
 /* Навигационное меню для tablet режима */
@@ -494,6 +516,14 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
   .projects-section-expand {
     font-size: var(--font-size-small);
     padding: var(--spacing-xs) var(--spacing-sm);
+  }
+  
+  .projects-empty-title {
+    font-size: var(--font-size-h3);
+  }
+  
+  .projects-empty-subtitle {
+    font-size: var(--font-size-base);
   }
 }
 
