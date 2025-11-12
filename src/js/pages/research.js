@@ -205,7 +205,7 @@ function createResearchCard(publication) {
       });
     } else {
       button.disabled = true;
-      button.style.display = 'none';
+      button.textContent = 'СКОРО';
     }
   }
   
