@@ -131,12 +131,8 @@ function createResearchCard(publication) {
   const title = card.querySelector('.research-card-title');
   const authors = card.querySelector('.research-card-authors');
   const journal = card.querySelector('.research-card-journal');
-  const status = card.querySelector('.research-card-status');
   const level = card.querySelector('.research-card-level');
   const type = card.querySelector('.research-card-type');
-  const description = card.querySelector('.research-card-description');
-  const descriptionContainer = card.querySelector('.research-card-description-container');
-  const abstractToggle = card.querySelector('.research-card-abstract-toggle');
   const keywords = card.querySelector('.research-card-keywords');
   const button = card.querySelector('.research-card-button');
   
@@ -160,11 +156,6 @@ function createResearchCard(publication) {
     journal.style.display = 'none';
   }
   
-  // Статус - скрываем
-  if (status) {
-    status.style.display = 'none';
-  }
-  
   // Уровень
   if (level && publication.level) {
     level.textContent = publication.level;
@@ -175,11 +166,6 @@ function createResearchCard(publication) {
   // Тип
   if (type) {
     type.textContent = getTypeText(publication.type);
-  }
-  
-  // Аннотация - скрываем
-  if (descriptionContainer) {
-    descriptionContainer.style.display = 'none';
   }
   
   // Ключевые слова
