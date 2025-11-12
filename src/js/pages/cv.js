@@ -148,12 +148,9 @@ function createHeaderSection(communityData, aboutText) {
   topSection.appendChild(roleSubtitle);
   topSection.appendChild(contactsWrapper);
   headerContent.appendChild(topSection);
+  section.appendChild(headerContent);
   
-  // Правая часть: "О себе"
-  const rightColumn = document.createElement('div');
-  rightColumn.className = 'cv-header-right';
-  
-  // "О себе"
+  // "О себе" отдельным блоком под cv-header-content
   if (aboutText) {
     const aboutContainer = document.createElement('div');
     aboutContainer.className = 'cv-header-about';
@@ -167,11 +164,9 @@ function createHeaderSection(communityData, aboutText) {
       aboutContainer.appendChild(aboutTextEl);
     });
     
-    rightColumn.appendChild(aboutContainer);
+    section.appendChild(aboutContainer);
   }
   
-  headerContent.appendChild(rightColumn);
-  section.appendChild(headerContent);
   return section;
 }
 
