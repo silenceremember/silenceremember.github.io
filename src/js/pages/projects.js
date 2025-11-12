@@ -264,7 +264,12 @@ function initFilters(projects) {
               // Временно показываем опцию для измерения
               const optionDisplay = option.style.display;
               option.style.display = '';
-              const width = option.scrollWidth || option.offsetWidth;
+              
+              // Используем getBoundingClientRect для более точного измерения
+              // включая padding и border
+              const rect = option.getBoundingClientRect();
+              const width = rect.width;
+              
               option.style.display = optionDisplay;
               
               if (width > maxWidth) {
@@ -272,9 +277,9 @@ function initFilters(projects) {
               }
             });
             
-            // Также проверяем ширину самой кнопки (на случай если она шире)
-            const buttonWidth = yearDropdownButton.scrollWidth || yearDropdownButton.offsetWidth;
-            const finalWidth = Math.max(maxWidth, buttonWidth);
+            // Используем только максимальную ширину опций, без учета текущей ширины кнопки
+            // Это гарантирует, что ширина кнопки будет одинаковой во всех режимах
+            const finalWidth = maxWidth;
             
             // Возвращаем меню в исходное состояние
             yearDropdownMenu.hidden = originalHidden;
