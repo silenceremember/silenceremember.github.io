@@ -167,11 +167,6 @@ function createHeaderSection(communityData, aboutText, skills) {
   
   // Раздел навыков сразу после cv-header-content
   if (skills) {
-    const skillsTitle = document.createElement('h2');
-    skillsTitle.className = 'cv-section-title';
-    skillsTitle.textContent = 'Навыки';
-    section.appendChild(skillsTitle);
-    
     const skillsGrid = createSkillsSection(skills);
     if (skillsGrid) {
       section.appendChild(skillsGrid);
@@ -288,42 +283,37 @@ function createSkillsSection(skills) {
   const section = document.createElement('div');
   section.className = 'cv-skills-grid';
   
-  // Категории согласно PLAN.md
+  // Категории навыков
   const categories = [
     {
-      key: 'gamedev',
-      title: 'Геймдев и прототипирование',
-      skills: skills.gamedev || []
+      key: 'design-prototyping',
+      title: 'ДИЗАЙН И ПРОТОТИПИРОВАНИЕ',
+      description: 'Основной инструментарий для создания и проверки игрового опыта',
+      skills: skills['design-prototyping'] || []
     },
     {
-      key: '2d-graphics',
-      title: '2D графика',
-      skills: skills['2d-graphics'] || []
+      key: 'technical-scripting',
+      title: 'ТЕХНИЧЕСКИЕ НАВЫКИ И СКРИПТИНГ',
+      description: 'Языки и технологии для реализации систем и проведения исследований',
+      skills: skills['technical-scripting'] || []
     },
     {
-      key: '3d-graphics',
-      title: '3D графика',
-      skills: skills['3d-graphics'] || []
+      key: 'design-documentation',
+      title: 'ДИЗАЙН-ДОКУМЕНТАЦИЯ',
+      description: 'Инструменты для описания и визуализации геймдизайнерских решений',
+      skills: skills['design-documentation'] || []
     },
     {
-      key: 'development',
-      title: 'Разработка',
-      skills: skills.development || []
+      key: 'production-collaboration',
+      title: 'ПРОИЗВОДСТВО И СОВМЕСТНАЯ РАБОТА',
+      description: 'Стандарты индустрии для управления версиями и задачами',
+      skills: skills['production-collaboration'] || []
     },
     {
-      key: 'documentation',
-      title: 'Документация',
-      skills: skills.documentation || []
-    },
-    {
-      key: 'project-management',
-      title: 'Управление проектами',
-      skills: skills['project-management'] || []
-    },
-    {
-      key: 'additional',
-      title: 'Дополнительно',
-      skills: skills.additional || []
+      key: 'asset-creation',
+      title: 'СОЗДАНИЕ АССЕТОВ',
+      description: 'Вспомогательные навыки для визуализации прототипов',
+      skills: skills['asset-creation'] || []
     }
   ];
   
@@ -337,6 +327,13 @@ function createSkillsSection(skills) {
     categoryTitle.className = 'cv-skill-category-title';
     categoryTitle.textContent = category.title;
     categoryDiv.appendChild(categoryTitle);
+    
+    if (category.description) {
+      const categoryDescription = document.createElement('p');
+      categoryDescription.className = 'cv-skill-category-description';
+      categoryDescription.textContent = category.description;
+      categoryDiv.appendChild(categoryDescription);
+    }
     
     const skillsList = document.createElement('div');
     skillsList.className = 'cv-skill-list';

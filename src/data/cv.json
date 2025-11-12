@@ -55,42 +55,31 @@
     }
   ],
   "skills": {
-    "gamedev": [
+    "design-prototyping": [
       "Unity",
-      "Unreal Engine"
-    ],
-    "2d-graphics": [
-      "Adobe Photoshop",
-      "Aseprite",
-      "Krita",
-      "Figma"
-    ],
-    "3d-graphics": [
-      "Blender",
-      "Marmoset Toolbag",
-      "Rizom UV",
-      "Substance Painter"
-    ],
-    "development": [
-      "Visual Studio Code",
-      "C#"
-    ],
-    "documentation": [
-      "Google Docs",
-      "Google Sheets",
+      "Unreal Engine",
       "Figma",
-      "Miro",
-      "FigJam"
+      "Miro"
     ],
-    "project-management": [
+    "technical-scripting": [
+      "C#",
+      "Blueprints",
+      "AI / ML Models"
+    ],
+    "design-documentation": [
+      "Google Suite (Docs, Sheets)",
+      "Notion",
+      "Confluence"
+    ],
+    "production-collaboration": [
       "Git",
       "GitHub",
-      "GitHub Projects"
+      "Jira"
     ],
-    "additional": [
-      "Notion",
-      "Jira",
-      "Confluence"
+    "asset-creation": [
+      "Blender",
+      "Substance Painter",
+      "Adobe Photoshop"
     ]
   },
   "certificates": [
