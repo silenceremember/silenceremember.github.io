@@ -106,39 +106,6 @@ function createHeaderSection(communityData, aboutText) {
     this.src = 'assets/images/portrait-placeholder.svg';
   };
   photoContainer.appendChild(photo);
-  
-  // Кнопки контактов под фото
-  const contactButtons = document.createElement('div');
-  contactButtons.className = 'cv-about-contact-buttons';
-  
-  // Email кнопка
-  const emailButton = document.createElement('a');
-  emailButton.className = 'header-nav-item';
-  emailButton.href = 'mailto:slcrmmbr@gmail.com';
-  emailButton.textContent = 'SLCRMMBR@GMAIL.COM';
-  contactButtons.appendChild(emailButton);
-  
-  // Telegram кнопка
-  if (communityData && communityData.socialLinks && communityData.socialLinks.telegram && communityData.socialLinks.telegram !== 'https://t.me/...') {
-    const telegramButton = document.createElement('a');
-    telegramButton.className = 'header-nav-item';
-    telegramButton.href = communityData.socialLinks.telegram;
-    telegramButton.target = '_blank';
-    telegramButton.rel = 'noopener noreferrer';
-    telegramButton.textContent = '@SILENCEREMEMBER';
-    contactButtons.appendChild(telegramButton);
-  } else {
-    // Если ссылки нет в данных, используем стандартную
-    const telegramButton = document.createElement('a');
-    telegramButton.className = 'header-nav-item';
-    telegramButton.href = 'https://t.me/SilenceRemember';
-    telegramButton.target = '_blank';
-    telegramButton.rel = 'noopener noreferrer';
-    telegramButton.textContent = '@SILENCEREMEMBER';
-    contactButtons.appendChild(telegramButton);
-  }
-  
-  photoContainer.appendChild(contactButtons);
   headerContent.appendChild(photoContainer);
   
   // Верхняя часть: заголовок и подзаголовок (слева сверху)
@@ -153,8 +120,33 @@ function createHeaderSection(communityData, aboutText) {
   roleSubtitle.className = 'cv-header-role';
   roleSubtitle.textContent = 'SYSTEM GAME DESIGNER';
   
+  // Контакты под ролью
+  const contactsWrapper = document.createElement('div');
+  contactsWrapper.className = 'cv-header-contacts-wrapper';
+  
+  // Email ссылка
+  const emailLink = document.createElement('a');
+  emailLink.className = 'cv-header-contact-link';
+  emailLink.href = 'mailto:slcrmmbr@gmail.com';
+  emailLink.textContent = 'slcrmmbr@gmail.com';
+  contactsWrapper.appendChild(emailLink);
+  
+  // Telegram ссылка
+  const telegramLink = document.createElement('a');
+  telegramLink.className = 'cv-header-contact-link';
+  if (communityData && communityData.socialLinks && communityData.socialLinks.telegram && communityData.socialLinks.telegram !== 'https://t.me/...') {
+    telegramLink.href = communityData.socialLinks.telegram;
+  } else {
+    telegramLink.href = 'https://t.me/silenceremember';
+  }
+  telegramLink.target = '_blank';
+  telegramLink.rel = 'noopener noreferrer';
+  telegramLink.textContent = 't.me/silenceremember';
+  contactsWrapper.appendChild(telegramLink);
+  
   topSection.appendChild(nameTitle);
   topSection.appendChild(roleSubtitle);
+  topSection.appendChild(contactsWrapper);
   headerContent.appendChild(topSection);
   
   // Правая часть: "О себе"
@@ -166,10 +158,14 @@ function createHeaderSection(communityData, aboutText) {
     const aboutContainer = document.createElement('div');
     aboutContainer.className = 'cv-header-about';
     
-    const aboutTextEl = document.createElement('p');
-    aboutTextEl.className = 'cv-about-text';
-    aboutTextEl.textContent = aboutText;
-    aboutContainer.appendChild(aboutTextEl);
+    // Разбиваем текст на параграфы по двойному переносу строки
+    const paragraphs = aboutText.split('\n\n').filter(p => p.trim());
+    paragraphs.forEach(paragraphText => {
+      const aboutTextEl = document.createElement('p');
+      aboutTextEl.className = 'cv-about-text';
+      aboutTextEl.textContent = paragraphText.trim();
+      aboutContainer.appendChild(aboutTextEl);
+    });
     
     rightColumn.appendChild(aboutContainer);
   }
