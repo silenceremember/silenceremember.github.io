@@ -208,6 +208,11 @@ function createResearchCard(publication) {
   // Вся карточка работает как кнопка
   if (publication.pdf_url) {
     card.addEventListener('click', (e) => {
+      // Проверяем, был ли выделен текст - если да, не открываем карточку
+      const selection = window.getSelection();
+      if (selection && selection.toString().trim().length > 0) {
+        return;
+      }
       // Предотвращаем всплытие события от кнопки "ЧИТАТЬ"
       // но все равно открываем документ
       e.stopPropagation();

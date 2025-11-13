@@ -150,6 +150,11 @@ function createProjectCard(project) {
   // Обработчик клика для открытия деталей проекта
   // Вся карточка работает как кнопка
   card.addEventListener('click', (e) => {
+    // Проверяем, был ли выделен текст - если да, не открываем карточку
+    const selection = window.getSelection();
+    if (selection && selection.toString().trim().length > 0) {
+      return;
+    }
     // Предотвращаем всплытие события от кнопки "Подробнее"
     // но все равно открываем детали проекта
     e.stopPropagation();
@@ -701,6 +706,11 @@ function applyFilters() {
         clonedCard.style.transition = 'none'; // Отключаем transition для мгновенного применения начального состояния
         // Добавляем обработчик клика на всю карточку
         clonedCard.addEventListener('click', (e) => {
+          // Проверяем, был ли выделен текст - если да, не открываем карточку
+          const selection = window.getSelection();
+          if (selection && selection.toString().trim().length > 0) {
+            return;
+          }
           e.stopPropagation();
           openProjectDetails(project);
         });
@@ -1131,6 +1141,11 @@ function renderGroupedProjects() {
             clonedCard.style.transition = 'none';
             // Добавляем обработчик клика на всю карточку
             clonedCard.addEventListener('click', (e) => {
+              // Проверяем, был ли выделен текст - если да, не открываем карточку
+              const selection = window.getSelection();
+              if (selection && selection.toString().trim().length > 0) {
+                return;
+              }
               e.stopPropagation();
               openProjectDetails(project);
             });
