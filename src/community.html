@@ -20,13 +20,15 @@
       } else {
         document.documentElement.setAttribute('data-theme', 'light');
       }
+      // Добавляем класс для скролла к html
+      document.documentElement.classList.add('page-with-scroll');
     })();
   </script>
 
   <!-- Main CSS -->
   <link rel="stylesheet" href="/scss/style.scss">
 </head>
-<body>
+<body class="page-with-scroll">
   <div class="page-wrapper">
     <!-- Header -->
     <header class="header"></header>
@@ -36,9 +38,43 @@
 
     <!-- Main Content -->
     <main class="content-wrapper">
-      <div class="container">
-        <h1>СООБЩЕСТВО</h1>
-        <p>Страница сообщества будет добавлена позже.</p>
+      <div class="container community-page">
+        <!-- Discord сервер -->
+        <section class="community-discord-section" id="community-discord-section">
+          <!-- Discord сервер будет загружен через JavaScript -->
+        </section>
+        
+        <!-- Ссылки на донаты -->
+        <section class="community-donations-section" id="community-donations-section">
+          <!-- Донаты будут загружены через JavaScript -->
+        </section>
+        
+        <!-- Социальные ссылки -->
+        <section class="community-social-section" id="community-social-section">
+          <!-- Социальные ссылки будут загружены через JavaScript -->
+        </section>
+        
+        <!-- Рабочие ссылки -->
+        <section class="community-work-section" id="community-work-section">
+          <!-- Рабочие ссылки будут загружены через JavaScript -->
+        </section>
+        
+        <!-- Предстоящие события -->
+        <section class="community-events-section" id="community-events-section">
+          <!-- События будут загружены через JavaScript -->
+        </section>
+        
+        <!-- Навигационное меню для tablet режима -->
+        <div class="community-navigation">
+          <h2 class="section-title">НАВИГАЦИЯ</h2>
+          <div class="cta-buttons">
+            <a href="index.html" class="cta-button">ГЛАВНАЯ</a>
+            <a href="projects.html" class="cta-button">ПОРТФОЛИО</a>
+            <a href="research.html" class="cta-button">ИССЛЕДОВАНИЯ</a>
+            <a href="cv.html" class="cta-button">РЕЗЮМЕ</a>
+            <a href="community.html" class="cta-button">СООБЩЕСТВО</a>
+          </div>
+        </div>
       </div>
     </main>
 
@@ -48,11 +84,17 @@
     <!-- Footer -->
     <footer class="footer"></footer>
   </div>
-
+  
   <div class="custom-cursor"></div>
+
+  <!-- Кнопка "Наверх" -->
+  <button class="scroll-to-top" id="scroll-to-top" aria-label="Прокрутить наверх" style="display: none;">
+    <span data-svg-src="assets/images/icon-scroll-to-top.svg"></span>
+  </button>
 
   <!-- JavaScript -->
   <script type="module" src="/js/main.js"></script>
+  <script type="module" src="/js/pages/community.js"></script>
 </body>
 </html>
 

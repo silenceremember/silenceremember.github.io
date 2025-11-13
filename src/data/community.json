@@ -2,7 +2,8 @@
   "version": "1.0.0",
   "lastUpdated": "2025-01-XX",
   "discord": {
-    "link": "https://discord.gg/...",
+    "link": "https://discord.gg/EGBnfMMubw",
+    "name": "2IQ",
     "description": "Присоединяйтесь к нашему сообществу разработчиков игр",
     "stats": {
       "enabled": false,
@@ -33,11 +34,15 @@
     }
   ],
   "socialLinks": {
+    "steam": "https://steamcommunity.com/...",
+    "telegram": "https://t.me/...",
+    "itch": "https://silenceremember.itch.io/",
+    "discord": "https://discord.gg/..."
+  },
+  "workLinks": {
     "linkedin": "https://linkedin.com/in/...",
     "headhunter": "https://hh.ru/resume/...",
-    "telegram": "https://t.me/...",
-    "github": "https://github.com/silenceremember",
-    "itch": "https://silenceremember.itch.io/"
+    "mail": "mailto:..."
   },
   "plans": [
     {
