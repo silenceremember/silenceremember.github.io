@@ -225,21 +225,12 @@
   height: 100%;
   flex-grow: 1;
   z-index: 2;
-  overflow: auto;
+  overflow: hidden;
   -webkit-overflow-scrolling: touch;
   touch-action: pan-y pan-x;
   
   // Показываем обычный курсор внутри iframe (кастомный курсор не работает внутри iframe)
   cursor: auto;
-  
-  // Скрываем скроллбар, но сохраняем возможность прокрутки
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE и Edge */
-  
-  // Скрываем скроллбар для WebKit браузеров (Chrome, Safari)
-  &::-webkit-scrollbar {
-    display: none;
-  }
 }
 
 .document-viewer-iframe {
@@ -248,6 +239,10 @@
   border: none;
   background-color: var(--color-bg-primary);
   cursor: auto;
+  display: block;
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
   
   // Попытка скрыть скроллбар внутри iframe (может не работать из-за ограничений безопасности)
   scrollbar-width: none; /* Firefox */
