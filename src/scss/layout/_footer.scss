@@ -117,10 +117,9 @@
 }
 
 .footer-logo-text {
-  width: 24px;
-  height: 24px;
   display: block;
-  background-color: var(--color-secondary);
+  color: var(--color-text-primary);
+  fill: currentColor;
 }
 
 .footer-logo-icon {
