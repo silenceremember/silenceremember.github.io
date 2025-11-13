@@ -8,6 +8,7 @@ let documentViewerModal = null;
 let isInitialized = false;
 let scrollPosition = 0;
 let scrollLockElements = [];
+let selectionLockElements = [];
 
 /**
  * Загружает SVG иконку
@@ -137,6 +138,131 @@ function unlockScroll() {
   requestAnimationFrame(() => {
     window.scrollTo(0, scrollPosition);
   });
+}
+
+/**
+ * Блокирует выделение текста на странице
+ */
+function lockSelection() {
+  // Сначала сбрасываем любое активное выделение
+  if (window.getSelection) {
+    const selection = window.getSelection();
+    if (selection.removeAllRanges) {
+      selection.removeAllRanges();
+    }
+  }
+  if (document.selection && document.selection.empty) {
+    document.selection.empty();
+  }
+  
+  const html = document.documentElement;
+  const body = document.body;
+  
+  selectionLockElements = [];
+  
+  // HTML элемент
+  selectionLockElements.push({
+    element: html,
+    originalUserSelect: html.style.userSelect,
+    originalWebkitUserSelect: html.style.webkitUserSelect,
+    originalMozUserSelect: html.style.mozUserSelect,
+    originalMsUserSelect: html.style.msUserSelect
+  });
+  html.style.userSelect = 'none';
+  html.style.webkitUserSelect = 'none';
+  html.style.mozUserSelect = 'none';
+  html.style.msUserSelect = 'none';
+  
+  // Body элемент
+  selectionLockElements.push({
+    element: body,
+    originalUserSelect: body.style.userSelect,
+    originalWebkitUserSelect: body.style.webkitUserSelect,
+    originalMozUserSelect: body.style.mozUserSelect,
+    originalMsUserSelect: body.style.msUserSelect
+  });
+  body.style.userSelect = 'none';
+  body.style.webkitUserSelect = 'none';
+  body.style.mozUserSelect = 'none';
+  body.style.msUserSelect = 'none';
+  
+  // Добавляем обработчики событий для предотвращения выделения
+  document.addEventListener('selectstart', preventSelection, false);
+  document.addEventListener('dragstart', preventSelection, false);
+  document.addEventListener('contextmenu', preventSelection, false);
+}
+
+/**
+ * Разблокирует выделение текста на странице
+ */
+function unlockSelection() {
+  // Удаляем обработчики событий
+  document.removeEventListener('selectstart', preventSelection, false);
+  document.removeEventListener('dragstart', preventSelection, false);
+  document.removeEventListener('contextmenu', preventSelection, false);
+  
+  // Восстанавливаем стили для всех элементов
+  selectionLockElements.forEach(({ 
+    element, 
+    originalUserSelect, 
+    originalWebkitUserSelect, 
+    originalMozUserSelect, 
+    originalMsUserSelect 
+  }) => {
+    element.style.userSelect = originalUserSelect || '';
+    element.style.webkitUserSelect = originalWebkitUserSelect || '';
+    element.style.mozUserSelect = originalMozUserSelect || '';
+    element.style.msUserSelect = originalMsUserSelect || '';
+  });
+  
+  selectionLockElements = [];
+  
+  // Очищаем любое активное выделение
+  if (window.getSelection) {
+    const selection = window.getSelection();
+    if (selection.removeAllRanges) {
+      selection.removeAllRanges();
+    }
+  }
+  if (document.selection && document.selection.empty) {
+    document.selection.empty();
+  }
+}
+
+/**
+ * Предотвращает выделение текста
+ */
+function preventSelection(e) {
+  if (!documentViewerModal || documentViewerModal.hidden) {
+    return;
+  }
+  
+  // Разрешаем выделение внутри iframe-wrapper и iframe (PDF контент)
+  const iframeWrapper = documentViewerModal.querySelector('.document-viewer-iframe-wrapper');
+  const iframe = documentViewerModal.querySelector('.document-viewer-iframe');
+  
+  if (iframeWrapper && (iframeWrapper.contains(e.target) || e.target === iframeWrapper)) {
+    return;
+  }
+  
+  if (iframe && (iframe.contains(e.target) || e.target === iframe)) {
+    return;
+  }
+  
+  // Разрешаем выделение внутри самого модального окна (кнопки, заголовки и т.д.)
+  if (documentViewerModal.contains(e.target) && 
+      !iframeWrapper?.contains(e.target) && 
+      !iframe?.contains(e.target)) {
+    // Разрешаем выделение только для интерактивных элементов (кнопки, ссылки)
+    const interactiveElements = documentViewerModal.querySelectorAll('button, a, input, textarea');
+    if (Array.from(interactiveElements).some(el => el.contains(e.target))) {
+      return;
+    }
+  }
+  
+  // Блокируем выделение для всего остального
+  e.preventDefault();
+  return false;
 }
 
 /**
@@ -353,6 +479,9 @@ export async function openDocument({ url, title, isDraft = false, draftNote = '�
   // Блокируем прокрутку страницы
   lockScroll();
   
+  // Блокируем выделение текста на странице
+  lockSelection();
+  
   // Показываем модальное окно
   documentViewerModal.hidden = false;
   
@@ -377,6 +506,7 @@ export function closeDocumentViewer() {
   // Разблокируем прокрутку страницы после завершения анимации (соответствует --transition-duration-fast: 0.2s)
   setTimeout(() => {
     unlockScroll();
+    unlockSelection();
     documentViewerModal.hidden = true;
     
     // Очищаем iframe для освобождения памяти
