@@ -250,12 +250,17 @@ function setupEventHandlers() {
   // Обработка загрузки iframe
   if (iframe) {
     iframe.addEventListener('load', () => {
-      if (loadingElement) {
-        loadingElement.hidden = true;
-      }
-      if (errorElement) {
-        errorElement.hidden = true;
-      }
+      // Скрываем индикатор загрузки с небольшой задержкой для плавности
+      setTimeout(() => {
+        if (loadingElement) {
+          loadingElement.hidden = true;
+        }
+        if (errorElement) {
+          errorElement.hidden = true;
+        }
+        // Показываем iframe плавно после скрытия loading
+        iframe.classList.add('loaded');
+      }, 100);
     });
     
     iframe.addEventListener('error', () => {
@@ -268,6 +273,8 @@ function setupEventHandlers() {
           errorLink.href = downloadLink.href;
         }
       }
+      // Убираем класс loaded при ошибке
+      iframe.classList.remove('loaded');
     });
   }
 }
@@ -292,8 +299,8 @@ export async function openDocument({ url, title, isDraft = false, draftNote = '�
   // Если модальное окно уже открыто, сначала закрываем его
   if (!documentViewerModal.hidden) {
     closeDocumentViewer();
-    // Небольшая задержка для плавного закрытия
-    await new Promise(resolve => setTimeout(resolve, 100));
+    // Ждем завершения анимации закрытия
+    await new Promise(resolve => setTimeout(resolve, 300));
   }
   
   const titleElement = documentViewerModal.querySelector('.document-viewer-title');
@@ -314,6 +321,9 @@ export async function openDocument({ url, title, isDraft = false, draftNote = '�
   
   // Устанавливаем URL для iframe (используем Google Docs Viewer для PDF)
   if (iframe) {
+    // Сбрасываем класс loaded перед загрузкой нового документа
+    iframe.classList.remove('loaded');
+    
     // Используем Google Docs Viewer для просмотра PDF
     const pdfUrl = url.startsWith('http') ? url : `/${url}`;
     const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(window.location.origin + pdfUrl)}&embedded=true`;
@@ -346,6 +356,11 @@ export async function openDocument({ url, title, isDraft = false, draftNote = '�
   // Показываем модальное окно
   documentViewerModal.hidden = false;
   
+  // Запускаем анимацию появления после небольшой задержки для корректного рендеринга
+  requestAnimationFrame(() => {
+    documentViewerModal.classList.add('visible');
+  });
+  
   // Фокус на модальном окне для доступности
   documentViewerModal.focus();
 }
@@ -356,22 +371,27 @@ export async function openDocument({ url, title, isDraft = false, draftNote = '�
 export function closeDocumentViewer() {
   if (!documentViewerModal) return;
   
-  // Разблокируем прокрутку страницы
-  unlockScroll();
+  // Убираем класс visible для запуска анимации исчезновения
+  documentViewerModal.classList.remove('visible');
   
-  documentViewerModal.hidden = true;
-  
-  // Очищаем iframe для освобождения памяти
-  const iframe = documentViewerModal.querySelector('.document-viewer-iframe');
-  if (iframe) {
-    iframe.src = '';
-  }
-  
-  // Скрываем ошибку
-  const errorElement = documentViewerModal.querySelector('.document-viewer-error');
-  if (errorElement) {
-    errorElement.hidden = true;
-  }
+  // Разблокируем прокрутку страницы после завершения анимации
+  setTimeout(() => {
+    unlockScroll();
+    documentViewerModal.hidden = true;
+    
+    // Очищаем iframe для освобождения памяти
+    const iframe = documentViewerModal.querySelector('.document-viewer-iframe');
+    if (iframe) {
+      iframe.src = '';
+      iframe.classList.remove('loaded');
+    }
+    
+    // Скрываем ошибку
+    const errorElement = documentViewerModal.querySelector('.document-viewer-error');
+    if (errorElement) {
+      errorElement.hidden = true;
+    }
+  }, 300); // Ждем завершения анимации (0.3s)
 }
 
 /**
