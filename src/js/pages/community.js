@@ -652,15 +652,17 @@ async function initCommunityPage() {
               await svgLoaderModule.default();
             }
             
-            // Делаем иконку квадратной на основе высоты карточки
+            // Делаем иконку квадратной на основе высоты текстового блока
             const card = discordSection.querySelector('.community-card-discord');
             const iconContainer = card?.querySelector('.community-card-icon-left');
-            if (card && iconContainer) {
+            const textBlock = card?.querySelector('.community-card-text-block');
+            if (card && iconContainer && textBlock) {
               const updateIconSize = () => {
-                const cardHeight = card.offsetHeight;
-                if (cardHeight > 0) {
-                  iconContainer.style.width = `${cardHeight}px`;
-                  iconContainer.style.minWidth = `${cardHeight}px`;
+                const textBlockHeight = textBlock.offsetHeight;
+                if (textBlockHeight > 0) {
+                  iconContainer.style.width = `${textBlockHeight}px`;
+                  iconContainer.style.minWidth = `${textBlockHeight}px`;
+                  iconContainer.style.height = `${textBlockHeight}px`;
                 }
               };
               
