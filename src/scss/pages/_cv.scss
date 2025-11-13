@@ -245,7 +245,7 @@
   
   @media (max-width: 1023px) {
     font-size: var(--font-size-h2);
-    text-align: center;
+    text-align: left;
   }
 }
 
@@ -260,7 +260,7 @@
   
   @media (max-width: 1023px) {
     font-size: var(--font-size-h4);
-    text-align: center;
+    text-align: left;
   }
 }
 
@@ -285,7 +285,7 @@
   
   @media (max-width: 1023px) {
     gap: var(--spacing-lg);
-    justify-items: center;
+    justify-items: start;
   }
 }
 
@@ -299,10 +299,12 @@
   @media (min-width: 1025px) {
     grid-column: 1;
     grid-row: 1 / span 2;
+    order: 0;
   }
   
   @media (max-width: 1023px) {
     align-items: center;
+    order: 2;
   }
 }
 
@@ -334,11 +336,13 @@
     grid-row: 1;
     text-align: left;
     align-self: start;
+    order: 0;
   }
   
   @media (max-width: 1023px) {
-    text-align: center;
-    align-items: center;
+    text-align: left;
+    align-items: flex-start;
+    order: 1;
   }
 }
 
@@ -359,7 +363,7 @@
   
   @media (max-width: 1023px) {
     width: 100%;
-    align-items: center;
+    align-items: flex-start;
   }
 }
 
@@ -369,7 +373,7 @@
   
   @media (max-width: 1023px) {
     width: 100%;
-    justify-content: center;
+    justify-content: flex-start;
   }
 }
 
@@ -381,7 +385,7 @@
   margin-top: 0.25rem;
   
   @media (max-width: 1023px) {
-    align-items: center;
+    align-items: flex-start;
   }
 }
 
@@ -414,11 +418,13 @@
     grid-row: 2;
     text-align: left;
     align-self: start;
+    order: 0;
   }
   
   @media (max-width: 1023px) {
     width: 100%;
-    text-align: center;
+    text-align: left;
+    order: 3;
   }
 }
 
@@ -456,7 +462,7 @@
   
   @media (max-width: 1023px) {
     gap: var(--spacing-sm);
-    justify-content: center;
+    justify-content: flex-start;
   }
 }
 
