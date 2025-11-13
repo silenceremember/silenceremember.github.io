@@ -43,9 +43,11 @@
   color: var(--color-bg-primary);
 }
 
-/* Активная кнопка в навигации (projects-navigation, research-navigation, #cta-section) */
+/* Активная кнопка в навигации (projects-navigation, research-navigation, cv-navigation, community-navigation, #cta-section) */
 .projects-navigation .cta-button.active,
 .research-navigation .cta-button.active,
+.cv-navigation .cta-button.active,
+.community-navigation .cta-button.active,
 #cta-section .cta-button.active {
   background-color: var(--color-text-primary);
   border-color: var(--color-text-primary);
@@ -54,6 +56,8 @@
 
 .projects-navigation .cta-button.active:hover,
 .research-navigation .cta-button.active:hover,
+.cv-navigation .cta-button.active:hover,
+.community-navigation .cta-button.active:hover,
 #cta-section .cta-button.active:hover {
   border-color: var(--color-accent);
   background-color: var(--color-accent);
