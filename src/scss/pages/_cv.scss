@@ -407,7 +407,7 @@
 .cv-header-about {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-lg);
+  gap: 0;
   
   @media (min-width: 1025px) {
     grid-column: 2;
@@ -487,6 +487,16 @@
   @media (max-width: 1023px) {
     font-size: var(--font-size-small);
   }
+}
+
+.cv-about-divider {
+  width: 100%;
+  height: var(--line-width);
+  background-color: var(--color-divider);
+  margin: 12px 0;
+  padding: 0;
+  max-width: 800px;
+  flex-shrink: 0;
 }
 
 /* Секция "Навыки" */

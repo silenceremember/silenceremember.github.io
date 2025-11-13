@@ -154,11 +154,22 @@ function createHeaderSection(communityData, aboutText, skills) {
     const aboutContainer = document.createElement('div');
     aboutContainer.className = 'cv-header-about';
     
-    // Весь текст одним блоком
-    const aboutTextEl = document.createElement('p');
-    aboutTextEl.className = 'cv-about-text';
-    aboutTextEl.textContent = aboutText.trim();
-    aboutContainer.appendChild(aboutTextEl);
+    // Разделяем текст по двойному переносу строки
+    const paragraphs = aboutText.trim().split('\n\n').filter(p => p.trim());
+    
+    paragraphs.forEach((paragraph, index) => {
+      const aboutTextEl = document.createElement('p');
+      aboutTextEl.className = 'cv-about-text';
+      aboutTextEl.textContent = paragraph.trim();
+      aboutContainer.appendChild(aboutTextEl);
+      
+      // Добавляем декоративную линию между абзацами (но не после последнего)
+      if (index < paragraphs.length - 1) {
+        const divider = document.createElement('div');
+        divider.className = 'cv-about-divider';
+        aboutContainer.appendChild(divider);
+      }
+    });
     
     headerContent.appendChild(aboutContainer);
   }
