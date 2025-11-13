@@ -25,6 +25,7 @@ async function loadCommunityData() {
 function getIconPath(platform) {
   const iconMap = {
     'discord': 'assets/images/icon-discord.svg',
+    'discord-server': 'assets/images/icon-discord-server.svg', // Иконка сервера Discord
     'patreon': 'assets/images/icon-patreon.svg',
     'boosty': 'assets/images/icon-boosty.svg',
     'ko-fi': 'assets/images/icon-ko-fi.svg',
@@ -107,6 +108,75 @@ function createCommunityCard(url, iconPath, platformName, ariaLabel, description
 }
 
 /**
+ * Создает карточку Discord с горизонтальной раскладкой (иконка слева, текст справа)
+ */
+function createDiscordCard(url, iconPath, platformName, ariaLabel, description = null, isPlaceholder = false, subtitle = null) {
+  const card = document.createElement(isPlaceholder ? 'div' : 'a');
+  
+  if (!isPlaceholder) {
+    card.href = url;
+    card.target = '_blank';
+    card.rel = 'noopener noreferrer';
+  }
+  
+  card.className = 'community-card community-card-discord';
+  if (isPlaceholder) {
+    card.classList.add('community-card-placeholder');
+  }
+  card.setAttribute('aria-label', ariaLabel);
+  
+  // Контент карточки с горизонтальной раскладкой
+  const content = document.createElement('div');
+  content.className = 'community-card-content';
+  
+  // Иконка слева
+  const iconContainer = document.createElement('div');
+  iconContainer.className = 'community-card-icon community-card-icon-left';
+  
+  const iconSpan = document.createElement('span');
+  iconSpan.setAttribute('data-svg-src', iconPath);
+  iconContainer.appendChild(iconSpan);
+  
+  content.appendChild(iconContainer);
+  
+  // Текстовый блок справа
+  const textBlock = document.createElement('div');
+  textBlock.className = 'community-card-text-block';
+  
+  // Заголовок
+  const title = document.createElement('h3');
+  title.className = 'community-card-title';
+  
+  const titleText = document.createElement('span');
+  titleText.className = 'community-card-title-text';
+  titleText.textContent = platformName;
+  title.appendChild(titleText);
+  
+  textBlock.appendChild(title);
+  
+  // Подзаголовок (если есть)
+  if (subtitle) {
+    const subtitleElement = document.createElement('p');
+    subtitleElement.className = 'community-card-subtitle';
+    subtitleElement.textContent = subtitle;
+    textBlock.appendChild(subtitleElement);
+  }
+  
+  // Описание (если есть)
+  if (description) {
+    const descriptionElement = document.createElement('p');
+    descriptionElement.className = 'community-card-description';
+    descriptionElement.textContent = description;
+    textBlock.appendChild(descriptionElement);
+  }
+  
+  content.appendChild(textBlock);
+  card.appendChild(content);
+  
+  return card;
+}
+
+/**
  * Создает секцию Discord
  */
 function createDiscordSection(discord) {
@@ -125,14 +195,14 @@ function createDiscordSection(discord) {
   // Показываем карточку даже если ссылка placeholder
   // Описание теперь внутри карточки
   const isPlaceholder = !discord.link || discord.link === 'https://discord.gg/...';
-  const card = createCommunityCard(
+  const card = createDiscordCard(
     discord.link || '#',
-    getIconPath('discord'),
+    getIconPath('discord-server'), // Используем отдельную иконку для сервера
     'Discord Сервер',
     isPlaceholder ? 'Discord Сервер (скоро)' : 'Присоединиться к Discord серверу',
     discord.description || 'Присоединяйтесь к нашему сообществу разработчиков игр', // Описание внутри карточки
     isPlaceholder,
-    discord.name || null // Подзаголовок (название сервера)
+    null // Подзаголовок убран
   );
   section.appendChild(card);
   
@@ -154,11 +224,6 @@ function createDonationsSection(donationLinks) {
   title.className = 'community-section-title';
   title.textContent = 'ПОДДЕРЖКА';
   section.appendChild(title);
-  
-  const description = document.createElement('p');
-  description.className = 'community-section-description';
-  description.textContent = 'Поддержите разработку игр и исследований';
-  section.appendChild(description);
   
   const linksContainer = document.createElement('div');
   linksContainer.className = 'community-donations-links';
@@ -586,6 +651,25 @@ async function initCommunityPage() {
             if (svgLoaderModule.default) {
               await svgLoaderModule.default();
             }
+            
+            // Делаем иконку квадратной на основе высоты карточки
+            const card = discordSection.querySelector('.community-card-discord');
+            const iconContainer = card?.querySelector('.community-card-icon-left');
+            if (card && iconContainer) {
+              const updateIconSize = () => {
+                const cardHeight = card.offsetHeight;
+                if (cardHeight > 0) {
+                  iconContainer.style.width = `${cardHeight}px`;
+                  iconContainer.style.minWidth = `${cardHeight}px`;
+                }
+              };
+              
+              // Обновляем размер после загрузки SVG
+              setTimeout(updateIconSize, 100);
+              
+              // Обновляем размер при изменении размера окна
+              window.addEventListener('resize', updateIconSize);
+            }
           } catch (error) {
             console.error('Ошибка загрузки SVG:', error);
           }
@@ -632,69 +716,6 @@ async function initCommunityPage() {
     }
   }
   
-  // Отображаем донаты
-  if (data.donationLinks) {
-    const donationsSection = createDonationsSection(data.donationLinks);
-    if (donationsSection) {
-      const container = document.getElementById('community-donations-section');
-      if (container) {
-        donationsSection.style.opacity = '0';
-        donationsSection.style.transform = 'translateY(10px)';
-        container.appendChild(donationsSection);
-        
-        // Загружаем SVG иконки после добавления в DOM
-        requestAnimationFrame(async () => {
-          try {
-            const svgLoaderModule = await import('../components/svg-loader.js');
-            if (svgLoaderModule.default) {
-              await svgLoaderModule.default();
-            }
-          } catch (error) {
-            console.error('Ошибка загрузки SVG:', error);
-          }
-        });
-        
-        // Плавное появление секции
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            donationsSection.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
-            donationsSection.style.opacity = '1';
-            donationsSection.style.transform = 'translateY(0)';
-            setTimeout(() => {
-              donationsSection.style.transform = '';
-              donationsSection.style.opacity = '';
-              donationsSection.style.transition = '';
-            }, 300);
-          });
-        });
-        
-        // Плавное появление карточек с задержкой (stagger animation)
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            const cards = donationsSection.querySelectorAll('.community-card');
-            cards.forEach((card, index) => {
-              card.style.opacity = '0';
-              card.style.transform = 'translateY(10px)';
-              card.style.transition = 'none';
-              
-              setTimeout(() => {
-                card.style.transition = 'opacity 0.4s ease-out, transform 0.4s ease-out';
-                card.style.opacity = '1';
-                card.style.transform = 'translateY(0)';
-                
-                setTimeout(() => {
-                  card.style.transform = '';
-                  card.style.opacity = '';
-                  card.style.transition = '';
-                }, 400);
-              }, index * 50); // Задержка 50ms между карточками
-            });
-          });
-        });
-      }
-    }
-  }
-  
   // Отображаем социальные ссылки
   if (data.socialLinks) {
     const socialSection = createSocialSection(data.socialLinks);
@@ -735,6 +756,69 @@ async function initCommunityPage() {
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
             const cards = socialSection.querySelectorAll('.community-card');
+            cards.forEach((card, index) => {
+              card.style.opacity = '0';
+              card.style.transform = 'translateY(10px)';
+              card.style.transition = 'none';
+              
+              setTimeout(() => {
+                card.style.transition = 'opacity 0.4s ease-out, transform 0.4s ease-out';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+                
+                setTimeout(() => {
+                  card.style.transform = '';
+                  card.style.opacity = '';
+                  card.style.transition = '';
+                }, 400);
+              }, index * 50); // Задержка 50ms между карточками
+            });
+          });
+        });
+      }
+    }
+  }
+  
+  // Отображаем донаты
+  if (data.donationLinks) {
+    const donationsSection = createDonationsSection(data.donationLinks);
+    if (donationsSection) {
+      const container = document.getElementById('community-donations-section');
+      if (container) {
+        donationsSection.style.opacity = '0';
+        donationsSection.style.transform = 'translateY(10px)';
+        container.appendChild(donationsSection);
+        
+        // Загружаем SVG иконки после добавления в DOM
+        requestAnimationFrame(async () => {
+          try {
+            const svgLoaderModule = await import('../components/svg-loader.js');
+            if (svgLoaderModule.default) {
+              await svgLoaderModule.default();
+            }
+          } catch (error) {
+            console.error('Ошибка загрузки SVG:', error);
+          }
+        });
+        
+        // Плавное появление секции
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            donationsSection.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
+            donationsSection.style.opacity = '1';
+            donationsSection.style.transform = 'translateY(0)';
+            setTimeout(() => {
+              donationsSection.style.transform = '';
+              donationsSection.style.opacity = '';
+              donationsSection.style.transition = '';
+            }, 300);
+          });
+        });
+        
+        // Плавное появление карточек с задержкой (stagger animation)
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            const cards = donationsSection.querySelectorAll('.community-card');
             cards.forEach((card, index) => {
               card.style.opacity = '0';
               card.style.transform = 'translateY(10px)';
