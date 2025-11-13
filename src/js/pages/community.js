@@ -34,8 +34,8 @@ function getIconPath(platform) {
     'telegram': 'assets/images/icon-telegram.svg',
     'linkedin': 'assets/images/icon-linkedin.svg',
     'headhunter': 'assets/images/icon-headhunter.svg',
-    'steam': 'assets/images/icon-placeholder.svg', // TODO: добавить иконку Steam
-    'mail': 'assets/images/icon-placeholder.svg' // TODO: добавить иконку Mail
+    'steam': 'assets/images/icon-steam.svg',
+    'mail': 'assets/images/icon-mail.svg'
   };
   
   // Если иконка существует, возвращаем путь, иначе placeholder
@@ -237,7 +237,7 @@ function createDonationsSection(donationLinks) {
       iconPath,
       donation.platform,
       isPlaceholder ? `${donation.platform} (скоро)` : `Поддержать на ${donation.platform}`,
-      donation.description || null,
+      null,
       isPlaceholder
     );
     linksContainer.appendChild(card);

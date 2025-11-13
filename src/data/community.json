@@ -12,37 +12,23 @@
   },
   "donationLinks": [
     {
-      "id": "patreon",
-      "platform": "Patreon",
-      "url": "https://patreon.com/...",
-      "description": "Поддержите разработку игр на Patreon",
-      "icon": "patreon"
-    },
-    {
       "id": "boosty",
       "platform": "Boosty",
-      "url": "https://boosty.to/...",
+      "url": "https://boosty.to/silenceremember",
       "description": "Поддержка через Boosty",
       "icon": "boosty"
-    },
-    {
-      "id": "ko-fi",
-      "platform": "Ko-fi",
-      "url": "https://ko-fi.com/...",
-      "description": "Поддержка через Ko-fi",
-      "icon": "ko-fi"
     }
   ],
   "socialLinks": {
-    "steam": "https://steamcommunity.com/...",
-    "telegram": "https://t.me/...",
+    "steam": "https://steamcommunity.com/id/silenceremember/",
+    "telegram": "https://t.me/silenceremember",
     "itch": "https://silenceremember.itch.io/",
     "discord": "https://discord.gg/..."
   },
   "workLinks": {
-    "linkedin": "https://linkedin.com/in/...",
-    "headhunter": "https://hh.ru/resume/...",
-    "mail": "mailto:..."
+    "linkedin": "https://www.linkedin.com/in/silenceremember/",
+    "headhunter": "https://hh.ru/resume/0efeffadff0c9a053f0039ed1f4d4763506334",
+    "mail": "mailto:"
   },
   "plans": [
     {

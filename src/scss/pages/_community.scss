@@ -253,7 +253,8 @@
     border-color: var(--color-accent);
     background-color: var(--color-accent);
     
-    .community-card-icon svg {
+    .community-card-icon svg,
+    .community-card-icon svg path {
       fill: var(--color-bg-primary);
     }
     
@@ -304,8 +305,9 @@
       border-color: var(--color-divider);
       background-color: transparent;
       
-      .community-card-icon svg {
-        fill: var(--color-text-secondary);
+      .community-card-icon svg,
+      .community-card-icon svg path {
+        fill: var(--color-text-primary);
       }
       
       .community-card-title-text {
@@ -325,14 +327,14 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   margin-right: var(--spacing-sm);
   transition: fill 0.3s ease-out;
   
   @media (max-width: 1023px) {
-    width: 20px;
-    height: 20px;
+    width: 28px;
+    height: 28px;
     margin-right: var(--spacing-xs);
   }
   
@@ -346,11 +348,17 @@
   svg {
     fill: var(--color-text-primary);
     transition: fill 0.3s ease-out;
+    
+    path {
+      fill: var(--color-text-primary);
+      transition: fill 0.3s ease-out;
+    }
   }
 }
 
-.community-card-placeholder .community-card-icon svg {
-  fill: var(--color-text-secondary);
+.community-card-placeholder .community-card-icon svg,
+.community-card-placeholder .community-card-icon svg path {
+  fill: var(--color-text-primary);
 }
 
 /* Контент карточки */
