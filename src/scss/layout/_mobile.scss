@@ -14,17 +14,15 @@
     display: flex;
     width: 24px;
     height: 24px;
-    background-color: var(--color-secondary);
+    background-color: transparent;
     border: none;
     padding: 0;
     font-size: 0;
     cursor: pointer;
-    transition: background-color var(--transition-duration-fast) ease;
-    will-change: background-color;
   }
   
   .header-menu-button:hover {
-    background-color: var(--color-accent);
+    background-color: transparent;
   }
 }
 

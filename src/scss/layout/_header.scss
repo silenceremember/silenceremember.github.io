@@ -196,6 +196,15 @@
   font-size: var(--font-size-base);
   cursor: pointer;
   transition: color 0.2s ease;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+}
+
+.header-menu-button svg {
+  width: 24px;
+  height: 24px;
+  display: block;
 }
 
 .header-menu-button:hover {
