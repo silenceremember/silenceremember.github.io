@@ -12,6 +12,12 @@ async function loadSvg(element) {
     // Переносим классы и атрибуты с placeholder'а на SVG-элемент
     svgNode.setAttribute('class', element.getAttribute('class'));
     
+    // Удаляем width и height для иконок языка, чтобы размеры задавались через CSS
+    if (element.classList.contains('language-icon-ru') || element.classList.contains('language-icon-en')) {
+      svgNode.removeAttribute('width');
+      svgNode.removeAttribute('height');
+    }
+    
     element.parentNode.replaceChild(svgNode, element);
   } catch (error) {
     console.error('Ошибка при загрузке SVG:', error);

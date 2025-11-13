@@ -2,6 +2,7 @@ import initCustomCursor from './components/custom-cursor';
 import initSlidesManager from './components/slides';
 import { initLayout } from './layout';
 import { initThemeSwitcher } from './components/theme-switcher';
+import { initLanguageSwitcher } from './components/language-switcher';
 import initSvgLoader from './components/svg-loader';
 import { initScrollHandler } from './components/scroll';
 
@@ -43,6 +44,7 @@ async function onDomReady() {
   await initLayout();
   await initSvgLoader();
   initThemeSwitcher();
+  initLanguageSwitcher();
 
   initCustomCursor();
 

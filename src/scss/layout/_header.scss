@@ -48,18 +48,51 @@
 }
 
 .header-language {
-  width: 24px;
-  height: 24px;
-  display: block;
-  background-color: var(--color-secondary);
+  width: 34px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
   border: none;
   cursor: pointer;
   padding: 0;
-  transition: background-color 0.3s ease-out;
+  position: relative;
 }
 
-.header-language:hover {
-  background-color: var(--color-accent);
+.header-language svg {
+  width: auto;
+  height: 20px;
+  color: var(--color-text-primary);
+  transition: color 0.3s ease-out;
+  display: block;
+  margin: 0 auto;
+}
+
+.header-language:hover svg {
+  color: var(--color-accent);
+}
+
+.language-icon-ru,
+.language-icon-en {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.language-icon-ru svg,
+.language-icon-en svg {
+  width: 34px !important;
+  height: 20px !important;
+  max-width: 34px;
+  max-height: 20px;
+  display: block;
+  margin: 0 auto;
 }
 
 
