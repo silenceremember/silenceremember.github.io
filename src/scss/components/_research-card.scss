@@ -160,6 +160,33 @@
   &[style*="display: none"] {
     display: none !important;
   }
+  
+  // Разделитель между журналом и уровнем
+  .research-card-level:not([style*="display: none"])::before {
+    content: '';
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-right: var(--spacing-xs);
+    background-color: var(--color-text-primary);
+    mask-image: url('/assets/images/icon-divider-small.svg');
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-image: url('/assets/images/icon-divider-small.svg');
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    flex-shrink: 0;
+    opacity: 0.7;
+    vertical-align: middle;
+  }
+  
+  // Скрываем разделитель, если журнал скрыт или отсутствует
+  .research-card-journal[style*="display: none"] ~ .research-card-level::before,
+  .research-card-journal:empty ~ .research-card-level::before {
+    display: none;
+  }
 }
 
 .research-card-journal {
@@ -196,16 +223,11 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  display: inline-flex;
+  align-items: center;
   
   &[style*="display: none"] {
     display: none !important;
-  }
-  
-  /* Добавляем разделитель перед уровнем, если есть журнал */
-  &.has-separator::before {
-    content: '•';
-    margin-right: var(--spacing-xs);
-    color: var(--color-divider);
   }
 }
 

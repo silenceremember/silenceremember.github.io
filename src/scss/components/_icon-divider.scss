@@ -5,9 +5,10 @@
   height: 14px;
   display: block;
   flex-shrink: 0;
+  color: var(--color-text-primary);
 }
 
 .icon-divider path {
-  fill: var(--color-text-primary);
+  fill: currentColor;
 }
 

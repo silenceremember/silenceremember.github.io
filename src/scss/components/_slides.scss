@@ -130,13 +130,59 @@
   color: var(--color-text-primary);
   opacity: 0.7;
   transition: font-size 0.3s ease, color 0.3s ease-in-out;
+  
+  span {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1.5;
+    
+    // Разделитель между элементами (после каждого span, кроме последнего)
+    &:not(:last-child)::after {
+      content: '';
+      display: inline-flex;
+      align-items: center;
+      width: 10px;
+      height: 10px;
+      margin-left: var(--spacing-xs);
+      background-color: var(--color-text-primary);
+      mask-image: url('/assets/images/icon-divider-small.svg');
+      mask-size: contain;
+      mask-repeat: no-repeat;
+      mask-position: center;
+      -webkit-mask-image: url('/assets/images/icon-divider-small.svg');
+      -webkit-mask-size: contain;
+      -webkit-mask-repeat: no-repeat;
+      -webkit-mask-position: center;
+      flex-shrink: 0;
+      opacity: 0.7;
+    }
+    
+    // Скрываем разделитель для скрытых элементов
+    &[style*="display: none"] {
+      display: none !important;
+      
+      &::after {
+        display: none;
+      }
+    }
+  }
 }
 
 .meta-square-separator {
-  width: 8px;
-  height: 8px;
-  background-color: var(--color-secondary);
+  width: 10px;
+  height: 10px;
+  display: inline-block;
   flex-shrink: 0;
+  background-color: var(--color-text-primary);
+  mask-image: url('/assets/images/icon-divider-small.svg');
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-image: url('/assets/images/icon-divider-small.svg');
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  opacity: 0.7;
 }
 
 .project-visual {
@@ -168,7 +214,31 @@
 .preview-placeholder {
   width: 48px;
   height: 48px;
-  background-color: var(--color-secondary);
+  background-color: transparent;
+  position: relative;
+  
+  // Большой разделитель как маска поверх изображения
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 26px;
+    height: 26px;
+    background-color: white;
+    mask-image: url('/assets/images/icon-divider-large.svg');
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-image: url('/assets/images/icon-divider-large.svg');
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    pointer-events: none;
+    opacity: 0.3;
+    z-index: 1;
+  }
 }
 
 .project-details {

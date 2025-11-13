@@ -155,11 +155,6 @@ function createResearchCard(publication) {
     // Уровень (РИНЦ/SCOPUS) рядом с журналом
     if (level && publication.level) {
       level.textContent = publication.level;
-      // Добавляем разделитель перед уровнем, если есть журнал
-      const journalVisible = journal && publication.journal && journal.style.display !== 'none';
-      if (journalVisible) {
-        level.classList.add('has-separator');
-      }
     } else if (level) {
       level.style.display = 'none';
     }

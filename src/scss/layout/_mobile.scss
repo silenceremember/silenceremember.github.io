@@ -42,9 +42,11 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 0;
-  }
-  .project-meta .meta-square-separator {
-    display: none;
+    
+    // Скрываем разделители в мобильной версии
+    span::after {
+      display: none !important;
+    }
   }
   .main-content-name {
     font-size: var(--font-size-h2);
