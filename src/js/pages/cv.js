@@ -386,6 +386,23 @@ function createCertificatesSection(certificates) {
     }
     
     itemDiv.appendChild(meta);
+    
+    // Кнопка "Подробнее"
+    const detailsButton = document.createElement('button');
+    detailsButton.className = 'cv-certificate-button';
+    detailsButton.textContent = 'Подробнее';
+    
+    if (cert.url) {
+      detailsButton.addEventListener('click', () => {
+        window.open(cert.url, '_blank', 'noopener,noreferrer');
+      });
+    } else {
+      // Если URL нет, можно показать alert или сделать кнопку неактивной
+      detailsButton.disabled = true;
+      detailsButton.title = 'Информация о сертификате недоступна';
+    }
+    
+    itemDiv.appendChild(detailsButton);
     section.appendChild(itemDiv);
   });
   
@@ -426,6 +443,37 @@ function createCoursesSection(courses) {
     }
     
     itemDiv.appendChild(meta);
+    section.appendChild(itemDiv);
+  });
+  
+  return section;
+}
+
+/**
+ * Создает секцию языков
+ */
+function createLanguagesSection(languages) {
+  if (!languages || languages.length === 0) return null;
+  
+  const section = document.createElement('div');
+  section.className = 'cv-languages-list';
+  
+  languages.forEach(lang => {
+    const itemDiv = document.createElement('div');
+    itemDiv.className = 'cv-language-item';
+    
+    const language = document.createElement('h4');
+    language.className = 'cv-language-name';
+    language.textContent = lang.language || '';
+    itemDiv.appendChild(language);
+    
+    if (lang.level) {
+      const level = document.createElement('span');
+      level.className = 'cv-language-level';
+      level.textContent = lang.level;
+      itemDiv.appendChild(level);
+    }
+    
     section.appendChild(itemDiv);
   });
   
@@ -839,6 +887,21 @@ async function initCVPage() {
     if (coursesList) {
       coursesSection.appendChild(coursesList);
       animateElementAppearance(coursesSection);
+    }
+  }
+  
+  // Секция "Языки"
+  const languagesSection = document.getElementById('cv-languages-section');
+  if (languagesSection && cvData.languages && cvData.languages.length > 0) {
+    const languagesTitle = document.createElement('h2');
+    languagesTitle.className = 'cv-section-title';
+    languagesTitle.textContent = 'Языки';
+    languagesSection.appendChild(languagesTitle);
+    
+    const languagesList = createLanguagesSection(cvData.languages);
+    if (languagesList) {
+      languagesSection.appendChild(languagesList);
+      animateElementAppearance(languagesSection);
     }
   }
   

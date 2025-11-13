@@ -643,6 +643,53 @@
   }
 }
 
+.cv-certificate-button {
+  padding: var(--spacing-xs) var(--spacing-md);
+  background-color: transparent;
+  border: var(--line-width) solid var(--color-text-primary);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+  font-family: var(--font-family);
+  margin-top: var(--spacing-xs);
+  align-self: flex-start;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  border-style: solid;
+  box-sizing: border-box;
+  
+  &:hover:not(:disabled),
+  &:focus:not(:disabled) {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-bg-primary);
+    outline: none;
+  }
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    
+    &:hover,
+    &:focus {
+      background-color: transparent;
+      border-color: var(--color-text-primary);
+      color: var(--color-text-primary);
+      outline: none;
+    }
+  }
+  
+  @media (max-width: 1023px) {
+    font-size: var(--font-size-small);
+    padding: calc(var(--spacing-xs) * 0.75) var(--spacing-sm);
+  }
+}
+
 /* Секция "Курсы" */
 .cv-courses-list {
   display: flex;
@@ -715,6 +762,58 @@
     content: '•';
     margin-right: var(--spacing-xs);
     color: var(--color-divider);
+  }
+}
+
+/* Секция "Языки" */
+.cv-languages-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-lg);
+  
+  @media (max-width: 1023px) {
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+  }
+}
+
+.cv-language-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  padding-bottom: var(--spacing-md);
+  border-bottom: var(--line-width) solid var(--color-divider);
+  
+  &:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  
+  @media (max-width: 1023px) {
+    padding-bottom: var(--spacing-sm);
+  }
+}
+
+.cv-language-name {
+  font-size: var(--font-size-h5);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+  line-height: var(--line-height-heading);
+  
+  @media (max-width: 1023px) {
+    font-size: var(--font-size-base);
+  }
+}
+
+.cv-language-level {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-secondary);
+  
+  @media (max-width: 1023px) {
+    font-size: var(--font-size-small);
   }
 }
 
