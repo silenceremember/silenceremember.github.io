@@ -311,6 +311,7 @@ function createWorkSection(workLinks) {
   const workPlatforms = [
     { key: 'linkedin', label: 'LinkedIn', url: workLinks.linkedin },
     { key: 'headhunter', label: 'HeadHunter', url: workLinks.headhunter },
+    { key: 'github', label: 'GitHub', url: workLinks.github },
     { key: 'mail', label: 'Email', url: workLinks.mail }
   ];
   
@@ -668,26 +669,26 @@ async function initCommunityPage() {
           });
         });
         
-        // Плавное появление карточки Discord
+        // Плавное появление карточки Discord синхронно
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
             const card = discordSection.querySelector('.community-card');
             if (card) {
               card.style.opacity = '0';
-              card.style.transform = 'translateY(10px)';
               card.style.transition = 'none';
               
               setTimeout(() => {
-                card.style.transition = 'opacity 0.4s ease-out, transform 0.4s ease-out';
+                card.style.transition = 'opacity 0.4s ease-out';
                 card.style.opacity = '1';
-                card.style.transform = 'translateY(0)';
                 
                 setTimeout(() => {
-                  card.style.transform = '';
-                  card.style.opacity = '';
-                  card.style.transition = '';
+                  card.style.transition = 'none';
+                  requestAnimationFrame(() => {
+                    card.style.opacity = '';
+                    card.style.transition = '';
+                  });
                 }, 400);
-              }, 100);
+              }, 0);
             }
           });
         });
@@ -731,27 +732,31 @@ async function initCommunityPage() {
           });
         });
         
-        // Плавное появление карточек с задержкой (stagger animation)
+        // Плавное появление карточек синхронно
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
             const cards = socialSection.querySelectorAll('.community-card');
-            cards.forEach((card, index) => {
+            cards.forEach((card) => {
               card.style.opacity = '0';
-              card.style.transform = 'translateY(10px)';
               card.style.transition = 'none';
+            });
+            
+            setTimeout(() => {
+              cards.forEach((card) => {
+                card.style.transition = 'opacity 0.4s ease-out';
+                card.style.opacity = '1';
+              });
               
               setTimeout(() => {
-                card.style.transition = 'opacity 0.4s ease-out, transform 0.4s ease-out';
-                card.style.opacity = '1';
-                card.style.transform = 'translateY(0)';
-                
-                setTimeout(() => {
-                  card.style.transform = '';
-                  card.style.opacity = '';
-                  card.style.transition = '';
-                }, 400);
-              }, index * 50); // Задержка 50ms между карточками
-            });
+                cards.forEach((card) => {
+                  card.style.transition = 'none';
+                  requestAnimationFrame(() => {
+                    card.style.opacity = '';
+                    card.style.transition = '';
+                  });
+                });
+              }, 400);
+            }, 0);
           });
         });
       }
@@ -794,27 +799,31 @@ async function initCommunityPage() {
           });
         });
         
-        // Плавное появление карточек с задержкой (stagger animation)
+        // Плавное появление карточек синхронно
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
             const cards = donationsSection.querySelectorAll('.community-card');
-            cards.forEach((card, index) => {
+            cards.forEach((card) => {
               card.style.opacity = '0';
-              card.style.transform = 'translateY(10px)';
               card.style.transition = 'none';
+            });
+            
+            setTimeout(() => {
+              cards.forEach((card) => {
+                card.style.transition = 'opacity 0.4s ease-out';
+                card.style.opacity = '1';
+              });
               
               setTimeout(() => {
-                card.style.transition = 'opacity 0.4s ease-out, transform 0.4s ease-out';
-                card.style.opacity = '1';
-                card.style.transform = 'translateY(0)';
-                
-                setTimeout(() => {
-                  card.style.transform = '';
-                  card.style.opacity = '';
-                  card.style.transition = '';
-                }, 400);
-              }, index * 50); // Задержка 50ms между карточками
-            });
+                cards.forEach((card) => {
+                  card.style.transition = 'none';
+                  requestAnimationFrame(() => {
+                    card.style.opacity = '';
+                    card.style.transition = '';
+                  });
+                });
+              }, 400);
+            }, 0);
           });
         });
       }
@@ -857,27 +866,31 @@ async function initCommunityPage() {
           });
         });
         
-        // Плавное появление карточек с задержкой (stagger animation)
+        // Плавное появление карточек синхронно
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
             const cards = workSection.querySelectorAll('.community-card');
-            cards.forEach((card, index) => {
+            cards.forEach((card) => {
               card.style.opacity = '0';
-              card.style.transform = 'translateY(10px)';
               card.style.transition = 'none';
+            });
+            
+            setTimeout(() => {
+              cards.forEach((card) => {
+                card.style.transition = 'opacity 0.4s ease-out';
+                card.style.opacity = '1';
+              });
               
               setTimeout(() => {
-                card.style.transition = 'opacity 0.4s ease-out, transform 0.4s ease-out';
-                card.style.opacity = '1';
-                card.style.transform = 'translateY(0)';
-                
-                setTimeout(() => {
-                  card.style.transform = '';
-                  card.style.opacity = '';
-                  card.style.transition = '';
-                }, 400);
-              }, index * 50); // Задержка 50ms между карточками
-            });
+                cards.forEach((card) => {
+                  card.style.transition = 'none';
+                  requestAnimationFrame(() => {
+                    card.style.opacity = '';
+                    card.style.transition = '';
+                  });
+                });
+              }, 400);
+            }, 0);
           });
         });
       }

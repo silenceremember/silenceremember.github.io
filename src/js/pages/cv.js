@@ -127,8 +127,8 @@ function createHeaderSection(communityData, aboutText, skills) {
   // Email ссылка
   const emailLink = document.createElement('a');
   emailLink.className = 'cv-header-contact-link';
-  emailLink.href = 'mailto:slcrmmbr@gmail.com';
-  emailLink.textContent = 'slcrmmbr@gmail.com';
+  emailLink.href = 'mailto:slcrmmbr@outlook.com';
+  emailLink.textContent = 'slcrmmbr@outlook.com';
   contactsWrapper.appendChild(emailLink);
   
   // Telegram ссылка

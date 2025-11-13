@@ -94,8 +94,6 @@
   transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out, color 0.3s ease-in-out;
   cursor: pointer;
   overflow: hidden;
-  height: 100%;
-  min-height: 100%;
   width: 100%;
   max-width: 100%;
   min-width: 0;
@@ -198,9 +196,9 @@
 .community-card-content {
   display: flex;
   flex-direction: column;
-  padding: var(--spacing-md);
+  padding: var(--spacing-sm);
   flex-grow: 1;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-xs);
   min-height: 0;
   width: 100%;
   max-width: 100%;
@@ -229,7 +227,7 @@
   display: flex !important;
   align-items: center;
   justify-content: center;
-  padding: var(--spacing-md);
+  padding: var(--spacing-sm);
   box-sizing: border-box;
   width: 128px;
   min-width: 128px;
@@ -265,7 +263,7 @@
 }
 
 .community-card-discord .community-card-text-block {
-  padding: var(--spacing-md);
+  padding: var(--spacing-sm);
   padding-left: 0;
   box-sizing: border-box;
   flex: 1;
@@ -276,7 +274,7 @@
   flex-direction: column;
   flex: 1;
   min-width: 0;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-xs);
 }
 
 .community-card-discord .community-card-title {
