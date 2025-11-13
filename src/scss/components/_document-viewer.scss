@@ -13,7 +13,8 @@
   overflow: hidden;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+  transition: opacity var(--transition-duration-fast) ease-in-out, 
+              visibility var(--transition-duration-fast) ease-in-out;
   
   &.visible {
     opacity: 1;
@@ -34,7 +35,8 @@
   background-color: rgba(0, 0, 0, 0);
   backdrop-filter: blur(0px);
   cursor: pointer;
-  transition: background-color 0.3s ease-in-out, backdrop-filter 0.3s ease-in-out;
+  transition: background-color var(--transition-duration-fast) ease-in-out, 
+              backdrop-filter var(--transition-duration-fast) ease-in-out;
   
   .document-viewer-modal.visible & {
     background-color: rgba(0, 0, 0, 0.8);
@@ -56,13 +58,13 @@
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0);
   overflow: hidden;
   opacity: 0;
-  transition: opacity 0.3s ease-out, 
-              box-shadow 0.3s ease-out,
-              width 0.2s ease-out,
-              height 0.2s ease-out,
-              max-width 0.2s ease-out,
-              max-height 0.2s ease-out,
-              border 0.2s ease-out;
+  transition: opacity var(--transition-duration-fast) ease-out, 
+              box-shadow var(--transition-duration-fast) ease-out,
+              width var(--transition-duration-fast) ease-out,
+              height var(--transition-duration-fast) ease-out,
+              max-width var(--transition-duration-fast) ease-out,
+              max-height var(--transition-duration-fast) ease-out,
+              border var(--transition-duration-fast) ease-out;
   
   .document-viewer-modal.visible & {
     opacity: 1;
@@ -276,7 +278,7 @@
   padding: 0;
   vertical-align: top;
   opacity: 0;
-  transition: opacity 0.3s ease-in-out;
+  transition: opacity var(--transition-duration-fast) ease-in-out;
   
   &.loaded {
     opacity: 1;

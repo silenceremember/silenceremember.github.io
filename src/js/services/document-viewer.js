@@ -299,8 +299,8 @@ export async function openDocument({ url, title, isDraft = false, draftNote = '�
   // Если модальное окно уже открыто, сначала закрываем его
   if (!documentViewerModal.hidden) {
     closeDocumentViewer();
-    // Ждем завершения анимации закрытия
-    await new Promise(resolve => setTimeout(resolve, 300));
+    // Ждем завершения анимации закрытия (соответствует --transition-duration-fast: 0.2s)
+    await new Promise(resolve => setTimeout(resolve, 200));
   }
   
   const titleElement = documentViewerModal.querySelector('.document-viewer-title');
@@ -374,7 +374,7 @@ export function closeDocumentViewer() {
   // Убираем класс visible для запуска анимации исчезновения
   documentViewerModal.classList.remove('visible');
   
-  // Разблокируем прокрутку страницы после завершения анимации
+  // Разблокируем прокрутку страницы после завершения анимации (соответствует --transition-duration-fast: 0.2s)
   setTimeout(() => {
     unlockScroll();
     documentViewerModal.hidden = true;
@@ -391,7 +391,7 @@ export function closeDocumentViewer() {
     if (errorElement) {
       errorElement.hidden = true;
     }
-  }, 300); // Ждем завершения анимации (0.3s)
+  }, 200); // Ждем завершения анимации (соответствует --transition-duration-fast: 0.2s)
 }
 
 /**
