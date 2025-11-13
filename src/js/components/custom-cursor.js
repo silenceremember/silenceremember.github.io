@@ -31,7 +31,7 @@ const initCustomCursor = () => {
   const lastY = sessionStorage.getItem('cursorY');
 
   const interactiveSelector =
-    'a, button, .header-language, .header-theme, .social-link, .footer-decorative-square, .header-menu-button, .project-card, .research-card';
+    'a, button, .header-language, .header-theme, .social-link, .footer-decorative-square, .header-menu-button, .project-card, .research-card, .document-viewer-button, .document-viewer-error-link';
 
   if (lastX && lastY) {
     const x = Number(lastX);
@@ -61,6 +61,23 @@ const initCustomCursor = () => {
     const x = e.clientX;
     const y = e.clientY;
 
+    // Проверяем, находится ли курсор над iframe или iframe-wrapper (PDF preview)
+    const elementUnderCursor = document.elementFromPoint(x, y);
+    const isOverIframe = elementUnderCursor && (
+      elementUnderCursor.closest('.document-viewer-iframe-wrapper') ||
+      elementUnderCursor.closest('.document-viewer-iframe') ||
+      elementUnderCursor.tagName === 'IFRAME' ||
+      elementUnderCursor.classList.contains('document-viewer-iframe-wrapper') ||
+      elementUnderCursor.classList.contains('document-viewer-iframe')
+    );
+
+    // Если курсор над iframe, скрываем кастомный курсор
+    if (isOverIframe) {
+      cursor.classList.remove('visible');
+      cursor.classList.remove('hover');
+      return;
+    }
+
     // Позиционируем курсор через top и left
     cursor.style.top = `${y}px`;
     cursor.style.left = `${x}px`;
@@ -75,7 +92,6 @@ const initCustomCursor = () => {
     }
 
     // We also need to check hover state on mouse move
-    const elementUnderCursor = document.elementFromPoint(x, y);
     if (elementUnderCursor && elementUnderCursor.closest(interactiveSelector)) {
       if (!cursor.classList.contains('hover')) {
         cursor.classList.add('hover');

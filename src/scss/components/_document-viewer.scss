@@ -10,6 +10,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
   
   &[hidden] {
     display: none;
@@ -30,7 +31,7 @@
 .document-viewer-container {
   position: relative;
   width: 90%;
-  max-width: 1200px;
+  max-width: 1400px;
   height: 90%;
   max-height: 900px;
   background-color: var(--color-bg-primary);
@@ -38,13 +39,15 @@
   display: flex;
   flex-direction: column;
   z-index: 1001;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
   
   @media (max-width: 1023px) {
     width: 100%;
     height: 100%;
     max-height: 100%;
     border: none;
+    box-shadow: none;
   }
 }
 
@@ -55,6 +58,11 @@
   padding: var(--spacing-md);
   border-bottom: var(--line-width) solid var(--color-divider);
   flex-shrink: 0;
+  background-color: var(--color-bg-primary);
+  
+  @media (max-width: 1023px) {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
 }
 
 .document-viewer-title {
@@ -66,9 +74,13 @@
   letter-spacing: var(--letter-spacing-tight);
   flex-grow: 1;
   padding-right: var(--spacing-md);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   
   @media (max-width: 1023px) {
-    font-size: var(--font-size-h5);
+    font-size: var(--font-size-base);
+    padding-right: var(--spacing-sm);
   }
 }
 
@@ -76,26 +88,35 @@
   display: flex;
   gap: var(--spacing-xs);
   flex-shrink: 0;
+  align-items: center;
 }
 
 .document-viewer-button {
-  width: 40px;
-  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  min-width: 40px;
+  height: 40px;
   background-color: transparent;
-  border: var(--line-width) solid var(--color-text-primary);
+  border: var(--line-width) solid var(--color-divider);
   color: var(--color-text-primary);
   cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
   font-family: var(--font-family);
-  font-size: var(--font-size-h5);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
   text-decoration: none;
+  transition: background-color var(--transition-duration-base) ease-in-out, 
+              border-color var(--transition-duration-base) ease-in-out, 
+              color var(--transition-duration-base) ease-in-out,
+              transform var(--transition-duration-fast) ease;
+  box-sizing: border-box;
+  position: relative;
   
   &:hover,
   &:focus {
-    background-color: var(--color-text-primary);
+    border-color: var(--color-accent);
+    background-color: var(--color-accent);
     color: var(--color-bg-primary);
     outline: none;
   }
@@ -104,9 +125,71 @@
     transform: scale(0.95);
   }
   
-  span {
-    display: block;
+  // Стили для SVG иконок внутри кнопок
+  span[data-svg-src],
+  .document-viewer-icon-fullscreen,
+  .document-viewer-icon-fullscreen-exit,
+  .document-viewer-icon-download,
+  .document-viewer-icon-close,
+  svg.document-viewer-icon-fullscreen,
+  svg.document-viewer-icon-fullscreen-exit,
+  svg.document-viewer-icon-download,
+  svg.document-viewer-icon-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
     line-height: 1;
+    
+    svg {
+      width: 100%;
+      height: 100%;
+      fill: currentColor;
+    }
+  }
+  
+  // SVG элементы напрямую в кнопке
+  > svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+  }
+  
+  // Скрытые иконки
+  .document-viewer-icon-fullscreen-exit,
+  svg.document-viewer-icon-fullscreen-exit {
+    display: none;
+  }
+  
+  // Специфичные стили для кнопки закрытия
+  &.document-viewer-close {
+    &:hover,
+    &:focus {
+      border-color: var(--color-accent);
+      background-color: var(--color-accent);
+      color: var(--color-bg-primary);
+    }
+  }
+  
+  // Специфичные стили для кнопки скачивания
+  &.document-viewer-download {
+    &:hover,
+    &:focus {
+      border-color: var(--color-accent);
+      background-color: var(--color-accent);
+      color: var(--color-bg-primary);
+    }
+  }
+  
+  // Специфичные стили для кнопки полноэкранного режима
+  &.document-viewer-fullscreen {
+    &:hover,
+    &:focus {
+      border-color: var(--color-accent);
+      background-color: var(--color-accent);
+      color: var(--color-bg-primary);
+    }
   }
 }
 
@@ -142,6 +225,21 @@
   height: 100%;
   flex-grow: 1;
   z-index: 2;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y pan-x;
+  
+  // Показываем обычный курсор внутри iframe (кастомный курсор не работает внутри iframe)
+  cursor: auto;
+  
+  // Скрываем скроллбар, но сохраняем возможность прокрутки
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE и Edge */
+  
+  // Скрываем скроллбар для WebKit браузеров (Chrome, Safari)
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .document-viewer-iframe {
@@ -149,6 +247,15 @@
   height: 100%;
   border: none;
   background-color: var(--color-bg-primary);
+  cursor: auto;
+  
+  // Попытка скрыть скроллбар внутри iframe (может не работать из-за ограничений безопасности)
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE и Edge */
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .document-viewer-loading {
@@ -193,17 +300,32 @@
 }
 
 .document-viewer-error-link {
-  padding: var(--spacing-sm) var(--spacing-md);
-  background-color: var(--color-accent);
-  color: var(--color-bg-primary);
+  display: inline-block;
+  padding: var(--spacing-xs) var(--spacing-md);
+  background-color: transparent;
+  border: var(--line-width) solid var(--color-accent);
+  color: var(--color-accent);
   text-decoration: none;
   font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-small);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  transition: opacity 0.3s ease;
+  transition: background-color var(--transition-duration-base) ease-in-out, 
+              border-color var(--transition-duration-base) ease-in-out, 
+              color var(--transition-duration-base) ease-in-out;
+  font-family: var(--font-family);
+  cursor: pointer;
   
-  &:hover {
-    opacity: 0.8;
+  &:hover,
+  &:focus {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-bg-primary);
+    outline: none;
+  }
+  
+  &:active {
+    transform: scale(0.95);
   }
 }
 
@@ -220,19 +342,15 @@
 
 /* Адаптивность */
 @media (max-width: 1023px) {
-  .document-viewer-header {
-    padding: var(--spacing-sm);
-  }
-  
-  .document-viewer-title {
-    font-size: var(--font-size-small);
-    padding-right: var(--spacing-sm);
-  }
-  
   .document-viewer-button {
-    width: 36px;
+    min-width: 36px;
     height: 36px;
-    font-size: var(--font-size-base);
+    padding: var(--spacing-xs);
+    
+    span[data-svg-src] {
+      width: 18px;
+      height: 18px;
+    }
   }
 }
 

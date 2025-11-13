@@ -3,6 +3,14 @@
   cursor: none !important;
 }
 
+// Исключения: показываем обычный курсор в определенных местах
+.document-viewer-iframe-wrapper,
+.document-viewer-iframe-wrapper *,
+.document-viewer-iframe,
+iframe {
+  cursor: auto !important;
+}
+
 .custom-cursor {
   position: fixed;
   width: 20px;
