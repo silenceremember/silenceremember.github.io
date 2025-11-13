@@ -7,6 +7,7 @@
     position: fixed;
     top: 0;
     left: 0;
+    width: 100%;
     pointer-events: none;
     will-change: transform;
   }
@@ -20,6 +21,7 @@
     position: fixed;
     bottom: 0;
     left: 0;
+    width: 100%;
     pointer-events: none;
     will-change: transform;
   }
@@ -95,6 +97,96 @@
 /* Стили для слайдов в tablet/mobile режиме */
 /* Применяются при ширине <=1023px ИЛИ высоте <900px */
 @include tablet-and-mobile {
+  /* Стили для главной страницы в мобильном режиме */
+  body:not(.page-with-scroll) .page-wrapper {
+    display: block;
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-top: 64px;
+    padding-bottom: 64px;
+    box-sizing: border-box;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  body:not(.page-with-scroll) .page-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+
+  body:not(.page-with-scroll) .content-wrapper {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    min-height: 100%;
+    box-sizing: border-box;
+  }
+
+  body:not(.page-with-scroll) .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+    will-change: transform;
+  }
+
+  body:not(.page-with-scroll) .header-content,
+  body:not(.page-with-scroll) .header-content * {
+    pointer-events: auto;
+  }
+  
+  body:not(.page-with-scroll) .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+    will-change: transform;
+  }
+
+  body:not(.page-with-scroll) .footer-content,
+  body:not(.page-with-scroll) .footer-content * {
+    pointer-events: auto;
+  }
+
+  body:not(.page-with-scroll) .header.hidden {
+    transform: translateY(-100%);
+  }
+
+  body:not(.page-with-scroll) .footer.hidden {
+    transform: translateY(100%);
+  }
+
+  body:not(.page-with-scroll) .header + .decorative-line-horizontal,
+  body:not(.page-with-scroll) main + .decorative-line-horizontal {
+    position: fixed;
+    left: 0;
+    transition: transform var(--transition-duration-base) ease;
+    pointer-events: none;
+    will-change: transform;
+  }
+
+  body:not(.page-with-scroll) .header + .decorative-line-horizontal {
+    top: 64px;
+  }
+
+  body:not(.page-with-scroll) main + .decorative-line-horizontal {
+    bottom: 64px;
+  }
+
+  body:not(.page-with-scroll) .header + .decorative-line-horizontal.hidden {
+    transform: translateY(-65px);
+  }
+
+  body:not(.page-with-scroll) main + .decorative-line-horizontal.hidden {
+    transform: translateY(65px);
+  }
+
   .slides-container.tablet-scroll-mode {
     display: block;
     overflow: visible;
