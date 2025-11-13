@@ -219,7 +219,10 @@ function setupEventHandlers() {
   
   // Закрытие по кнопке закрытия
   if (closeButton) {
-    closeButton.addEventListener('click', closeDocumentViewer);
+    closeButton.addEventListener('click', (e) => {
+      e.currentTarget.blur();
+      closeDocumentViewer();
+    });
   }
   
   // Закрытие по Escape
@@ -231,7 +234,17 @@ function setupEventHandlers() {
   
   // Полноэкранный режим
   if (fullscreenButton) {
-    fullscreenButton.addEventListener('click', toggleFullscreen);
+    fullscreenButton.addEventListener('click', (e) => {
+      e.currentTarget.blur();
+      toggleFullscreen();
+    });
+  }
+  
+  // Сброс hover при клике на ссылку скачивания
+  if (downloadLink) {
+    downloadLink.addEventListener('click', (e) => {
+      e.currentTarget.blur();
+    });
   }
   
   // Обработка загрузки iframe
