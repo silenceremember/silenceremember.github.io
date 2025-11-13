@@ -226,7 +226,7 @@
     transform: translate(-50%, -50%);
     width: 26px;
     height: 26px;
-    background-color: white;
+    background-color: var(--color-text-primary);
     mask-image: url('/assets/images/icon-divider-large.svg');
     mask-size: contain;
     mask-repeat: no-repeat;
