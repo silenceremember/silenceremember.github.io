@@ -137,7 +137,7 @@
 .main-content-bottom {
   display: flex;
   flex-direction: column;
-  max-width: 525px; /* Ограничиваем ширину описания */
+  max-width: 800px; /* Расширенная ширина для большего текста */
   text-align: left; /* Выравниваем текст по левому краю на мобильных */
 }
 

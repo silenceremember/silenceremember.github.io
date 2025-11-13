@@ -82,6 +82,11 @@
 /* В мобильном режиме CTA секция работает как навигация */
 /* Стили уже применены через #cta-section в _button.scss */
 
+/* Отступ для параграфа под заголовком */
+.main-content-top .cv-about-text {
+  margin-top: var(--spacing-md);
+}
+
 /* Адаптивность */
 @media (max-width: 1023px) {
   .index-page .slide {
