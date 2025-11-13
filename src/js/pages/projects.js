@@ -849,13 +849,13 @@ function showLoadingIndicator() {
   if (!loadingElement) {
     // Создаем новый индикатор загрузки
     loadingElement = document.createElement('div');
-    loadingElement.className = 'projects-loading';
+    loadingElement.className = 'loading projects-loading';
     loadingElement.id = 'projects-loading';
     loadingElement.innerHTML = `
-      <div class="projects-loading-squares">
-        <div class="projects-loading-square"></div>
-        <div class="projects-loading-square"></div>
-        <div class="projects-loading-square"></div>
+      <div class="loading-squares">
+        <div class="loading-square"></div>
+        <div class="loading-square"></div>
+        <div class="loading-square"></div>
       </div>
     `;
     grid.innerHTML = '';

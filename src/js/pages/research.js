@@ -267,6 +267,56 @@ function hideLoadingIndicator() {
   }
 }
 
+/* ============================================
+ * DEBUG FUNCTIONS - Удалить после тестирования
+ * ============================================ */
+
+/**
+ * Показывает индикатор загрузки (для дебага - клавиша R)
+ */
+function showLoadingIndicator() {
+  const section = document.getElementById('research-publications-section');
+  if (!section) return;
+  
+  // Проверяем, есть ли уже индикатор загрузки
+  let loadingElement = document.getElementById('research-loading');
+  
+  if (!loadingElement) {
+    // Создаем новый индикатор загрузки
+    loadingElement = document.createElement('div');
+    loadingElement.className = 'loading';
+    loadingElement.id = 'research-loading';
+    loadingElement.innerHTML = `
+      <div class="loading-squares">
+        <div class="loading-square"></div>
+        <div class="loading-square"></div>
+        <div class="loading-square"></div>
+      </div>
+    `;
+    // Очищаем секцию и добавляем индикатор
+    section.innerHTML = '';
+    section.appendChild(loadingElement);
+  } else {
+    // Если индикатор уже есть, просто очищаем секцию и показываем его
+    section.innerHTML = '';
+    section.appendChild(loadingElement);
+  }
+  
+  // Убираем класс hidden и показываем с анимацией
+  loadingElement.classList.remove('hidden');
+  loadingElement.style.display = '';
+  loadingElement.style.opacity = '0';
+  loadingElement.style.transform = 'translateY(10px)';
+  
+  requestAnimationFrame(() => {
+    loadingElement.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
+    loadingElement.style.opacity = '1';
+    loadingElement.style.transform = 'translateY(0)';
+  });
+  
+  console.log('🔍 [DEBUG] Индикатор загрузки показан (клавиша R)');
+}
+
 /**
  * Выделяет активную страницу в навигации research-navigation
  */
@@ -658,3 +708,17 @@ if (document.readyState === 'loading') {
 } else {
   initResearchPage();
 }
+
+/* ============================================
+ * DEBUG KEYBOARD HANDLERS - Удалить после тестирования
+ * ============================================ */
+document.addEventListener('keydown', (e) => {
+  // Показываем индикатор загрузки по клавише R
+  if (e.key === 'r' || e.key === 'R') {
+    // Предотвращаем стандартное поведение только если не в поле ввода
+    if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+      e.preventDefault();
+      showLoadingIndicator();
+    }
+  }
+});

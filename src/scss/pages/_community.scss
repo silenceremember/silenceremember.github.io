@@ -156,30 +156,6 @@
     }
   }
   
-  // Placeholder стили (неактивные карточки)
-  &.community-card-placeholder {
-    cursor: default;
-    opacity: 0.7;
-    border-color: var(--color-divider);
-    
-    &:hover {
-      border-color: var(--color-divider);
-      background-color: transparent;
-      
-      .community-card-icon svg,
-      .community-card-icon svg path {
-        fill: var(--color-text-primary);
-      }
-      
-      .community-card-title-text {
-        color: var(--color-text-primary);
-      }
-      
-      .community-card-description {
-        color: var(--color-text-secondary);
-      }
-    }
-  }
 }
 
 /* Иконка внутри заголовка */
@@ -217,10 +193,6 @@
   }
 }
 
-.community-card-placeholder .community-card-icon svg,
-.community-card-placeholder .community-card-icon svg path {
-  fill: var(--color-text-primary);
-}
 
 /* Контент карточки */
 .community-card-content {
@@ -352,14 +324,6 @@
   
   .community-card:hover & {
     color: var(--color-bg-primary);
-  }
-  
-  .community-card-placeholder & {
-    color: var(--color-text-secondary);
-    
-    .community-card:hover & {
-      color: var(--color-text-secondary);
-    }
   }
 }
 

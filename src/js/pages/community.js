@@ -46,18 +46,13 @@ function getIconPath(platform) {
  * Создает карточку сообщества в стиле портфолио
  */
 function createCommunityCard(url, iconPath, platformName, ariaLabel, description = null, isPlaceholder = false, subtitle = null) {
-  const card = document.createElement(isPlaceholder ? 'div' : 'a');
+  const card = document.createElement('a');
   
-  if (!isPlaceholder) {
-    card.href = url;
-    card.target = '_blank';
-    card.rel = 'noopener noreferrer';
-  }
+  card.href = url || '#';
+  card.target = '_blank';
+  card.rel = 'noopener noreferrer';
   
   card.className = 'community-card';
-  if (isPlaceholder) {
-    card.classList.add('community-card-placeholder');
-  }
   card.setAttribute('aria-label', ariaLabel);
   
   // Контент карточки
@@ -111,18 +106,13 @@ function createCommunityCard(url, iconPath, platformName, ariaLabel, description
  * Создает карточку Discord с горизонтальной раскладкой (иконка слева, текст справа)
  */
 function createDiscordCard(url, iconPath, platformName, ariaLabel, description = null, isPlaceholder = false, subtitle = null) {
-  const card = document.createElement(isPlaceholder ? 'div' : 'a');
+  const card = document.createElement('a');
   
-  if (!isPlaceholder) {
-    card.href = url;
-    card.target = '_blank';
-    card.rel = 'noopener noreferrer';
-  }
+  card.href = url || '#';
+  card.target = '_blank';
+  card.rel = 'noopener noreferrer';
   
   card.className = 'community-card community-card-discord';
-  if (isPlaceholder) {
-    card.classList.add('community-card-placeholder');
-  }
   card.setAttribute('aria-label', ariaLabel);
   
   // Контент карточки с горизонтальной раскладкой
