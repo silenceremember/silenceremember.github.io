@@ -273,8 +273,7 @@ function createSocialSection(socialLinks) {
   const socialPlatforms = [
     { key: 'steam', label: 'Steam', url: socialLinks.steam },
     { key: 'telegram', label: 'Telegram', url: socialLinks.telegram },
-    { key: 'itch', label: 'itch.io', url: socialLinks.itch },
-    { key: 'discord', label: 'Discord', url: socialLinks.discord } // Личный профиль Discord
+    { key: 'itch', label: 'itch.io', url: socialLinks.itch }
   ];
   
   socialPlatforms.forEach(platform => {
