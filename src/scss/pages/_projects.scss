@@ -460,12 +460,24 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
   text-align: center;
   width: 100%;
   box-sizing: border-box;
+  position: relative;
 }
 
 /* Показываем навигацию только в tablet режиме (только по ширине для страницы проектов) */
 @media (max-width: 1023px) {
   .projects-navigation {
     display: block;
+  }
+  
+  /* Разделитель над навигацией (как между секциями на главной) */
+  .projects-navigation::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--line-width, 1px);
+    background-color: var(--color-divider);
   }
   
   .projects-navigation .section-title {
