@@ -1,23 +1,26 @@
-@media (max-width: 1023px) {
+@import '../base/variables';
+
+/* Стили для мобильной навигации */
+@include tablet-and-mobile {
   body.page-404 .header-menu-button {
     display: none;
   }
   
-  /* Стили для мобильной навигации */
   .header-nav {
     display: none;
   }
 
   .header-menu-button {
     display: flex;
-    width: 24px; /* Размер иконки */
-    height: 24px; /* Размер иконки */
+    width: 24px;
+    height: 24px;
     background-color: var(--color-secondary);
     border: none;
     padding: 0;
-    font-size: 0; /* Скрываем текст, если он есть */
+    font-size: 0;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: background-color var(--transition-duration-fast) ease;
+    will-change: background-color;
   }
   
   .header-menu-button:hover {
@@ -25,58 +28,76 @@
   }
 }
 
-@media (max-width: 599px) {
+/* Стили для маленьких мобильных устройств */
+@include mobile-small {
   .project-info {
     flex-direction: column;
     align-items: flex-start;
     gap: var(--spacing-xxs);
   }
 }
-@media (max-width: 424px) {
+
+@include mobile-extra-small {
   .cta-button {
     font-size: var(--font-size-small);
     padding: var(--spacing-xs) var(--spacing-lg);
+    transition: font-size var(--transition-duration-base) ease, 
+                padding var(--transition-duration-base) ease;
   }
+  
   .project-meta {
     font-size: var(--font-size-small);
     flex-direction: column;
     align-items: flex-start;
     gap: 0;
+    transition: font-size var(--transition-duration-base) ease;
     
-    // Скрываем разделители в мобильной версии
     span::after {
       display: none !important;
     }
   }
+  
   .main-content-name {
     font-size: var(--font-size-h2);
+    transition: font-size var(--transition-duration-base) ease;
   }
+  
   .main-content-title {
     font-size: var(--font-size-h4);
+    transition: font-size var(--transition-duration-base) ease;
   }
+  
   .section-title {
     font-size: var(--font-size-h3);
+    transition: font-size var(--transition-duration-base) ease;
   }
 }
-@media (max-width: 374px) {
+
+@include mobile-tiny {
   .footer-left {
     display: none;
   }
+  
   .footer-content {
     grid-template-columns: 1fr auto;
   }
 }
-@media (max-width: 342px) {
+
+@include mobile-mini {
   .portrait-image {
     width: clamp(260px, 90.9vw - 30.9px, 280px);
     height: clamp(390px, 136.4vw - 46.4px, 420px);
+    transition: width var(--transition-duration-base) ease, 
+                height var(--transition-duration-base) ease;
   }
 }
-@media (max-width: 319px) {
+
+@include mobile-minimum {
   .page-wrapper {
     min-width: 320px;
     overflow-x: auto;
   }
+  
   .slides-container.tablet-scroll-mode .slide:not(:last-child)::after {
     width: 320px;
   }

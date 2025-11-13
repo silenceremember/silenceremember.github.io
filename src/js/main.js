@@ -24,19 +24,50 @@ function updateFadeInElements() {
   const footerContent = document.querySelector('.footer-content');
   const contentWrapper = document.querySelector('.content-wrapper');
   const main = document.querySelector('main');
+  const slidesContainer = document.querySelector('.slides-container');
 
-  if (headerContent) fadeInElements.add(headerContent);
-  if (footerContent) fadeInElements.add(footerContent);
+  if (headerContent) {
+    fadeInElements.add(headerContent);
+    headerContent.style.willChange = 'opacity';
+  }
+  if (footerContent) {
+    fadeInElements.add(footerContent);
+    footerContent.style.willChange = 'opacity';
+  }
 
-  if (contentWrapper) fadeInElements.add(contentWrapper);
-  if (main && !fadeInElements.has(main)) fadeInElements.add(main);
+  if (contentWrapper) {
+    fadeInElements.add(contentWrapper);
+    contentWrapper.style.willChange = 'opacity';
+  }
+  if (main && !fadeInElements.has(main)) {
+    fadeInElements.add(main);
+    main.style.willChange = 'opacity';
+  }
 
+  // Если есть слайды в tablet-scroll-mode, убеждаемся что они видимы
+  if (slidesContainer && slidesContainer.classList.contains('tablet-scroll-mode')) {
+    const slides = slidesContainer.querySelectorAll('.slide');
+    slides.forEach((slide) => {
+      // В tablet-scroll-mode слайды должны быть видимы сразу
+      slide.style.opacity = '1';
+      slide.style.visibility = 'visible';
+    });
+  }
+
+  // Используем двойной requestAnimationFrame для гарантии готовности стилей
   requestAnimationFrame(() => {
-    setTimeout(() => {
-      fadeInElements.forEach((element) => {
-        element.classList.add('fade-in-visible');
-      });
-    }, 10);
+    requestAnimationFrame(() => {
+      // Минимальная задержка для предотвращения FOUC
+      setTimeout(() => {
+        fadeInElements.forEach((element) => {
+          element.classList.add('fade-in-visible');
+          // Убираем will-change после анимации для оптимизации
+          setTimeout(() => {
+            element.style.willChange = 'auto';
+          }, 300); // Длительность transition
+        });
+      }, 16); // ~1 frame при 60fps
+    });
   });
 }
 

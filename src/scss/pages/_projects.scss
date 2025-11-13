@@ -1,156 +1,7 @@
 /* Стили для страницы проектов */
+/* Общие стили для .page-with-scroll находятся в _responsive-base.scss */
 
-/* Переопределяем стили для страницы проектов, чтобы она прокручивалась */
-/* На десктопе (min-width: 1024px) страница прокручивается через body (как обычная страница) */
-@media (min-width: 1024px) {
-  html.page-with-scroll {
-    height: auto;
-    min-height: 100vh;
-    overflow-y: auto;
-    overflow-x: hidden;
-    /* Плавный скролл для унификации с главной страницей */
-    -webkit-overflow-scrolling: touch;
-    scroll-behavior: auto; /* Отключаем smooth scroll для одинаковой скорости */
-    /* Скрываем скроллбар */
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-  }
-
-  html.page-with-scroll::-webkit-scrollbar {
-    display: none;  /* Chrome, Safari, Opera */
-  }
-
-  body.page-with-scroll {
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-    height: auto !important;
-    min-height: 100vh;
-    /* Плавный скролл для унификации с главной страницей */
-    -webkit-overflow-scrolling: touch;
-    scroll-behavior: auto; /* Отключаем smooth scroll для одинаковой скорости */
-    /* Скрываем скроллбар */
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-  }
-
-  body.page-with-scroll::-webkit-scrollbar {
-    display: none;  /* Chrome, Safari, Opera */
-  }
-
-  body.page-with-scroll .page-wrapper {
-    height: auto !important;
-    min-height: 100vh;
-    max-height: none !important;
-    overflow: visible !important;
-    display: block !important; /* Меняем с flex на block для нормального потока документа */
-    padding-bottom: 64px; /* Отступ снизу для футера, как в mobile режиме */
-    box-sizing: border-box;
-  }
-
-  /* Вертикальные линии должны проходить сквозь контент и быть поверх header/footer */
-  body.page-with-scroll .page-wrapper::before,
-  body.page-with-scroll .page-wrapper::after {
-    pointer-events: none; /* Пропускаем события прокрутки через вертикальные линии */
-    z-index: 11; /* Как на index.html - выше header/footer (z-index: 10) */
-  }
-
-  body.page-with-scroll .content-wrapper {
-    overflow: visible !important;
-    min-height: calc(100vh - 128px); /* 100vh минус высота header (64px) и footer (64px) */
-    height: auto;
-    display: flex !important; /* Используем flex для растягивания .projects-page на всю высоту */
-    flex-direction: column;
-    padding-top: 64px; /* Только высота header, без дополнительного отступа */
-    padding-bottom: 0; /* Убираем нижний отступ, так как page-wrapper уже имеет padding-bottom: 64px */
-    max-width: 100% !important; /* Убираем ограничение по ширине */
-    margin: 0 !important; /* Убираем центрирование */
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    box-sizing: border-box;
-  }
-
-  /* Стили для скрытия header/footer на десктопе при скролле */
-  /* Используем те же z-index и параметры, что и на index.html */
-  body.page-with-scroll .header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 10; /* Как на index.html */
-    width: 100%;
-    height: 64px;
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-    background-color: var(--color-bg-primary);
-    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
-    pointer-events: none; /* Пропускаем события прокрутки через header */
-  }
-
-  /* Восстанавливаем pointer-events для интерактивных элементов внутри header */
-  body.page-with-scroll .header-content,
-  body.page-with-scroll .header-content * {
-    pointer-events: auto;
-  }
-
-  body.page-with-scroll .header.hidden {
-    transform: translateY(-100%);
-  }
-
-  body.page-with-scroll .footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    z-index: 10; /* Как на index.html */
-    width: 100%;
-    height: 64px;
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-    background-color: var(--color-bg-primary);
-    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
-    pointer-events: none; /* Пропускаем события прокрутки через footer */
-  }
-
-  /* Восстанавливаем pointer-events для интерактивных элементов внутри footer */
-  body.page-with-scroll .footer-content,
-  body.page-with-scroll .footer-content * {
-    pointer-events: auto;
-  }
-
-  body.page-with-scroll .footer.hidden {
-    transform: translateY(100%);
-  }
-
-  /* Декоративные линии на десктопе */
-  body.page-with-scroll .decorative-line-horizontal {
-    position: fixed;
-    left: 0;
-    width: 100vw;
-    height: var(--line-width);
-    background-color: var(--line-color);
-    margin: 0;
-    flex-shrink: 0;
-    transition: transform 0.3s ease;
-    z-index: 12; /* Как на index.html - выше вертикальных линий (z-index: 11) */
-    pointer-events: none; /* Пропускаем события прокрутки через декоративные линии */
-  }
-
-  body.page-with-scroll .header + .decorative-line-horizontal {
-    top: 64px;
-  }
-
-  body.page-with-scroll main + .decorative-line-horizontal {
-    bottom: 64px;
-  }
-
-  body.page-with-scroll .header + .decorative-line-horizontal.hidden {
-    transform: translateY(-65px);
-  }
-
-  body.page-with-scroll main + .decorative-line-horizontal.hidden {
-    transform: translateY(65px);
-  }
-}
+@import '../base/variables';
 
 .projects-page {
   padding: var(--spacing-lg) var(--spacing-lg);
@@ -166,11 +17,13 @@
   min-height: 0; /* Позволяет flex-элементу сжиматься */
   
   /* На мобильных устройствах контент на всю ширину с отступами */
-  @media (max-width: 1023px) {
+  @include tablet-and-mobile {
     max-width: 100%;
     padding-left: var(--spacing-lg);
     padding-right: var(--spacing-lg);
-    flex: 1; /* Растягивается на всю доступную высоту родителя (content-wrapper) */
+    flex: 1;
+    transition: max-width var(--transition-duration-base) ease, 
+                padding var(--transition-duration-base) ease;
   }
 }
 
@@ -389,20 +242,16 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
 }
 
 /* Адаптивность для индикатора загрузки */
-@media (max-width: 1023px) {
-  /* В mobile режиме page-wrapper имеет height: 100vh с padding-top: 64px и padding-bottom: 64px (box-sizing: border-box) */
-  /* Внутренний контент page-wrapper имеет высоту 100vh - 64px - 64px */
-  /* content-wrapper должен занимать 100% высоты внутреннего контента page-wrapper */
+@include tablet-and-mobile {
   body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
-    height: 100%; /* Занимает всю доступную высоту внутри page-wrapper */
+    height: 100%;
     min-height: 100%;
-    display: flex !important; /* Используем flex для растягивания .projects-page */
+    display: flex !important;
     flex-direction: column;
   }
   
   .projects-page:has(.projects-loading:not(.hidden)) {
-    /* На мобильных используем flex для распределения пространства */
-    flex: 1; /* Растягивается на всю доступную высоту родителя */
+    flex: 1;
     min-height: 0;
     display: flex;
     flex-direction: column;
@@ -410,11 +259,14 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
   
   .projects-loading {
     padding: var(--spacing-xl) var(--spacing-lg);
+    transition: padding var(--transition-duration-base) ease;
   }
   
   .projects-loading-square {
     width: 14px;
     height: 14px;
+    transition: width var(--transition-duration-base) ease, 
+                height var(--transition-duration-base) ease;
   }
 }
 
@@ -463,13 +315,12 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
   position: relative;
 }
 
-/* Показываем навигацию только в tablet режиме (только по ширине для страницы проектов) */
-@media (max-width: 1023px) {
+/* Показываем навигацию только в tablet режиме */
+@include tablet-and-mobile {
   .projects-navigation {
     display: block;
   }
   
-  /* Разделитель над навигацией (как между секциями на главной) */
   .projects-navigation::before {
     content: '';
     position: absolute;
@@ -491,8 +342,7 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
   }
 }
 
-/* Скрываем навигацию на десктопе */
-@media (min-width: 1024px) {
+@include desktop {
   .projects-navigation {
     display: none !important;
   }
@@ -500,84 +350,108 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
 
 /* Адаптивность */
 /* Мобильные устройства (до 767px) - 1 колонка */
-@media (max-width: 767px) {
+@include mobile-small {
   .projects-page {
     padding: var(--spacing-lg) var(--spacing-lg);
-    padding-bottom: 0; /* Убираем нижний отступ, чтобы общий отступ совпадал с секцией CTA */
+    padding-bottom: 0;
+    transition: padding var(--transition-duration-base) ease;
   }
   
   .projects-grid {
     grid-template-columns: 1fr;
     gap: var(--spacing-md);
+    transition: grid-template-columns var(--transition-duration-base) ease, 
+                gap var(--transition-duration-base) ease;
   }
   
   .projects-section-grid {
     grid-template-columns: 1fr;
     gap: var(--spacing-md);
+    transition: grid-template-columns var(--transition-duration-base) ease, 
+                gap var(--transition-duration-base) ease;
   }
   
   .projects-section-header {
     margin: var(--spacing-lg) 0 var(--spacing-sm) 0;
+    transition: margin var(--transition-duration-base) ease;
   }
   
   .projects-section-title {
     font-size: var(--font-size-h3);
     margin: 0;
     gap: var(--spacing-sm);
+    transition: font-size var(--transition-duration-base) ease, 
+                gap var(--transition-duration-base) ease;
   }
   
   .projects-section-expand {
     font-size: var(--font-size-small);
     padding: var(--spacing-xs) var(--spacing-sm);
+    transition: font-size var(--transition-duration-base) ease, 
+                padding var(--transition-duration-base) ease;
   }
   
   .projects-empty-title {
     font-size: var(--font-size-h3);
+    transition: font-size var(--transition-duration-base) ease;
   }
   
   .projects-empty-subtitle {
     font-size: var(--font-size-base);
+    transition: font-size var(--transition-duration-base) ease;
   }
 }
 
 /* Планшеты (от 768px до 1023px) - 2 колонки */
-@media (min-width: 768px) and (max-width: 1023px) {
+@include tablet {
   .projects-page {
     padding: var(--spacing-lg) var(--spacing-lg);
     padding-bottom: 0;
+    transition: padding var(--transition-duration-base) ease;
   }
   
   .projects-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: var(--spacing-md);
+    transition: grid-template-columns var(--transition-duration-base) ease, 
+                gap var(--transition-duration-base) ease;
   }
   
   .projects-section-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: var(--spacing-md);
+    transition: grid-template-columns var(--transition-duration-base) ease, 
+                gap var(--transition-duration-base) ease;
   }
   
   .projects-section-header {
     margin: var(--spacing-lg) 0 var(--spacing-sm) 0;
+    transition: margin var(--transition-duration-base) ease;
   }
   
   .projects-section-title {
     font-size: var(--font-size-h3);
     margin: 0;
     gap: var(--spacing-sm);
+    transition: font-size var(--transition-duration-base) ease, 
+                gap var(--transition-duration-base) ease;
   }
   
   .projects-section-expand {
     font-size: var(--font-size-small);
     padding: var(--spacing-xs) var(--spacing-sm);
+    transition: font-size var(--transition-duration-base) ease, 
+                padding var(--transition-duration-base) ease;
   }
   
   .projects-empty-title {
     font-size: var(--font-size-h3);
+    transition: font-size var(--transition-duration-base) ease;
   }
   
   .projects-empty-subtitle {
     font-size: var(--font-size-base);
+    transition: font-size var(--transition-duration-base) ease;
   }
 }
 
@@ -650,44 +524,5 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
 }
 
 /* Адаптивность для кнопки "Наверх" */
-@media (max-width: 1200px) {
-  .scroll-to-top {
-    right: calc(var(--spacing-lg) - 24px);
-  }
-}
-
-/* Tablet режим - увеличенный размер */
-@media (min-width: 1024px) and (max-width: 1200px) {
-  .scroll-to-top {
-    width: 32px;
-    height: 32px;
-    
-    > span,
-    svg {
-      width: 100%;
-      height: 100%;
-    }
-  }
-}
-
-@media (max-width: 1023px) {
-  .scroll-to-top {
-    /* На мобильных устройствах футер может быть виден или скрыт */
-    bottom: calc(64px + var(--spacing-md) - 8px);
-    right: calc(var(--spacing-md) - 16px);
-    width: 28px;
-    height: 28px;
-    
-    > span,
-    svg {
-      width: 100%;
-      height: 100%;
-    }
-    
-    /* Когда футер скрыт на мобильных устройствах */
-    &.footer-hidden {
-      bottom: calc(var(--spacing-md) - 8px);
-    }
-  }
-}
+/* Стили для кнопки "Наверх" в tablet/mobile режиме находятся в _tablet.scss */
 

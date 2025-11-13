@@ -78,6 +78,11 @@
   
   /* Анимации */
   --animation-duration: 0.3s; /* 300ms - длительность перехода слайдов */
+  
+  /* Transition durations */
+  --transition-duration-fast: 0.2s;
+  --transition-duration-base: 0.3s;
+  --transition-duration-slow: 0.5s;
 }
 
 [data-theme='dark'] {
@@ -88,5 +93,68 @@
   --color-divider: var(--theme-dark-divider);
   --color-placeholder: var(--theme-dark-placeholder);
   --color-secondary: var(--theme-dark-secondary);
+}
+
+/* Миксины для breakpoints */
+/* Основной breakpoint: 1024px - граница между desktop и tablet/mobile */
+@mixin mobile {
+  @media (max-width: 1023px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: 768px) and (max-width: 1023px) {
+    @content;
+  }
+}
+
+@mixin tablet-and-mobile {
+  @media (max-width: 1023px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin desktop-large {
+  @media (min-width: 1025px) {
+    @content;
+  }
+}
+
+/* Дополнительные breakpoints для специфических случаев */
+@mixin mobile-small {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
+
+@mixin mobile-extra-small {
+  @media (max-width: 424px) {
+    @content;
+  }
+}
+
+@mixin mobile-tiny {
+  @media (max-width: 374px) {
+    @content;
+  }
+}
+
+@mixin mobile-mini {
+  @media (max-width: 342px) {
+    @content;
+  }
+}
+
+@mixin mobile-minimum {
+  @media (max-width: 319px) {
+    @content;
+  }
 }
 

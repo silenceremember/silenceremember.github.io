@@ -1,15 +1,16 @@
-@media (max-width: 1023px), (max-height: 899px) {
-  /* Стили для tablet-версии */
+@import '../base/variables';
 
-  /* Исключаем стили для страницы проектов при высоте <900px */
+/* Стили для главной страницы при высоте <900px (применяются независимо от ширины) */
+/* Эти стили нужны для десктопа с маленькой высотой окна */
+@media (max-height: 899px) {
   body:not(.page-with-scroll) .header {
     position: fixed;
     top: 0;
     left: 0;
-    pointer-events: none; /* Пропускаем события прокрутки через header */
+    pointer-events: none;
+    will-change: transform;
   }
 
-  /* Восстанавливаем pointer-events для интерактивных элементов внутри header */
   body:not(.page-with-scroll) .header-content,
   body:not(.page-with-scroll) .header-content * {
     pointer-events: auto;
@@ -19,10 +20,10 @@
     position: fixed;
     bottom: 0;
     left: 0;
-    pointer-events: none; /* Пропускаем события прокрутки через footer */
+    pointer-events: none;
+    will-change: transform;
   }
 
-  /* Восстанавливаем pointer-events для интерактивных элементов внутри footer */
   body:not(.page-with-scroll) .footer-content,
   body:not(.page-with-scroll) .footer-content * {
     pointer-events: auto;
@@ -36,43 +37,42 @@
     transform: translateY(100%);
   }
 
-  /* Стили для декоративных линий в режиме планшета */
   body:not(.page-with-scroll) .header + .decorative-line-horizontal,
   body:not(.page-with-scroll) main + .decorative-line-horizontal {
     position: fixed;
     left: 0;
-    transition: transform 0.3s ease;
-    pointer-events: none; /* Пропускаем события прокрутки через декоративные линии */
+    transition: transform var(--transition-duration-base) ease;
+    pointer-events: none;
+    will-change: transform;
   }
 
   body:not(.page-with-scroll) .header + .decorative-line-horizontal {
-    top: 64px; /* Высота хедера */
+    top: 64px;
   }
 
   body:not(.page-with-scroll) main + .decorative-line-horizontal {
-    bottom: 64px; /* Высота футера */
+    bottom: 64px;
   }
 
   body:not(.page-with-scroll) .header + .decorative-line-horizontal.hidden {
-    transform: translateY(-65px); /* Сдвигаем вверх, чтобы скрыть */
+    transform: translateY(-65px);
   }
 
   body:not(.page-with-scroll) main + .decorative-line-horizontal.hidden {
-    transform: translateY(65px); /* Сдвигаем вниз, чтобы скрыть */
+    transform: translateY(65px);
   }
 
-  /* Исключаем стили для страницы проектов при высоте <900px */
+  /* При высоте <900px применяем скролл для главной страницы (независимо от ширины) */
   body:not(.page-with-scroll) .content-wrapper {
     padding-left: 0;
     padding-right: 0;
-    max-width: none; /* Убираем ограничение ширины */
-    width: 100vw; /* Занимаем всю ширину viewport */
-    margin-left: calc(50% - 50vw); /* Растягиваем на всю ширину экрана */
-    min-height: 100%; /* Минимальная высота для скролла */
+    max-width: none;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    min-height: 100%;
     box-sizing: border-box;
   }
 
-  /* Для главной страницы используем .page-wrapper для скролла (унификация с портфолио) */
   body:not(.page-with-scroll) .page-wrapper {
     display: block;
     height: 100vh;
@@ -81,67 +81,65 @@
     padding-top: 64px;
     padding-bottom: 64px;
     box-sizing: border-box;
-    /* Плавный скролл для унификации с портфолио */
     -webkit-overflow-scrolling: touch;
-    scroll-behavior: auto; /* Отключаем smooth scroll для одинаковой скорости */
-    /* Скрываем скроллбар */
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    scroll-behavior: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 
-  /* Скрываем скроллбар для Webkit-браузеров (Chrome, Safari) */
   body:not(.page-with-scroll) .page-wrapper::-webkit-scrollbar {
     display: none;
   }
+}
 
+/* Стили для слайдов в tablet/mobile режиме */
+/* Применяются при ширине <=1023px ИЛИ высоте <900px */
+@include tablet-and-mobile {
   .slides-container.tablet-scroll-mode {
     display: block;
-    overflow: visible; /* Убираем overflow, так как скролл теперь в .page-wrapper */
-    height: auto; /* Высота автоматическая */
+    overflow: visible;
+    height: auto;
     scroll-snap-type: none;
     box-sizing: border-box;
-    width: 100%; /* Занимаем всю ширину родителя */
+    width: 100%;
   }
 
-  /* Широкий wrapper для каждого слайда - занимает всю ширину */
   .slides-container.tablet-scroll-mode .slide-wrapper {
-    position: relative; /* Меняем с absolute на relative для потока документа */
+    position: relative;
     width: 100%;
-    height: auto; /* Убираем фиксированную высоту */
-    pointer-events: auto; /* Обрабатываем события прокрутки на всей ширине */
+    height: auto;
+    pointer-events: auto;
   }
 
   .slides-container.tablet-scroll-mode .slide {
-    display: block;
-    position: static; /* Убираем absolute позиционирование */
-    opacity: 1;
-    visibility: visible;
-    transform: none;
+    display: block !important;
+    position: static !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
     height: auto;
-    min-height: auto; /* Убираем лишнюю высоту */
-    width: 100%; /* Занимаем всю ширину wrapper'а */
-    padding: var(--spacing-xl) 0; /* Убираем горизонтальные отступы, оставляем вертикальные */
-    pointer-events: auto !important; /* Включаем клики в режиме прокрутки */
+    min-height: auto;
+    width: 100%;
+    padding: var(--spacing-xl) 0;
+    pointer-events: auto !important;
+    transition: padding var(--transition-duration-base) ease;
+    z-index: auto !important;
   }
 
-  /* Центрируем контент внутри слайдов и добавляем отступы */
   .slides-container.tablet-scroll-mode .slide:first-child .main-grid,
   .slides-container.tablet-scroll-mode .project-slide-content,
   .slides-container.tablet-scroll-mode .cta-slide-content {
-    padding-left: var(--spacing-lg); /* Добавляем отступы по бокам */
-    padding-right: var(--spacing-lg); /* Добавляем отступы по бокам */
-    max-width: var(--max-width-large); /* Ограничиваем ширину контента */
-    margin-left: auto; /* Центрируем */
-    margin-right: auto; /* Центрируем */
+    padding-left: var(--spacing-lg);
+    padding-right: var(--spacing-lg);
+    max-width: var(--max-width-large);
+    margin-left: auto;
+    margin-right: auto;
     box-sizing: border-box;
   }
 
-  /* Скрываем дублирующиеся заголовки "Избранные работы" */
   .slides-container.tablet-scroll-mode .slide[data-slide="1"] ~ .slide .project-slide-header .section-title {
     display: none;
   }
-
-  /* Добавляем разделители между слайдами */
 
   .slides-container.tablet-scroll-mode .slide-wrapper:not(:last-child)::after {
     content: '';
@@ -149,7 +147,7 @@
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: min(calc(100% - 2 * var(--spacing-lg)), calc(var(--max-width-large) - 2 * var(--spacing-lg))); /* Ширина разделителя = ширина контента минус отступы */
+    width: min(calc(100% - 2 * var(--spacing-lg)), calc(var(--max-width-large) - 2 * var(--spacing-lg)));
     height: var(--line-width, 1px);
     background-color: var(--color-divider);
   }
@@ -157,7 +155,72 @@
   .footer-decorative {
     display: none;
   }
+}
 
+/* Стили для слайдов в tablet режиме при высоте <900px (независимо от ширины) */
+@media (max-height: 899px) {
+  body:not(.page-with-scroll) .slides-container.tablet-scroll-mode {
+    display: block;
+    overflow: visible;
+    height: auto;
+    scroll-snap-type: none;
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  body:not(.page-with-scroll) .slides-container.tablet-scroll-mode .slide-wrapper {
+    position: relative;
+    width: 100%;
+    height: auto;
+    pointer-events: auto;
+  }
+
+  body:not(.page-with-scroll) .slides-container.tablet-scroll-mode .slide {
+    display: block !important;
+    position: static !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    height: auto;
+    min-height: auto;
+    width: 100%;
+    padding: var(--spacing-xl) 0;
+    pointer-events: auto !important;
+    transition: padding var(--transition-duration-base) ease;
+    z-index: auto !important;
+  }
+
+  body:not(.page-with-scroll) .slides-container.tablet-scroll-mode .slide:first-child .main-grid,
+  body:not(.page-with-scroll) .slides-container.tablet-scroll-mode .project-slide-content,
+  body:not(.page-with-scroll) .slides-container.tablet-scroll-mode .cta-slide-content {
+    padding-left: var(--spacing-lg);
+    padding-right: var(--spacing-lg);
+    max-width: var(--max-width-large);
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+  }
+
+  body:not(.page-with-scroll) .slides-container.tablet-scroll-mode .slide[data-slide="1"] ~ .slide .project-slide-header .section-title {
+    display: none;
+  }
+
+  body:not(.page-with-scroll) .slides-container.tablet-scroll-mode .slide-wrapper:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(calc(100% - 2 * var(--spacing-lg)), calc(var(--max-width-large) - 2 * var(--spacing-lg)));
+    height: var(--line-width, 1px);
+    background-color: var(--color-divider);
+  }
+
+  body:not(.page-with-scroll) .footer-decorative {
+    display: none;
+  }
+
+  /* Стили для 404 страницы при высоте <900px */
   body.page-404 .page-wrapper {
     display: block;
     height: 100vh;
@@ -165,8 +228,10 @@
     padding-top: 64px;
     padding-bottom: 64px;
     box-sizing: border-box;
-    -ms-overflow-style: none;  
+    -ms-overflow-style: none;
     scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: auto;
   }
 
   body.page-404 .page-wrapper::-webkit-scrollbar {
@@ -184,9 +249,8 @@
   }
 }
 
-/* Стили для страницы проектов в режиме планшета/мобильного */
-/* Только по ширине, без учета высоты */
-@media (max-width: 1023px) {
+/* Стили для страниц с прокруткой в tablet/mobile режиме */
+@include tablet-and-mobile {
   body.page-with-scroll {
     overflow: hidden !important;
     height: 100vh !important;
@@ -200,10 +264,9 @@
     padding-top: 64px;
     padding-bottom: 64px;
     box-sizing: border-box;
-    /* Плавный скролл для унификации с главной страницей */
     -webkit-overflow-scrolling: touch;
-    scroll-behavior: auto; /* Отключаем smooth scroll для одинаковой скорости */
-    -ms-overflow-style: none;  
+    scroll-behavior: auto;
+    -ms-overflow-style: none;
     scrollbar-width: none;
   }
 
@@ -212,18 +275,17 @@
   }
 
   body.page-with-scroll .content-wrapper {
-    min-height: calc(100vh - 128px); /* 100vh минус высота header (64px) и footer (64px) */
+    min-height: calc(100vh - 128px);
     box-sizing: border-box;
     display: block;
-    padding-top: 0; /* Убираем лишний отступ сверху, так как page-wrapper уже имеет padding-top: 64px */
-    padding-bottom: 0; /* Убираем нижний отступ, так как page-wrapper уже имеет padding-bottom: 64px, чтобы совпадало с секцией CTA */
-    max-width: 100% !important; /* Убираем ограничение по ширине */
-    margin: 0 !important; /* Убираем центрирование */
+    padding-top: 0;
+    padding-bottom: 0;
+    max-width: 100% !important;
+    margin: 0 !important;
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
 
-  /* Фиксированное позиционирование header и footer для страницы проектов в tablet режиме */
   body.page-with-scroll .header {
     position: fixed;
     top: 0;
@@ -235,11 +297,13 @@
     flex-shrink: 0;
     z-index: 10;
     background-color: var(--color-bg-primary);
-    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
-    pointer-events: none; /* Пропускаем события прокрутки через header */
+    transition: transform var(--transition-duration-base) ease, 
+                background-color var(--transition-duration-base) ease, 
+                color var(--transition-duration-base) ease;
+    pointer-events: none;
+    will-change: transform;
   }
 
-  /* Восстанавливаем pointer-events для интерактивных элементов внутри header */
   body.page-with-scroll .header-content,
   body.page-with-scroll .header-content * {
     pointer-events: auto;
@@ -260,11 +324,13 @@
     flex-shrink: 0;
     z-index: 10;
     background-color: var(--color-bg-primary);
-    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
-    pointer-events: none; /* Пропускаем события прокрутки через footer */
+    transition: transform var(--transition-duration-base) ease, 
+                background-color var(--transition-duration-base) ease, 
+                color var(--transition-duration-base) ease;
+    pointer-events: none;
+    will-change: transform;
   }
 
-  /* Восстанавливаем pointer-events для интерактивных элементов внутри footer */
   body.page-with-scroll .footer-content,
   body.page-with-scroll .footer-content * {
     pointer-events: auto;
@@ -274,7 +340,6 @@
     transform: translateY(100%);
   }
 
-  /* Стили для декоративных линий в режиме планшета для страницы проектов */
   body.page-with-scroll .header + .decorative-line-horizontal,
   body.page-with-scroll main + .decorative-line-horizontal {
     position: fixed;
@@ -282,35 +347,36 @@
     width: 100vw;
     height: var(--line-width);
     background-color: var(--line-color);
-    transition: transform 0.3s ease;
-    pointer-events: none; /* Пропускаем события прокрутки через декоративные линии */
-    z-index: 12; /* Выше header/footer (z-index: 10) */
+    transition: transform var(--transition-duration-base) ease;
+    pointer-events: none;
+    z-index: 12;
+    will-change: transform;
   }
 
   body.page-with-scroll .header + .decorative-line-horizontal {
-    top: 64px; /* Высота хедера */
+    top: 64px;
   }
 
   body.page-with-scroll main + .decorative-line-horizontal {
-    bottom: 64px; /* Высота футера */
+    bottom: 64px;
   }
 
   body.page-with-scroll .header + .decorative-line-horizontal.hidden {
-    transform: translateY(-65px); /* Сдвигаем вверх, чтобы скрыть */
+    transform: translateY(-65px);
   }
 
   body.page-with-scroll main + .decorative-line-horizontal.hidden {
-    transform: translateY(65px); /* Сдвигаем вниз, чтобы скрыть */
+    transform: translateY(65px);
   }
 
-  /* Стили для кнопки "Наверх" в tablet режиме */
   body.page-with-scroll .scroll-to-top {
     position: fixed;
     bottom: calc(64px + var(--spacing-md) - 8px);
     right: calc(var(--spacing-md) - 16px);
     width: 32px;
     height: 32px;
-    z-index: 15; /* Выше footer (z-index: 10) и декоративных линий (z-index: 12) */
+    z-index: 15;
+    transition: bottom var(--transition-duration-base) ease;
     
     > span,
     svg {
@@ -318,7 +384,6 @@
       height: 100%;
     }
     
-    /* Когда футер скрыт на мобильных устройствах */
     &.footer-hidden {
       bottom: calc(var(--spacing-md) - 8px);
     }

@@ -42,10 +42,25 @@ const initSlidesManager = () => {
     function checkViewport(isTablet) {
         if (isTablet) {
             slidesContainer.classList.add('tablet-scroll-mode');
-            slides.forEach(slide => slide.classList.remove('active'));
+            // В tablet-scroll-mode все слайды должны быть видимы
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+                // Явно устанавливаем видимость для tablet-scroll-mode
+                slide.style.opacity = '1';
+                slide.style.visibility = 'visible';
+                slide.style.display = 'block';
+                slide.style.position = 'static';
+            });
         } else {
             slidesContainer.classList.add('is-resizing');
             slidesContainer.classList.remove('tablet-scroll-mode');
+            // Убираем inline стили при возврате в desktop режим
+            slides.forEach(slide => {
+                slide.style.opacity = '';
+                slide.style.visibility = '';
+                slide.style.display = '';
+                slide.style.position = '';
+            });
             showSlideImmediate(currentSlideIndex);
             setTimeout(() => {
                 slidesContainer.classList.remove('is-resizing');

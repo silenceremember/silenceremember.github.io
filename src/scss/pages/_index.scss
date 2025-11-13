@@ -1,5 +1,7 @@
 /* Стили для главной страницы */
 
+@import '../base/variables';
+
 /* Контейнер главной страницы */
 /* Переопределяем стили .container для главной страницы */
 .index-page {
@@ -27,7 +29,7 @@
 .index-page .slide:first-child .main-grid {
   padding: var(--spacing-xl) 0;
   
-  @media (max-width: 1023px) {
+  @include tablet-and-mobile {
     padding: var(--spacing-lg) 0;
   }
 }
@@ -38,7 +40,7 @@
   max-width: 100%;
   padding: 0;
   
-  @media (min-width: 1025px) {
+  @include desktop-large {
     padding-left: 0;
     padding-right: 0;
   }
@@ -54,7 +56,7 @@
   .section-title {
     margin-bottom: var(--spacing-lg);
     
-    @media (max-width: 1023px) {
+    @include tablet-and-mobile {
       margin-bottom: var(--spacing-md);
     }
   }

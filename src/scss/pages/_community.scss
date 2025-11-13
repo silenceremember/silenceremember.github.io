@@ -1,146 +1,7 @@
 /* Стили для страницы сообщества */
+/* Общие стили для .page-with-scroll находятся в _responsive-base.scss */
 
-/* Переопределяем стили для страницы сообщества, чтобы она прокручивалась */
-/* На десктопе (min-width: 1024px) страница прокручивается через body (как обычная страница) */
-@media (min-width: 1024px) {
-  html.page-with-scroll {
-    height: auto;
-    min-height: 100vh;
-    overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-    scroll-behavior: auto;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-
-  html.page-with-scroll::-webkit-scrollbar {
-    display: none;
-  }
-
-  body.page-with-scroll {
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-    height: auto !important;
-    min-height: 100vh;
-    -webkit-overflow-scrolling: touch;
-    scroll-behavior: auto;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-
-  body.page-with-scroll::-webkit-scrollbar {
-    display: none;
-  }
-
-  body.page-with-scroll .page-wrapper {
-    height: auto !important;
-    min-height: 100vh;
-    max-height: none !important;
-    overflow: visible !important;
-    display: block !important;
-    padding-bottom: 64px;
-    box-sizing: border-box;
-  }
-
-  body.page-with-scroll .page-wrapper::before,
-  body.page-with-scroll .page-wrapper::after {
-    pointer-events: none;
-    z-index: 11;
-  }
-
-  body.page-with-scroll .content-wrapper {
-    overflow: visible !important;
-    min-height: calc(100vh - 128px);
-    height: auto;
-    display: flex !important;
-    flex-direction: column;
-    padding-top: 64px;
-    padding-bottom: 0;
-    max-width: 100% !important;
-    margin: 0 !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    box-sizing: border-box;
-  }
-
-  body.page-with-scroll .header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 10;
-    width: 100%;
-    height: 64px;
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-    background-color: var(--color-bg-primary);
-    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
-    pointer-events: none;
-  }
-
-  body.page-with-scroll .header-content,
-  body.page-with-scroll .header-content * {
-    pointer-events: auto;
-  }
-
-  body.page-with-scroll .header.hidden {
-    transform: translateY(-100%);
-  }
-
-  body.page-with-scroll .footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    z-index: 10;
-    width: 100%;
-    height: 64px;
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-    background-color: var(--color-bg-primary);
-    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
-    pointer-events: none;
-  }
-
-  body.page-with-scroll .footer-content,
-  body.page-with-scroll .footer-content * {
-    pointer-events: auto;
-  }
-
-  body.page-with-scroll .footer.hidden {
-    transform: translateY(100%);
-  }
-
-  body.page-with-scroll .decorative-line-horizontal {
-    position: fixed;
-    left: 0;
-    width: 100vw;
-    height: var(--line-width);
-    background-color: var(--line-color);
-    margin: 0;
-    flex-shrink: 0;
-    transition: transform 0.3s ease;
-    z-index: 12;
-    pointer-events: none;
-  }
-
-  body.page-with-scroll .header + .decorative-line-horizontal {
-    top: 64px;
-  }
-
-  body.page-with-scroll main + .decorative-line-horizontal {
-    bottom: 64px;
-  }
-
-  body.page-with-scroll .header + .decorative-line-horizontal.hidden {
-    transform: translateY(-65px);
-  }
-
-  body.page-with-scroll main + .decorative-line-horizontal.hidden {
-    transform: translateY(65px);
-  }
-}
+@import '../base/variables';
 
 /* Используем те же стили для прокрутки, что и для projects/research */
 .community-page {
@@ -153,7 +14,7 @@
   flex-direction: column;
   min-height: 0;
   
-  @media (max-width: 1023px) {
+  @include tablet-and-mobile {
     max-width: 100%;
     padding-left: var(--spacing-lg);
     padding-right: var(--spacing-lg);
@@ -179,7 +40,7 @@
   letter-spacing: var(--letter-spacing-tight);
   line-height: var(--line-height-heading);
   
-  @media (max-width: 1023px) {
+  @include tablet-and-mobile {
     font-size: var(--font-size-h3);
     margin-bottom: var(--spacing-md);
   }
@@ -191,7 +52,7 @@
   color: var(--color-text-secondary);
   margin: 0 0 var(--spacing-lg) 0;
   
-  @media (max-width: 1023px) {
+  @include tablet-and-mobile {
     font-size: var(--font-size-small);
     margin-bottom: var(--spacing-md);
   }
@@ -219,7 +80,7 @@
   gap: var(--spacing-lg);
   align-items: stretch;
   
-  @media (max-width: 1023px) {
+  @include tablet-and-mobile {
     gap: var(--spacing-md);
   }
 }
@@ -332,7 +193,7 @@
   margin-right: var(--spacing-sm);
   transition: fill 0.3s ease-out;
   
-  @media (max-width: 1023px) {
+  @include tablet-and-mobile {
     width: 28px;
     height: 28px;
     margin-right: var(--spacing-xs);
@@ -485,7 +346,7 @@
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   
-  @media (max-width: 1023px) {
+  @include tablet-and-mobile {
     font-size: var(--font-size-small);
   }
   
@@ -519,7 +380,7 @@
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   
-  @media (max-width: 1023px) {
+  @include tablet-and-mobile {
     font-size: var(--font-size-small);
     -webkit-line-clamp: 2;
   }
@@ -542,7 +403,7 @@
   gap: var(--spacing-lg);
   align-items: stretch;
   
-  @media (max-width: 1023px) {
+  @include tablet-and-mobile {
     gap: var(--spacing-md);
   }
 }
@@ -557,7 +418,7 @@
   flex-direction: column;
   gap: var(--spacing-lg);
   
-  @media (max-width: 1023px) {
+  @include tablet-and-mobile {
     gap: var(--spacing-md);
   }
 }
@@ -575,7 +436,7 @@
     border-color: var(--color-accent);
   }
   
-  @media (max-width: 1023px) {
+  @include tablet-and-mobile {
     padding: var(--spacing-md);
     gap: var(--spacing-xs);
   }
@@ -588,7 +449,7 @@
   margin: 0;
   line-height: var(--line-height-heading);
   
-  @media (max-width: 1023px) {
+  @include tablet-and-mobile {
     font-size: var(--font-size-h5);
   }
 }
@@ -599,7 +460,7 @@
   color: var(--color-accent);
   margin: 0;
   
-  @media (max-width: 1023px) {
+  @include tablet-and-mobile {
     font-size: var(--font-size-small);
   }
 }
@@ -610,7 +471,7 @@
   color: var(--color-text-secondary);
   margin: 0;
   
-  @media (max-width: 1023px) {
+  @include tablet-and-mobile {
     font-size: var(--font-size-small);
   }
 }
@@ -628,12 +489,11 @@
   position: relative;
 }
 
-@media (max-width: 1023px) {
+@include tablet-and-mobile {
   .community-navigation {
     display: block;
   }
   
-  /* Разделитель над навигацией (как между секциями на главной) */
   .community-navigation::before {
     content: '';
     position: absolute;
@@ -655,7 +515,7 @@
   }
 }
 
-@media (min-width: 1024px) {
+@include desktop {
   .community-navigation {
     display: none !important;
   }
@@ -729,53 +589,19 @@
 }
 
 /* Адаптивность для кнопки "Наверх" */
-@media (max-width: 1200px) {
-  .scroll-to-top {
-    right: calc(var(--spacing-lg) - 24px);
-  }
-}
-
-@media (min-width: 1024px) and (max-width: 1200px) {
-  .scroll-to-top {
-    width: 32px;
-    height: 32px;
-    
-    > span,
-    svg {
-      width: 100%;
-      height: 100%;
-    }
-  }
-}
-
-@media (max-width: 1023px) {
-  .scroll-to-top {
-    bottom: calc(64px + var(--spacing-md) - 8px);
-    right: calc(var(--spacing-md) - 16px);
-    width: 28px;
-    height: 28px;
-    
-    > span,
-    svg {
-      width: 100%;
-      height: 100%;
-    }
-    
-    &.footer-hidden {
-      bottom: calc(var(--spacing-md) - 8px);
-    }
-  }
-}
+/* Стили для кнопки "Наверх" в tablet/mobile режиме находятся в _tablet.scss */
 
 /* Адаптивность */
-@media (max-width: 1023px) {
+@include tablet-and-mobile {
   .community-page {
     padding: var(--spacing-lg) var(--spacing-lg);
     padding-bottom: 0;
+    transition: padding var(--transition-duration-base) ease;
   }
   
   .community-section {
     margin-bottom: var(--spacing-xl);
+    transition: margin-bottom var(--transition-duration-base) ease;
   }
 }
 
