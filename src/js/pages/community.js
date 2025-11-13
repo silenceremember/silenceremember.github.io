@@ -652,25 +652,13 @@ async function initCommunityPage() {
               await svgLoaderModule.default();
             }
             
-            // Делаем иконку квадратной на основе высоты текстового блока
+            // Устанавливаем фиксированный размер иконки 128x128
             const card = discordSection.querySelector('.community-card-discord');
             const iconContainer = card?.querySelector('.community-card-icon-left');
-            const textBlock = card?.querySelector('.community-card-text-block');
-            if (card && iconContainer && textBlock) {
-              const updateIconSize = () => {
-                const textBlockHeight = textBlock.offsetHeight;
-                if (textBlockHeight > 0) {
-                  iconContainer.style.width = `${textBlockHeight}px`;
-                  iconContainer.style.minWidth = `${textBlockHeight}px`;
-                  iconContainer.style.height = `${textBlockHeight}px`;
-                }
-              };
-              
-              // Обновляем размер после загрузки SVG
-              setTimeout(updateIconSize, 100);
-              
-              // Обновляем размер при изменении размера окна
-              window.addEventListener('resize', updateIconSize);
+            if (card && iconContainer) {
+              iconContainer.style.width = '128px';
+              iconContainer.style.minWidth = '128px';
+              iconContainer.style.height = '128px';
             }
           } catch (error) {
             console.error('Ошибка загрузки SVG:', error);

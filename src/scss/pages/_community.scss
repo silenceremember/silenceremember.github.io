@@ -396,11 +396,11 @@
   display: flex !important;
   align-items: center;
   justify-content: center;
-  padding-top: var(--spacing-md);
-  padding-bottom: var(--spacing-md);
-  padding-left: 0;
-  padding-right: 0;
+  padding: var(--spacing-md);
   box-sizing: border-box;
+  width: 128px;
+  min-width: 128px;
+  height: 128px;
   
   > span {
     display: flex !important;
