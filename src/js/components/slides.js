@@ -29,6 +29,13 @@ const initSlidesManager = () => {
     let isTabletMode = false;
     const menuButton = document.querySelector('.header-menu-button');
     const ctaSection = document.getElementById('cta-section');
+    
+    // Подсказка для первого слайда
+    const slideHint = document.getElementById('slide-hint');
+    const HINT_DELAY = 7000; // 7 секунд
+    let hintTimeout = null;
+    let hintShown = false;
+    let hasLeftFirstSlide = false; // Флаг: покидали ли мы первый слайд
 
     if (menuButton) {
         menuButton.addEventListener('click', () => {
@@ -36,6 +43,47 @@ const initSlidesManager = () => {
                 ctaSection.scrollIntoView({ behavior: 'smooth' });
             }
         });
+    }
+
+    // Функция показа/скрытия подсказки
+    function showHint() {
+        if (slideHint && !isTabletMode && currentSlideIndex === 0 && !hintShown && !hasLeftFirstSlide) {
+            slideHint.classList.add('visible');
+            hintShown = true;
+        }
+    }
+    
+    function hideHint() {
+        if (slideHint) {
+            slideHint.classList.remove('visible');
+            hintShown = false;
+        }
+    }
+    
+    function startHintTimer() {
+        // Очищаем предыдущий таймер, если он есть
+        if (hintTimeout) {
+            clearTimeout(hintTimeout);
+            hintTimeout = null;
+        }
+        
+        // Скрываем подсказку, если она была показана
+        hideHint();
+        
+        // Запускаем таймер только если мы на первом слайде, не в режиме планшета и еще не покидали первый слайд
+        if (currentSlideIndex === 0 && !isTabletMode && slideHint && !hasLeftFirstSlide) {
+            hintTimeout = setTimeout(() => {
+                showHint();
+            }, HINT_DELAY);
+        }
+    }
+    
+    function stopHintTimer() {
+        if (hintTimeout) {
+            clearTimeout(hintTimeout);
+            hintTimeout = null;
+        }
+        hideHint();
     }
 
     // Функция проверки размера окна
@@ -51,6 +99,8 @@ const initSlidesManager = () => {
                 slide.style.display = 'block';
                 slide.style.position = 'static';
             });
+            // Скрываем подсказку в режиме планшета
+            stopHintTimer();
         } else {
             slidesContainer.classList.add('is-resizing');
             slidesContainer.classList.remove('tablet-scroll-mode');
@@ -65,6 +115,10 @@ const initSlidesManager = () => {
             setTimeout(() => {
                 slidesContainer.classList.remove('is-resizing');
             }, 50);
+            // Запускаем таймер подсказки, если мы на первом слайде
+            if (currentSlideIndex === 0) {
+                startHintTimer();
+            }
         }
     }
 
@@ -142,9 +196,21 @@ const initSlidesManager = () => {
     
     // Показываем активный слайд - улучшенная логика с защитой от наложения
     function showSlide(index) {
+        // Отслеживаем, покидали ли мы первый слайд
+        if (currentSlideIndex === 0 && index !== 0) {
+            hasLeftFirstSlide = true;
+        }
+        
         currentSlideIndex = index;
         slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
         progressDots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+        
+        // Управление подсказкой
+        if (index === 0 && !isTabletMode && !hasLeftFirstSlide) {
+            startHintTimer();
+        } else {
+            stopHintTimer();
+        }
     }
 
     // Переключение слайда
@@ -169,6 +235,9 @@ const initSlidesManager = () => {
     window.addEventListener('wheel', (event) => {
         if (isScrolling || isTabletMode) return;
         
+        // Скрываем подсказку при прокрутке
+        stopHintTimer();
+        
         const direction = event.deltaY > 0 ? 1 : -1;
         const nextIndex = currentSlideIndex + direction;
         changeSlide(nextIndex);
@@ -192,6 +261,8 @@ const initSlidesManager = () => {
     // Затем показываем первый слайд, если не в режиме планшета
     if (!isTabletMode) {
         showSlideImmediate(0);
+        // Запускаем таймер подсказки для первого слайда
+        startHintTimer();
     }
 };
 
