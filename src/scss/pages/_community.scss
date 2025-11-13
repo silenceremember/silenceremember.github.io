@@ -391,7 +391,7 @@
   padding-top: var(--spacing-md);
   padding-bottom: var(--spacing-md);
   padding-left: 0;
-  padding-right: var(--spacing-xs);
+  padding-right: 0;
   box-sizing: border-box;
   
   > span {
@@ -425,7 +425,7 @@
 
 .community-card-discord .community-card-text-block {
   padding: var(--spacing-md);
-  padding-left: var(--spacing-xs);
+  padding-left: 0;
   box-sizing: border-box;
   flex: 1;
 }

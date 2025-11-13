@@ -198,7 +198,7 @@ function createDiscordSection(discord) {
   const card = createDiscordCard(
     discord.link || '#',
     getIconPath('discord-server'), // Используем отдельную иконку для сервера
-    'Discord Сервер',
+    'сервер сообщества 2IQ',
     isPlaceholder ? 'Discord Сервер (скоро)' : 'Присоединиться к Discord серверу',
     discord.description || 'Присоединяйтесь к нашему сообществу разработчиков игр', // Описание внутри карточки
     isPlaceholder,
