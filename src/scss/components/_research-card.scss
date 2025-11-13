@@ -25,6 +25,9 @@
   transform-origin: center top;
   opacity: 1;
   visibility: visible;
+  outline: none;
+  /* Явно задаем border-bottom для предотвращения артефактов в Firefox */
+  border-bottom: var(--line-width) solid var(--color-text-primary);
   
   &.research-card-hidden {
     opacity: 0;
@@ -78,13 +81,16 @@
   background-color: var(--color-bg-primary);
   transition: background-color 0.3s ease-in-out;
   flex-shrink: 0;
-  backface-visibility: hidden;
-  transform: translateZ(0);
   margin: 0;
   border: none;
   position: relative;
   z-index: 1;
   box-sizing: border-box;
+  outline: none;
+  box-shadow: none;
+  /* Убираем transform и backface-visibility, которые могут вызывать проблемы в Firefox */
+  transform: none;
+  backface-visibility: visible;
 }
 
 .research-card-header {
@@ -335,6 +341,7 @@
   flex-shrink: 0;
   transition: border-color 0.3s ease-in-out;
   box-sizing: border-box;
+  outline: none;
 }
 
 .research-card-type {
@@ -422,4 +429,5 @@
     padding: var(--spacing-sm);
   }
 }
+
 
