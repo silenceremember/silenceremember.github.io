@@ -6,16 +6,7 @@
 import { loadHTML } from '../layout.js';
 import { loadData } from '../utils/data-loader.js';
 import { initScrollToTop } from '../components/scroll-to-top.js';
-
-// Константы для унифицированных анимаций элементов
-const CARD_ANIMATION = {
-  duration: '0.3s',
-  timing: 'ease-in-out',
-  translateYAppear: '10px',
-  translateYDisappear: '-10px',
-  translateYFinal: '0',
-  timeout: 300
-};
+import { animateElementAppearance, animateSectionAppearance } from '../utils/animations.js';
 
 // Загрузка компонентов
 let timelineTemplate = null;
@@ -561,33 +552,6 @@ function initMenuButtonScroll() {
   });
 }
 
-/**
- * Анимирует появление элемента
- */
-function animateElementAppearance(element) {
-  // Убеждаемся, что элемент видим перед анимацией
-  // Явно устанавливаем display: block чтобы переопределить CSS :empty
-  element.style.display = 'block';
-  element.style.visibility = 'visible';
-  element.style.opacity = '0';
-  element.style.transform = 'translateY(10px)';
-  element.style.transition = 'none';
-  
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      element.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
-      element.style.opacity = '1';
-      element.style.transform = 'translateY(0)';
-      
-      setTimeout(() => {
-        element.style.transform = '';
-        element.style.opacity = '';
-        element.style.transition = '';
-        // Оставляем display: block чтобы секция оставалась видимой
-      }, 300);
-    });
-  });
-}
 
 /**
  * Инициализирует страницу резюме
@@ -617,21 +581,36 @@ async function initCVPage() {
     section.innerHTML = '';
     section.style.display = '';
     section.style.visibility = '';
+    // Скрываем секции для анимации
+    section.style.opacity = '0';
+    section.style.transform = 'translateY(10px)';
+    section.style.transition = 'none';
   });
   
   // Секция "Заголовок с фото, контактами и "О себе""
   const headerSection = document.getElementById('cv-header-section');
   if (headerSection) {
-    // Сначала показываем секцию, чтобы CSS :empty не скрывал её
+    // Секция уже скрыта в начале функции (opacity: 0, translateY(10px))
     headerSection.style.display = 'block';
     headerSection.style.visibility = 'visible';
+    // Убеждаемся, что секция скрыта для анимации
+    headerSection.style.opacity = '0';
+    headerSection.style.transform = 'translateY(10px)';
+    headerSection.style.transition = 'none';
+    
     const headerContent = createHeaderSection(communityData, cvData.about, cvData.skills);
     if (headerContent) {
       // Секция уже очищена в начале функции, просто добавляем контент
       headerSection.appendChild(headerContent);
-      // Убеждаемся, что секция видима после добавления контента
-      headerSection.style.visibility = 'visible';
-      animateElementAppearance(headerSection);
+      
+      // Плавное появление секции с контентом
+      // Используем двойной requestAnimationFrame для синхронизации с браузером
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          headerSection.setAttribute('data-animated', 'true');
+          animateSectionAppearance(headerSection);
+        });
+      });
     }
   }
   
@@ -657,13 +636,12 @@ async function initCVPage() {
     timelineContainer.className = 'timeline-container timeline-work';
     
     let hasItems = false;
-    cvData.workExperience.forEach((work, index) => {
+    const timelineItems = [];
+    cvData.workExperience.forEach((work) => {
       const timelineItem = createWorkExperienceItem(work);
       if (timelineItem) {
         hasItems = true;
-        setTimeout(() => {
-          animateElementAppearance(timelineItem);
-        }, index * 100);
+        timelineItems.push(timelineItem);
         timelineContainer.appendChild(timelineItem);
       }
     });
@@ -672,7 +650,25 @@ async function initCVPage() {
       workSection.appendChild(timelineContainer);
       // Убеждаемся, что секция видима после добавления контента
       workSection.style.visibility = 'visible';
-      animateElementAppearance(workSection);
+      
+      // Плавное появление секции с контентом, затем элементов timeline
+      // Используем двойной requestAnimationFrame для синхронизации с браузером
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          // Анимируем секцию
+          workSection.setAttribute('data-animated', 'true');
+          animateSectionAppearance(workSection);
+          
+          // Затем анимируем элементы timeline
+          if (timelineItems.length > 0) {
+            requestAnimationFrame(() => {
+              requestAnimationFrame(() => {
+                animateElementsAppearance(timelineItems);
+              });
+            });
+          }
+        });
+      });
     } else {
       workSection.style.display = 'none';
     }
@@ -694,13 +690,12 @@ async function initCVPage() {
     timelineContainer.className = 'timeline-container timeline-education';
     
     let hasItems = false;
-    cvData.education.forEach((edu, index) => {
+    const timelineItems = [];
+    cvData.education.forEach((edu) => {
       const timelineItem = createEducationItem(edu);
       if (timelineItem) {
         hasItems = true;
-        setTimeout(() => {
-          animateElementAppearance(timelineItem);
-        }, index * 100);
+        timelineItems.push(timelineItem);
         timelineContainer.appendChild(timelineItem);
       }
     });
@@ -709,7 +704,25 @@ async function initCVPage() {
       educationSection.appendChild(timelineContainer);
       // Убеждаемся, что секция видима после добавления контента
       educationSection.style.visibility = 'visible';
-      animateElementAppearance(educationSection);
+      
+      // Плавное появление секции с контентом, затем элементов timeline
+      // Используем двойной requestAnimationFrame для синхронизации с браузером
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          // Анимируем секцию
+          educationSection.setAttribute('data-animated', 'true');
+          animateSectionAppearance(educationSection);
+          
+          // Затем анимируем элементы timeline
+          if (timelineItems.length > 0) {
+            requestAnimationFrame(() => {
+              requestAnimationFrame(() => {
+                animateElementsAppearance(timelineItems);
+              });
+            });
+          }
+        });
+      });
     } else {
       educationSection.style.display = 'none';
     }
@@ -738,7 +751,15 @@ async function initCVPage() {
       certificatesSection.appendChild(certificatesList);
       // Убеждаемся, что секция видима после добавления контента
       certificatesSection.style.visibility = 'visible';
-      animateElementAppearance(certificatesSection);
+      
+      // Плавное появление секции с контентом
+      // Используем двойной requestAnimationFrame для синхронизации с браузером
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          certificatesSection.setAttribute('data-animated', 'true');
+          animateSectionAppearance(certificatesSection);
+        });
+      });
     } else {
       certificatesSection.style.display = 'none';
     }
@@ -761,7 +782,15 @@ async function initCVPage() {
       coursesSection.appendChild(coursesList);
       // Убеждаемся, что секция видима после добавления контента
       coursesSection.style.visibility = 'visible';
-      animateElementAppearance(coursesSection);
+      
+      // Плавное появление секции с контентом
+      // Используем двойной requestAnimationFrame для синхронизации с браузером
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          coursesSection.setAttribute('data-animated', 'true');
+          animateSectionAppearance(coursesSection);
+        });
+      });
     } else {
       coursesSection.style.display = 'none';
     }
@@ -784,7 +813,15 @@ async function initCVPage() {
       languagesSection.appendChild(languagesList);
       // Убеждаемся, что секция видима после добавления контента
       languagesSection.style.visibility = 'visible';
-      animateElementAppearance(languagesSection);
+      
+      // Плавное появление секции с контентом
+      // Используем двойной requestAnimationFrame для синхронизации с браузером
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          languagesSection.setAttribute('data-animated', 'true');
+          animateSectionAppearance(languagesSection);
+        });
+      });
     } else {
       languagesSection.style.display = 'none';
     }
@@ -802,7 +839,15 @@ async function initCVPage() {
       downloadSection.appendChild(downloadButton);
       // Убеждаемся, что секция видима после добавления контента
       downloadSection.style.visibility = 'visible';
-      animateElementAppearance(downloadSection);
+      
+      // Плавное появление секции с контентом
+      // Используем двойной requestAnimationFrame для синхронизации с браузером
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          downloadSection.setAttribute('data-animated', 'true');
+          animateSectionAppearance(downloadSection);
+        });
+      });
     }
   }
   
@@ -820,6 +865,7 @@ async function initCVPage() {
   if (svgLoaderModule.default) {
     await svgLoaderModule.default();
   }
+  
   
   // Убеждаемся, что прокрутка остается в начале после загрузки контента
   // Это предотвращает "прыжки" при обновлении страницы

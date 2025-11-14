@@ -6,16 +6,7 @@ import { loadHTML } from '../layout.js';
 import { openDocument } from '../services/document-viewer.js';
 import { loadData } from '../utils/data-loader.js';
 import { initScrollToTop } from '../components/scroll-to-top.js';
-
-// Константы для унифицированных анимаций карточек
-const CARD_ANIMATION = {
-  duration: '0.3s',
-  timing: 'ease-in-out',
-  translateYAppear: '10px',
-  translateYDisappear: '-10px',
-  translateYFinal: '0',
-  timeout: 300
-};
+import { ANIMATION_CONFIG as CARD_ANIMATION, animateElementsAppearance, animateSectionAppearance, animateElementAppearance } from '../utils/animations.js';
 
 // Загрузка компонентов
 let researchCardTemplate = null;
@@ -595,36 +586,14 @@ async function initResearchPage() {
           const sectionOpacity = vkrSection.style.opacity;
           // Показываем секцию с анимацией, если opacity установлена в 0 или не установлена
           if (sectionOpacity === '0' || !sectionOpacity || sectionOpacity === '') {
-            vkrSection.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
-            vkrSection.style.opacity = '1';
-            vkrSection.style.transform = 'translateY(0)';
-            
-            setTimeout(() => {
-              vkrSection.style.opacity = '';
-              vkrSection.style.transform = '';
-              vkrSection.style.transition = '';
-            }, 300);
+            animateSectionAppearance(vkrSection);
           }
           
           // Затем анимируем карточку ВКР
           if (vkrCard) {
             requestAnimationFrame(() => {
               requestAnimationFrame(() => {
-                vkrCard.style.opacity = '0';
-                vkrCard.style.transform = `translateY(${CARD_ANIMATION.translateYAppear})`;
-                vkrCard.style.transition = 'none';
-                
-                requestAnimationFrame(() => {
-                  vkrCard.style.transition = `opacity ${CARD_ANIMATION.duration} ${CARD_ANIMATION.timing}, transform ${CARD_ANIMATION.duration} ${CARD_ANIMATION.timing}`;
-                  vkrCard.style.opacity = '1';
-                  vkrCard.style.transform = `translateY(${CARD_ANIMATION.translateYFinal})`;
-                  
-                  setTimeout(() => {
-                    vkrCard.style.transform = '';
-                    vkrCard.style.opacity = '';
-                    vkrCard.style.transition = '';
-                  }, CARD_ANIMATION.timeout);
-                });
+                animateElementAppearance(vkrCard);
               });
             });
           }
@@ -688,45 +657,16 @@ async function initResearchPage() {
         const sectionOpacity = publicationsSection.style.opacity;
         // Показываем секцию с анимацией, если opacity установлена в 0 или не установлена
         if (sectionOpacity === '0' || !sectionOpacity || sectionOpacity === '') {
-          publicationsSection.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
-          publicationsSection.style.opacity = '1';
-          publicationsSection.style.transform = 'translateY(0)';
-          
-          setTimeout(() => {
-            publicationsSection.style.opacity = '';
-            publicationsSection.style.transform = '';
-            publicationsSection.style.transition = '';
-          }, 300);
+          animateSectionAppearance(publicationsSection);
         }
         
         // Затем анимируем карточки
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
             const allCards = publicationsSection.querySelectorAll('.research-card');
-            allCards.forEach((card) => {
-              // Убеждаемся, что начальное состояние установлено
-              card.style.opacity = '0';
-              card.style.transform = `translateY(${CARD_ANIMATION.translateYAppear})`;
-              card.style.transition = 'none';
-            });
-            
-            // Применяем анимацию одновременно для всех карточек
-            requestAnimationFrame(() => {
-              allCards.forEach((card) => {
-                card.style.transition = `opacity ${CARD_ANIMATION.duration} ${CARD_ANIMATION.timing}, transform ${CARD_ANIMATION.duration} ${CARD_ANIMATION.timing}`;
-                card.style.opacity = '1';
-                card.style.transform = `translateY(${CARD_ANIMATION.translateYFinal})`;
-              });
-              
-              // Убираем inline стили после анимации, чтобы hover эффект работал
-              setTimeout(() => {
-                allCards.forEach((card) => {
-                  card.style.transform = '';
-                  card.style.opacity = '';
-                  card.style.transition = '';
-                });
-              }, CARD_ANIMATION.timeout);
-            });
+            if (allCards.length > 0) {
+              animateElementsAppearance(allCards);
+            }
           });
         });
       });
@@ -735,12 +675,7 @@ async function initResearchPage() {
     // Если публикаций нет, но секция существует, убеждаемся что она видима
     const sectionOpacity = publicationsSection.style.opacity;
     if (sectionOpacity === '0' || !sectionOpacity || sectionOpacity === '') {
-      publicationsSection.style.transition = 'opacity 0.3s ease-in-out';
-      publicationsSection.style.opacity = '1';
-      setTimeout(() => {
-        publicationsSection.style.opacity = '';
-        publicationsSection.style.transition = '';
-      }, 300);
+      animateSectionAppearance(publicationsSection);
     }
   }
   

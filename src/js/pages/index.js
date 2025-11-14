@@ -4,6 +4,7 @@
 
 import { getRoleLabel } from '../utils/role-mapper.js';
 import { loadData } from '../utils/data-loader.js';
+import { animateTextElements, animateElementAppearance, animateElementsAppearance } from '../utils/animations.js';
 
 /**
  * Загружает данные проектов из JSON с кешированием
@@ -163,6 +164,180 @@ async function initIndexPage() {
   
   // Выделяем активную страницу в навигации
   setActiveNavigationLink();
+  
+  // Сначала скрываем элементы первого слайда для анимации
+  const firstSlide = document.querySelector('.slide[data-slide="0"]');
+  if (firstSlide) {
+    const isTabletMode = window.innerWidth < 1024 || window.innerHeight < 900;
+    if (!isTabletMode) {
+      // Скрываем элементы перед анимацией
+      const elementsToHide = firstSlide.querySelectorAll('.main-content-name, .main-content-tagline, .main-content-title, .cv-about-text, .portrait-image');
+      elementsToHide.forEach(el => {
+        if (el) {
+          el.style.opacity = '0';
+          el.style.transform = 'translateY(10px)';
+          el.style.transition = 'none';
+        }
+      });
+      // Принудительный reflow для применения стилей
+      if (elementsToHide.length > 0 && elementsToHide[0]) {
+        void elementsToHide[0].offsetHeight;
+      }
+    }
+  }
+  
+  // Анимируем первый слайд при загрузке (после заполнения данных)
+  // Используем двойной requestAnimationFrame для синхронизации с браузером
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      animateFirstSlide();
+      // Настраиваем анимации при переключении слайдов
+      setupSlideAnimations();
+    });
+  });
+}
+
+/**
+ * Анимирует появление элементов первого слайда
+ */
+function animateFirstSlide() {
+  const firstSlide = document.querySelector('.slide[data-slide="0"]');
+  if (!firstSlide) return;
+  
+  // Проверяем, не в режиме планшета ли мы
+  const isTabletMode = window.innerWidth < 1024 || window.innerHeight < 900;
+  if (isTabletMode) {
+    // В режиме планшета анимации не нужны, так как используется скролл
+    return;
+  }
+  
+  // Анимируем текстовые элементы последовательно с минимальной задержкой
+  const textElements = [
+    '.main-content-name',
+    '.main-content-tagline',
+    '.main-content-title',
+    '.cv-about-text'
+  ];
+  
+  textElements.forEach((selector, index) => {
+    const element = firstSlide.querySelector(selector);
+    if (element) {
+      // Используем минимальную задержку для последовательности (30ms между элементами)
+      setTimeout(() => {
+        animateElementAppearance(element);
+      }, index * 30);
+    }
+  });
+  
+  // Анимируем портрет после текстовых элементов
+  const portrait = firstSlide.querySelector('.portrait-image');
+  if (portrait) {
+    setTimeout(() => {
+      animateElementAppearance(portrait);
+    }, textElements.length * 30);
+  }
+}
+
+/**
+ * Настраивает анимации при переключении слайдов
+ */
+function setupSlideAnimations() {
+  const slidesContainer = document.querySelector('.slides-container');
+  if (!slidesContainer) return;
+  
+  // Проверяем, не в режиме планшета ли мы
+  const isTabletMode = window.innerWidth < 1024 || window.innerHeight < 900;
+  if (isTabletMode) {
+    // В режиме планшета анимации не нужны, так как используется скролл
+    return;
+  }
+  
+  // Наблюдаем за изменениями активного слайда
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+        const slide = mutation.target;
+        if (slide.classList.contains('active') && slide.classList.contains('slide')) {
+          animateSlideContent(slide);
+        }
+      }
+    });
+  });
+  
+  // Наблюдаем за всеми слайдами
+  const slides = slidesContainer.querySelectorAll('.slide');
+  slides.forEach(slide => {
+    observer.observe(slide, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+  });
+}
+
+/**
+ * Анимирует содержимое слайда при его активации
+ */
+function animateSlideContent(slide) {
+  const slideIndex = parseInt(slide.getAttribute('data-slide'));
+  
+  // Пропускаем первый слайд (он анимируется при загрузке)
+  if (slideIndex === 0) return;
+  
+  // Используем requestAnimationFrame для синхронизации
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      // CTA слайд (слайд 4)
+      if (slideIndex === 4) {
+        const title = slide.querySelector('.section-title');
+        const buttons = slide.querySelectorAll('.cta-button');
+        const divider = slide.querySelector('.cta-divider');
+        
+        if (title) {
+          animateElementAppearance(title);
+        }
+        
+        if (buttons.length > 0) {
+          setTimeout(() => {
+            animateElementsAppearance(buttons);
+          }, 50);
+        }
+        
+        if (divider) {
+          setTimeout(() => {
+            animateElementAppearance(divider);
+          }, 100);
+        }
+        
+        return;
+      }
+      
+      // Проектные слайды (слайды 1-3)
+      const elementsToAnimate = [
+        '.section-title',
+        '.project-title',
+        '.project-meta',
+        '.project-placeholder',
+        '.details-block'
+      ];
+      
+      elementsToAnimate.forEach((selector, index) => {
+        const elements = slide.querySelectorAll(selector);
+        if (elements.length > 0) {
+          setTimeout(() => {
+            animateElementsAppearance(elements);
+          }, index * 30);
+        }
+      });
+      
+      // Анимируем preview изображения с небольшой задержкой
+      const previewPlaceholders = slide.querySelectorAll('.preview-placeholder');
+      if (previewPlaceholders.length > 0) {
+        setTimeout(() => {
+          animateElementsAppearance(previewPlaceholders);
+        }, elementsToAnimate.length * 30);
+      }
+    });
+  });
 }
 
 /**
