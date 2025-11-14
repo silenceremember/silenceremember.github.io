@@ -181,9 +181,18 @@ function openProjectDetails(project) {
 /**
  * Инициализирует фильтры
  */
+// Сохраняем ширину кнопки года между пересозданиями фильтров
+let savedYearButtonWidth = null;
+
 function initFilters(projects) {
   const filtersContainer = document.getElementById('projects-filters-container');
   if (!filtersContainer) return;
+  
+  // Сохраняем ширину кнопки года перед пересозданием фильтров (если она существует)
+  const existingYearButton = filtersContainer.querySelector('#project-filters-year-button');
+  if (existingYearButton && existingYearButton.style.width) {
+    savedYearButtonWidth = existingYearButton.style.width;
+  }
   
   // Получаем уникальные значения для фильтров
   const categories = [...new Set(projects.map(p => p.category))];
@@ -235,12 +244,34 @@ function initFilters(projects) {
       // Ширина устанавливается один раз при инициализации и не меняется при изменении размера окна
       if (yearDropdownButton) {
         let fixedButtonWidth = null; // Сохраняем фиксированную ширину
+        let shouldCalculateWidth = true; // Флаг для определения, нужно ли пересчитывать ширину
         
-        // Временно скрываем кнопку до установки правильной ширины, чтобы избежать пролагивания
-        yearDropdownButton.style.opacity = '0';
-        yearDropdownButton.style.visibility = 'hidden';
+        // Если есть сохраненная ширина из предыдущей инициализации, применяем ее сразу
+        if (savedYearButtonWidth) {
+          const widthValue = parseFloat(savedYearButtonWidth);
+          if (widthValue > 0) {
+            yearDropdownButton.style.width = savedYearButtonWidth;
+            yearDropdownButton.style.minWidth = savedYearButtonWidth;
+            yearDropdownButton.style.maxWidth = savedYearButtonWidth;
+            yearDropdownMenu.style.width = savedYearButtonWidth;
+            const isMobile = window.innerWidth < 1024;
+            if (isMobile) {
+              yearDropdownMenu.style.setProperty('width', savedYearButtonWidth, 'important');
+              yearDropdownMenu.style.setProperty('min-width', '0', 'important');
+            }
+            fixedButtonWidth = widthValue;
+            // Кнопка уже видима, не нужно скрывать/показывать и пересчитывать
+            shouldCalculateWidth = false;
+          }
+        }
         
-        const calculateYearDropdownWidth = () => {
+        // Пересчитываем ширину только если она не была восстановлена из сохраненного значения
+        if (shouldCalculateWidth) {
+          // Временно скрываем кнопку до установки правильной ширины, чтобы избежать пролагивания
+          yearDropdownButton.style.opacity = '0';
+          yearDropdownButton.style.visibility = 'hidden';
+          
+          const calculateYearDropdownWidth = () => {
           // Используем двойной requestAnimationFrame для гарантии завершения рендеринга
           return new Promise((resolve) => {
             requestAnimationFrame(() => {
@@ -346,23 +377,27 @@ function initFilters(projects) {
             
             fixedButtonWidth = width;
             
+            // Сохраняем ширину для следующей инициализации
+            savedYearButtonWidth = `${width}px`;
+            
             // Показываем кнопку после установки ширины
             yearDropdownButton.style.opacity = '';
             yearDropdownButton.style.visibility = '';
           }
-        };
-        
-        // Устанавливаем ширину при инициализации один раз
-        // Используем дополнительную задержку для гарантии полного рендеринга после hideLoadingIndicator
-        requestAnimationFrame(() => {
+          };
+          
+          // Устанавливаем ширину при инициализации один раз
+          // Используем дополнительную задержку для гарантии полного рендеринга после hideLoadingIndicator
           requestAnimationFrame(() => {
-            setTimeout(() => {
-              calculateYearDropdownWidth().then((maxWidth) => {
-                setYearDropdownWidth(maxWidth);
-              });
-            }, 50); // Небольшая задержка для гарантии рендеринга
+            requestAnimationFrame(() => {
+              setTimeout(() => {
+                calculateYearDropdownWidth().then((maxWidth) => {
+                  setYearDropdownWidth(maxWidth);
+                });
+              }, 50); // Небольшая задержка для гарантии рендеринга
+            });
           });
-        });
+        }
       }
     }
     
@@ -1622,6 +1657,11 @@ if (document.readyState === 'loading') {
 /* ============================================
  * DEBUG KEYBOARD HANDLERS - Удалить после тестирования
  * ============================================ */
+
+// Флаг для отслеживания состояния загрузки
+let isLoading = false;
+let loadTimeout = null;
+
 document.addEventListener('keydown', (e) => {
   // Предотвращаем стандартное поведение только если не в поле ввода
   if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
@@ -1643,6 +1683,13 @@ document.addEventListener('keydown', (e) => {
   // Инициируем загрузку страницы по клавише T (с задержкой 1 секунда)
   if (e.key === 't' || e.key === 'T') {
     e.preventDefault();
+    
+    // Если загрузка уже идет, отменяем предыдущий таймер и перезапускаем
+    if (loadTimeout) {
+      clearTimeout(loadTimeout);
+      loadTimeout = null;
+    }
+    
     // Показываем loading
     showLoadingIndicator();
     // Очищаем состояние
@@ -1664,9 +1711,18 @@ document.addEventListener('keydown', (e) => {
         grid.appendChild(loading);
       }
     }
+    
+    // Устанавливаем флаг загрузки
+    isLoading = true;
+    
     // Ждем 1 секунду и запускаем загрузку
-    setTimeout(() => {
-      initProjectsPage();
+    loadTimeout = setTimeout(async () => {
+      loadTimeout = null;
+      try {
+        await initProjectsPage();
+      } finally {
+        isLoading = false;
+      }
     }, 1000);
   }
 });
