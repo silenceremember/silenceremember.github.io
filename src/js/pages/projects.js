@@ -766,17 +766,6 @@ function applyFilters() {
   // Добавляем секцию в grid
   grid.appendChild(sectionContainer);
   
-  // Плавное появление секции
-  requestAnimationFrame(() => {
-    sectionContainer.style.opacity = '0';
-    sectionContainer.style.transform = 'translateY(10px)';
-    requestAnimationFrame(() => {
-      sectionContainer.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
-      sectionContainer.style.opacity = '1';
-      sectionContainer.style.transform = 'translateY(0)';
-    });
-  });
-  
   // Плавное появление карточек одновременно
   // Используем двойной requestAnimationFrame для синхронизации с браузером
   // Первый RAF дает браузеру время применить начальное состояние
@@ -971,49 +960,60 @@ function toggleSectionExpansion(category, button, hiddenProjects) {
   if (isExpanded) {
     // Сворачиваем с плавной анимацией - все карточки одновременно
     hiddenCards.forEach((card) => {
-      card.style.transition = 'opacity 0.3s ease-in-out, visibility 0.3s ease-in-out, transform 0.3s ease-in-out';
+      card.style.transition = `opacity ${CARD_ANIMATION.duration} ${CARD_ANIMATION.timing}, visibility ${CARD_ANIMATION.duration} ${CARD_ANIMATION.timing}`;
       card.style.opacity = '0';
-      card.style.transform = 'translateY(-10px)';
     });
     setTimeout(() => {
       hiddenCards.forEach((card) => {
         card.style.display = 'none';
         // Убираем inline стили и возвращаем класс после анимации
-        card.style.transform = '';
         card.style.opacity = '';
         card.style.transition = '';
         card.classList.add('project-card-hidden');
         card.setAttribute('data-hidden-card', 'true');
       });
-    }, 300);
+    }, CARD_ANIMATION.timeout);
     expandedSections.delete(category);
     button.setAttribute('aria-expanded', 'false');
     button.querySelector('.projects-section-expand-text').textContent = 'Показать все';
   } else {
     // Разворачиваем с плавной анимацией - все карточки одновременно
+    // Используем двойной requestAnimationFrame для синхронизации с браузером
+    // Первый RAF дает браузеру время применить начальное состояние
     hiddenCards.forEach((card) => {
       card.style.display = '';
       card.style.opacity = '0';
-      card.style.transform = 'translateY(10px)';
+      card.style.removeProperty('transform'); // Полностью удаляем inline стиль transform
       card.style.transition = 'none'; // Отключаем transition для мгновенного применения начального состояния
     });
     requestAnimationFrame(() => {
-      hiddenCards.forEach((card) => {
-        card.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
-        card.style.opacity = '1';
-        card.style.transform = 'translateY(0)';
-      });
-      // Убираем inline стили после анимации, чтобы hover эффект работал
-      setTimeout(() => {
+      requestAnimationFrame(() => {
         hiddenCards.forEach((card) => {
-          card.style.transform = '';
-          card.style.opacity = '';
-          card.style.transition = '';
-          card.classList.remove('project-card-hidden');
-          // Сохраняем data-атрибут для возможности найти карточку при сворачивании
-          card.setAttribute('data-hidden-card', 'true');
+          // Убеждаемся, что начальное состояние установлено
+          card.style.opacity = '0';
+          card.style.transition = 'none';
         });
-      }, 300);
+        
+        // Применяем анимацию одновременно для всех карточек
+        requestAnimationFrame(() => {
+          hiddenCards.forEach((card) => {
+            card.style.transition = `opacity ${CARD_ANIMATION.duration} ${CARD_ANIMATION.timing}`;
+            card.style.opacity = '1';
+          });
+          
+          // Убираем inline стили после анимации, чтобы hover эффект работал
+          setTimeout(() => {
+            hiddenCards.forEach((card) => {
+              card.style.opacity = '';
+              card.style.removeProperty('transform'); // Полностью удаляем inline стиль transform
+              card.style.transition = '';
+              card.classList.remove('project-card-hidden');
+              // Сохраняем data-атрибут для возможности найти карточку при сворачивании
+              card.setAttribute('data-hidden-card', 'true');
+            });
+          }, CARD_ANIMATION.timeout);
+        });
+      });
     });
     expandedSections.add(category);
     button.setAttribute('aria-expanded', 'true');
@@ -1166,7 +1166,6 @@ function renderGroupedProjects() {
             clonedCard.style.display = 'none';
             // Устанавливаем начальное состояние для анимации (на случай если карточка будет показана)
             clonedCard.style.opacity = '0';
-            clonedCard.style.transform = 'translateY(10px)';
             clonedCard.style.transition = 'none';
             // Добавляем обработчик клика на всю карточку
             clonedCard.addEventListener('click', (e) => {
@@ -1193,17 +1192,6 @@ function renderGroupedProjects() {
       
       sectionContainer.appendChild(sectionGrid);
       grid.appendChild(sectionContainer);
-      
-      // Плавное появление секции
-      requestAnimationFrame(() => {
-        sectionContainer.style.opacity = '0';
-        sectionContainer.style.transform = 'translateY(10px)';
-        requestAnimationFrame(() => {
-          sectionContainer.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
-          sectionContainer.style.opacity = '1';
-          sectionContainer.style.transform = 'translateY(0)';
-        });
-      });
       
       // Плавное появление карточек одновременно
       // Используем двойной requestAnimationFrame для синхронизации с браузером
