@@ -23,18 +23,19 @@ let timelineTemplate = null;
  * Загружает шаблон временной линии
  */
 async function loadTemplates() {
-  if (!timelineTemplate) {
-    try {
-      const timelineHTML = await loadHTML('/components/timeline.html');
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = timelineHTML;
-      timelineTemplate = tempDiv.querySelector('.timeline-item') || tempDiv.firstElementChild;
-      if (!timelineTemplate) {
-        console.error('Не удалось найти шаблон временной линии');
-      }
-    } catch (error) {
-      console.error('Ошибка загрузки шаблона временной линии:', error);
+  // Всегда перезагружаем шаблон, чтобы убедиться, что он валиден
+  try {
+    const timelineHTML = await loadHTML('/components/timeline.html');
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = timelineHTML;
+    timelineTemplate = tempDiv.querySelector('.timeline-item') || tempDiv.firstElementChild;
+    if (!timelineTemplate) {
+      console.error('Не удалось найти шаблон временной линии');
+      timelineTemplate = null;
     }
+  } catch (error) {
+    console.error('Ошибка загрузки шаблона временной линии:', error);
+    timelineTemplate = null;
   }
 }
 
@@ -509,82 +510,6 @@ function createDownloadButton() {
   return section;
 }
 
-/**
- * Скрывает индикатор загрузки
- */
-function hideLoadingIndicator() {
-  return new Promise((resolve) => {
-    const loadingElement = document.getElementById('cv-loading');
-    if (!loadingElement) {
-      resolve();
-      return;
-    }
-    
-    // Добавляем класс для анимации скрытия
-    loadingElement.classList.add('hidden');
-    
-    // Ждем завершения fadeout перед показом контента
-    setTimeout(() => {
-      if (loadingElement.parentNode) {
-        loadingElement.remove();
-      }
-      
-      resolve();
-    }, 300);
-  });
-}
-
-/* ============================================
- * DEBUG FUNCTIONS - Удалить после тестирования
- * ============================================ */
-
-/**
- * Показывает индикатор загрузки (для дебага - клавиша R)
- */
-function showLoadingIndicator() {
-  const container = document.querySelector('.cv-page');
-  if (!container) return;
-  
-  // Проверяем, есть ли уже индикатор загрузки
-  let loadingElement = document.getElementById('cv-loading');
-  
-  if (!loadingElement) {
-    // Создаем новый индикатор загрузки
-    loadingElement = document.createElement('div');
-    loadingElement.className = 'loading';
-    loadingElement.id = 'cv-loading';
-    loadingElement.innerHTML = `
-      <div class="loading-squares">
-        <div class="loading-square"></div>
-        <div class="loading-square"></div>
-        <div class="loading-square"></div>
-      </div>
-    `;
-    // Очищаем контейнер и добавляем индикатор в начало
-    const sections = container.querySelectorAll('.cv-section');
-    sections.forEach(section => section.remove());
-    container.insertBefore(loadingElement, container.firstChild);
-  } else {
-    // Если индикатор уже есть, очищаем контейнер и показываем его
-    const sections = container.querySelectorAll('.cv-section');
-    sections.forEach(section => section.remove());
-    container.insertBefore(loadingElement, container.firstChild);
-  }
-  
-  // Убираем класс hidden и показываем с анимацией
-  loadingElement.classList.remove('hidden');
-  loadingElement.style.display = '';
-  loadingElement.style.opacity = '0';
-  loadingElement.style.transform = 'translateY(10px)';
-  
-  requestAnimationFrame(() => {
-    loadingElement.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
-    loadingElement.style.opacity = '1';
-    loadingElement.style.transform = 'translateY(0)';
-  });
-  
-  console.log('🔍 [DEBUG] Индикатор загрузки показан (клавиша R)');
-}
 
 /**
  * Выделяет активную страницу в навигации
@@ -851,26 +776,34 @@ async function initCVPage() {
   const cvData = await loadCVData();
   const communityData = await loadCommunityData();
   
-  // Скрываем индикатор загрузки и ждем завершения fadeout
-  await hideLoadingIndicator();
-  
   if (!cvData) {
     const headerSection = document.getElementById('cv-header-section');
     if (headerSection) {
       headerSection.innerHTML = '<p>Не удалось загрузить данные резюме.</p>';
+      headerSection.style.display = 'block';
+      headerSection.style.visibility = 'visible';
       headerSection.style.opacity = '';
-      headerSection.style.visibility = '';
     }
     return;
   }
+  
+  // ОЧИЩАЕМ все секции перед заполнением
+  const allSections = document.querySelectorAll('.cv-section, #cv-download-section');
+  allSections.forEach(section => {
+    section.innerHTML = '';
+    section.style.display = '';
+    section.style.visibility = '';
+  });
   
   // Секция "Заголовок с фото, контактами и "О себе""
   const headerSection = document.getElementById('cv-header-section');
   if (headerSection) {
     // Сначала показываем секцию, чтобы CSS :empty не скрывал её
     headerSection.style.display = 'block';
+    headerSection.style.visibility = 'visible';
     const headerContent = createHeaderSection(communityData, cvData.about, cvData.skills);
     if (headerContent) {
+      // Секция уже очищена в начале функции, просто добавляем контент
       headerSection.appendChild(headerContent);
       // Убеждаемся, что секция видима после добавления контента
       headerSection.style.visibility = 'visible';
@@ -889,6 +822,8 @@ async function initCVPage() {
   if (workSection && cvData.workExperience && cvData.workExperience.length > 0) {
     // Сначала показываем секцию, чтобы CSS :empty не скрывал её
     workSection.style.display = 'block';
+    workSection.style.visibility = 'visible';
+    // Секция уже очищена в начале функции
     const workTitle = document.createElement('h2');
     workTitle.className = 'cv-section-title';
     workTitle.textContent = 'Опыт работы';
@@ -897,9 +832,11 @@ async function initCVPage() {
     const timelineContainer = document.createElement('div');
     timelineContainer.className = 'timeline-container timeline-work';
     
+    let hasItems = false;
     cvData.workExperience.forEach((work, index) => {
       const timelineItem = createWorkExperienceItem(work);
       if (timelineItem) {
+        hasItems = true;
         setTimeout(() => {
           animateElementAppearance(timelineItem);
         }, index * 100);
@@ -907,10 +844,14 @@ async function initCVPage() {
       }
     });
     
-    workSection.appendChild(timelineContainer);
-    // Убеждаемся, что секция видима после добавления контента
-    workSection.style.visibility = 'visible';
-    animateElementAppearance(workSection);
+    if (hasItems) {
+      workSection.appendChild(timelineContainer);
+      // Убеждаемся, что секция видима после добавления контента
+      workSection.style.visibility = 'visible';
+      animateElementAppearance(workSection);
+    } else {
+      workSection.style.display = 'none';
+    }
   }
   
   // Секция "Образование"
@@ -918,6 +859,8 @@ async function initCVPage() {
   if (educationSection && cvData.education && cvData.education.length > 0) {
     // Сначала показываем секцию, чтобы CSS :empty не скрывал её
     educationSection.style.display = 'block';
+    educationSection.style.visibility = 'visible';
+    // Секция уже очищена в начале функции
     const educationTitle = document.createElement('h2');
     educationTitle.className = 'cv-section-title';
     educationTitle.textContent = 'Образование';
@@ -926,9 +869,11 @@ async function initCVPage() {
     const timelineContainer = document.createElement('div');
     timelineContainer.className = 'timeline-container timeline-education';
     
+    let hasItems = false;
     cvData.education.forEach((edu, index) => {
       const timelineItem = createEducationItem(edu);
       if (timelineItem) {
+        hasItems = true;
         setTimeout(() => {
           animateElementAppearance(timelineItem);
         }, index * 100);
@@ -936,10 +881,14 @@ async function initCVPage() {
       }
     });
     
-    educationSection.appendChild(timelineContainer);
-    // Убеждаемся, что секция видима после добавления контента
-    educationSection.style.visibility = 'visible';
-    animateElementAppearance(educationSection);
+    if (hasItems) {
+      educationSection.appendChild(timelineContainer);
+      // Убеждаемся, что секция видима после добавления контента
+      educationSection.style.visibility = 'visible';
+      animateElementAppearance(educationSection);
+    } else {
+      educationSection.style.display = 'none';
+    }
   }
   
   // Секция "Навыки" - скрываем, так как она теперь в заголовке
@@ -953,6 +902,8 @@ async function initCVPage() {
   if (certificatesSection && cvData.certificates && cvData.certificates.length > 0) {
     // Сначала показываем секцию, чтобы CSS :empty не скрывал её
     certificatesSection.style.display = 'block';
+    certificatesSection.style.visibility = 'visible';
+    // Секция уже очищена в начале функции
     const certificatesTitle = document.createElement('h2');
     certificatesTitle.className = 'cv-section-title';
     certificatesTitle.textContent = 'Сертификаты';
@@ -964,6 +915,8 @@ async function initCVPage() {
       // Убеждаемся, что секция видима после добавления контента
       certificatesSection.style.visibility = 'visible';
       animateElementAppearance(certificatesSection);
+    } else {
+      certificatesSection.style.display = 'none';
     }
   }
   
@@ -972,6 +925,8 @@ async function initCVPage() {
   if (coursesSection && cvData.courses && cvData.courses.length > 0) {
     // Сначала показываем секцию, чтобы CSS :empty не скрывал её
     coursesSection.style.display = 'block';
+    coursesSection.style.visibility = 'visible';
+    // Секция уже очищена в начале функции
     const coursesTitle = document.createElement('h2');
     coursesTitle.className = 'cv-section-title';
     coursesTitle.textContent = 'Курсы';
@@ -983,6 +938,8 @@ async function initCVPage() {
       // Убеждаемся, что секция видима после добавления контента
       coursesSection.style.visibility = 'visible';
       animateElementAppearance(coursesSection);
+    } else {
+      coursesSection.style.display = 'none';
     }
   }
   
@@ -991,6 +948,8 @@ async function initCVPage() {
   if (languagesSection && cvData.languages && cvData.languages.length > 0) {
     // Сначала показываем секцию, чтобы CSS :empty не скрывал её
     languagesSection.style.display = 'block';
+    languagesSection.style.visibility = 'visible';
+    // Секция уже очищена в начале функции
     const languagesTitle = document.createElement('h2');
     languagesTitle.className = 'cv-section-title';
     languagesTitle.textContent = 'Языки';
@@ -1002,6 +961,8 @@ async function initCVPage() {
       // Убеждаемся, что секция видима после добавления контента
       languagesSection.style.visibility = 'visible';
       animateElementAppearance(languagesSection);
+    } else {
+      languagesSection.style.display = 'none';
     }
   }
   
@@ -1010,11 +971,15 @@ async function initCVPage() {
   if (downloadSection) {
     // Сначала показываем секцию, чтобы CSS :empty не скрывал её
     downloadSection.style.display = 'block';
-    const downloadButton = createDownloadButton();
-    downloadSection.appendChild(downloadButton);
-    // Убеждаемся, что секция видима после добавления контента
     downloadSection.style.visibility = 'visible';
-    animateElementAppearance(downloadSection);
+    // Секция уже очищена в начале функции
+    const downloadButton = createDownloadButton();
+    if (downloadButton) {
+      downloadSection.appendChild(downloadButton);
+      // Убеждаемся, что секция видима после добавления контента
+      downloadSection.style.visibility = 'visible';
+      animateElementAppearance(downloadSection);
+    }
   }
   
   // Инициализируем кнопку меню для прокрутки до навигации
@@ -1040,42 +1005,3 @@ if (document.readyState === 'loading') {
   initCVPage();
 }
 
-/* ============================================
- * DEBUG KEYBOARD HANDLERS - Удалить после тестирования
- * ============================================ */
-document.addEventListener('keydown', (e) => {
-  // Предотвращаем стандартное поведение только если не в поле ввода
-  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
-    return;
-  }
-  
-  // Показываем индикатор загрузки по клавише R
-  if (e.key === 'r' || e.key === 'R') {
-    e.preventDefault();
-    showLoadingIndicator();
-  }
-  
-  // Инициируем загрузку страницы по клавише T (с задержкой 1 секунда)
-  if (e.key === 't' || e.key === 'T') {
-    e.preventDefault();
-    // Показываем loading
-    showLoadingIndicator();
-    // Очищаем весь контент
-    const container = document.querySelector('.cv-page');
-    if (container) {
-      const sections = container.querySelectorAll('.cv-section');
-      sections.forEach(section => {
-        section.innerHTML = '';
-      });
-      // Очищаем также секцию с кнопкой скачивания
-      const downloadSection = document.getElementById('cv-download-section');
-      if (downloadSection) {
-        downloadSection.innerHTML = '';
-      }
-    }
-    // Ждем 1 секунду и запускаем загрузку
-    setTimeout(() => {
-      initCVPage();
-    }, 1000);
-  }
-});
