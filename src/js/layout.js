@@ -26,12 +26,22 @@ function setActiveNavLink() {
 export async function initLayout() {
   const headerElement = document.querySelector('header.header');
   const footerElement = document.querySelector('footer.footer');
+  const scrollToTopContainer = document.querySelector('#scroll-to-top-container');
 
   // Use Promise.all to load components in parallel
-  const [headerHTML, footerHTML] = await Promise.all([
+  const loadPromises = [
     headerElement ? loadHTML('/components/header.html') : Promise.resolve(null),
     footerElement ? loadHTML('/components/footer.html') : Promise.resolve(null),
-  ]);
+  ];
+
+  // Загружаем кнопку "наверх" для страниц с классом page-with-scroll
+  if (document.body.classList.contains('page-with-scroll') && scrollToTopContainer) {
+    loadPromises.push(loadHTML('/components/scroll-to-top.html'));
+  } else {
+    loadPromises.push(Promise.resolve(null));
+  }
+
+  const [headerHTML, footerHTML, scrollToTopHTML] = await Promise.all(loadPromises);
 
   if (headerElement && headerHTML) {
     headerElement.innerHTML = headerHTML;
@@ -40,5 +50,9 @@ export async function initLayout() {
 
   if (footerElement && footerHTML) {
     footerElement.innerHTML = footerHTML;
+  }
+
+  if (scrollToTopContainer && scrollToTopHTML) {
+    scrollToTopContainer.innerHTML = scrollToTopHTML;
   }
 }
