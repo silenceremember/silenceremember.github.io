@@ -72,6 +72,7 @@ function updateFadeInElements() {
 }
 
 async function onDomReady() {
+  // Критические компоненты загружаем сразу
   await initLayout();
   await initSvgLoader();
   initThemeSwitcher();
@@ -87,7 +88,17 @@ async function onDomReady() {
 
   updateFadeInElements();
 
-  window.addEventListener('resize', debounce(updateFadeInElements, 200));
+  // Non-critical операции выполняем в idle time
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(() => {
+      window.addEventListener('resize', debounce(updateFadeInElements, 200));
+    }, { timeout: 2000 });
+  } else {
+    // Fallback для браузеров без requestIdleCallback
+    setTimeout(() => {
+      window.addEventListener('resize', debounce(updateFadeInElements, 200));
+    }, 0);
+  }
 }
 
 document.addEventListener('DOMContentLoaded', onDomReady);

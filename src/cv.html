@@ -6,10 +6,25 @@
   <meta name="description" content="Резюме геймдизайнера Maxim Elchaninov">
   <title>Резюме - Maxim Elchaninov</title>
   
-  <!-- Google Fonts - Inter -->
+  <!-- Google Fonts - Inter (Optimized) -->
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet"></noscript>
+  
+  <!-- Resource Hints: Preload критических ресурсов -->
+  <link rel="preload" href="/scss/style.scss" as="style">
+  <link rel="preload" href="/js/main.js" as="script">
+  <link rel="preload" href="/js/pages/cv.js" as="script">
+  <link rel="preload" href="/data/cv.json" as="fetch" crossorigin>
+  <link rel="preload" href="/data/community.json" as="fetch" crossorigin>
+  <link rel="preload" href="assets/images/portrait.jpg" as="image" fetchpriority="high">
+  
+  <!-- Prefetch для других страниц -->
+  <link rel="prefetch" href="/index.html">
+  <link rel="prefetch" href="/projects.html">
   
   <!-- Theme switcher script -->
   <script>

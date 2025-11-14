@@ -3,17 +3,14 @@
  */
 
 import { getRoleLabel } from '../utils/role-mapper.js';
+import { loadData } from '../utils/data-loader.js';
 
 /**
- * Загружает данные проектов из JSON
+ * Загружает данные проектов из JSON с кешированием
  */
 async function loadProjectsData() {
   try {
-    const response = await fetch('/data/projects.json');
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const data = await response.json();
+    const data = await loadData('/data/projects.json');
     return data.projects || [];
   } catch (error) {
     console.error('Ошибка загрузки проектов:', error);
@@ -22,11 +19,50 @@ async function loadProjectsData() {
 }
 
 /**
+ * Загружает background-image с оптимизацией через Intersection Observer
+ * @param {HTMLElement} element - Элемент для установки background-image
+ * @param {string} imageUrl - URL изображения
+ * @param {boolean} isVisible - Виден ли элемент сразу
+ */
+function loadBackgroundImage(element, imageUrl, isVisible = false) {
+  if (!element || !imageUrl) return;
+  
+  // Если элемент виден сразу, загружаем изображение немедленно
+  if (isVisible) {
+    element.style.backgroundImage = `url(${imageUrl})`;
+    element.style.backgroundSize = 'cover';
+    element.style.backgroundPosition = 'center';
+    return;
+  }
+  
+  // Используем Intersection Observer для ленивой загрузки
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const img = new Image();
+        img.onload = () => {
+          entry.target.style.backgroundImage = `url(${imageUrl})`;
+          entry.target.style.backgroundSize = 'cover';
+          entry.target.style.backgroundPosition = 'center';
+        };
+        img.src = imageUrl;
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    rootMargin: '50px' // Начинаем загрузку за 50px до появления в viewport
+  });
+  
+  observer.observe(element);
+}
+
+/**
  * Заполняет слайд проекта данными
  * @param {HTMLElement} slideElement - Элемент слайда
  * @param {Object} project - Данные проекта
+ * @param {number} slideIndex - Индекс слайда (0-based)
  */
-function populateProjectSlide(slideElement, project) {
+function populateProjectSlide(slideElement, project, slideIndex = 0) {
   // Заголовок проекта
   const titleElement = slideElement.querySelector('.project-title');
   if (titleElement) {
@@ -56,24 +92,22 @@ function populateProjectSlide(slideElement, project) {
     contributionElement.textContent = project.keyContribution;
   }
 
-  // Изображения (если есть preview)
+  // Изображения (если есть preview) - оптимизированная загрузка
   if (project.media?.preview) {
     const projectPlaceholder = slideElement.querySelector('.project-placeholder');
     if (projectPlaceholder) {
-      // Можно добавить фоновое изображение или заменить на img
-      projectPlaceholder.style.backgroundImage = `url(${project.media.preview})`;
-      projectPlaceholder.style.backgroundSize = 'cover';
-      projectPlaceholder.style.backgroundPosition = 'center';
+      // Первый слайд виден сразу, остальные загружаем лениво
+      const isFirstSlide = slideIndex === 0;
+      loadBackgroundImage(projectPlaceholder, project.media.preview, isFirstSlide);
     }
 
-    // Заполняем preview изображения
+    // Заполняем preview изображения с ленивой загрузкой
     const previewPlaceholders = slideElement.querySelectorAll('.preview-placeholder');
     if (project.media.screenshots && project.media.screenshots.length > 0) {
       previewPlaceholders.forEach((placeholder, index) => {
         if (index < project.media.screenshots.length) {
-          placeholder.style.backgroundImage = `url(${project.media.screenshots[index]})`;
-          placeholder.style.backgroundSize = 'cover';
-          placeholder.style.backgroundPosition = 'center';
+          // Preview изображения всегда загружаем лениво
+          loadBackgroundImage(placeholder, project.media.screenshots[index], false);
         }
       });
     }
@@ -123,7 +157,7 @@ async function initIndexPage() {
   // Заполняем слайды данными проектов
   featuredProjects.forEach((project, index) => {
     if (index < projectSlides.length) {
-      populateProjectSlide(projectSlides[index], project);
+      populateProjectSlide(projectSlides[index], project, index);
     }
   });
   

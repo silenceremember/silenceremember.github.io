@@ -4,6 +4,7 @@
 
 import { loadHTML } from '../layout.js';
 import { getRoleLabel } from '../utils/role-mapper.js';
+import { loadData } from '../utils/data-loader.js';
 
 // Константы для унифицированных анимаций карточек
 const CARD_ANIMATION = {
@@ -46,15 +47,11 @@ async function loadTemplates() {
 }
 
 /**
- * Загружает данные проектов из JSON
+ * Загружает данные проектов из JSON с кешированием
  */
 async function loadProjectsData() {
   try {
-    const response = await fetch('/data/projects.json');
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const data = await response.json();
+    const data = await loadData('/data/projects.json');
     return data.projects || [];
   } catch (error) {
     console.error('Ошибка загрузки проектов:', error);

@@ -4,6 +4,7 @@
  */
 
 import { loadHTML } from '../layout.js';
+import { loadData } from '../utils/data-loader.js';
 
 // Константы для унифицированных анимаций элементов
 const CARD_ANIMATION = {
@@ -38,15 +39,11 @@ async function loadTemplates() {
 }
 
 /**
- * Загружает данные резюме из JSON
+ * Загружает данные резюме из JSON с кешированием
  */
 async function loadCVData() {
   try {
-    const response = await fetch('/data/cv.json');
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const data = await response.json();
+    const data = await loadData('/data/cv.json');
     return data;
   } catch (error) {
     console.error('Ошибка загрузки резюме:', error);
@@ -55,15 +52,11 @@ async function loadCVData() {
 }
 
 /**
- * Загружает данные сообщества для контактов
+ * Загружает данные сообщества для контактов с кешированием
  */
 async function loadCommunityData() {
   try {
-    const response = await fetch('/data/community.json');
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const data = await response.json();
+    const data = await loadData('/data/community.json');
     return data;
   } catch (error) {
     console.error('Ошибка загрузки данных сообщества:', error);
@@ -102,6 +95,9 @@ function createHeaderSection(communityData, aboutText, skills) {
   photo.src = 'assets/images/portrait.jpg';
   photo.alt = 'Maxim Elchaninov';
   photo.className = 'cv-header-photo-image';
+  photo.decoding = 'async';
+  photo.loading = 'eager';
+  photo.fetchPriority = 'high';
   photo.onerror = function() {
     this.src = 'assets/images/portrait-placeholder.svg';
   };

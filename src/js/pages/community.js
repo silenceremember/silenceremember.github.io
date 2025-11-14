@@ -2,16 +2,14 @@
  * Страница сообщества - загрузка и отображение данных из JSON
  */
 
+import { loadData } from '../utils/data-loader.js';
+
 /**
- * Загружает данные сообщества из JSON
+ * Загружает данные сообщества из JSON с кешированием
  */
 async function loadCommunityData() {
   try {
-    const response = await fetch('/data/community.json');
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const data = await response.json();
+    const data = await loadData('/data/community.json');
     return data;
   } catch (error) {
     console.error('Ошибка загрузки данных сообщества:', error);

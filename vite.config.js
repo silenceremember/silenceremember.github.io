@@ -52,6 +52,12 @@ export default defineConfig({
   build: {
     outDir: '../dist',
     emptyOutDir: true,
+    // Оптимизация размера бандла
+    minify: 'esbuild', // Используем esbuild для быстрой минификации
+    cssMinify: true,
+    // Порог для инлайна ассетов (4KB - меньше будут инлайниться)
+    assetsInlineLimit: 4096,
+    // Оптимизация chunk splitting
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'src/index.html'),
@@ -61,6 +67,51 @@ export default defineConfig({
         research: resolve(__dirname, 'src/research.html'),
         404: resolve(__dirname, 'src/404.html'),
       },
+      output: {
+        // Стратегия разделения чанков для лучшего кеширования
+        manualChunks: (id) => {
+          // Разделяем node_modules на отдельные чанки
+          if (id.includes('node_modules')) {
+            // Vite и его зависимости
+            if (id.includes('vite')) {
+              return 'vite-vendor';
+            }
+            // Остальные vendor библиотеки
+            return 'vendor';
+          }
+          // Разделяем утилиты и компоненты
+          if (id.includes('/js/utils/')) {
+            return 'utils';
+          }
+          if (id.includes('/js/components/')) {
+            return 'components';
+          }
+          if (id.includes('/js/services/')) {
+            return 'services';
+          }
+        },
+        // Оптимизация имен файлов для кеширования
+        chunkFileNames: 'assets/js/[name]-[hash].js',
+        entryFileNames: 'assets/js/[name]-[hash].js',
+        assetFileNames: (assetInfo) => {
+          const info = assetInfo.name.split('.');
+          const ext = info[info.length - 1];
+          if (/\.(png|jpe?g|svg|gif|tiff|bmp|ico|webp)$/i.test(assetInfo.name)) {
+            return `assets/images/[name]-[hash][extname]`;
+          }
+          if (/\.(woff2?|eot|ttf|otf)$/i.test(assetInfo.name)) {
+            return `assets/fonts/[name]-[hash][extname]`;
+          }
+          if (/\.css$/i.test(assetInfo.name)) {
+            return `assets/css/[name]-[hash][extname]`;
+          }
+          return `assets/[name]-[hash][extname]`;
+        },
+      },
     },
+    // Оптимизация размера чанков
+    chunkSizeWarningLimit: 1000,
+    // Включаем source maps только для production debugging (опционально)
+    sourcemap: false,
   },
 });
