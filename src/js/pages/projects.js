@@ -775,16 +775,16 @@ function applyFilters() {
       cards.forEach((card) => {
         // Убеждаемся, что начальное состояние установлено
         card.style.opacity = '0';
-        card.style.transform = 'translateY(10px)';
+        card.style.transform = `translateY(${CARD_ANIMATION.translateYAppear})`;
         card.style.transition = 'none';
       });
       
       // Применяем анимацию одновременно для всех карточек
       requestAnimationFrame(() => {
         cards.forEach((card) => {
-          card.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
+          card.style.transition = `opacity ${CARD_ANIMATION.duration} ${CARD_ANIMATION.timing}, transform ${CARD_ANIMATION.duration} ${CARD_ANIMATION.timing}`;
           card.style.opacity = '1';
-          card.style.transform = 'translateY(0)';
+          card.style.transform = `translateY(${CARD_ANIMATION.translateYFinal})`;
         });
         
         // Убираем inline стили после анимации, чтобы hover эффект работал
@@ -794,7 +794,7 @@ function applyFilters() {
             card.style.opacity = '';
             card.style.transition = '';
           });
-        }, 300);
+        }, CARD_ANIMATION.timeout);
       });
     });
   });
@@ -983,7 +983,7 @@ function toggleSectionExpansion(category, button, hiddenProjects) {
     hiddenCards.forEach((card) => {
       card.style.display = '';
       card.style.opacity = '0';
-      card.style.removeProperty('transform'); // Полностью удаляем inline стиль transform
+      card.style.transform = `translateY(${CARD_ANIMATION.translateYAppear})`; // Устанавливаем начальное смещение как при загрузке
       card.style.transition = 'none'; // Отключаем transition для мгновенного применения начального состояния
     });
     requestAnimationFrame(() => {
@@ -991,21 +991,23 @@ function toggleSectionExpansion(category, button, hiddenProjects) {
         hiddenCards.forEach((card) => {
           // Убеждаемся, что начальное состояние установлено
           card.style.opacity = '0';
+          card.style.transform = `translateY(${CARD_ANIMATION.translateYAppear})`;
           card.style.transition = 'none';
         });
         
         // Применяем анимацию одновременно для всех карточек
         requestAnimationFrame(() => {
           hiddenCards.forEach((card) => {
-            card.style.transition = `opacity ${CARD_ANIMATION.duration} ${CARD_ANIMATION.timing}`;
+            card.style.transition = `opacity ${CARD_ANIMATION.duration} ${CARD_ANIMATION.timing}, transform ${CARD_ANIMATION.duration} ${CARD_ANIMATION.timing}`;
             card.style.opacity = '1';
+            card.style.transform = `translateY(${CARD_ANIMATION.translateYFinal})`;
           });
           
           // Убираем inline стили после анимации, чтобы hover эффект работал
           setTimeout(() => {
             hiddenCards.forEach((card) => {
               card.style.opacity = '';
-              card.style.removeProperty('transform'); // Полностью удаляем inline стиль transform
+              card.style.transform = '';
               card.style.transition = '';
               card.classList.remove('project-card-hidden');
               // Сохраняем data-атрибут для возможности найти карточку при сворачивании
@@ -1202,16 +1204,16 @@ function renderGroupedProjects() {
           sectionCards.forEach((card) => {
             // Убеждаемся, что начальное состояние установлено
             card.style.opacity = '0';
-            card.style.transform = 'translateY(10px)';
+            card.style.transform = `translateY(${CARD_ANIMATION.translateYAppear})`;
             card.style.transition = 'none';
           });
           
           // Применяем анимацию одновременно для всех карточек
           requestAnimationFrame(() => {
             sectionCards.forEach((card) => {
-              card.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
+              card.style.transition = `opacity ${CARD_ANIMATION.duration} ${CARD_ANIMATION.timing}, transform ${CARD_ANIMATION.duration} ${CARD_ANIMATION.timing}`;
               card.style.opacity = '1';
-              card.style.transform = 'translateY(0)';
+              card.style.transform = `translateY(${CARD_ANIMATION.translateYFinal})`;
             });
             
             // Убираем inline стили после анимации, чтобы hover эффект работал
@@ -1221,7 +1223,7 @@ function renderGroupedProjects() {
                 card.style.opacity = '';
                 card.style.transition = '';
               });
-            }, 300);
+            }, CARD_ANIMATION.timeout);
           });
         });
       });
