@@ -897,25 +897,41 @@ function hideLoadingIndicator() {
     const grid = document.getElementById('projects-grid');
     const shouldHideContent = grid && grid.contains(loadingElement);
     
-    // Скрываем все элементы контента перед fadeout только если loading внутри grid
-    if (shouldHideContent && grid) {
-      grid.style.opacity = '0';
-      grid.style.visibility = 'hidden';
-    }
+    // Убеждаемся, что loading элемент имеет transition для анимации
+    // Устанавливаем transition явно, чтобы гарантировать анимацию
+    loadingElement.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
     
-    // Добавляем класс для анимации скрытия
-    loadingElement.classList.add('hidden');
+    // Убеждаемся, что начальное состояние видимо (на случай если были inline стили)
+    loadingElement.style.opacity = '1';
+    loadingElement.style.transform = 'translateY(0)';
     
-    // Ждем завершения fadeout перед показом контента
+    // Используем requestAnimationFrame для гарантии применения начального состояния
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        // Теперь применяем скрытие с анимацией
+        loadingElement.style.opacity = '0';
+        loadingElement.style.transform = 'translateY(-10px)';
+      });
+    });
+    
+    // Ждем завершения fadeout анимации loading элемента
     setTimeout(() => {
+      // Теперь скрываем grid (если нужно) и удаляем loading элемент
+      if (shouldHideContent && grid) {
+        grid.style.opacity = '0';
+        grid.style.visibility = 'hidden';
+      }
+      
       if (loadingElement.parentNode) {
         loadingElement.remove();
       }
       
-      // Показываем контент после завершения fadeout
+      // Восстанавливаем видимость grid, но не показываем его с анимацией здесь
+      // Анимация будет применена в renderGroupedProjects после добавления контента
       if (shouldHideContent && grid) {
-        grid.style.opacity = '';
         grid.style.visibility = '';
+        grid.style.opacity = '0';
+        // Не устанавливаем transition здесь, он будет установлен в renderGroupedProjects
       }
       
       resolve();
@@ -943,37 +959,113 @@ function showLoadingIndicator() {
   // Проверяем, есть ли уже индикатор загрузки
   let loadingElement = document.getElementById('projects-loading');
   
-  if (!loadingElement) {
-    // Создаем новый индикатор загрузки
-    loadingElement = document.createElement('div');
-    loadingElement.className = 'loading projects-loading';
-    loadingElement.id = 'projects-loading';
-    loadingElement.innerHTML = `
-      <div class="loading-squares">
-        <div class="loading-square"></div>
-        <div class="loading-square"></div>
-        <div class="loading-square"></div>
-      </div>
-    `;
-    grid.innerHTML = '';
-    grid.appendChild(loadingElement);
+  // Проверяем, есть ли контент в grid (кроме loading элемента)
+  // Контент есть, если есть дочерние элементы и это не только loading
+  const hasContent = grid.children.length > 0 && 
+    (!loadingElement || grid.children.length > 1 || !grid.contains(loadingElement));
+  
+  if (hasContent) {
+    // Если есть контент, плавно скрываем его перед показом loading
+    // Используем ту же анимацию, что и для loading (opacity + transform)
+    grid.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
+    grid.style.opacity = '1';
+    grid.style.transform = 'translateY(0)';
+    
+    // Используем requestAnimationFrame для гарантии применения начального состояния
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        // Применяем скрытие с анимацией (как у loading при скрытии)
+        grid.style.opacity = '0';
+        grid.style.transform = 'translateY(-10px)';
+      });
+    });
+    
+    setTimeout(() => {
+      // После скрытия контента создаем или используем loading элемент
+      if (!loadingElement) {
+        loadingElement = document.createElement('div');
+        loadingElement.className = 'loading projects-loading';
+        loadingElement.id = 'projects-loading';
+        loadingElement.innerHTML = `
+          <div class="loading-squares">
+            <div class="loading-square"></div>
+            <div class="loading-square"></div>
+            <div class="loading-square"></div>
+          </div>
+        `;
+      }
+      
+      grid.innerHTML = '';
+      grid.style.opacity = '0';
+      grid.style.transform = '';
+      grid.style.visibility = 'visible';
+      grid.appendChild(loadingElement);
+      
+      // Убираем класс hidden если он есть
+      loadingElement.classList.remove('hidden');
+      loadingElement.style.display = '';
+      
+      // Показываем loading с анимацией
+      loadingElement.style.opacity = '0';
+      loadingElement.style.transform = 'translateY(10px)';
+      
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          loadingElement.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
+          loadingElement.style.opacity = '1';
+          loadingElement.style.transform = 'translateY(0)';
+          
+          // Показываем grid с анимацией
+          grid.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
+          grid.style.opacity = '1';
+          grid.style.transform = 'translateY(0)';
+          setTimeout(() => {
+            grid.style.opacity = '';
+            grid.style.transform = '';
+            grid.style.transition = '';
+          }, 300);
+        });
+      });
+    }, 300);
   } else {
-    // Если индикатор уже есть, просто очищаем grid и показываем его
-    grid.innerHTML = '';
-    grid.appendChild(loadingElement);
+    // Если контента нет, просто показываем loading с анимацией
+    if (!loadingElement) {
+      loadingElement = document.createElement('div');
+      loadingElement.className = 'loading projects-loading';
+      loadingElement.id = 'projects-loading';
+      loadingElement.innerHTML = `
+        <div class="loading-squares">
+          <div class="loading-square"></div>
+          <div class="loading-square"></div>
+          <div class="loading-square"></div>
+        </div>
+      `;
+      grid.innerHTML = '';
+      grid.appendChild(loadingElement);
+    } else {
+      // Если индикатор уже есть, просто очищаем grid и показываем его
+      grid.innerHTML = '';
+      grid.appendChild(loadingElement);
+    }
+    
+    // Убираем класс hidden и показываем с анимацией
+    loadingElement.classList.remove('hidden');
+    loadingElement.style.display = '';
+    loadingElement.style.opacity = '0';
+    loadingElement.style.transform = 'translateY(10px)';
+    
+    // Убеждаемся, что grid видим
+    grid.style.opacity = '';
+    grid.style.visibility = '';
+    
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        loadingElement.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
+        loadingElement.style.opacity = '1';
+        loadingElement.style.transform = 'translateY(0)';
+      });
+    });
   }
-  
-  // Убираем класс hidden и показываем с анимацией
-  loadingElement.classList.remove('hidden');
-  loadingElement.style.display = '';
-  loadingElement.style.opacity = '0';
-  loadingElement.style.transform = 'translateY(10px)';
-  
-  requestAnimationFrame(() => {
-    loadingElement.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
-    loadingElement.style.opacity = '1';
-    loadingElement.style.transform = 'translateY(0)';
-  });
   
   console.log('🔍 [DEBUG] Индикатор загрузки показан (клавиша R)');
 }
@@ -1124,6 +1216,14 @@ async function renderGroupedProjects() {
     grid.innerHTML = '';
     grid.className = 'projects-grid';
     
+    // Убеждаемся, что grid готов к анимации появления
+    // Если grid был скрыт через hideLoadingIndicator, он уже имеет opacity: 0
+    // Если opacity не установлена, устанавливаем её в 0 для плавного появления
+    if (!grid.style.opacity || grid.style.opacity === '') {
+      grid.style.opacity = '0';
+    }
+    grid.style.visibility = 'visible';
+    
     // Группируем проекты по категориям
     const grouped = {
       games: [],
@@ -1163,6 +1263,11 @@ async function renderGroupedProjects() {
       const sectionContainer = document.createElement('div');
       sectionContainer.className = 'projects-section';
       sectionContainer.setAttribute('data-category', category);
+      
+      // Устанавливаем начальное состояние для анимации (как в исследованиях)
+      sectionContainer.style.opacity = '0';
+      sectionContainer.style.transform = 'translateY(10px)';
+      sectionContainer.style.transition = 'none';
       
       // Создаем заголовок раздела с кнопкой
       const sectionHeader = document.createElement('div');
@@ -1263,36 +1368,89 @@ async function renderGroupedProjects() {
       
       sectionContainer.appendChild(sectionGrid);
       grid.appendChild(sectionContainer);
-      
-      // Плавное появление карточек одновременно
-      // Используем двойной requestAnimationFrame для синхронизации с браузером
-      // Первый RAF дает браузеру время применить начальное состояние
+    });
+    
+    // Плавное появление grid с контентом, затем секций с заголовками, затем карточек
+    // Используем двойной requestAnimationFrame для синхронизации с браузером
+    requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          const sectionCards = sectionGrid.querySelectorAll('.project-card:not(.project-card-hidden)');
-          sectionCards.forEach((card) => {
-            // Убеждаемся, что начальное состояние установлено
-            card.style.opacity = '0';
-            card.style.transform = `translateY(${CARD_ANIMATION.translateYAppear})`;
-            card.style.transition = 'none';
-          });
+        // Сначала показываем grid с анимацией (если он был скрыт)
+        const gridOpacity = grid.style.opacity;
+        // Показываем grid с анимацией, если opacity установлена в 0 или не установлена
+        if (gridOpacity === '0' || !gridOpacity || gridOpacity === '') {
+          grid.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
+          grid.style.opacity = '1';
+          grid.style.transform = 'translateY(0)';
           
-          // Применяем анимацию одновременно для всех карточек
+          setTimeout(() => {
+            grid.style.opacity = '';
+            grid.style.transform = '';
+            grid.style.transition = '';
+          }, 300);
+        }
+        
+        // Затем анимируем секции с заголовками (как в исследованиях)
+        requestAnimationFrame(() => {
           requestAnimationFrame(() => {
-            sectionCards.forEach((card) => {
-              card.style.transition = `opacity ${CARD_ANIMATION.duration} ${CARD_ANIMATION.timing}, transform ${CARD_ANIMATION.duration} ${CARD_ANIMATION.timing}`;
-              card.style.opacity = '1';
-              card.style.transform = `translateY(${CARD_ANIMATION.translateYFinal})`;
+            const allSections = grid.querySelectorAll('.projects-section');
+            allSections.forEach((section) => {
+              // Убеждаемся, что начальное состояние установлено
+              const sectionOpacity = section.style.opacity;
+              if (sectionOpacity === '0' || !sectionOpacity || sectionOpacity === '') {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(10px)';
+                section.style.transition = 'none';
+              }
             });
             
-            // Убираем inline стили после анимации, чтобы hover эффект работал
-            setTimeout(() => {
-              sectionCards.forEach((card) => {
-                card.style.transform = '';
-                card.style.opacity = '';
-                card.style.transition = '';
+            // Применяем анимацию одновременно для всех секций (с заголовками)
+            requestAnimationFrame(() => {
+              allSections.forEach((section) => {
+                section.style.transition = `opacity ${CARD_ANIMATION.duration} ${CARD_ANIMATION.timing}, transform ${CARD_ANIMATION.duration} ${CARD_ANIMATION.timing}`;
+                section.style.opacity = '1';
+                section.style.transform = 'translateY(0)';
               });
-            }, CARD_ANIMATION.timeout);
+              
+              // Убираем inline стили после анимации секций
+              setTimeout(() => {
+                allSections.forEach((section) => {
+                  section.style.transform = '';
+                  section.style.opacity = '';
+                  section.style.transition = '';
+                });
+              }, CARD_ANIMATION.timeout);
+            });
+          });
+        });
+        
+        // Затем анимируем карточки
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            const allCards = grid.querySelectorAll('.project-card:not(.project-card-hidden)');
+            allCards.forEach((card) => {
+              // Убеждаемся, что начальное состояние установлено
+              card.style.opacity = '0';
+              card.style.transform = `translateY(${CARD_ANIMATION.translateYAppear})`;
+              card.style.transition = 'none';
+            });
+            
+            // Применяем анимацию одновременно для всех карточек
+            requestAnimationFrame(() => {
+              allCards.forEach((card) => {
+                card.style.transition = `opacity ${CARD_ANIMATION.duration} ${CARD_ANIMATION.timing}, transform ${CARD_ANIMATION.duration} ${CARD_ANIMATION.timing}`;
+                card.style.opacity = '1';
+                card.style.transform = `translateY(${CARD_ANIMATION.translateYFinal})`;
+              });
+              
+              // Убираем inline стили после анимации, чтобы hover эффект работал
+              setTimeout(() => {
+                allCards.forEach((card) => {
+                  card.style.transform = '';
+                  card.style.opacity = '';
+                  card.style.transition = '';
+                });
+              }, CARD_ANIMATION.timeout);
+            });
           });
         });
       });
@@ -1690,27 +1848,8 @@ document.addEventListener('keydown', (e) => {
       loadTimeout = null;
     }
     
-    // Показываем loading
+    // Показываем loading с анимацией
     showLoadingIndicator();
-    // Очищаем состояние
-    const grid = document.getElementById('projects-grid');
-    if (grid) {
-      grid.innerHTML = '';
-      const loadingElement = document.getElementById('projects-loading');
-      if (!loadingElement) {
-        const loading = document.createElement('div');
-        loading.className = 'loading projects-loading';
-        loading.id = 'projects-loading';
-        loading.innerHTML = `
-          <div class="loading-squares">
-            <div class="loading-square"></div>
-            <div class="loading-square"></div>
-            <div class="loading-square"></div>
-          </div>
-        `;
-        grid.appendChild(loading);
-      }
-    }
     
     // Устанавливаем флаг загрузки
     isLoading = true;

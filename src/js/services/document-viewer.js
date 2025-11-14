@@ -376,17 +376,41 @@ function setupEventHandlers() {
   // Обработка загрузки iframe
   if (iframe) {
     iframe.addEventListener('load', () => {
-      // Скрываем индикатор загрузки с небольшой задержкой для плавности
+      // Скрываем индикатор загрузки с плавной анимацией
+      if (loadingElement) {
+        // Убеждаемся, что loading элемент имеет transition для анимации
+        loadingElement.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
+        
+        // Убеждаемся, что начальное состояние видимо
+        loadingElement.style.opacity = '1';
+        loadingElement.style.transform = 'translateY(0)';
+        
+        // Используем requestAnimationFrame для гарантии применения начального состояния
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            // Применяем скрытие с анимацией
+            loadingElement.style.opacity = '0';
+            loadingElement.style.transform = 'translateY(-10px)';
+            
+            // Ждем завершения анимации перед скрытием элемента
+            setTimeout(() => {
+              loadingElement.hidden = true;
+              loadingElement.style.opacity = '';
+              loadingElement.style.transform = '';
+              loadingElement.style.transition = '';
+            }, 300);
+          });
+        });
+      }
+      
+      if (errorElement) {
+        errorElement.hidden = true;
+      }
+      
+      // Показываем iframe плавно после скрытия loading
       setTimeout(() => {
-        if (loadingElement) {
-          loadingElement.hidden = true;
-        }
-        if (errorElement) {
-          errorElement.hidden = true;
-        }
-        // Показываем iframe плавно после скрытия loading
         iframe.classList.add('loaded');
-      }, 100);
+      }, 300);
     });
     
     iframe.addEventListener('error', () => {
@@ -466,9 +490,19 @@ export async function openDocument({ url, title, isDraft = false, draftNote = '�
     watermark.style.display = isDraft ? 'block' : 'none';
   }
   
-  // Показываем индикатор загрузки
+  // Показываем индикатор загрузки с плавной анимацией
   if (loadingElement) {
     loadingElement.hidden = false;
+    loadingElement.style.opacity = '0';
+    loadingElement.style.transform = 'translateY(10px)';
+    loadingElement.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
+    
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        loadingElement.style.opacity = '1';
+        loadingElement.style.transform = 'translateY(0)';
+      });
+    });
   }
   
   // Скрываем ошибку

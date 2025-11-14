@@ -255,7 +255,7 @@ function groupPublicationsByYear(publications) {
 }
 
 /**
- * Скрывает индикатор загрузки
+ * Скрывает индикатор загрузки с плавной анимацией
  */
 function hideLoadingIndicator() {
   return new Promise((resolve) => {
@@ -265,31 +265,43 @@ function hideLoadingIndicator() {
       return;
     }
     
-    // Скрываем все секции контента перед fadeout
     const publicationsSection = document.getElementById('research-publications-section');
     const vkrSection = document.getElementById('research-vkr-section');
     const sections = [];
     if (publicationsSection) sections.push(publicationsSection);
     if (vkrSection) sections.push(vkrSection);
     
-    sections.forEach(section => {
-      section.style.opacity = '0';
-      section.style.visibility = 'hidden';
+    // Убеждаемся, что loading элемент имеет transition для анимации
+    // Устанавливаем transition явно, чтобы гарантировать анимацию
+    loadingElement.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
+    
+    // Убеждаемся, что начальное состояние видимо (на случай если были inline стили)
+    loadingElement.style.opacity = '1';
+    loadingElement.style.transform = 'translateY(0)';
+    
+    // Используем requestAnimationFrame для гарантии применения начального состояния
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        // Теперь применяем скрытие с анимацией
+        loadingElement.style.opacity = '0';
+        loadingElement.style.transform = 'translateY(-10px)';
+      });
     });
     
-    // Добавляем класс для анимации скрытия
-    loadingElement.classList.add('hidden');
-    
-    // Ждем завершения fadeout перед показом контента
+    // Ждем завершения fadeout анимации loading элемента
     setTimeout(() => {
       if (loadingElement.parentNode) {
         loadingElement.remove();
       }
       
-      // Показываем секции после завершения fadeout
+      // Восстанавливаем видимость секций, но не показываем их с анимацией здесь
+      // Анимация будет применена в initResearchPage после добавления контента
       sections.forEach(section => {
-        section.style.opacity = '';
-        section.style.visibility = '';
+        // Убеждаемся, что секция видима
+        section.style.visibility = 'visible';
+        // Устанавливаем opacity: 0 для анимации появления контента
+        section.style.opacity = '0';
+        // Не устанавливаем transition здесь, он будет установлен в initResearchPage
       });
       
       resolve();
@@ -305,44 +317,141 @@ function hideLoadingIndicator() {
  * Показывает индикатор загрузки (для дебага - клавиша R)
  */
 function showLoadingIndicator() {
-  const section = document.getElementById('research-publications-section');
-  if (!section) return;
+  const publicationsSection = document.getElementById('research-publications-section');
+  const vkrSection = document.getElementById('research-vkr-section');
+  
+  if (!publicationsSection) return;
   
   // Проверяем, есть ли уже индикатор загрузки
   let loadingElement = document.getElementById('research-loading');
   
-  if (!loadingElement) {
-    // Создаем новый индикатор загрузки
-    loadingElement = document.createElement('div');
-    loadingElement.className = 'loading';
-    loadingElement.id = 'research-loading';
-    loadingElement.innerHTML = `
-      <div class="loading-squares">
-        <div class="loading-square"></div>
-        <div class="loading-square"></div>
-        <div class="loading-square"></div>
-      </div>
-    `;
-    // Очищаем секцию и добавляем индикатор
-    section.innerHTML = '';
-    section.appendChild(loadingElement);
+  // Проверяем, есть ли контент в секциях
+  const hasContent = (publicationsSection.children.length > 0 && 
+    (!loadingElement || publicationsSection.children.length > 1 || !publicationsSection.contains(loadingElement))) ||
+    (vkrSection && vkrSection.children.length > 0);
+  
+  if (hasContent) {
+    // Если есть контент, плавно скрываем его перед показом loading
+    // Используем ту же анимацию, что и для loading (opacity + transform)
+    const sectionsToHide = [];
+    if (publicationsSection && publicationsSection.children.length > 0 && 
+        (!loadingElement || publicationsSection.children.length > 1 || !publicationsSection.contains(loadingElement))) {
+      sectionsToHide.push(publicationsSection);
+    }
+    if (vkrSection && vkrSection.children.length > 0) {
+      sectionsToHide.push(vkrSection);
+    }
+    
+    sectionsToHide.forEach(section => {
+      section.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
+      section.style.opacity = '1';
+      section.style.transform = 'translateY(0)';
+    });
+    
+    // Используем requestAnimationFrame для гарантии применения начального состояния
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        // Применяем скрытие с анимацией (как у loading при скрытии)
+        sectionsToHide.forEach(section => {
+          section.style.opacity = '0';
+          section.style.transform = 'translateY(-10px)';
+        });
+      });
+    });
+    
+    setTimeout(() => {
+      // После скрытия контента создаем или используем loading элемент
+      if (!loadingElement) {
+        loadingElement = document.createElement('div');
+        loadingElement.className = 'loading';
+        loadingElement.id = 'research-loading';
+        loadingElement.innerHTML = `
+          <div class="loading-squares">
+            <div class="loading-square"></div>
+            <div class="loading-square"></div>
+            <div class="loading-square"></div>
+          </div>
+        `;
+      }
+      
+      // Очищаем секции и добавляем loading
+      if (publicationsSection) {
+        publicationsSection.innerHTML = '';
+        publicationsSection.style.opacity = '0';
+        publicationsSection.style.visibility = 'visible';
+        publicationsSection.appendChild(loadingElement);
+      }
+      if (vkrSection) {
+        vkrSection.innerHTML = '';
+      }
+      
+      // Убираем класс hidden если он есть
+      loadingElement.classList.remove('hidden');
+      loadingElement.style.display = '';
+      
+      // Показываем loading с анимацией
+      loadingElement.style.opacity = '0';
+      loadingElement.style.transform = 'translateY(10px)';
+      
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          loadingElement.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
+          loadingElement.style.opacity = '1';
+          loadingElement.style.transform = 'translateY(0)';
+          
+          // Показываем publicationsSection с анимацией
+          if (publicationsSection) {
+            publicationsSection.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
+            publicationsSection.style.opacity = '1';
+            publicationsSection.style.transform = 'translateY(0)';
+            setTimeout(() => {
+              publicationsSection.style.opacity = '';
+              publicationsSection.style.transform = '';
+              publicationsSection.style.transition = '';
+            }, 300);
+          }
+        });
+      });
+    }, 300);
   } else {
-    // Если индикатор уже есть, просто очищаем секцию и показываем его
-    section.innerHTML = '';
-    section.appendChild(loadingElement);
+    // Если контента нет, просто показываем loading с анимацией
+    if (!loadingElement) {
+      loadingElement = document.createElement('div');
+      loadingElement.className = 'loading';
+      loadingElement.id = 'research-loading';
+      loadingElement.innerHTML = `
+        <div class="loading-squares">
+          <div class="loading-square"></div>
+          <div class="loading-square"></div>
+          <div class="loading-square"></div>
+        </div>
+      `;
+      publicationsSection.innerHTML = '';
+      publicationsSection.appendChild(loadingElement);
+    } else {
+      // Если индикатор уже есть, просто очищаем секцию и показываем его
+      publicationsSection.innerHTML = '';
+      publicationsSection.appendChild(loadingElement);
+    }
+    
+    // Убираем класс hidden и показываем с анимацией
+    loadingElement.classList.remove('hidden');
+    loadingElement.style.display = '';
+    loadingElement.style.opacity = '0';
+    loadingElement.style.transform = 'translateY(10px)';
+    
+    // Убеждаемся, что секция видима
+    publicationsSection.style.opacity = '';
+    publicationsSection.style.visibility = '';
+    
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        loadingElement.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
+        loadingElement.style.opacity = '1';
+        loadingElement.style.transform = 'translateY(0)';
+      });
+    });
   }
-  
-  // Убираем класс hidden и показываем с анимацией
-  loadingElement.classList.remove('hidden');
-  loadingElement.style.display = '';
-  loadingElement.style.opacity = '0';
-  loadingElement.style.transform = 'translateY(10px)';
-  
-  requestAnimationFrame(() => {
-    loadingElement.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
-    loadingElement.style.opacity = '1';
-    loadingElement.style.transform = 'translateY(0)';
-  });
   
   console.log('🔍 [DEBUG] Индикатор загрузки показан (клавиша R)');
 }
@@ -589,11 +698,42 @@ async function initResearchPage() {
   // Скрываем индикатор загрузки и ждем завершения fadeout
   await hideLoadingIndicator();
   
+  // Получаем секции и готовим их к анимации появления
+  const publicationsSection = document.getElementById('research-publications-section');
+  const vkrSection = document.getElementById('research-vkr-section');
+  
+  // Убеждаемся, что секции готовы к анимации появления
+  // Если секции были скрыты через hideLoadingIndicator, они уже имеют opacity: 0
+  if (publicationsSection) {
+    // Убеждаемся, что секция видима
+    publicationsSection.style.visibility = 'visible';
+    // Если opacity не установлена или пустая, устанавливаем для анимации
+    if (!publicationsSection.style.opacity || publicationsSection.style.opacity === '') {
+      publicationsSection.style.opacity = '0';
+    }
+  }
+  if (vkrSection) {
+    // Убеждаемся, что секция видима
+    vkrSection.style.visibility = 'visible';
+    // Если opacity не установлена или пустая, устанавливаем для анимации
+    if (!vkrSection.style.opacity || vkrSection.style.opacity === '') {
+      vkrSection.style.opacity = '0';
+    }
+  }
+  
   if (publications.length === 0) {
-    const publicationsSection = document.getElementById('research-publications-section');
     if (publicationsSection) {
       publicationsSection.innerHTML = '<p>Публикации не найдены.</p>';
-      publicationsSection.style.opacity = '';
+      // Показываем секцию с анимацией, если она была скрыта
+      const sectionOpacity = publicationsSection.style.opacity;
+      if (sectionOpacity === '0' || !sectionOpacity || sectionOpacity === '') {
+        publicationsSection.style.transition = 'opacity 0.3s ease-in-out';
+        publicationsSection.style.opacity = '1';
+        setTimeout(() => {
+          publicationsSection.style.opacity = '';
+          publicationsSection.style.transition = '';
+        }, 300);
+      }
       publicationsSection.style.visibility = '';
     }
     return;
@@ -605,7 +745,6 @@ async function initResearchPage() {
   
   // Отображаем ВКР
   if (vkr) {
-    const vkrSection = document.getElementById('research-vkr-section');
     if (vkrSection) {
       const vkrTitle = document.createElement('h2');
       vkrTitle.className = 'research-section-title';
@@ -621,23 +760,52 @@ async function initResearchPage() {
         vkrCard.style.transform = 'translateY(10px)';
         vkrCard.style.transition = 'none';
         vkrGrid.appendChild(vkrCard);
-        
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            vkrCard.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
-            vkrCard.style.opacity = '1';
-            vkrCard.style.transform = 'translateY(0)';
-            
-            setTimeout(() => {
-              vkrCard.style.transform = '';
-              vkrCard.style.opacity = '';
-              vkrCard.style.transition = '';
-            }, 300);
-          });
-        });
       }
       
       vkrSection.appendChild(vkrGrid);
+      
+      // Плавное появление vkrSection с контентом, затем карточки
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          // Сначала показываем vkrSection с анимацией (если он был скрыт)
+          const sectionOpacity = vkrSection.style.opacity;
+          // Показываем секцию с анимацией, если opacity установлена в 0 или не установлена
+          if (sectionOpacity === '0' || !sectionOpacity || sectionOpacity === '') {
+            vkrSection.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
+            vkrSection.style.opacity = '1';
+            vkrSection.style.transform = 'translateY(0)';
+            
+            setTimeout(() => {
+              vkrSection.style.opacity = '';
+              vkrSection.style.transform = '';
+              vkrSection.style.transition = '';
+            }, 300);
+          }
+          
+          // Затем анимируем карточку ВКР
+          if (vkrCard) {
+            requestAnimationFrame(() => {
+              requestAnimationFrame(() => {
+                vkrCard.style.opacity = '0';
+                vkrCard.style.transform = `translateY(${CARD_ANIMATION.translateYAppear})`;
+                vkrCard.style.transition = 'none';
+                
+                requestAnimationFrame(() => {
+                  vkrCard.style.transition = `opacity ${CARD_ANIMATION.duration} ${CARD_ANIMATION.timing}, transform ${CARD_ANIMATION.duration} ${CARD_ANIMATION.timing}`;
+                  vkrCard.style.opacity = '1';
+                  vkrCard.style.transform = `translateY(${CARD_ANIMATION.translateYFinal})`;
+                  
+                  setTimeout(() => {
+                    vkrCard.style.transform = '';
+                    vkrCard.style.opacity = '';
+                    vkrCard.style.transition = '';
+                  }, CARD_ANIMATION.timeout);
+                });
+              });
+            });
+          }
+        });
+      });
     }
   }
   
@@ -662,7 +830,6 @@ async function initResearchPage() {
   const years = Object.keys(groupedPublications).sort((a, b) => parseInt(b) - parseInt(a));
   
   // Отображаем публикации
-  const publicationsSection = document.getElementById('research-publications-section');
   if (publicationsSection && years.length > 0) {
     years.forEach(year => {
       // Заголовок года
@@ -687,35 +854,81 @@ async function initResearchPage() {
       });
       
       publicationsSection.appendChild(yearGrid);
-      
-      // Анимация появления карточек
+    });
+    
+    // Плавное появление publicationsSection с контентом, затем карточек
+    // Используем двойной requestAnimationFrame для синхронизации с браузером
+    requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          const cards = yearGrid.querySelectorAll('.research-card');
-          cards.forEach((card) => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(10px)';
-            card.style.transition = 'none';
-          });
+        // Сначала показываем publicationsSection с анимацией (если он был скрыт)
+        const sectionOpacity = publicationsSection.style.opacity;
+        // Показываем секцию с анимацией, если opacity установлена в 0 или не установлена
+        if (sectionOpacity === '0' || !sectionOpacity || sectionOpacity === '') {
+          publicationsSection.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
+          publicationsSection.style.opacity = '1';
+          publicationsSection.style.transform = 'translateY(0)';
           
+          setTimeout(() => {
+            publicationsSection.style.opacity = '';
+            publicationsSection.style.transform = '';
+            publicationsSection.style.transition = '';
+          }, 300);
+        }
+        
+        // Затем анимируем карточки
+        requestAnimationFrame(() => {
           requestAnimationFrame(() => {
-            cards.forEach((card) => {
-              card.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
-              card.style.opacity = '1';
-              card.style.transform = 'translateY(0)';
+            const allCards = publicationsSection.querySelectorAll('.research-card');
+            allCards.forEach((card) => {
+              // Убеждаемся, что начальное состояние установлено
+              card.style.opacity = '0';
+              card.style.transform = `translateY(${CARD_ANIMATION.translateYAppear})`;
+              card.style.transition = 'none';
             });
             
-            setTimeout(() => {
-              cards.forEach((card) => {
-                card.style.transform = '';
-                card.style.opacity = '';
-                card.style.transition = '';
+            // Применяем анимацию одновременно для всех карточек
+            requestAnimationFrame(() => {
+              allCards.forEach((card) => {
+                card.style.transition = `opacity ${CARD_ANIMATION.duration} ${CARD_ANIMATION.timing}, transform ${CARD_ANIMATION.duration} ${CARD_ANIMATION.timing}`;
+                card.style.opacity = '1';
+                card.style.transform = `translateY(${CARD_ANIMATION.translateYFinal})`;
               });
-            }, 300);
+              
+              // Убираем inline стили после анимации, чтобы hover эффект работал
+              setTimeout(() => {
+                allCards.forEach((card) => {
+                  card.style.transform = '';
+                  card.style.opacity = '';
+                  card.style.transition = '';
+                });
+              }, CARD_ANIMATION.timeout);
+            });
           });
         });
       });
     });
+  } else if (publicationsSection) {
+    // Если публикаций нет, но секция существует, убеждаемся что она видима
+    const sectionOpacity = publicationsSection.style.opacity;
+    if (sectionOpacity === '0' || !sectionOpacity || sectionOpacity === '') {
+      publicationsSection.style.transition = 'opacity 0.3s ease-in-out';
+      publicationsSection.style.opacity = '1';
+      setTimeout(() => {
+        publicationsSection.style.opacity = '';
+        publicationsSection.style.transition = '';
+      }, 300);
+    }
+  }
+  
+  // Если ВКР нет, но секция существует, убеждаемся что она видима (или скрыта, если пустая)
+  if (vkrSection && !vkr) {
+    // Если секция пустая, можно оставить её скрытой или показать пустой
+    // Но если она была скрыта через hideLoadingIndicator, нужно убедиться что она видима
+    const sectionOpacity = vkrSection.style.opacity;
+    if (sectionOpacity === '0' && vkrSection.children.length === 0) {
+      // Если секция пустая и скрыта, можно оставить её скрытой
+      vkrSection.style.visibility = 'hidden';
+    }
   }
   
   // Инициализируем кнопку меню для прокрутки до навигации
@@ -744,6 +957,11 @@ if (document.readyState === 'loading') {
 /* ============================================
  * DEBUG KEYBOARD HANDLERS - Удалить после тестирования
  * ============================================ */
+
+// Флаг для отслеживания состояния загрузки
+let isLoading = false;
+let loadTimeout = null;
+
 document.addEventListener('keydown', (e) => {
   // Предотвращаем стандартное поведение только если не в поле ввода
   if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
@@ -759,34 +977,27 @@ document.addEventListener('keydown', (e) => {
   // Инициируем загрузку страницы по клавише T (с задержкой 1 секунда)
   if (e.key === 't' || e.key === 'T') {
     e.preventDefault();
-    // Показываем loading
+    
+    // Если загрузка уже идет, отменяем предыдущий таймер и перезапускаем
+    if (loadTimeout) {
+      clearTimeout(loadTimeout);
+      loadTimeout = null;
+    }
+    
+    // Показываем loading с анимацией
     showLoadingIndicator();
-    // Очищаем контент
-    const publicationsSection = document.getElementById('research-publications-section');
-    const vkrSection = document.getElementById('research-vkr-section');
-    if (publicationsSection) {
-      publicationsSection.innerHTML = '';
-      const loadingElement = document.getElementById('research-loading');
-      if (!loadingElement) {
-        const loading = document.createElement('div');
-        loading.className = 'loading';
-        loading.id = 'research-loading';
-        loading.innerHTML = `
-          <div class="loading-squares">
-            <div class="loading-square"></div>
-            <div class="loading-square"></div>
-            <div class="loading-square"></div>
-          </div>
-        `;
-        publicationsSection.appendChild(loading);
-      }
-    }
-    if (vkrSection) {
-      vkrSection.innerHTML = '';
-    }
+    
+    // Устанавливаем флаг загрузки
+    isLoading = true;
+    
     // Ждем 1 секунду и запускаем загрузку
-    setTimeout(() => {
-      initResearchPage();
+    loadTimeout = setTimeout(async () => {
+      loadTimeout = null;
+      try {
+        await initResearchPage();
+      } finally {
+        isLoading = false;
+      }
     }, 1000);
   }
 });
