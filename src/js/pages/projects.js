@@ -626,12 +626,12 @@ function clearAllFilters() {
 /**
  * Применяет фильтры и обновляет отображение
  */
-function applyFilters() {
+async function applyFilters() {
   const grid = document.getElementById('projects-grid');
   if (!grid) return;
   
   // Убеждаемся, что индикатор загрузки скрыт (на случай, если он остался)
-  hideLoadingIndicator();
+  await hideLoadingIndicator();
   
   // Проверяем, есть ли активные фильтры
   const hasActiveFilters = Object.values(activeFilters).some(arr => arr.length > 0);
@@ -640,7 +640,7 @@ function applyFilters() {
     // Если фильтров нет, группируем по разделам
     // Сбрасываем состояние развернутости при переключении на группировку
     expandedSections.clear();
-    renderGroupedProjects();
+    await renderGroupedProjects();
     return;
   }
   
@@ -837,18 +837,40 @@ function applyFilters() {
  * Скрывает индикатор загрузки с плавной анимацией
  */
 function hideLoadingIndicator() {
-  const loadingElement = document.getElementById('projects-loading');
-  if (!loadingElement) return;
-  
-  // Добавляем класс для анимации скрытия
-  loadingElement.classList.add('hidden');
-  
-  // Удаляем элемент после завершения анимации
-  setTimeout(() => {
-    if (loadingElement.parentNode) {
-      loadingElement.remove();
+  return new Promise((resolve) => {
+    const loadingElement = document.getElementById('projects-loading');
+    if (!loadingElement) {
+      resolve();
+      return;
     }
-  }, 300);
+    
+    const grid = document.getElementById('projects-grid');
+    const shouldHideContent = grid && grid.contains(loadingElement);
+    
+    // Скрываем все элементы контента перед fadeout только если loading внутри grid
+    if (shouldHideContent && grid) {
+      grid.style.opacity = '0';
+      grid.style.visibility = 'hidden';
+    }
+    
+    // Добавляем класс для анимации скрытия
+    loadingElement.classList.add('hidden');
+    
+    // Ждем завершения fadeout перед показом контента
+    setTimeout(() => {
+      if (loadingElement.parentNode) {
+        loadingElement.remove();
+      }
+      
+      // Показываем контент после завершения fadeout
+      if (shouldHideContent && grid) {
+        grid.style.opacity = '';
+        grid.style.visibility = '';
+      }
+      
+      resolve();
+    }, 300);
+  });
 }
 
 /* ============================================
@@ -1020,7 +1042,7 @@ function toggleSectionExpansion(category, button, hiddenProjects) {
   }
 }
 
-function renderGroupedProjects() {
+async function renderGroupedProjects() {
   // Защита от повторных вызовов
   if (isRendering) {
     console.warn('renderGroupedProjects уже выполняется');
@@ -1041,11 +1063,11 @@ function renderGroupedProjects() {
   
   isRendering = true;
   
-  // Скрываем индикатор загрузки перед рендерингом
-  hideLoadingIndicator();
-  
   // Сбрасываем состояние развернутости при новом рендеринге
   expandedSections.clear();
+  
+  // Скрываем индикатор загрузки перед рендерингом (если есть)
+  await hideLoadingIndicator();
   
   try {
     // Очищаем сетку (индикатор загрузки уже удален через hideLoadingIndicator)
@@ -1255,8 +1277,8 @@ async function initProjectsPage() {
   // Загружаем проекты
   const projects = await loadProjectsData();
   
-  // Скрываем индикатор загрузки
-  hideLoadingIndicator();
+  // Скрываем индикатор загрузки и ждем завершения fadeout
+  await hideLoadingIndicator();
   
   if (projects.length === 0) {
     const grid = document.getElementById('projects-grid');
@@ -1281,7 +1303,7 @@ async function initProjectsPage() {
   });
   
   // Отображаем проекты с группировкой (без фильтров)
-  renderGroupedProjects();
+  await renderGroupedProjects();
   
   // Загружаем SVG для звездочек
   const svgLoaderModule = await import('../components/svg-loader.js');
@@ -1586,21 +1608,50 @@ if (document.readyState === 'loading') {
  * DEBUG KEYBOARD HANDLERS - Удалить после тестирования
  * ============================================ */
 document.addEventListener('keydown', (e) => {
+  // Предотвращаем стандартное поведение только если не в поле ввода
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+    return;
+  }
+  
   // Показываем индикатор загрузки по клавише R
   if (e.key === 'r' || e.key === 'R') {
-    // Предотвращаем стандартное поведение только если не в поле ввода
-    if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
-      e.preventDefault();
-      showLoadingIndicator();
-    }
+    e.preventDefault();
+    showLoadingIndicator();
   }
   
   // Показываем сообщение об отсутствии проектов по клавише E
   if (e.key === 'e' || e.key === 'E') {
-    // Предотвращаем стандартное поведение только если не в поле ввода
-    if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
-      e.preventDefault();
-      showEmptyProjectsMessage();
+    e.preventDefault();
+    showEmptyProjectsMessage();
+  }
+  
+  // Инициируем загрузку страницы по клавише T (с задержкой 1 секунда)
+  if (e.key === 't' || e.key === 'T') {
+    e.preventDefault();
+    // Показываем loading
+    showLoadingIndicator();
+    // Очищаем состояние
+    const grid = document.getElementById('projects-grid');
+    if (grid) {
+      grid.innerHTML = '';
+      const loadingElement = document.getElementById('projects-loading');
+      if (!loadingElement) {
+        const loading = document.createElement('div');
+        loading.className = 'loading projects-loading';
+        loading.id = 'projects-loading';
+        loading.innerHTML = `
+          <div class="loading-squares">
+            <div class="loading-square"></div>
+            <div class="loading-square"></div>
+            <div class="loading-square"></div>
+          </div>
+        `;
+        grid.appendChild(loading);
+      }
     }
+    // Ждем 1 секунду и запускаем загрузку
+    setTimeout(() => {
+      initProjectsPage();
+    }, 1000);
   }
 });

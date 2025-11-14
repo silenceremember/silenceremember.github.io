@@ -513,15 +513,39 @@ function createDownloadButton() {
  * Скрывает индикатор загрузки
  */
 function hideLoadingIndicator() {
-  const loadingElement = document.getElementById('cv-loading');
-  if (loadingElement) {
+  return new Promise((resolve) => {
+    const loadingElement = document.getElementById('cv-loading');
+    if (!loadingElement) {
+      resolve();
+      return;
+    }
+    
+    // Скрываем все секции контента перед fadeout
+    const container = document.querySelector('.cv-page');
+    const sections = container ? container.querySelectorAll('.cv-section') : [];
+    sections.forEach(section => {
+      section.style.opacity = '0';
+      section.style.visibility = 'hidden';
+    });
+    
+    // Добавляем класс для анимации скрытия
     loadingElement.classList.add('hidden');
+    
+    // Ждем завершения fadeout перед показом контента
     setTimeout(() => {
       if (loadingElement.parentNode) {
         loadingElement.remove();
       }
+      
+      // Показываем секции после завершения fadeout
+      sections.forEach(section => {
+        section.style.opacity = '';
+        section.style.visibility = '';
+      });
+      
+      resolve();
     }, 300);
-  }
+  });
 }
 
 /* ============================================
@@ -836,13 +860,15 @@ async function initCVPage() {
   const cvData = await loadCVData();
   const communityData = await loadCommunityData();
   
-  // Скрываем индикатор загрузки
-  hideLoadingIndicator();
+  // Скрываем индикатор загрузки и ждем завершения fadeout
+  await hideLoadingIndicator();
   
   if (!cvData) {
     const headerSection = document.getElementById('cv-header-section');
     if (headerSection) {
       headerSection.innerHTML = '<p>Не удалось загрузить данные резюме.</p>';
+      headerSection.style.opacity = '';
+      headerSection.style.visibility = '';
     }
     return;
   }
@@ -999,12 +1025,33 @@ if (document.readyState === 'loading') {
  * DEBUG KEYBOARD HANDLERS - Удалить после тестирования
  * ============================================ */
 document.addEventListener('keydown', (e) => {
+  // Предотвращаем стандартное поведение только если не в поле ввода
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+    return;
+  }
+  
   // Показываем индикатор загрузки по клавише R
   if (e.key === 'r' || e.key === 'R') {
-    // Предотвращаем стандартное поведение только если не в поле ввода
-    if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
-      e.preventDefault();
-      showLoadingIndicator();
+    e.preventDefault();
+    showLoadingIndicator();
+  }
+  
+  // Инициируем загрузку страницы по клавише T (с задержкой 1 секунда)
+  if (e.key === 't' || e.key === 'T') {
+    e.preventDefault();
+    // Показываем loading
+    showLoadingIndicator();
+    // Очищаем контент
+    const container = document.querySelector('.cv-page');
+    if (container) {
+      const sections = container.querySelectorAll('.cv-section');
+      sections.forEach(section => {
+        section.innerHTML = '';
+      });
     }
+    // Ждем 1 секунду и запускаем загрузку
+    setTimeout(() => {
+      initCVPage();
+    }, 1000);
   }
 });
