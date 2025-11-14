@@ -998,6 +998,33 @@ async function initCVPage() {
   if (svgLoaderModule.default) {
     await svgLoaderModule.default();
   }
+  
+  // Убеждаемся, что прокрутка остается в начале после загрузки контента
+  // Это предотвращает "прыжки" при обновлении страницы
+  // Используем несколько попыток с задержками, чтобы переопределить возможное восстановление браузером
+  function ensureScrollAtTop() {
+    const isTabletMode = window.innerWidth < 1024;
+    const scrollElement = isTabletMode 
+      ? document.querySelector('.page-wrapper')
+      : window;
+    
+    if (scrollElement === window) {
+      window.scrollTo(0, 0);
+    } else if (scrollElement) {
+      scrollElement.scrollTop = 0;
+    }
+  }
+  
+  // Сбрасываем прокрутку несколько раз с задержками
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      ensureScrollAtTop();
+      setTimeout(ensureScrollAtTop, 0);
+      setTimeout(ensureScrollAtTop, 50);
+      setTimeout(ensureScrollAtTop, 100);
+      setTimeout(ensureScrollAtTop, 200);
+    });
+  });
 }
 
 // Инициализация при загрузке DOM
