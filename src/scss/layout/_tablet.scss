@@ -10,6 +10,10 @@
     width: 100%;
     pointer-events: none;
     will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   body:not(.page-with-scroll) .header-content,
@@ -24,6 +28,10 @@
     width: 100%;
     pointer-events: none;
     will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   body:not(.page-with-scroll) .footer-content,
@@ -32,11 +40,11 @@
   }
 
   body:not(.page-with-scroll) .header.hidden {
-    transform: translateY(-100%);
+    transform: translate3d(0, -100%, 0);
   }
 
   body:not(.page-with-scroll) .footer.hidden {
-    transform: translateY(100%);
+    transform: translate3d(0, 100%, 0);
   }
 
   body:not(.page-with-scroll) .header + .decorative-line-horizontal,
@@ -46,6 +54,8 @@
     transition: transform var(--transition-duration-base) ease;
     pointer-events: none;
     will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
   }
 
   body:not(.page-with-scroll) .header + .decorative-line-horizontal {
@@ -57,11 +67,11 @@
   }
 
   body:not(.page-with-scroll) .header + .decorative-line-horizontal.hidden {
-    transform: translateY(-65px);
+    transform: translate3d(0, -65px, 0);
   }
 
   body:not(.page-with-scroll) main + .decorative-line-horizontal.hidden {
-    transform: translateY(65px);
+    transform: translate3d(0, 65px, 0);
   }
 
   /* При высоте <900px применяем скролл для главной страницы (независимо от ширины) */
@@ -133,6 +143,10 @@
     width: 100%;
     pointer-events: none;
     will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   body:not(.page-with-scroll) .header-content,
@@ -147,6 +161,10 @@
     width: 100%;
     pointer-events: none;
     will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   body:not(.page-with-scroll) .footer-content,
@@ -155,11 +173,11 @@
   }
 
   body:not(.page-with-scroll) .header.hidden {
-    transform: translateY(-100%);
+    transform: translate3d(0, -100%, 0);
   }
 
   body:not(.page-with-scroll) .footer.hidden {
-    transform: translateY(100%);
+    transform: translate3d(0, 100%, 0);
   }
 
   body:not(.page-with-scroll) .header + .decorative-line-horizontal,
@@ -169,6 +187,8 @@
     transition: transform var(--transition-duration-base) ease;
     pointer-events: none;
     will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
   }
 
   body:not(.page-with-scroll) .header + .decorative-line-horizontal {
@@ -180,11 +200,11 @@
   }
 
   body:not(.page-with-scroll) .header + .decorative-line-horizontal.hidden {
-    transform: translateY(-65px);
+    transform: translate3d(0, -65px, 0);
   }
 
   body:not(.page-with-scroll) main + .decorative-line-horizontal.hidden {
-    transform: translateY(65px);
+    transform: translate3d(0, 65px, 0);
   }
 
   .slides-container.tablet-scroll-mode {
@@ -394,6 +414,10 @@
                 color var(--transition-duration-base) ease;
     pointer-events: none;
     will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   body.page-with-scroll .header-content,
@@ -402,7 +426,7 @@
   }
 
   body.page-with-scroll .header.hidden {
-    transform: translateY(-100%);
+    transform: translate3d(0, -100%, 0);
   }
 
   body.page-with-scroll .footer {
@@ -421,6 +445,10 @@
                 color var(--transition-duration-base) ease;
     pointer-events: none;
     will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   body.page-with-scroll .footer-content,
@@ -429,7 +457,7 @@
   }
 
   body.page-with-scroll .footer.hidden {
-    transform: translateY(100%);
+    transform: translate3d(0, 100%, 0);
   }
 
   body.page-with-scroll .header + .decorative-line-horizontal,
@@ -443,6 +471,8 @@
     pointer-events: none;
     z-index: 12;
     will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
   }
 
   body.page-with-scroll .header + .decorative-line-horizontal {
@@ -454,10 +484,10 @@
   }
 
   body.page-with-scroll .header + .decorative-line-horizontal.hidden {
-    transform: translateY(-65px);
+    transform: translate3d(0, -65px, 0);
   }
 
   body.page-with-scroll main + .decorative-line-horizontal.hidden {
-    transform: translateY(65px);
+    transform: translate3d(0, 65px, 0);
   }
 }
