@@ -1656,29 +1656,27 @@ function initScrollToTop() {
     
     isAnimating = true;
     
+    // Убеждаемся, что элемент видим
     if (scrollToTopButton.style.display === 'none') {
       scrollToTopButton.style.display = 'flex';
-      // Сначала обновляем позицию до показа, чтобы избежать визуального скачка
-      updateButtonPosition();
-      // Ждем один кадр, чтобы браузер успел применить display и позицию, затем добавляем класс для анимации
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          scrollToTopButton.classList.add('visible');
-          // Сбрасываем флаг анимации после завершения transition
-          setTimeout(() => {
-            isAnimating = false;
-          }, 300);
-        });
-      });
-    } else {
-      // Если элемент уже видим, обновляем позицию перед добавлением класса
-      updateButtonPosition();
-      scrollToTopButton.classList.add('visible');
-      // Сбрасываем флаг анимации после завершения transition
-      setTimeout(() => {
-        isAnimating = false;
-      }, 300);
     }
+    
+    // Убираем класс visible, если он был, чтобы сбросить состояние для анимации
+    scrollToTopButton.classList.remove('visible');
+    
+    // Обновляем позицию до показа
+    updateButtonPosition();
+    
+    // Ждем кадр, чтобы браузер успел применить начальное состояние (opacity: 0), затем добавляем класс для анимации
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        scrollToTopButton.classList.add('visible');
+        // Сбрасываем флаг анимации после завершения transition
+        setTimeout(() => {
+          isAnimating = false;
+        }, 300);
+      });
+    });
   }
   
   // Скрывает кнопку с анимацией

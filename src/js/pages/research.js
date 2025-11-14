@@ -568,24 +568,26 @@ function initScrollToTop() {
     
     isAnimating = true;
     
+    // Убеждаемся, что элемент видим
     if (scrollToTopButton.style.display === 'none') {
       scrollToTopButton.style.display = 'flex';
-      updateButtonPosition();
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          scrollToTopButton.classList.add('visible');
-          setTimeout(() => {
-            isAnimating = false;
-          }, 300);
-        });
-      });
-    } else {
-      updateButtonPosition();
-      scrollToTopButton.classList.add('visible');
-      setTimeout(() => {
-        isAnimating = false;
-      }, 300);
     }
+    
+    // Убираем класс visible, если он был, чтобы сбросить состояние для анимации
+    scrollToTopButton.classList.remove('visible');
+    
+    // Обновляем позицию до показа
+    updateButtonPosition();
+    
+    // Ждем кадр, чтобы браузер успел применить начальное состояние (opacity: 0), затем добавляем класс для анимации
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        scrollToTopButton.classList.add('visible');
+        setTimeout(() => {
+          isAnimating = false;
+        }, 300);
+      });
+    });
   }
   
   function hideButton() {

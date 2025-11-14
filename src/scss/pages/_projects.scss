@@ -393,7 +393,7 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
 .scroll-to-top {
   position: fixed;
   bottom: calc(64px + var(--spacing-md) - 8px);
-  right: calc((100% - var(--max-width-large)) / 2 + var(--spacing-lg) - 24px);
+  right: max(calc(var(--spacing-lg) - 16px), calc((100% - var(--max-width-large)) / 2 + var(--spacing-lg) - 24px));
   width: 40px;
   height: 40px;
   display: flex;
@@ -407,7 +407,7 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
   visibility: hidden;
   transform: translateY(0); /* Без смещения по умолчанию */
   transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out,
-              bottom 0.3s ease; /* Синхронизировано с футером (transform 0.3s ease) */
+              bottom 0.3s ease, right 0.3s ease; /* Добавляем right в transition */
   padding: 0;
   box-sizing: border-box;
   
@@ -448,7 +448,7 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
     opacity: 1;
     visibility: visible;
     transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out, transform 0.3s ease-in-out,
-                bottom 0.3s ease; /* Добавляем transform в transition только когда видна */
+                bottom 0.3s ease, right 0.3s ease; /* Добавляем transform и right в transition только когда видна */
   }
   
   /* Когда футер скрыт, кнопка перемещается ниже */

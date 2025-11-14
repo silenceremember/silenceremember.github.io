@@ -487,7 +487,7 @@
 .scroll-to-top {
   position: fixed;
   bottom: calc(64px + var(--spacing-md) - 8px);
-  right: calc((100% - var(--max-width-large)) / 2 + var(--spacing-lg) - 24px);
+  right: max(calc(var(--spacing-lg) - 16px), calc((100% - var(--max-width-large)) / 2 + var(--spacing-lg) - 24px));
   width: 40px;
   height: 40px;
   display: flex;
@@ -501,7 +501,7 @@
   visibility: hidden;
   transform: translateY(0);
   transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out,
-              bottom 0.3s ease;
+              bottom 0.3s ease, right 0.3s ease;
   padding: 0;
   box-sizing: border-box;
   
@@ -542,7 +542,7 @@
     opacity: 1;
     visibility: visible;
     transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out, transform 0.3s ease-in-out,
-                bottom 0.3s ease;
+                bottom 0.3s ease, right 0.3s ease;
   }
   
   &.footer-hidden {
