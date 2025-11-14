@@ -247,13 +247,12 @@
   flex-wrap: nowrap;
   gap: 0;
   font-size: var(--font-size-small);
-  color: var(--color-text-primary);
-  opacity: 0.7;
+  color: var(--color-secondary);
   white-space: nowrap;
   overflow: hidden;
   min-height: 1.5em;
   align-items: center;
-  transition: color 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  transition: color 0.3s ease-in-out;
   /* Исправление размытия текста */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -290,7 +289,7 @@
       height: 10px;
       margin-left: var(--spacing-xs);
       margin-right: var(--spacing-xs);
-      background-color: var(--color-text-primary);
+      background-color: var(--color-secondary);
       mask-image: url('/assets/images/icon-divider-small.svg');
       mask-size: contain;
       mask-repeat: no-repeat;
@@ -300,7 +299,6 @@
       -webkit-mask-repeat: no-repeat;
       -webkit-mask-position: center;
       flex-shrink: 0;
-      opacity: 0.7;
       transition: opacity 0.3s ease-in-out;
     }
   }

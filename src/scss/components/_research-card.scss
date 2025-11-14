@@ -124,12 +124,11 @@
   flex-wrap: wrap;
   gap: var(--spacing-xs) var(--spacing-sm);
   font-size: var(--font-size-small);
-  color: var(--color-text-primary);
-  opacity: 0.7;
+  color: var(--color-secondary);
   white-space: nowrap;
   overflow: hidden;
   min-height: 1.5em;
-  transition: color 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  transition: color 0.3s ease-in-out;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -179,7 +178,7 @@
     width: 10px;
     height: 10px;
     margin-right: var(--spacing-xs);
-    background-color: var(--color-text-primary);
+    background-color: var(--color-secondary);
     mask-image: url('/assets/images/icon-divider-small.svg');
     mask-size: contain;
     mask-repeat: no-repeat;
@@ -189,7 +188,6 @@
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center;
     flex-shrink: 0;
-    opacity: 0.7;
     vertical-align: middle;
   }
   
@@ -202,10 +200,9 @@
 
 .research-card-journal {
   font-size: var(--font-size-small);
-  color: var(--color-text-primary);
-  opacity: 0.7;
+  color: var(--color-secondary);
   font-style: italic;
-  transition: color 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  transition: color 0.3s ease-in-out;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -233,9 +230,8 @@
   font-weight: var(--font-weight-semibold);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--color-text-primary);
-  opacity: 0.7;
-  transition: color 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  color: var(--color-secondary);
+  transition: color 0.3s ease-in-out;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;

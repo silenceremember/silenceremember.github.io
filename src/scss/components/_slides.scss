@@ -132,8 +132,7 @@
   align-items: center;
   gap: var(--spacing-xs);
   font-size: var(--font-size-small);
-  color: var(--color-text-primary);
-  opacity: 0.7;
+  color: var(--color-secondary);
   transition: font-size 0.3s ease, color 0.3s ease-in-out;
   /* Разрешаем выделение метаданных */
   user-select: text;
@@ -154,7 +153,7 @@
       width: 10px;
       height: 10px;
       margin-left: var(--spacing-xs);
-      background-color: var(--color-text-primary);
+      background-color: var(--color-secondary);
       mask-image: url('/assets/images/icon-divider-small.svg');
       mask-size: contain;
       mask-repeat: no-repeat;
@@ -164,7 +163,6 @@
       -webkit-mask-repeat: no-repeat;
       -webkit-mask-position: center;
       flex-shrink: 0;
-      opacity: 0.7;
     }
     
     // Скрываем разделитель для скрытых элементов
@@ -183,7 +181,7 @@
   height: 10px;
   display: inline-block;
   flex-shrink: 0;
-  background-color: var(--color-text-primary);
+  background-color: var(--color-secondary);
   mask-image: url('/assets/images/icon-divider-small.svg');
   mask-size: contain;
   mask-repeat: no-repeat;
@@ -192,7 +190,6 @@
   -webkit-mask-size: contain;
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center;
-  opacity: 0.7;
 }
 
 .project-visual {
