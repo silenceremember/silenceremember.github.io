@@ -166,6 +166,11 @@
   font-size: var(--font-size-base);
   line-height: var(--line-height-base);
   color: var(--color-text-primary);
+  /* Разрешаем выделение метаданных */
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
   
   @include tablet-and-mobile {
     font-size: var(--font-size-small);
@@ -304,6 +309,11 @@
   padding: var(--spacing-md);
   background-color: var(--color-bg-primary);
   border-left: 3px solid var(--color-divider);
+  /* Разрешаем выделение текста */
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
   
   @include tablet-and-mobile {
     font-size: var(--font-size-small);
@@ -317,6 +327,11 @@
   font-size: var(--font-size-small);
   line-height: var(--line-height-base);
   color: var(--color-secondary);
+  /* Разрешаем выделение ключевых слов */
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
   
   strong {
     font-weight: var(--font-weight-semibold);

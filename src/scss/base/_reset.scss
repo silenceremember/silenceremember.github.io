@@ -95,3 +95,149 @@ iframe {
   transition: none;
 }
 
+/* ============================================
+   УПРАВЛЕНИЕ ВЫДЕЛЕНИЕМ ТЕКСТА (USER-SELECT)
+   ============================================ */
+
+/* Базовое правило: разрешаем выделение текста по умолчанию */
+body {
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+}
+
+/* Разрешаем выделение для основного текстового контента */
+p,
+h1, h2, h3, h4, h5, h6,
+.cv-about-text,
+.project-card-description,
+.research-card-description,
+.research-publication-abstract,
+.footer-email,
+.cv-header-contact-link,
+.project-card-title,
+.research-card-title,
+.research-publication-title,
+.cv-section-title,
+.cv-header-name,
+.cv-header-role,
+.cv-certificate-title,
+.cv-course-title,
+.cv-language-name,
+.research-publication-title,
+.research-publication-authors,
+.research-publication-journal,
+.research-publication-date,
+.community-event-title,
+.community-event-description,
+.community-section-description,
+.section-title:not(.projects-navigation .section-title):not(.research-navigation .section-title):not(.cv-navigation .section-title):not(.community-navigation .section-title),
+.project-title,
+.details-text,
+.timeline-content,
+.timeline-period,
+.timeline-title,
+.timeline-subtitle,
+.timeline-description {
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+}
+
+/* Блокируем выделение для навигации */
+.header,
+.footer,
+.header-nav-item,
+.header-nav-list,
+.cta-button,
+.projects-navigation,
+.research-navigation,
+.cv-navigation,
+.community-navigation,
+.projects-navigation .section-title,
+.research-navigation .section-title,
+.cv-navigation .section-title,
+.community-navigation .section-title {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Блокируем выделение для всех кнопок */
+button,
+.header-language,
+.header-theme,
+.header-menu-button,
+.project-card-button,
+.research-card-button,
+.scroll-to-top,
+.cta-button,
+.project-filters-option,
+.projects-section-expand,
+.research-card-abstract-toggle,
+.research-publication-abstract-toggle,
+.cv-certificate-button,
+.cv-download-button {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Блокируем выделение для иконок и SVG элементов */
+svg,
+.icon-divider,
+.social-link,
+.footer-logo-icon,
+.footer-logo-text,
+.footer-social,
+.header-left svg,
+.footer-left svg,
+.footer-right svg {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Блокируем выделение для изображений */
+img,
+.portrait-image,
+.cv-header-photo-image,
+.project-card-image,
+.picture {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Блокируем выделение для декоративных элементов */
+.decorative-line-horizontal,
+.footer-decorative-square,
+.page-wrapper::before,
+.page-wrapper::after {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Блокируем выделение для элементов интерфейса */
+.count-badge,
+.project-filters-option-count,
+.project-card-tag,
+.project-card-status,
+.research-card-keyword,
+.cv-skill-tag,
+.research-publication-status,
+.research-publication-level {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+

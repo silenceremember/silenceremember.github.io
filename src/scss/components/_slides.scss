@@ -120,6 +120,11 @@
   margin: 0;
   letter-spacing: var(--letter-spacing-tight);
   line-height: var(--line-height-heading);
+  /* Разрешаем выделение текста */
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
 }
 
 .project-meta {
@@ -130,6 +135,11 @@
   color: var(--color-text-primary);
   opacity: 0.7;
   transition: font-size 0.3s ease, color 0.3s ease-in-out;
+  /* Разрешаем выделение метаданных */
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
   
   span {
     display: inline-flex;
@@ -268,6 +278,11 @@
   line-height: var(--line-height-base);
   color: var(--color-text-primary);
   margin: 0;
+  /* Разрешаем выделение текста */
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
 }
 
 .details-block:last-child .details-text {

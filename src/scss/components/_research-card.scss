@@ -133,6 +133,11 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  /* Разрешаем выделение метаданных */
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
   
   span {
     position: relative;
@@ -204,6 +209,11 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  /* Разрешаем выделение текста */
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
   
   &[style*="display: none"] {
     display: none !important;
@@ -231,6 +241,11 @@
   text-rendering: optimizeLegibility;
   display: inline-flex;
   align-items: center;
+  /* Разрешаем выделение текста */
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
   
   &[style*="display: none"] {
     display: none !important;
@@ -287,6 +302,11 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  /* Разрешаем выделение текста */
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
 }
 
 .research-card-keywords {

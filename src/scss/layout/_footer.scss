@@ -133,6 +133,11 @@
 .footer-copyright {
   font-size: var(--font-size-small);
   color: var(--color-secondary);
+  /* Разрешаем выделение текста копирайта */
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
 }
 
 
