@@ -236,6 +236,10 @@ function initFilters(projects) {
       if (yearDropdownButton) {
         let fixedButtonWidth = null; // Сохраняем фиксированную ширину
         
+        // Временно скрываем кнопку до установки правильной ширины, чтобы избежать пролагивания
+        yearDropdownButton.style.opacity = '0';
+        yearDropdownButton.style.visibility = 'hidden';
+        
         const calculateYearDropdownWidth = () => {
           // Используем двойной requestAnimationFrame для гарантии завершения рендеринга
           return new Promise((resolve) => {
@@ -341,12 +345,23 @@ function initFilters(projects) {
             }
             
             fixedButtonWidth = width;
+            
+            // Показываем кнопку после установки ширины
+            yearDropdownButton.style.opacity = '';
+            yearDropdownButton.style.visibility = '';
           }
         };
         
         // Устанавливаем ширину при инициализации один раз
-        calculateYearDropdownWidth().then((maxWidth) => {
-          setYearDropdownWidth(maxWidth);
+        // Используем дополнительную задержку для гарантии полного рендеринга после hideLoadingIndicator
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            setTimeout(() => {
+              calculateYearDropdownWidth().then((maxWidth) => {
+                setYearDropdownWidth(maxWidth);
+              });
+            }, 50); // Небольшая задержка для гарантии рендеринга
+          });
         });
       }
     }

@@ -520,14 +520,6 @@ function hideLoadingIndicator() {
       return;
     }
     
-    // Скрываем все секции контента перед fadeout
-    const container = document.querySelector('.cv-page');
-    const sections = container ? container.querySelectorAll('.cv-section') : [];
-    sections.forEach(section => {
-      section.style.opacity = '0';
-      section.style.visibility = 'hidden';
-    });
-    
     // Добавляем класс для анимации скрытия
     loadingElement.classList.add('hidden');
     
@@ -536,12 +528,6 @@ function hideLoadingIndicator() {
       if (loadingElement.parentNode) {
         loadingElement.remove();
       }
-      
-      // Показываем секции после завершения fadeout
-      sections.forEach(section => {
-        section.style.opacity = '';
-        section.style.visibility = '';
-      });
       
       resolve();
     }, 300);
@@ -830,6 +816,10 @@ function initScrollToTop() {
  * Анимирует появление элемента
  */
 function animateElementAppearance(element) {
+  // Убеждаемся, что элемент видим перед анимацией
+  // Явно устанавливаем display: block чтобы переопределить CSS :empty
+  element.style.display = 'block';
+  element.style.visibility = 'visible';
   element.style.opacity = '0';
   element.style.transform = 'translateY(10px)';
   element.style.transition = 'none';
@@ -844,6 +834,7 @@ function animateElementAppearance(element) {
         element.style.transform = '';
         element.style.opacity = '';
         element.style.transition = '';
+        // Оставляем display: block чтобы секция оставалась видимой
       }, 300);
     });
   });
@@ -876,9 +867,13 @@ async function initCVPage() {
   // Секция "Заголовок с фото, контактами и "О себе""
   const headerSection = document.getElementById('cv-header-section');
   if (headerSection) {
+    // Сначала показываем секцию, чтобы CSS :empty не скрывал её
+    headerSection.style.display = 'block';
     const headerContent = createHeaderSection(communityData, cvData.about, cvData.skills);
     if (headerContent) {
       headerSection.appendChild(headerContent);
+      // Убеждаемся, что секция видима после добавления контента
+      headerSection.style.visibility = 'visible';
       animateElementAppearance(headerSection);
     }
   }
@@ -892,6 +887,8 @@ async function initCVPage() {
   // Секция "Опыт работы"
   const workSection = document.getElementById('cv-work-section');
   if (workSection && cvData.workExperience && cvData.workExperience.length > 0) {
+    // Сначала показываем секцию, чтобы CSS :empty не скрывал её
+    workSection.style.display = 'block';
     const workTitle = document.createElement('h2');
     workTitle.className = 'cv-section-title';
     workTitle.textContent = 'Опыт работы';
@@ -911,12 +908,16 @@ async function initCVPage() {
     });
     
     workSection.appendChild(timelineContainer);
+    // Убеждаемся, что секция видима после добавления контента
+    workSection.style.visibility = 'visible';
     animateElementAppearance(workSection);
   }
   
   // Секция "Образование"
   const educationSection = document.getElementById('cv-education-section');
   if (educationSection && cvData.education && cvData.education.length > 0) {
+    // Сначала показываем секцию, чтобы CSS :empty не скрывал её
+    educationSection.style.display = 'block';
     const educationTitle = document.createElement('h2');
     educationTitle.className = 'cv-section-title';
     educationTitle.textContent = 'Образование';
@@ -936,6 +937,8 @@ async function initCVPage() {
     });
     
     educationSection.appendChild(timelineContainer);
+    // Убеждаемся, что секция видима после добавления контента
+    educationSection.style.visibility = 'visible';
     animateElementAppearance(educationSection);
   }
   
@@ -948,6 +951,8 @@ async function initCVPage() {
   // Секция "Сертификаты"
   const certificatesSection = document.getElementById('cv-certificates-section');
   if (certificatesSection && cvData.certificates && cvData.certificates.length > 0) {
+    // Сначала показываем секцию, чтобы CSS :empty не скрывал её
+    certificatesSection.style.display = 'block';
     const certificatesTitle = document.createElement('h2');
     certificatesTitle.className = 'cv-section-title';
     certificatesTitle.textContent = 'Сертификаты';
@@ -956,6 +961,8 @@ async function initCVPage() {
     const certificatesList = createCertificatesSection(cvData.certificates);
     if (certificatesList) {
       certificatesSection.appendChild(certificatesList);
+      // Убеждаемся, что секция видима после добавления контента
+      certificatesSection.style.visibility = 'visible';
       animateElementAppearance(certificatesSection);
     }
   }
@@ -963,6 +970,8 @@ async function initCVPage() {
   // Секция "Курсы"
   const coursesSection = document.getElementById('cv-courses-section');
   if (coursesSection && cvData.courses && cvData.courses.length > 0) {
+    // Сначала показываем секцию, чтобы CSS :empty не скрывал её
+    coursesSection.style.display = 'block';
     const coursesTitle = document.createElement('h2');
     coursesTitle.className = 'cv-section-title';
     coursesTitle.textContent = 'Курсы';
@@ -971,6 +980,8 @@ async function initCVPage() {
     const coursesList = createCoursesSection(cvData.courses);
     if (coursesList) {
       coursesSection.appendChild(coursesList);
+      // Убеждаемся, что секция видима после добавления контента
+      coursesSection.style.visibility = 'visible';
       animateElementAppearance(coursesSection);
     }
   }
@@ -978,6 +989,8 @@ async function initCVPage() {
   // Секция "Языки"
   const languagesSection = document.getElementById('cv-languages-section');
   if (languagesSection && cvData.languages && cvData.languages.length > 0) {
+    // Сначала показываем секцию, чтобы CSS :empty не скрывал её
+    languagesSection.style.display = 'block';
     const languagesTitle = document.createElement('h2');
     languagesTitle.className = 'cv-section-title';
     languagesTitle.textContent = 'Языки';
@@ -986,6 +999,8 @@ async function initCVPage() {
     const languagesList = createLanguagesSection(cvData.languages);
     if (languagesList) {
       languagesSection.appendChild(languagesList);
+      // Убеждаемся, что секция видима после добавления контента
+      languagesSection.style.visibility = 'visible';
       animateElementAppearance(languagesSection);
     }
   }
@@ -993,8 +1008,12 @@ async function initCVPage() {
   // Кнопка скачивания PDF
   const downloadSection = document.getElementById('cv-download-section');
   if (downloadSection) {
+    // Сначала показываем секцию, чтобы CSS :empty не скрывал её
+    downloadSection.style.display = 'block';
     const downloadButton = createDownloadButton();
     downloadSection.appendChild(downloadButton);
+    // Убеждаемся, что секция видима после добавления контента
+    downloadSection.style.visibility = 'visible';
     animateElementAppearance(downloadSection);
   }
   
@@ -1041,13 +1060,18 @@ document.addEventListener('keydown', (e) => {
     e.preventDefault();
     // Показываем loading
     showLoadingIndicator();
-    // Очищаем контент
+    // Очищаем весь контент
     const container = document.querySelector('.cv-page');
     if (container) {
       const sections = container.querySelectorAll('.cv-section');
       sections.forEach(section => {
         section.innerHTML = '';
       });
+      // Очищаем также секцию с кнопкой скачивания
+      const downloadSection = document.getElementById('cv-download-section');
+      if (downloadSection) {
+        downloadSection.innerHTML = '';
+      }
     }
     // Ждем 1 секунду и запускаем загрузку
     setTimeout(() => {
