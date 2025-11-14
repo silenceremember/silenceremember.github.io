@@ -125,7 +125,7 @@
 
 .document-viewer-actions {
   display: flex;
-  gap: var(--spacing-xs);
+  gap: var(--spacing-sm);
   flex-shrink: 0;
   align-items: center;
 }
@@ -134,34 +134,25 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--spacing-xs) var(--spacing-sm);
-  min-width: 40px;
-  height: 40px;
+  width: 24px;
+  height: 24px;
+  padding: 0;
   background-color: transparent;
-  border: var(--line-width) solid var(--color-divider);
-  color: var(--color-text-primary);
+  border: none;
   cursor: pointer;
   font-family: var(--font-family);
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-medium);
   text-decoration: none;
-  transition: background-color var(--transition-duration-base) ease-in-out, 
-              border-color var(--transition-duration-base) ease-in-out, 
-              color var(--transition-duration-base) ease-in-out,
-              transform var(--transition-duration-fast) ease;
+  transition: fill var(--transition-duration-base) ease-out;
   box-sizing: border-box;
   position: relative;
   
   &:hover,
   &:focus {
-    border-color: var(--color-accent);
-    background-color: var(--color-accent);
-    color: var(--color-bg-primary);
     outline: none;
-  }
-  
-  &:active {
-    transform: scale(0.95);
+    
+    svg path {
+      fill: var(--color-accent);
+    }
   }
   
   // Стили для SVG иконок внутри кнопок
@@ -177,22 +168,30 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 20px;
-    height: 20px;
+    width: 100%;
+    height: 100%;
     line-height: 1;
     
     svg {
       width: 100%;
       height: 100%;
-      fill: currentColor;
+      
+      path {
+        fill: var(--color-text-primary);
+        transition: fill var(--transition-duration-base) ease-out;
+      }
     }
   }
   
   // SVG элементы напрямую в кнопке
   > svg {
-    width: 20px;
-    height: 20px;
-    fill: currentColor;
+    width: 100%;
+    height: 100%;
+    
+    path {
+      fill: var(--color-text-primary);
+      transition: fill var(--transition-duration-base) ease-out;
+    }
   }
   
   // Скрытые иконки
@@ -205,9 +204,9 @@
   &.document-viewer-close {
     &:hover,
     &:focus {
-      border-color: var(--color-accent);
-      background-color: var(--color-accent);
-      color: var(--color-bg-primary);
+      svg path {
+        fill: var(--color-accent);
+      }
     }
   }
   
@@ -215,9 +214,9 @@
   &.document-viewer-download {
     &:hover,
     &:focus {
-      border-color: var(--color-accent);
-      background-color: var(--color-accent);
-      color: var(--color-bg-primary);
+      svg path {
+        fill: var(--color-accent);
+      }
     }
   }
   
@@ -225,9 +224,9 @@
   &.document-viewer-fullscreen {
     &:hover,
     &:focus {
-      border-color: var(--color-accent);
-      background-color: var(--color-accent);
-      color: var(--color-bg-primary);
+      svg path {
+        fill: var(--color-accent);
+      }
     }
   }
 }
@@ -384,14 +383,9 @@
 /* Адаптивность */
 @media (max-width: 1023px) {
   .document-viewer-button {
-    min-width: 36px;
-    height: 36px;
-    padding: var(--spacing-xs);
-    
-    span[data-svg-src] {
-      width: 18px;
-      height: 18px;
-    }
+    width: 24px;
+    height: 24px;
+    padding: 0;
   }
 }
 
