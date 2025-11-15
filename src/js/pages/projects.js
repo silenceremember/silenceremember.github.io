@@ -1088,15 +1088,19 @@ function toggleSectionExpansion(category, button, hiddenProjects) {
   if (isExpanded) {
     // Сворачиваем с плавной анимацией - все карточки одновременно
     hiddenCards.forEach((card) => {
-      card.style.transition = `opacity ${CARD_ANIMATION.duration} ${CARD_ANIMATION.timing}, visibility ${CARD_ANIMATION.duration} ${CARD_ANIMATION.timing}`;
+      card.style.transition = `opacity ${CARD_ANIMATION.duration} ${CARD_ANIMATION.timing}, transform ${CARD_ANIMATION.duration} ${CARD_ANIMATION.timing}, visibility ${CARD_ANIMATION.duration} ${CARD_ANIMATION.timing}`;
       card.style.opacity = '0';
+      card.style.transform = `translateY(${ANIMATION_CONFIG.translateYDisappear})`;
     });
     setTimeout(() => {
       hiddenCards.forEach((card) => {
         card.style.display = 'none';
-        // Убираем inline стили и возвращаем класс после анимации
-        card.style.opacity = '';
-        card.style.transition = '';
+        // Полностью очищаем все inline стили после анимации для чистого состояния при следующем показе
+        card.style.removeProperty('opacity');
+        card.style.removeProperty('transform');
+        card.style.removeProperty('transition');
+        card.style.removeProperty('visibility');
+        // Возвращаем класс и атрибут
         card.classList.add('project-card-hidden');
         card.setAttribute('data-hidden-card', 'true');
       });
@@ -1106,18 +1110,37 @@ function toggleSectionExpansion(category, button, hiddenProjects) {
     button.querySelector('.projects-section-expand-text').textContent = 'Показать все';
   } else {
     // Разворачиваем с плавной анимацией - все карточки одновременно
+    // Сначала полностью очищаем все inline стили и классы, которые могут мешать анимации
     hiddenCards.forEach((card) => {
+      // Очищаем все inline стили, которые могли остаться от предыдущих анимаций
+      card.style.removeProperty('opacity');
+      card.style.removeProperty('transform');
+      card.style.removeProperty('transition');
+      card.style.removeProperty('visibility');
+      // Убираем класс, который может влиять на видимость
+      card.classList.remove('project-card-hidden');
+      // Устанавливаем display, но пока оставляем карточку невидимой для правильной инициализации анимации
       card.style.display = '';
+      // Устанавливаем начальное состояние для анимации СИНХРОННО
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(10px)';
+      card.style.transition = 'none';
     });
+    
+    // Принудительный reflow для применения начального состояния
+    if (hiddenCards.length > 0 && hiddenCards[0]) {
+      void hiddenCards[0].offsetHeight;
+    }
+    
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         // Применяем анимацию одновременно для всех карточек
         if (hiddenCards.length > 0) {
-          animateElementsAppearance(hiddenCards);
-          // Убираем классы после анимации
+          // Используем skipInitialState: true, так как мы уже установили начальное состояние
+          animateElementsAppearance(hiddenCards, { skipInitialState: true });
+          // Убираем атрибут после анимации (класс уже убран выше)
           setTimeout(() => {
             hiddenCards.forEach((card) => {
-              card.classList.remove('project-card-hidden');
               card.setAttribute('data-hidden-card', 'true');
             });
           }, ANIMATION_CONFIG.timeout);
