@@ -796,26 +796,6 @@ export class ProjectFiltersManager {
           console.error('Ошибка загрузки SVG:', error);
         }
       });
-      
-      // Показываем сообщение об отсутствии проектов
-      const empty = document.getElementById('projects-empty');
-      if (empty) {
-        if (visibleCount === 0) {
-          empty.style.display = '';
-          requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-              animateElementAppearance(empty);
-            });
-          });
-        } else {
-          empty.style.transition = `opacity ${ANIMATION_CONFIG.duration} ${ANIMATION_CONFIG.timing}, transform ${ANIMATION_CONFIG.duration} ${ANIMATION_CONFIG.timing}`;
-          empty.style.opacity = '0';
-          empty.style.transform = ANIMATION_CONFIG.translateYDisappear;
-          setTimeout(() => {
-            empty.style.display = 'none';
-          }, ANIMATION_CONFIG.timeout);
-        }
-      }
     } finally {
       // Сбрасываем флаг после завершения применения фильтров
       this.isApplyingFilters = false;
