@@ -806,3 +806,4 @@ export class CVPage extends BasePage {
     }
   }
 }
+

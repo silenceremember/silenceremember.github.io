@@ -373,3 +373,4 @@ export class CommunityPage extends BasePage {
     this.animationManager.initializeAnimations();
   }
 }
+

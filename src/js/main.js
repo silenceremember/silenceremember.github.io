@@ -6,11 +6,11 @@ import { LanguageSwitcher } from './components/index.js';
 import { SvgLoader } from './components/index.js';
 import { ScrollManager } from './components/index.js';
 import { debounce } from './utils/DebounceUtils.js';
-import { IndexPage, hideAllSlideElementsEarly } from './pages/index.js';
-import { ProjectsPage } from './pages/projects.js';
-import { CVPage } from './pages/cv.js';
-import { ResearchPage } from './pages/research.js';
-import { CommunityPage } from './pages/community.js';
+import { IndexPage, hideAllSlideElementsEarly } from './pages/IndexPage.js';
+import { ProjectsPage } from './pages/ProjectsPage.js';
+import { CVPage } from './pages/CVPage.js';
+import { ResearchPage } from './pages/ResearchPage.js';
+import { CommunityPage } from './pages/CommunityPage.js';
 
 
 function updateFadeInElements() {

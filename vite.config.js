@@ -90,7 +90,9 @@ export default defineConfig({
           // Разделяем страницы на отдельные чанки для лучшего кеширования
           if (id.includes('/js/pages/')) {
             const pageName = id.split('/js/pages/')[1].split('.')[0];
-            return `page-${pageName}`;
+            // Конвертируем PascalCase в kebab-case для имен чанков
+            const kebabCase = pageName.replace(/([A-Z])/g, '-$1').toLowerCase().replace(/^-/, '');
+            return `page-${kebabCase}`;
           }
           // Разделяем утилиты и компоненты
           if (id.includes('/js/utils/')) {

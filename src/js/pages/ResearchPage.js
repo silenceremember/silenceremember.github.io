@@ -258,3 +258,4 @@ export class ResearchPage extends BasePage {
     }
   }
 }
+

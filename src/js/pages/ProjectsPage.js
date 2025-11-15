@@ -173,3 +173,4 @@ export class ProjectsPage extends BasePage {
     await this.renderGroupedProjects();
   }
 }
+
