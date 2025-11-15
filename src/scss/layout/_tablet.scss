@@ -376,6 +376,41 @@
     padding-top: var(--spacing-xxl);
     padding-bottom: var(--spacing-xxl);
   }
+  
+  /* Контейнер для страницы 404 */
+  .page-404-container {
+    position: relative;
+    width: 100%;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Контейнер для индикатора загрузки на странице 404 */
+  .notfound-loading-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    min-height: 400px;
+    pointer-events: none;
+    
+    &:has(.loading.hidden),
+    &[style*="display: none"] {
+      display: none !important;
+      pointer-events: none !important;
+    }
+    
+    .loading:not(.hidden) {
+      pointer-events: auto;
+    }
+  }
 }
 
 /* Стили для страниц с прокруткой в tablet/mobile режиме */

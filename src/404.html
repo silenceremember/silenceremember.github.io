@@ -42,11 +42,24 @@
 
     <!-- Main Content -->
     <main class="content-wrapper">
-      <div class="cta-slide-content" style="text-align: center; gap: 1rem;">
-        <div>
-          <h1 class="main-content-name" style="font-size: 5rem;">404</h1>
-          <p class="main-content-title" style="color: var(--color-accent);">СТРАНИЦА НЕ НАЙДЕНА</p>
+      <div class="container page-404-container">
+        <!-- Контейнер для индикатора загрузки -->
+        <div class="notfound-loading-container" id="notfound-loading-container">
+          <!-- Индикатор загрузки -->
+          <div class="loading" id="notfound-loading">
+            <div class="loading-squares">
+              <div class="loading-square"></div>
+              <div class="loading-square"></div>
+              <div class="loading-square"></div>
+            </div>
+          </div>
         </div>
+        
+        <div class="cta-slide-content" style="text-align: center; gap: 1rem;">
+          <div>
+            <h1 class="main-content-name" style="font-size: 5rem;">404</h1>
+            <p class="main-content-title" style="color: var(--color-accent);">СТРАНИЦА НЕ НАЙДЕНА</p>
+          </div>
         <p class="main-content-description">
           Возможно, страница была перемещена или удалена
         </p>
@@ -56,6 +69,7 @@
             <a href="/research.html" class="cta-button">ИССЛЕДОВАНИЯ</a>
             <a href="/cv.html" class="cta-button">РЕЗЮМЕ</a>
             <a href="/community.html" class="cta-button">СООБЩЕСТВО</a>
+        </div>
         </div>
       </div>
     </main>

@@ -8,6 +8,7 @@ import { loadData } from '../utils/DataLoader.js';
 import { SlideAnimationManager } from '../managers/SlideAnimationManager.js';
 import { SlidesManager } from '../components/index.js';
 import { backgroundImageService } from '../services/BackgroundImageService.js';
+import { LoadingIndicatorService } from '../services/LoadingIndicatorService.js';
 
 /**
  * Класс для главной страницы
@@ -174,12 +175,20 @@ export class IndexPage extends BasePage {
     // Инициализируем базовые компоненты (навигация, scroll-to-top, SVG)
     await this.initBase();
 
+    // Инициализируем сервис индикатора загрузки
+    this.loadingIndicator = new LoadingIndicatorService('index-loading', 'index-loading-container');
+    this.loadingIndicator.init();
+    this.loadingIndicator.show();
+
     // Инициализируем менеджер слайдов (обработка скролла, колесика мыши, смена слайдов)
     this.slidesManager = new SlidesManager();
     this.slidesManager.init();
 
     // Загружаем featured проекты
     const featuredProjects = await this.loadFeaturedProjects();
+
+    // Скрываем индикатор загрузки и ждем завершения fadeout
+    await this.loadingIndicator.hide();
 
     // Заполняем слайды данными проектов
     this.populateProjectSlides(featuredProjects);

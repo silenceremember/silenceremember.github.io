@@ -5,6 +5,7 @@
 import { BasePage } from './BasePage.js';
 import { DOMHelper } from '../utils/DomHelpers.js';
 import { animateElementsAppearance } from '../utils/AnimationUtils.js';
+import { LoadingIndicatorService } from '../services/LoadingIndicatorService.js';
 
 export class NotFoundPage extends BasePage {
   /**
@@ -120,11 +121,19 @@ export class NotFoundPage extends BasePage {
     // Инициализируем базовые компоненты (header, footer, навигация и т.д.)
     await this.initBase();
 
+    // Инициализируем сервис индикатора загрузки
+    this.loadingIndicator = new LoadingIndicatorService('notfound-loading', 'notfound-loading-container');
+    this.loadingIndicator.init();
+    this.loadingIndicator.show();
+
     // Скрываем элементы сразу при инициализации
     this.hideAllElementsImmediately();
 
     // Ждем готовности страницы (загрузка изображений и шрифтов)
     await this.waitForPageReady();
+
+    // Скрываем индикатор загрузки и ждем завершения fadeout
+    await this.loadingIndicator.hide();
 
     // Запускаем анимации появления элементов
     this.initializeAnimations();

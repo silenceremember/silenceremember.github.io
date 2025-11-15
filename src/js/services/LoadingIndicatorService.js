@@ -79,20 +79,35 @@ export class LoadingIndicatorService {
       
       // Ждем завершения fadeout анимации loading элемента
       setTimeout(() => {
-        // Теперь скрываем container (если нужно) и удаляем loading элемент
-        if (shouldHideContent && this.container) {
-          this.container.style.opacity = '0';
-          this.container.style.visibility = 'hidden';
-        }
-        
+        // Удаляем loading элемент
         if (this.loadingElement.parentNode) {
           this.loadingElement.remove();
         }
         
-        // Восстанавливаем видимость container, но не показываем его с анимацией здесь
-        if (shouldHideContent && this.container) {
-          this.container.style.visibility = '';
-          this.container.style.opacity = '0';
+        // Проверяем, используется ли контейнер для контента (например, projects-grid)
+        // Если контейнер имеет класс, указывающий на то, что он используется для контента,
+        // не скрываем его полностью, только восстанавливаем нормальное состояние
+        const isContentContainer = this.container && (
+          this.container.id === 'projects-grid' ||
+          this.container.id === 'research-publications-section' ||
+          this.container.classList.contains('projects-grid') ||
+          this.container.classList.contains('research-publications-section')
+        );
+        
+        if (this.container) {
+          if (isContentContainer) {
+            // Для контейнеров с контентом только восстанавливаем нормальное состояние
+            this.container.style.visibility = '';
+            this.container.style.opacity = '';
+            this.container.style.pointerEvents = '';
+            this.container.style.display = '';
+          } else {
+            // Для отдельных контейнеров индикатора скрываем полностью
+            this.container.style.display = 'none';
+            this.container.style.pointerEvents = 'none';
+            this.container.style.visibility = 'hidden';
+            this.container.style.opacity = '0';
+          }
         }
         
         resolve();
@@ -167,6 +182,9 @@ export class LoadingIndicatorService {
         this.container.innerHTML = '';
         this.container.appendChild(loadingElement);
       }
+      // Показываем контейнер и включаем pointer-events
+      this.container.style.display = '';
+      this.container.style.pointerEvents = '';
       this.container.style.opacity = '0';
       this.container.style.transform = '';
       this.container.style.visibility = 'visible';
