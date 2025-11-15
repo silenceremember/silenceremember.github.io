@@ -40,21 +40,3 @@ export function getRoleLabel(role, detailed = false, teamName = null) {
   return label;
 }
 
-/**
- * Получает все доступные роли
- * @returns {string[]} Массив кодов ролей
- */
-export function getAvailableRoles() {
-  return Object.keys(ROLE_LABELS);
-}
-
-/**
- * Маппинг ролей на читаемые значения
- */
-export { ROLE_LABELS };
-
-/**
- * Маппинг ролей для главной страницы (более детальные описания)
- */
-export { ROLE_LABELS_DETAILED };
-

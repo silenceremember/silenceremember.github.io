@@ -79,23 +79,3 @@ export async function loadData(url, options = {}) {
   return requestPromise;
 }
 
-/**
- * Очищает кеш
- * @param {string} url - Опциональный URL для очистки конкретного кеша
- */
-export function clearCache(url = null) {
-  if (url) {
-    cache.delete(url);
-  } else {
-    cache.clear();
-  }
-}
-
-/**
- * Получает размер кеша
- * @returns {number} - Количество записей в кеше
- */
-export function getCacheSize() {
-  return cache.size;
-}
-

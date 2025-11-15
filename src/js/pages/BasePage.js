@@ -139,9 +139,6 @@ export class BasePage {
 
     // Инициализируем кнопку "Наверх"
     this.initScrollToTop();
-
-    // Загружаем SVG иконки (уже загружены глобально, но оставляем для совместимости)
-    await this.svgLoader.init();
   }
 
   /**

@@ -162,25 +162,6 @@ export class IndexPage extends BasePage {
   }
 
   /**
-   * Скрывает элементы всех слайдов сразу при загрузке DOM
-   * Это предотвращает видимость элементов до начала анимации
-   */
-  hideAllSlideElementsEarly() {
-    if (!this.slidesContainer) {
-      return;
-    }
-
-    try {
-      // Создаем временный менеджер для скрытия элементов
-      const tempManager = new SlideAnimationManager(this.slidesContainer);
-      tempManager.hideAllSlideElementsImmediately();
-    } catch (error) {
-      // Если контейнер еще не готов, игнорируем ошибку
-      console.warn('Could not hide slide elements early:', error);
-    }
-  }
-
-  /**
    * Инициализирует главную страницу
    */
   async init() {
