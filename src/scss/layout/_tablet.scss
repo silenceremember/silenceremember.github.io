@@ -17,15 +17,8 @@
     -moz-osx-font-smoothing: grayscale;
   }
   
-  /* Добавляем will-change только при анимации */
-  body:has(.slides-container) .header.hidden {
-    will-change: transform;
-  }
-  
-  /* Убираем will-change когда анимация завершена */
-  body:has(.slides-container) .header:not(.hidden) {
-    will-change: auto;
-  }
+  /* Убрано will-change для header - это большой элемент (100vw ширина) */
+  /* Transition достаточно для плавной анимации */
 
   body:has(.slides-container) .header-content,
   body:has(.slides-container) .header-content * {
@@ -44,15 +37,8 @@
     -moz-osx-font-smoothing: grayscale;
   }
   
-  /* Добавляем will-change только при анимации */
-  body:has(.slides-container) .footer.hidden {
-    will-change: transform;
-  }
-  
-  /* Убираем will-change когда анимация завершена */
-  body:has(.slides-container) .footer:not(.hidden) {
-    will-change: auto;
-  }
+  /* Убрано will-change для footer - это большой элемент (100vw ширина) */
+  /* Transition достаточно для плавной анимации */
 
   body:has(.slides-container) .footer-content,
   body:has(.slides-container) .footer-content * {
@@ -77,17 +63,8 @@
     backface-visibility: hidden;
   }
   
-  /* Добавляем will-change только при анимации */
-  body:has(.slides-container) .header + .decorative-line-horizontal.hidden,
-  body:has(.slides-container) main + .decorative-line-horizontal.hidden {
-    will-change: transform;
-  }
-  
-  /* Убираем will-change когда анимация завершена */
-  body:has(.slides-container) .header + .decorative-line-horizontal:not(.hidden),
-  body:has(.slides-container) main + .decorative-line-horizontal:not(.hidden) {
-    will-change: auto;
-  }
+  /* Убрано will-change для декоративных линий - это большие элементы (100vw ширина) */
+  /* Transition достаточно для плавной анимации */
 
   body:has(.slides-container) .header + .decorative-line-horizontal {
     top: 64px;
@@ -179,15 +156,8 @@
     -moz-osx-font-smoothing: grayscale;
   }
   
-  /* Добавляем will-change только при анимации */
-  body:not(.page-with-scroll) .header.hidden {
-    will-change: transform;
-  }
-  
-  /* Убираем will-change когда анимация завершена */
-  body:not(.page-with-scroll) .header:not(.hidden) {
-    will-change: auto;
-  }
+  /* Убрано will-change для header - это большой элемент (100vw ширина) */
+  /* Transition достаточно для плавной анимации */
 
   body:not(.page-with-scroll) .header-content,
   body:not(.page-with-scroll) .header-content * {
@@ -206,15 +176,8 @@
     -moz-osx-font-smoothing: grayscale;
   }
   
-  /* Добавляем will-change только при анимации */
-  body:not(.page-with-scroll) .footer.hidden {
-    will-change: transform;
-  }
-  
-  /* Убираем will-change когда анимация завершена */
-  body:not(.page-with-scroll) .footer:not(.hidden) {
-    will-change: auto;
-  }
+  /* Убрано will-change для footer - это большой элемент (100vw ширина) */
+  /* Transition достаточно для плавной анимации */
 
   body:not(.page-with-scroll) .footer-content,
   body:not(.page-with-scroll) .footer-content * {
@@ -239,17 +202,8 @@
     backface-visibility: hidden;
   }
   
-  /* Добавляем will-change только при анимации */
-  body:not(.page-with-scroll) .header + .decorative-line-horizontal.hidden,
-  body:not(.page-with-scroll) main + .decorative-line-horizontal.hidden {
-    will-change: transform;
-  }
-  
-  /* Убираем will-change когда анимация завершена */
-  body:not(.page-with-scroll) .header + .decorative-line-horizontal:not(.hidden),
-  body:not(.page-with-scroll) main + .decorative-line-horizontal:not(.hidden) {
-    will-change: auto;
-  }
+  /* Убрано will-change для декоративных линий - это большие элементы (100vw ширина) */
+  /* Transition достаточно для плавной анимации */
 
   body:not(.page-with-scroll) .header + .decorative-line-horizontal {
     top: 64px;
@@ -482,15 +436,8 @@
     -moz-osx-font-smoothing: grayscale;
   }
   
-  /* Добавляем will-change только при анимации */
-  body.page-with-scroll .header.hidden {
-    will-change: transform;
-  }
-  
-  /* Убираем will-change когда анимация завершена */
-  body.page-with-scroll .header:not(.hidden) {
-    will-change: auto;
-  }
+  /* Убрано will-change для header - это большой элемент (100vw ширина) */
+  /* Transition достаточно для плавной анимации */
 
   body.page-with-scroll .header-content,
   body.page-with-scroll .header-content * {
@@ -522,15 +469,8 @@
     -moz-osx-font-smoothing: grayscale;
   }
   
-  /* Добавляем will-change только при анимации */
-  body.page-with-scroll .footer.hidden {
-    will-change: transform;
-  }
-  
-  /* Убираем will-change когда анимация завершена */
-  body.page-with-scroll .footer:not(.hidden) {
-    will-change: auto;
-  }
+  /* Убрано will-change для footer - это большой элемент (100vw ширина) */
+  /* Transition достаточно для плавной анимации */
 
   body.page-with-scroll .footer-content,
   body.page-with-scroll .footer-content * {
@@ -555,17 +495,8 @@
     backface-visibility: hidden;
   }
   
-  /* Добавляем will-change только при анимации */
-  body.page-with-scroll .header + .decorative-line-horizontal.hidden,
-  body.page-with-scroll main + .decorative-line-horizontal.hidden {
-    will-change: transform;
-  }
-  
-  /* Убираем will-change когда анимация завершена */
-  body.page-with-scroll .header + .decorative-line-horizontal:not(.hidden),
-  body.page-with-scroll main + .decorative-line-horizontal:not(.hidden) {
-    will-change: auto;
-  }
+  /* Убрано will-change для декоративных линий - это большие элементы (100vw ширина) */
+  /* Transition достаточно для плавной анимации */
 
   body.page-with-scroll .header + .decorative-line-horizontal {
     top: 64px;

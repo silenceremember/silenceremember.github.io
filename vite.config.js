@@ -79,12 +79,17 @@ export default defineConfig({
         manualChunks: (id) => {
           // Разделяем node_modules на отдельные чанки
           if (id.includes('node_modules')) {
-            // Vite и его зависимости
+            // Vite и его зависимости (если есть)
             if (id.includes('vite')) {
               return 'vite-vendor';
             }
             // Остальные vendor библиотеки
             return 'vendor';
+          }
+          // Разделяем страницы на отдельные чанки для лучшего кеширования
+          if (id.includes('/js/pages/')) {
+            const pageName = id.split('/js/pages/')[1].split('.')[0];
+            return `page-${pageName}`;
           }
           // Разделяем утилиты и компоненты
           if (id.includes('/js/utils/')) {
@@ -95,6 +100,10 @@ export default defineConfig({
           }
           if (id.includes('/js/services/')) {
             return 'services';
+          }
+          // Общий layout код
+          if (id.includes('/js/layout.js')) {
+            return 'layout';
           }
         },
         // Оптимизация имен файлов для кеширования
@@ -117,8 +126,18 @@ export default defineConfig({
       },
     },
     // Оптимизация размера чанков
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 500, // Уменьшено для более строгого контроля размера
     // Включаем source maps только для production debugging (опционально)
     sourcemap: false,
+    // Оптимизация tree shaking
+    treeshake: {
+      moduleSideEffects: false,
+      propertyReadSideEffects: false,
+      tryCatchDeoptimization: false,
+    },
+    // Оптимизация target для современных браузеров
+    target: 'esnext',
+    // Минификация CSS
+    cssCodeSplit: true,
   },
 });

@@ -23,10 +23,8 @@
   transition: transform 0.3s ease;
 }
 
-/* Добавляем will-change только при активной анимации */
-.media-gallery-track.animating {
-  will-change: transform;
-}
+/* Убрано will-change для media-gallery-track - может быть большим элементом */
+/* Transition достаточно для плавной анимации */
 
 .media-gallery-item {
   flex-shrink: 0;

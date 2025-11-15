@@ -77,6 +77,13 @@ function createProjectCard(project) {
   if (image && project.media?.preview) {
     image.src = project.media.preview;
     image.alt = project.title;
+    // Оптимизация: lazy loading для изображений карточек
+    if (!image.hasAttribute('loading')) {
+      image.loading = 'lazy';
+    }
+    if (!image.hasAttribute('decoding')) {
+      image.decoding = 'async';
+    }
   }
   
   // Теги

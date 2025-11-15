@@ -31,31 +31,54 @@ function loadBackgroundImage(element, imageUrl, isVisible = false) {
   
   // Если элемент виден сразу, загружаем изображение немедленно
   if (isVisible) {
-    element.style.backgroundImage = `url(${imageUrl})`;
-    element.style.backgroundSize = 'cover';
-    element.style.backgroundPosition = 'center';
+    // Используем Image для предзагрузки перед установкой background-image
+    const img = new Image();
+    img.loading = 'eager';
+    img.fetchPriority = 'high';
+    img.onload = () => {
+      element.style.backgroundImage = `url(${imageUrl})`;
+      element.style.backgroundSize = 'cover';
+      element.style.backgroundPosition = 'center';
+    };
+    img.src = imageUrl;
     return;
   }
   
-  // Используем Intersection Observer для ленивой загрузки
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const img = new Image();
-        img.onload = () => {
-          entry.target.style.backgroundImage = `url(${imageUrl})`;
-          entry.target.style.backgroundSize = 'cover';
-          entry.target.style.backgroundPosition = 'center';
-        };
-        img.src = imageUrl;
-        observer.unobserve(entry.target);
-      }
+  // Используем Intersection Observer для ленивой загрузки с оптимизацией
+  // Создаем один общий observer для всех элементов (если еще не создан)
+  if (!window.backgroundImageObserver) {
+    window.backgroundImageObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const imageUrl = entry.target.dataset.bgImage;
+          if (imageUrl) {
+            const img = new Image();
+            img.loading = 'lazy';
+            img.decoding = 'async';
+            img.onload = () => {
+              entry.target.style.backgroundImage = `url(${imageUrl})`;
+              entry.target.style.backgroundSize = 'cover';
+              entry.target.style.backgroundPosition = 'center';
+            };
+            img.onerror = () => {
+              console.warn(`Failed to load background image: ${imageUrl}`);
+            };
+            img.src = imageUrl;
+            // Удаляем data-атрибут после загрузки
+            delete entry.target.dataset.bgImage;
+          }
+          window.backgroundImageObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      rootMargin: '100px', // Увеличено для более ранней загрузки
+      threshold: 0.01 // Начинаем загрузку при 1% видимости
     });
-  }, {
-    rootMargin: '50px' // Начинаем загрузку за 50px до появления в viewport
-  });
+  }
   
-  observer.observe(element);
+  // Сохраняем URL в data-атрибуте для observer
+  element.dataset.bgImage = imageUrl;
+  window.backgroundImageObserver.observe(element);
 }
 
 /**

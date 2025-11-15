@@ -26,22 +26,24 @@ function updateFadeInElements() {
   const main = document.querySelector('main');
   const slidesContainer = document.querySelector('.slides-container');
 
+  // Оптимизация: не используем will-change на больших элементах (content-wrapper, main)
+  // так как они превышают бюджет памяти браузера
   if (headerContent) {
     fadeInElements.add(headerContent);
-    headerContent.style.willChange = 'opacity';
+    // Убираем will-change для больших элементов - используем только transition
   }
   if (footerContent) {
     fadeInElements.add(footerContent);
-    footerContent.style.willChange = 'opacity';
+    // Убираем will-change для больших элементов
   }
 
   if (contentWrapper) {
     fadeInElements.add(contentWrapper);
-    contentWrapper.style.willChange = 'opacity';
+    // Не используем will-change на content-wrapper - слишком большой элемент
   }
   if (main && !fadeInElements.has(main)) {
     fadeInElements.add(main);
-    main.style.willChange = 'opacity';
+    // Не используем will-change на main - слишком большой элемент
   }
 
   // Если есть слайды в tablet-scroll-mode, убеждаемся что они видимы
@@ -61,10 +63,7 @@ function updateFadeInElements() {
       setTimeout(() => {
         fadeInElements.forEach((element) => {
           element.classList.add('fade-in-visible');
-          // Убираем will-change после анимации для оптимизации
-          setTimeout(() => {
-            element.style.willChange = 'auto';
-          }, 300); // Длительность transition
+          // Не используем will-change для больших элементов - transition достаточно
         });
       }, 16); // ~1 frame при 60fps
     });

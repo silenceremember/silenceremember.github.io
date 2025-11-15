@@ -45,7 +45,7 @@
   &:hover {
     transform: translate3d(0, -4px, 0); /* Используем translate3d для стабильности и предотвращения subpixel смещений */
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    will-change: transform; /* Добавляем только при hover для оптимизации */
+    /* Убрано will-change из CSS - будет добавляться динамически через JS только при необходимости */
     width: 100% !important; /* Сохраняем ширину при hover */
     max-width: 100% !important; /* Предотвращаем расширение */
     min-width: 0 !important; /* Предотвращаем расширение */
@@ -69,10 +69,7 @@
     }
   }
   
-  /* Убираем will-change когда не hover */
-  &:not(:hover) {
-    will-change: auto;
-  }
+  /* will-change управляется через JavaScript динамически */
 }
 
 .project-card-image-wrapper {
@@ -104,9 +101,7 @@
   /* Предотвращаем размытие при масштабировании */
   transform-origin: center center;
   
-  .project-card:hover & {
-    will-change: transform; /* Добавляем только при hover */
-  }
+  /* will-change управляется через JavaScript динамически */
 }
 
 .project-card-overlay {

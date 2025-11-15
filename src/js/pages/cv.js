@@ -237,6 +237,9 @@ function createHeaderSection(communityData, aboutText, skills) {
   photo.decoding = 'async';
   photo.loading = 'eager';
   photo.fetchPriority = 'high';
+  // Оптимизация: добавляем width и height для предотвращения layout shift
+  photo.setAttribute('width', '400');
+  photo.setAttribute('height', '400');
   photo.onerror = function() {
     this.src = 'assets/images/portrait-placeholder.svg';
   };
