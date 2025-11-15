@@ -47,7 +47,6 @@
   &:hover {
     transform: translate3d(0, -4px, 0);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    will-change: transform;
     width: 100% !important;
     max-width: 100% !important;
     min-width: 0 !important;
@@ -60,11 +59,6 @@
       border-color: var(--color-accent);
       color: var(--color-bg-primary);
     }
-  }
-  
-  /* Убираем will-change когда не hover */
-  &:not(:hover) {
-    will-change: auto;
   }
 }
 

@@ -92,6 +92,11 @@
   body.page-with-scroll .header.hidden {
     will-change: transform;
   }
+  
+  /* Убираем will-change когда анимация завершена */
+  body.page-with-scroll .header:not(.hidden) {
+    will-change: auto;
+  }
 
   body.page-with-scroll .header-content,
   body.page-with-scroll .header-content * {
@@ -127,6 +132,11 @@
   body.page-with-scroll .footer.hidden {
     will-change: transform;
   }
+  
+  /* Убираем will-change когда анимация завершена */
+  body.page-with-scroll .footer:not(.hidden) {
+    will-change: auto;
+  }
 
   body.page-with-scroll .footer-content,
   body.page-with-scroll .footer-content * {
@@ -156,6 +166,11 @@
   /* Добавляем will-change только при анимации */
   body.page-with-scroll .decorative-line-horizontal.hidden {
     will-change: transform;
+  }
+  
+  /* Убираем will-change когда анимация завершена */
+  body.page-with-scroll .decorative-line-horizontal:not(.hidden) {
+    will-change: auto;
   }
 
   body.page-with-scroll .header + .decorative-line-horizontal {

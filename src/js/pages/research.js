@@ -224,6 +224,26 @@ function createResearchCard(publication) {
     card.classList.add('research-card-vkr');
   }
   
+  // Оптимизация: динамически управляем will-change только во время hover анимации
+  let hoverTimeout = null;
+  card.addEventListener('mouseenter', () => {
+    // Добавляем will-change только при начале hover
+    card.style.willChange = 'transform';
+    // Очищаем предыдущий таймер если он был
+    if (hoverTimeout) {
+      clearTimeout(hoverTimeout);
+      hoverTimeout = null;
+    }
+  });
+  
+  card.addEventListener('mouseleave', () => {
+    // Убираем will-change после завершения transition (300ms)
+    hoverTimeout = setTimeout(() => {
+      card.style.willChange = 'auto';
+      hoverTimeout = null;
+    }, 300); // Соответствует длительности transition в CSS
+  });
+  
   return card;
 }
 

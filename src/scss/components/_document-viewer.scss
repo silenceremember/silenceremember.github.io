@@ -13,15 +13,20 @@
   overflow: hidden;
   opacity: 0;
   visibility: hidden;
-  // Оптимизации для производительности анимаций
-  will-change: opacity, visibility;
   transform: translateZ(0); // Создаем слой композиции для оптимизации
   transition: opacity var(--transition-duration-fast) ease-in-out, 
               visibility var(--transition-duration-fast) ease-in-out;
   
+  // Добавляем will-change только при анимации (когда видим или становимся видимыми)
+  &:not([hidden]):not(.visible) {
+    will-change: opacity, visibility;
+  }
+  
   &.visible {
     opacity: 1;
     visibility: visible;
+    // Убираем will-change после завершения анимации
+    will-change: auto;
   }
   
   &[hidden] {
@@ -39,12 +44,18 @@
   cursor: pointer;
   // Убрали backdrop-filter для улучшения производительности в Firefox
   // Используем только background-color для затемнения
-  will-change: background-color;
   transform: translateZ(0); // Создаем слой композиции для оптимизации
   transition: background-color var(--transition-duration-fast) ease-in-out;
   
+  // Добавляем will-change только при анимации (когда модальное окно становится видимым)
+  .document-viewer-modal:not([hidden]):not(.visible) & {
+    will-change: background-color;
+  }
+  
   .document-viewer-modal.visible & {
     background-color: rgba(0, 0, 0, 0.85); // Немного увеличили непрозрачность для компенсации отсутствия blur
+    // Убираем will-change после завершения анимации
+    will-change: auto;
   }
 }
 
@@ -65,8 +76,6 @@
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0);
   overflow: hidden;
   opacity: 0;
-  // Оптимизации для производительности анимаций
-  will-change: opacity, box-shadow, transform;
   transform: translateZ(0); // Создаем слой композиции для оптимизации
   transition: opacity var(--transition-duration-fast) ease-out, 
               box-shadow var(--transition-duration-fast) ease-out,
@@ -79,9 +88,16 @@
               border-bottom var(--transition-duration-fast) ease-out,
               border-right var(--transition-duration-fast) ease-out;
   
+  // Добавляем will-change только при анимации (когда модальное окно становится видимым)
+  .document-viewer-modal:not([hidden]):not(.visible) & {
+    will-change: opacity, box-shadow;
+  }
+  
   .document-viewer-modal.visible & {
     opacity: 1;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    // Убираем will-change после завершения анимации
+    will-change: auto;
   }
   
   @media (max-width: 1023px) {
@@ -294,13 +310,18 @@
   padding: 0;
   vertical-align: top;
   opacity: 0;
-  // Оптимизации для производительности анимаций
-  will-change: opacity;
   transform: translateZ(0); // Создаем слой композиции для оптимизации
   transition: opacity var(--transition-duration-fast) ease-in-out;
   
+  // Добавляем will-change только при анимации (когда iframe загружается)
+  &:not(.loaded) {
+    will-change: opacity;
+  }
+  
   &.loaded {
     opacity: 1;
+    // Убираем will-change после завершения анимации
+    will-change: auto;
   }
   
   // Попытка скрыть скроллбар внутри iframe (может не работать из-за ограничений безопасности)

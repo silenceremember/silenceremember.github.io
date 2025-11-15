@@ -21,6 +21,11 @@
   body:has(.slides-container) .header.hidden {
     will-change: transform;
   }
+  
+  /* Убираем will-change когда анимация завершена */
+  body:has(.slides-container) .header:not(.hidden) {
+    will-change: auto;
+  }
 
   body:has(.slides-container) .header-content,
   body:has(.slides-container) .header-content * {
@@ -42,6 +47,11 @@
   /* Добавляем will-change только при анимации */
   body:has(.slides-container) .footer.hidden {
     will-change: transform;
+  }
+  
+  /* Убираем will-change когда анимация завершена */
+  body:has(.slides-container) .footer:not(.hidden) {
+    will-change: auto;
   }
 
   body:has(.slides-container) .footer-content,
@@ -71,6 +81,12 @@
   body:has(.slides-container) .header + .decorative-line-horizontal.hidden,
   body:has(.slides-container) main + .decorative-line-horizontal.hidden {
     will-change: transform;
+  }
+  
+  /* Убираем will-change когда анимация завершена */
+  body:has(.slides-container) .header + .decorative-line-horizontal:not(.hidden),
+  body:has(.slides-container) main + .decorative-line-horizontal:not(.hidden) {
+    will-change: auto;
   }
 
   body:has(.slides-container) .header + .decorative-line-horizontal {
@@ -167,6 +183,11 @@
   body:not(.page-with-scroll) .header.hidden {
     will-change: transform;
   }
+  
+  /* Убираем will-change когда анимация завершена */
+  body:not(.page-with-scroll) .header:not(.hidden) {
+    will-change: auto;
+  }
 
   body:not(.page-with-scroll) .header-content,
   body:not(.page-with-scroll) .header-content * {
@@ -188,6 +209,11 @@
   /* Добавляем will-change только при анимации */
   body:not(.page-with-scroll) .footer.hidden {
     will-change: transform;
+  }
+  
+  /* Убираем will-change когда анимация завершена */
+  body:not(.page-with-scroll) .footer:not(.hidden) {
+    will-change: auto;
   }
 
   body:not(.page-with-scroll) .footer-content,
@@ -217,6 +243,12 @@
   body:not(.page-with-scroll) .header + .decorative-line-horizontal.hidden,
   body:not(.page-with-scroll) main + .decorative-line-horizontal.hidden {
     will-change: transform;
+  }
+  
+  /* Убираем will-change когда анимация завершена */
+  body:not(.page-with-scroll) .header + .decorative-line-horizontal:not(.hidden),
+  body:not(.page-with-scroll) main + .decorative-line-horizontal:not(.hidden) {
+    will-change: auto;
   }
 
   body:not(.page-with-scroll) .header + .decorative-line-horizontal {
@@ -454,6 +486,11 @@
   body.page-with-scroll .header.hidden {
     will-change: transform;
   }
+  
+  /* Убираем will-change когда анимация завершена */
+  body.page-with-scroll .header:not(.hidden) {
+    will-change: auto;
+  }
 
   body.page-with-scroll .header-content,
   body.page-with-scroll .header-content * {
@@ -489,6 +526,11 @@
   body.page-with-scroll .footer.hidden {
     will-change: transform;
   }
+  
+  /* Убираем will-change когда анимация завершена */
+  body.page-with-scroll .footer:not(.hidden) {
+    will-change: auto;
+  }
 
   body.page-with-scroll .footer-content,
   body.page-with-scroll .footer-content * {
@@ -517,6 +559,12 @@
   body.page-with-scroll .header + .decorative-line-horizontal.hidden,
   body.page-with-scroll main + .decorative-line-horizontal.hidden {
     will-change: transform;
+  }
+  
+  /* Убираем will-change когда анимация завершена */
+  body.page-with-scroll .header + .decorative-line-horizontal:not(.hidden),
+  body.page-with-scroll main + .decorative-line-horizontal:not(.hidden) {
+    will-change: auto;
   }
 
   body.page-with-scroll .header + .decorative-line-horizontal {
