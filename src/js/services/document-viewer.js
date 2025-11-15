@@ -533,31 +533,47 @@ export async function openDocument({ url, title, isDraft = false, draftNote = '�
     titleElement.textContent = displayTitle;
   }
   
-  // Устанавливаем URL для iframe (используем встроенный PDF viewer браузера)
+  // Проверяем, является ли URL ссылкой на Google Drive (один раз для оптимизации)
+  const googleDriveMatch = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
+  const fileId = googleDriveMatch ? googleDriveMatch[1] : null;
+  
+  // Устанавливаем URL для iframe (используем Google Docs Viewer для предпросмотра PDF)
   // Используем кэшированный элемент для оптимизации производительности
   if (iframe) {
     // Сбрасываем класс loaded перед загрузкой нового документа
     iframe.classList.remove('loaded');
     
-    // Используем встроенный PDF viewer браузера вместо Google Docs Viewer
-    // Это устраняет CSP предупреждения от Google Docs Viewer и работает быстрее
-    const pdfUrl = url.startsWith('http') ? url : `/${url}`;
-    const fullPdfUrl = pdfUrl.startsWith('http') ? pdfUrl : `${window.location.origin}${pdfUrl}`;
+    let viewerUrl;
     
-    // Устанавливаем type для правильной обработки PDF браузером
-    iframe.setAttribute('type', 'application/pdf');
+    if (fileId) {
+      // Используем встроенный просмотр Google Drive
+      viewerUrl = `https://drive.google.com/file/d/${fileId}/preview`;
+    } else {
+      // Формируем полный URL PDF документа
+      const pdfUrl = url.startsWith('http') ? url : `/${url}`;
+      const fullPdfUrl = pdfUrl.startsWith('http') ? pdfUrl : `${window.location.origin}${pdfUrl}`;
+      
+      // Используем Google Docs Viewer для предпросмотра PDF
+      viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(fullPdfUrl)}&embedded=true`;
+    }
     
-    // Прямая загрузка PDF в iframe - браузер использует встроенный viewer
-    // Это устраняет все CSP предупреждения, так как PDF загружается напрямую
-    iframe.src = fullPdfUrl;
+    iframe.src = viewerUrl;
     
-    // Убираем sandbox, если он был установлен ранее (для корректной работы PDF viewer)
+    // Убираем type, так как Google Viewer возвращает HTML
+    iframe.removeAttribute('type');
+    
+    // Убираем sandbox, если он был установлен ранее (для корректной работы Google Viewer)
     iframe.removeAttribute('sandbox');
   }
   
   // Устанавливаем ссылку для скачивания
   if (downloadLink) {
-    downloadLink.href = url.startsWith('http') ? url : `/${url}`;
+    if (fileId) {
+      // Используем прямую ссылку на скачивание из Google Drive
+      downloadLink.href = `https://drive.google.com/uc?export=download&id=${fileId}`;
+    } else {
+      downloadLink.href = url.startsWith('http') ? url : `/${url}`;
+    }
   }
   
   // Показываем вотермарку для черновика
