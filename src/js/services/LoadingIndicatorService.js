@@ -145,6 +145,9 @@ export class LoadingIndicatorService {
   createAndShowLoading() {
     let loadingElement = document.getElementById(this.loadingId);
     
+    // Если индикатор уже есть в контейнере, не очищаем контейнер
+    const loadingExistsInContainer = loadingElement && this.container && this.container.contains(loadingElement);
+    
     if (!loadingElement) {
       loadingElement = document.createElement('div');
       loadingElement.className = 'loading';
@@ -159,11 +162,14 @@ export class LoadingIndicatorService {
     }
     
     if (this.container) {
-      this.container.innerHTML = '';
+      // Очищаем контейнер только если индикатор еще не находится в нем
+      if (!loadingExistsInContainer) {
+        this.container.innerHTML = '';
+        this.container.appendChild(loadingElement);
+      }
       this.container.style.opacity = '0';
       this.container.style.transform = '';
       this.container.style.visibility = 'visible';
-      this.container.appendChild(loadingElement);
     }
     
     // Убираем класс hidden если он есть

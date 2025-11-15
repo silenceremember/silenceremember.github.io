@@ -7,6 +7,7 @@ import { BasePage } from './BasePage.js';
 import { loadData } from '../utils/DataLoader.js';
 import { CVAnimationManager } from '../managers/CVAnimationManager.js';
 import { DateFormatter } from '../utils/DateFormatter.js';
+import { LoadingIndicatorService } from '../services/LoadingIndicatorService.js';
 
 /**
  * Класс страницы резюме
@@ -608,6 +609,11 @@ export class CVPage extends BasePage {
   async init() {
     await this.initBase();
 
+    // Инициализируем сервис индикатора загрузки
+    this.loadingIndicator = new LoadingIndicatorService('cv-loading', 'cv-loading-container');
+    this.loadingIndicator.init();
+    this.loadingIndicator.show();
+
     // Скрываем все элементы сразу для предотвращения FOUC
     this.animationManager.hideAllCVElementsImmediately();
     
@@ -617,6 +623,9 @@ export class CVPage extends BasePage {
     // Загружаем данные
     const cvData = await this.loadCVData();
     const communityData = await this.loadCommunityData();
+    
+    // Скрываем индикатор загрузки и ждем завершения fadeout
+    await this.loadingIndicator.hide();
     
     if (!cvData) {
       const headerSection = document.getElementById('cv-header-section');

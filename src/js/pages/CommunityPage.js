@@ -6,6 +6,7 @@ import { BasePage } from './BasePage.js';
 import { loadData } from '../utils/DataLoader.js';
 import { CardFactory } from '../factories/CardFactory.js';
 import { CommunityAnimationManager } from '../managers/CommunityAnimationManager.js';
+import { LoadingIndicatorService } from '../services/LoadingIndicatorService.js';
 
 /**
  * Класс страницы сообщества
@@ -323,11 +324,19 @@ export class CommunityPage extends BasePage {
     // Инициализируем базовые компоненты (навигация, scroll-to-top, SVG loader)
     await this.initBase();
     
+    // Инициализируем сервис индикатора загрузки
+    this.loadingIndicator = new LoadingIndicatorService('community-loading', 'community-loading-container');
+    this.loadingIndicator.init();
+    this.loadingIndicator.show();
+    
     // Скрываем все элементы сразу для предотвращения FOUC
     this.animationManager.hideAllCommunityElementsImmediately();
     
     // Загружаем данные
     const data = await this.loadCommunityData();
+    
+    // Скрываем индикатор загрузки и ждем завершения fadeout
+    await this.loadingIndicator.hide();
     
     if (!data) {
       return;
