@@ -48,10 +48,13 @@ export function getAvailableRoles() {
   return Object.keys(ROLE_LABELS);
 }
 
-export default {
-  getRoleLabel,
-  getAvailableRoles,
-  ROLE_LABELS,
-  ROLE_LABELS_DETAILED
-};
+/**
+ * Маппинг ролей на читаемые значения
+ */
+export { ROLE_LABELS };
+
+/**
+ * Маппинг ролей для главной страницы (более детальные описания)
+ */
+export { ROLE_LABELS_DETAILED };
 

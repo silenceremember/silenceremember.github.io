@@ -13,6 +13,9 @@ import { backgroundImageService } from '../services/BackgroundImageService.js';
  * Класс для главной страницы
  */
 export class IndexPage extends BasePage {
+  /**
+   * Создает экземпляр страницы главной страницы
+   */
   constructor() {
     super({
       navigationSelector: '#cta-section',

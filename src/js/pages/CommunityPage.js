@@ -11,6 +11,9 @@ import { CommunityAnimationManager } from '../managers/CommunityAnimationManager
  * Класс страницы сообщества
  */
 export class CommunityPage extends BasePage {
+  /**
+   * Создает экземпляр страницы сообщества
+   */
   constructor() {
     super({
       navigationSelector: '.community-navigation',

@@ -13,6 +13,9 @@ import { ProjectGroupingManager } from '../managers/ProjectGroupingManager.js';
  * Класс страницы проектов
  */
 export class ProjectsPage extends BasePage {
+  /**
+   * Создает экземпляр страницы проектов
+   */
   constructor() {
     super({
       navigationSelector: '.projects-navigation',

@@ -2,6 +2,9 @@
  * Переключатель языка
  */
 export class LanguageSwitcher {
+  /**
+   * Создает экземпляр переключателя языка
+   */
   constructor() {
     this.languageButton = null;
     this.currentLanguage = 'ru';

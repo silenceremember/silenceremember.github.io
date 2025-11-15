@@ -13,6 +13,9 @@ import { animateElementsAppearance, animateSectionAppearance, animateElementAppe
  * Класс страницы исследований
  */
 export class ResearchPage extends BasePage {
+  /**
+   * Создает экземпляр страницы исследований
+   */
   constructor() {
     super({
       navigationSelector: '.research-navigation',

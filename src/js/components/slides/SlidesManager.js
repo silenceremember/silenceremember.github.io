@@ -4,6 +4,9 @@
 import { ScrollManager } from '../scroll/ScrollManager.js';
 
 export class SlidesManager {
+  /**
+   * Создает экземпляр менеджера слайдов
+   */
   constructor() {
     this.slidesContainer = null;
     this.slides = null;

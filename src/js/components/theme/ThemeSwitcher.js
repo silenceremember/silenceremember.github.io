@@ -2,6 +2,9 @@
  * Переключатель темы
  */
 export class ThemeSwitcher {
+  /**
+   * Создает экземпляр переключателя темы
+   */
   constructor() {
     this.themeButton = null;
     this.moonIcon = null;

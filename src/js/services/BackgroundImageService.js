@@ -2,6 +2,9 @@
  * Сервис для ленивой загрузки фоновых изображений через Intersection Observer
  */
 export class BackgroundImageService {
+  /**
+   * Создает экземпляр сервиса фоновых изображений
+   */
   constructor() {
     this.observer = null;
     this.observedElements = new WeakSet();

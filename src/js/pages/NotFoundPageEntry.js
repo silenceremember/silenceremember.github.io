@@ -27,5 +27,3 @@ window.addEventListener('pageshow', (event) => {
   }
 });
 
-export default notFoundPage;
-

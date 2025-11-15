@@ -12,6 +12,9 @@ import { DateFormatter } from '../utils/DateFormatter.js';
  * Класс страницы резюме
  */
 export class CVPage extends BasePage {
+  /**
+   * Создает экземпляр страницы резюме
+   */
   constructor() {
     super({
       navigationSelector: '.cv-navigation',

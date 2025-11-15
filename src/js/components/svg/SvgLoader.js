@@ -2,6 +2,9 @@
  * Загрузчик SVG иконок
  */
 export class SvgLoader {
+  /**
+   * Создает экземпляр загрузчика SVG
+   */
   constructor() {
     this.loadedElements = new WeakSet();
   }

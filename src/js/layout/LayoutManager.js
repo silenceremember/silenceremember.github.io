@@ -4,6 +4,9 @@
 import { NavigationHelper } from '../utils/navigation.js';
 
 export class LayoutManager {
+  /**
+   * Создает экземпляр менеджера layout
+   */
   constructor() {
     this.headerElement = null;
     this.footerElement = null;
