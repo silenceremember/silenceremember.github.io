@@ -10,6 +10,7 @@ import { IndexPage, hideAllSlideElementsEarly } from './pages/index.js';
 import { ProjectsPage } from './pages/projects.js';
 import { CVPage } from './pages/cv.js';
 import { ResearchPage } from './pages/research.js';
+import { CommunityPage } from './pages/community.js';
 
 
 function updateFadeInElements() {
@@ -113,8 +114,19 @@ async function initCurrentPage() {
       await researchPage.init();
       break;
       
+    case 'community':
+      const communityPage = new CommunityPage();
+      await communityPage.init();
+      
+      // Обработчик для случая загрузки страницы из кеша (bfcache)
+      // Это важно для SPA-подобной навигации
+      window.addEventListener('pageshow', (event) => {
+        communityPage.handlePageshow(event);
+      });
+      break;
+      
     default:
-      // Для других страниц (404, community) используем scroll handler
+      // Для других страниц (404) используем scroll handler
       if (document.body.classList.contains('page-404') || document.body.classList.contains('page-with-scroll')) {
         initScrollHandler('.page-wrapper');
       }
