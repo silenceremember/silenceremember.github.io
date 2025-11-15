@@ -3,16 +3,23 @@
  * Инициализирует NotFoundPage и обрабатывает события загрузки страницы
  */
 import { NotFoundPage } from './NotFoundPage.js';
+import { BasePage } from './BasePage.js';
 
 const notFoundPage = new NotFoundPage();
 
 // Инициализация при загрузке DOM
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => {
-    notFoundPage.init();
+  document.addEventListener('DOMContentLoaded', async () => {
+    await notFoundPage.init();
+    // Показываем контент с fade-in эффектом после инициализации страницы
+    BasePage.updateFadeInElements();
   });
 } else {
-  notFoundPage.init();
+  (async () => {
+    await notFoundPage.init();
+    // Показываем контент с fade-in эффектом после инициализации страницы
+    BasePage.updateFadeInElements();
+  })();
 }
 
 // Обработчик для случая загрузки страницы из кеша (bfcache)

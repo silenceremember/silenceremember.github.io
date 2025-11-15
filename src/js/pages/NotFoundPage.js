@@ -117,6 +117,9 @@ export class NotFoundPage extends BasePage {
    * @returns {Promise<void>}
    */
   async init() {
+    // Инициализируем базовые компоненты (header, footer, навигация и т.д.)
+    await this.initBase();
+
     // Скрываем элементы сразу при инициализации
     this.hideAllElementsImmediately();
 
