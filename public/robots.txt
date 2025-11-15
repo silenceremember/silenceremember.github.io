@@ -1,0 +1,25 @@
+# robots.txt для портфолио Maxim Elchaninov
+# Разрешаем индексацию всех страниц
+
+User-agent: *
+Allow: /
+
+# Запрещаем индексацию служебных файлов и директорий
+Disallow: /assets/documents/
+Disallow: /node_modules/
+Disallow: /*.json$
+
+# Указываем расположение sitemap
+Sitemap: https://yourdomain.com/sitemap.xml
+
+# Crawl-delay для вежливого сканирования (опционально)
+Crawl-delay: 1
+
+
+
+
+
+
+
+
+

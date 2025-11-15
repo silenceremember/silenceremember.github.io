@@ -1,7 +1,6 @@
 # Vite
 dist
 .vite
-/public/
 
 # Node
 node_modules
