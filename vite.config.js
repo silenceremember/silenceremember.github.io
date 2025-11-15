@@ -5,6 +5,7 @@ import path from 'path';
 
 export default defineConfig({
   root: 'src',
+  publicDir: '../public',
   plugins: [
     {
       name: 'custom-404-plugin',
