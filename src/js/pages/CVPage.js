@@ -497,7 +497,6 @@ export class CVPage extends BasePage {
     button.addEventListener('click', (e) => {
       e.preventDefault();
       // TODO: Реализовать генерацию/скачивание PDF
-      console.log('Скачивание PDF резюме');
       alert('Функция скачивания PDF будет реализована позже');
     });
     

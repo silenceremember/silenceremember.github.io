@@ -1,8 +1,8 @@
 /**
  * Базовый класс для всех страниц
  */
-import { PageReadyManager } from '../utils/page-ready.js';
-import { NavigationHelper, MenuButtonScrollHandler } from '../utils/navigation.js';
+import { PageReadyManager } from '../utils/PageReady.js';
+import { NavigationHelper, MenuButtonScrollHandler } from '../utils/Navigation.js';
 import { ScrollToTopButton } from '../components/scroll/ScrollToTopButton.js';
 import { SvgLoader } from '../components/svg/SvgLoader.js';
 import { LayoutManager } from '../layout/LayoutManager.js';

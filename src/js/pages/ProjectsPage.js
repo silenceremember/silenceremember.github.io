@@ -66,7 +66,6 @@ export class ProjectsPage extends BasePage {
    * Открывает детальную страницу проекта
    */
   openProjectDetails(project) {
-    console.log('Открытие проекта:', project.title);
     // TODO: Реализовать модальное окно с деталями проекта
   }
 

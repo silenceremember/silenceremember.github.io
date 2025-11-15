@@ -1,7 +1,7 @@
 /**
  * Менеджер layout страницы
  */
-import { NavigationHelper } from '../utils/navigation.js';
+import { NavigationHelper } from '../utils/Navigation.js';
 
 export class LayoutManager {
   /**
