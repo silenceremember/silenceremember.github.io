@@ -21,21 +21,41 @@ export class BasePage {
   }
 
   /**
+   * Инициализирует навигацию
+   * @param {string} navigationSelector - Селектор навигационного контейнера
+   */
+  initNavigation(navigationSelector) {
+    if (!navigationSelector) {
+      return;
+    }
+
+    // Выделяем активную ссылку в навигации
+    NavigationHelper.setActiveNavigationLink(navigationSelector);
+    
+    // Инициализируем обработчик прокрутки к навигации
+    this.menuButtonScrollHandler = new MenuButtonScrollHandler(navigationSelector);
+    this.menuButtonScrollHandler.init();
+  }
+
+  /**
+   * Инициализирует кнопку "Наверх"
+   */
+  initScrollToTop() {
+    this.scrollToTopButton = new ScrollToTopButton();
+    this.scrollToTopButton.init();
+  }
+
+  /**
    * Инициализирует базовые компоненты страницы
    */
   async initBase() {
     // Инициализируем навигацию
     if (this.navigationSelector) {
-      NavigationHelper.setActiveNavigationLink(this.navigationSelector);
-      
-      // Инициализируем обработчик прокрутки к навигации
-      this.menuButtonScrollHandler = new MenuButtonScrollHandler(this.navigationSelector);
-      this.menuButtonScrollHandler.init();
+      this.initNavigation(this.navigationSelector);
     }
 
     // Инициализируем кнопку "Наверх"
-    this.scrollToTopButton = new ScrollToTopButton();
-    this.scrollToTopButton.init();
+    this.initScrollToTop();
 
     // Загружаем SVG иконки
     await this.svgLoader.init();
@@ -43,6 +63,7 @@ export class BasePage {
 
   /**
    * Ожидает готовности страницы
+   * Использует PageReadyManager для ожидания загрузки изображений и шрифтов
    */
   async waitForPageReady() {
     return PageReadyManager.waitForPageReady(this.imageSelector);
