@@ -2,7 +2,7 @@
  * Страница сообщества - загрузка и отображение данных из JSON
  */
 
-import { loadData } from '../utils/data-loader.js';
+import { loadData } from '../utils/DataLoader.js';
 import { initScrollToTop } from '../components/scroll-to-top.js';
 import { CommunityAnimationManager } from '../managers/CommunityAnimationManager.js';
 

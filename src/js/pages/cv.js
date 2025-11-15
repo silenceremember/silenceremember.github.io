@@ -4,7 +4,7 @@
  */
 
 import { loadHTML } from '../layout.js';
-import { loadData } from '../utils/data-loader.js';
+import { loadData } from '../utils/DataLoader.js';
 import { initScrollToTop } from '../components/scroll-to-top.js';
 import { CVAnimationManager } from '../managers/CVAnimationManager.js';
 

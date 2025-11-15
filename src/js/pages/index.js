@@ -3,7 +3,7 @@
  */
 
 import { getRoleLabel } from '../utils/role-mapper.js';
-import { loadData } from '../utils/data-loader.js';
+import { loadData } from '../utils/DataLoader.js';
 import { initScrollToTop } from '../components/scroll-to-top.js';
 import { SlideAnimationManager } from '../managers/SlideAnimationManager.js';
 
