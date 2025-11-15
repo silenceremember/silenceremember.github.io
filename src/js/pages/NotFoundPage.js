@@ -3,7 +3,7 @@
  */
 import { BasePage } from './BasePage.js';
 import { DOMHelper } from '../utils/dom-helpers.js';
-import { animateElementsAppearance } from '../utils/animations.js';
+import { animateElementsAppearance } from '../utils/AnimationUtils.js';
 
 export class NotFoundPage extends BasePage {
   constructor() {

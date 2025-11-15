@@ -5,7 +5,7 @@
 import { loadHTML } from '../layout.js';
 import { getRoleLabel } from '../utils/role-mapper.js';
 import { loadData } from '../utils/data-loader.js';
-import { ANIMATION_CONFIG, animateElementsAppearance, animateElementAppearance } from '../utils/animations.js';
+import { ANIMATION_CONFIG, animateElementsAppearance, animateElementAppearance } from '../utils/AnimationUtils.js';
 import { ProjectFiltersManager } from '../managers/ProjectFiltersManager.js';
 import { ProjectGroupingManager } from '../managers/ProjectGroupingManager.js';
 

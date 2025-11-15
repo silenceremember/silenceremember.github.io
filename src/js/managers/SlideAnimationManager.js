@@ -3,7 +3,7 @@
  * Управляет анимациями появления элементов при переключении слайдов и смене режимов
  */
 
-import { animateElementAppearance, animateElementsAppearance } from '../utils/animations.js';
+import { animateElementAppearance, animateElementsAppearance } from '../utils/AnimationUtils.js';
 
 /**
  * Класс для управления анимациями слайдов

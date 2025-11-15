@@ -5,7 +5,7 @@
 import { loadHTML } from '../layout.js';
 import { loadData } from '../utils/data-loader.js';
 import { initScrollToTop } from '../components/scroll-to-top.js';
-import { ANIMATION_CONFIG as CARD_ANIMATION, animateElementsAppearance, animateSectionAppearance, animateElementAppearance } from '../utils/animations.js';
+import { ANIMATION_CONFIG as CARD_ANIMATION, animateElementsAppearance, animateSectionAppearance, animateElementAppearance } from '../utils/AnimationUtils.js';
 
 // Загрузка компонентов
 let researchCardTemplate = null;

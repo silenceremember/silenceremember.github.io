@@ -3,7 +3,7 @@
  * Управляет анимациями появления элементов на странице сообщества
  */
 
-import { animateSectionAppearance, animateElementsAppearance } from '../utils/animations.js';
+import { animateSectionAppearance, animateElementsAppearance } from '../utils/AnimationUtils.js';
 
 /**
  * Класс для управления анимациями страницы сообщества

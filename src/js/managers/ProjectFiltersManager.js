@@ -4,7 +4,7 @@
  */
 
 import { CardFactory } from '../factories/CardFactory.js';
-import { ANIMATION_CONFIG, animateElementsAppearance, animateElementAppearance } from '../utils/animations.js';
+import { ANIMATION_CONFIG, animateElementsAppearance, animateElementAppearance } from '../utils/AnimationUtils.js';
 import { loadHTML } from '../layout.js';
 
 /**

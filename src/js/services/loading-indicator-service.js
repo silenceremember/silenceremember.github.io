@@ -1,7 +1,7 @@
 /**
  * Сервис для управления индикаторами загрузки с анимацией
  */
-import { ANIMATION_CONFIG } from '../utils/animations.js';
+import { ANIMATION_CONFIG } from '../utils/AnimationUtils.js';
 
 export class LoadingIndicatorService {
   /**

@@ -3,7 +3,7 @@
  * @module managers/ProjectGroupingManager
  */
 
-import { ANIMATION_CONFIG, animateElementsAppearance } from '../utils/animations.js';
+import { ANIMATION_CONFIG, animateElementsAppearance } from '../utils/AnimationUtils.js';
 
 /**
  * Класс для управления группировкой и отображением проектов
