@@ -226,7 +226,7 @@ function waitForFontsLoaded() {
  */
 function waitForImagesLoaded() {
   return new Promise((resolve) => {
-    const firstSlide = document.querySelector('.slide[data-slide="0"]');
+  const firstSlide = document.querySelector('.slide[data-slide="0"]');
     if (!firstSlide) {
       resolve();
       return;
@@ -298,7 +298,7 @@ function initializeFirstSlideAnimation() {
   // Принудительный reflow для применения стилей скрытия
   if (slides.length > 0 && slides[0].firstElementChild) {
     void slides[0].firstElementChild.offsetHeight;
-  }
+      }
   
   // Используем двойной requestAnimationFrame для синхронизации с браузером
   requestAnimationFrame(() => {
@@ -349,11 +349,11 @@ function initializeFirstSlideAnimation() {
           }
           if (lastActiveSlideIndex === null) {
             lastActiveSlideIndex = 0; // Первый слайд
-            animateFirstSlide();
+      animateFirstSlide();
           }
         }
-        // Настраиваем анимации при переключении слайдов
-        setupSlideAnimations();
+      // Настраиваем анимации при переключении слайдов
+      setupSlideAnimations();
       }, 100); // 100ms задержка для гарантии применения стилей и готовности страницы
     });
   });
@@ -484,7 +484,7 @@ function restartAnimationsOnModeChange() {
             // Используем animateElementsAppearance для одновременной анимации всех элементов
             animateElementsAppearance(elementsToAnimate, { skipInitialState: true });
           });
-        });
+  });
       } else {
         // Если все элементы уже видимы, просто сбрасываем флаг без анимации
         isAnimating = false;
@@ -559,7 +559,7 @@ function setupSlideAnimations() {
           
           // Небольшая задержка для гарантии применения изменений класса и debounce
           slideAnimationTimeout = setTimeout(() => {
-            animateSlideContent(slide);
+          animateSlideContent(slide);
             slideAnimationTimeout = null;
           }, 100); // Увеличена задержка для debounce
         }

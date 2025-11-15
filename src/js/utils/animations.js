@@ -141,17 +141,17 @@ export function animateElementsAppearance(elements, options = {}) {
   
   // Устанавливаем начальное состояние для всех элементов СИНХРОННО (если не пропущено)
   if (!skipInitialState) {
-    elementsArray.forEach(element => {
-      if (element) {
+  elementsArray.forEach(element => {
+    if (element) {
         element.style.setProperty('opacity', '0', 'important');
         element.style.setProperty('transform', `translateY(${translateYAppear})`, 'important');
         element.style.setProperty('transition', 'none', 'important');
-      }
-    });
-    
-    // Принудительный reflow для применения стилей
-    if (elementsArray.length > 0 && elementsArray[0]) {
-      void elementsArray[0].offsetHeight;
+    }
+  });
+  
+  // Принудительный reflow для применения стилей
+  if (elementsArray.length > 0 && elementsArray[0]) {
+    void elementsArray[0].offsetHeight;
     }
   }
   
