@@ -5,7 +5,7 @@ import { initThemeSwitcher } from './components/theme-switcher';
 import { initLanguageSwitcher } from './components/language-switcher';
 import initSvgLoader from './components/svg-loader';
 import { initScrollHandler } from './components/scroll';
-import { debounce } from './utils/debounce';
+import { debounce } from './utils/DebounceUtils.js';
 
 
 function updateFadeInElements() {
