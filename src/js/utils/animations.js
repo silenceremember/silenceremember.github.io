@@ -59,19 +59,68 @@ export function animateElementAppearance(element, options = {}) {
         element.style.opacity = '0';
         element.style.transform = `translateY(${config.translateYAppear})`;
         element.style.transition = 'none';
+      } else {
+        // Если skipInitialState: true, проверяем что начальное состояние действительно установлено
+        // Проверяем computed style для точности
+        const computedStyle = window.getComputedStyle(element);
+        const computedOpacity = parseFloat(computedStyle.opacity);
+        const inlineOpacity = element.style.opacity;
+        const inlineTransform = element.style.transform;
+        const inlineTransition = element.style.transition;
+        
+        // Если элемент видим или inline стили не установлены, устанавливаем начальное состояние
+        if (computedOpacity > 0.01 || 
+            !inlineOpacity || inlineOpacity === '' || 
+            !inlineTransform || inlineTransform === '' ||
+            (inlineTransition && inlineTransition !== 'none')) {
+          // Используем setProperty для гарантии применения (может быть с !important если нужно)
+          element.style.setProperty('opacity', '0', 'important');
+          element.style.setProperty('transform', `translateY(${config.translateYAppear})`, 'important');
+          element.style.setProperty('transition', 'none', 'important');
+          // Принудительный reflow для применения стилей
+          void element.offsetHeight;
+        }
       }
       
       // Применяем анимацию
       requestAnimationFrame(() => {
+        // Финальная проверка начального состояния перед анимацией
+        const finalComputedStyle = window.getComputedStyle(element);
+        const finalOpacity = parseFloat(finalComputedStyle.opacity);
+        const finalInlineOpacity = element.style.opacity;
+        const finalInlineTransform = element.style.transform;
+        
+        // Если элемент все еще видим или стили не установлены, устанавливаем начальное состояние
+        if (finalOpacity > 0.01 || 
+            !finalInlineOpacity || finalInlineOpacity === '' || 
+            !finalInlineTransform || finalInlineTransform === '') {
+          // Используем setProperty с !important для гарантии применения
+          element.style.setProperty('opacity', '0', 'important');
+          element.style.setProperty('transform', `translateY(${config.translateYAppear})`, 'important');
+          element.style.setProperty('transition', 'none', 'important');
+          // Принудительный reflow для применения стилей
+          void element.offsetHeight;
+        }
+        
+        // Устанавливаем transition и финальное состояние
+        // Важно: сначала устанавливаем transition, затем делаем reflow, затем меняем значения
+        // Убираем !important перед установкой transition для корректной работы анимации
+        element.style.removeProperty('transition');
         element.style.transition = `opacity ${config.duration} ${config.timing}, transform ${config.duration} ${config.timing}`;
+        // Принудительный reflow перед изменением opacity и transform для гарантии применения transition
+        void element.offsetHeight;
+        
+        // Устанавливаем финальные значения одновременно (без !important для корректной анимации)
+        element.style.removeProperty('opacity');
+        element.style.removeProperty('transform');
         element.style.opacity = '1';
         element.style.transform = `translateY(${config.translateYFinal})`;
         
         // Убираем inline стили после анимации
         setTimeout(() => {
-          element.style.transform = '';
-          element.style.opacity = '';
-          element.style.transition = '';
+          element.style.removeProperty('transform');
+          element.style.removeProperty('opacity');
+          element.style.removeProperty('transition');
         }, config.timeout);
       });
     });
