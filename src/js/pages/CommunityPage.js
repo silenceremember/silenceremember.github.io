@@ -6,7 +6,6 @@ import { BasePage } from './BasePage.js';
 import { loadData } from '../utils/DataLoader.js';
 import { CardFactory } from '../factories/CardFactory.js';
 import { CommunityAnimationManager } from '../managers/CommunityAnimationManager.js';
-import { LoadingIndicatorService } from '../services/LoadingIndicatorService.js';
 
 /**
  * Класс страницы сообщества
@@ -67,13 +66,11 @@ export class CommunityPage extends BasePage {
       return null;
     }
     
-    const section = document.createElement('div');
-    section.className = 'community-section';
-    
-    const title = document.createElement('h2');
-    title.className = 'community-section-title';
-    title.textContent = 'DISCORD СЕРВЕР';
-    section.appendChild(title);
+    const section = this.createSectionWithTitle({
+      className: 'community-section',
+      title: 'DISCORD СЕРВЕР',
+      titleClassName: 'community-section-title'
+    });
     
     const isPlaceholder = !discord.link || discord.link === 'https://discord.gg/...';
     const card = CardFactory.createCommunityCard({
@@ -106,13 +103,11 @@ export class CommunityPage extends BasePage {
       return null;
     }
     
-    const section = document.createElement('div');
-    section.className = 'community-section';
-    
-    const title = document.createElement('h2');
-    title.className = 'community-section-title';
-    title.textContent = 'СОЦИАЛЬНЫЕ СЕТИ';
-    section.appendChild(title);
+    const section = this.createSectionWithTitle({
+      className: 'community-section',
+      title: 'СОЦИАЛЬНЫЕ СЕТИ',
+      titleClassName: 'community-section-title'
+    });
     
     const linksContainer = document.createElement('div');
     linksContainer.className = 'community-social-links';
@@ -153,13 +148,11 @@ export class CommunityPage extends BasePage {
       return null;
     }
     
-    const section = document.createElement('div');
-    section.className = 'community-section';
-    
-    const title = document.createElement('h2');
-    title.className = 'community-section-title';
-    title.textContent = 'ПОДДЕРЖКА';
-    section.appendChild(title);
+    const section = this.createSectionWithTitle({
+      className: 'community-section',
+      title: 'ПОДДЕРЖКА',
+      titleClassName: 'community-section-title'
+    });
     
     const linksContainer = document.createElement('div');
     linksContainer.className = 'community-donations-links';
@@ -194,13 +187,11 @@ export class CommunityPage extends BasePage {
       return null;
     }
     
-    const section = document.createElement('div');
-    section.className = 'community-section';
-    
-    const title = document.createElement('h2');
-    title.className = 'community-section-title';
-    title.textContent = 'РАБОТА';
-    section.appendChild(title);
+    const section = this.createSectionWithTitle({
+      className: 'community-section',
+      title: 'РАБОТА',
+      titleClassName: 'community-section-title'
+    });
     
     const linksContainer = document.createElement('div');
     linksContainer.className = 'community-social-links';
@@ -242,13 +233,11 @@ export class CommunityPage extends BasePage {
       return null;
     }
     
-    const section = document.createElement('div');
-    section.className = 'community-section';
-    
-    const title = document.createElement('h2');
-    title.className = 'community-section-title';
-    title.textContent = 'ПРЕДСТОЯЩИЕ СОБЫТИЯ';
-    section.appendChild(title);
+    const section = this.createSectionWithTitle({
+      className: 'community-section',
+      title: 'ПРЕДСТОЯЩИЕ СОБЫТИЯ',
+      titleClassName: 'community-section-title'
+    });
     
     const eventsList = document.createElement('div');
     eventsList.className = 'community-events-list';
@@ -325,8 +314,7 @@ export class CommunityPage extends BasePage {
     await this.initBase();
     
     // Инициализируем сервис индикатора загрузки
-    this.loadingIndicator = new LoadingIndicatorService('community-loading', 'community-loading-container');
-    this.loadingIndicator.init();
+    this.initLoadingIndicator('community-loading', 'community-loading-container');
     this.loadingIndicator.show();
     
     // Скрываем все элементы сразу для предотвращения FOUC

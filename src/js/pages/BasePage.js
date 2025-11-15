@@ -9,6 +9,7 @@ import { LayoutManager } from '../layout/LayoutManager.js';
 import { ThemeSwitcher } from '../components/index.js';
 import { LanguageSwitcher } from '../components/index.js';
 import { CustomCursor } from '../components/index.js';
+import { LoadingIndicatorService } from '../services/LoadingIndicatorService.js';
 
 // Глобальные компоненты инициализируются один раз
 let globalComponentsInitialized = false;
@@ -25,6 +26,8 @@ export class BasePage {
     this.menuButtonScrollHandler = null;
     this.scrollToTopButton = null;
     this.svgLoader = new SvgLoader();
+    this.layoutManager = null;
+    this.loadingIndicator = null;
   }
 
   /**
@@ -142,13 +145,61 @@ export class BasePage {
   }
 
   /**
+   * Получает или создает экземпляр LayoutManager
+   * @returns {LayoutManager} Экземпляр LayoutManager
+   */
+  getLayoutManager() {
+    if (!this.layoutManager) {
+      this.layoutManager = new LayoutManager();
+    }
+    return this.layoutManager;
+  }
+
+  /**
    * Загружает HTML шаблон
    * @param {string} url - URL шаблона
    * @returns {Promise<string>} HTML содержимое шаблона
    */
   async loadHTML(url) {
-    const layoutManager = new LayoutManager();
+    const layoutManager = this.getLayoutManager();
     return layoutManager.loadHTML(url);
+  }
+
+  /**
+   * Инициализирует индикатор загрузки
+   * @param {string} loadingId - ID элемента индикатора загрузки
+   * @param {string} containerId - ID контейнера для индикатора
+   * @returns {LoadingIndicatorService} Экземпляр LoadingIndicatorService
+   */
+  initLoadingIndicator(loadingId, containerId) {
+    this.loadingIndicator = new LoadingIndicatorService(loadingId, containerId);
+    this.loadingIndicator.init();
+    return this.loadingIndicator;
+  }
+
+  /**
+   * Создает базовую секцию с заголовком
+   * @param {Object} config - Конфигурация секции
+   * @param {string} config.className - CSS класс секции
+   * @param {string} config.title - Текст заголовка
+   * @param {string} config.titleClassName - CSS класс заголовка (по умолчанию 'section-title')
+   * @param {string} config.titleTag - HTML тег для заголовка (по умолчанию 'h2')
+   * @returns {HTMLElement} Созданная секция
+   */
+  createSectionWithTitle(config) {
+    const { className, title, titleClassName = 'section-title', titleTag = 'h2' } = config;
+    
+    const section = document.createElement('div');
+    section.className = className;
+    
+    if (title) {
+      const titleElement = document.createElement(titleTag);
+      titleElement.className = titleClassName;
+      titleElement.textContent = title;
+      section.appendChild(titleElement);
+    }
+    
+    return section;
   }
 
   /**

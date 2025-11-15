@@ -7,4 +7,5 @@ export * from './AnimationUtils.js';
 export * from './DataLoader.js';
 export * from './DebounceUtils.js';
 export * from './DomHelpers.js';
+export * from './TemplateLoader.js';
 

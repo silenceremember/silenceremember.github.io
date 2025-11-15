@@ -5,9 +5,9 @@
 import { BasePage } from './BasePage.js';
 import { loadData } from '../utils/DataLoader.js';
 import { CardFactory } from '../factories/CardFactory.js';
-import { LoadingIndicatorService } from '../services/LoadingIndicatorService.js';
 import { ProjectFiltersManager } from '../managers/ProjectFiltersManager.js';
 import { ProjectGroupingManager } from '../managers/ProjectGroupingManager.js';
+import { loadTemplate } from '../utils/TemplateLoader.js';
 
 /**
  * Класс страницы проектов
@@ -34,17 +34,11 @@ export class ProjectsPage extends BasePage {
    */
   async loadProjectCardTemplate() {
     if (!this.projectCardTemplate) {
-      try {
-        const cardHTML = await this.loadHTML('/components/project-card.html');
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = cardHTML;
-        this.projectCardTemplate = tempDiv.querySelector('.project-card') || tempDiv.firstElementChild;
-        if (!this.projectCardTemplate) {
-          console.error('Не удалось найти шаблон карточки проекта');
-        }
-      } catch (error) {
-        console.error('Ошибка загрузки шаблона карточки:', error);
-      }
+      this.projectCardTemplate = await loadTemplate(
+        '/components/project-card.html',
+        '.project-card',
+        (url) => this.loadHTML(url)
+      );
     }
     return this.projectCardTemplate;
   }
@@ -114,8 +108,7 @@ export class ProjectsPage extends BasePage {
     await this.initBase();
 
     // Инициализируем сервис индикатора загрузки
-    this.loadingIndicator = new LoadingIndicatorService('projects-loading', 'projects-grid');
-    this.loadingIndicator.init();
+    this.initLoadingIndicator('projects-loading', 'projects-grid');
 
     // Загружаем шаблон карточки проекта
     await this.loadProjectCardTemplate();

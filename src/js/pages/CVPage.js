@@ -7,7 +7,7 @@ import { BasePage } from './BasePage.js';
 import { loadData } from '../utils/DataLoader.js';
 import { CVAnimationManager } from '../managers/CVAnimationManager.js';
 import { DateFormatter } from '../utils/DateFormatter.js';
-import { LoadingIndicatorService } from '../services/LoadingIndicatorService.js';
+import { loadTemplate } from '../utils/TemplateLoader.js';
 
 /**
  * Класс страницы резюме
@@ -30,19 +30,11 @@ export class CVPage extends BasePage {
    */
   async loadTemplates() {
     // Всегда перезагружаем шаблон, чтобы убедиться, что он валиден
-    try {
-      const timelineHTML = await this.loadHTML('/components/timeline.html');
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = timelineHTML;
-      this.timelineTemplate = tempDiv.querySelector('.timeline-item') || tempDiv.firstElementChild;
-      if (!this.timelineTemplate) {
-        console.error('Не удалось найти шаблон временной линии');
-        this.timelineTemplate = null;
-      }
-    } catch (error) {
-      console.error('Ошибка загрузки шаблона временной линии:', error);
-      this.timelineTemplate = null;
-    }
+    this.timelineTemplate = await loadTemplate(
+      '/components/timeline.html',
+      '.timeline-item',
+      (url) => this.loadHTML(url)
+    );
   }
 
   /**
@@ -610,8 +602,7 @@ export class CVPage extends BasePage {
     await this.initBase();
 
     // Инициализируем сервис индикатора загрузки
-    this.loadingIndicator = new LoadingIndicatorService('cv-loading', 'cv-loading-container');
-    this.loadingIndicator.init();
+    this.initLoadingIndicator('cv-loading', 'cv-loading-container');
     this.loadingIndicator.show();
 
     // Скрываем все элементы сразу для предотвращения FOUC

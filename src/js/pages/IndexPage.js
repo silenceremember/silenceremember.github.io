@@ -8,7 +8,6 @@ import { loadData } from '../utils/DataLoader.js';
 import { SlideAnimationManager } from '../managers/SlideAnimationManager.js';
 import { SlidesManager } from '../components/index.js';
 import { backgroundImageService } from '../services/BackgroundImageService.js';
-import { LoadingIndicatorService } from '../services/LoadingIndicatorService.js';
 
 /**
  * Класс для главной страницы
@@ -176,8 +175,7 @@ export class IndexPage extends BasePage {
     await this.initBase();
 
     // Инициализируем сервис индикатора загрузки
-    this.loadingIndicator = new LoadingIndicatorService('index-loading', 'index-loading-container');
-    this.loadingIndicator.init();
+    this.initLoadingIndicator('index-loading', 'index-loading-container');
     this.loadingIndicator.show();
 
     // Инициализируем менеджер слайдов (обработка скролла, колесика мыши, смена слайдов)

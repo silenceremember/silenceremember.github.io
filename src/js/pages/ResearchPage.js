@@ -5,9 +5,9 @@
 import { BasePage } from './BasePage.js';
 import { loadData } from '../utils/DataLoader.js';
 import { CardFactory } from '../factories/CardFactory.js';
-import { LoadingIndicatorService } from '../services/LoadingIndicatorService.js';
 import { DateFormatter } from '../utils/DateFormatter.js';
 import { animateElementsAppearance, animateSectionAppearance, animateElementAppearance } from '../utils/AnimationUtils.js';
+import { loadTemplate } from '../utils/TemplateLoader.js';
 
 /**
  * Класс страницы исследований
@@ -30,17 +30,11 @@ export class ResearchPage extends BasePage {
    */
   async loadResearchCardTemplate() {
     if (!this.researchCardTemplate) {
-      try {
-        const cardHTML = await this.loadHTML('/components/research-card.html');
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = cardHTML;
-        this.researchCardTemplate = tempDiv.querySelector('.research-card') || tempDiv.firstElementChild;
-        if (!this.researchCardTemplate) {
-          console.error('Не удалось найти шаблон карточки исследования');
-        }
-      } catch (error) {
-        console.error('Ошибка загрузки шаблона карточки:', error);
-      }
+      this.researchCardTemplate = await loadTemplate(
+        '/components/research-card.html',
+        '.research-card',
+        (url) => this.loadHTML(url)
+      );
     }
     return this.researchCardTemplate;
   }
@@ -84,8 +78,7 @@ export class ResearchPage extends BasePage {
     await this.initBase();
 
     // Инициализируем сервис индикатора загрузки
-    this.loadingIndicator = new LoadingIndicatorService('research-loading', 'research-publications-section');
-    this.loadingIndicator.init();
+    this.initLoadingIndicator('research-loading', 'research-publications-section');
 
     // Загружаем шаблон карточки исследования
     await this.loadResearchCardTemplate();
