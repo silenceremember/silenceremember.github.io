@@ -288,18 +288,14 @@ function preventSelection(e) {
     return;
   }
   
-  // Разрешаем выделение внутри iframe-wrapper, iframe, object и embed (PDF контент)
+  // Разрешаем выделение внутри iframe-wrapper и iframe (PDF контент через Google Docs Viewer)
   // Используем кэшированные элементы для оптимизации производительности
   if (iframeWrapper && (iframeWrapper === target || iframeWrapper.contains(target))) {
     return;
   }
   
   const iframe = documentViewerModal?.querySelector('.document-viewer-iframe');
-  const objectElement = documentViewerModal?.querySelector('.document-viewer-object');
-  const embed = documentViewerModal?.querySelector('.document-viewer-embed');
-  if ((iframe && (iframe === target || iframe.contains(target))) ||
-      (objectElement && (objectElement === target || objectElement.contains(target))) ||
-      (embed && (embed === target || embed.contains(target)))) {
+  if (iframe && (iframe === target || iframe.contains(target))) {
     return;
   }
   
@@ -338,18 +334,14 @@ function preventScroll(e) {
   const target = e.target;
   
   // Ранний выход: проверяем target напрямую перед contains() для оптимизации
-  // Разрешаем прокрутку внутри iframe-wrapper (где находится PDF)
+  // Разрешаем прокрутку внутри iframe-wrapper (где находится PDF через Google Docs Viewer)
   if (iframeWrapper && (iframeWrapper === target || iframeWrapper.contains(target))) {
     return;
   }
   
-  // Разрешаем прокрутку внутри iframe, object и embed (PDF контент)
+  // Разрешаем прокрутку внутри iframe (PDF контент через Google Docs Viewer)
   const iframe = documentViewerModal?.querySelector('.document-viewer-iframe');
-  const objectElement = documentViewerModal?.querySelector('.document-viewer-object');
-  const embed = documentViewerModal?.querySelector('.document-viewer-embed');
-  if ((iframe && (iframe === target || iframe.contains(target))) ||
-      (objectElement && (objectElement === target || objectElement.contains(target))) ||
-      (embed && (embed === target || embed.contains(target)))) {
+  if (iframe && (iframe === target || iframe.contains(target))) {
     return;
   }
   
@@ -484,7 +476,7 @@ function setupEventHandlers() {
 }
 
 /**
- * Открывает документ в модальном окне
+ * Открывает документ в модальном окне через Google Docs Viewer
  * @param {Object} options - Параметры документа
  * @param {string} options.url - URL документа (PDF)
  * @param {string} options.title - Заголовок документа
@@ -568,12 +560,52 @@ export async function openDocument({ url, title, isDraft = false, draftNote = '�
   const pdfUrl = url.startsWith('http') ? url : `/${url}`;
   const fullPdfUrl = pdfUrl.startsWith('http') ? pdfUrl : `${window.location.origin}${pdfUrl}`;
   
-  // Определяем, является ли файл локальным (не внешним)
-  const isLocalFile = !url.startsWith('http') || url.startsWith(window.location.origin);
+  /**
+   * Извлекает fileId из ссылки Google Drive
+   * @param {string} driveUrl - Ссылка на Google Drive файл
+   * @returns {string|null} - fileId или null если это не Google Drive ссылка
+   */
+  function extractGoogleDriveFileId(driveUrl) {
+    // Проверяем различные форматы ссылок Google Drive
+    // Формат: https://drive.google.com/file/d/FILE_ID/view?usp=sharing
+    const driveFileMatch = driveUrl.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
+    if (driveFileMatch) {
+      return driveFileMatch[1];
+    }
+    
+    // Формат: https://drive.google.com/open?id=FILE_ID
+    const driveOpenMatch = driveUrl.match(/drive\.google\.com\/open\?id=([a-zA-Z0-9_-]+)/);
+    if (driveOpenMatch) {
+      return driveOpenMatch[1];
+    }
+    
+    // Формат: https://docs.google.com/document/d/FILE_ID/edit
+    const docsMatch = driveUrl.match(/docs\.google\.com\/[^/]+\/d\/([a-zA-Z0-9_-]+)/);
+    if (docsMatch) {
+      return docsMatch[1];
+    }
+    
+    return null;
+  }
   
-  // Для локальных файлов используем object/embed (не создает third-party контекст)
-  // Для внешних файлов используем iframe
-  let useObject = false;
+  /**
+   * Преобразует ссылку Google Drive в формат для просмотра
+   * @param {string} driveUrl - Ссылка на Google Drive файл
+   * @returns {string|null} - Преобразованная ссылка или null если это не Google Drive ссылка
+   */
+  function convertGoogleDriveUrl(driveUrl) {
+    const fileId = extractGoogleDriveFileId(driveUrl);
+    
+    if (fileId) {
+      // Используем прямой формат предпросмотра Google Drive
+      // Это более надежный способ для встраивания PDF файлов
+      return `https://drive.google.com/file/d/${fileId}/preview`;
+    }
+    
+    return null;
+  }
+  
+  // Используем Google Docs Viewer для просмотра PDF
   const loadPdf = async () => {
     // Устанавливаем флаг загрузки
     isLoading = true;
@@ -582,30 +614,94 @@ export async function openDocument({ url, title, isDraft = false, draftNote = '�
     let loadHandled = false;
     
     try {
-      let pdfSrc = fullPdfUrl;
+      // Проверяем, является ли это ссылкой на Google Drive
+      const googleDriveViewerUrl = convertGoogleDriveUrl(fullPdfUrl);
+      let googleViewerUrl;
       
-      // Если файл локальный, используем object/embed
-      // Object/embed не создает third-party контекст для локальных файлов
-      if (isLocalFile && !url.startsWith('http')) {
-        useObject = true;
-        pdfSrc = fullPdfUrl;
+      if (googleDriveViewerUrl) {
+        // Используем специальный формат для Google Drive файлов
+        googleViewerUrl = googleDriveViewerUrl;
+      } else {
+        // Формируем URL для Google Docs Viewer для обычных PDF файлов
+        // Кодируем URL PDF файла для передачи в Google Docs Viewer
+        const encodedPdfUrl = encodeURIComponent(fullPdfUrl);
+        googleViewerUrl = `https://docs.google.com/viewer?url=${encodedPdfUrl}&embedded=true`;
       }
       
-      // Устанавливаем таймаут для загрузки (30 секунд)
+      // Определяем, является ли это Google Drive файлом
+      const isGoogleDrive = !!googleDriveViewerUrl;
+      // Таймаут для всех файлов - 30 секунд
+      const timeoutDuration = 30000;
+      
+      // Устанавливаем таймаут для загрузки
       loadTimeout = setTimeout(() => {
         if (!loadHandled && isLoading) {
           isLoading = false;
           loadHandled = true;
-          const element = useObject ? objectElement : iframe;
-          if (element && !element.classList.contains('loaded')) {
-            handleDocumentError(loadingElement, errorElement, errorLink, downloadLink, element);
+          if (iframe && !iframe.classList.contains('loaded')) {
+            handleDocumentError(loadingElement, errorElement, errorLink, downloadLink, iframe);
           }
         }
-      }, 30000);
+      }, timeoutDuration);
+      
+      // Функция для проверки готовности контента iframe
+      const checkIframeReady = () => {
+        if (loadHandled) return false;
+        
+        try {
+          const contentDoc = iframe.contentDocument || iframe.contentWindow?.document;
+          if (contentDoc) {
+            // Проверяем готовность документа
+            if (contentDoc.readyState === 'complete') {
+              // Для Google Drive проверяем наличие контента (но более быстро)
+              if (isGoogleDrive) {
+                // Проверяем наличие body (Google Drive загружает контент постепенно)
+                const body = contentDoc.body;
+                // Если body существует, считаем что контент готов
+                return !!body;
+              }
+              return true;
+            }
+          }
+        } catch (e) {
+          // Игнорируем ошибки CORS - это нормально для внешних iframe
+        }
+        return false;
+      };
       
       // Обработка загрузки с плавной анимацией
-      const handleLoad = () => {
+      const handleLoad = (immediate = false) => {
         // Предотвращаем множественные вызовы
+        if (loadHandled) return;
+        
+        // Для Google Drive даем минимальное время на загрузку контента
+        if (isGoogleDrive && !immediate) {
+          // Проверяем готовность через небольшие интервалы
+          let checkCount = 0;
+          const maxChecks = 10; // Проверяем до 1 секунды (10 * 100ms)
+          
+          const checkInterval = setInterval(() => {
+            checkCount++;
+            
+            if (checkIframeReady() || checkCount >= maxChecks) {
+              clearInterval(checkInterval);
+              // Минимальная задержка для полной загрузки контента
+              setTimeout(() => {
+                if (!loadHandled) {
+                  finalizeLoad();
+                }
+              }, 200);
+            }
+          }, 100);
+          
+          return;
+        }
+        
+        finalizeLoad();
+      };
+      
+      // Финальная обработка загрузки
+      const finalizeLoad = () => {
         if (loadHandled) return;
         loadHandled = true;
         
@@ -645,144 +741,75 @@ export async function openDocument({ url, title, isDraft = false, draftNote = '�
         
         // Показываем элемент плавно после скрытия loading
         setTimeout(() => {
-          const element = useObject ? objectElement : iframe;
-          element.classList.add('loaded');
+          iframe.classList.add('loaded');
         }, 300);
       };
       
-      if (useObject) {
-        // Используем object/embed для локальных файлов
-        iframe.hidden = true;
-        iframe.src = '';
-        objectElement.hidden = false;
-        
-        // Устанавливаем обработчики событий
-        objectElement.onload = handleLoad;
-        objectElement.onerror = () => {
-          if (!loadHandled) {
-            loadHandled = true;
-            isLoading = false;
-            handleDocumentError(loadingElement, errorElement, errorLink, downloadLink, objectElement);
-          }
-        };
-        
-        embed.onload = handleLoad;
-        embed.onerror = () => {
-          if (!loadHandled) {
-            loadHandled = true;
-            isLoading = false;
-            handleDocumentError(loadingElement, errorElement, errorLink, downloadLink, objectElement);
-          }
-        };
-        
-        // Устанавливаем data и src после установки обработчиков
-        // Для object/embed может потребоваться небольшая задержка перед установкой src
-        // чтобы убедиться, что обработчики установлены
-        requestAnimationFrame(() => {
-          objectElement.data = pdfSrc;
-          embed.src = pdfSrc;
-          
-          // Проверяем, не загружен ли документ уже из кэша
-          // Для object/embed это может произойти синхронно
-          // Используем несколько проверок для надежности
-          const checkCache = () => {
-            if (!loadHandled) {
-              try {
-                // Проверяем наличие contentDocument (может быть заблокирован CORS)
-                const hasContent = objectElement.contentDocument || embed.contentDocument;
-                if (hasContent) {
-                  handleLoad();
-                  return;
-                }
-              } catch (e) {
-                // Игнорируем ошибки CORS при проверке contentDocument
-              }
-              
-              // Проверяем через небольшую задержку еще раз
-              setTimeout(() => {
-                if (!loadHandled && isLoading) {
-                  try {
-                    const hasContent = objectElement.contentDocument || embed.contentDocument;
-                    if (hasContent) {
-                      handleLoad();
-                    }
-                  } catch (e) {
-                    // Игнорируем ошибки CORS
-                  }
-                }
-              }, 200);
-            }
-          };
-          
-          // Проверяем сразу и через небольшую задержку
-          checkCache();
-        });
-      } else {
-        // Используем iframe для внешних файлов
+      // Скрываем object и embed, используем только iframe
+      if (objectElement) {
         objectElement.hidden = true;
         objectElement.data = '';
+      }
+      if (embed) {
         embed.src = '';
-        iframe.hidden = false;
+      }
+      iframe.hidden = false;
+      
+      // Устанавливаем обработчики событий
+      iframe.onload = () => {
+        // Для Google Drive даем минимальное время на загрузку контента
+        if (isGoogleDrive) {
+          // Запускаем проверку готовности с небольшой задержкой
+          setTimeout(() => {
+            handleLoad(false);
+          }, 300);
+        } else {
+          handleLoad(true);
+        }
+      };
+      
+      iframe.onerror = () => {
+        if (!loadHandled) {
+          loadHandled = true;
+          isLoading = false;
+          handleDocumentError(loadingElement, errorElement, errorLink, downloadLink, iframe);
+        }
+      };
+      
+      // Устанавливаем src после установки обработчиков
+      requestAnimationFrame(() => {
+        iframe.src = googleViewerUrl;
         
-        // Устанавливаем обработчики событий
-        iframe.onload = handleLoad;
-        iframe.onerror = () => {
+        // Проверяем, не загружен ли документ уже из кэша
+        // Для iframe это может произойти синхронно
+        // Используем несколько проверок для надежности
+        const checkCache = () => {
           if (!loadHandled) {
-            loadHandled = true;
-            isLoading = false;
-            handleDocumentError(loadingElement, errorElement, errorLink, downloadLink, iframe);
+            if (checkIframeReady()) {
+              handleLoad(true);
+              return;
+            }
+            
+            // Проверяем через небольшую задержку еще раз
+            setTimeout(() => {
+              if (!loadHandled && isLoading) {
+                if (checkIframeReady()) {
+                  handleLoad(true);
+                }
+              }
+            }, 200);
           }
         };
         
-        // Устанавливаем src после установки обработчиков
-        // Для iframe может потребоваться небольшая задержка перед установкой src
-        // чтобы убедиться, что обработчики установлены
-        requestAnimationFrame(() => {
-          iframe.src = pdfSrc;
-          
-          // Проверяем, не загружен ли документ уже из кэша
-          // Для iframe это может произойти синхронно
-          // Используем несколько проверок для надежности
-          const checkCache = () => {
-            if (!loadHandled) {
-              try {
-                // Проверяем наличие contentDocument и его готовность (может быть заблокирован CORS)
-                const contentDoc = iframe.contentDocument;
-                if (contentDoc && contentDoc.readyState === 'complete') {
-                  handleLoad();
-                  return;
-                }
-              } catch (e) {
-                // Игнорируем ошибки CORS при проверке contentDocument
-              }
-              
-              // Проверяем через небольшую задержку еще раз
-              setTimeout(() => {
-                if (!loadHandled && isLoading) {
-                  try {
-                    const contentDoc = iframe.contentDocument;
-                    if (contentDoc && contentDoc.readyState === 'complete') {
-                      handleLoad();
-                    }
-                  } catch (e) {
-                    // Игнорируем ошибки CORS
-                  }
-                }
-              }, 200);
-            }
-          };
-          
-          // Проверяем сразу и через небольшую задержку
-          checkCache();
-        });
-      }
+        // Проверяем сразу и через небольшую задержку
+        checkCache();
+      });
     } catch (error) {
-      console.error('Ошибка загрузки PDF:', error);
+      console.error('Ошибка загрузки PDF через Google Docs Viewer:', error);
       if (!loadHandled) {
         loadHandled = true;
         isLoading = false;
-        const element = useObject ? objectElement : iframe;
-        handleDocumentError(loadingElement, errorElement, errorLink, downloadLink, element);
+        handleDocumentError(loadingElement, errorElement, errorLink, downloadLink, iframe);
       }
     }
   };
@@ -791,7 +818,15 @@ export async function openDocument({ url, title, isDraft = false, draftNote = '�
   
   // Устанавливаем ссылку для скачивания
   if (downloadLink) {
-    downloadLink.href = url.startsWith('http') ? url : `/${url}`;
+    // Проверяем, является ли это ссылкой на Google Drive
+    const fileId = extractGoogleDriveFileId(fullPdfUrl);
+    if (fileId) {
+      // Для Google Drive файлов используем прямую ссылку на скачивание
+      downloadLink.href = `https://drive.google.com/uc?export=download&id=${fileId}`;
+    } else {
+      // Для обычных файлов используем оригинальную ссылку
+      downloadLink.href = url.startsWith('http') ? url : `/${url}`;
+    }
   }
   
   // Показываем вотермарку для черновика
