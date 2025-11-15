@@ -673,29 +673,58 @@ function setActiveNavigationLink() {
  * Инициализирует обработчик кнопки меню для прокрутки до навигации в tablet режиме
  */
 function initMenuButtonScroll() {
-  const menuButton = document.querySelector('.header-menu-button');
   const navigationSection = document.querySelector('.cv-navigation');
   const pageWrapper = document.querySelector('.page-wrapper');
   
-  if (!menuButton || !navigationSection || !pageWrapper) {
+  if (!navigationSection || !pageWrapper) {
     return;
   }
   
-  menuButton.addEventListener('click', () => {
-    const isTabletMode = window.innerWidth < 1024;
+  // Ждем появления кнопки меню (header загружается асинхронно)
+  let retryCount = 0;
+  const maxRetries = 20; // Максимум 1 секунда ожидания (20 * 50ms)
+  
+  function waitForMenuButton() {
+    const menuButton = document.querySelector('.header-menu-button');
     
-    if (isTabletMode) {
-      const wrapperRect = pageWrapper.getBoundingClientRect();
-      const navRect = navigationSection.getBoundingClientRect();
-      const scrollTop = pageWrapper.scrollTop;
-      const targetPosition = scrollTop + navRect.top - wrapperRect.top;
-      
-      pageWrapper.scrollTo({
-        top: targetPosition,
-        behavior: 'smooth'
-      });
+    if (!menuButton) {
+      retryCount++;
+      if (retryCount >= maxRetries) {
+        console.warn('Кнопка меню не найдена после ожидания');
+        return;
+      }
+      // Если кнопка еще не загружена, ждем и пробуем снова
+      setTimeout(waitForMenuButton, 50);
+      return;
     }
-  });
+    
+    // Проверяем, не был ли уже добавлен обработчик
+    if (menuButton.dataset.cvScrollHandler === 'true') {
+      return; // Обработчик уже добавлен
+    }
+    
+    // Добавляем обработчик
+    menuButton.addEventListener('click', () => {
+      const isTabletMode = window.innerWidth < 1024;
+      
+      if (isTabletMode) {
+        const wrapperRect = pageWrapper.getBoundingClientRect();
+        const navRect = navigationSection.getBoundingClientRect();
+        const scrollTop = pageWrapper.scrollTop;
+        const targetPosition = scrollTop + navRect.top - wrapperRect.top;
+        
+        pageWrapper.scrollTo({
+          top: targetPosition,
+          behavior: 'smooth'
+        });
+      }
+    });
+    
+    // Помечаем, что обработчик добавлен
+    menuButton.dataset.cvScrollHandler = 'true';
+  }
+  
+  waitForMenuButton();
 }
 
 
