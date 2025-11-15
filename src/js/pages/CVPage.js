@@ -4,13 +4,9 @@
  */
 
 import { BasePage } from './BasePage.js';
-import { LayoutManager } from '../layout/LayoutManager.js';
 import { loadData } from '../utils/DataLoader.js';
 import { CVAnimationManager } from '../managers/CVAnimationManager.js';
 import { DateFormatter } from '../utils/DateFormatter.js';
-
-const layoutManager = new LayoutManager();
-const loadHTML = (url) => layoutManager.loadHTML(url);
 
 /**
  * Класс страницы резюме
@@ -31,7 +27,7 @@ export class CVPage extends BasePage {
   async loadTemplates() {
     // Всегда перезагружаем шаблон, чтобы убедиться, что он валиден
     try {
-      const timelineHTML = await loadHTML('/components/timeline.html');
+      const timelineHTML = await this.loadHTML('/components/timeline.html');
       const tempDiv = document.createElement('div');
       tempDiv.innerHTML = timelineHTML;
       this.timelineTemplate = tempDiv.querySelector('.timeline-item') || tempDiv.firstElementChild;

@@ -105,7 +105,7 @@ export default defineConfig({
             return 'services';
           }
           // Общий layout код
-          if (id.includes('/js/layout.js')) {
+          if (id.includes('/js/layout/')) {
             return 'layout';
           }
         },

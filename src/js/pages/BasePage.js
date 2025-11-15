@@ -145,6 +145,16 @@ export class BasePage {
   }
 
   /**
+   * Загружает HTML шаблон
+   * @param {string} url - URL шаблона
+   * @returns {Promise<string>} HTML содержимое шаблона
+   */
+  async loadHTML(url) {
+    const layoutManager = new LayoutManager();
+    return layoutManager.loadHTML(url);
+  }
+
+  /**
    * Ожидает готовности страницы
    * Использует PageReadyManager для ожидания загрузки изображений и шрифтов
    */

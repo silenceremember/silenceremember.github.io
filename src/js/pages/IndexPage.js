@@ -230,15 +230,4 @@ export function hideAllSlideElementsEarly() {
   }
 }
 
-/**
- * Инициализирует главную страницу (для обратной совместимости)
- * @deprecated Используйте класс IndexPage напрямую
- */
-export async function initIndexPage() {
-  const indexPage = new IndexPage();
-  await indexPage.init();
-}
-
-// Экспорт по умолчанию для обратной совместимости
-export default initIndexPage;
 

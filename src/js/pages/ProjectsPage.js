@@ -3,15 +3,11 @@
  */
 
 import { BasePage } from './BasePage.js';
-import { LayoutManager } from '../layout/LayoutManager.js';
 import { loadData } from '../utils/DataLoader.js';
 import { CardFactory } from '../factories/CardFactory.js';
 import { LoadingIndicatorService } from '../services/LoadingIndicatorService.js';
 import { ProjectFiltersManager } from '../managers/ProjectFiltersManager.js';
 import { ProjectGroupingManager } from '../managers/ProjectGroupingManager.js';
-
-const layoutManager = new LayoutManager();
-const loadHTML = (url) => layoutManager.loadHTML(url);
 
 /**
  * Класс страницы проектов
@@ -36,7 +32,7 @@ export class ProjectsPage extends BasePage {
   async loadProjectCardTemplate() {
     if (!this.projectCardTemplate) {
       try {
-        const cardHTML = await loadHTML('/components/project-card.html');
+        const cardHTML = await this.loadHTML('/components/project-card.html');
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = cardHTML;
         this.projectCardTemplate = tempDiv.querySelector('.project-card') || tempDiv.firstElementChild;

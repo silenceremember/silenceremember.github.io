@@ -3,15 +3,11 @@
  */
 
 import { BasePage } from './BasePage.js';
-import { LayoutManager } from '../layout/LayoutManager.js';
 import { loadData } from '../utils/DataLoader.js';
 import { CardFactory } from '../factories/CardFactory.js';
 import { LoadingIndicatorService } from '../services/LoadingIndicatorService.js';
 import { DateFormatter } from '../utils/DateFormatter.js';
-import { ANIMATION_CONFIG as CARD_ANIMATION, animateElementsAppearance, animateSectionAppearance, animateElementAppearance } from '../utils/AnimationUtils.js';
-
-const layoutManager = new LayoutManager();
-const loadHTML = (url) => layoutManager.loadHTML(url);
+import { animateElementsAppearance, animateSectionAppearance, animateElementAppearance } from '../utils/AnimationUtils.js';
 
 /**
  * Класс страницы исследований
@@ -32,7 +28,7 @@ export class ResearchPage extends BasePage {
   async loadResearchCardTemplate() {
     if (!this.researchCardTemplate) {
       try {
-        const cardHTML = await loadHTML('/components/research-card.html');
+        const cardHTML = await this.loadHTML('/components/research-card.html');
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = cardHTML;
         this.researchCardTemplate = tempDiv.querySelector('.research-card') || tempDiv.firstElementChild;
