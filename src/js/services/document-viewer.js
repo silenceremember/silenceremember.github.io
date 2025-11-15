@@ -16,6 +16,8 @@ let interactiveElements = null;
 let pageWrapper = null;
 // Таймер для таймаута загрузки документа
 let loadTimeout = null;
+// Флаг для отслеживания текущей загрузки документа
+let isLoading = false;
 
 /**
  * Загружает SVG иконку
@@ -535,10 +537,24 @@ export async function openDocument({ url, title, isDraft = false, draftNote = '�
     titleElement.textContent = displayTitle;
   }
   
+  // Предотвращаем множественные одновременные загрузки
+  if (isLoading) {
+    console.warn('Документ уже загружается, пропускаем повторную загрузку');
+    return;
+  }
+  
   // Сбрасываем класс loaded перед загрузкой нового документа
   iframe.classList.remove('loaded');
   objectElement.classList.remove('loaded');
   embed.classList.remove('loaded');
+  
+  // Очищаем предыдущие обработчики событий перед установкой новых
+  iframe.onload = null;
+  iframe.onerror = null;
+  objectElement.onload = null;
+  objectElement.onerror = null;
+  embed.onload = null;
+  embed.onerror = null;
   
   // Очищаем предыдущий таймаут, если он был установлен
   if (loadTimeout) {
@@ -559,6 +575,12 @@ export async function openDocument({ url, title, isDraft = false, draftNote = '�
   // Для внешних файлов используем iframe
   let useObject = false;
   const loadPdf = async () => {
+    // Устанавливаем флаг загрузки
+    isLoading = true;
+    
+    // Флаг для предотвращения множественных вызовов handleLoad
+    let loadHandled = false;
+    
     try {
       let pdfSrc = fullPdfUrl;
       
@@ -571,14 +593,25 @@ export async function openDocument({ url, title, isDraft = false, draftNote = '�
       
       // Устанавливаем таймаут для загрузки (30 секунд)
       loadTimeout = setTimeout(() => {
-        const element = useObject ? objectElement : iframe;
-        if (element && !element.classList.contains('loaded')) {
-          handleDocumentError(loadingElement, errorElement, errorLink, downloadLink, element);
+        if (!loadHandled && isLoading) {
+          isLoading = false;
+          loadHandled = true;
+          const element = useObject ? objectElement : iframe;
+          if (element && !element.classList.contains('loaded')) {
+            handleDocumentError(loadingElement, errorElement, errorLink, downloadLink, element);
+          }
         }
       }, 30000);
       
       // Обработка загрузки с плавной анимацией
       const handleLoad = () => {
+        // Предотвращаем множественные вызовы
+        if (loadHandled) return;
+        loadHandled = true;
+        
+        // Сбрасываем флаг загрузки при успешной загрузке
+        isLoading = false;
+        
         // Очищаем таймаут при успешной загрузке
         if (loadTimeout) {
           clearTimeout(loadTimeout);
@@ -626,17 +659,64 @@ export async function openDocument({ url, title, isDraft = false, draftNote = '�
         // Устанавливаем обработчики событий
         objectElement.onload = handleLoad;
         objectElement.onerror = () => {
-          handleDocumentError(loadingElement, errorElement, errorLink, downloadLink, objectElement);
+          if (!loadHandled) {
+            loadHandled = true;
+            isLoading = false;
+            handleDocumentError(loadingElement, errorElement, errorLink, downloadLink, objectElement);
+          }
         };
         
         embed.onload = handleLoad;
         embed.onerror = () => {
-          handleDocumentError(loadingElement, errorElement, errorLink, downloadLink, objectElement);
+          if (!loadHandled) {
+            loadHandled = true;
+            isLoading = false;
+            handleDocumentError(loadingElement, errorElement, errorLink, downloadLink, objectElement);
+          }
         };
         
         // Устанавливаем data и src после установки обработчиков
-        objectElement.data = pdfSrc;
-        embed.src = pdfSrc;
+        // Для object/embed может потребоваться небольшая задержка перед установкой src
+        // чтобы убедиться, что обработчики установлены
+        requestAnimationFrame(() => {
+          objectElement.data = pdfSrc;
+          embed.src = pdfSrc;
+          
+          // Проверяем, не загружен ли документ уже из кэша
+          // Для object/embed это может произойти синхронно
+          // Используем несколько проверок для надежности
+          const checkCache = () => {
+            if (!loadHandled) {
+              try {
+                // Проверяем наличие contentDocument (может быть заблокирован CORS)
+                const hasContent = objectElement.contentDocument || embed.contentDocument;
+                if (hasContent) {
+                  handleLoad();
+                  return;
+                }
+              } catch (e) {
+                // Игнорируем ошибки CORS при проверке contentDocument
+              }
+              
+              // Проверяем через небольшую задержку еще раз
+              setTimeout(() => {
+                if (!loadHandled && isLoading) {
+                  try {
+                    const hasContent = objectElement.contentDocument || embed.contentDocument;
+                    if (hasContent) {
+                      handleLoad();
+                    }
+                  } catch (e) {
+                    // Игнорируем ошибки CORS
+                  }
+                }
+              }, 200);
+            }
+          };
+          
+          // Проверяем сразу и через небольшую задержку
+          checkCache();
+        });
       } else {
         // Используем iframe для внешних файлов
         objectElement.hidden = true;
@@ -647,16 +727,63 @@ export async function openDocument({ url, title, isDraft = false, draftNote = '�
         // Устанавливаем обработчики событий
         iframe.onload = handleLoad;
         iframe.onerror = () => {
-          handleDocumentError(loadingElement, errorElement, errorLink, downloadLink, iframe);
+          if (!loadHandled) {
+            loadHandled = true;
+            isLoading = false;
+            handleDocumentError(loadingElement, errorElement, errorLink, downloadLink, iframe);
+          }
         };
         
         // Устанавливаем src после установки обработчиков
-        iframe.src = pdfSrc;
+        // Для iframe может потребоваться небольшая задержка перед установкой src
+        // чтобы убедиться, что обработчики установлены
+        requestAnimationFrame(() => {
+          iframe.src = pdfSrc;
+          
+          // Проверяем, не загружен ли документ уже из кэша
+          // Для iframe это может произойти синхронно
+          // Используем несколько проверок для надежности
+          const checkCache = () => {
+            if (!loadHandled) {
+              try {
+                // Проверяем наличие contentDocument и его готовность (может быть заблокирован CORS)
+                const contentDoc = iframe.contentDocument;
+                if (contentDoc && contentDoc.readyState === 'complete') {
+                  handleLoad();
+                  return;
+                }
+              } catch (e) {
+                // Игнорируем ошибки CORS при проверке contentDocument
+              }
+              
+              // Проверяем через небольшую задержку еще раз
+              setTimeout(() => {
+                if (!loadHandled && isLoading) {
+                  try {
+                    const contentDoc = iframe.contentDocument;
+                    if (contentDoc && contentDoc.readyState === 'complete') {
+                      handleLoad();
+                    }
+                  } catch (e) {
+                    // Игнорируем ошибки CORS
+                  }
+                }
+              }, 200);
+            }
+          };
+          
+          // Проверяем сразу и через небольшую задержку
+          checkCache();
+        });
       }
     } catch (error) {
       console.error('Ошибка загрузки PDF:', error);
-      const element = useObject ? objectElement : iframe;
-      handleDocumentError(loadingElement, errorElement, errorLink, downloadLink, element);
+      if (!loadHandled) {
+        loadHandled = true;
+        isLoading = false;
+        const element = useObject ? objectElement : iframe;
+        handleDocumentError(loadingElement, errorElement, errorLink, downloadLink, element);
+      }
     }
   };
   
@@ -713,6 +840,41 @@ export async function openDocument({ url, title, isDraft = false, draftNote = '�
 export function closeDocumentViewer() {
   if (!documentViewerModal) return;
   
+  // Сбрасываем флаг загрузки синхронно при закрытии
+  isLoading = false;
+  
+  // Очищаем таймаут загрузки при закрытии синхронно
+  if (loadTimeout) {
+    clearTimeout(loadTimeout);
+    loadTimeout = null;
+  }
+  
+  // Очищаем iframe, object и embed синхронно перед закрытием
+  const iframe = documentViewerModal.querySelector('.document-viewer-iframe');
+  const objectElement = documentViewerModal.querySelector('.document-viewer-object');
+  const embed = documentViewerModal.querySelector('.document-viewer-embed');
+  if (iframe) {
+    // Явно очищаем обработчики событий перед очисткой src
+    iframe.onload = null;
+    iframe.onerror = null;
+    iframe.src = '';
+    iframe.classList.remove('loaded');
+  }
+  if (objectElement) {
+    // Явно очищаем обработчики событий перед очисткой data
+    objectElement.onload = null;
+    objectElement.onerror = null;
+    objectElement.data = '';
+    objectElement.classList.remove('loaded');
+  }
+  if (embed) {
+    // Явно очищаем обработчики событий перед очисткой src
+    embed.onload = null;
+    embed.onerror = null;
+    embed.src = '';
+    embed.classList.remove('loaded');
+  }
+  
   // Убираем класс visible для запуска анимации исчезновения
   documentViewerModal.classList.remove('visible');
   
@@ -721,29 +883,6 @@ export function closeDocumentViewer() {
     unlockScroll();
     unlockSelection();
     documentViewerModal.hidden = true;
-    
-    // Очищаем таймаут загрузки при закрытии
-    if (loadTimeout) {
-      clearTimeout(loadTimeout);
-      loadTimeout = null;
-    }
-    
-    // Очищаем iframe, object и embed для освобождения памяти
-    const iframe = documentViewerModal.querySelector('.document-viewer-iframe');
-    const objectElement = documentViewerModal.querySelector('.document-viewer-object');
-    const embed = documentViewerModal.querySelector('.document-viewer-embed');
-    if (iframe) {
-      iframe.src = '';
-      iframe.classList.remove('loaded');
-    }
-    if (objectElement) {
-      objectElement.data = '';
-      objectElement.classList.remove('loaded');
-    }
-    if (embed) {
-      embed.src = '';
-      embed.classList.remove('loaded');
-    }
     
     // Скрываем ошибку
     const errorElement = documentViewerModal.querySelector('.document-viewer-error');
