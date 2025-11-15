@@ -71,12 +71,17 @@ const initCustomCursor = () => {
     }, 500);
   };
 
+  // Кэш для элементов document viewer для оптимизации
+  let cachedIframeWrapper = null;
+  let cachedIframe = null;
+  let cachedContentViewer = null;
+
   // Оптимизация: Throttled проверка hover состояния
   const checkHoverState = (x, y) => {
     const now = performance.now();
-    // Проверяем не чаще раза в 100мс или если позиция изменилась значительно (>10px)
+    // Уменьшили throttling до 50мс и убрали проверку по расстоянию для более быстрой реакции
     const distanceMoved = Math.abs(x - lastHoverCheckX) + Math.abs(y - lastHoverCheckY);
-    if (now - lastHoverCheck < 100 && distanceMoved < 10) {
+    if (now - lastHoverCheck < 50 && distanceMoved < 5) {
       return;
     }
 
@@ -84,15 +89,52 @@ const initCustomCursor = () => {
     lastHoverCheckX = x;
     lastHoverCheckY = y;
 
-    // Проверяем, находится ли курсор над iframe
+    // Проверяем, открыт ли document-viewer-modal
+    const documentViewerModal = document.querySelector('.document-viewer-modal');
+    const isViewerOpen = documentViewerModal && !documentViewerModal.hidden;
+
+    // Получаем элемент под курсором для всех проверок
     const elementUnderCursor = document.elementFromPoint(x, y);
-    const isOverIframe = elementUnderCursor && (
-      elementUnderCursor.closest('.document-viewer-iframe-wrapper') ||
-      elementUnderCursor.closest('.document-viewer-iframe') ||
-      elementUnderCursor.tagName === 'IFRAME' ||
-      elementUnderCursor.classList.contains('document-viewer-iframe-wrapper') ||
-      elementUnderCursor.classList.contains('document-viewer-iframe')
-    );
+    let isOverIframe = false;
+
+    if (isViewerOpen) {
+      // Кэшируем элементы для оптимизации
+      if (!cachedIframeWrapper) {
+        cachedIframeWrapper = documentViewerModal.querySelector('.document-viewer-iframe-wrapper');
+      }
+      if (!cachedIframe) {
+        cachedIframe = documentViewerModal.querySelector('.document-viewer-iframe');
+      }
+      if (!cachedContentViewer) {
+        cachedContentViewer = documentViewerModal.querySelector('.document-viewer-content');
+      }
+
+      // Проверка через getBoundingClientRect для более надежного определения области iframe
+      if (cachedIframeWrapper) {
+        const rect = cachedIframeWrapper.getBoundingClientRect();
+        if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
+          isOverIframe = true;
+        }
+      }
+
+      // Дополнительная проверка через elementFromPoint для точности
+      if (!isOverIframe && elementUnderCursor) {
+        // Проверяем различные способы определения iframe области
+        isOverIframe = 
+          // Прямая проверка на iframe элементы
+          elementUnderCursor.tagName === 'IFRAME' ||
+          elementUnderCursor.classList.contains('document-viewer-iframe') ||
+          elementUnderCursor.classList.contains('document-viewer-iframe-wrapper') ||
+          // Проверка через closest для всех родительских элементов
+          elementUnderCursor.closest('.document-viewer-iframe-wrapper') !== null ||
+          elementUnderCursor.closest('.document-viewer-iframe') !== null ||
+          // Проверка на document-viewer-content (область с iframe)
+          (elementUnderCursor.closest('.document-viewer-content') !== null &&
+           !elementUnderCursor.closest('.document-viewer-header') &&
+           !elementUnderCursor.closest('.document-viewer-loading') &&
+           !elementUnderCursor.closest('.document-viewer-error'));
+      }
+    }
 
     // Если курсор над iframe, скрываем кастомный курсор
     if (isOverIframe) {
@@ -105,6 +147,13 @@ const initCustomCursor = () => {
         isHovering = false;
       }
       return;
+    }
+
+    // Сбрасываем кэш при закрытии viewer
+    if (!isViewerOpen) {
+      cachedIframeWrapper = null;
+      cachedIframe = null;
+      cachedContentViewer = null;
     }
 
     // Показываем курсор если скрыт
