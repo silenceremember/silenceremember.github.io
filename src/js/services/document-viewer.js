@@ -14,6 +14,8 @@ let iframeWrapper = null;
 let iframe = null;
 let interactiveElements = null;
 let pageWrapper = null;
+// Таймер для таймаута загрузки документа
+let loadTimeout = null;
 
 /**
  * Загружает SVG иконку
@@ -284,13 +286,18 @@ function preventSelection(e) {
     return;
   }
   
-  // Разрешаем выделение внутри iframe-wrapper и iframe (PDF контент)
+  // Разрешаем выделение внутри iframe-wrapper, iframe, object и embed (PDF контент)
   // Используем кэшированные элементы для оптимизации производительности
   if (iframeWrapper && (iframeWrapper === target || iframeWrapper.contains(target))) {
     return;
   }
   
-  if (iframe && (iframe === target || iframe.contains(target))) {
+  const iframe = documentViewerModal?.querySelector('.document-viewer-iframe');
+  const objectElement = documentViewerModal?.querySelector('.document-viewer-object');
+  const embed = documentViewerModal?.querySelector('.document-viewer-embed');
+  if ((iframe && (iframe === target || iframe.contains(target))) ||
+      (objectElement && (objectElement === target || objectElement.contains(target))) ||
+      (embed && (embed === target || embed.contains(target)))) {
     return;
   }
   
@@ -334,8 +341,13 @@ function preventScroll(e) {
     return;
   }
   
-  // Разрешаем прокрутку внутри iframe (PDF контент)
-  if (iframe && (iframe === target || iframe.contains(target))) {
+  // Разрешаем прокрутку внутри iframe, object и embed (PDF контент)
+  const iframe = documentViewerModal?.querySelector('.document-viewer-iframe');
+  const objectElement = documentViewerModal?.querySelector('.document-viewer-object');
+  const embed = documentViewerModal?.querySelector('.document-viewer-embed');
+  if ((iframe && (iframe === target || iframe.contains(target))) ||
+      (objectElement && (objectElement === target || objectElement.contains(target))) ||
+      (embed && (embed === target || embed.contains(target)))) {
     return;
   }
   
@@ -374,6 +386,43 @@ async function initDocumentViewer() {
     isInitialized = true;
   } catch (error) {
     console.error('Ошибка инициализации document-viewer:', error);
+  }
+}
+
+/**
+ * Обрабатывает ошибки загрузки документа
+ * @param {HTMLElement} loadingElement - Элемент индикатора загрузки
+ * @param {HTMLElement} errorElement - Элемент сообщения об ошибке
+ * @param {HTMLElement} errorLink - Ссылка для скачивания в сообщении об ошибке
+ * @param {HTMLElement} downloadLink - Ссылка для скачивания документа
+ * @param {HTMLIFrameElement} element - Элемент iframe
+ */
+function handleDocumentError(loadingElement, errorElement, errorLink, downloadLink, element) {
+  // Очищаем таймаут при ошибке
+  if (loadTimeout) {
+    clearTimeout(loadTimeout);
+    loadTimeout = null;
+  }
+  
+  if (loadingElement) {
+    loadingElement.hidden = true;
+  }
+  
+  if (errorElement) {
+    const errorMessage = errorElement.querySelector('p');
+    if (errorMessage) {
+      errorMessage.textContent = 'Не удалось загрузить документ. Проверьте подключение к интернету или попробуйте скачать файл напрямую.';
+    }
+    
+    errorElement.hidden = false;
+    if (errorLink && downloadLink) {
+      errorLink.href = downloadLink.href;
+    }
+  }
+  
+  // Убираем класс loaded при ошибке
+  if (element) {
+    element.classList.remove('loaded');
   }
 }
 
@@ -430,61 +479,6 @@ function setupEventHandlers() {
       e.currentTarget.blur();
     });
   }
-  
-  // Обработка загрузки iframe
-  if (iframe) {
-    iframe.addEventListener('load', () => {
-      // Скрываем индикатор загрузки с плавной анимацией
-      if (loadingElement) {
-        // Убеждаемся, что loading элемент имеет transition для анимации
-        loadingElement.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
-        
-        // Убеждаемся, что начальное состояние видимо
-        loadingElement.style.opacity = '1';
-        loadingElement.style.transform = 'translateY(0)';
-        
-        // Используем requestAnimationFrame для гарантии применения начального состояния
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            // Применяем скрытие с анимацией
-            loadingElement.style.opacity = '0';
-            loadingElement.style.transform = 'translateY(-10px)';
-            
-            // Ждем завершения анимации перед скрытием элемента
-            setTimeout(() => {
-              loadingElement.hidden = true;
-              loadingElement.style.opacity = '';
-              loadingElement.style.transform = '';
-              loadingElement.style.transition = '';
-            }, 300);
-          });
-        });
-      }
-      
-      if (errorElement) {
-        errorElement.hidden = true;
-      }
-      
-      // Показываем iframe плавно после скрытия loading
-      setTimeout(() => {
-        iframe.classList.add('loaded');
-      }, 300);
-    });
-    
-    iframe.addEventListener('error', () => {
-      if (loadingElement) {
-        loadingElement.hidden = true;
-      }
-      if (errorElement) {
-        errorElement.hidden = false;
-        if (errorLink && downloadLink) {
-          errorLink.href = downloadLink.href;
-        }
-      }
-      // Убираем класс loaded при ошибке
-      iframe.classList.remove('loaded');
-    });
-  }
 }
 
 /**
@@ -518,10 +512,18 @@ export async function openDocument({ url, title, isDraft = false, draftNote = '�
   const watermark = documentViewerModal.querySelector('.document-viewer-watermark');
   
   // Обновляем кэш элементов на случай, если DOM изменился
-  if (!iframeWrapper || !iframe || !interactiveElements) {
+  if (!iframeWrapper || !interactiveElements) {
     iframeWrapper = documentViewerModal.querySelector('.document-viewer-iframe-wrapper');
-    iframe = documentViewerModal.querySelector('.document-viewer-iframe');
     interactiveElements = documentViewerModal.querySelectorAll('button, a, input, textarea');
+  }
+  
+  const iframe = documentViewerModal.querySelector('.document-viewer-iframe');
+  const objectElement = documentViewerModal.querySelector('.document-viewer-object');
+  const embed = documentViewerModal.querySelector('.document-viewer-embed');
+  
+  if (!iframe || !objectElement || !embed) {
+    console.error('Не найдены элементы iframe, object или embed для просмотра документа');
+    return;
   }
   
   // Устанавливаем заголовок
@@ -533,47 +535,136 @@ export async function openDocument({ url, title, isDraft = false, draftNote = '�
     titleElement.textContent = displayTitle;
   }
   
-  // Проверяем, является ли URL ссылкой на Google Drive (один раз для оптимизации)
-  const googleDriveMatch = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
-  const fileId = googleDriveMatch ? googleDriveMatch[1] : null;
+  // Сбрасываем класс loaded перед загрузкой нового документа
+  iframe.classList.remove('loaded');
+  objectElement.classList.remove('loaded');
+  embed.classList.remove('loaded');
   
-  // Устанавливаем URL для iframe (используем Google Docs Viewer для предпросмотра PDF)
-  // Используем кэшированный элемент для оптимизации производительности
-  if (iframe) {
-    // Сбрасываем класс loaded перед загрузкой нового документа
-    iframe.classList.remove('loaded');
-    
-    let viewerUrl;
-    
-    if (fileId) {
-      // Используем встроенный просмотр Google Drive
-      viewerUrl = `https://drive.google.com/file/d/${fileId}/preview`;
-    } else {
-      // Формируем полный URL PDF документа
-      const pdfUrl = url.startsWith('http') ? url : `/${url}`;
-      const fullPdfUrl = pdfUrl.startsWith('http') ? pdfUrl : `${window.location.origin}${pdfUrl}`;
-      
-      // Используем Google Docs Viewer для предпросмотра PDF
-      viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(fullPdfUrl)}&embedded=true`;
-    }
-    
-    iframe.src = viewerUrl;
-    
-    // Убираем type, так как Google Viewer возвращает HTML
-    iframe.removeAttribute('type');
-    
-    // Убираем sandbox, если он был установлен ранее (для корректной работы Google Viewer)
-    iframe.removeAttribute('sandbox');
+  // Очищаем предыдущий таймаут, если он был установлен
+  if (loadTimeout) {
+    clearTimeout(loadTimeout);
+    loadTimeout = null;
   }
+  
+  const errorLink = documentViewerModal.querySelector('.document-viewer-error-link');
+  
+  // Формируем полный URL PDF документа
+  const pdfUrl = url.startsWith('http') ? url : `/${url}`;
+  const fullPdfUrl = pdfUrl.startsWith('http') ? pdfUrl : `${window.location.origin}${pdfUrl}`;
+  
+  // Определяем, является ли файл локальным (не внешним)
+  const isLocalFile = !url.startsWith('http') || url.startsWith(window.location.origin);
+  
+  // Для локальных файлов используем object/embed (не создает third-party контекст)
+  // Для внешних файлов используем iframe
+  let useObject = false;
+  const loadPdf = async () => {
+    try {
+      let pdfSrc = fullPdfUrl;
+      
+      // Если файл локальный, используем object/embed
+      // Object/embed не создает third-party контекст для локальных файлов
+      if (isLocalFile && !url.startsWith('http')) {
+        useObject = true;
+        pdfSrc = fullPdfUrl;
+      }
+      
+      // Устанавливаем таймаут для загрузки (30 секунд)
+      loadTimeout = setTimeout(() => {
+        const element = useObject ? objectElement : iframe;
+        if (element && !element.classList.contains('loaded')) {
+          handleDocumentError(loadingElement, errorElement, errorLink, downloadLink, element);
+        }
+      }, 30000);
+      
+      // Обработка загрузки с плавной анимацией
+      const handleLoad = () => {
+        // Очищаем таймаут при успешной загрузке
+        if (loadTimeout) {
+          clearTimeout(loadTimeout);
+          loadTimeout = null;
+        }
+        
+        // Скрываем индикатор загрузки с плавной анимацией
+        if (loadingElement) {
+          loadingElement.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
+          loadingElement.style.opacity = '1';
+          loadingElement.style.transform = 'translateY(0)';
+          
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              loadingElement.style.opacity = '0';
+              loadingElement.style.transform = 'translateY(-10px)';
+              
+              setTimeout(() => {
+                loadingElement.hidden = true;
+                loadingElement.style.opacity = '';
+                loadingElement.style.transform = '';
+                loadingElement.style.transition = '';
+              }, 300);
+            });
+          });
+        }
+        
+        if (errorElement) {
+          errorElement.hidden = true;
+        }
+        
+        // Показываем элемент плавно после скрытия loading
+        setTimeout(() => {
+          const element = useObject ? objectElement : iframe;
+          element.classList.add('loaded');
+        }, 300);
+      };
+      
+      if (useObject) {
+        // Используем object/embed для локальных файлов
+        iframe.hidden = true;
+        iframe.src = '';
+        objectElement.hidden = false;
+        
+        // Устанавливаем обработчики событий
+        objectElement.onload = handleLoad;
+        objectElement.onerror = () => {
+          handleDocumentError(loadingElement, errorElement, errorLink, downloadLink, objectElement);
+        };
+        
+        embed.onload = handleLoad;
+        embed.onerror = () => {
+          handleDocumentError(loadingElement, errorElement, errorLink, downloadLink, objectElement);
+        };
+        
+        // Устанавливаем data и src после установки обработчиков
+        objectElement.data = pdfSrc;
+        embed.src = pdfSrc;
+      } else {
+        // Используем iframe для внешних файлов
+        objectElement.hidden = true;
+        objectElement.data = '';
+        embed.src = '';
+        iframe.hidden = false;
+        
+        // Устанавливаем обработчики событий
+        iframe.onload = handleLoad;
+        iframe.onerror = () => {
+          handleDocumentError(loadingElement, errorElement, errorLink, downloadLink, iframe);
+        };
+        
+        // Устанавливаем src после установки обработчиков
+        iframe.src = pdfSrc;
+      }
+    } catch (error) {
+      console.error('Ошибка загрузки PDF:', error);
+      const element = useObject ? objectElement : iframe;
+      handleDocumentError(loadingElement, errorElement, errorLink, downloadLink, element);
+    }
+  };
+  
+  loadPdf();
   
   // Устанавливаем ссылку для скачивания
   if (downloadLink) {
-    if (fileId) {
-      // Используем прямую ссылку на скачивание из Google Drive
-      downloadLink.href = `https://drive.google.com/uc?export=download&id=${fileId}`;
-    } else {
-      downloadLink.href = url.startsWith('http') ? url : `/${url}`;
-    }
+    downloadLink.href = url.startsWith('http') ? url : `/${url}`;
   }
   
   // Показываем вотермарку для черновика
@@ -631,11 +722,27 @@ export function closeDocumentViewer() {
     unlockSelection();
     documentViewerModal.hidden = true;
     
-    // Очищаем iframe для освобождения памяти
-    // Используем кэшированный элемент для оптимизации производительности
+    // Очищаем таймаут загрузки при закрытии
+    if (loadTimeout) {
+      clearTimeout(loadTimeout);
+      loadTimeout = null;
+    }
+    
+    // Очищаем iframe, object и embed для освобождения памяти
+    const iframe = documentViewerModal.querySelector('.document-viewer-iframe');
+    const objectElement = documentViewerModal.querySelector('.document-viewer-object');
+    const embed = documentViewerModal.querySelector('.document-viewer-embed');
     if (iframe) {
       iframe.src = '';
       iframe.classList.remove('loaded');
+    }
+    if (objectElement) {
+      objectElement.data = '';
+      objectElement.classList.remove('loaded');
+    }
+    if (embed) {
+      embed.src = '';
+      embed.classList.remove('loaded');
     }
     
     // Скрываем ошибку

@@ -22,6 +22,33 @@
     if ('scrollRestoration' in history) {
       history.scrollRestoration = 'manual';
     }
+    
+    // Сбрасываем прокрутку в начало при загрузке страницы
+    // Контент загрузится асинхронно, поэтому нужно подождать
+    // Используем несколько попыток, чтобы убедиться, что прокрутка сброшена
+    function resetScroll() {
+      if (window.scrollTo) {
+        window.scrollTo(0, 0);
+      }
+      const pageWrapper = document.querySelector('.page-wrapper');
+      if (pageWrapper) {
+        pageWrapper.scrollTop = 0;
+      }
+    }
+    
+    // Сбрасываем сразу
+    resetScroll();
+    
+    // Сбрасываем после небольшой задержки, чтобы переопределить возможное восстановление браузером
+    setTimeout(resetScroll, 0);
+    setTimeout(resetScroll, 10);
+    setTimeout(resetScroll, 50);
+    
+    // Также сбрасываем после полной загрузки страницы
+    window.addEventListener('load', function() {
+      setTimeout(resetScroll, 0);
+      setTimeout(resetScroll, 100);
+    });
   }
 })();
 

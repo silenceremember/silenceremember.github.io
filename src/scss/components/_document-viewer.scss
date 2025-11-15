@@ -300,7 +300,9 @@
   background-color: var(--color-bg-primary);
 }
 
-.document-viewer-iframe {
+.document-viewer-iframe,
+.document-viewer-object,
+.document-viewer-embed {
   width: 100%;
   height: 100%;
   border: none;
@@ -313,25 +315,36 @@
   transform: translateZ(0); // Создаем слой композиции для оптимизации
   transition: opacity var(--transition-duration-fast) ease-in-out;
   
-  // Добавляем will-change только при анимации (когда iframe загружается)
-  &:not(.loaded) {
-    will-change: opacity;
-  }
+  // Убрали will-change для уменьшения потребления памяти
+  // Используем только transform: translateZ(0) для создания слоя композиции
   
   &.loaded {
     opacity: 1;
-    // Убираем will-change после завершения анимации
-    will-change: auto;
   }
   
-  // Попытка скрыть скроллбар внутри iframe (может не работать из-за ограничений безопасности)
+  // Попытка скрыть скроллбар внутри (может не работать из-за ограничений безопасности)
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE и Edge */
   
   &::-webkit-scrollbar {
     display: none;
   }
+  
+  &[hidden] {
+    display: none;
+  }
 }
+
+.document-viewer-object {
+  // Object элемент может иметь дополнительные стили
+}
+
+.document-viewer-embed {
+  // Embed элемент внутри object
+  width: 100%;
+  height: 100%;
+}
+
 
 .document-viewer-loading {
   position: absolute;
