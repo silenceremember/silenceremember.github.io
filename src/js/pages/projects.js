@@ -197,6 +197,19 @@ function initFilters(projects) {
   if (projectFiltersTemplate) {
     filtersContainer.innerHTML = projectFiltersTemplate;
     
+    // Находим контейнер фильтров для анимации
+    const filtersContent = filtersContainer.querySelector('.project-filters-content');
+    
+    // Устанавливаем начальное состояние для всей секции фильтров ДО любых операций
+    // Это предотвращает мерцание кнопки года и других элементов
+    if (filtersContent) {
+      filtersContent.style.opacity = '0';
+      filtersContent.style.transform = 'translateY(10px)';
+      filtersContent.style.transition = 'none';
+      // Принудительный reflow для применения начального состояния
+      void filtersContent.offsetHeight;
+    }
+    
     // Подсчитываем проекты по годам для dropdown
     const yearCounts = {};
     projects.forEach(project => {
@@ -208,6 +221,9 @@ function initFilters(projects) {
     // Добавляем динамические опции по годам в dropdown
     const yearDropdownMenu = filtersContainer.querySelector('#project-filters-year-dropdown-menu');
     const yearDropdownButton = filtersContainer.querySelector('#project-filters-year-button');
+    
+    // Флаг для отслеживания, была ли запущена анимация фильтров
+    let filtersAnimationStarted = false;
     
     if (yearDropdownMenu) {
       // Добавляем опцию с прочерком для отмены выбора года
@@ -261,9 +277,8 @@ function initFilters(projects) {
         
         // Пересчитываем ширину только если она не была восстановлена из сохраненного значения
         if (shouldCalculateWidth) {
-          // Временно скрываем кнопку до установки правильной ширины, чтобы избежать пролагивания
-          yearDropdownButton.style.opacity = '0';
-          yearDropdownButton.style.visibility = 'hidden';
+          // Кнопка уже имеет opacity: 0 от родительской секции фильтров
+          // Не нужно устанавливать её отдельно, чтобы избежать конфликтов
           
           const calculateYearDropdownWidth = () => {
           // Используем двойной requestAnimationFrame для гарантии завершения рендеринга
@@ -374,9 +389,8 @@ function initFilters(projects) {
             // Сохраняем ширину для следующей инициализации
             savedYearButtonWidth = `${width}px`;
             
-            // Показываем кнопку после установки ширины
-            yearDropdownButton.style.opacity = '';
-            yearDropdownButton.style.visibility = '';
+            // Кнопка будет показана вместе с фильтрами через общую анимацию
+            // Не нужно показывать её отдельно
           }
           };
           
@@ -387,11 +401,51 @@ function initFilters(projects) {
               setTimeout(() => {
                 calculateYearDropdownWidth().then((maxWidth) => {
                   setYearDropdownWidth(maxWidth);
+                  // После установки ширины запускаем анимацию фильтров
+                  // Это гарантирует, что кнопка года не будет мерцать
+                  if (filtersContent && !filtersAnimationStarted) {
+                    filtersAnimationStarted = true;
+                    requestAnimationFrame(() => {
+                      requestAnimationFrame(() => {
+                        animateElementAppearance(filtersContent);
+                      });
+                    });
+                  }
                 });
               }, 50); // Небольшая задержка для гарантии рендеринга
             });
           });
+        } else {
+          // Если ширина уже была восстановлена, сразу запускаем анимацию фильтров
+          if (filtersContent && !filtersAnimationStarted) {
+            filtersAnimationStarted = true;
+            requestAnimationFrame(() => {
+              requestAnimationFrame(() => {
+                animateElementAppearance(filtersContent);
+              });
+            });
+          }
         }
+      } else {
+        // Если кнопка года не найдена, запускаем анимацию фильтров сразу
+        if (filtersContent && !filtersAnimationStarted) {
+          filtersAnimationStarted = true;
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              animateElementAppearance(filtersContent);
+            });
+          });
+        }
+      }
+    } else {
+      // Если dropdown меню не найдено, запускаем анимацию фильтров сразу
+      if (filtersContent && !filtersAnimationStarted) {
+        filtersAnimationStarted = true;
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            animateElementAppearance(filtersContent);
+          });
+        });
       }
     }
     
@@ -402,6 +456,10 @@ function initFilters(projects) {
     initFilterButtons();
     // Инициализируем dropdown после создания опций
     initYearDropdown();
+    
+    // Анимация фильтров запускается внутри логики установки ширины кнопки года
+    // или сразу, если ширина уже была восстановлена
+    // Это гарантирует синхронизацию и отсутствие мерцания
   }
 }
 
