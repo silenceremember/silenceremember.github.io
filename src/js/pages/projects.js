@@ -7,6 +7,7 @@ import { getRoleLabel } from '../utils/role-mapper.js';
 import { loadData } from '../utils/data-loader.js';
 import { ANIMATION_CONFIG, animateElementsAppearance, animateElementAppearance } from '../utils/animations.js';
 import { ProjectFiltersManager } from '../managers/ProjectFiltersManager.js';
+import { ProjectGroupingManager } from '../managers/ProjectGroupingManager.js';
 
 // Для обратной совместимости
 const CARD_ANIMATION = ANIMATION_CONFIG;
@@ -17,6 +18,9 @@ let projectFiltersTemplate = null;
 
 // Менеджер фильтров
 let filtersManager = null;
+
+// Менеджер группировки проектов
+let groupingManager = null;
 
 /**
  * Загружает шаблоны компонентов
@@ -195,7 +199,11 @@ async function initFilters(projects) {
         onCardClick: openProjectDetails,
         onRenderGrouped: renderGroupedProjects,
         onHideLoading: hideLoadingIndicator,
-        onExpandedSectionsClear: () => expandedSections.clear()
+        onExpandedSectionsClear: () => {
+          if (groupingManager) {
+            groupingManager.expandedSections.clear();
+          }
+        }
       }
     );
   } else {
@@ -423,336 +431,20 @@ function showEmptyProjectsMessage() {
 }
 
 /**
- * Группирует и отображает проекты по разделам
+ * Глобальные переменные для проектов
  */
 let allProjects = [];
 let allProjectCards = new Map();
-let isRendering = false;
-const expandedSections = new Set();
 
 /**
- * Переключает развернутость раздела
+ * Функция-обертка для renderGroupedProjects из менеджера группировки
  */
-function toggleSectionExpansion(category, button, hiddenProjects) {
-  const section = document.querySelector(`[data-category="${category}"]`);
-  if (!section) return;
-  
-  const isExpanded = expandedSections.has(category);
-  // Находим карточки по data-атрибуту или по классу
-  const hiddenCards = Array.from(section.querySelectorAll('[data-hidden-card="true"], .project-card-hidden'));
-  
-  if (isExpanded) {
-    // Сворачиваем с плавной анимацией - все карточки одновременно
-    hiddenCards.forEach((card) => {
-      card.style.transition = `opacity ${CARD_ANIMATION.duration} ${CARD_ANIMATION.timing}, transform ${CARD_ANIMATION.duration} ${CARD_ANIMATION.timing}, visibility ${CARD_ANIMATION.duration} ${CARD_ANIMATION.timing}`;
-      card.style.opacity = '0';
-      card.style.transform = `translateY(${ANIMATION_CONFIG.translateYDisappear})`;
-    });
-    setTimeout(() => {
-      hiddenCards.forEach((card) => {
-        card.style.display = 'none';
-        // Полностью очищаем все inline стили после анимации для чистого состояния при следующем показе
-        card.style.removeProperty('opacity');
-        card.style.removeProperty('transform');
-        card.style.removeProperty('transition');
-        card.style.removeProperty('visibility');
-        // Возвращаем класс и атрибут
-        card.classList.add('project-card-hidden');
-        card.setAttribute('data-hidden-card', 'true');
-      });
-    }, CARD_ANIMATION.timeout);
-    expandedSections.delete(category);
-    button.setAttribute('aria-expanded', 'false');
-    button.querySelector('.projects-section-expand-text').textContent = 'Показать все';
-  } else {
-    // Разворачиваем с плавной анимацией - все карточки одновременно
-    // Сначала полностью очищаем все inline стили и классы, которые могут мешать анимации
-    hiddenCards.forEach((card) => {
-      // Очищаем все inline стили, которые могли остаться от предыдущих анимаций
-      card.style.removeProperty('opacity');
-      card.style.removeProperty('transform');
-      card.style.removeProperty('transition');
-      card.style.removeProperty('visibility');
-      // Убираем класс, который может влиять на видимость
-      card.classList.remove('project-card-hidden');
-      // Устанавливаем display, но пока оставляем карточку невидимой для правильной инициализации анимации
-      card.style.display = '';
-      // Устанавливаем начальное состояние для анимации СИНХРОННО
-      card.style.opacity = '0';
-      card.style.transform = 'translateY(10px)';
-      card.style.transition = 'none';
-    });
-    
-    // Принудительный reflow для применения начального состояния
-    if (hiddenCards.length > 0 && hiddenCards[0]) {
-      void hiddenCards[0].offsetHeight;
-    }
-    
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        // Применяем анимацию одновременно для всех карточек
-        if (hiddenCards.length > 0) {
-          // Используем skipInitialState: true, так как мы уже установили начальное состояние
-          animateElementsAppearance(hiddenCards, { skipInitialState: true });
-          // Убираем атрибут после анимации (класс уже убран выше)
-          setTimeout(() => {
-            hiddenCards.forEach((card) => {
-              card.setAttribute('data-hidden-card', 'true');
-            });
-          }, ANIMATION_CONFIG.timeout);
-        }
-      });
-    });
-    expandedSections.add(category);
-    button.setAttribute('aria-expanded', 'true');
-    button.querySelector('.projects-section-expand-text').textContent = 'Скрыть';
-  }
-}
-
 async function renderGroupedProjects() {
-  // Защита от повторных вызовов
-  if (isRendering) {
-    console.warn('renderGroupedProjects уже выполняется');
+  if (!groupingManager) {
+    console.warn('Менеджер группировки не инициализирован');
     return;
   }
-  
-  const grid = document.getElementById('projects-grid');
-  if (!grid) {
-    console.warn('Сетка проектов не найдена');
-    return;
-  }
-  
-  // Проверяем, что карточки созданы
-  if (allProjectCards.size === 0) {
-    console.warn('Карточки проектов еще не созданы');
-    return;
-  }
-  
-  isRendering = true;
-  
-  // Сбрасываем состояние развернутости при новом рендеринге
-  expandedSections.clear();
-  
-  // Скрываем индикатор загрузки перед рендерингом (если есть)
-  await hideLoadingIndicator();
-  
-  try {
-    // Очищаем сетку (индикатор загрузки уже удален через hideLoadingIndicator)
-    grid.innerHTML = '';
-    grid.className = 'projects-grid';
-    
-    // Убеждаемся, что grid готов к анимации появления
-    // Если grid был скрыт через hideLoadingIndicator, он уже имеет opacity: 0
-    // Если opacity не установлена, устанавливаем её в 0 для плавного появления
-    if (!grid.style.opacity || grid.style.opacity === '') {
-      grid.style.opacity = '0';
-    }
-    grid.style.visibility = 'visible';
-    
-    // Группируем проекты по категориям
-    const grouped = {
-      games: [],
-      tools: [],
-      research: []
-    };
-    
-    allProjects.forEach(project => {
-      if (grouped[project.category]) {
-        grouped[project.category].push(project);
-      }
-    });
-    
-    // Заголовки разделов
-    const sectionTitles = {
-      games: 'Игровые проекты',
-      tools: 'Инструменты',
-      research: 'Исследования'
-    };
-    
-    // Отображаем каждый раздел
-    const categories = Object.keys(grouped);
-    categories.forEach((category, sectionIndex) => {
-      const allCategoryProjects = grouped[category];
-      if (allCategoryProjects.length === 0) return;
-      
-      // Разделяем на отмеченные и неотмеченные
-      const featuredProjects = allCategoryProjects.filter(p => p.featured);
-      const otherProjects = allCategoryProjects.filter(p => !p.featured);
-      
-      // Если нет отмеченных проектов, показываем все
-      const hasFeatured = featuredProjects.length > 0;
-      const projectsToShow = hasFeatured ? featuredProjects : allCategoryProjects;
-      const hasMoreProjects = hasFeatured && otherProjects.length > 0;
-      
-      // Создаем контейнер раздела
-      const sectionContainer = document.createElement('div');
-      sectionContainer.className = 'projects-section';
-      sectionContainer.setAttribute('data-category', category);
-      
-      // Устанавливаем начальное состояние для анимации (как в исследованиях)
-      sectionContainer.style.opacity = '0';
-      sectionContainer.style.transform = 'translateY(10px)';
-      sectionContainer.style.transition = 'none';
-      
-      // Создаем заголовок раздела с кнопкой
-      const sectionHeader = document.createElement('div');
-      sectionHeader.className = 'projects-section-header';
-      
-      const sectionTitle = document.createElement('h2');
-      sectionTitle.className = 'projects-section-title';
-      
-      // Создаем контейнер для названия и кнопки
-      const titleContainer = document.createElement('span');
-      titleContainer.className = 'projects-section-title-text';
-      titleContainer.textContent = sectionTitles[category];
-      sectionTitle.appendChild(titleContainer);
-      
-      // Добавляем кнопку "Показать все" рядом с названием если есть скрытые проекты
-      if (hasMoreProjects) {
-        const expandButton = document.createElement('button');
-        expandButton.className = 'projects-section-expand';
-        expandButton.setAttribute('aria-expanded', 'false');
-        expandButton.setAttribute('aria-label', 'Показать все проекты');
-        expandButton.innerHTML = `
-          <span class="projects-section-expand-text">Показать все</span>
-          <span class="projects-section-expand-count">${allCategoryProjects.length}</span>
-        `;
-        expandButton.addEventListener('click', () => {
-          toggleSectionExpansion(category, expandButton, otherProjects);
-        });
-        sectionTitle.appendChild(expandButton);
-      }
-      
-      sectionHeader.appendChild(sectionTitle);
-      sectionContainer.appendChild(sectionHeader);
-      
-      // Создаем контейнер для проектов раздела
-      const sectionGrid = document.createElement('div');
-      sectionGrid.className = 'projects-section-grid';
-      
-      // Добавляем отмеченные проекты (или все, если нет отмеченных)
-      projectsToShow.forEach(project => {
-        const originalCard = allProjectCards.get(project.id);
-        if (originalCard) {
-          const clonedCard = originalCard.cloneNode(true);
-          // Устанавливаем начальное состояние для анимации ПЕРЕД добавлением в DOM
-          clonedCard.style.opacity = '0';
-          clonedCard.style.transform = 'translateY(10px)';
-          clonedCard.style.transition = 'none'; // Отключаем transition для мгновенного применения начального состояния
-          // Добавляем обработчик клика на всю карточку
-          clonedCard.addEventListener('click', (e) => {
-            e.stopPropagation();
-            openProjectDetails(project);
-          });
-          // Добавляем обработчик на кнопку "Подробнее"
-          const detailsButton = clonedCard.querySelector('.project-card-button');
-          if (detailsButton) {
-            detailsButton.addEventListener('click', (e) => {
-              e.stopPropagation();
-              openProjectDetails(project);
-            });
-          }
-          sectionGrid.appendChild(clonedCard);
-        }
-      });
-      
-      // Добавляем скрытые проекты (если есть)
-      if (hasMoreProjects) {
-        otherProjects.forEach(project => {
-          const originalCard = allProjectCards.get(project.id);
-          if (originalCard) {
-            const clonedCard = originalCard.cloneNode(true);
-            clonedCard.classList.add('project-card-hidden');
-            clonedCard.setAttribute('data-hidden-card', 'true');
-            clonedCard.style.display = 'none';
-            // Устанавливаем начальное состояние для анимации (на случай если карточка будет показана)
-            clonedCard.style.opacity = '0';
-            clonedCard.style.transition = 'none';
-            // Добавляем обработчик клика на всю карточку
-            clonedCard.addEventListener('click', (e) => {
-              // Проверяем, был ли выделен текст - если да, не открываем карточку
-              const selection = window.getSelection();
-              if (selection && selection.toString().trim().length > 0) {
-                return;
-              }
-              e.stopPropagation();
-              openProjectDetails(project);
-            });
-            // Добавляем обработчик на кнопку "Подробнее"
-            const detailsButton = clonedCard.querySelector('.project-card-button');
-            if (detailsButton) {
-              detailsButton.addEventListener('click', (e) => {
-                e.stopPropagation();
-                openProjectDetails(project);
-              });
-            }
-            sectionGrid.appendChild(clonedCard);
-          }
-        });
-      }
-      
-      sectionContainer.appendChild(sectionGrid);
-      grid.appendChild(sectionContainer);
-    });
-    
-    // Плавное появление grid с контентом, затем секций с заголовками, затем карточек
-    // Используем двойной requestAnimationFrame для синхронизации с браузером
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        // Сначала показываем grid с анимацией (если он был скрыт)
-        const gridOpacity = grid.style.opacity;
-        // Показываем grid с анимацией, если opacity установлена в 0 или не установлена
-        if (gridOpacity === '0' || !gridOpacity || gridOpacity === '') {
-          grid.style.transition = `opacity ${ANIMATION_CONFIG.duration} ${ANIMATION_CONFIG.timing}, transform ${ANIMATION_CONFIG.duration} ${ANIMATION_CONFIG.timing}`;
-          grid.style.opacity = '1';
-          grid.style.transform = 'translateY(0)';
-          
-          setTimeout(() => {
-            grid.style.opacity = '';
-            grid.style.transform = '';
-            grid.style.transition = '';
-          }, ANIMATION_CONFIG.timeout);
-        }
-        
-        // Затем анимируем секции с заголовками (как в исследованиях)
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            const allSections = grid.querySelectorAll('.projects-section');
-            if (allSections.length > 0) {
-              animateElementsAppearance(allSections);
-            }
-            
-            // Затем анимируем карточки
-            requestAnimationFrame(() => {
-              requestAnimationFrame(() => {
-                const allCards = grid.querySelectorAll('.project-card:not(.project-card-hidden)');
-                if (allCards.length > 0) {
-                  animateElementsAppearance(allCards);
-                }
-              });
-            });
-          });
-        });
-      });
-    });
-    
-    // Загружаем SVG для звездочек после рендеринга
-    requestAnimationFrame(async () => {
-      try {
-        const svgLoaderModule = await import('../components/svg-loader.js');
-        if (svgLoaderModule.default) {
-          await svgLoaderModule.default();
-        }
-      } catch (error) {
-        console.error('Ошибка загрузки SVG:', error);
-      } finally {
-        isRendering = false;
-      }
-    });
-  } catch (error) {
-    console.error('Ошибка при рендеринге проектов:', error);
-    isRendering = false;
-  }
+  await groupingManager.renderGroupedProjects();
 }
 
 /**
@@ -779,9 +471,6 @@ async function initProjectsPage() {
   // Сохраняем проекты для группировки
   allProjects = projects;
   
-  // Инициализируем фильтры
-  await initFilters(projects);
-  
   // Создаем карточки проектов и сохраняем их
   projects.forEach(project => {
     const card = createProjectCard(project);
@@ -789,6 +478,24 @@ async function initProjectsPage() {
       allProjectCards.set(project.id, card);
     }
   });
+  
+  // Инициализируем менеджер группировки
+  if (!groupingManager) {
+    groupingManager = new ProjectGroupingManager(
+      allProjects,
+      allProjectCards,
+      {
+        onCardClick: openProjectDetails,
+        onHideLoading: hideLoadingIndicator
+      }
+    );
+  } else {
+    groupingManager.projects = allProjects;
+    groupingManager.allProjectCards = allProjectCards;
+  }
+  
+  // Инициализируем фильтры
+  await initFilters(projects);
   
   // Отображаем проекты с группировкой (без фильтров)
   await renderGroupedProjects();
