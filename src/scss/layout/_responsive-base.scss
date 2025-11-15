@@ -82,11 +82,15 @@
                 background-color var(--transition-duration-base) ease, 
                 color var(--transition-duration-base) ease;
     pointer-events: none;
-    will-change: transform;
     transform: translateZ(0);
     backface-visibility: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Добавляем will-change только при анимации */
+  body.page-with-scroll .header.hidden {
+    will-change: transform;
   }
 
   body.page-with-scroll .header-content,
@@ -113,11 +117,15 @@
                 background-color var(--transition-duration-base) ease, 
                 color var(--transition-duration-base) ease;
     pointer-events: none;
-    will-change: transform;
     transform: translateZ(0);
     backface-visibility: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Добавляем will-change только при анимации */
+  body.page-with-scroll .footer.hidden {
+    will-change: transform;
   }
 
   body.page-with-scroll .footer-content,
@@ -141,9 +149,13 @@
     transition: transform var(--transition-duration-base) ease;
     z-index: 12;
     pointer-events: none;
-    will-change: transform;
     transform: translateZ(0);
     backface-visibility: hidden;
+  }
+  
+  /* Добавляем will-change только при анимации */
+  body.page-with-scroll .decorative-line-horizontal.hidden {
+    will-change: transform;
   }
 
   body.page-with-scroll .header + .decorative-line-horizontal {

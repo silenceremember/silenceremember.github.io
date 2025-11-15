@@ -11,11 +11,15 @@
     left: 0;
     width: 100%;
     pointer-events: none;
-    will-change: transform;
     transform: translateZ(0);
     backface-visibility: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Добавляем will-change только при анимации */
+  body:has(.slides-container) .header.hidden {
+    will-change: transform;
   }
 
   body:has(.slides-container) .header-content,
@@ -29,11 +33,15 @@
     left: 0;
     width: 100%;
     pointer-events: none;
-    will-change: transform;
     transform: translateZ(0);
     backface-visibility: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Добавляем will-change только при анимации */
+  body:has(.slides-container) .footer.hidden {
+    will-change: transform;
   }
 
   body:has(.slides-container) .footer-content,
@@ -55,9 +63,14 @@
     left: 0;
     transition: transform var(--transition-duration-base) ease;
     pointer-events: none;
-    will-change: transform;
     transform: translateZ(0);
     backface-visibility: hidden;
+  }
+  
+  /* Добавляем will-change только при анимации */
+  body:has(.slides-container) .header + .decorative-line-horizontal.hidden,
+  body:has(.slides-container) main + .decorative-line-horizontal.hidden {
+    will-change: transform;
   }
 
   body:has(.slides-container) .header + .decorative-line-horizontal {
@@ -144,11 +157,15 @@
     left: 0;
     width: 100%;
     pointer-events: none;
-    will-change: transform;
     transform: translateZ(0);
     backface-visibility: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Добавляем will-change только при анимации */
+  body:not(.page-with-scroll) .header.hidden {
+    will-change: transform;
   }
 
   body:not(.page-with-scroll) .header-content,
@@ -162,11 +179,15 @@
     left: 0;
     width: 100%;
     pointer-events: none;
-    will-change: transform;
     transform: translateZ(0);
     backface-visibility: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Добавляем will-change только при анимации */
+  body:not(.page-with-scroll) .footer.hidden {
+    will-change: transform;
   }
 
   body:not(.page-with-scroll) .footer-content,
@@ -188,9 +209,14 @@
     left: 0;
     transition: transform var(--transition-duration-base) ease;
     pointer-events: none;
-    will-change: transform;
     transform: translateZ(0);
     backface-visibility: hidden;
+  }
+  
+  /* Добавляем will-change только при анимации */
+  body:not(.page-with-scroll) .header + .decorative-line-horizontal.hidden,
+  body:not(.page-with-scroll) main + .decorative-line-horizontal.hidden {
+    will-change: transform;
   }
 
   body:not(.page-with-scroll) .header + .decorative-line-horizontal {
@@ -418,11 +444,15 @@
                 background-color var(--transition-duration-base) ease, 
                 color var(--transition-duration-base) ease;
     pointer-events: none;
-    will-change: transform;
     transform: translateZ(0);
     backface-visibility: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Добавляем will-change только при анимации */
+  body.page-with-scroll .header.hidden {
+    will-change: transform;
   }
 
   body.page-with-scroll .header-content,
@@ -449,11 +479,15 @@
                 background-color var(--transition-duration-base) ease, 
                 color var(--transition-duration-base) ease;
     pointer-events: none;
-    will-change: transform;
     transform: translateZ(0);
     backface-visibility: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Добавляем will-change только при анимации */
+  body.page-with-scroll .footer.hidden {
+    will-change: transform;
   }
 
   body.page-with-scroll .footer-content,
@@ -475,9 +509,14 @@
     transition: transform var(--transition-duration-base) ease;
     pointer-events: none;
     z-index: 12;
-    will-change: transform;
     transform: translateZ(0);
     backface-visibility: hidden;
+  }
+  
+  /* Добавляем will-change только при анимации */
+  body.page-with-scroll .header + .decorative-line-horizontal.hidden,
+  body.page-with-scroll main + .decorative-line-horizontal.hidden {
+    will-change: transform;
   }
 
   body.page-with-scroll .header + .decorative-line-horizontal {

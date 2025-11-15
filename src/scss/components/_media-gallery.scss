@@ -21,6 +21,10 @@
 .media-gallery-track {
   display: flex;
   transition: transform 0.3s ease;
+}
+
+/* Добавляем will-change только при активной анимации */
+.media-gallery-track.animating {
   will-change: transform;
 }
 

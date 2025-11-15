@@ -26,18 +26,15 @@
   <link rel="prefetch" href="/index.html">
   <link rel="prefetch" href="/projects.html">
   
-  <!-- Theme switcher script -->
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
+  <!-- Theme switcher script - загружается синхронно для предотвращения мерцания -->
+  <script src="/js/components/theme-init.js"></script>
+  
+  <!-- Отключаем автоматическое восстановление позиции прокрутки браузером -->
   <script>
     (function() {
-      const theme = localStorage.getItem('theme');
-      if (theme === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'dark');
-      } else {
-        document.documentElement.setAttribute('data-theme', 'light');
-      }
-      // Добавляем класс для скролла к html
-      document.documentElement.classList.add('page-with-scroll');
-      
       // Отключаем автоматическое восстановление позиции прокрутки браузером
       // чтобы предотвратить "прыжки" при загрузке асинхронного контента
       if ('scrollRestoration' in history) {

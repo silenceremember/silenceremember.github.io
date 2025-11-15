@@ -46,7 +46,6 @@
 main {
   opacity: 0;
   transition: opacity var(--transition-duration-base) ease-out;
-  will-change: opacity;
 }
 
 .header-content.fade-in-visible,
@@ -54,6 +53,22 @@ main {
 .content-wrapper.fade-in-visible,
 main.fade-in-visible {
   opacity: 1;
+  /* Добавляем will-change только во время анимации */
+  will-change: opacity;
+}
+
+/* Убираем will-change после завершения анимации */
+.header-content.fade-in-visible,
+.footer-content.fade-in-visible,
+.content-wrapper.fade-in-visible,
+main.fade-in-visible {
+  animation: removeWillChange 0.1s var(--transition-duration-base) forwards;
+}
+
+@keyframes removeWillChange {
+  to {
+    will-change: auto;
+  }
 }
 
 @include desktop {
@@ -62,7 +77,18 @@ main.fade-in-visible {
     transition: transform var(--transition-duration-base) ease, 
                 background-color var(--transition-duration-base) ease, 
                 color var(--transition-duration-base) ease;
+  }
+  
+  /* Добавляем will-change только при анимации (когда есть класс hidden) */
+  .header.hidden,
+  .footer.hidden {
     will-change: transform;
+  }
+  
+  /* Убираем will-change когда анимация завершена */
+  .header:not(.hidden):not(.fade-in-visible),
+  .footer:not(.hidden):not(.fade-in-visible) {
+    will-change: auto;
   }
 }
 

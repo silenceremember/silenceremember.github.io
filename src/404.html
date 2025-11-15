@@ -19,20 +19,14 @@
   <link rel="preload" href="/js/main.js" as="script">
   <link rel="preload" href="/js/pages/404.js" as="script">
   
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
   <!-- Prefetch для главной страницы -->
   <link rel="prefetch" href="/index.html">
   
-  <!-- Theme switcher script -->
-  <script>
-    (function() {
-      const theme = localStorage.getItem('theme');
-      if (theme === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'dark');
-      } else {
-        document.documentElement.setAttribute('data-theme', 'light');
-      }
-    })();
-  </script>
+  <!-- Theme switcher script - загружается синхронно для предотвращения мерцания -->
+  <script src="/js/components/theme-init.js"></script>
 
   <!-- Main CSS -->
   <link rel="stylesheet" href="/scss/style.scss">

@@ -20,23 +20,15 @@
   <link rel="preload" href="/js/pages/community.js" as="script">
   <link rel="preload" href="/data/community.json" as="fetch" crossorigin>
   
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  
   <!-- Prefetch для других страниц -->
   <link rel="prefetch" href="/index.html">
   <link rel="prefetch" href="/cv.html">
   
-  <!-- Theme switcher script -->
-  <script>
-    (function() {
-      const theme = localStorage.getItem('theme');
-      if (theme === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'dark');
-      } else {
-        document.documentElement.setAttribute('data-theme', 'light');
-      }
-      // Добавляем класс для скролла к html
-      document.documentElement.classList.add('page-with-scroll');
-    })();
-  </script>
+  <!-- Theme switcher script - загружается синхронно для предотвращения мерцания -->
+  <script src="/js/components/theme-init.js"></script>
 
   <!-- Main CSS -->
   <link rel="stylesheet" href="/scss/style.scss">
