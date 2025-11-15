@@ -14,10 +14,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
   <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet"></noscript>
   
-  <!-- Resource Hints: Preload критических ресурсов -->
+  <!-- Resource Hints: Preload только критических ресурсов -->
   <link rel="preload" href="/scss/style.scss" as="style">
-  <link rel="preload" href="/js/main.js" as="script">
-  <link rel="preload" href="/js/pages/404.js" as="script">
+  <!-- Prefetch для асинхронно загружаемых ресурсов -->
+  <link rel="prefetch" href="/js/main.js" as="script">
+  <link rel="prefetch" href="/js/pages/404.js" as="script">
   
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">

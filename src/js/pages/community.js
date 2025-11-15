@@ -745,29 +745,14 @@ async function initCommunityPage() {
       if (container) {
         container.appendChild(discordSection);
         
-        // Загружаем SVG иконки после добавления в DOM
-        requestAnimationFrame(async () => {
-          try {
-            const svgLoaderModule = await import('../components/svg-loader.js');
-            if (svgLoaderModule.default) {
-              await svgLoaderModule.default();
-            }
-            
-            // Устанавливаем фиксированный размер иконки 128x128
-            const card = discordSection.querySelector('.community-card-discord');
-            const iconContainer = card?.querySelector('.community-card-icon-left');
-            if (card && iconContainer) {
-              iconContainer.style.width = '128px';
-              iconContainer.style.minWidth = '128px';
-              iconContainer.style.height = '128px';
-            }
-          } catch (error) {
-            console.error('Ошибка загрузки SVG:', error);
-          }
-        });
-        
-        // Скрываем элементы секции сразу
-        hideAllCommunityElementsImmediately();
+        // Устанавливаем фиксированный размер иконки 128x128
+        const card = discordSection.querySelector('.community-card-discord');
+        const iconContainer = card?.querySelector('.community-card-icon-left');
+        if (card && iconContainer) {
+          iconContainer.style.width = '128px';
+          iconContainer.style.minWidth = '128px';
+          iconContainer.style.height = '128px';
+        }
       }
     }
   }
@@ -784,21 +769,6 @@ async function initCommunityPage() {
       const container = document.getElementById('community-social-section');
       if (container) {
         container.appendChild(socialSection);
-        
-        // Загружаем SVG иконки после добавления в DOM
-        requestAnimationFrame(async () => {
-          try {
-            const svgLoaderModule = await import('../components/svg-loader.js');
-            if (svgLoaderModule.default) {
-              await svgLoaderModule.default();
-            }
-          } catch (error) {
-            console.error('Ошибка загрузки SVG:', error);
-          }
-        });
-        
-        // Скрываем элементы секции сразу
-        hideAllCommunityElementsImmediately();
       }
     }
   }
@@ -815,21 +785,6 @@ async function initCommunityPage() {
       const container = document.getElementById('community-donations-section');
       if (container) {
         container.appendChild(donationsSection);
-        
-        // Загружаем SVG иконки после добавления в DOM
-        requestAnimationFrame(async () => {
-          try {
-            const svgLoaderModule = await import('../components/svg-loader.js');
-            if (svgLoaderModule.default) {
-              await svgLoaderModule.default();
-            }
-          } catch (error) {
-            console.error('Ошибка загрузки SVG:', error);
-          }
-        });
-        
-        // Скрываем элементы секции сразу
-        hideAllCommunityElementsImmediately();
       }
     }
   }
@@ -846,21 +801,6 @@ async function initCommunityPage() {
       const container = document.getElementById('community-work-section');
       if (container) {
         container.appendChild(workSection);
-        
-        // Загружаем SVG иконки после добавления в DOM
-        requestAnimationFrame(async () => {
-          try {
-            const svgLoaderModule = await import('../components/svg-loader.js');
-            if (svgLoaderModule.default) {
-              await svgLoaderModule.default();
-            }
-          } catch (error) {
-            console.error('Ошибка загрузки SVG:', error);
-          }
-        });
-        
-        // Скрываем элементы секции сразу
-        hideAllCommunityElementsImmediately();
       }
     }
   }
@@ -877,9 +817,6 @@ async function initCommunityPage() {
       const container = document.getElementById('community-events-section');
       if (container) {
         container.appendChild(eventsSection);
-        
-        // Скрываем элементы секции сразу
-        hideAllCommunityElementsImmediately();
       }
     }
   }
@@ -893,7 +830,12 @@ async function initCommunityPage() {
   // Выделяем активную страницу в навигации
   setActiveNavigationLink();
   
-  // Загружаем SVG для кнопки "Наверх" и иконок
+  // Скрываем все элементы после добавления всех секций
+  hideAllCommunityElementsImmediately();
+  
+  // Загружаем SVG для кнопки "Наверх" и иконок после добавления всех элементов в DOM
+  // Используем небольшую задержку для гарантии, что все элементы добавлены
+  await new Promise(resolve => setTimeout(resolve, 0));
   const svgLoaderModule = await import('../components/svg-loader.js');
   if (svgLoaderModule.default) {
     await svgLoaderModule.default();
