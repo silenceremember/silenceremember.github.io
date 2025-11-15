@@ -17,6 +17,13 @@ export default defineConfig({
             return next();
           }
 
+          // Устанавливаем правильный Content-Type для PDF файлов
+          if (cleanUrl.endsWith('.pdf')) {
+            res.setHeader('Content-Type', 'application/pdf');
+            res.setHeader('Content-Disposition', 'inline');
+            return next();
+          }
+
           // Пропускаем статические ресурсы (файлы с расширениями)
           if (cleanUrl.includes('.') && !cleanUrl.endsWith('.html')) {
             return next();

@@ -469,15 +469,25 @@ export async function openDocument({ url, title, isDraft = false, draftNote = '�
     titleElement.textContent = displayTitle;
   }
   
-  // Устанавливаем URL для iframe (используем Google Docs Viewer для PDF)
+  // Устанавливаем URL для iframe (используем встроенный PDF viewer браузера)
   if (iframe) {
     // Сбрасываем класс loaded перед загрузкой нового документа
     iframe.classList.remove('loaded');
     
-    // Используем Google Docs Viewer для просмотра PDF
+    // Используем встроенный PDF viewer браузера вместо Google Docs Viewer
+    // Это устраняет CSP предупреждения от Google Docs Viewer и работает быстрее
     const pdfUrl = url.startsWith('http') ? url : `/${url}`;
-    const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(window.location.origin + pdfUrl)}&embedded=true`;
-    iframe.src = viewerUrl;
+    const fullPdfUrl = pdfUrl.startsWith('http') ? pdfUrl : `${window.location.origin}${pdfUrl}`;
+    
+    // Устанавливаем type для правильной обработки PDF браузером
+    iframe.setAttribute('type', 'application/pdf');
+    
+    // Прямая загрузка PDF в iframe - браузер использует встроенный viewer
+    // Это устраняет все CSP предупреждения, так как PDF загружается напрямую
+    iframe.src = fullPdfUrl;
+    
+    // Убираем sandbox, если он был установлен ранее (для корректной работы PDF viewer)
+    iframe.removeAttribute('sandbox');
   }
   
   // Устанавливаем ссылку для скачивания

@@ -6,6 +6,9 @@ export function initThemeSwitcher() {
   const sunIcon = themeButton.querySelector('.theme-icon-sun');
   const documentElement = document.documentElement;
 
+  // Если иконки не найдены, выходим
+  if (!moonIcon || !sunIcon) return;
+
   const applyTheme = (theme) => {
     documentElement.setAttribute('data-theme', theme);
     if (theme === 'dark') {
