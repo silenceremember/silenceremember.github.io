@@ -43,7 +43,7 @@ const initCustomCursor = () => {
   let pendingStorageY = null;
 
   const interactiveSelector =
-    'a, button, .header-language, .header-theme, .social-link, .footer-decorative-square, .header-menu-button, .project-card, .research-card, .document-viewer-button, .document-viewer-error-link';
+    'a, button, .header-language, .header-theme, .social-link, .footer-decorative-square, .header-menu-button, .project-card, .research-card';
 
   // Оптимизация: Функция обновления позиции через RAF
   const updateCursorPosition = () => {
@@ -71,9 +71,6 @@ const initCustomCursor = () => {
     }, 500);
   };
 
-  // Флаг для отслеживания состояния document viewer
-  let isDocumentViewerOpen = false;
-
   // Функция для плавного скрытия курсора
   const hideCursor = () => {
     if (isVisible) {
@@ -94,65 +91,8 @@ const initCustomCursor = () => {
     }
   };
 
-  // Отслеживание открытия/закрытия document viewer через MutationObserver
-  const observeDocumentViewer = () => {
-    const documentViewerModal = document.querySelector('.document-viewer-modal');
-    if (!documentViewerModal) {
-      // Если модальное окно еще не создано, проверяем позже
-      setTimeout(observeDocumentViewer, 500);
-      return;
-    }
-
-    // Проверяем начальное состояние
-    isDocumentViewerOpen = !documentViewerModal.hidden;
-    if (isDocumentViewerOpen) {
-      hideCursor();
-    }
-
-    // Создаем наблюдатель за изменениями атрибута hidden
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.type === 'attributes' && mutation.attributeName === 'hidden') {
-          const isOpen = !documentViewerModal.hidden;
-          if (isOpen && !isDocumentViewerOpen) {
-            // Модальное окно открылось
-            isDocumentViewerOpen = true;
-            hideCursor();
-          } else if (!isOpen && isDocumentViewerOpen) {
-            // Модальное окно закрылось
-            isDocumentViewerOpen = false;
-            // Показываем курсор с небольшой задержкой для плавности
-            setTimeout(() => {
-              if (!isDocumentViewerOpen) {
-                showCursor();
-              }
-            }, 100);
-          }
-        }
-      });
-    });
-
-    // Начинаем наблюдение за изменениями атрибута hidden
-    observer.observe(documentViewerModal, {
-      attributes: true,
-      attributeFilter: ['hidden']
-    });
-  };
-
-  // Запускаем наблюдение после загрузки DOM
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', observeDocumentViewer);
-  } else {
-    observeDocumentViewer();
-  }
-
   // Оптимизация: Throttled проверка hover состояния
   const checkHoverState = (x, y) => {
-    // Если document viewer открыт, не проверяем hover состояние
-    if (isDocumentViewerOpen) {
-      return;
-    }
-
     const now = performance.now();
     // Уменьшили throttling до 50мс и убрали проверку по расстоянию для более быстрой реакции
     const distanceMoved = Math.abs(x - lastHoverCheckX) + Math.abs(y - lastHoverCheckY);
@@ -221,8 +161,8 @@ const initCustomCursor = () => {
     targetX = x;
     targetY = y;
 
-    // Показываем курсор при первом движении мыши (только если document viewer закрыт)
-    if (!isVisible && !isDocumentViewerOpen) {
+    // Показываем курсор при первом движении мыши
+    if (!isVisible) {
       cursor.classList.add('visible');
       isVisible = true;
     }

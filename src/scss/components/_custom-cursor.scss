@@ -3,17 +3,6 @@
   cursor: none !important;
 }
 
-// Исключения: показываем обычный курсор в document viewer
-// (кастомный курсор скрывается при открытии document viewer)
-// Используем более специфичный селектор для гарантированного переопределения
-.document-viewer-modal,
-.document-viewer-modal *,
-.document-viewer-modal *::before,
-.document-viewer-modal *::after,
-.document-viewer-iframe-wrapper {
-  cursor: auto !important;
-}
-
 .custom-cursor {
   position: fixed;
   width: 20px;

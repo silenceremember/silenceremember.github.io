@@ -3,7 +3,6 @@
  */
 
 import { loadHTML } from '../layout.js';
-import { openDocument } from '../services/document-viewer.js';
 import { loadData } from '../utils/data-loader.js';
 import { initScrollToTop } from '../components/scroll-to-top.js';
 import { ANIMATION_CONFIG as CARD_ANIMATION, animateElementsAppearance, animateSectionAppearance, animateElementAppearance } from '../utils/animations.js';
@@ -180,12 +179,10 @@ function createResearchCard(publication) {
       button.textContent = publication.type === 'diploma' ? 'ЧИТАТЬ ГЛАВУ' : 'ЧИТАТЬ';
       button.addEventListener('click', (e) => {
         e.stopPropagation();
-        openDocument({
-          url: publication.pdf_url,
-          title: publication.title,
-          isDraft: publication.status === 'in-progress',
-          draftNote: publication.status === 'in-progress' ? 'Черновик' : null
-        });
+        const url = publication.pdf_url.startsWith('http') 
+          ? publication.pdf_url 
+          : `/${publication.pdf_url}`;
+        window.open(url, '_blank');
       });
     } else {
       button.disabled = true;
@@ -205,12 +202,10 @@ function createResearchCard(publication) {
       // Предотвращаем всплытие события от кнопки "ЧИТАТЬ"
       // но все равно открываем документ
       e.stopPropagation();
-      openDocument({
-        url: publication.pdf_url,
-        title: publication.title,
-        isDraft: publication.status === 'in-progress',
-        draftNote: publication.status === 'in-progress' ? 'Черновик' : null
-      });
+      const url = publication.pdf_url.startsWith('http') 
+        ? publication.pdf_url 
+        : `/${publication.pdf_url}`;
+      window.open(url, '_blank');
     });
   }
   
