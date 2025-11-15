@@ -9,6 +9,11 @@ let isInitialized = false;
 let scrollPosition = 0;
 let scrollLockElements = [];
 let selectionLockElements = [];
+// Кэшированные элементы для оптимизации производительности
+let iframeWrapper = null;
+let iframe = null;
+let interactiveElements = null;
+let pageWrapper = null;
 
 /**
  * Загружает SVG иконку
@@ -61,14 +66,18 @@ function lockScroll() {
   // Сохраняем текущую позицию скролла
   scrollPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
   
+  // Кэшируем pageWrapper при первом использовании
+  if (!pageWrapper) {
+    pageWrapper = document.querySelector('.page-wrapper');
+  }
+  
   // Блокируем прокрутку на html и body
   const html = document.documentElement;
   const body = document.body;
-  const pageWrapper = document.querySelector('.page-wrapper');
   
   scrollLockElements = [];
   
-  // HTML элемент
+  // Сохраняем оригинальные стили синхронно
   scrollLockElements.push({
     element: html,
     originalStyle: html.style.cssText,
@@ -77,12 +86,7 @@ function lockScroll() {
     originalTop: html.style.top,
     originalWidth: html.style.width
   });
-  html.style.overflow = 'hidden';
-  html.style.position = 'fixed';
-  html.style.top = `-${scrollPosition}px`;
-  html.style.width = '100%';
   
-  // Body элемент
   scrollLockElements.push({
     element: body,
     originalStyle: body.style.cssText,
@@ -91,10 +95,6 @@ function lockScroll() {
     originalTop: body.style.top,
     originalWidth: body.style.width
   });
-  body.style.overflow = 'hidden';
-  body.style.position = 'fixed';
-  body.style.top = `-${scrollPosition}px`;
-  body.style.width = '100%';
   
   // Page wrapper (если есть)
   if (pageWrapper) {
@@ -103,10 +103,26 @@ function lockScroll() {
       originalStyle: pageWrapper.style.cssText,
       originalOverflow: pageWrapper.style.overflow
     });
-    pageWrapper.style.overflow = 'hidden';
   }
   
+  // Используем CSS класс для блокировки прокрутки - это более производительно
+  html.classList.add('document-viewer-scroll-locked');
+  body.classList.add('document-viewer-scroll-locked');
+  
+  // Батчим применение изменений стилей через requestAnimationFrame для уменьшения рефлоу
+  requestAnimationFrame(() => {
+    // Применяем изменения к html и body одновременно для уменьшения рефлоу
+    html.style.top = `-${scrollPosition}px`;
+    body.style.top = `-${scrollPosition}px`;
+    
+    // Page wrapper (если есть)
+    if (pageWrapper) {
+      pageWrapper.style.overflow = 'hidden';
+    }
+  });
+  
   // Предотвращаем прокрутку через touch события на мобильных устройствах
+  // Добавляем обработчики сразу, чтобы предотвратить прокрутку до применения стилей
   document.addEventListener('touchmove', preventScroll, { passive: false });
   document.addEventListener('wheel', preventScroll, { passive: false });
 }
@@ -118,6 +134,12 @@ function unlockScroll() {
   // Удаляем обработчики событий сначала
   document.removeEventListener('touchmove', preventScroll);
   document.removeEventListener('wheel', preventScroll);
+  
+  // Убираем CSS класс для блокировки прокрутки
+  const html = document.documentElement;
+  const body = document.body;
+  html.classList.remove('document-viewer-scroll-locked');
+  body.classList.remove('document-viewer-scroll-locked');
   
   // Восстанавливаем стили для всех элементов
   scrollLockElements.forEach(({ element, originalStyle, originalOverflow, originalPosition, originalTop, originalWidth }) => {
@@ -160,7 +182,7 @@ function lockSelection() {
   
   selectionLockElements = [];
   
-  // HTML элемент
+  // Сохраняем оригинальные стили синхронно
   selectionLockElements.push({
     element: html,
     originalUserSelect: html.style.userSelect,
@@ -168,12 +190,7 @@ function lockSelection() {
     originalMozUserSelect: html.style.mozUserSelect,
     originalMsUserSelect: html.style.msUserSelect
   });
-  html.style.userSelect = 'none';
-  html.style.webkitUserSelect = 'none';
-  html.style.mozUserSelect = 'none';
-  html.style.msUserSelect = 'none';
   
-  // Body элемент
   selectionLockElements.push({
     element: body,
     originalUserSelect: body.style.userSelect,
@@ -181,12 +198,23 @@ function lockSelection() {
     originalMozUserSelect: body.style.mozUserSelect,
     originalMsUserSelect: body.style.msUserSelect
   });
-  body.style.userSelect = 'none';
-  body.style.webkitUserSelect = 'none';
-  body.style.mozUserSelect = 'none';
-  body.style.msUserSelect = 'none';
+  
+  // Батчим применение изменений стилей через requestAnimationFrame для уменьшения рефлоу
+  requestAnimationFrame(() => {
+    // Применяем изменения к html и body одновременно для уменьшения рефлоу
+    html.style.userSelect = 'none';
+    html.style.webkitUserSelect = 'none';
+    html.style.mozUserSelect = 'none';
+    html.style.msUserSelect = 'none';
+    
+    body.style.userSelect = 'none';
+    body.style.webkitUserSelect = 'none';
+    body.style.mozUserSelect = 'none';
+    body.style.msUserSelect = 'none';
+  });
   
   // Добавляем обработчики событий для предотвращения выделения
+  // Добавляем обработчики сразу, чтобы предотвратить выделение до применения стилей
   document.addEventListener('selectstart', preventSelection, false);
   document.addEventListener('dragstart', preventSelection, false);
   document.addEventListener('contextmenu', preventSelection, false);
@@ -237,26 +265,34 @@ function preventSelection(e) {
     return;
   }
   
-  // Разрешаем выделение внутри iframe-wrapper и iframe (PDF контент)
-  const iframeWrapper = documentViewerModal.querySelector('.document-viewer-iframe-wrapper');
-  const iframe = documentViewerModal.querySelector('.document-viewer-iframe');
+  const target = e.target;
   
-  if (iframeWrapper && (iframeWrapper.contains(e.target) || e.target === iframeWrapper)) {
+  // Быстрая проверка: если target является интерактивным элементом напрямую
+  if (target.tagName === 'BUTTON' || target.tagName === 'A' || 
+      target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
     return;
   }
   
-  if (iframe && (iframe.contains(e.target) || e.target === iframe)) {
+  // Разрешаем выделение внутри iframe-wrapper и iframe (PDF контент)
+  // Используем кэшированные элементы для оптимизации производительности
+  if (iframeWrapper && (iframeWrapper === target || iframeWrapper.contains(target))) {
+    return;
+  }
+  
+  if (iframe && (iframe === target || iframe.contains(target))) {
     return;
   }
   
   // Разрешаем выделение внутри самого модального окна (кнопки, заголовки и т.д.)
-  if (documentViewerModal.contains(e.target) && 
-      !iframeWrapper?.contains(e.target) && 
-      !iframe?.contains(e.target)) {
+  if (documentViewerModal.contains(target)) {
     // Разрешаем выделение только для интерактивных элементов (кнопки, ссылки)
-    const interactiveElements = documentViewerModal.querySelectorAll('button, a, input, textarea');
-    if (Array.from(interactiveElements).some(el => el.contains(e.target))) {
-      return;
+    // Используем прямое итерирование NodeList без Array.from() для оптимизации
+    if (interactiveElements) {
+      for (let i = 0; i < interactiveElements.length; i++) {
+        if (interactiveElements[i].contains(target)) {
+          return;
+        }
+      }
     }
   }
   
@@ -273,15 +309,16 @@ function preventScroll(e) {
     return;
   }
   
+  const target = e.target;
+  
+  // Ранний выход: проверяем target напрямую перед contains() для оптимизации
   // Разрешаем прокрутку внутри iframe-wrapper (где находится PDF)
-  const iframeWrapper = documentViewerModal.querySelector('.document-viewer-iframe-wrapper');
-  if (iframeWrapper && (iframeWrapper.contains(e.target) || e.target === iframeWrapper)) {
+  if (iframeWrapper && (iframeWrapper === target || iframeWrapper.contains(target))) {
     return;
   }
   
   // Разрешаем прокрутку внутри iframe (PDF контент)
-  const iframe = documentViewerModal.querySelector('.document-viewer-iframe');
-  if (iframe && (iframe.contains(e.target) || e.target === iframe)) {
+  if (iframe && (iframe === target || iframe.contains(target))) {
     return;
   }
   
@@ -333,10 +370,14 @@ function setupEventHandlers() {
   const closeButton = documentViewerModal.querySelector('.document-viewer-close');
   const fullscreenButton = documentViewerModal.querySelector('.document-viewer-fullscreen');
   const downloadLink = documentViewerModal.querySelector('.document-viewer-download');
-  const iframe = documentViewerModal.querySelector('.document-viewer-iframe');
   const loadingElement = documentViewerModal.querySelector('.document-viewer-loading');
   const errorElement = documentViewerModal.querySelector('.document-viewer-error');
   const errorLink = documentViewerModal.querySelector('.document-viewer-error-link');
+  
+  // Кэшируем элементы для оптимизации производительности
+  iframeWrapper = documentViewerModal.querySelector('.document-viewer-iframe-wrapper');
+  iframe = documentViewerModal.querySelector('.document-viewer-iframe');
+  interactiveElements = documentViewerModal.querySelectorAll('button, a, input, textarea');
   
   // Закрытие по клику на backdrop
   if (backdrop) {
@@ -454,11 +495,17 @@ export async function openDocument({ url, title, isDraft = false, draftNote = '�
   }
   
   const titleElement = documentViewerModal.querySelector('.document-viewer-title');
-  const iframe = documentViewerModal.querySelector('.document-viewer-iframe');
   const downloadLink = documentViewerModal.querySelector('.document-viewer-download');
   const loadingElement = documentViewerModal.querySelector('.document-viewer-loading');
   const errorElement = documentViewerModal.querySelector('.document-viewer-error');
   const watermark = documentViewerModal.querySelector('.document-viewer-watermark');
+  
+  // Обновляем кэш элементов на случай, если DOM изменился
+  if (!iframeWrapper || !iframe || !interactiveElements) {
+    iframeWrapper = documentViewerModal.querySelector('.document-viewer-iframe-wrapper');
+    iframe = documentViewerModal.querySelector('.document-viewer-iframe');
+    interactiveElements = documentViewerModal.querySelectorAll('button, a, input, textarea');
+  }
   
   // Устанавливаем заголовок
   if (titleElement) {
@@ -470,6 +517,7 @@ export async function openDocument({ url, title, isDraft = false, draftNote = '�
   }
   
   // Устанавливаем URL для iframe (используем встроенный PDF viewer браузера)
+  // Используем кэшированный элемент для оптимизации производительности
   if (iframe) {
     // Сбрасываем класс loaded перед загрузкой нового документа
     iframe.classList.remove('loaded');
@@ -500,42 +548,39 @@ export async function openDocument({ url, title, isDraft = false, draftNote = '�
     watermark.style.display = isDraft ? 'block' : 'none';
   }
   
-  // Показываем индикатор загрузки с плавной анимацией
-  if (loadingElement) {
-    loadingElement.hidden = false;
-    loadingElement.style.opacity = '0';
-    loadingElement.style.transform = 'translateY(10px)';
-    loadingElement.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
-    
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        loadingElement.style.opacity = '1';
-        loadingElement.style.transform = 'translateY(0)';
-      });
-    });
-  }
-  
   // Скрываем ошибку
   if (errorElement) {
     errorElement.hidden = true;
   }
   
-  // Блокируем прокрутку страницы
-  lockScroll();
-  
-  // Блокируем выделение текста на странице
-  lockSelection();
-  
-  // Показываем модальное окно
+  // Показываем модальное окно сначала для оптимизации порядка операций
   documentViewerModal.hidden = false;
   
-  // Запускаем анимацию появления после небольшой задержки для корректного рендеринга
+  // Батчим все изменения стилей через requestAnimationFrame для уменьшения рефлоу
   requestAnimationFrame(() => {
+    // Показываем индикатор загрузки с плавной анимацией
+    if (loadingElement) {
+      loadingElement.hidden = false;
+      loadingElement.style.opacity = '0';
+      loadingElement.style.transform = 'translateY(10px)';
+      loadingElement.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
+      
+      requestAnimationFrame(() => {
+        loadingElement.style.opacity = '1';
+        loadingElement.style.transform = 'translateY(0)';
+      });
+    }
+    
+    // Запускаем анимацию появления модального окна
     documentViewerModal.classList.add('visible');
+    
+    // Блокируем прокрутку страницы и выделение текста после показа модального окна
+    lockScroll();
+    lockSelection();
+    
+    // Фокус на модальном окне для доступности
+    documentViewerModal.focus();
   });
-  
-  // Фокус на модальном окне для доступности
-  documentViewerModal.focus();
 }
 
 /**
@@ -554,7 +599,7 @@ export function closeDocumentViewer() {
     documentViewerModal.hidden = true;
     
     // Очищаем iframe для освобождения памяти
-    const iframe = documentViewerModal.querySelector('.document-viewer-iframe');
+    // Используем кэшированный элемент для оптимизации производительности
     if (iframe) {
       iframe.src = '';
       iframe.classList.remove('loaded');

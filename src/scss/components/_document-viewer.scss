@@ -13,6 +13,9 @@
   overflow: hidden;
   opacity: 0;
   visibility: hidden;
+  // Оптимизации для производительности анимаций
+  will-change: opacity, visibility;
+  transform: translateZ(0); // Создаем слой композиции для оптимизации
   transition: opacity var(--transition-duration-fast) ease-in-out, 
               visibility var(--transition-duration-fast) ease-in-out;
   
@@ -33,14 +36,15 @@
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0);
-  backdrop-filter: blur(0px);
   cursor: pointer;
-  transition: background-color var(--transition-duration-fast) ease-in-out, 
-              backdrop-filter var(--transition-duration-fast) ease-in-out;
+  // Убрали backdrop-filter для улучшения производительности в Firefox
+  // Используем только background-color для затемнения
+  will-change: background-color;
+  transform: translateZ(0); // Создаем слой композиции для оптимизации
+  transition: background-color var(--transition-duration-fast) ease-in-out;
   
   .document-viewer-modal.visible & {
-    background-color: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(4px);
+    background-color: rgba(0, 0, 0, 0.85); // Немного увеличили непрозрачность для компенсации отсутствия blur
   }
 }
 
@@ -61,6 +65,9 @@
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0);
   overflow: hidden;
   opacity: 0;
+  // Оптимизации для производительности анимаций
+  will-change: opacity, box-shadow, transform;
+  transform: translateZ(0); // Создаем слой композиции для оптимизации
   transition: opacity var(--transition-duration-fast) ease-out, 
               box-shadow var(--transition-duration-fast) ease-out,
               width var(--transition-duration-fast) ease-out,
@@ -283,6 +290,9 @@
   padding: 0;
   vertical-align: top;
   opacity: 0;
+  // Оптимизации для производительности анимаций
+  will-change: opacity;
+  transform: translateZ(0); // Создаем слой композиции для оптимизации
   transition: opacity var(--transition-duration-fast) ease-in-out;
   
   &.loaded {
@@ -378,6 +388,18 @@
     max-height: 100%;
     box-shadow: none;
   }
+}
+
+/* CSS класс для блокировки прокрутки страницы */
+body.document-viewer-scroll-locked {
+  overflow: hidden !important;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+html.document-viewer-scroll-locked {
+  overflow: hidden !important;
 }
 
 /* Адаптивность */
