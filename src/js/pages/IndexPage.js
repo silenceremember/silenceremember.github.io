@@ -6,6 +6,7 @@ import { BasePage } from './BasePage.js';
 import { getRoleLabel } from '../utils/RoleMapper.js';
 import { loadData } from '../utils/DataLoader.js';
 import { SlideAnimationManager } from '../managers/SlideAnimationManager.js';
+import { SlidesManager } from '../components/index.js';
 import { backgroundImageService } from '../services/BackgroundImageService.js';
 
 /**
@@ -19,6 +20,7 @@ export class IndexPage extends BasePage {
     });
     this.slideAnimationManager = null;
     this.slidesContainer = null;
+    this.slidesManager = null;
   }
 
   /**
@@ -187,6 +189,10 @@ export class IndexPage extends BasePage {
 
     // Инициализируем базовые компоненты (навигация, scroll-to-top, SVG)
     await this.initBase();
+
+    // Инициализируем менеджер слайдов (обработка скролла, колесика мыши, смена слайдов)
+    this.slidesManager = new SlidesManager();
+    this.slidesManager.init();
 
     // Загружаем featured проекты
     const featuredProjects = await this.loadFeaturedProjects();
