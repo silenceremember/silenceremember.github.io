@@ -40,6 +40,9 @@ export class ProjectFiltersManager {
     
     /** @type {string|null} */
     this.projectFiltersTemplate = null;
+    
+    /** @type {boolean} */
+    this.isApplyingFilters = false;
   }
 
   /**
@@ -567,7 +570,7 @@ export class ProjectFiltersManager {
       button.classList.remove('active');
     });
     
-    // Сбрасываем dropdown года
+    // Сбрасываем dropdown года (без ожидания анимации - она выполнится асинхронно)
     const dropdownButton = document.getElementById('project-filters-year-button');
     const dropdownMenu = document.getElementById('project-filters-year-dropdown-menu');
     if (dropdownButton) {
@@ -582,16 +585,18 @@ export class ProjectFiltersManager {
       dropdownButton.setAttribute('aria-expanded', 'false');
     }
     if (dropdownMenu) {
-      dropdownMenu.style.transition = 'opacity 0.3s ease-in-out';
+      // Закрываем dropdown с анимацией, но не ждем её завершения
+      dropdownMenu.style.transition = 'opacity 0.15s ease-in-out';
       dropdownMenu.style.opacity = '0';
       setTimeout(() => {
         dropdownMenu.hidden = true;
         // Очищаем inline стили после анимации
         dropdownMenu.style.opacity = '';
         dropdownMenu.style.transition = '';
-      }, 300);
+      }, 150);
     }
     
+    // Применяем фильтры сразу, не дожидаясь анимации dropdown
     this.applyFilters();
   }
 
@@ -602,187 +607,202 @@ export class ProjectFiltersManager {
     const grid = document.getElementById('projects-grid');
     if (!grid) return;
     
-    // Убеждаемся, что индикатор загрузки скрыт (на случай, если он остался)
-    await this.onHideLoading();
-    
-    // Проверяем, есть ли активные фильтры
-    const hasActiveFilters = Object.values(this.activeFilters).some(arr => arr.length > 0);
-    
-    if (!hasActiveFilters) {
-      // Если фильтров нет, группируем по разделам
-      // Сбрасываем состояние развернутости при переключении на группировку
-      this.onExpandedSectionsClear();
-      await this.onRenderGrouped();
+    // Защита от множественных одновременных вызовов
+    if (this.isApplyingFilters) {
       return;
     }
+    this.isApplyingFilters = true;
     
-    // Если есть фильтры, создаем структуру с заголовком и сеткой в одном контейнере
-    // Очищаем grid и создаем структуру projects-section
-    grid.innerHTML = '';
-    grid.className = 'projects-grid';
+    try {
+      // Проверяем, есть ли индикатор загрузки перед его скрытием
+      const loadingElement = document.getElementById('projects-loading');
+      if (loadingElement) {
+        // Убеждаемся, что индикатор загрузки скрыт (на случай, если он остался)
+        await this.onHideLoading();
+      }
     
-    // Создаем контейнер секции для результатов фильтров
-    const sectionContainer = document.createElement('div');
-    sectionContainer.className = 'projects-section';
-    
-    // Создаем заголовок секции
-    const sectionHeader = document.createElement('div');
-    sectionHeader.className = 'projects-section-header';
-    
-    const sectionTitle = document.createElement('h2');
-    sectionTitle.className = 'projects-section-title';
-    sectionTitle.id = 'project-filters-results';
-    
-    // Создаем контейнер для названия
-    const titleContainer = document.createElement('span');
-    titleContainer.className = 'projects-section-title-text';
-    titleContainer.textContent = 'НАЙДЕНО ПРОЕКТОВ';
-    sectionTitle.appendChild(titleContainer);
-    
-    // Добавляем счетчик
-    const countElement = document.createElement('span');
-    countElement.className = 'project-filters-option-count';
-    countElement.textContent = '0';
-    sectionTitle.appendChild(countElement);
-    
-    // Добавляем кнопку "Сбросить"
-    const resetButton = document.createElement('button');
-    resetButton.className = 'projects-section-expand';
-    resetButton.id = 'project-filters-reset';
-    resetButton.setAttribute('aria-label', 'Сбросить фильтры');
-    const resetButtonText = document.createElement('span');
-    resetButtonText.className = 'projects-section-expand-text';
-    resetButtonText.textContent = 'Сбросить';
-    resetButton.appendChild(resetButtonText);
-    resetButton.addEventListener('click', () => {
-      this.clearAllFilters();
-    });
-    sectionTitle.appendChild(resetButton);
-    
-    sectionHeader.appendChild(sectionTitle);
-    sectionContainer.appendChild(sectionHeader);
-    
-    // Создаем сетку для проектов
-    const sectionGrid = document.createElement('div');
-    sectionGrid.className = 'projects-section-grid';
-    
-    // Фильтруем и добавляем карточки
-    let visibleCount = 0;
-    
-    this.projects.forEach(project => {
-      let visible = true;
+      // Проверяем, есть ли активные фильтры
+      const hasActiveFilters = Object.values(this.activeFilters).some(arr => arr.length > 0);
       
-      // Проверяем категорию
-      if (visible && this.activeFilters.category.length > 0) {
-        if (!this.activeFilters.category.includes(project.category)) {
-          visible = false;
-        }
+      if (!hasActiveFilters) {
+        // Если фильтров нет, группируем по разделам
+        // Сбрасываем состояние развернутости при переключении на группировку
+        this.onExpandedSectionsClear();
+        await this.onRenderGrouped();
+        return;
       }
       
-      // Проверяем статус
-      if (visible && this.activeFilters.status.length > 0) {
-        if (!this.activeFilters.status.includes(project.status)) {
-          visible = false;
-        }
-      }
+      // Если есть фильтры, создаем структуру с заголовком и сеткой в одном контейнере
+      // Очищаем grid и создаем структуру projects-section
+      grid.innerHTML = '';
+      grid.className = 'projects-grid';
       
-      // Проверяем год
-      if (visible && this.activeFilters.year.length > 0) {
-        if (project.year && !this.activeFilters.year.includes(project.year.toString())) {
-          visible = false;
-        }
-      }
+      // Создаем контейнер секции для результатов фильтров
+      const sectionContainer = document.createElement('div');
+      sectionContainer.className = 'projects-section';
       
-      // Добавляем только видимые карточки
-      if (visible) {
-        // Используем CardFactory для создания карточки, если есть шаблон
-        // Иначе клонируем из существующих карточек
-        let card = null;
-        const originalCard = this.allProjectCards.get(project.id);
+      // Создаем заголовок секции
+      const sectionHeader = document.createElement('div');
+      sectionHeader.className = 'projects-section-header';
+      
+      const sectionTitle = document.createElement('h2');
+      sectionTitle.className = 'projects-section-title';
+      sectionTitle.id = 'project-filters-results';
+      
+      // Создаем контейнер для названия
+      const titleContainer = document.createElement('span');
+      titleContainer.className = 'projects-section-title-text';
+      titleContainer.textContent = 'НАЙДЕНО ПРОЕКТОВ';
+      sectionTitle.appendChild(titleContainer);
+      
+      // Добавляем счетчик
+      const countElement = document.createElement('span');
+      countElement.className = 'project-filters-option-count';
+      countElement.textContent = '0';
+      sectionTitle.appendChild(countElement);
+      
+      // Добавляем кнопку "Сбросить"
+      const resetButton = document.createElement('button');
+      resetButton.className = 'projects-section-expand';
+      resetButton.id = 'project-filters-reset';
+      resetButton.setAttribute('aria-label', 'Сбросить фильтры');
+      const resetButtonText = document.createElement('span');
+      resetButtonText.className = 'projects-section-expand-text';
+      resetButtonText.textContent = 'Сбросить';
+      resetButton.appendChild(resetButtonText);
+      resetButton.addEventListener('click', () => {
+        this.clearAllFilters();
+      });
+      sectionTitle.appendChild(resetButton);
+      
+      sectionHeader.appendChild(sectionTitle);
+      sectionContainer.appendChild(sectionHeader);
+      
+      // Создаем сетку для проектов
+      const sectionGrid = document.createElement('div');
+      sectionGrid.className = 'projects-section-grid';
+      
+      // Фильтруем и добавляем карточки
+      let visibleCount = 0;
+      
+      this.projects.forEach(project => {
+        let visible = true;
         
-        if (originalCard) {
-          // Клонируем существующую карточку
-          card = originalCard.cloneNode(true);
-          // Устанавливаем начальное состояние для анимации ПЕРЕД добавлением в DOM
-          card.style.opacity = '0';
-          card.style.transform = 'translateY(10px)';
-          card.style.transition = 'none'; // Отключаем transition для мгновенного применения начального состояния
-          // Добавляем обработчик клика на всю карточку
-          card.addEventListener('click', (e) => {
-            // Проверяем, был ли выделен текст - если да, не открываем карточку
-            const selection = window.getSelection();
-            if (selection && selection.toString().trim().length > 0) {
-              return;
-            }
-            e.stopPropagation();
-            this.onCardClick(project);
-          });
-          // Добавляем обработчик на кнопку "Подробнее"
-          const detailsButton = card.querySelector('.project-card-button');
-          if (detailsButton) {
-            detailsButton.addEventListener('click', (e) => {
-              e.stopPropagation();
-              this.onCardClick(project);
-            });
+        // Проверяем категорию
+        if (visible && this.activeFilters.category.length > 0) {
+          if (!this.activeFilters.category.includes(project.category)) {
+            visible = false;
           }
         }
         
-        if (card) {
-          sectionGrid.appendChild(card);
-          visibleCount++;
+        // Проверяем статус
+        if (visible && this.activeFilters.status.length > 0) {
+          if (!this.activeFilters.status.includes(project.status)) {
+            visible = false;
+          }
         }
-      }
-    });
-    
-    // Обновляем счетчик
-    countElement.textContent = visibleCount;
-    
-    // Добавляем сетку в контейнер секции
-    sectionContainer.appendChild(sectionGrid);
-    
-    // Добавляем секцию в grid
-    grid.appendChild(sectionContainer);
-    
-    // Плавное появление карточек одновременно
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        const cards = sectionGrid.querySelectorAll('.project-card');
-        if (cards.length > 0) {
-          animateElementsAppearance(cards);
+        
+        // Проверяем год
+        if (visible && this.activeFilters.year.length > 0) {
+          if (project.year && !this.activeFilters.year.includes(project.year.toString())) {
+            visible = false;
+          }
+        }
+        
+        // Добавляем только видимые карточки
+        if (visible) {
+          // Используем CardFactory для создания карточки, если есть шаблон
+          // Иначе клонируем из существующих карточек
+          let card = null;
+          const originalCard = this.allProjectCards.get(project.id);
+          
+          if (originalCard) {
+            // Клонируем существующую карточку
+            card = originalCard.cloneNode(true);
+            // Устанавливаем начальное состояние для анимации ПЕРЕД добавлением в DOM
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(10px)';
+            card.style.transition = 'none'; // Отключаем transition для мгновенного применения начального состояния
+            // Добавляем обработчик клика на всю карточку
+            card.addEventListener('click', (e) => {
+              // Проверяем, был ли выделен текст - если да, не открываем карточку
+              const selection = window.getSelection();
+              if (selection && selection.toString().trim().length > 0) {
+                return;
+              }
+              e.stopPropagation();
+              this.onCardClick(project);
+            });
+            // Добавляем обработчик на кнопку "Подробнее"
+            const detailsButton = card.querySelector('.project-card-button');
+            if (detailsButton) {
+              detailsButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.onCardClick(project);
+              });
+            }
+          }
+          
+          if (card) {
+            sectionGrid.appendChild(card);
+            visibleCount++;
+          }
         }
       });
-    });
-    
-    // Загружаем SVG для звездочек после добавления карточек
-    requestAnimationFrame(async () => {
-      try {
-        const svgLoaderModule = await import('../components/svg-loader.js');
-        if (svgLoaderModule.default) {
-          await svgLoaderModule.default();
-        }
-      } catch (error) {
-        console.error('Ошибка загрузки SVG:', error);
-      }
-    });
-    
-    // Показываем сообщение об отсутствии проектов
-    const empty = document.getElementById('projects-empty');
-    if (empty) {
-      if (visibleCount === 0) {
-        empty.style.display = '';
+      
+      // Обновляем счетчик
+      countElement.textContent = visibleCount;
+      
+      // Добавляем сетку в контейнер секции
+      sectionContainer.appendChild(sectionGrid);
+      
+      // Добавляем секцию в grid
+      grid.appendChild(sectionContainer);
+      
+      // Плавное появление карточек одновременно
+      requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            animateElementAppearance(empty);
-          });
+          const cards = sectionGrid.querySelectorAll('.project-card');
+          if (cards.length > 0) {
+            animateElementsAppearance(cards);
+          }
         });
-      } else {
-        empty.style.transition = `opacity ${ANIMATION_CONFIG.duration} ${ANIMATION_CONFIG.timing}, transform ${ANIMATION_CONFIG.duration} ${ANIMATION_CONFIG.timing}`;
-        empty.style.opacity = '0';
-        empty.style.transform = ANIMATION_CONFIG.translateYDisappear;
-        setTimeout(() => {
-          empty.style.display = 'none';
-        }, ANIMATION_CONFIG.timeout);
+      });
+      
+      // Загружаем SVG для звездочек после добавления карточек
+      requestAnimationFrame(async () => {
+        try {
+          const svgLoaderModule = await import('../components/svg-loader.js');
+          if (svgLoaderModule.default) {
+            await svgLoaderModule.default();
+          }
+        } catch (error) {
+          console.error('Ошибка загрузки SVG:', error);
+        }
+      });
+      
+      // Показываем сообщение об отсутствии проектов
+      const empty = document.getElementById('projects-empty');
+      if (empty) {
+        if (visibleCount === 0) {
+          empty.style.display = '';
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              animateElementAppearance(empty);
+            });
+          });
+        } else {
+          empty.style.transition = `opacity ${ANIMATION_CONFIG.duration} ${ANIMATION_CONFIG.timing}, transform ${ANIMATION_CONFIG.duration} ${ANIMATION_CONFIG.timing}`;
+          empty.style.opacity = '0';
+          empty.style.transform = ANIMATION_CONFIG.translateYDisappear;
+          setTimeout(() => {
+            empty.style.display = 'none';
+          }, ANIMATION_CONFIG.timeout);
+        }
       }
+    } finally {
+      // Сбрасываем флаг после завершения применения фильтров
+      this.isApplyingFilters = false;
     }
   }
 }
