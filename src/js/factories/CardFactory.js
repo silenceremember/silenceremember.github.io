@@ -2,6 +2,7 @@
  * Фабрика для создания различных типов карточек
  */
 import { getRoleLabel } from '../utils/RoleMapper.js';
+import { StatusMapper } from '../utils/StatusMapper.js';
 
 export class CardFactory {
   /**
@@ -170,12 +171,7 @@ export class CardFactory {
     
     // Тип
     if (type) {
-      const typeMap = {
-        'thesis': 'Тезисы',
-        'article': 'Статья',
-        'diploma': 'Дипломная работа'
-      };
-      type.textContent = typeMap[publication.type] || publication.type;
+      type.textContent = StatusMapper.getTypeText(publication.type);
     }
     
     // Ключевые слова

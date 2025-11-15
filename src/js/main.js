@@ -9,6 +9,7 @@ import { debounce } from './utils/DebounceUtils.js';
 import { IndexPage, hideAllSlideElementsEarly } from './pages/index.js';
 import { ProjectsPage } from './pages/projects.js';
 import { CVPage } from './pages/cv.js';
+import { ResearchPage } from './pages/research.js';
 
 
 function updateFadeInElements() {
@@ -107,8 +108,13 @@ async function initCurrentPage() {
       });
       break;
       
+    case 'research':
+      const researchPage = new ResearchPage();
+      await researchPage.init();
+      break;
+      
     default:
-      // Для других страниц (404, research, community) используем scroll handler
+      // Для других страниц (404, community) используем scroll handler
       if (document.body.classList.contains('page-404') || document.body.classList.contains('page-with-scroll')) {
         initScrollHandler('.page-wrapper');
       }
