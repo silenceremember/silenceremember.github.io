@@ -890,7 +890,13 @@ function initializeCVAnimations() {
         }
       });
       
-      // Небольшая задержка перед запуском анимации для гарантии готовности
+      // Принудительный reflow для применения стилей скрытия
+      if (allSections.length > 0 && allSections[0].firstElementChild) {
+        void allSections[0].firstElementChild.offsetHeight;
+      }
+      
+      // Задержка перед запуском анимации для гарантии готовности
+      // Увеличена задержка для лучшей синхронизации, как на главной странице
       setTimeout(() => {
         // Собираем все элементы для синхронной анимации
         const allElementsToAnimate = [];
@@ -996,9 +1002,28 @@ function initializeCVAnimations() {
         // Анимируем все элементы одновременно без задержек
         // Используем skipInitialState: false, чтобы гарантировать установку начального состояния
         if (allElementsToAnimate.length > 0) {
+          // Дополнительная проверка: убеждаемся, что элементы действительно скрыты перед анимацией
+          allElementsToAnimate.forEach(element => {
+            if (element) {
+              const computedStyle = window.getComputedStyle(element);
+              const opacity = parseFloat(computedStyle.opacity);
+              // Если элемент все еще видим, снова скрываем его
+              if (opacity > 0.01) {
+                element.style.setProperty('opacity', '0', 'important');
+                element.style.setProperty('transform', 'translateY(10px)', 'important');
+                element.style.setProperty('transition', 'none', 'important');
+              }
+            }
+          });
+          
+          // Принудительный reflow перед анимацией
+          if (allElementsToAnimate.length > 0 && allElementsToAnimate[0]) {
+            void allElementsToAnimate[0].offsetHeight;
+          }
+          
           animateElementsAppearance(allElementsToAnimate, { skipInitialState: false });
         }
-      }, 100);
+      }, 100); // Задержка как на главной странице
     });
   });
 }
@@ -1291,4 +1316,19 @@ if (document.readyState === 'loading') {
 } else {
   initCVPage();
 }
+
+// Обработчик для случая загрузки страницы из кеша (bfcache)
+// Это важно для SPA-подобной навигации
+window.addEventListener('pageshow', (event) => {
+  // Если страница загружена из кеша, перезапускаем анимацию
+  if (event.persisted) {
+    const headerSection = document.getElementById('cv-header-section');
+    if (headerSection && headerSection.children.length > 0) {
+      // Небольшая задержка для гарантии готовности DOM
+      setTimeout(() => {
+        initializeCVAnimations();
+      }, 100);
+    }
+  }
+});
 

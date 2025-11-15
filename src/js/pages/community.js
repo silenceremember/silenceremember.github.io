@@ -4,7 +4,137 @@
 
 import { loadData } from '../utils/data-loader.js';
 import { initScrollToTop } from '../components/scroll-to-top.js';
-import { animateSectionAppearance, animateElementsAppearance } from '../utils/animations.js';
+import { animateSectionAppearance, animateElementsAppearance, animateElementAppearance } from '../utils/animations.js';
+
+/**
+ * Ожидает загрузки всех шрифтов
+ * @returns {Promise<void>}
+ */
+function waitForFontsLoaded() {
+  return new Promise((resolve) => {
+    // Проверяем поддержку Font Loading API
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => {
+        // Небольшая задержка для гарантии применения шрифтов
+        setTimeout(resolve, 50);
+      }).catch(() => {
+        // В случае ошибки просто продолжаем
+        resolve();
+      });
+    } else {
+      // Если API не поддерживается, просто продолжаем
+      // Используем небольшую задержку для гарантии загрузки шрифтов
+      setTimeout(resolve, 200);
+    }
+  });
+}
+
+/**
+ * Ожидает загрузки всех изображений на странице сообщества
+ * @returns {Promise<void>}
+ */
+function waitForImagesLoaded() {
+  return new Promise((resolve) => {
+    // Находим все изображения на странице сообщества
+    const images = document.querySelectorAll('.community-page img, .community-section img');
+    
+    if (images.length === 0) {
+      resolve();
+      return;
+    }
+
+    let loadedCount = 0;
+    const totalImages = images.length;
+    let resolved = false;
+
+    // Функция для проверки завершения загрузки
+    const checkComplete = () => {
+      loadedCount++;
+      if (loadedCount >= totalImages && !resolved) {
+        resolved = true;
+        // Небольшая дополнительная задержка для гарантии применения стилей
+        setTimeout(resolve, 100);
+      }
+    };
+
+    // Проверяем каждое изображение
+    images.forEach((img) => {
+      if (img.complete && img.naturalHeight !== 0) {
+        // Изображение уже загружено
+        checkComplete();
+      } else {
+        // Ждем загрузки изображения
+        img.addEventListener('load', checkComplete, { once: true });
+        img.addEventListener('error', checkComplete, { once: true }); // Ошибка тоже считается завершением
+      }
+    });
+
+    // Таймаут на случай, если изображения не загрузятся
+    setTimeout(() => {
+      if (!resolved) {
+        resolved = true;
+        resolve();
+      }
+    }, 3000); // Максимум 3 секунды ожидания
+  });
+}
+
+/**
+ * Ожидает полной готовности страницы, включая загрузку всех изображений и шрифтов
+ * @returns {Promise<void>}
+ */
+function waitForPageReady() {
+  return new Promise((resolve) => {
+    // Если страница уже полностью загружена
+    if (document.readyState === 'complete') {
+      // Дополнительно проверяем загрузку всех критичных ресурсов
+      Promise.all([
+        waitForImagesLoaded(),
+        waitForFontsLoaded()
+      ]).then(() => resolve());
+    } else {
+      // Ждем события load
+      window.addEventListener('load', () => {
+        // После load проверяем загрузку всех критичных ресурсов
+        Promise.all([
+          waitForImagesLoaded(),
+          waitForFontsLoaded()
+        ]).then(() => resolve());
+      }, { once: true });
+    }
+  });
+}
+
+/**
+ * Скрывает все элементы секций сообщества сразу с !important для предотвращения FOUC
+ */
+function hideAllCommunityElementsImmediately() {
+  const allSections = document.querySelectorAll('.community-section');
+  allSections.forEach(section => {
+    if (section) {
+      // Скрываем саму секцию
+      section.style.setProperty('opacity', '0', 'important');
+      section.style.setProperty('transform', 'translateY(10px)', 'important');
+      section.style.setProperty('transition', 'none', 'important');
+      
+      // Скрываем все элементы внутри секции
+      // НЕ скрываем контейнеры .community-social-links и .community-donations-links - они нужны для layout
+      // Скрываем только карточки и другие элементы контента
+      const elementsToHide = section.querySelectorAll(
+        '.community-section-title, .community-card, .community-card-discord, ' +
+        '.community-events-list, .community-event-item'
+      );
+      
+      elementsToHide.forEach(element => {
+        if (element) {
+          element.style.setProperty('opacity', '0', 'important');
+          element.style.setProperty('transform', 'translateY(10px)', 'important');
+          element.style.setProperty('transition', 'none', 'important');
+        }
+      });
+    }
+  });
+}
 
 /**
  * Загружает данные сообщества из JSON с кешированием
@@ -437,9 +567,135 @@ function initMenuButtonScroll() {
 }
 
 /**
+ * Инициализирует анимации всех секций сообщества после загрузки страницы
+ * Все элементы появляются одновременно без задержек
+ * Работает как при первой загрузке, так и при повторном посещении страницы
+ */
+function initializeCommunityAnimations() {
+  // Скрываем все элементы сразу (включая те, что уже могут быть видимы при повторном посещении)
+  hideAllCommunityElementsImmediately();
+  
+  // Принудительный reflow для применения стилей скрытия
+  const firstSection = document.querySelector('.community-section');
+  if (firstSection && firstSection.firstElementChild) {
+    void firstSection.firstElementChild.offsetHeight;
+  }
+  
+  // Используем двойной requestAnimationFrame для синхронизации с браузером
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      // Проверяем и при необходимости снова скрываем все элементы
+      // Это важно при повторном посещении страницы
+      const allSections = document.querySelectorAll('.community-section');
+      allSections.forEach(section => {
+        if (section) {
+          const computedStyle = window.getComputedStyle(section);
+          const opacity = parseFloat(computedStyle.opacity);
+          // Если секция видима, снова скрываем её
+          if (opacity > 0.01) {
+            section.style.setProperty('opacity', '0', 'important');
+            section.style.setProperty('transform', 'translateY(10px)', 'important');
+            section.style.setProperty('transition', 'none', 'important');
+          }
+          
+          // Проверяем и скрываем элементы внутри секции
+          // НЕ скрываем контейнеры .community-social-links и .community-donations-links - они нужны для layout
+          const elementsToCheck = section.querySelectorAll(
+            '.community-section-title, .community-card, .community-card-discord, ' +
+            '.community-events-list, .community-event-item'
+          );
+          
+          elementsToCheck.forEach(element => {
+            if (element) {
+              const elementComputedStyle = window.getComputedStyle(element);
+              const elementOpacity = parseFloat(elementComputedStyle.opacity);
+              // Если элемент видим, снова скрываем его
+              if (elementOpacity > 0.01) {
+                element.style.setProperty('opacity', '0', 'important');
+                element.style.setProperty('transform', 'translateY(10px)', 'important');
+                element.style.setProperty('transition', 'none', 'important');
+              }
+            }
+          });
+        }
+      });
+      
+      // Принудительный reflow для применения стилей скрытия
+      if (allSections.length > 0 && allSections[0].firstElementChild) {
+        void allSections[0].firstElementChild.offsetHeight;
+      }
+      
+      // Задержка перед запуском анимации для гарантии готовности
+      // Увеличена задержка для лучшей синхронизации, как на главной странице
+      setTimeout(() => {
+        // Собираем все элементы для синхронной анимации
+        const allElementsToAnimate = [];
+        
+        // Собираем все секции и их элементы
+        allSections.forEach(section => {
+          if (section && section.children.length > 0) {
+            // Анимируем саму секцию
+            animateSectionAppearance(section);
+            
+            // Собираем элементы секции
+            const sectionTitle = section.querySelector('.community-section-title');
+            if (sectionTitle) allElementsToAnimate.push(sectionTitle);
+            
+            // Карточки
+            const cards = section.querySelectorAll('.community-card, .community-card-discord');
+            cards.forEach(card => {
+              if (card) allElementsToAnimate.push(card);
+            });
+            
+            // Элементы событий
+            const eventItems = section.querySelectorAll('.community-event-item');
+            eventItems.forEach(item => {
+              if (item) allElementsToAnimate.push(item);
+            });
+          }
+        });
+        
+        // Принудительный reflow перед анимацией
+        if (allElementsToAnimate.length > 0 && allElementsToAnimate[0]) {
+          void allElementsToAnimate[0].offsetHeight;
+        }
+        
+        // Анимируем все элементы одновременно без задержек
+        // Используем skipInitialState: false, чтобы гарантировать установку начального состояния
+        if (allElementsToAnimate.length > 0) {
+          // Дополнительная проверка: убеждаемся, что элементы действительно скрыты перед анимацией
+          allElementsToAnimate.forEach(element => {
+            if (element) {
+              const computedStyle = window.getComputedStyle(element);
+              const opacity = parseFloat(computedStyle.opacity);
+              // Если элемент все еще видим, снова скрываем его
+              if (opacity > 0.01) {
+                element.style.setProperty('opacity', '0', 'important');
+                element.style.setProperty('transform', 'translateY(10px)', 'important');
+                element.style.setProperty('transition', 'none', 'important');
+              }
+            }
+          });
+          
+          // Принудительный reflow перед анимацией
+          if (allElementsToAnimate.length > 0 && allElementsToAnimate[0]) {
+            void allElementsToAnimate[0].offsetHeight;
+          }
+          
+          animateElementsAppearance(allElementsToAnimate, { skipInitialState: false });
+        }
+      }, 100); // Задержка как на главной странице
+    });
+  });
+}
+
+/**
  * Инициализирует страницу сообщества
  */
 async function initCommunityPage() {
+  // Скрываем все элементы сразу для предотвращения FOUC
+  hideAllCommunityElementsImmediately();
+  
   // Загружаем данные
   const data = await loadCommunityData();
   
@@ -452,15 +708,13 @@ async function initCommunityPage() {
     const discordSection = createDiscordSection(data.discord);
     if (discordSection) {
       // Скрываем секцию перед добавлением в DOM
-      discordSection.style.opacity = '0';
-      discordSection.style.transform = 'translateY(10px)';
-      discordSection.style.transition = 'none';
+      discordSection.style.setProperty('opacity', '0', 'important');
+      discordSection.style.setProperty('transform', 'translateY(10px)', 'important');
+      discordSection.style.setProperty('transition', 'none', 'important');
       
       const container = document.getElementById('community-discord-section');
       if (container) {
         container.appendChild(discordSection);
-        // Принудительный reflow для применения стилей
-        void discordSection.offsetHeight;
         
         // Загружаем SVG иконки после добавления в DOM
         requestAnimationFrame(async () => {
@@ -483,25 +737,8 @@ async function initCommunityPage() {
           }
         });
         
-        // Плавное появление секции и карточки синхронно
-        // Используем двойной requestAnimationFrame для синхронизации с браузером
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            // Сначала показываем секцию с анимацией
-            discordSection.setAttribute('data-animated', 'true');
-            animateSectionAppearance(discordSection);
-            
-            // Затем анимируем карточку
-            const card = discordSection.querySelector('.community-card');
-            if (card) {
-              requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                  animateElementsAppearance([card]);
-                });
-              });
-            }
-          });
-        });
+        // Скрываем элементы секции сразу
+        hideAllCommunityElementsImmediately();
       }
     }
   }
@@ -511,15 +748,13 @@ async function initCommunityPage() {
     const socialSection = createSocialSection(data.socialLinks);
     if (socialSection) {
       // Скрываем секцию перед добавлением в DOM
-      socialSection.style.opacity = '0';
-      socialSection.style.transform = 'translateY(10px)';
-      socialSection.style.transition = 'none';
+      socialSection.style.setProperty('opacity', '0', 'important');
+      socialSection.style.setProperty('transform', 'translateY(10px)', 'important');
+      socialSection.style.setProperty('transition', 'none', 'important');
       
       const container = document.getElementById('community-social-section');
       if (container) {
         container.appendChild(socialSection);
-        // Принудительный reflow для применения стилей
-        void socialSection.offsetHeight;
         
         // Загружаем SVG иконки после добавления в DOM
         requestAnimationFrame(async () => {
@@ -533,25 +768,8 @@ async function initCommunityPage() {
           }
         });
         
-        // Плавное появление секции и карточек синхронно
-        // Используем двойной requestAnimationFrame для синхронизации с браузером
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            // Сначала показываем секцию с анимацией
-            socialSection.setAttribute('data-animated', 'true');
-            animateSectionAppearance(socialSection);
-            
-            // Затем анимируем карточки
-            const cards = socialSection.querySelectorAll('.community-card');
-            if (cards.length > 0) {
-              requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                  animateElementsAppearance(cards);
-                });
-              });
-            }
-          });
-        });
+        // Скрываем элементы секции сразу
+        hideAllCommunityElementsImmediately();
       }
     }
   }
@@ -561,15 +779,13 @@ async function initCommunityPage() {
     const donationsSection = createDonationsSection(data.donationLinks);
     if (donationsSection) {
       // Скрываем секцию перед добавлением в DOM
-      donationsSection.style.opacity = '0';
-      donationsSection.style.transform = 'translateY(10px)';
-      donationsSection.style.transition = 'none';
+      donationsSection.style.setProperty('opacity', '0', 'important');
+      donationsSection.style.setProperty('transform', 'translateY(10px)', 'important');
+      donationsSection.style.setProperty('transition', 'none', 'important');
       
       const container = document.getElementById('community-donations-section');
       if (container) {
         container.appendChild(donationsSection);
-        // Принудительный reflow для применения стилей
-        void donationsSection.offsetHeight;
         
         // Загружаем SVG иконки после добавления в DOM
         requestAnimationFrame(async () => {
@@ -583,25 +799,8 @@ async function initCommunityPage() {
           }
         });
         
-        // Плавное появление секции и карточек синхронно
-        // Используем двойной requestAnimationFrame для синхронизации с браузером
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            // Сначала показываем секцию с анимацией
-            donationsSection.setAttribute('data-animated', 'true');
-            animateSectionAppearance(donationsSection);
-            
-            // Затем анимируем карточки
-            const cards = donationsSection.querySelectorAll('.community-card');
-            if (cards.length > 0) {
-              requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                  animateElementsAppearance(cards);
-                });
-              });
-            }
-          });
-        });
+        // Скрываем элементы секции сразу
+        hideAllCommunityElementsImmediately();
       }
     }
   }
@@ -611,15 +810,13 @@ async function initCommunityPage() {
     const workSection = createWorkSection(data.workLinks);
     if (workSection) {
       // Скрываем секцию перед добавлением в DOM
-      workSection.style.opacity = '0';
-      workSection.style.transform = 'translateY(10px)';
-      workSection.style.transition = 'none';
+      workSection.style.setProperty('opacity', '0', 'important');
+      workSection.style.setProperty('transform', 'translateY(10px)', 'important');
+      workSection.style.setProperty('transition', 'none', 'important');
       
       const container = document.getElementById('community-work-section');
       if (container) {
         container.appendChild(workSection);
-        // Принудительный reflow для применения стилей
-        void workSection.offsetHeight;
         
         // Загружаем SVG иконки после добавления в DOM
         requestAnimationFrame(async () => {
@@ -633,25 +830,8 @@ async function initCommunityPage() {
           }
         });
         
-        // Плавное появление секции и карточек синхронно
-        // Используем двойной requestAnimationFrame для синхронизации с браузером
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            // Сначала показываем секцию с анимацией
-            workSection.setAttribute('data-animated', 'true');
-            animateSectionAppearance(workSection);
-            
-            // Затем анимируем карточки
-            const cards = workSection.querySelectorAll('.community-card');
-            if (cards.length > 0) {
-              requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                  animateElementsAppearance(cards);
-                });
-              });
-            }
-          });
-        });
+        // Скрываем элементы секции сразу
+        hideAllCommunityElementsImmediately();
       }
     }
   }
@@ -661,22 +841,16 @@ async function initCommunityPage() {
     const eventsSection = createEventsSection(data.upcomingEvents);
     if (eventsSection) {
       // Скрываем секцию перед добавлением в DOM
-      eventsSection.style.opacity = '0';
-      eventsSection.style.transform = 'translateY(10px)';
-      eventsSection.style.transition = 'none';
+      eventsSection.style.setProperty('opacity', '0', 'important');
+      eventsSection.style.setProperty('transform', 'translateY(10px)', 'important');
+      eventsSection.style.setProperty('transition', 'none', 'important');
       
       const container = document.getElementById('community-events-section');
       if (container) {
         container.appendChild(eventsSection);
         
-        // Плавное появление секции с контентом
-        // Используем двойной requestAnimationFrame для синхронизации с браузером
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            eventsSection.setAttribute('data-animated', 'true');
-            animateSectionAppearance(eventsSection);
-          });
-        });
+        // Скрываем элементы секции сразу
+        hideAllCommunityElementsImmediately();
       }
     }
   }
@@ -696,6 +870,11 @@ async function initCommunityPage() {
     await svgLoaderModule.default();
   }
   
+  // Ждем полной загрузки страницы и запускаем анимации
+  // Анимация запускается каждый раз при загрузке страницы (как при первой загрузке, так и при повторном посещении)
+  waitForPageReady().then(() => {
+    initializeCommunityAnimations();
+  });
 }
 
 // Инициализация при загрузке DOM
@@ -704,3 +883,18 @@ if (document.readyState === 'loading') {
 } else {
   initCommunityPage();
 }
+
+// Обработчик для случая загрузки страницы из кеша (bfcache)
+// Это важно для SPA-подобной навигации
+window.addEventListener('pageshow', (event) => {
+  // Если страница загружена из кеша, перезапускаем анимацию
+  if (event.persisted) {
+    const firstSection = document.querySelector('.community-section');
+    if (firstSection && firstSection.children.length > 0) {
+      // Небольшая задержка для гарантии готовности DOM
+      setTimeout(() => {
+        initializeCommunityAnimations();
+      }, 100);
+    }
+  }
+});
