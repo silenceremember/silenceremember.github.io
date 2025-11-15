@@ -5,18 +5,8 @@ import { initThemeSwitcher } from './components/theme-switcher';
 import { initLanguageSwitcher } from './components/language-switcher';
 import initSvgLoader from './components/svg-loader';
 import { initScrollHandler } from './components/scroll';
+import { debounce } from './utils/debounce';
 
-function debounce(func, wait) {
-  let timeout;
-  return function executedFunction(...args) {
-    const later = () => {
-      clearTimeout(timeout);
-      func(...args);
-    };
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-  };
-}
 
 function updateFadeInElements() {
   const fadeInElements = new Set();
