@@ -90,6 +90,9 @@ const initSlidesManager = () => {
     function checkViewport(isTablet) {
         if (isTablet) {
             slidesContainer.classList.add('tablet-scroll-mode');
+            // Добавляем класс page-with-scroll для работы кнопки "наверх" в tablet/mobile режиме
+            document.documentElement.classList.add('page-with-scroll');
+            document.body.classList.add('page-with-scroll');
             // В tablet-scroll-mode все слайды должны быть видимы
             slides.forEach(slide => {
                 slide.classList.remove('active');
@@ -99,11 +102,37 @@ const initSlidesManager = () => {
                 slide.style.display = 'block';
                 slide.style.position = 'static';
             });
-            // Скрываем подсказку в режиме планшета
+            // Немедленно скрываем подсказку без анимации при переходе в tablet/mobile
+            if (slideHint) {
+                slideHint.classList.remove('visible');
+                slideHint.style.opacity = '0';
+                slideHint.style.visibility = 'hidden';
+                slideHint.style.transition = 'none';
+                hintShown = false;
+            }
+            // Останавливаем таймер подсказки
             stopHintTimer();
         } else {
             slidesContainer.classList.add('is-resizing');
             slidesContainer.classList.remove('tablet-scroll-mode');
+            // Убираем класс page-with-scroll при возврате в desktop режим
+            document.documentElement.classList.remove('page-with-scroll');
+            document.body.classList.remove('page-with-scroll');
+            // Немедленно скрываем кнопку "наверх" без анимации при переходе в desktop
+            const scrollToTopButton = document.getElementById('scroll-to-top');
+            if (scrollToTopButton) {
+                scrollToTopButton.classList.remove('visible');
+                scrollToTopButton.style.display = 'none';
+                scrollToTopButton.style.opacity = '0';
+                scrollToTopButton.style.visibility = 'hidden';
+                scrollToTopButton.style.transition = 'none';
+            }
+            // Восстанавливаем подсказку при возврате в desktop - очищаем все inline стили
+            if (slideHint) {
+                slideHint.style.opacity = '';
+                slideHint.style.visibility = '';
+                slideHint.style.transition = '';
+            }
             // Убираем inline стили при возврате в desktop режим
             slides.forEach(slide => {
                 slide.style.opacity = '';
@@ -114,6 +143,11 @@ const initSlidesManager = () => {
             showSlideImmediate(currentSlideIndex);
             setTimeout(() => {
                 slidesContainer.classList.remove('is-resizing');
+                // Восстанавливаем transition для кнопки "наверх" после скрытия
+                const button = document.getElementById('scroll-to-top');
+                if (button) {
+                    button.style.transition = '';
+                }
             }, 50);
             // Запускаем таймер подсказки, если мы на первом слайде
             if (currentSlideIndex === 0) {

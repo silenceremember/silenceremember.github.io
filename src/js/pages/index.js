@@ -5,6 +5,7 @@
 import { getRoleLabel } from '../utils/role-mapper.js';
 import { loadData } from '../utils/data-loader.js';
 import { animateTextElements, animateElementAppearance, animateElementsAppearance } from '../utils/animations.js';
+import { initScrollToTop } from '../components/scroll-to-top.js';
 
 /**
  * Загружает данные проектов из JSON с кешированием
@@ -164,6 +165,9 @@ async function initIndexPage() {
   
   // Выделяем активную страницу в навигации
   setActiveNavigationLink();
+  
+  // Инициализируем кнопку "Наверх"
+  initScrollToTop();
   
   // Ждем полной загрузки страницы и всех критичных ресурсов перед запуском анимации
   waitForPageReady().then(() => {
