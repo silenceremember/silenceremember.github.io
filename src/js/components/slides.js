@@ -93,6 +93,14 @@ const initSlidesManager = () => {
             // Добавляем класс page-with-scroll для работы кнопки "наверх" в tablet/mobile режиме
             document.documentElement.classList.add('page-with-scroll');
             document.body.classList.add('page-with-scroll');
+            // Восстанавливаем кнопку "наверх" при переходе в tablet/mobile - очищаем все inline стили
+            const scrollToTopButton = document.getElementById('scroll-to-top');
+            if (scrollToTopButton) {
+                scrollToTopButton.style.display = '';
+                scrollToTopButton.style.opacity = '';
+                scrollToTopButton.style.visibility = '';
+                scrollToTopButton.style.transition = '';
+            }
             // В tablet-scroll-mode все слайды должны быть видимы
             slides.forEach(slide => {
                 slide.classList.remove('active');
