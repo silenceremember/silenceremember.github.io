@@ -3,7 +3,7 @@
  */
 
 import { loadHTML } from '../layout.js';
-import { getRoleLabel } from '../utils/role-mapper.js';
+import { getRoleLabel } from '../utils/RoleMapper.js';
 import { loadData } from '../utils/DataLoader.js';
 import { ANIMATION_CONFIG, animateElementsAppearance, animateElementAppearance } from '../utils/AnimationUtils.js';
 import { ProjectFiltersManager } from '../managers/ProjectFiltersManager.js';

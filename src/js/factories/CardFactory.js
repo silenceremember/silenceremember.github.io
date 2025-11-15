@@ -1,7 +1,7 @@
 /**
  * Фабрика для создания различных типов карточек
  */
-import { getRoleLabel } from '../utils/role-mapper.js';
+import { getRoleLabel } from '../utils/RoleMapper.js';
 
 export class CardFactory {
   /**
