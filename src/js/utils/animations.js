@@ -137,19 +137,22 @@ export function animateElementsAppearance(elements, options = {}) {
   
   const elementsArray = Array.isArray(elements) ? elements : Array.from(elements);
   const translateYAppear = options.translateYAppear || ANIMATION_CONFIG.translateYAppear;
+  const skipInitialState = options.skipInitialState || false;
   
-  // Устанавливаем начальное состояние для всех элементов СИНХРОННО
-  elementsArray.forEach(element => {
-    if (element) {
-      element.style.opacity = '0';
-      element.style.transform = `translateY(${translateYAppear})`;
-      element.style.transition = 'none';
+  // Устанавливаем начальное состояние для всех элементов СИНХРОННО (если не пропущено)
+  if (!skipInitialState) {
+    elementsArray.forEach(element => {
+      if (element) {
+        element.style.setProperty('opacity', '0', 'important');
+        element.style.setProperty('transform', `translateY(${translateYAppear})`, 'important');
+        element.style.setProperty('transition', 'none', 'important');
+      }
+    });
+    
+    // Принудительный reflow для применения стилей
+    if (elementsArray.length > 0 && elementsArray[0]) {
+      void elementsArray[0].offsetHeight;
     }
-  });
-  
-  // Принудительный reflow для применения стилей
-  if (elementsArray.length > 0 && elementsArray[0]) {
-    void elementsArray[0].offsetHeight;
   }
   
   // Используем двойной requestAnimationFrame для синхронизации с браузером
@@ -158,11 +161,33 @@ export function animateElementsAppearance(elements, options = {}) {
       // Убеждаемся, что начальное состояние установлено
       elementsArray.forEach(element => {
         if (element) {
-          element.style.opacity = '0';
-          element.style.transform = `translateY(${translateYAppear})`;
-          element.style.transition = 'none';
+          if (skipInitialState) {
+            // Проверяем, что начальное состояние действительно установлено
+            const computedStyle = window.getComputedStyle(element);
+            const computedOpacity = parseFloat(computedStyle.opacity);
+            const inlineOpacity = element.style.opacity;
+            const inlineTransform = element.style.transform;
+            
+            // Если элемент видим или inline стили не установлены, устанавливаем начальное состояние
+            if (computedOpacity > 0.01 || 
+                !inlineOpacity || inlineOpacity === '' || 
+                !inlineTransform || inlineTransform === '') {
+              element.style.setProperty('opacity', '0', 'important');
+              element.style.setProperty('transform', `translateY(${translateYAppear})`, 'important');
+              element.style.setProperty('transition', 'none', 'important');
+            }
+          } else {
+            element.style.setProperty('opacity', '0', 'important');
+            element.style.setProperty('transform', `translateY(${translateYAppear})`, 'important');
+            element.style.setProperty('transition', 'none', 'important');
+          }
         }
       });
+      
+      // Принудительный reflow для применения стилей
+      if (elementsArray.length > 0 && elementsArray[0]) {
+        void elementsArray[0].offsetHeight;
+      }
       
       // Применяем анимацию одновременно для всех элементов
       requestAnimationFrame(() => {
@@ -175,7 +200,22 @@ export function animateElementsAppearance(elements, options = {}) {
         
         elementsArray.forEach(element => {
           if (element) {
+            // Убираем !important перед установкой transition для корректной работы анимации
+            element.style.removeProperty('transition');
             element.style.transition = `opacity ${config.duration} ${config.timing}, transform ${config.duration} ${config.timing}`;
+          }
+        });
+        
+        // Принудительный reflow перед изменением значений
+        if (elementsArray.length > 0 && elementsArray[0]) {
+          void elementsArray[0].offsetHeight;
+        }
+        
+        elementsArray.forEach(element => {
+          if (element) {
+            // Убираем !important перед установкой финальных значений
+            element.style.removeProperty('opacity');
+            element.style.removeProperty('transform');
             element.style.opacity = '1';
             element.style.transform = `translateY(${config.translateYFinal})`;
           }
@@ -185,9 +225,9 @@ export function animateElementsAppearance(elements, options = {}) {
         setTimeout(() => {
           elementsArray.forEach(element => {
             if (element) {
-              element.style.transform = '';
-              element.style.opacity = '';
-              element.style.transition = '';
+              element.style.removeProperty('transform');
+              element.style.removeProperty('opacity');
+              element.style.removeProperty('transition');
             }
           });
         }, config.timeout);
