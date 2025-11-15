@@ -288,19 +288,21 @@ const initSlidesManager = () => {
     // Инициализируем индикаторы
     createProgressDots();
     
+    // Первоначальная настройка - сначала убедимся, что все слайды скрыты
+    slides.forEach((slide, i) => {
+        slide.classList.remove('active');
+    });
+    
     // Инициализируем обработчик скролла (используем .page-wrapper для унификации с портфолио)
+    // Важно: callback вызывается синхронно при инициализации, поэтому isTabletMode будет обновлен
     initScrollHandler('.page-wrapper', (isTablet) => {
         isTabletMode = isTablet;
         checkViewport(isTablet);
     });
 
-    // Первоначальная настройка
+    // Первоначальная настройка после определения режима
     // На десктопе - показываем первый слайд сразу (без анимации при загрузке)
-    // Сначала убедимся, что все слайды скрыты
-    slides.forEach((slide, i) => {
-        slide.classList.remove('active');
-    });
-    // Затем показываем первый слайд, если не в режиме планшета
+    // Проверяем режим после инициализации scroll handler
     if (!isTabletMode) {
         showSlideImmediate(0);
         // Запускаем таймер подсказки для первого слайда

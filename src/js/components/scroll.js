@@ -76,6 +76,9 @@ export function initScrollHandler(scrollContainerSelector, isTabletModeCallback)
     }
 
     function checkViewportForScroll() {
+        // Определяем, является ли это главной страницей (есть контейнер слайдов)
+        const isIndexPage = !!document.querySelector('.slides-container');
+        
         // Для страницы проектов проверяем только ширину (<1024)
         // Для главной страницы проверяем ширину (<1024) ИЛИ высоту (<900)
         const isNowTablet = isScrollPage 

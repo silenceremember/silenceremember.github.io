@@ -2,8 +2,10 @@
 
 /* Стили для главной страницы при высоте <900px (применяются независимо от ширины) */
 /* Эти стили нужны для десктопа с маленькой высотой окна */
+/* Применяются для главной страницы (где есть .slides-container) даже с классом page-with-scroll */
 @media (max-height: 899px) {
-  body:not(.page-with-scroll) .header {
+  /* Стили для главной страницы - применяются независимо от класса page-with-scroll */
+  body:has(.slides-container) .header {
     position: fixed;
     top: 0;
     left: 0;
@@ -16,12 +18,12 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  body:not(.page-with-scroll) .header-content,
-  body:not(.page-with-scroll) .header-content * {
+  body:has(.slides-container) .header-content,
+  body:has(.slides-container) .header-content * {
     pointer-events: auto;
   }
   
-  body:not(.page-with-scroll) .footer {
+  body:has(.slides-container) .footer {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -34,21 +36,21 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  body:not(.page-with-scroll) .footer-content,
-  body:not(.page-with-scroll) .footer-content * {
+  body:has(.slides-container) .footer-content,
+  body:has(.slides-container) .footer-content * {
     pointer-events: auto;
   }
 
-  body:not(.page-with-scroll) .header.hidden {
+  body:has(.slides-container) .header.hidden {
     transform: translate3d(0, -100%, 0);
   }
 
-  body:not(.page-with-scroll) .footer.hidden {
+  body:has(.slides-container) .footer.hidden {
     transform: translate3d(0, 100%, 0);
   }
 
-  body:not(.page-with-scroll) .header + .decorative-line-horizontal,
-  body:not(.page-with-scroll) main + .decorative-line-horizontal {
+  body:has(.slides-container) .header + .decorative-line-horizontal,
+  body:has(.slides-container) main + .decorative-line-horizontal {
     position: fixed;
     left: 0;
     transition: transform var(--transition-duration-base) ease;
@@ -58,24 +60,24 @@
     backface-visibility: hidden;
   }
 
-  body:not(.page-with-scroll) .header + .decorative-line-horizontal {
+  body:has(.slides-container) .header + .decorative-line-horizontal {
     top: 64px;
   }
 
-  body:not(.page-with-scroll) main + .decorative-line-horizontal {
+  body:has(.slides-container) main + .decorative-line-horizontal {
     bottom: 64px;
   }
 
-  body:not(.page-with-scroll) .header + .decorative-line-horizontal.hidden {
+  body:has(.slides-container) .header + .decorative-line-horizontal.hidden {
     transform: translate3d(0, -65px, 0);
   }
 
-  body:not(.page-with-scroll) main + .decorative-line-horizontal.hidden {
+  body:has(.slides-container) main + .decorative-line-horizontal.hidden {
     transform: translate3d(0, 65px, 0);
   }
 
   /* При высоте <900px применяем скролл для главной страницы (независимо от ширины) */
-  body:not(.page-with-scroll) .content-wrapper {
+  body:has(.slides-container) .content-wrapper {
     padding-left: 0;
     padding-right: 0;
     max-width: none;
@@ -85,7 +87,7 @@
     box-sizing: border-box;
   }
 
-  body:not(.page-with-scroll) .page-wrapper {
+  body:has(.slides-container) .page-wrapper {
     display: block;
     height: 100vh;
     overflow-y: auto;
@@ -99,7 +101,7 @@
     scrollbar-width: none;
   }
 
-  body:not(.page-with-scroll) .page-wrapper::-webkit-scrollbar {
+  body:has(.slides-container) .page-wrapper::-webkit-scrollbar {
     display: none;
   }
 }
@@ -270,8 +272,10 @@
 }
 
 /* Стили для слайдов в tablet режиме при высоте <900px (независимо от ширины) */
+/* Применяются для главной страницы (где есть .slides-container) даже с классом page-with-scroll */
 @media (max-height: 899px) {
-  body:not(.page-with-scroll) .slides-container.tablet-scroll-mode {
+  /* Стили для главной страницы - применяются независимо от класса page-with-scroll */
+  .slides-container.tablet-scroll-mode {
     display: block;
     overflow: visible;
     height: auto;
@@ -280,14 +284,14 @@
     width: 100%;
   }
 
-  body:not(.page-with-scroll) .slides-container.tablet-scroll-mode .slide-wrapper {
+  .slides-container.tablet-scroll-mode .slide-wrapper {
     position: relative;
     width: 100%;
     height: auto;
     pointer-events: auto;
   }
 
-  body:not(.page-with-scroll) .slides-container.tablet-scroll-mode .slide {
+  .slides-container.tablet-scroll-mode .slide {
     display: block !important;
     position: static !important;
     opacity: 1 !important;
@@ -302,9 +306,9 @@
     z-index: auto !important;
   }
 
-  body:not(.page-with-scroll) .slides-container.tablet-scroll-mode .slide:first-child .main-grid,
-  body:not(.page-with-scroll) .slides-container.tablet-scroll-mode .project-slide-content,
-  body:not(.page-with-scroll) .slides-container.tablet-scroll-mode .cta-slide-content {
+  .slides-container.tablet-scroll-mode .slide:first-child .main-grid,
+  .slides-container.tablet-scroll-mode .project-slide-content,
+  .slides-container.tablet-scroll-mode .cta-slide-content {
     padding-left: var(--spacing-lg);
     padding-right: var(--spacing-lg);
     max-width: var(--max-width-large);
@@ -313,11 +317,11 @@
     box-sizing: border-box;
   }
 
-  body:not(.page-with-scroll) .slides-container.tablet-scroll-mode .slide[data-slide="1"] ~ .slide .project-slide-header .section-title {
+  .slides-container.tablet-scroll-mode .slide[data-slide="1"] ~ .slide .project-slide-header .section-title {
     display: none;
   }
 
-  body:not(.page-with-scroll) .slides-container.tablet-scroll-mode .slide-wrapper:not(:last-child)::after {
+  .slides-container.tablet-scroll-mode .slide-wrapper:not(:last-child)::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -328,7 +332,8 @@
     background-color: var(--color-divider);
   }
 
-  body:not(.page-with-scroll) .footer-decorative {
+  /* Скрываем footer-decorative только на главной странице (где есть .slides-container) */
+  body:has(.slides-container) .footer-decorative {
     display: none;
   }
 
