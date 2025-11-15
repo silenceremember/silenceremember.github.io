@@ -125,6 +125,13 @@
   white-space: nowrap;
   min-width: 0;
   
+  // Разрешаем выделение текста в заголовке
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  cursor: text;
+  
   @media (max-width: 1023px) {
     font-size: var(--font-size-base);
     padding-right: var(--spacing-sm);
@@ -275,9 +282,6 @@
   -webkit-overflow-scrolling: touch;
   touch-action: pan-y pan-x;
   background-color: var(--color-bg-primary);
-  
-  // Показываем обычный курсор внутри iframe (кастомный курсор не работает внутри iframe)
-  cursor: auto;
 }
 
 .document-viewer-iframe {
@@ -285,7 +289,6 @@
   height: 100%;
   border: none;
   background-color: var(--color-bg-primary);
-  cursor: auto;
   display: block;
   margin: 0;
   padding: 0;

@@ -3,10 +3,15 @@
   cursor: none !important;
 }
 
-// Исключения: показываем обычный курсор в определенных местах
-.document-viewer-iframe-wrapper,
-.document-viewer-iframe-wrapper *,
+// Исключения: показываем обычный курсор в document viewer
+// (кастомный курсор скрывается при открытии document viewer)
+// Используем более специфичный селектор для гарантированного переопределения
+.document-viewer-modal,
+.document-viewer-modal *,
+.document-viewer-modal *::before,
+.document-viewer-modal *::after,
 .document-viewer-iframe,
+.document-viewer-iframe-wrapper,
 iframe {
   cursor: auto !important;
 }

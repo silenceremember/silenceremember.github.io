@@ -211,6 +211,17 @@ function lockSelection() {
     body.style.webkitUserSelect = 'none';
     body.style.mozUserSelect = 'none';
     body.style.msUserSelect = 'none';
+    
+    // Явно разрешаем выделение для заголовка документа
+    if (documentViewerModal) {
+      const titleElement = documentViewerModal.querySelector('.document-viewer-title');
+      if (titleElement) {
+        titleElement.style.userSelect = 'text';
+        titleElement.style.webkitUserSelect = 'text';
+        titleElement.style.mozUserSelect = 'text';
+        titleElement.style.msUserSelect = 'text';
+      }
+    }
   });
   
   // Добавляем обработчики событий для предотвращения выделения
@@ -285,6 +296,12 @@ function preventSelection(e) {
   
   // Разрешаем выделение внутри самого модального окна (кнопки, заголовки и т.д.)
   if (documentViewerModal.contains(target)) {
+    // Разрешаем выделение для заголовка документа
+    const titleElement = documentViewerModal.querySelector('.document-viewer-title');
+    if (titleElement && (titleElement === target || titleElement.contains(target))) {
+      return;
+    }
+    
     // Разрешаем выделение только для интерактивных элементов (кнопки, ссылки)
     // Используем прямое итерирование NodeList без Array.from() для оптимизации
     if (interactiveElements) {

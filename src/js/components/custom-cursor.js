@@ -71,13 +71,88 @@ const initCustomCursor = () => {
     }, 500);
   };
 
-  // Кэш для элементов document viewer для оптимизации
-  let cachedIframeWrapper = null;
-  let cachedIframe = null;
-  let cachedContentViewer = null;
+  // Флаг для отслеживания состояния document viewer
+  let isDocumentViewerOpen = false;
+
+  // Функция для плавного скрытия курсора
+  const hideCursor = () => {
+    if (isVisible) {
+      cursor.classList.remove('visible');
+      isVisible = false;
+    }
+    if (isHovering) {
+      cursor.classList.remove('hover');
+      isHovering = false;
+    }
+  };
+
+  // Функция для плавного показа курсора (если не над интерактивным элементом)
+  const showCursor = () => {
+    if (!isVisible && !isTouching) {
+      cursor.classList.add('visible');
+      isVisible = true;
+    }
+  };
+
+  // Отслеживание открытия/закрытия document viewer через MutationObserver
+  const observeDocumentViewer = () => {
+    const documentViewerModal = document.querySelector('.document-viewer-modal');
+    if (!documentViewerModal) {
+      // Если модальное окно еще не создано, проверяем позже
+      setTimeout(observeDocumentViewer, 500);
+      return;
+    }
+
+    // Проверяем начальное состояние
+    isDocumentViewerOpen = !documentViewerModal.hidden;
+    if (isDocumentViewerOpen) {
+      hideCursor();
+    }
+
+    // Создаем наблюдатель за изменениями атрибута hidden
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'hidden') {
+          const isOpen = !documentViewerModal.hidden;
+          if (isOpen && !isDocumentViewerOpen) {
+            // Модальное окно открылось
+            isDocumentViewerOpen = true;
+            hideCursor();
+          } else if (!isOpen && isDocumentViewerOpen) {
+            // Модальное окно закрылось
+            isDocumentViewerOpen = false;
+            // Показываем курсор с небольшой задержкой для плавности
+            setTimeout(() => {
+              if (!isDocumentViewerOpen) {
+                showCursor();
+              }
+            }, 100);
+          }
+        }
+      });
+    });
+
+    // Начинаем наблюдение за изменениями атрибута hidden
+    observer.observe(documentViewerModal, {
+      attributes: true,
+      attributeFilter: ['hidden']
+    });
+  };
+
+  // Запускаем наблюдение после загрузки DOM
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', observeDocumentViewer);
+  } else {
+    observeDocumentViewer();
+  }
 
   // Оптимизация: Throttled проверка hover состояния
   const checkHoverState = (x, y) => {
+    // Если document viewer открыт, не проверяем hover состояние
+    if (isDocumentViewerOpen) {
+      return;
+    }
+
     const now = performance.now();
     // Уменьшили throttling до 50мс и убрали проверку по расстоянию для более быстрой реакции
     const distanceMoved = Math.abs(x - lastHoverCheckX) + Math.abs(y - lastHoverCheckY);
@@ -89,72 +164,8 @@ const initCustomCursor = () => {
     lastHoverCheckX = x;
     lastHoverCheckY = y;
 
-    // Проверяем, открыт ли document-viewer-modal
-    const documentViewerModal = document.querySelector('.document-viewer-modal');
-    const isViewerOpen = documentViewerModal && !documentViewerModal.hidden;
-
     // Получаем элемент под курсором для всех проверок
     const elementUnderCursor = document.elementFromPoint(x, y);
-    let isOverIframe = false;
-
-    if (isViewerOpen) {
-      // Кэшируем элементы для оптимизации
-      if (!cachedIframeWrapper) {
-        cachedIframeWrapper = documentViewerModal.querySelector('.document-viewer-iframe-wrapper');
-      }
-      if (!cachedIframe) {
-        cachedIframe = documentViewerModal.querySelector('.document-viewer-iframe');
-      }
-      if (!cachedContentViewer) {
-        cachedContentViewer = documentViewerModal.querySelector('.document-viewer-content');
-      }
-
-      // Проверка через getBoundingClientRect для более надежного определения области iframe
-      if (cachedIframeWrapper) {
-        const rect = cachedIframeWrapper.getBoundingClientRect();
-        if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
-          isOverIframe = true;
-        }
-      }
-
-      // Дополнительная проверка через elementFromPoint для точности
-      if (!isOverIframe && elementUnderCursor) {
-        // Проверяем различные способы определения iframe области
-        isOverIframe = 
-          // Прямая проверка на iframe элементы
-          elementUnderCursor.tagName === 'IFRAME' ||
-          elementUnderCursor.classList.contains('document-viewer-iframe') ||
-          elementUnderCursor.classList.contains('document-viewer-iframe-wrapper') ||
-          // Проверка через closest для всех родительских элементов
-          elementUnderCursor.closest('.document-viewer-iframe-wrapper') !== null ||
-          elementUnderCursor.closest('.document-viewer-iframe') !== null ||
-          // Проверка на document-viewer-content (область с iframe)
-          (elementUnderCursor.closest('.document-viewer-content') !== null &&
-           !elementUnderCursor.closest('.document-viewer-header') &&
-           !elementUnderCursor.closest('.document-viewer-loading') &&
-           !elementUnderCursor.closest('.document-viewer-error'));
-      }
-    }
-
-    // Если курсор над iframe, скрываем кастомный курсор
-    if (isOverIframe) {
-      if (isVisible) {
-        cursor.classList.remove('visible');
-        isVisible = false;
-      }
-      if (isHovering) {
-        cursor.classList.remove('hover');
-        isHovering = false;
-      }
-      return;
-    }
-
-    // Сбрасываем кэш при закрытии viewer
-    if (!isViewerOpen) {
-      cachedIframeWrapper = null;
-      cachedIframe = null;
-      cachedContentViewer = null;
-    }
 
     // Показываем курсор если скрыт
     if (!isVisible) {
@@ -210,8 +221,8 @@ const initCustomCursor = () => {
     targetX = x;
     targetY = y;
 
-    // Показываем курсор при первом движении мыши
-    if (!isVisible) {
+    // Показываем курсор при первом движении мыши (только если document viewer закрыт)
+    if (!isVisible && !isDocumentViewerOpen) {
       cursor.classList.add('visible');
       isVisible = true;
     }
