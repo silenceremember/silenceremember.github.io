@@ -1,5 +1,6 @@
 /**
- * Страница 404
+ * Точка входа для страницы 404
+ * Инициализирует NotFoundPage и обрабатывает события загрузки страницы
  */
 import { NotFoundPage } from './NotFoundPage.js';
 
@@ -27,3 +28,4 @@ window.addEventListener('pageshow', (event) => {
 });
 
 export default notFoundPage;
+

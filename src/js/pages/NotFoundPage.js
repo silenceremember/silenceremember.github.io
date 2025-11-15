@@ -1,91 +1,110 @@
 /**
- * Страница 404
+ * Страница 404 (Not Found)
+ * Отображает сообщение об ошибке и навигационные ссылки
  */
 import { BasePage } from './BasePage.js';
 import { DOMHelper } from '../utils/DomHelpers.js';
 import { animateElementsAppearance } from '../utils/AnimationUtils.js';
 
 export class NotFoundPage extends BasePage {
+  /**
+   * @param {Object} config - Конфигурация страницы (наследуется от BasePage)
+   */
   constructor() {
     super({
       navigationSelector: '',
       imageSelector: '.page-404 img'
     });
+    /** @type {HTMLElement|null} Контейнер с контентом страницы 404 */
     this.ctaContent = null;
   }
 
   /**
-   * Скрывает все элементы страницы 404
+   * Получает контейнер с контентом страницы 404
+   * @returns {HTMLElement|null} Элемент контейнера или null если не найден
    */
-  hideAllElementsImmediately() {
-    this.ctaContent = document.querySelector('.cta-slide-content');
-    if (!this.ctaContent) return;
-    
-    const title404 = this.ctaContent.querySelector('.main-content-name');
-    const subtitle = this.ctaContent.querySelector('.main-content-title');
-    const description = this.ctaContent.querySelector('.main-content-description');
-    const buttons = this.ctaContent.querySelectorAll('.cta-button');
-    
-    const elementsToHide = [title404, subtitle, description, ...buttons].filter(Boolean);
-    DOMHelper.hideElementsForAnimation(elementsToHide);
+  getCtaContent() {
+    if (!this.ctaContent) {
+      this.ctaContent = document.querySelector('.cta-slide-content');
+    }
+    return this.ctaContent;
   }
 
   /**
-   * Инициализирует анимации элементов страницы 404
+   * Получает все элементы страницы 404 для анимации
+   * @returns {Array<HTMLElement>} Массив элементов для анимации
+   */
+  getElementsToAnimate() {
+    const ctaContent = this.getCtaContent();
+    if (!ctaContent) return [];
+
+    const title404 = ctaContent.querySelector('.main-content-name');
+    const subtitle = ctaContent.querySelector('.main-content-title');
+    const description = ctaContent.querySelector('.main-content-description');
+    const buttons = ctaContent.querySelectorAll('.cta-button');
+
+    return [title404, subtitle, description, ...buttons].filter(Boolean);
+  }
+
+  /**
+   * Скрывает все элементы страницы 404 для предотвращения мерцания
+   * Вызывается сразу при загрузке DOM
+   */
+  hideAllElementsImmediately() {
+    const elementsToHide = this.getElementsToAnimate();
+    if (elementsToHide.length > 0) {
+      DOMHelper.hideElementsForAnimation(elementsToHide);
+    }
+  }
+
+  /**
+   * Инициализирует анимации появления элементов страницы 404
+   * Использует двойной requestAnimationFrame для синхронизации с браузером
    */
   initializeAnimations() {
-    this.ctaContent = document.querySelector('.cta-slide-content');
-    if (!this.ctaContent) return;
-    
+    const ctaContent = this.getCtaContent();
+    if (!ctaContent) return;
+
+    // Скрываем элементы перед анимацией
     this.hideAllElementsImmediately();
-    
-    if (this.ctaContent.firstElementChild) {
-      DOMHelper.forceReflow(this.ctaContent.firstElementChild);
+
+    // Принудительный reflow для применения стилей
+    if (ctaContent.firstElementChild) {
+      DOMHelper.forceReflow(ctaContent.firstElementChild);
     }
-    
+
+    // Используем двойной requestAnimationFrame для синхронизации
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        const title404 = this.ctaContent.querySelector('.main-content-name');
-        const subtitle = this.ctaContent.querySelector('.main-content-title');
-        const description = this.ctaContent.querySelector('.main-content-description');
-        const buttons = this.ctaContent.querySelectorAll('.cta-button');
-        
-        const elementsToCheck = [title404, subtitle, description, ...buttons].filter(Boolean);
-        
-        elementsToCheck.forEach(el => {
-          if (el && DOMHelper.isElementVisible(el)) {
-            DOMHelper.hideElementsForAnimation([el]);
+        const elementsToAnimate = this.getElementsToAnimate();
+
+        // Дополнительная проверка и скрытие видимых элементов
+        elementsToAnimate.forEach(element => {
+          if (element && DOMHelper.isElementVisible(element)) {
+            DOMHelper.hideElementsForAnimation([element]);
           }
         });
-        
-        if (this.ctaContent.firstElementChild) {
-          DOMHelper.forceReflow(this.ctaContent.firstElementChild);
+
+        // Принудительный reflow перед анимацией
+        if (ctaContent.firstElementChild) {
+          DOMHelper.forceReflow(ctaContent.firstElementChild);
         }
-        
+
+        // Запускаем анимацию с небольшой задержкой для стабильности
         setTimeout(() => {
-          const allElementsToAnimate = [];
-          
-          if (title404) allElementsToAnimate.push(title404);
-          if (subtitle) allElementsToAnimate.push(subtitle);
-          if (description) allElementsToAnimate.push(description);
-          buttons.forEach(btn => {
-            if (btn) allElementsToAnimate.push(btn);
-          });
-          
-          if (allElementsToAnimate.length > 0) {
-            DOMHelper.forceReflow(allElementsToAnimate[0]);
-            
-            allElementsToAnimate.forEach(element => {
+          if (elementsToAnimate.length > 0) {
+            // Принудительный reflow перед анимацией
+            DOMHelper.forceReflow(elementsToAnimate[0]);
+
+            // Убеждаемся, что все элементы скрыты перед анимацией
+            elementsToAnimate.forEach(element => {
               if (element && DOMHelper.isElementVisible(element)) {
                 DOMHelper.hideElementsForAnimation([element]);
               }
             });
-            
-            if (allElementsToAnimate.length > 0) {
-              DOMHelper.forceReflow(allElementsToAnimate[0]);
-            }
-            
-            animateElementsAppearance(allElementsToAnimate, { skipInitialState: false });
+
+            // Запускаем анимацию появления всех элементов одновременно
+            animateElementsAppearance(elementsToAnimate, { skipInitialState: false });
           }
         }, 100);
       });
@@ -93,12 +112,18 @@ export class NotFoundPage extends BasePage {
   }
 
   /**
-   * Инициализирует страницу
+   * Инициализирует страницу 404
+   * Скрывает элементы сразу, затем ждет готовности страницы и запускает анимации
+   * @returns {Promise<void>}
    */
   async init() {
+    // Скрываем элементы сразу при инициализации
     this.hideAllElementsImmediately();
-    
+
+    // Ждем готовности страницы (загрузка изображений и шрифтов)
     await this.waitForPageReady();
+
+    // Запускаем анимации появления элементов
     this.initializeAnimations();
   }
 }
