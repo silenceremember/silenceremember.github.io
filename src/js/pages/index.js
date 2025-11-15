@@ -211,7 +211,7 @@ export class IndexPage extends BasePage {
  * Это критично важно - нужно сделать до того как элементы станут видимыми
  * Вызывается как можно раньше, до полной инициализации страницы
  */
-function hideAllSlideElementsEarly() {
+export function hideAllSlideElementsEarly() {
   const slidesContainer = document.querySelector('.slides-container');
   if (!slidesContainer) return;
   
@@ -225,25 +225,13 @@ function hideAllSlideElementsEarly() {
 }
 
 /**
- * Инициализирует главную страницу
+ * Инициализирует главную страницу (для обратной совместимости)
+ * @deprecated Используйте класс IndexPage напрямую
  */
-async function initIndexPage() {
+export async function initIndexPage() {
   const indexPage = new IndexPage();
   await indexPage.init();
 }
 
-// Сразу скрываем элементы всех слайдов как можно раньше
-// Это критично важно - нужно сделать до того как элементы станут видимыми
-if (document.readyState === 'loading') {
-  // Если DOM еще загружается, ждем DOMContentLoaded
-  document.addEventListener('DOMContentLoaded', () => {
-    hideAllSlideElementsEarly();
-    initIndexPage();
-  });
-} else {
-  // Если DOM уже готов, скрываем элементы сразу
-  hideAllSlideElementsEarly();
-  initIndexPage();
-}
-
+// Экспорт по умолчанию для обратной совместимости
 export default initIndexPage;

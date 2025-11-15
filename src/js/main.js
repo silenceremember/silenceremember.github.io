@@ -6,6 +6,7 @@ import { initLanguageSwitcher } from './components/language-switcher';
 import initSvgLoader from './components/svg-loader';
 import { initScrollHandler } from './components/scroll';
 import { debounce } from './utils/DebounceUtils.js';
+import { IndexPage, hideAllSlideElementsEarly } from './pages/index.js';
 
 
 function updateFadeInElements() {
@@ -69,8 +70,12 @@ async function onDomReady() {
 
   initCustomCursor();
 
-  if (document.querySelector('.slides-container')) {
+  const slidesContainer = document.querySelector('.slides-container');
+  if (slidesContainer) {
     initSlidesManager();
+    // Инициализируем главную страницу
+    const indexPage = new IndexPage();
+    await indexPage.init();
   } else if (document.body.classList.contains('page-404') || document.body.classList.contains('page-with-scroll')) {
     initScrollHandler('.page-wrapper');
   }
@@ -90,4 +95,16 @@ async function onDomReady() {
   }
 }
 
-document.addEventListener('DOMContentLoaded', onDomReady);
+// Сразу скрываем элементы всех слайдов как можно раньше
+// Это критично важно - нужно сделать до того как элементы станут видимыми
+if (document.readyState === 'loading') {
+  // Если DOM еще загружается, ждем DOMContentLoaded
+  document.addEventListener('DOMContentLoaded', () => {
+    hideAllSlideElementsEarly();
+    onDomReady();
+  });
+} else {
+  // Если DOM уже готов, скрываем элементы сразу
+  hideAllSlideElementsEarly();
+  onDomReady();
+}
