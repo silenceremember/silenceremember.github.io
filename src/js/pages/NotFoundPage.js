@@ -2,7 +2,7 @@
  * Страница 404
  */
 import { BasePage } from './BasePage.js';
-import { DOMHelper } from '../utils/dom-helpers.js';
+import { DOMHelper } from '../utils/DomHelpers.js';
 import { animateElementsAppearance } from '../utils/AnimationUtils.js';
 
 export class NotFoundPage extends BasePage {
