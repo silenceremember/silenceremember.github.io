@@ -272,8 +272,18 @@ export class ProjectGroupingManager {
     // Сбрасываем состояние развернутости при новом рендеринге
     this.expandedSections.clear();
     
-    // Скрываем индикатор загрузки перед рендерингом (если есть)
-    await this.onHideLoading();
+    // Скрываем индикатор загрузки перед рендерингом (если есть и виден)
+    // Проверяем видимость перед вызовом, чтобы избежать лишних задержек
+    const loadingElement = document.getElementById('projects-loading');
+    if (loadingElement) {
+      const computedStyle = window.getComputedStyle(loadingElement);
+      const isVisible = computedStyle.display !== 'none' && 
+                       computedStyle.visibility !== 'hidden' &&
+                       parseFloat(computedStyle.opacity) > 0.01;
+      if (isVisible) {
+        await this.onHideLoading();
+      }
+    }
     
     try {
       // Очищаем сетку (индикатор загрузки уже удален через onHideLoading)

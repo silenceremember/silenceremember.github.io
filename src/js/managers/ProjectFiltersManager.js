@@ -618,13 +618,6 @@ export class ProjectFiltersManager {
     this.isApplyingFilters = true;
     
     try {
-      // Проверяем, есть ли индикатор загрузки перед его скрытием
-      const loadingElement = document.getElementById('projects-loading');
-      if (loadingElement) {
-        // Убеждаемся, что индикатор загрузки скрыт (на случай, если он остался)
-        await this.onHideLoading();
-      }
-    
       // Проверяем, есть ли активные фильтры
       const hasActiveFilters = Object.values(this.activeFilters).some(arr => arr.length > 0);
       
@@ -632,8 +625,29 @@ export class ProjectFiltersManager {
         // Если фильтров нет, группируем по разделам
         // Сбрасываем состояние развернутости при переключении на группировку
         this.onExpandedSectionsClear();
+        
+        // Проверяем, есть ли индикатор загрузки перед его скрытием
+        // Делаем это только если действительно нужно (индикатор виден)
+        const loadingElement = document.getElementById('projects-loading');
+        if (loadingElement) {
+          const computedStyle = window.getComputedStyle(loadingElement);
+          const isVisible = computedStyle.display !== 'none' && 
+                           computedStyle.visibility !== 'hidden' &&
+                           parseFloat(computedStyle.opacity) > 0.01;
+          if (isVisible) {
+            await this.onHideLoading();
+          }
+        }
+        
         await this.onRenderGrouped();
         return;
+      }
+      
+      // Проверяем, есть ли индикатор загрузки перед его скрытием
+      const loadingElement = document.getElementById('projects-loading');
+      if (loadingElement) {
+        // Убеждаемся, что индикатор загрузки скрыт (на случай, если он остался)
+        await this.onHideLoading();
       }
       
       // Если есть фильтры, создаем структуру с заголовком и сеткой в одном контейнере

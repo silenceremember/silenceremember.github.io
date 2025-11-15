@@ -38,6 +38,27 @@ export class LoadingIndicatorService {
         return;
       }
       
+      // Проверяем, виден ли индикатор загрузки
+      const computedStyle = window.getComputedStyle(this.loadingElement);
+      const isVisible = computedStyle.display !== 'none' && 
+                       computedStyle.visibility !== 'hidden' &&
+                       parseFloat(computedStyle.opacity) > 0.01;
+      
+      // Если индикатор уже скрыт, сразу разрешаем промис
+      if (!isVisible) {
+        // Убеждаемся, что элемент удален
+        if (this.loadingElement.parentNode) {
+          this.loadingElement.remove();
+        }
+        // Восстанавливаем видимость container, если нужно
+        if (this.container) {
+          this.container.style.visibility = '';
+          this.container.style.opacity = '';
+        }
+        resolve();
+        return;
+      }
+      
       const shouldHideContent = this.container && this.container.contains(this.loadingElement);
       
       // Убеждаемся, что loading элемент имеет transition для анимации
