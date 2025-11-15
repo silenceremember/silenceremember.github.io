@@ -78,15 +78,15 @@ export class CVPage extends BasePage {
     photoContainer.className = 'cv-header-photo';
     
     const photo = document.createElement('img');
-    photo.src = 'assets/images/portrait.jpg';
+    photo.src = 'assets/images/portrait-cv.webp';
     photo.alt = 'Maxim Elchaninov';
     photo.className = 'cv-header-photo-image';
     photo.decoding = 'async';
     photo.loading = 'eager';
     photo.fetchPriority = 'high';
     // Оптимизация: добавляем width и height для предотвращения layout shift
-    photo.setAttribute('width', '400');
-    photo.setAttribute('height', '400');
+    photo.setAttribute('width', '200');
+    photo.setAttribute('height', '300');
     photo.onerror = function() {
       this.src = 'assets/images/portrait-placeholder.svg';
     };
