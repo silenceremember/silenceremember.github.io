@@ -4,7 +4,7 @@
 
 import { loadData } from '../utils/data-loader.js';
 import { initScrollToTop } from '../components/scroll-to-top.js';
-import { animateSectionAppearance, animateElementsAppearance, animateElementAppearance } from '../utils/animations.js';
+import { CommunityAnimationManager } from '../managers/CommunityAnimationManager.js';
 
 /**
  * Ожидает загрузки всех шрифтов
@@ -105,36 +105,8 @@ function waitForPageReady() {
   });
 }
 
-/**
- * Скрывает все элементы секций сообщества сразу с !important для предотвращения FOUC
- */
-function hideAllCommunityElementsImmediately() {
-  const allSections = document.querySelectorAll('.community-section');
-  allSections.forEach(section => {
-    if (section) {
-      // Скрываем саму секцию
-      section.style.setProperty('opacity', '0', 'important');
-      section.style.setProperty('transform', 'translateY(10px)', 'important');
-      section.style.setProperty('transition', 'none', 'important');
-      
-      // Скрываем все элементы внутри секции
-      // НЕ скрываем контейнеры .community-social-links и .community-donations-links - они нужны для layout
-      // Скрываем только карточки и другие элементы контента
-      const elementsToHide = section.querySelectorAll(
-        '.community-section-title, .community-card, .community-card-discord, ' +
-        '.community-events-list, .community-event-item'
-      );
-      
-      elementsToHide.forEach(element => {
-        if (element) {
-          element.style.setProperty('opacity', '0', 'important');
-          element.style.setProperty('transform', 'translateY(10px)', 'important');
-          element.style.setProperty('transition', 'none', 'important');
-        }
-      });
-    }
-  });
-}
+// Создаем экземпляр менеджера анимаций
+const animationManager = new CommunityAnimationManager();
 
 /**
  * Загружает данные сообщества из JSON с кешированием
@@ -595,135 +567,13 @@ function initMenuButtonScroll() {
   waitForMenuButton();
 }
 
-/**
- * Инициализирует анимации всех секций сообщества после загрузки страницы
- * Все элементы появляются одновременно без задержек
- * Работает как при первой загрузке, так и при повторном посещении страницы
- */
-function initializeCommunityAnimations() {
-  // Скрываем все элементы сразу (включая те, что уже могут быть видимы при повторном посещении)
-  hideAllCommunityElementsImmediately();
-  
-  // Принудительный reflow для применения стилей скрытия
-  const firstSection = document.querySelector('.community-section');
-  if (firstSection && firstSection.firstElementChild) {
-    void firstSection.firstElementChild.offsetHeight;
-  }
-  
-  // Используем двойной requestAnimationFrame для синхронизации с браузером
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      // Проверяем и при необходимости снова скрываем все элементы
-      // Это важно при повторном посещении страницы
-      const allSections = document.querySelectorAll('.community-section');
-      allSections.forEach(section => {
-        if (section) {
-          const computedStyle = window.getComputedStyle(section);
-          const opacity = parseFloat(computedStyle.opacity);
-          // Если секция видима, снова скрываем её
-          if (opacity > 0.01) {
-            section.style.setProperty('opacity', '0', 'important');
-            section.style.setProperty('transform', 'translateY(10px)', 'important');
-            section.style.setProperty('transition', 'none', 'important');
-          }
-          
-          // Проверяем и скрываем элементы внутри секции
-          // НЕ скрываем контейнеры .community-social-links и .community-donations-links - они нужны для layout
-          const elementsToCheck = section.querySelectorAll(
-            '.community-section-title, .community-card, .community-card-discord, ' +
-            '.community-events-list, .community-event-item'
-          );
-          
-          elementsToCheck.forEach(element => {
-            if (element) {
-              const elementComputedStyle = window.getComputedStyle(element);
-              const elementOpacity = parseFloat(elementComputedStyle.opacity);
-              // Если элемент видим, снова скрываем его
-              if (elementOpacity > 0.01) {
-                element.style.setProperty('opacity', '0', 'important');
-                element.style.setProperty('transform', 'translateY(10px)', 'important');
-                element.style.setProperty('transition', 'none', 'important');
-              }
-            }
-          });
-        }
-      });
-      
-      // Принудительный reflow для применения стилей скрытия
-      if (allSections.length > 0 && allSections[0].firstElementChild) {
-        void allSections[0].firstElementChild.offsetHeight;
-      }
-      
-      // Задержка перед запуском анимации для гарантии готовности
-      // Увеличена задержка для лучшей синхронизации, как на главной странице
-      setTimeout(() => {
-        // Собираем все элементы для синхронной анимации
-        const allElementsToAnimate = [];
-        
-        // Собираем все секции и их элементы
-        allSections.forEach(section => {
-          if (section && section.children.length > 0) {
-            // Анимируем саму секцию
-            animateSectionAppearance(section);
-            
-            // Собираем элементы секции
-            const sectionTitle = section.querySelector('.community-section-title');
-            if (sectionTitle) allElementsToAnimate.push(sectionTitle);
-            
-            // Карточки
-            const cards = section.querySelectorAll('.community-card, .community-card-discord');
-            cards.forEach(card => {
-              if (card) allElementsToAnimate.push(card);
-            });
-            
-            // Элементы событий
-            const eventItems = section.querySelectorAll('.community-event-item');
-            eventItems.forEach(item => {
-              if (item) allElementsToAnimate.push(item);
-            });
-          }
-        });
-        
-        // Принудительный reflow перед анимацией
-        if (allElementsToAnimate.length > 0 && allElementsToAnimate[0]) {
-          void allElementsToAnimate[0].offsetHeight;
-        }
-        
-        // Анимируем все элементы одновременно без задержек
-        // Используем skipInitialState: false, чтобы гарантировать установку начального состояния
-        if (allElementsToAnimate.length > 0) {
-          // Дополнительная проверка: убеждаемся, что элементы действительно скрыты перед анимацией
-          allElementsToAnimate.forEach(element => {
-            if (element) {
-              const computedStyle = window.getComputedStyle(element);
-              const opacity = parseFloat(computedStyle.opacity);
-              // Если элемент все еще видим, снова скрываем его
-              if (opacity > 0.01) {
-                element.style.setProperty('opacity', '0', 'important');
-                element.style.setProperty('transform', 'translateY(10px)', 'important');
-                element.style.setProperty('transition', 'none', 'important');
-              }
-            }
-          });
-          
-          // Принудительный reflow перед анимацией
-          if (allElementsToAnimate.length > 0 && allElementsToAnimate[0]) {
-            void allElementsToAnimate[0].offsetHeight;
-          }
-          
-          animateElementsAppearance(allElementsToAnimate, { skipInitialState: false });
-        }
-      }, 100); // Задержка как на главной странице
-    });
-  });
-}
 
 /**
  * Инициализирует страницу сообщества
  */
 async function initCommunityPage() {
   // Скрываем все элементы сразу для предотвращения FOUC
-  hideAllCommunityElementsImmediately();
+  animationManager.hideAllCommunityElementsImmediately();
   
   // Загружаем данные
   const data = await loadCommunityData();
@@ -831,7 +681,7 @@ async function initCommunityPage() {
   setActiveNavigationLink();
   
   // Скрываем все элементы после добавления всех секций
-  hideAllCommunityElementsImmediately();
+  animationManager.hideAllCommunityElementsImmediately();
   
   // Загружаем SVG для кнопки "Наверх" и иконок после добавления всех элементов в DOM
   // Используем небольшую задержку для гарантии, что все элементы добавлены
@@ -844,7 +694,7 @@ async function initCommunityPage() {
   // Ждем полной загрузки страницы и запускаем анимации
   // Анимация запускается каждый раз при загрузке страницы (как при первой загрузке, так и при повторном посещении)
   waitForPageReady().then(() => {
-    initializeCommunityAnimations();
+    animationManager.initializeAnimations();
   });
 }
 
@@ -864,7 +714,7 @@ window.addEventListener('pageshow', (event) => {
     if (firstSection && firstSection.children.length > 0) {
       // Небольшая задержка для гарантии готовности DOM
       setTimeout(() => {
-        initializeCommunityAnimations();
+        animationManager.initializeAnimations();
       }, 100);
     }
   }
