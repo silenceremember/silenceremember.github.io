@@ -3,12 +3,15 @@
  */
 
 import { BasePage } from './BasePage.js';
-import { loadHTML } from '../layout.js';
+import { LayoutManager } from '../layout/LayoutManager.js';
 import { loadData } from '../utils/DataLoader.js';
 import { CardFactory } from '../factories/CardFactory.js';
 import { LoadingIndicatorService } from '../services/LoadingIndicatorService.js';
 import { DateFormatter } from '../utils/DateFormatter.js';
 import { ANIMATION_CONFIG as CARD_ANIMATION, animateElementsAppearance, animateSectionAppearance, animateElementAppearance } from '../utils/AnimationUtils.js';
+
+const layoutManager = new LayoutManager();
+const loadHTML = (url) => layoutManager.loadHTML(url);
 
 /**
  * Класс страницы исследований

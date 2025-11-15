@@ -1,10 +1,10 @@
-import initCustomCursor from './components/custom-cursor';
-import initSlidesManager from './components/slides';
-import { initLayout } from './layout';
-import { initThemeSwitcher } from './components/theme-switcher';
-import { initLanguageSwitcher } from './components/language-switcher';
-import initSvgLoader from './components/svg-loader';
-import { initScrollHandler } from './components/scroll';
+import { CustomCursor } from './components/index.js';
+import { SlidesManager } from './components/index.js';
+import { LayoutManager } from './layout/LayoutManager.js';
+import { ThemeSwitcher } from './components/index.js';
+import { LanguageSwitcher } from './components/index.js';
+import { SvgLoader } from './components/index.js';
+import { ScrollManager } from './components/index.js';
 import { debounce } from './utils/DebounceUtils.js';
 import { IndexPage, hideAllSlideElementsEarly } from './pages/index.js';
 import { ProjectsPage } from './pages/projects.js';
@@ -87,7 +87,8 @@ async function initCurrentPage() {
     case 'index':
       const slidesContainer = document.querySelector('.slides-container');
       if (slidesContainer) {
-        initSlidesManager();
+        const slidesManager = new SlidesManager();
+        slidesManager.init();
         const indexPage = new IndexPage();
         await indexPage.init();
       }
@@ -128,7 +129,8 @@ async function initCurrentPage() {
     default:
       // Для других страниц (404) используем scroll handler
       if (document.body.classList.contains('page-404') || document.body.classList.contains('page-with-scroll')) {
-        initScrollHandler('.page-wrapper');
+        const scrollManager = new ScrollManager('.page-wrapper');
+        scrollManager.init();
       }
       break;
   }
@@ -136,12 +138,20 @@ async function initCurrentPage() {
 
 async function onDomReady() {
   // Критические компоненты загружаем сразу
-  await initLayout();
-  await initSvgLoader();
-  initThemeSwitcher();
-  initLanguageSwitcher();
+  const layoutManager = new LayoutManager();
+  await layoutManager.init();
+  
+  const svgLoader = new SvgLoader();
+  await svgLoader.init();
+  
+  const themeSwitcher = new ThemeSwitcher();
+  themeSwitcher.init();
+  
+  const languageSwitcher = new LanguageSwitcher();
+  languageSwitcher.init();
 
-  initCustomCursor();
+  const customCursor = new CustomCursor();
+  customCursor.init();
 
   // Инициализируем соответствующую страницу
   await initCurrentPage();

@@ -4,6 +4,7 @@
  */
 
 import { ANIMATION_CONFIG, animateElementsAppearance } from '../utils/AnimationUtils.js';
+import { SvgLoader } from '../components/index.js';
 
 /**
  * Класс для управления группировкой и отображением проектов
@@ -361,10 +362,8 @@ export class ProjectGroupingManager {
       // Загружаем SVG для звездочек после рендеринга
       requestAnimationFrame(async () => {
         try {
-          const svgLoaderModule = await import('../components/svg-loader.js');
-          if (svgLoaderModule.default) {
-            await svgLoaderModule.default();
-          }
+          const svgLoader = new SvgLoader();
+          await svgLoader.init();
         } catch (error) {
           console.error('Ошибка загрузки SVG:', error);
         } finally {

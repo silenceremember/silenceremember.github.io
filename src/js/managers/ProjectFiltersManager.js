@@ -5,7 +5,11 @@
 
 import { CardFactory } from '../factories/CardFactory.js';
 import { ANIMATION_CONFIG, animateElementsAppearance, animateElementAppearance } from '../utils/AnimationUtils.js';
-import { loadHTML } from '../layout.js';
+import { LayoutManager } from '../layout/LayoutManager.js';
+import { SvgLoader } from '../components/index.js';
+
+const layoutManager = new LayoutManager();
+const loadHTML = (url) => layoutManager.loadHTML(url);
 
 /**
  * Класс для управления фильтрами проектов
@@ -772,10 +776,8 @@ export class ProjectFiltersManager {
       // Загружаем SVG для звездочек после добавления карточек
       requestAnimationFrame(async () => {
         try {
-          const svgLoaderModule = await import('../components/svg-loader.js');
-          if (svgLoaderModule.default) {
-            await svgLoaderModule.default();
-          }
+          const svgLoader = new SvgLoader();
+          await svgLoader.init();
         } catch (error) {
           console.error('Ошибка загрузки SVG:', error);
         }

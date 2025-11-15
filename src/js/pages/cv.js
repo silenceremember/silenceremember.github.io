@@ -4,10 +4,13 @@
  */
 
 import { BasePage } from './BasePage.js';
-import { loadHTML } from '../layout.js';
+import { LayoutManager } from '../layout/LayoutManager.js';
 import { loadData } from '../utils/DataLoader.js';
 import { CVAnimationManager } from '../managers/CVAnimationManager.js';
 import { DateFormatter } from '../utils/DateFormatter.js';
+
+const layoutManager = new LayoutManager();
+const loadHTML = (url) => layoutManager.loadHTML(url);
 
 /**
  * Класс страницы резюме
