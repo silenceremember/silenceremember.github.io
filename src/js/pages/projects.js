@@ -170,11 +170,3 @@ export class ProjectsPage extends BasePage {
     await this.renderGroupedProjects();
   }
 }
-
-// Инициализация при загрузке DOM
-const projectsPage = new ProjectsPage();
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => projectsPage.init());
-} else {
-  projectsPage.init();
-}

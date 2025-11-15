@@ -7,6 +7,7 @@ import initSvgLoader from './components/svg-loader';
 import { initScrollHandler } from './components/scroll';
 import { debounce } from './utils/DebounceUtils.js';
 import { IndexPage, hideAllSlideElementsEarly } from './pages/index.js';
+import { ProjectsPage } from './pages/projects.js';
 
 
 function updateFadeInElements() {
@@ -61,6 +62,48 @@ function updateFadeInElements() {
   });
 }
 
+/**
+ * Определяет текущую страницу по URL
+ */
+function getCurrentPage() {
+  const path = window.location.pathname.split('/').pop();
+  if (path === '' || path === 'index.html' || !path) {
+    return 'index';
+  }
+  // Убираем расширение .html если есть
+  return path.replace(/\.html$/, '');
+}
+
+/**
+ * Инициализирует соответствующую страницу
+ */
+async function initCurrentPage() {
+  const currentPage = getCurrentPage();
+  
+  switch (currentPage) {
+    case 'index':
+      const slidesContainer = document.querySelector('.slides-container');
+      if (slidesContainer) {
+        initSlidesManager();
+        const indexPage = new IndexPage();
+        await indexPage.init();
+      }
+      break;
+      
+    case 'projects':
+      const projectsPage = new ProjectsPage();
+      await projectsPage.init();
+      break;
+      
+    default:
+      // Для других страниц (404, cv, research, community) используем scroll handler
+      if (document.body.classList.contains('page-404') || document.body.classList.contains('page-with-scroll')) {
+        initScrollHandler('.page-wrapper');
+      }
+      break;
+  }
+}
+
 async function onDomReady() {
   // Критические компоненты загружаем сразу
   await initLayout();
@@ -70,15 +113,8 @@ async function onDomReady() {
 
   initCustomCursor();
 
-  const slidesContainer = document.querySelector('.slides-container');
-  if (slidesContainer) {
-    initSlidesManager();
-    // Инициализируем главную страницу
-    const indexPage = new IndexPage();
-    await indexPage.init();
-  } else if (document.body.classList.contains('page-404') || document.body.classList.contains('page-with-scroll')) {
-    initScrollHandler('.page-wrapper');
-  }
+  // Инициализируем соответствующую страницу
+  await initCurrentPage();
 
   updateFadeInElements();
 
