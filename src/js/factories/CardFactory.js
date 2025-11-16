@@ -76,13 +76,22 @@ export class CardFactory {
       type.textContent = typeLabels[project.type] || project.type;
     }
 
-    // Добавляем звездочку для избранных проектов
+    // Добавляем звездочку для избранных проектов (тир 1)
     if (project.featured && title) {
       const starIcon = document.createElement('span');
       starIcon.className = 'project-card-star';
       starIcon.setAttribute('data-svg-src', 'assets/images/icon-star.svg');
       starIcon.setAttribute('aria-label', 'Избранный проект');
       title.appendChild(starIcon);
+    }
+
+    // Добавляем акцентный прочерк для тир 2 проектов
+    if (project.tier === 2 && title) {
+      const dividerIcon = document.createElement('span');
+      dividerIcon.className = 'project-card-divider';
+      dividerIcon.setAttribute('data-svg-src', 'assets/images/icon-divider-small.svg');
+      dividerIcon.setAttribute('aria-label', 'Проект тир 2');
+      title.appendChild(dividerIcon);
     }
 
     if (year && project.year) {

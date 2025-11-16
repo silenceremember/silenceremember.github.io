@@ -307,14 +307,21 @@ export class ProjectGroupingManager {
    * @returns {HTMLElement} Элемент секции
    */
   createSection(category, allCategoryProjects, sectionTitles) {
-    // Разделяем на отмеченные и неотмеченные
-    const featuredProjects = allCategoryProjects.filter((p) => p.featured);
-    const otherProjects = allCategoryProjects.filter((p) => !p.featured);
+    // Разделяем на тиры:
+    // Тир 1: featured: true
+    // Тир 2: tier === 2
+    // Тир 3: остальные
+    const tier1Projects = allCategoryProjects.filter((p) => p.featured);
+    const tier2Projects = allCategoryProjects.filter((p) => !p.featured && p.tier === 2);
+    const tier3Projects = allCategoryProjects.filter((p) => !p.featured && p.tier !== 2);
+    
+    // Объединяем тир 2 и тир 3 для скрытых проектов (тир 2 должны быть выше)
+    const hiddenProjects = [...tier2Projects, ...tier3Projects];
 
     // Если нет отмеченных проектов, показываем все
-    const hasFeatured = featuredProjects.length > 0;
-    const projectsToShow = hasFeatured ? featuredProjects : allCategoryProjects;
-    const hasMoreProjects = hasFeatured && otherProjects.length > 0;
+    const hasFeatured = tier1Projects.length > 0;
+    const projectsToShow = hasFeatured ? tier1Projects : allCategoryProjects;
+    const hasMoreProjects = hasFeatured && hiddenProjects.length > 0;
 
     // Создаем контейнер раздела
     const sectionContainer = document.createElement('div');
@@ -350,7 +357,7 @@ export class ProjectGroupingManager {
         <span class="projects-section-expand-count">${allCategoryProjects.length}</span>
       `;
       expandButton.addEventListener('click', () => {
-        this.toggleSectionExpansion(category, expandButton, otherProjects);
+        this.toggleSectionExpansion(category, expandButton, hiddenProjects);
       });
       sectionTitle.appendChild(expandButton);
     }
@@ -400,9 +407,9 @@ export class ProjectGroupingManager {
       }
     });
 
-    // Добавляем скрытые проекты (если есть)
+    // Добавляем скрытые проекты (если есть) - сначала тир 2, затем тир 3
     if (hasMoreProjects) {
-      otherProjects.forEach((project) => {
+      hiddenProjects.forEach((project) => {
         const originalCard = this.allProjectCards.get(project.id);
         if (originalCard) {
           const clonedCard = originalCard.cloneNode(true);

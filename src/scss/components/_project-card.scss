@@ -261,6 +261,25 @@
   }
 }
 
+/* Акцентный прочерк для тир 2 проектов */
+.project-card-divider {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 10px;
+  height: 10px;
+  flex-shrink: 0;
+  color: var(--color-accent);
+  transition: color var(--transition-duration-base) var(--timing-function-ease);
+
+  svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+    transition: fill var(--transition-duration-base) var(--timing-function-ease);
+  }
+}
+
 .project-card-meta {
   display: flex;
   flex-wrap: nowrap;
