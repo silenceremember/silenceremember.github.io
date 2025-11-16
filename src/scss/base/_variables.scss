@@ -91,6 +91,14 @@
   /* Отступ для вертикальных линий от края контента */
   --spacing-content-side: var(--spacing-xs); /* 8px */
 
+  /* Отступы страниц */
+  --spacing-page-top: var(--spacing-lg); /* 32px - верхний отступ контента страницы */
+
+  /* Отступы между секциями */
+  --spacing-section-large: var(--spacing-xxl); /* 64px - большой отступ между секциями */
+  --spacing-section-large-mobile: var(--spacing-xl); /* 48px - большой отступ для мобильных / средний отступ для десктопа */
+  --spacing-section-medium-mobile: var(--spacing-lg); /* 32px - средний отступ для мобильных */
+
   /* Декоративные линии */
   --line-color: var(--color-text-primary);
   --line-width: 1px;

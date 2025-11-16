@@ -18,7 +18,7 @@
 
 /* Контейнер фильтров */
 .projects-filters-container {
-  margin-bottom: var(--spacing-xl);
+  margin-bottom: var(--spacing-section-large-mobile);
 }
 
 /* Сетка проектов */
@@ -26,7 +26,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: var(--spacing-lg);
-  margin-bottom: var(--spacing-xl);
+  margin-bottom: var(--spacing-section-large-mobile);
   align-items: stretch;
 
   /* Когда показывается индикатор загрузки, используем flex для распределения пространства */
@@ -50,7 +50,7 @@
 /* Контейнер раздела */
 .projects-section {
   grid-column: 1 / -1;
-  margin-bottom: var(--spacing-xl);
+  @include section-spacing('medium');
   opacity: 1;
 
   &:first-child {
@@ -62,7 +62,7 @@
 
 /* Заголовок раздела с кнопкой */
 .projects-section-header {
-  margin: var(--spacing-xl) 0 var(--spacing-md) 0;
+  margin: var(--spacing-section-large-mobile) 0 var(--spacing-md) 0;
 }
 
 /* Заголовки разделов */
@@ -257,7 +257,7 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
   }
 
   .projects-section-header {
-    margin: var(--spacing-lg) 0 var(--spacing-sm) 0;
+    margin: var(--spacing-section-medium-mobile) 0 var(--spacing-sm) 0;
     transition: margin var(--transition-duration-base) var(--timing-function-ease);
   }
 
@@ -309,7 +309,7 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
   }
 
   .projects-section-header {
-    margin: var(--spacing-lg) 0 var(--spacing-sm) 0;
+    margin: var(--spacing-section-medium-mobile) 0 var(--spacing-sm) 0;
     transition: margin var(--transition-duration-base) var(--timing-function-ease);
   }
 

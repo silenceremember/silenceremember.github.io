@@ -8,7 +8,7 @@
 /* Миксин для базовых стилей контейнеров страниц */
 /* Используется для: projects-page, research-page, cv-page, community-page */
 @mixin page-container {
-  padding: var(--spacing-lg) var(--spacing-lg);
+  padding: var(--spacing-page-top) var(--spacing-lg);
   padding-bottom: 0;
   max-width: var(--max-width-content);
   margin: 0 auto;
@@ -19,6 +19,7 @@
 
   @include tablet-and-mobile {
     max-width: 100%;
+    padding-top: var(--spacing-page-top);
     padding-left: var(--spacing-lg);
     padding-right: var(--spacing-lg);
     flex: 1;
@@ -128,6 +129,25 @@
   @include tablet-and-mobile {
     font-size: var(--font-size-h3);
     margin-bottom: var(--spacing-md);
+  }
+}
+
+/* Миксин для отступов секций */
+/* Используется для унификации отступов между секциями на страницах */
+/* Варианты: 'large' (64px/48px) или 'medium' (48px/32px) */
+@mixin section-spacing($variant: 'large') {
+  @if $variant == 'large' {
+    margin-bottom: var(--spacing-section-large);
+
+    @include tablet-and-mobile {
+      margin-bottom: var(--spacing-section-large-mobile);
+    }
+  } @else if $variant == 'medium' {
+    margin-bottom: var(--spacing-section-large-mobile);
+
+    @include tablet-and-mobile {
+      margin-bottom: var(--spacing-section-medium-mobile);
+    }
   }
 }
 

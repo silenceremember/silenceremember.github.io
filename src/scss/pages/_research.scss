@@ -13,11 +13,11 @@
 
 /* Секция ВКР */
 .research-vkr-section {
-  margin-bottom: var(--spacing-xxl);
+  @include section-spacing('large');
 }
 
 .research-vkr {
-  margin-bottom: var(--spacing-xl);
+  margin-bottom: var(--spacing-section-large-mobile);
 }
 
 .research-section-title {
@@ -26,7 +26,7 @@
 
 /* Секция публикаций */
 .research-publications-section {
-  margin-bottom: var(--spacing-xl);
+  @include section-spacing('medium');
 }
 
 /* Сетка исследований */
@@ -34,7 +34,7 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: var(--spacing-lg);
-  margin-bottom: var(--spacing-xl);
+  margin-bottom: var(--spacing-section-large-mobile);
   align-items: stretch;
 
   .research-card {
@@ -58,7 +58,7 @@
   font-weight: 900;
   text-transform: uppercase;
   color: var(--color-text-primary);
-  margin: var(--spacing-xl) 0 var(--spacing-lg) 0;
+  margin: var(--spacing-section-large-mobile) 0 var(--spacing-lg) 0;
   padding-bottom: var(--spacing-sm);
   border-bottom: var(--line-width) solid var(--color-divider);
   letter-spacing: var(--letter-spacing-tight);
@@ -70,7 +70,7 @@
 
   @include tablet-and-mobile {
     font-size: var(--font-size-h4);
-    margin-top: var(--spacing-lg);
+    margin-top: var(--spacing-section-medium-mobile);
     margin-bottom: var(--spacing-md);
   }
 }

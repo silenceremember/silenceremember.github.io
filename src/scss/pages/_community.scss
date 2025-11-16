@@ -14,7 +14,7 @@
 
 /* Общие стили для секций */
 .community-section {
-  margin-bottom: var(--spacing-xxl);
+  @include section-spacing('large');
 
   &:last-child {
     margin-bottom: 0;
@@ -39,7 +39,7 @@
 
 /* Секция Discord */
 .community-discord-section {
-  margin-bottom: var(--spacing-xxl);
+  @include section-spacing('large');
 
   .community-card {
     max-width: 100%;
@@ -50,7 +50,7 @@
 
 /* Секция донатов */
 .community-donations-section {
-  margin-bottom: var(--spacing-xxl);
+  @include section-spacing('large');
 }
 
 .community-donations-links {
@@ -332,12 +332,12 @@
 
 /* Секция социальных ссылок */
 .community-social-section {
-  margin-bottom: var(--spacing-xxl);
+  @include section-spacing('large');
 }
 
 /* Секция рабочих ссылок */
 .community-work-section {
-  margin-bottom: var(--spacing-xxl);
+  @include section-spacing('large');
 }
 
 .community-social-links {
@@ -353,7 +353,7 @@
 
 /* Секция событий */
 .community-events-section {
-  margin-bottom: var(--spacing-xxl);
+  @include section-spacing('large');
 }
 
 .community-events-list {
@@ -428,10 +428,5 @@
 @include tablet-and-mobile {
   .community-page {
     transition: padding var(--transition-duration-base) var(--timing-function-ease);
-  }
-
-  .community-section {
-    margin-bottom: var(--spacing-xl);
-    transition: margin-bottom var(--transition-duration-base) var(--timing-function-ease);
   }
 }

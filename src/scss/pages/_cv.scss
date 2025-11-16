@@ -19,7 +19,7 @@
 
 /* Секции резюме */
 .cv-section {
-  margin-bottom: var(--spacing-xxl);
+  @include section-spacing('large');
 
   /* Скрываем пустые секции до загрузки контента */
   &:empty {
@@ -27,14 +27,14 @@
   }
 
   &:last-of-type {
-    margin-bottom: var(--spacing-xl);
+    margin-bottom: var(--spacing-section-large-mobile);
   }
 
   @include tablet-and-mobile {
-    margin-bottom: var(--spacing-xl);
+    margin-bottom: var(--spacing-section-large-mobile);
 
     &:last-of-type {
-      margin-bottom: var(--spacing-lg);
+      margin-bottom: var(--spacing-section-medium-mobile);
     }
   }
 }
@@ -696,13 +696,13 @@
 
 /* Кнопка скачивания PDF */
 .cv-download-section {
-  margin-top: var(--spacing-xxl);
-  margin-bottom: var(--spacing-xl);
+  margin-top: var(--spacing-section-large);
+  margin-bottom: var(--spacing-section-large-mobile);
   text-align: center;
 
   @include tablet-and-mobile {
-    margin-top: var(--spacing-xl);
-    margin-bottom: var(--spacing-lg);
+    margin-top: var(--spacing-section-large-mobile);
+    margin-bottom: var(--spacing-section-medium-mobile);
   }
 }
 
