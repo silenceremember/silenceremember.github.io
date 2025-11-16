@@ -960,6 +960,12 @@ export class FluidBackground {
           c += bloom;
       #endif
 
+          // Tone mapping для затемнения максимального скопления света
+          float brightness = max(c.r, max(c.g, c.b));
+          // Применяем кривую затемнения: чем ярче, тем сильнее затемнение
+          float darkeningFactor = 1.0 - smoothstep(0.3, 1.0, brightness) * 0.6;
+          c *= darkeningFactor;
+
           float a = max(c.r, max(c.g, c.b));
           gl_FragColor = vec4(c, a);
       }

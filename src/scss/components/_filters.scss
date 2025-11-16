@@ -166,7 +166,7 @@
   position: absolute;
   top: calc(100% + var(--spacing-xs));
   left: 0;
-  background-color: var(--color-bg-primary);
+  background-color: transparent;
   border: var(--line-width) solid var(--color-divider);
   z-index: 1000;
   max-height: 300px;
