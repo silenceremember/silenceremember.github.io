@@ -42,6 +42,19 @@ export class FluidBackground {
     this.isPaused = false;
     this.lastUpdateTime = Date.now();
     this.colorUpdateTimer = 0.0;
+    this.hasUserInteracted = false;
+    
+    // Smooth cursor position for rubber band effect
+    this.smoothCursorX = 0.5;
+    this.smoothCursorY = 0.5;
+    this.targetCursorX = 0.5;
+    this.targetCursorY = 0.5;
+    this.smoothFactor = 0.15; // Lower = more delay (rubber band effect)
+    
+    // Activation threshold - minimum distance to move before activating effect
+    this.initialCursorX = null;
+    this.initialCursorY = null;
+    this.activationThreshold = 0.05; // 5% of canvas size (larger gap required)
 
     // WebGL resources
     this.dye = null;
@@ -136,16 +149,16 @@ export class FluidBackground {
         SIM_RESOLUTION: 128,
         DYE_RESOLUTION: 1024,
         CAPTURE_RESOLUTION: 512,
-        DENSITY_DISSIPATION: 0.98, // Slightly lower for more visible effect
-        VELOCITY_DISSIPATION: 0.2,
+        DENSITY_DISSIPATION: 0.995, // Higher for slower dissipation
+        VELOCITY_DISSIPATION: 0.4, // Further increased for smoother, less turbulent movement
         PRESSURE: 0.8,
         PRESSURE_ITERATIONS: 20,
-        CURL: 30,
-        SPLAT_RADIUS: 0.25,
-        SPLAT_FORCE: 6000,
+        CURL: 1, // Minimized to almost eliminate vortices and create smooth flow
+        SPLAT_RADIUS: 0.8, // Increased for larger effect area and bigger trail
+        SPLAT_FORCE: 2000, // Reduced from 6000 for less intense splats
         SHADING: false,
-        COLORFUL: true,
-        COLOR_UPDATE_SPEED: 10,
+        COLORFUL: false, // Disabled to use accent color instead
+        COLOR_UPDATE_SPEED: 5, // Reduced from 10 for slower color changes
         PAUSED: false,
         BACK_COLOR: { r: 0, g: 0, b: 0 },
         TRANSPARENT: true,
@@ -192,10 +205,7 @@ export class FluidBackground {
       this.updateKeywords();
       console.log('FluidBackground: Keywords updated');
       
-      // Create more initial splats for better visibility
-      const initialSplats = parseInt(Math.random() * 20) + 10;
-      this.multipleSplats(initialSplats);
-      console.log('FluidBackground: Initial splats created', { count: initialSplats });
+      // Don't create initial splats - wait for user interaction
       
       this.setupEventListeners();
       console.log('FluidBackground: Event listeners setup');
@@ -233,7 +243,7 @@ export class FluidBackground {
       deltaY: 0,
       down: false,
       moved: false,
-      color: [30, 0, 300],
+      color: this.generateColor(), // Use accent color
     };
   }
 
@@ -1403,6 +1413,46 @@ export class FluidBackground {
       console.log('FluidBackground: Canvas resized during update');
       this.initFramebuffers();
     }
+    
+    // Update smooth cursor position with rubber band effect
+    if (this.hasUserInteracted) {
+      const prevSmoothX = this.smoothCursorX;
+      const prevSmoothY = this.smoothCursorY;
+      
+      // Linear interpolation (lerp) for smooth following
+      this.smoothCursorX += (this.targetCursorX - this.smoothCursorX) * this.smoothFactor;
+      this.smoothCursorY += (this.targetCursorY - this.smoothCursorY) * this.smoothFactor;
+      
+      // Create splats at smooth position (not at actual cursor position)
+      const deltaX = this.smoothCursorX - prevSmoothX;
+      const deltaY = this.smoothCursorY - prevSmoothY;
+      
+      // Only create splat if smooth cursor actually moved
+      if (Math.abs(deltaX) > 0.0001 || Math.abs(deltaY) > 0.0001) {
+        const color = this.generateColor();
+        color.r *= 0.6;
+        color.g *= 0.6;
+        color.b *= 0.6;
+        const dx = deltaX * this.config.SPLAT_FORCE * 0.15;
+        const dy = deltaY * this.config.SPLAT_FORCE * 0.15;
+        
+        // Main splat at smooth cursor position
+        this.splat(this.smoothCursorX, this.smoothCursorY, dx, dy, color);
+        
+        // Additional splats behind for denser trail
+        const trailCount = 2;
+        for (let i = 1; i <= trailCount; i++) {
+          const trailX = this.smoothCursorX - deltaX * i * 0.3;
+          const trailY = this.smoothCursorY - deltaY * i * 0.3;
+          const trailColor = this.generateColor();
+          trailColor.r *= 0.4;
+          trailColor.g *= 0.4;
+          trailColor.b *= 0.4;
+          this.splat(trailX, trailY, dx * 0.5, dy * 0.5, trailColor);
+        }
+      }
+    }
+    
     this.updateColors(dt);
     this.applyInputs();
     if (!this.config.PAUSED && !this.isPaused) this.step(dt);
@@ -1892,14 +1942,14 @@ export class FluidBackground {
   multipleSplats(amount) {
     for (let i = 0; i < amount; i++) {
       const color = this.generateColor();
-      // Increase intensity for better visibility
-      color.r *= 15.0;
-      color.g *= 15.0;
-      color.b *= 15.0;
+      // Subtle intensity
+      color.r *= 1.5;
+      color.g *= 1.5;
+      color.b *= 1.5;
       const x = Math.random();
       const y = Math.random();
-      const dx = 1000 * (Math.random() - 0.5);
-      const dy = 1000 * (Math.random() - 0.5);
+      const dx = 200 * (Math.random() - 0.5);
+      const dy = 200 * (Math.random() - 0.5);
       this.splat(x, y, dx, dy, color);
     }
   }
@@ -1953,34 +2003,126 @@ export class FluidBackground {
    * Setup event listeners
    */
   setupEventListeners() {
-    this.canvas.addEventListener('mousedown', (e) => {
-      let posX = this.scaleByPixelRatio(e.offsetX);
-      let posY = this.scaleByPixelRatio(e.offsetY);
+    // Use window events since canvas has pointer-events: none
+    window.addEventListener('mousedown', (e) => {
+      // Get mouse position relative to canvas
+      const rect = this.canvas.getBoundingClientRect();
+      let posX = this.scaleByPixelRatio(e.clientX - rect.left);
+      let posY = this.scaleByPixelRatio(e.clientY - rect.top);
+      
+      // Initialize effect on first click
+      if (!this.hasUserInteracted) {
+        this.hasUserInteracted = true;
+        const color = this.generateColor();
+        color.r *= 0.8;
+        color.g *= 0.8;
+        color.b *= 0.8;
+        const x = posX / this.canvas.width;
+        const y = 1.0 - posY / this.canvas.height;
+        const dx = 200 * (Math.random() - 0.5);
+        const dy = 200 * (Math.random() - 0.5);
+        this.splat(x, y, dx, dy, color);
+      }
+      
       let pointer = this.pointers.find((p) => p.id == -1);
       if (pointer == null) pointer = this.createPointer();
       this.updatePointerDownData(pointer, -1, posX, posY);
     });
 
-    this.canvas.addEventListener('mousemove', (e) => {
+    window.addEventListener('mousemove', (e) => {
+      // Ensure pointer exists
+      if (this.pointers.length === 0) {
+        this.pointers.push(this.createPointer());
+      }
+      
+      // Get mouse position relative to canvas
+      const rect = this.canvas.getBoundingClientRect();
+      let posX = this.scaleByPixelRatio(e.clientX - rect.left);
+      let posY = this.scaleByPixelRatio(e.clientY - rect.top);
+      const newX = posX / this.canvas.width;
+      const newY = 1.0 - posY / this.canvas.height;
+      
+      // Get pointer
       let pointer = this.pointers[0];
-      if (!pointer.down) return;
-      let posX = this.scaleByPixelRatio(e.offsetX);
-      let posY = this.scaleByPixelRatio(e.offsetY);
-      this.updatePointerMoveData(pointer, posX, posY);
+      
+      // Track initial cursor position and check activation threshold
+      if (!this.hasUserInteracted) {
+        if (this.initialCursorX === null || this.initialCursorY === null) {
+          // Store initial position
+          this.initialCursorX = newX;
+          this.initialCursorY = newY;
+          return; // Don't activate yet
+        }
+        
+        // Calculate distance moved from initial position
+        const distanceX = Math.abs(newX - this.initialCursorX);
+        const distanceY = Math.abs(newY - this.initialCursorY);
+        const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+        
+        // Only activate if moved beyond threshold
+        if (distance < this.activationThreshold) {
+          return; // Not enough movement yet
+        }
+        
+        // Activate effect after sufficient movement
+        this.hasUserInteracted = true;
+        this.smoothCursorX = newX;
+        this.smoothCursorY = newY;
+        this.targetCursorX = newX;
+        this.targetCursorY = newY;
+        
+        // Create initial splat at cursor position
+        const color = this.generateColor();
+        color.r *= 0.8;
+        color.g *= 0.8;
+        color.b *= 0.8;
+        const dx = 200 * (Math.random() - 0.5);
+        const dy = 200 * (Math.random() - 0.5);
+        this.splat(newX, newY, dx, dy, color);
+      } else {
+        // Update target position (where cursor actually is)
+        this.targetCursorX = newX;
+        this.targetCursorY = newY;
+      }
+      
+      // Create splats when mouse moves (even without button pressed)
+      if (pointer.down) {
+        // Mouse button is pressed - use normal pointer tracking
+        this.updatePointerMoveData(pointer, posX, posY);
+      }
     });
 
     window.addEventListener('mouseup', () => {
       this.updatePointerUpData(this.pointers[0]);
     });
 
-    this.canvas.addEventListener('touchstart', (e) => {
+    window.addEventListener('touchstart', (e) => {
       e.preventDefault();
+      // Initialize effect on first touch
+      if (!this.hasUserInteracted) {
+        this.hasUserInteracted = true;
+        const touch = e.targetTouches[0];
+        const rect = this.canvas.getBoundingClientRect();
+        let posX = this.scaleByPixelRatio(touch.clientX - rect.left);
+        let posY = this.scaleByPixelRatio(touch.clientY - rect.top);
+        const color = this.generateColor();
+        color.r *= 0.8;
+        color.g *= 0.8;
+        color.b *= 0.8;
+        const x = posX / this.canvas.width;
+        const y = 1.0 - posY / this.canvas.height;
+        const dx = 200 * (Math.random() - 0.5);
+        const dy = 200 * (Math.random() - 0.5);
+        this.splat(x, y, dx, dy, color);
+      }
+      
       const touches = e.targetTouches;
       while (touches.length >= this.pointers.length)
         this.pointers.push(this.createPointer());
+      const rect = this.canvas.getBoundingClientRect();
       for (let i = 0; i < touches.length; i++) {
-        let posX = this.scaleByPixelRatio(touches[i].pageX);
-        let posY = this.scaleByPixelRatio(touches[i].pageY);
+        let posX = this.scaleByPixelRatio(touches[i].clientX - rect.left);
+        let posY = this.scaleByPixelRatio(touches[i].clientY - rect.top);
         this.updatePointerDownData(
           this.pointers[i + 1],
           touches[i].identifier,
@@ -1990,14 +2132,15 @@ export class FluidBackground {
       }
     });
 
-    this.canvas.addEventListener('touchmove', (e) => {
+    window.addEventListener('touchmove', (e) => {
       e.preventDefault();
       const touches = e.targetTouches;
+      const rect = this.canvas.getBoundingClientRect();
       for (let i = 0; i < touches.length; i++) {
         let pointer = this.pointers[i + 1];
         if (!pointer.down) continue;
-        let posX = this.scaleByPixelRatio(touches[i].pageX);
-        let posY = this.scaleByPixelRatio(touches[i].pageY);
+        let posX = this.scaleByPixelRatio(touches[i].clientX - rect.left);
+        let posY = this.scaleByPixelRatio(touches[i].clientY - rect.top);
         this.updatePointerMoveData(pointer, posX, posY);
       }
     }, false);
@@ -2074,15 +2217,33 @@ export class FluidBackground {
   }
 
   /**
-   * Generate color
+   * Get accent background color - always use #641912 (dark accent-bg color)
    */
+  getAccentColor() {
+    // Always use #641912 (--theme-dark-accent-bg) regardless of theme
+    return this.hexToRgb('#641912');
+  }
+
+  /**
+   * Convert hex color to RGB
+   */
+  hexToRgb(hex) {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+      r: parseInt(result[1], 16) / 255,
+      g: parseInt(result[2], 16) / 255,
+      b: parseInt(result[3], 16) / 255
+    } : { r: 0.85, g: 0.016, b: 0.161 }; // Default accent color #d90429 in RGB 0-1
+  }
+
   generateColor() {
-    let c = this.HSVtoRGB(Math.random(), 1.0, 1.0);
-    // Increase brightness for background effect visibility
-    c.r *= 0.25;
-    c.g *= 0.25;
-    c.b *= 0.25;
-    return c;
+    // Use accent color instead of random colors
+    const accentColor = this.getAccentColor();
+    return {
+      r: accentColor.r * 0.05, // Very reduced brightness for subtle background effect
+      g: accentColor.g * 0.05,
+      b: accentColor.b * 0.05
+    };
   }
 
   /**
