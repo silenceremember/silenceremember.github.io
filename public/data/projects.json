@@ -608,23 +608,6 @@
       "technologies": []
     },
     {
-      "id": "blender-to-unity",
-      "title": "Blender To Unity",
-      "category": "tools",
-      "type": "tool",
-      "role": "solo",
-      "year": 2024,
-      "status": "in-development",
-      "description": "Аддон для Unity, переносящий фичи из Blender",
-      "fullDescription": "Аддон для Unity, переносящий множество фич из Blender в Unity: навигация, базовая работа с объектами, gizmo и т.д. Проект в разработке.",
-      "media": {},
-      "documents": [],
-      "links": {},
-      "tags": ["unity", "blender", "editor-tool", "tool"],
-      "featured": false,
-      "technologies": ["Unity", "C#"]
-    },
-    {
       "id": "dark-souls-ahk",
       "title": "Dark Souls 1 AHK скрипт",
       "category": "tools",
