@@ -125,10 +125,8 @@
       "description": "Аддон для Unity, добавляющий сетку и привязку к сетке в Unity Shader Graph",
       "fullDescription": "Выявил и решил проблему отсутствия сетки в Unity Shader Graph, создав уникальный редакторный аддон с помощью рефлексии. Аддон позволяет визуализировать сетку и обеспечивает привязку объектов к сетке прямо в Shader Graph редакторе.",
       "media": {
-        "preview": "assets/images/projects/gridsnap-addon/preview.jpg",
-        "screenshots": [
-          "assets/images/projects/gridsnap-addon/screenshot-1.jpg"
-        ]
+        "preview": "assets/images/projects/gridsnap-addon/preview.webp",
+        "screenshots": []
       },
       "documents": [],
       "links": {},
