@@ -497,30 +497,29 @@ export class FluidBackground {
    */
   detectGPUTier() {
     const gl = this.gl;
-    const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
     
-    if (!debugInfo) {
+    try {
+      const renderer = gl.getParameter(gl.RENDERER).toLowerCase();
+      
+      // High-tier GPUs (dedicated GPUs)
+      if (renderer.includes('nvidia') || renderer.includes('amd') || 
+          renderer.includes('radeon') || renderer.includes('geforce') ||
+          (renderer.includes('intel') && (renderer.includes('iris') || renderer.includes('uhd') && renderer.includes('6')))) {
+        return 3;
+      }
+      
+      // Mid-tier (integrated GPUs, modern mobile)
+      if (renderer.includes('adreno') || renderer.includes('mali') || 
+          renderer.includes('powervr') || renderer.includes('apple')) {
+        return 2;
+      }
+      
+      // Low-tier (older integrated GPUs)
+      return 1;
+    } catch (error) {
       // Fallback: assume mid-tier if we can't detect
       return 2;
     }
-
-    const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL).toLowerCase();
-    
-    // High-tier GPUs (dedicated GPUs)
-    if (renderer.includes('nvidia') || renderer.includes('amd') || 
-        renderer.includes('radeon') || renderer.includes('geforce') ||
-        (renderer.includes('intel') && (renderer.includes('iris') || renderer.includes('uhd') && renderer.includes('6')))) {
-      return 3;
-    }
-    
-    // Mid-tier (integrated GPUs, modern mobile)
-    if (renderer.includes('adreno') || renderer.includes('mali') || 
-        renderer.includes('powervr') || renderer.includes('apple')) {
-      return 2;
-    }
-    
-    // Low-tier (older integrated GPUs)
-    return 1;
   }
 
   /**
