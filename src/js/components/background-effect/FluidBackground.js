@@ -58,10 +58,10 @@ const COLOR_UPDATE_THROTTLE = 100; // ms between color updates
 // Trail effect constants
 const TRAIL_COUNT = 2;
 const TRAIL_SPACING = 0.3;
-const TRAIL_INTENSITY_MULTIPLIER = 0.32; // Subtle visibility
-const MAIN_SPLAT_INTENSITY = 0.55; // Subtle visibility
+const TRAIL_INTENSITY_MULTIPLIER = 0.25; // Moderate visibility
+const MAIN_SPLAT_INTENSITY = 0.40; // Moderate visibility
 const TRAIL_FORCE_MULTIPLIER = 0.5;
-const BASE_COLOR_INTENSITY = 0.1; // Subtle base intensity
+const BASE_COLOR_INTENSITY = 0.07; // Moderate base intensity
 
 // Default configuration
 const DEFAULT_CONFIG = {
@@ -1795,8 +1795,8 @@ export class FluidBackground {
       // Only create splat if smooth cursor actually moved
       if (Math.abs(deltaX) > 0.0001 || Math.abs(deltaY) > 0.0001) {
         const color = this.generateColor();
-        // Subtle intensity
-        const effectiveIntensity = Math.max(intensityMultiplier, 0.35);
+        // Moderate intensity
+        const effectiveIntensity = Math.max(intensityMultiplier, 0.28);
         color.r *= MAIN_SPLAT_INTENSITY * effectiveIntensity;
         color.g *= MAIN_SPLAT_INTENSITY * effectiveIntensity;
         color.b *= MAIN_SPLAT_INTENSITY * effectiveIntensity;
@@ -1812,7 +1812,7 @@ export class FluidBackground {
           const trailX = this.smoothCursorX - deltaX * spacing;
           const trailY = this.smoothCursorY - deltaY * spacing;
           const trailColor = this.generateColor();
-          const trailIntensity = TRAIL_INTENSITY_MULTIPLIER * effectiveIntensity * (1 - i * 0.22); // Slightly more fade
+          const trailIntensity = TRAIL_INTENSITY_MULTIPLIER * effectiveIntensity * (1 - i * 0.22); // Reduced fade
           trailColor.r *= trailIntensity;
           trailColor.g *= trailIntensity;
           trailColor.b *= trailIntensity;
@@ -2381,10 +2381,10 @@ export class FluidBackground {
   multipleSplats(amount) {
     for (let i = 0; i < amount; i++) {
       const color = this.generateColor();
-      // Subtle intensity
-      color.r *= 1.5;
-      color.g *= 1.5;
-      color.b *= 1.5;
+      // Moderate intensity
+      color.r *= 1.1;
+      color.g *= 1.1;
+      color.b *= 1.1;
       const x = Math.random();
       const y = Math.random();
       const dx = 200 * (Math.random() - 0.5);
@@ -2493,9 +2493,9 @@ export class FluidBackground {
         
         // Create initial splat at cursor position
         const color = this.generateColor();
-        color.r *= MAIN_SPLAT_INTENSITY * 0.95; // Subtle visibility
-        color.g *= MAIN_SPLAT_INTENSITY * 0.95;
-        color.b *= MAIN_SPLAT_INTENSITY * 0.95;
+        color.r *= MAIN_SPLAT_INTENSITY * 0.85; // Moderate visibility
+        color.g *= MAIN_SPLAT_INTENSITY * 0.85;
+        color.b *= MAIN_SPLAT_INTENSITY * 0.85;
         const dx = 220 * (Math.random() - 0.5); // Slightly reduced
         const dy = 220 * (Math.random() - 0.5);
         this.splat(newX, newY, dx, dy, color);
@@ -2523,9 +2523,9 @@ export class FluidBackground {
       if (!this.hasUserInteracted) {
         this.hasUserInteracted = true;
         const color = this.generateColor();
-        color.r *= MAIN_SPLAT_INTENSITY * 0.95; // Subtle visibility
-        color.g *= MAIN_SPLAT_INTENSITY * 0.95;
-        color.b *= MAIN_SPLAT_INTENSITY * 0.95;
+        color.r *= MAIN_SPLAT_INTENSITY * 0.7; // Reduced visibility
+        color.g *= MAIN_SPLAT_INTENSITY * 0.7;
+        color.b *= MAIN_SPLAT_INTENSITY * 0.7;
         const x = posX / this.canvas.width;
         const y = 1.0 - posY / this.canvas.height;
         const dx = 220 * (Math.random() - 0.5); // Slightly reduced
@@ -2555,9 +2555,9 @@ export class FluidBackground {
         let posX = this.scaleByPixelRatio(touch.clientX - rect.left);
         let posY = this.scaleByPixelRatio(touch.clientY - rect.top);
         const color = this.generateColor();
-        color.r *= MAIN_SPLAT_INTENSITY * 0.95; // Subtle visibility
-        color.g *= MAIN_SPLAT_INTENSITY * 0.95;
-        color.b *= MAIN_SPLAT_INTENSITY * 0.95;
+        color.r *= MAIN_SPLAT_INTENSITY * 0.7; // Reduced visibility
+        color.g *= MAIN_SPLAT_INTENSITY * 0.7;
+        color.b *= MAIN_SPLAT_INTENSITY * 0.7;
         const x = posX / this.canvas.width;
         const y = 1.0 - posY / this.canvas.height;
         const dx = 220 * (Math.random() - 0.5); // Slightly reduced
@@ -2608,9 +2608,9 @@ export class FluidBackground {
         if (scrollDelta > 5 && this.hasUserInteracted) {
           // Create subtle splat effect on scroll
           const color = this.generateColor();
-          color.r *= TRAIL_INTENSITY_MULTIPLIER * 0.6; // Subtle
-          color.g *= TRAIL_INTENSITY_MULTIPLIER * 0.6;
-          color.b *= TRAIL_INTENSITY_MULTIPLIER * 0.6;
+          color.r *= TRAIL_INTENSITY_MULTIPLIER * 0.5; // Moderate
+          color.g *= TRAIL_INTENSITY_MULTIPLIER * 0.5;
+          color.b *= TRAIL_INTENSITY_MULTIPLIER * 0.5;
           const x = Math.random() * 0.3 + 0.35; // Center area
           const y = Math.random() * 0.3 + 0.35;
           const dx = (Math.random() - 0.5) * 110; // Slightly reduced
