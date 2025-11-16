@@ -445,7 +445,7 @@
 }
 
 /* Адаптивность */
-@media (max-width: 1023px) {
+@include tablet-and-mobile {
   .research-card-content {
     padding: var(--spacing-sm);
   }

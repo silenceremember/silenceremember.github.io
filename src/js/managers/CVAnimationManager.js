@@ -7,75 +7,54 @@ import {
   animateSectionAppearance,
   animateElementsAppearance,
 } from '../utils/AnimationUtils.js';
+import { BaseAnimationManager } from './BaseAnimationManager.js';
 
 /**
  * Класс для управления анимациями CV страницы
  */
-export class CVAnimationManager {
+export class CVAnimationManager extends BaseAnimationManager {
   /**
    * Создает экземпляр менеджера анимаций CV
    */
   constructor() {
-    // Селектор для всех секций CV
-    this.sectionSelector = '.cv-section, #cv-download-section';
-
-    // Селектор для всех элементов внутри секций, которые нужно скрывать
-    this.elementsSelector =
-      '.cv-header-name, .cv-header-role, .cv-header-contacts-wrapper, .cv-header-about, .cv-about-text, .cv-header-photo-image, ' +
-      '.cv-section-title, .cv-skills-grid, .cv-skill-category, ' +
-      '.timeline-container, .cv-certificate-item, .cv-course-item, .cv-language-item, ' +
-      '.cv-download-button';
+    super({
+      sectionSelector: '.cv-section, #cv-download-section',
+      elementsSelector:
+        '.cv-header-name, .cv-header-role, .cv-header-contacts-wrapper, .cv-header-about, .cv-about-text, .cv-header-photo-image, ' +
+        '.cv-section-title, .cv-skills-grid, .cv-skill-category, ' +
+        '.timeline-container, .cv-certificate-item, .cv-course-item, .cv-language-item, ' +
+        '.cv-download-button',
+      animationDelay: 100,
+    });
   }
 
   /**
    * Скрывает все элементы секций резюме сразу с !important для предотвращения FOUC
    */
   hideAllCVElementsImmediately() {
-    const allSections = document.querySelectorAll(this.sectionSelector);
-    allSections.forEach((section) => {
-      if (section) {
-        // Скрываем саму секцию
-        section.style.setProperty('opacity', '0', 'important');
-        section.style.setProperty('transform', 'translateY(10px)', 'important');
-        section.style.setProperty('transition', 'none', 'important');
-
-        // Скрываем все элементы внутри секции
-        const elementsToHide = section.querySelectorAll(this.elementsSelector);
-
-        elementsToHide.forEach((element) => {
-          if (element) {
-            element.style.setProperty('opacity', '0', 'important');
-            element.style.setProperty(
-              'transform',
-              'translateY(10px)',
-              'important'
-            );
-            element.style.setProperty('transition', 'none', 'important');
-          }
-        });
-
-        // Для timeline-container также скрываем все элементы внутри
-        const timelineContainers = section.querySelectorAll(
-          '.timeline-container'
-        );
-        timelineContainers.forEach((container) => {
-          if (container) {
-            // Скрываем все элементы внутри контейнера
-            const itemsInside = container.querySelectorAll('*');
-            itemsInside.forEach((item) => {
-              if (item) {
-                item.style.setProperty('opacity', '0', 'important');
-                item.style.setProperty(
-                  'transform',
-                  'translateY(10px)',
-                  'important'
-                );
-                item.style.setProperty('transition', 'none', 'important');
-              }
-            });
-          }
-        });
-      }
+    // Используем базовый метод с дополнительной логикой для timeline-container
+    this.hideAllElementsImmediately((section) => {
+      // Для timeline-container также скрываем все элементы внутри
+      const timelineContainers = section.querySelectorAll(
+        '.timeline-container'
+      );
+      timelineContainers.forEach((container) => {
+        if (container) {
+          // Скрываем все элементы внутри контейнера
+          const itemsInside = container.querySelectorAll('*');
+          itemsInside.forEach((item) => {
+            if (item) {
+              item.style.setProperty('opacity', '0', 'important');
+              item.style.setProperty(
+                'transform',
+                'translateY(10px)',
+                'important'
+              );
+              item.style.setProperty('transition', 'none', 'important');
+            }
+          });
+        }
+      });
     });
   }
 
@@ -234,63 +213,22 @@ export class CVAnimationManager {
     this.hideAllCVElementsImmediately();
 
     // Принудительный reflow для применения стилей скрытия
-    const firstSection = document.querySelector('.cv-section');
-    if (firstSection && firstSection.firstElementChild) {
-      void firstSection.firstElementChild.offsetHeight;
-    }
+    this.forceReflow(document.querySelector('.cv-section'));
 
     // Используем двойной requestAnimationFrame для синхронизации с браузером
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         // Проверяем и при необходимости снова скрываем все элементы
         // Это важно при повторном посещении страницы
-        const allSections = document.querySelectorAll(this.sectionSelector);
-        allSections.forEach((section) => {
-          if (section) {
-            const computedStyle = window.getComputedStyle(section);
-            const opacity = parseFloat(computedStyle.opacity);
-            // Если секция видима, снова скрываем её
-            if (opacity > 0.01) {
-              section.style.setProperty('opacity', '0', 'important');
-              section.style.setProperty(
-                'transform',
-                'translateY(10px)',
-                'important'
-              );
-              section.style.setProperty('transition', 'none', 'important');
-            }
-
-            // Проверяем и скрываем элементы внутри секции
-            const elementsToCheck = section.querySelectorAll(
-              this.elementsSelector
-            );
-
-            elementsToCheck.forEach((element) => {
-              if (element) {
-                const elementComputedStyle = window.getComputedStyle(element);
-                const elementOpacity = parseFloat(elementComputedStyle.opacity);
-                // Если элемент видим, снова скрываем его
-                if (elementOpacity > 0.01) {
-                  element.style.setProperty('opacity', '0', 'important');
-                  element.style.setProperty(
-                    'transform',
-                    'translateY(10px)',
-                    'important'
-                  );
-                  element.style.setProperty('transition', 'none', 'important');
-                }
-              }
-            });
-          }
-        });
+        this.recheckAndHideElements();
 
         // Принудительный reflow для применения стилей скрытия
+        const allSections = document.querySelectorAll(this.sectionSelector);
         if (allSections.length > 0 && allSections[0].firstElementChild) {
           void allSections[0].firstElementChild.offsetHeight;
         }
 
         // Задержка перед запуском анимации для гарантии готовности
-        // Увеличена задержка для лучшей синхронизации, как на главной странице
         setTimeout(() => {
           // Собираем все элементы для синхронной анимации
           const allElementsToAnimate = [];
@@ -434,7 +372,7 @@ export class CVAnimationManager {
               skipInitialState: false,
             });
           }
-        }, 100); // Задержка как на главной странице
+        }, this.animationDelay);
       });
     });
   }

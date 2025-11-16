@@ -7,7 +7,7 @@
 .research-page {
   padding: var(--spacing-lg) var(--spacing-lg);
   padding-bottom: 0;
-  max-width: calc(1200px + 16px);
+  max-width: var(--max-width-content);
   margin: 0 auto;
   flex: 1;
   display: flex;
@@ -355,7 +355,7 @@
   position: relative;
 }
 
-@media (max-width: 1023px) {
+@include tablet-and-mobile {
   .research-navigation {
     display: block;
   }
@@ -389,7 +389,7 @@
 }
 
 /* Адаптивность */
-@media (max-width: 1023px) {
+@include tablet-and-mobile {
   .research-page {
     padding: var(--spacing-lg) var(--spacing-lg);
     padding-bottom: 0;

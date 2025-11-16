@@ -34,13 +34,13 @@
   opacity: 1;
 }
 
-/* Позиционируем линии на расстоянии padding от краёв контента шириной 1200px */
+/* Позиционируем линии на расстоянии padding от краёв контента шириной var(--max-width-large) */
 .page-wrapper::before {
-  left: calc((100% - 1200px) / 2 - 8px);
+  left: calc((100% - var(--max-width-large)) / 2 - var(--spacing-content-side));
 }
 
 .page-wrapper::after {
-  right: calc((100% - 1200px) / 2 - 8px);
+  right: calc((100% - var(--max-width-large)) / 2 - var(--spacing-content-side));
 }
 
 /* Контентная область */
@@ -50,9 +50,9 @@
   width: 100%;
   overflow: hidden;
   /* Контент ограничивается вертикальными линиями */
-  /* Вертикальные линии находятся на: calc((100% - 1200px) / 2 - 8px) от краёв */
-  /* Ширина между линиями: 1200px + 16px (8px с каждой стороны) */
-  max-width: calc(1200px + 16px);
+  /* Вертикальные линии находятся на: calc((100% - var(--max-width-large)) / 2 - var(--spacing-content-side)) от краёв */
+  /* Ширина между линиями: var(--max-width-content) */
+  max-width: var(--max-width-content);
   margin: 0 auto;
   padding: 0 var(--spacing-lg);
 
@@ -65,7 +65,7 @@
   }
 
   /* На мобильных устройствах контент на всю ширину с отступами */
-  @media (max-width: 1023px) {
+  @include tablet-and-mobile {
     max-width: 100%;
     padding-left: var(--spacing-md);
     padding-right: var(--spacing-md);
@@ -81,7 +81,7 @@
   flex-shrink: 0;
   position: relative;
   z-index: 12;
-  transition: transform 0.3s ease;
+  transition: transform var(--transition-duration-base) ease;
 }
 
 /* Основная сетка для контента */
@@ -94,7 +94,7 @@
   padding: var(--spacing-lg) 0;
   align-items: center; /* Центрируем элементы по вертикали */
   justify-items: start; /* Выравниваем элементы по левому краю */
-  transition: gap 0.3s ease;
+  transition: gap var(--transition-duration-base) ease;
   width: 100%;
 }
 
@@ -124,8 +124,8 @@
   object-fit: cover;
   user-select: none; /* Запрещаем выделение изображения */
   transition:
-    width 0.3s ease,
-    height 0.3s ease;
+    width var(--transition-duration-base) ease,
+    height var(--transition-duration-base) ease;
 }
 
 /* Стили для текстового контента */
@@ -187,7 +187,7 @@
 }
 
 /* Адаптивность для больших экранов */
-@media (min-width: 1025px) {
+@include desktop-large {
   .main-grid {
     grid-template-columns: auto 1fr;
     grid-template-rows: 1fr auto;

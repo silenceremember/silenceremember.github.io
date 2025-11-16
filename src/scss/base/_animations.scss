@@ -1,0 +1,55 @@
+/* Общие CSS-анимации для унификации анимаций появления элементов */
+
+@import 'variables';
+
+/* Базовые классы для анимации появления элементов */
+
+/* Fade-in анимация */
+.animate-fade-in {
+  opacity: 0;
+  transition: opacity var(--transition-duration-base) ease-out;
+}
+
+.animate-fade-in.visible {
+  opacity: 1;
+}
+
+/* Slide-up анимация (fade-in + translateY) */
+.animate-slide-up {
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity var(--transition-duration-base) ease-in-out,
+    transform var(--transition-duration-base) ease-in-out;
+}
+
+.animate-slide-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Комбинированная анимация для секций */
+.animate-section {
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity var(--transition-duration-base) ease-in-out,
+    transform var(--transition-duration-base) ease-in-out;
+}
+
+.animate-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Утилиты для управления видимостью */
+.animation-hidden {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+.animation-visible {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+

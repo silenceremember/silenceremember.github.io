@@ -7,7 +7,7 @@
 .community-page {
   padding: var(--spacing-lg) var(--spacing-lg);
   padding-bottom: 0;
-  max-width: calc(1200px + 16px);
+  max-width: var(--max-width-content);
   margin: 0 auto;
   flex: 1;
   display: flex;
@@ -197,7 +197,7 @@
   width: 32px;
   height: 32px;
   margin-right: var(--spacing-sm);
-  transition: fill 0.3s ease-out;
+  transition: fill var(--transition-duration-base) ease-out;
 
   @include tablet-and-mobile {
     width: 28px;
@@ -214,11 +214,11 @@
 
   svg {
     fill: var(--color-text-primary);
-    transition: fill 0.3s ease-out;
+    transition: fill var(--transition-duration-base) ease-out;
 
     path {
       fill: var(--color-text-primary);
-      transition: fill 0.3s ease-out;
+      transition: fill var(--transition-duration-base) ease-out;
     }
   }
 }
@@ -279,11 +279,11 @@
     height: 100% !important;
     display: block !important;
     fill: var(--color-text-primary);
-    transition: fill 0.3s ease-in-out;
+    transition: fill var(--transition-duration-base) ease-in-out;
 
     path {
       fill: var(--color-text-primary);
-      transition: fill 0.3s ease-in-out;
+      transition: fill var(--transition-duration-base) ease-in-out;
     }
   }
 }

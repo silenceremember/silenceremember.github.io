@@ -15,7 +15,7 @@
     background-color: var(--color-divider);
   }
 
-  @media (max-width: 1023px) {
+  @include tablet-and-mobile {
     padding-left: var(--spacing-lg);
   }
 }
@@ -30,7 +30,7 @@
     padding-bottom: 0;
   }
 
-  @media (max-width: 1023px) {
+  @include tablet-and-mobile {
     margin-bottom: var(--spacing-lg);
     padding-bottom: var(--spacing-md);
   }
@@ -38,17 +38,17 @@
 
 .timeline-marker {
   position: absolute;
-  left: calc(-1 * var(--spacing-xl) - 8px);
+  left: calc(-1 * var(--spacing-xl) - var(--spacing-content-side));
   top: 0;
-  width: 16px;
-  height: 16px;
+  width: var(--spacing-sm);
+  height: var(--spacing-sm);
   border-radius: 0;
   background-color: var(--color-bg-primary);
   border: 1px solid var(--color-divider);
   z-index: 1;
 
-  @media (max-width: 1023px) {
-    left: calc(-1 * var(--spacing-lg) - 8px);
+  @include tablet-and-mobile {
+    left: calc(-1 * var(--spacing-lg) - var(--spacing-content-side));
   }
 }
 
@@ -89,7 +89,7 @@
   -moz-user-select: text;
   -ms-user-select: text;
 
-  @media (max-width: 1023px) {
+  @include tablet-and-mobile {
     font-size: var(--font-size-h5);
   }
 }
@@ -106,7 +106,7 @@
   -moz-user-select: text;
   -ms-user-select: text;
 
-  @media (max-width: 1023px) {
+  @include tablet-and-mobile {
     font-size: var(--font-size-small);
   }
 }
@@ -146,7 +146,7 @@
       font-weight: var(--font-weight-bold);
     }
 
-    @media (max-width: 1023px) {
+    @include tablet-and-mobile {
       font-size: var(--font-size-small);
       padding-left: var(--spacing-sm);
     }
@@ -170,7 +170,7 @@
   border: var(--line-width) solid var(--color-divider);
   border-radius: 0;
 
-  @media (max-width: 1023px) {
+  @include tablet-and-mobile {
     font-size: 0.75rem;
     padding: 0.2rem var(--spacing-xs);
   }

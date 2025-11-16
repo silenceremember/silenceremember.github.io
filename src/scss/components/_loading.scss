@@ -10,8 +10,8 @@
   padding: var(--spacing-xxl) var(--spacing-xl);
   opacity: 1;
   transition:
-    opacity 0.3s ease-in-out,
-    transform 0.3s ease-in-out;
+    opacity var(--transition-duration-base) ease-in-out,
+    transform var(--transition-duration-base) ease-in-out;
 
   &.hidden {
     opacity: 0;
@@ -22,14 +22,14 @@
 
 .loading-squares {
   display: flex;
-  gap: 0.5rem; /* 8px */
+  gap: var(--spacing-xs); /* 8px */
   align-items: center;
   justify-content: center;
 }
 
 .loading-square {
-  width: 16px;
-  height: 16px;
+  width: var(--spacing-sm);
+  height: var(--spacing-sm);
   background-color: var(--color-accent);
   animation: loading-bounce 1.4s ease-in-out infinite;
   flex-shrink: 0;

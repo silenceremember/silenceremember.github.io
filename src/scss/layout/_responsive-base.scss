@@ -41,7 +41,7 @@
     max-height: none !important;
     overflow: visible !important;
     display: block !important;
-    padding-bottom: 64px;
+    padding-bottom: var(--header-footer-height);
     box-sizing: border-box;
   }
 
@@ -53,11 +53,11 @@
 
   body.page-with-scroll .content-wrapper {
     overflow: visible !important;
-    min-height: calc(100vh - 128px);
+    min-height: calc(100vh - var(--header-footer-height) * 2);
     height: auto;
     display: flex !important;
     flex-direction: column;
-    padding-top: 64px;
+    padding-top: var(--header-footer-height);
     padding-bottom: 0;
     max-width: 100% !important;
     margin: 0 !important;
@@ -73,7 +73,7 @@
     left: 0;
     z-index: 10;
     width: 100%;
-    height: 64px;
+    height: var(--header-footer-height);
     display: flex;
     align-items: center;
     flex-shrink: 0;
@@ -107,7 +107,7 @@
     left: 0;
     z-index: 10;
     width: 100%;
-    height: 64px;
+    height: var(--header-footer-height);
     display: flex;
     align-items: center;
     flex-shrink: 0;
@@ -155,18 +155,18 @@
   /* Transition достаточно для плавной анимации */
 
   body.page-with-scroll .header + .decorative-line-horizontal {
-    top: 64px;
+    top: var(--header-footer-height);
   }
 
   body.page-with-scroll main + .decorative-line-horizontal {
-    bottom: 64px;
+    bottom: var(--header-footer-height);
   }
 
   body.page-with-scroll .header + .decorative-line-horizontal.hidden {
-    transform: translate3d(0, -65px, 0);
+    transform: translate3d(0, calc(-1 * var(--header-footer-height) - 1px), 0);
   }
 
   body.page-with-scroll main + .decorative-line-horizontal.hidden {
-    transform: translate3d(0, 65px, 0);
+    transform: translate3d(0, calc(var(--header-footer-height) + 1px), 0);
   }
 }

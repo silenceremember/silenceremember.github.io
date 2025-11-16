@@ -69,7 +69,7 @@
 }
 
 /* Адаптивность */
-@media (max-width: 1023px) {
+@include tablet-and-mobile {
   .project-filters-content {
     flex-direction: row;
     flex-wrap: wrap;
@@ -272,7 +272,7 @@
 /* Стили для .project-filters-year-option-count теперь в _count-badge.scss */
 
 /* Адаптивность для dropdown года */
-@media (max-width: 1023px) {
+@include tablet-and-mobile {
   .project-filters-year-dropdown {
     width: auto;
     max-width: 100%;

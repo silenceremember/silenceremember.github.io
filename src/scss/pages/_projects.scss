@@ -7,9 +7,9 @@
   padding: var(--spacing-lg) var(--spacing-lg);
   padding-bottom: 0; /* Убираем нижний отступ, чтобы совпадало с mobile режимом */
   /* Контент ограничивается вертикальными линиями */
-  /* Вертикальные линии находятся на: calc((100% - 1200px) / 2 - 8px) от краёв */
-  /* Ширина между линиями: 1200px + 16px (8px с каждой стороны) */
-  max-width: calc(1200px + 16px);
+  /* Вертикальные линии находятся на: calc((100% - var(--max-width-large)) / 2 - var(--spacing-content-side)) от краёв */
+  /* Ширина между линиями: var(--max-width-content) */
+  max-width: var(--max-width-content);
   margin: 0 auto;
   flex: 1; /* Растягивается на всю доступную высоту родителя (content-wrapper) */
   display: flex;
@@ -89,7 +89,7 @@
   align-items: center;
   gap: var(--spacing-md);
   flex-wrap: wrap;
-  transition: font-size 0.3s ease;
+  transition: font-size var(--transition-duration-base) ease;
 
   .project-filters-option-count {
     font-size: inherit;
@@ -123,7 +123,7 @@
   gap: var(--spacing-lg);
   align-items: stretch;
   opacity: 1;
-  transition: opacity 0.3s ease-in-out;
+  transition: opacity var(--transition-duration-base) ease-in-out;
 
   .project-card {
     height: 100%;
@@ -134,8 +134,8 @@
     flex-direction: column;
     opacity: 1;
     transition:
-      opacity 0.3s ease-in-out,
-      transform 0.3s ease-in-out;
+      opacity var(--transition-duration-base) ease-in-out,
+      transform var(--transition-duration-base) ease-in-out;
   }
 }
 
@@ -144,8 +144,8 @@
   opacity: 0;
   visibility: hidden;
   transition:
-    opacity 0.3s ease-in-out,
-    visibility 0.3s ease-in-out;
+    opacity var(--transition-duration-base) ease-in-out,
+    visibility var(--transition-duration-base) ease-in-out;
 
   &[style*='display: none'] {
     display: none !important;
@@ -176,12 +176,12 @@
 /* Когда показывается индикатор загрузки, content-wrapper должен занимать всю высоту */
 /* С box-sizing: border-box padding-top включается в высоту */
 /* Нужно установить высоту так, чтобы внутренний контент занимал 100vh - header - footer */
-/* Высота = (100vh - header - footer) + padding-top = 100vh - 64px - 64px + 64px = 100vh - 64px */
+/* Высота = (100vh - header - footer) + padding-top = 100vh - var(--header-footer-height) - var(--header-footer-height) + var(--header-footer-height) = 100vh - var(--header-footer-height) */
 body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
   height: calc(
-    100vh - 64px
+    100vh - var(--header-footer-height)
   ); /* viewport - footer (padding-top уже включен в box-sizing) */
-  min-height: calc(100vh - 64px);
+  min-height: calc(100vh - var(--header-footer-height));
 }
 
 .projects-page:has(.projects-loading:not(.hidden)) {
@@ -215,8 +215,8 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
   padding: var(--spacing-xl);
   opacity: 1;
   transition:
-    opacity 0.3s ease-in-out,
-    transform 0.3s ease-in-out;
+    opacity var(--transition-duration-base) ease-in-out,
+    transform var(--transition-duration-base) ease-in-out;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -407,9 +407,9 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
 /* Кнопка "Наверх" */
 .scroll-to-top {
   position: fixed;
-  bottom: calc(64px + var(--spacing-md) - 8px);
+  bottom: calc(var(--header-footer-height) + var(--spacing-md) - var(--spacing-content-side));
   right: max(
-    calc(var(--spacing-lg) - 16px),
+    calc(var(--spacing-lg) - var(--spacing-sm)),
     calc((100% - var(--max-width-large)) / 2 + var(--spacing-lg) - 24px)
   );
   width: 40px;
@@ -425,10 +425,10 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
   visibility: hidden;
   transform: translateY(0); /* Без смещения по умолчанию */
   transition:
-    opacity 0.3s ease-in-out,
-    visibility 0.3s ease-in-out,
-    bottom 0.3s ease,
-    right 0.3s ease; /* Добавляем right в transition */
+    opacity var(--transition-duration-base) ease-in-out,
+    visibility var(--transition-duration-base) ease-in-out,
+    bottom var(--transition-duration-base) ease,
+    right var(--transition-duration-base) ease; /* Добавляем right в transition */
   padding: 0;
   box-sizing: border-box;
 
@@ -444,13 +444,13 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
   svg circle.scroll-to-top-circle,
   circle.scroll-to-top-circle {
     fill: var(--color-text-primary);
-    transition: fill 0.3s ease-in-out;
+    transition: fill var(--transition-duration-base) ease-in-out;
   }
 
   svg path.scroll-to-top-icon,
   path.scroll-to-top-icon {
     fill: var(--color-bg-primary);
-    transition: fill 0.3s ease-in-out;
+    transition: fill var(--transition-duration-base) ease-in-out;
   }
 
   &:hover,
@@ -469,16 +469,16 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
     opacity: 1;
     visibility: visible;
     transition:
-      opacity 0.3s ease-in-out,
-      visibility 0.3s ease-in-out,
-      transform 0.3s ease-in-out,
-      bottom 0.3s ease,
-      right 0.3s ease; /* Добавляем transform и right в transition только когда видна */
+      opacity var(--transition-duration-base) ease-in-out,
+      visibility var(--transition-duration-base) ease-in-out,
+      transform var(--transition-duration-base) ease-in-out,
+      bottom var(--transition-duration-base) ease,
+      right var(--transition-duration-base) ease; /* Добавляем transform и right в transition только когда видна */
   }
 
   /* Когда футер скрыт, кнопка перемещается ниже */
   &.footer-hidden {
-    bottom: calc(var(--spacing-md) - 8px);
+    bottom: calc(var(--spacing-md) - var(--spacing-content-side));
   }
 }
 

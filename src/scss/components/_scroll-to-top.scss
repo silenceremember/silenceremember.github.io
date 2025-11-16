@@ -1,9 +1,9 @@
 /* Кнопка "Наверх" */
 .scroll-to-top {
   position: fixed;
-  bottom: calc(64px + var(--spacing-md) - 8px);
+  bottom: calc(var(--header-footer-height) + var(--spacing-md) - var(--spacing-content-side));
   right: max(
-    calc(var(--spacing-lg) - 16px),
+    calc(var(--spacing-lg) - var(--spacing-sm)),
     calc((100% - var(--max-width-large)) / 2 + var(--spacing-lg) - 24px)
   );
   width: 40px;
@@ -19,10 +19,10 @@
   visibility: hidden;
   transform: translateY(0);
   transition:
-    opacity 0.3s ease-in-out,
-    visibility 0.3s ease-in-out,
-    bottom 0.3s ease,
-    right 0.3s ease;
+    opacity var(--transition-duration-base) ease-in-out,
+    visibility var(--transition-duration-base) ease-in-out,
+    bottom var(--transition-duration-base) ease,
+    right var(--transition-duration-base) ease;
   padding: 0;
   box-sizing: border-box;
 
@@ -38,13 +38,13 @@
   svg circle.scroll-to-top-circle,
   circle.scroll-to-top-circle {
     fill: var(--color-text-primary);
-    transition: fill 0.3s ease-in-out;
+    transition: fill var(--transition-duration-base) ease-in-out;
   }
 
   svg path.scroll-to-top-icon,
   path.scroll-to-top-icon {
     fill: var(--color-bg-primary);
-    transition: fill 0.3s ease-in-out;
+    transition: fill var(--transition-duration-base) ease-in-out;
   }
 
   &:hover,
@@ -63,11 +63,11 @@
     opacity: 1;
     visibility: visible;
     transition:
-      opacity 0.3s ease-in-out,
-      visibility 0.3s ease-in-out,
-      transform 0.3s ease-in-out,
-      bottom 0.3s ease,
-      right 0.3s ease;
+      opacity var(--transition-duration-base) ease-in-out,
+      visibility var(--transition-duration-base) ease-in-out,
+      transform var(--transition-duration-base) ease-in-out,
+      bottom var(--transition-duration-base) ease,
+      right var(--transition-duration-base) ease;
   }
 
   &.footer-hidden {
@@ -79,8 +79,8 @@
 @include tablet-and-mobile {
   body.page-with-scroll .scroll-to-top {
     position: fixed;
-    bottom: calc(64px + var(--spacing-md) - 8px);
-    right: calc(var(--spacing-md) - 16px);
+    bottom: calc(var(--header-footer-height) + var(--spacing-md) - var(--spacing-content-side));
+    right: calc(var(--spacing-md) - var(--spacing-sm));
     width: 32px;
     height: 32px;
     z-index: 15;
@@ -88,10 +88,10 @@
     visibility: hidden;
     transform: translateY(0);
     transition:
-      opacity 0.3s ease-in-out,
-      visibility 0.3s ease-in-out,
+      opacity var(--transition-duration-base) ease-in-out,
+      visibility var(--transition-duration-base) ease-in-out,
       bottom var(--transition-duration-base) ease,
-      right 0.3s ease;
+      right var(--transition-duration-base) ease;
     padding: 0;
     box-sizing: border-box;
 
@@ -107,13 +107,13 @@
     svg circle.scroll-to-top-circle,
     circle.scroll-to-top-circle {
       fill: var(--color-text-primary);
-      transition: fill 0.3s ease-in-out;
+      transition: fill var(--transition-duration-base) ease-in-out;
     }
 
     svg path.scroll-to-top-icon,
     path.scroll-to-top-icon {
       fill: var(--color-bg-primary);
-      transition: fill 0.3s ease-in-out;
+      transition: fill var(--transition-duration-base) ease-in-out;
     }
 
     &:hover,
@@ -132,15 +132,15 @@
       opacity: 1;
       visibility: visible;
       transition:
-        opacity 0.3s ease-in-out,
-        visibility 0.3s ease-in-out,
-        transform 0.3s ease-in-out,
+        opacity var(--transition-duration-base) ease-in-out,
+        visibility var(--transition-duration-base) ease-in-out,
+        transform var(--transition-duration-base) ease-in-out,
         bottom var(--transition-duration-base) ease,
-        right 0.3s ease;
+        right var(--transition-duration-base) ease;
     }
 
     &.footer-hidden {
-      bottom: calc(var(--spacing-md) - 8px);
+      bottom: calc(var(--spacing-md) - var(--spacing-content-side));
     }
   }
 }

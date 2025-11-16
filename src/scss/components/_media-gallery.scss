@@ -20,7 +20,7 @@
 
 .media-gallery-track {
   display: flex;
-  transition: transform 0.3s ease;
+  transition: transform var(--transition-duration-base) ease;
 }
 
 /* Убрано will-change для media-gallery-track - может быть большим элементом */
@@ -300,7 +300,7 @@
 }
 
 /* Адаптивность */
-@media (max-width: 1023px) {
+@include tablet-and-mobile {
   .media-gallery-nav {
     width: 36px;
     height: 36px;

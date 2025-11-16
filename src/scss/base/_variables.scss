@@ -1,3 +1,14 @@
+/**
+ * Переменные стилей проекта
+ * 
+ * Использование:
+ * - Все значения должны использовать переменные из этого файла
+ * - Для breakpoints используйте миксины (@include tablet-and-mobile и т.д.)
+ * - Для отступов используйте --spacing-* переменные
+ * - Для цветов используйте --color-* переменные
+ * - Для transition используйте --transition-duration-* переменные
+ */
+
 :root {
   --theme-light-text-primary: #121212;
   --theme-light-bg-primary: #f5f5f5;
@@ -65,6 +76,8 @@
   --max-width-tablet: 720px;
   --max-width-desktop: 960px;
   --max-width-large: 1200px;
+  /* Ширина контента с учетом отступов для вертикальных линий (1200px + 16px) */
+  --max-width-content: calc(var(--max-width-large) + var(--spacing-sm));
 
   /* Отступы */
   --spacing-xs: 0.5rem; /* 8px */
@@ -73,6 +86,8 @@
   --spacing-lg: 2rem; /* 32px */
   --spacing-xl: 3rem; /* 48px */
   --spacing-xxl: 4rem; /* 64px */
+  /* Отступ для вертикальных линий от края контента */
+  --spacing-content-side: var(--spacing-xs); /* 8px */
 
   /* Декоративные линии */
   --line-color: var(--color-text-primary);
@@ -85,6 +100,9 @@
   --transition-duration-fast: 0.2s;
   --transition-duration-base: 0.3s;
   --transition-duration-slow: 0.5s;
+
+  /* Высота header и footer */
+  --header-footer-height: 64px;
 }
 
 [data-theme='dark'] {
@@ -98,7 +116,14 @@
 }
 
 /* Миксины для breakpoints */
-/* Основной breakpoint: 1024px - граница между desktop и tablet/mobile */
+/* 
+ * Основной breakpoint: 1024px - граница между desktop и tablet/mobile
+ * 
+ * Примеры использования:
+ * @include tablet-and-mobile { ... } - для стилей на планшетах и мобильных
+ * @include desktop { ... } - для стилей на десктопе
+ * @include desktop-large { ... } - для стилей на больших экранах (1025px+)
+ */
 @mixin mobile {
   @media (max-width: 1023px) {
     @content;
@@ -157,5 +182,63 @@
 @mixin mobile-minimum {
   @media (max-width: 319px) {
     @content;
+  }
+}
+
+/* Миксины для общих паттернов адаптивности */
+
+/* Миксин для фиксированного позиционирования header и footer */
+@mixin fixed-header-footer {
+  position: fixed;
+  left: 0;
+  width: 100%;
+  height: var(--header-footer-height);
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  z-index: 10;
+  background-color: var(--color-bg-primary);
+  transition:
+    transform var(--transition-duration-base) ease,
+    background-color var(--transition-duration-base) ease,
+    color var(--transition-duration-base) ease;
+  pointer-events: none;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  &-content,
+  &-content * {
+    pointer-events: auto;
+  }
+
+  &.hidden {
+    transform: translate3d(0, -100%, 0);
+  }
+}
+
+/* Миксин для контейнеров с прокруткой */
+@mixin scroll-container {
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Миксин для отступов страниц */
+@mixin page-padding {
+  padding: var(--spacing-lg) var(--spacing-lg);
+  padding-bottom: 0;
+
+  @include tablet-and-mobile {
+    padding-left: var(--spacing-lg);
+    padding-right: var(--spacing-lg);
   }
 }

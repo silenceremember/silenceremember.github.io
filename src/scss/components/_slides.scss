@@ -36,7 +36,7 @@
   transition:
     opacity calc(var(--animation-duration) / 2) ease-in-out,
     visibility 0s calc(var(--animation-duration) / 2),
-    padding 0.3s ease;
+    padding var(--transition-duration-base) ease;
   z-index: 1;
   pointer-events: none; /* Отключаем взаимодействие со скрытыми слайдами */
 }
@@ -327,7 +327,7 @@
   }
 }
 
-@media (min-width: 1025px) {
+@include desktop-large {
   .project-slide-content {
     padding-left: 0;
     padding-right: 0;

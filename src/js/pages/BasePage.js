@@ -7,6 +7,7 @@ import {
   MenuButtonScrollHandler,
 } from '../utils/Navigation.js';
 import { ScrollToTopButton } from '../components/scroll/ScrollToTopButton.js';
+import { ScrollManager } from '../components/scroll/ScrollManager.js';
 import { SvgLoader } from '../components/svg/SvgLoader.js';
 import { LayoutManager } from '../layout/LayoutManager.js';
 import { ThemeSwitcher } from '../components/index.js';
@@ -28,6 +29,7 @@ export class BasePage {
     this.imageSelector = config.imageSelector || 'img';
     this.menuButtonScrollHandler = null;
     this.scrollToTopButton = null;
+    this.scrollManager = null;
     this.svgLoader = new SvgLoader();
     this.layoutManager = null;
     this.loadingIndicator = null;
@@ -58,6 +60,21 @@ export class BasePage {
   initScrollToTop() {
     this.scrollToTopButton = new ScrollToTopButton();
     this.scrollToTopButton.init();
+  }
+
+  /**
+   * Инициализирует менеджер скролла для страниц с прокруткой
+   */
+  initScrollManager() {
+    // Инициализируем ScrollManager только для страниц с классом page-with-scroll
+    // (projects, research, cv, community)
+    if (document.body.classList.contains('page-with-scroll')) {
+      this.scrollManager = new ScrollManager('.page-wrapper', (isTablet) => {
+        // Callback для уведомления об изменении режима планшета
+        // Можно использовать для дополнительной логики при необходимости
+      });
+      this.scrollManager.init();
+    }
   }
 
   /**
@@ -150,6 +167,9 @@ export class BasePage {
 
     // Инициализируем кнопку "Наверх"
     this.initScrollToTop();
+
+    // Инициализируем менеджер скролла для страниц с прокруткой
+    this.initScrollManager();
   }
 
   /**
