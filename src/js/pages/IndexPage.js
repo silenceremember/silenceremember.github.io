@@ -111,22 +111,6 @@ export class IndexPage extends BasePage {
         );
       }
 
-      // Заполняем preview изображения с ленивой загрузкой
-      const previewPlaceholders = slideElement.querySelectorAll(
-        '.preview-placeholder'
-      );
-      if (project.media.screenshots && project.media.screenshots.length > 0) {
-        previewPlaceholders.forEach((placeholder, index) => {
-          if (index < project.media.screenshots.length) {
-            // Preview изображения всегда загружаем лениво
-            backgroundImageService.loadBackgroundImage(
-              placeholder,
-              project.media.screenshots[index],
-              false
-            );
-          }
-        });
-      }
     }
   }
 

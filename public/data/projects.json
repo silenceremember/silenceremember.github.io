@@ -13,12 +13,8 @@
       "description": "Готовый прототип аркадного экономического симулятора",
       "fullDescription": "Magic Bag - это аркадный экономический симулятор, созданный полностью на Unity Bolt (визуальное программирование). Проект включает полный игровой цикл: от механики крафта до системы экономики с высоким риском и наградой. Прототип демонстрирует возможности проектирования сложных игровых систем.",
       "media": {
-        "preview": "assets/images/projects/magic-bag/preview.jpg",
-        "screenshots": [
-          "assets/images/projects/magic-bag/screenshot-1.jpg",
-          "assets/images/projects/magic-bag/screenshot-2.jpg",
-          "assets/images/projects/magic-bag/screenshot-3.jpg"
-        ],
+        "preview": "assets/images/projects/magic-bag/preview.webp",
+        "screenshots": [],
         "videos": [
           {
             "type": "local",
