@@ -102,12 +102,11 @@ export class IndexPage extends BasePage {
         '.project-placeholder'
       );
       if (projectPlaceholder) {
-        // Первый слайд виден сразу, остальные загружаем лениво
-        const isFirstSlide = slideIndex === 0;
+        // Все три слайда проектов загружаем сразу для быстрого отображения
         backgroundImageService.loadBackgroundImage(
           projectPlaceholder,
           project.media.preview,
-          isFirstSlide
+          true
         );
       }
 
