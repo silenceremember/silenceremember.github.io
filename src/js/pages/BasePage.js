@@ -13,6 +13,7 @@ import { LayoutManager } from '../layout/LayoutManager.js';
 import { ThemeSwitcher } from '../components/index.js';
 import { LanguageSwitcher } from '../components/index.js';
 import { CustomCursor } from '../components/index.js';
+import { FluidBackground } from '../components/index.js';
 import { LoadingIndicatorService } from '../services/LoadingIndicatorService.js';
 import { loadData } from '../utils/DataLoader.js';
 import { loadTemplate } from '../utils/TemplateLoader.js';
@@ -105,6 +106,9 @@ export class BasePage {
 
     const customCursor = new CustomCursor();
     customCursor.init();
+
+    const fluidBackground = new FluidBackground();
+    fluidBackground.init();
 
     globalComponentsInitialized = true;
   }
