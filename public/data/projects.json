@@ -171,6 +171,29 @@
       "technologies": []
     },
     {
+      "id": "diploma-chapter-1",
+      "title": "Система процедурной генерации нарративного дизайна для компьютерных игр жанра роуглайк",
+      "category": "research",
+      "type": "document",
+      "role": "solo",
+      "year": 2025,
+      "status": "in-progress",
+      "description": "Выпускная квалификационная работа магистратуры",
+      "fullDescription": "Первая глава дипломной работы (ВКР) магистратуры, посвященная системе процедурной генерации нарративного дизайна для компьютерных игр жанра роуглайк. Работа включает анализ существующих подходов и разработку собственной системы.",
+      "media": {},
+      "documents": [
+        {
+          "type": "diploma",
+          "title": "ВКР - Глава 1",
+          "url": "https://drive.google.com/file/d/1PwLrsrIdLz6l4AsuiTbQarKr-mo6ELox/view?usp=sharing"
+        }
+      ],
+      "links": {},
+      "tags": ["процедурная генерация", "нарративный дизайн", "роуглайк", "компьютерные игры", "диплом", "вкр"],
+      "featured": true,
+      "technologies": []
+    },
+    {
       "id": "assignment-concept",
       "title": "Задание [Концепт]",
       "category": "research",
