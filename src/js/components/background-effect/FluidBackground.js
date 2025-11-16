@@ -634,7 +634,16 @@ export class FluidBackground {
   fetchAccentColor() {
     try {
       const computedStyle = getComputedStyle(document.documentElement);
-      const accentColor = computedStyle.getPropertyValue('--color-accent').trim();
+      let accentColor = computedStyle.getPropertyValue('--color-accent').trim();
+      
+      // If it's a CSS variable reference, resolve it
+      if (accentColor.startsWith('var(')) {
+        // Extract the variable name and try to get its computed value
+        const varMatch = accentColor.match(/var\(--([^)]+)\)/);
+        if (varMatch) {
+          accentColor = computedStyle.getPropertyValue(`--${varMatch[1]}`).trim();
+        }
+      }
       
       if (accentColor) {
         // Handle rgb/rgba format
@@ -658,8 +667,8 @@ export class FluidBackground {
       console.warn('FluidBackground: Error fetching accent color', error);
     }
     
-    // Fallback to default accent color (#d90429)
-    return this.hexToRgb('#d90429');
+    // Fallback to a more saturated red color (#d90429 -> #e0002a for better visibility)
+    return this.hexToRgb('#e0002a');
   }
 
   /**
@@ -2710,7 +2719,7 @@ export class FluidBackground {
     if (!this.accentColorCache) {
       this.updateAccentColor();
     }
-    return this.accentColorCache || this.hexToRgb('#d90429');
+    return this.accentColorCache || this.hexToRgb('#e0002a');
   }
 
   /**
@@ -2726,12 +2735,12 @@ export class FluidBackground {
   }
 
   generateColor() {
-    // Use accent color instead of random colors
-    const accentColor = this.getAccentColor();
+    // Use a saturated red color for better visibility
+    // Direct red color to ensure proper red hue, not pink
     return {
-      r: accentColor.r * BASE_COLOR_INTENSITY,
-      g: accentColor.g * BASE_COLOR_INTENSITY,
-      b: accentColor.b * BASE_COLOR_INTENSITY
+      r: 0.88 * BASE_COLOR_INTENSITY, // Strong red component
+      g: 0.0 * BASE_COLOR_INTENSITY,  // No green
+      b: 0.16 * BASE_COLOR_INTENSITY  // Minimal blue for pure red
     };
   }
 
@@ -2740,16 +2749,14 @@ export class FluidBackground {
    * Adds subtle color shifts for more visual interest
    */
   generateColorWithVariation(trailIndex = 0) {
-    const accentColor = this.getAccentColor();
-    // Add subtle color variation based on trail index
-    // Creates a slight hue shift for more dynamic appearance
+    // Use saturated red color with slight brightness variation
     const variation = (trailIndex * 0.08) % 1.0; // Subtle variation
     const brightnessShift = 1.0 + variation * 0.15; // Slight brightness variation
     
     return {
-      r: Math.min(accentColor.r * BASE_COLOR_INTENSITY * brightnessShift, 1.0),
-      g: Math.min(accentColor.g * BASE_COLOR_INTENSITY * brightnessShift, 1.0),
-      b: Math.min(accentColor.b * BASE_COLOR_INTENSITY * brightnessShift, 1.0)
+      r: Math.min(0.88 * BASE_COLOR_INTENSITY * brightnessShift, 1.0), // Strong red
+      g: 0.0 * BASE_COLOR_INTENSITY * brightnessShift, // No green
+      b: Math.min(0.16 * BASE_COLOR_INTENSITY * brightnessShift, 1.0) // Minimal blue
     };
   }
 
