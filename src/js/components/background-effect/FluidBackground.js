@@ -84,6 +84,7 @@ export class FluidBackground {
    */
   init() {
     if (this.isInitialized) {
+      console.log('FluidBackground: Already initialized');
       return;
     }
 
@@ -93,21 +94,49 @@ export class FluidBackground {
       return;
     }
 
+    console.log('FluidBackground: Canvas found', this.canvas);
+
     try {
       const context = this.getWebGLContext(this.canvas);
       if (!context.gl || !context.ext.formatRGBA) {
-        console.warn('FluidBackground: WebGL not supported');
+        console.warn('FluidBackground: WebGL not supported', {
+          gl: !!context.gl,
+          formatRGBA: !!context.ext?.formatRGBA
+        });
         return;
       }
 
       this.gl = context.gl;
       this.ext = context.ext;
 
+      const webglVersion = this.gl.getParameter(this.gl.VERSION);
+      console.log('FluidBackground: WebGL context created', {
+        isWebGL2: webglVersion.includes('WebGL 2'),
+        version: webglVersion,
+        formatRGBA: this.ext.formatRGBA
+      });
+
+      // Set initial canvas size after WebGL context is created
+      this.resizeCanvas();
+      console.log('FluidBackground: Canvas resized', {
+        width: this.canvas.width,
+        height: this.canvas.height,
+        clientWidth: this.canvas.clientWidth,
+        clientHeight: this.canvas.clientHeight,
+        rect: this.canvas.getBoundingClientRect()
+      });
+      
+      // Set viewport immediately
+      this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
+      console.log('FluidBackground: Viewport set', {
+        viewport: [0, 0, this.canvas.width, this.canvas.height]
+      });
+
       this.config = {
         SIM_RESOLUTION: 128,
         DYE_RESOLUTION: 1024,
         CAPTURE_RESOLUTION: 512,
-        DENSITY_DISSIPATION: 1,
+        DENSITY_DISSIPATION: 0.98, // Slightly lower for more visible effect
         VELOCITY_DISSIPATION: 0.2,
         PRESSURE: 0.8,
         PRESSURE_ITERATIONS: 20,
@@ -119,7 +148,7 @@ export class FluidBackground {
         COLOR_UPDATE_SPEED: 10,
         PAUSED: false,
         BACK_COLOR: { r: 0, g: 0, b: 0 },
-        TRANSPARENT: false,
+        TRANSPARENT: true,
         BLOOM: true,
         BLOOM_ITERATIONS: 8,
         BLOOM_RESOLUTION: 256,
@@ -143,17 +172,40 @@ export class FluidBackground {
       }
 
       this.initPointers();
+      console.log('FluidBackground: Pointers initialized');
+      
       this.initShaders();
+      console.log('FluidBackground: Shaders initialized');
+      
       this.initPrograms();
+      console.log('FluidBackground: Programs initialized');
+      
       this.initBlit();
+      console.log('FluidBackground: Blit initialized');
+      
       this.initDitheringTexture();
+      console.log('FluidBackground: Dithering texture initialized');
+      
       this.initFramebuffers();
+      console.log('FluidBackground: Framebuffers initialized');
+      
       this.updateKeywords();
-      this.multipleSplats(parseInt(Math.random() * 20) + 5);
+      console.log('FluidBackground: Keywords updated');
+      
+      // Create more initial splats for better visibility
+      const initialSplats = parseInt(Math.random() * 20) + 10;
+      this.multipleSplats(initialSplats);
+      console.log('FluidBackground: Initial splats created', { count: initialSplats });
+      
       this.setupEventListeners();
-      this.startAnimation();
-
+      console.log('FluidBackground: Event listeners setup');
+      
+      // Mark as initialized BEFORE starting animation
       this.isInitialized = true;
+      console.log('FluidBackground: Marked as initialized');
+      
+      this.startAnimation();
+      console.log('FluidBackground: Animation started');
     } catch (error) {
       console.error('FluidBackground: Initialization error', error);
     }
@@ -1338,10 +1390,19 @@ export class FluidBackground {
    * Animation update loop
    */
   update() {
-    if (!this.isInitialized || !this.gl) return;
+    if (!this.isInitialized || !this.gl) {
+      console.warn('FluidBackground: Update called but not initialized', {
+        isInitialized: this.isInitialized,
+        hasGL: !!this.gl
+      });
+      return;
+    }
 
     const dt = this.calcDeltaTime();
-    if (this.resizeCanvas()) this.initFramebuffers();
+    if (this.resizeCanvas()) {
+      console.log('FluidBackground: Canvas resized during update');
+      this.initFramebuffers();
+    }
     this.updateColors(dt);
     this.applyInputs();
     if (!this.config.PAUSED && !this.isPaused) this.step(dt);
@@ -1364,11 +1425,17 @@ export class FluidBackground {
    * Resize canvas
    */
   resizeCanvas() {
-    let width = this.scaleByPixelRatio(this.canvas.clientWidth);
-    let height = this.scaleByPixelRatio(this.canvas.clientHeight);
+    // Ensure canvas has dimensions from CSS
+    const rect = this.canvas.getBoundingClientRect();
+    let width = this.scaleByPixelRatio(rect.width || window.innerWidth);
+    let height = this.scaleByPixelRatio(rect.height || window.innerHeight);
+    
     if (this.canvas.width != width || this.canvas.height != height) {
       this.canvas.width = width;
       this.canvas.height = height;
+      if (this.gl) {
+        this.gl.viewport(0, 0, width, height);
+      }
       return true;
     }
     return false;
@@ -1562,17 +1629,29 @@ export class FluidBackground {
     }
 
     const gl = this.gl;
-    if (target == null || !this.config.TRANSPARENT) {
-      gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+    // For background effect, always use blending for transparency when rendering to screen
+    if (target == null) {
+      // Render to screen - always enable blending for transparent background effect
+      gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
       gl.enable(gl.BLEND);
     } else {
-      gl.disable(gl.BLEND);
+      // Render to framebuffer
+      if (!this.config.TRANSPARENT) {
+        gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+        gl.enable(gl.BLEND);
+      } else {
+        gl.disable(gl.BLEND);
+      }
     }
 
-    if (!this.config.TRANSPARENT)
+    // Don't draw background color for transparent mode (background effect)
+    if (!this.config.TRANSPARENT && target != null)
       this.drawColor(target, this.normalizeColor(this.config.BACK_COLOR));
-    if (target == null && this.config.TRANSPARENT)
-      this.drawCheckerboard(target);
+    
+    // Don't draw checkerboard for background effect
+    // if (target == null && this.config.TRANSPARENT)
+    //   this.drawCheckerboard(target);
+    
     this.drawDisplay(target);
   }
 
@@ -1625,6 +1704,11 @@ export class FluidBackground {
       this.displayMaterial.uniforms.uTexture,
       this.dye.read.attach(0)
     );
+    
+    // Ensure viewport is set correctly
+    if (target == null) {
+      this.gl.viewport(0, 0, width, height);
+    }
     if (this.config.BLOOM) {
       this.gl.uniform1i(
         this.displayMaterial.uniforms.uBloom,
@@ -1808,9 +1892,10 @@ export class FluidBackground {
   multipleSplats(amount) {
     for (let i = 0; i < amount; i++) {
       const color = this.generateColor();
-      color.r *= 10.0;
-      color.g *= 10.0;
-      color.b *= 10.0;
+      // Increase intensity for better visibility
+      color.r *= 15.0;
+      color.g *= 15.0;
+      color.b *= 15.0;
       const x = Math.random();
       const y = Math.random();
       const dx = 1000 * (Math.random() - 0.5);
@@ -1993,9 +2078,10 @@ export class FluidBackground {
    */
   generateColor() {
     let c = this.HSVtoRGB(Math.random(), 1.0, 1.0);
-    c.r *= 0.15;
-    c.g *= 0.15;
-    c.b *= 0.15;
+    // Increase brightness for background effect visibility
+    c.r *= 0.25;
+    c.g *= 0.25;
+    c.b *= 0.25;
     return c;
   }
 

@@ -107,8 +107,14 @@ export class BasePage {
     const customCursor = new CustomCursor();
     customCursor.init();
 
+    // Initialize fluid background with a small delay to ensure canvas is in DOM
     const fluidBackground = new FluidBackground();
-    fluidBackground.init();
+    // Use requestAnimationFrame to ensure canvas is rendered
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        fluidBackground.init();
+      });
+    });
 
     globalComponentsInitialized = true;
   }
