@@ -27,7 +27,68 @@ SOFTWARE.
 /**
  * WebGL Fluid Simulation Background Effect
  * Adapted from WebGL-Fluid-Simulation by Pavel Dobryakov
+ * 
+ * Performance optimizations and improvements:
+ * - Adaptive quality based on FPS
+ * - Smooth color interpolation
+ * - Enhanced memory management
+ * - Performance monitoring API
  */
+
+// Quality levels configuration
+const QUALITY_LEVELS = {
+  LOW: { simRes: 64, dyeRes: 512, pressureIterations: 10 },
+  MEDIUM: { simRes: 96, dyeRes: 768, pressureIterations: 15 },
+  HIGH: { simRes: 128, dyeRes: 1024, pressureIterations: 20 },
+  ULTRA: { simRes: 160, dyeRes: 1280, pressureIterations: 25 }
+};
+
+// Performance constants
+const FPS_TARGET = 60;
+const FPS_LOW_THRESHOLD = 30;
+const FPS_HIGH_THRESHOLD = 55;
+const FPS_SAMPLES = 60; // Number of frames to average
+const QUALITY_ADJUST_DELAY = 2.0; // Seconds before adjusting quality
+const MAX_DT = 0.016666; // Maximum delta time (60fps cap)
+
+// Color interpolation constants
+const COLOR_LERP_SPEED = 0.15; // Speed of color interpolation (0-1)
+const COLOR_UPDATE_THROTTLE = 100; // ms between color updates
+
+// Trail effect constants
+const TRAIL_COUNT = 2;
+const TRAIL_SPACING = 0.3;
+const TRAIL_INTENSITY_MULTIPLIER = 0.32; // Subtle visibility
+const MAIN_SPLAT_INTENSITY = 0.55; // Subtle visibility
+const TRAIL_FORCE_MULTIPLIER = 0.5;
+const BASE_COLOR_INTENSITY = 0.1; // Subtle base intensity
+
+// Default configuration
+const DEFAULT_CONFIG = {
+  DENSITY_DISSIPATION: 0.997, // Balanced dissipation
+  VELOCITY_DISSIPATION: 0.45, // Balanced velocity dissipation
+  PRESSURE: 0.8,
+  CURL: 0.8,
+  SPLAT_RADIUS: 0.85, // Balanced radius
+  SPLAT_FORCE: 2100, // Balanced force
+  SHADING: false,
+  COLORFUL: false,
+  COLOR_UPDATE_SPEED: 5,
+  PAUSED: false,
+  BACK_COLOR: { r: 0, g: 0, b: 0 },
+  TRANSPARENT: true,
+  BLOOM: false,
+  BLOOM_ITERATIONS: 8,
+  BLOOM_RESOLUTION: 256,
+  BLOOM_INTENSITY: 0.8,
+  BLOOM_THRESHOLD: 0.6,
+  BLOOM_SOFT_KNEE: 0.7,
+  SUNRAYS: false,
+  SUNRAYS_RESOLUTION: 196,
+  SUNRAYS_WEIGHT: 1.0,
+  CAPTURE_RESOLUTION: 512
+};
+
 export class FluidBackground {
   constructor(canvasSelector = '.fluid-background-canvas') {
     this.canvasSelector = canvasSelector;
@@ -49,24 +110,49 @@ export class FluidBackground {
     this.smoothCursorY = 0.5;
     this.targetCursorX = 0.5;
     this.targetCursorY = 0.5;
-    this.smoothFactor = 0.12; // Improved smoothness for rubber band effect
+    this.smoothFactor = 0.12;
     
-    // Activation threshold - minimum distance to move before activating effect
+    // Activation threshold
     this.initialCursorX = null;
     this.initialCursorY = null;
-    this.activationThreshold = 0.05; // 5% of canvas size (larger gap required)
+    this.activationThreshold = 0.05;
     
     // Performance optimization
     this.gpuTier = null;
     this.mouseMoveThrottleId = null;
     this.lastMouseMoveTime = 0;
-    this.mouseMoveThrottleDelay = 16; // ~60fps throttling
+    this.mouseMoveThrottleDelay = 16;
     this.isPageVisible = true;
     this.reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     
-    // Dynamic color management
+    // Adaptive quality system
+    this.currentQuality = 'HIGH';
+    this.fpsHistory = [];
+    this.lastFpsUpdate = performance.now();
+    this.qualityAdjustTimer = 0;
+    this.frameSkipCounter = 0;
+    this.frameSkipInterval = 0; // Skip every N frames when performance is low
+    
+    // Dynamic color management with interpolation
     this.accentColorCache = null;
+    this.targetAccentColor = null;
+    this.currentAccentColor = null;
+    this.colorInterpolationActive = false;
+    this.lastColorUpdate = 0;
     this.themeObserver = null;
+    this.styleObserver = null;
+    
+    // Performance metrics
+    this.performanceMetrics = {
+      fps: 60,
+      averageFps: 60,
+      frameTime: 16.67,
+      quality: 'HIGH',
+      lastUpdate: Date.now()
+    };
+    
+    // Manual quality override
+    this.manualQualityOverride = null;
 
     // WebGL resources
     this.dye = null;
@@ -109,24 +195,31 @@ export class FluidBackground {
    */
   init() {
     if (this.isInitialized) {
-      return;
-    }
-
-    this.canvas = document.querySelector(this.canvasSelector);
-    if (!this.canvas) {
-      console.error(`FluidBackground: Canvas not found with selector "${this.canvasSelector}"`);
-      return;
-    }
-
-    // Check for reduced motion preference
-    if (this.reducedMotion) {
+      console.warn('FluidBackground: Already initialized');
       return;
     }
 
     try {
+      this.canvas = document.querySelector(this.canvasSelector);
+      if (!this.canvas) {
+        console.error(`FluidBackground: Canvas not found with selector "${this.canvasSelector}"`);
+        return;
+      }
+
+      // Check for reduced motion preference
+      if (this.reducedMotion) {
+        console.log('FluidBackground: Reduced motion preference detected, skipping initialization');
+        return;
+      }
+
       const context = this.getWebGLContext(this.canvas);
-      if (!context.gl || !context.ext.formatRGBA) {
-        console.error('FluidBackground: WebGL not supported');
+      if (!context.gl) {
+        console.error('FluidBackground: WebGL context creation failed');
+        return;
+      }
+      
+      if (!context.ext || !context.ext.formatRGBA) {
+        console.error('FluidBackground: WebGL format support check failed');
         return;
       }
 
@@ -134,39 +227,84 @@ export class FluidBackground {
       this.ext = context.ext;
 
       // Detect GPU tier for performance optimization
-      this.gpuTier = this.detectGPUTier();
+      try {
+        this.gpuTier = this.detectGPUTier();
+      } catch (error) {
+        console.warn('FluidBackground: GPU tier detection failed, using default', error);
+        this.gpuTier = 2;
+      }
 
       // Set initial canvas size after WebGL context is created
-      this.resizeCanvas();
+      if (!this.resizeCanvas()) {
+        console.warn('FluidBackground: Canvas resize failed');
+      }
       
       // Set viewport immediately
       this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
 
       // Initialize config with adaptive settings
-      this.initConfig();
+      try {
+        this.initConfig();
+      } catch (error) {
+        console.error('FluidBackground: Config initialization failed', error);
+        throw error;
+      }
 
-      this.initPointers();
-      this.initShaders();
-      this.initPrograms();
-      this.initBlit();
-      this.initDitheringTexture();
-      this.initFramebuffers();
-      this.updateKeywords();
+      // Initialize WebGL resources
+      try {
+        this.initPointers();
+        this.initShaders();
+        this.initPrograms();
+        this.initBlit();
+        this.initDitheringTexture();
+        this.initFramebuffers();
+        this.updateKeywords();
+      } catch (error) {
+        console.error('FluidBackground: WebGL resource initialization failed', error);
+        // Cleanup on error
+        this.destroy();
+        throw error;
+      }
       
       // Setup dynamic color management
-      this.initColorManagement();
+      try {
+        this.initColorManagement();
+      } catch (error) {
+        console.warn('FluidBackground: Color management initialization failed, continuing without it', error);
+      }
       
       // Setup visibility API for performance
-      this.setupVisibilityAPI();
+      try {
+        this.setupVisibilityAPI();
+      } catch (error) {
+        console.warn('FluidBackground: Visibility API setup failed', error);
+      }
       
-      this.setupEventListeners();
+      // Setup event listeners
+      try {
+        this.setupEventListeners();
+      } catch (error) {
+        console.warn('FluidBackground: Event listeners setup failed', error);
+      }
       
       // Mark as initialized BEFORE starting animation
       this.isInitialized = true;
       
-      this.startAnimation();
+      // Start animation loop
+      try {
+        this.startAnimation();
+      } catch (error) {
+        console.error('FluidBackground: Animation start failed', error);
+        this.isInitialized = false;
+        throw error;
+      }
     } catch (error) {
       console.error('FluidBackground: Initialization error', error);
+      // Ensure cleanup on critical errors
+      if (this.isInitialized) {
+        this.destroy();
+      }
+      throw error;
     }
   }
 
@@ -388,70 +526,52 @@ export class FluidBackground {
   /**
    * Initialize config with adaptive settings based on device capabilities
    */
-  initConfig() {
+  initConfig(qualityLevel = null) {
     const isMobile = this.isMobile();
     const gpuTier = this.gpuTier || 2;
     const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
     const screenArea = screenWidth * screenHeight;
     
-    // Base resolutions
-    let simRes = 128;
-    let dyeRes = 1024;
+    // Determine quality level
+    let quality = qualityLevel || this.manualQualityOverride || this.currentQuality;
     
-    // Adjust based on GPU tier
-    if (gpuTier === 1) {
-      // Low-tier: reduce resolutions significantly
-      simRes = 64;
-      dyeRes = 512;
-    } else if (gpuTier === 2) {
-      // Mid-tier: moderate resolutions
-      simRes = 96;
-      dyeRes = 768;
+    // Adjust quality based on GPU tier if not manually set
+    if (!qualityLevel && !this.manualQualityOverride) {
+      if (gpuTier === 1) {
+        quality = 'LOW';
+      } else if (gpuTier === 2) {
+        quality = 'MEDIUM';
+      } else {
+        quality = 'HIGH';
+      }
+      this.currentQuality = quality;
     }
-    // High-tier (gpuTier === 3): use base resolutions
+    
+    // Get quality settings
+    const qualitySettings = QUALITY_LEVELS[quality] || QUALITY_LEVELS.HIGH;
+    let simRes = qualitySettings.simRes;
+    let dyeRes = qualitySettings.dyeRes;
+    let pressureIterations = qualitySettings.pressureIterations;
     
     // Adjust for mobile devices
     if (isMobile) {
       dyeRes = Math.min(dyeRes, 512);
       simRes = Math.min(simRes, 96);
+      pressureIterations = Math.min(pressureIterations, 12);
     }
     
     // Adjust for screen size (reduce for very large screens)
     if (screenArea > 1920 * 1080) {
-      // Large screens: slightly reduce to maintain performance
       dyeRes = Math.min(dyeRes, 1024);
     }
-    
-    // Adaptive pressure iterations based on performance
-    const pressureIterations = gpuTier >= 3 ? 20 : (gpuTier === 2 ? 15 : 10);
 
+    // Merge with default config
     this.config = {
+      ...DEFAULT_CONFIG,
       SIM_RESOLUTION: simRes,
       DYE_RESOLUTION: dyeRes,
-      CAPTURE_RESOLUTION: 512,
-      DENSITY_DISSIPATION: 0.996, // Optimized for smoother dissipation
-      VELOCITY_DISSIPATION: 0.45, // Improved for smoother, more natural movement
-      PRESSURE: 0.8,
       PRESSURE_ITERATIONS: pressureIterations,
-      CURL: 0.8, // Optimized for more organic flow
-      SPLAT_RADIUS: 0.85, // Improved for better trail effect
-      SPLAT_FORCE: 2200, // Optimized force for better responsiveness
-      SHADING: false,
-      COLORFUL: false,
-      COLOR_UPDATE_SPEED: 5,
-      PAUSED: false,
-      BACK_COLOR: { r: 0, g: 0, b: 0 },
-      TRANSPARENT: true,
-      BLOOM: false,
-      BLOOM_ITERATIONS: 8,
-      BLOOM_RESOLUTION: 256,
-      BLOOM_INTENSITY: 0.8,
-      BLOOM_THRESHOLD: 0.6,
-      BLOOM_SOFT_KNEE: 0.7,
-      SUNRAYS: false,
-      SUNRAYS_RESOLUTION: 196,
-      SUNRAYS_WEIGHT: 1.0,
     };
 
     // Disable features if linear filtering not supported
@@ -464,15 +584,23 @@ export class FluidBackground {
   }
 
   /**
-   * Initialize dynamic color management
+   * Initialize dynamic color management with smooth interpolation
    */
   initColorManagement() {
     // Initial color load
-    this.updateAccentColor();
+    const initialColor = this.fetchAccentColor();
+    this.accentColorCache = initialColor;
+    this.currentAccentColor = { ...initialColor };
+    this.targetAccentColor = { ...initialColor };
     
     // Watch for theme changes
     this.themeObserver = new MutationObserver(() => {
-      this.updateAccentColor();
+      const now = Date.now();
+      if (now - this.lastColorUpdate < COLOR_UPDATE_THROTTLE) {
+        return;
+      }
+      this.lastColorUpdate = now;
+      this.startColorInterpolation();
     });
     
     // Observe theme attribute changes
@@ -482,16 +610,18 @@ export class FluidBackground {
       attributeFilter: ['data-theme']
     });
     
-    // Also watch for CSS variable changes (if supported)
+    // Watch for CSS variable changes
     if (window.CSS && CSS.supports && CSS.supports('color', 'var(--test)')) {
-      // Listen for CSS custom property changes via style attribute
-      // Note: This is a simplified approach - full CSS variable watching requires more complex setup
-      const styleObserver = new MutationObserver(() => {
-        this.updateAccentColor();
+      this.styleObserver = new MutationObserver(() => {
+        const now = Date.now();
+        if (now - this.lastColorUpdate < COLOR_UPDATE_THROTTLE) {
+          return;
+        }
+        this.lastColorUpdate = now;
+        this.startColorInterpolation();
       });
       
-      // Observe style changes on root
-      styleObserver.observe(htmlElement, {
+      this.styleObserver.observe(htmlElement, {
         attributes: true,
         attributeFilter: ['style', 'class']
       });
@@ -499,39 +629,95 @@ export class FluidBackground {
   }
 
   /**
-   * Update accent color from CSS variables
+   * Fetch accent color from CSS variables
    */
-  updateAccentColor() {
+  fetchAccentColor() {
     try {
       const computedStyle = getComputedStyle(document.documentElement);
-      const accentBgColor = computedStyle.getPropertyValue('--color-accent-bg').trim();
+      const accentColor = computedStyle.getPropertyValue('--color-accent').trim();
       
-      if (accentBgColor) {
+      if (accentColor) {
         // Handle rgb/rgba format
-        if (accentBgColor.startsWith('rgb')) {
-          const matches = accentBgColor.match(/\d+/g);
+        if (accentColor.startsWith('rgb')) {
+          const matches = accentColor.match(/\d+/g);
           if (matches && matches.length >= 3) {
-            this.accentColorCache = {
+            return {
               r: parseInt(matches[0]) / 255,
               g: parseInt(matches[1]) / 255,
               b: parseInt(matches[2]) / 255
             };
-            return;
           }
         }
         
         // Handle hex format
-        if (accentBgColor.startsWith('#')) {
-          this.accentColorCache = this.hexToRgb(accentBgColor);
-          return;
+        if (accentColor.startsWith('#')) {
+          return this.hexToRgb(accentColor);
         }
       }
-      
-      // Fallback to default
-      this.accentColorCache = this.hexToRgb('#641912');
     } catch (error) {
-      // Fallback on error
-      this.accentColorCache = this.hexToRgb('#641912');
+      console.warn('FluidBackground: Error fetching accent color', error);
+    }
+    
+    // Fallback to default accent color (#d90429)
+    return this.hexToRgb('#d90429');
+  }
+
+  /**
+   * Start smooth color interpolation
+   */
+  startColorInterpolation() {
+    const newColor = this.fetchAccentColor();
+    
+    // Only interpolate if color actually changed
+    if (this.targetAccentColor && 
+        Math.abs(this.targetAccentColor.r - newColor.r) < 0.001 &&
+        Math.abs(this.targetAccentColor.g - newColor.g) < 0.001 &&
+        Math.abs(this.targetAccentColor.b - newColor.b) < 0.001) {
+      return;
+    }
+    
+    // Set target color for interpolation
+    this.targetAccentColor = newColor;
+    this.colorInterpolationActive = true;
+  }
+
+  /**
+   * Update accent color with smooth interpolation
+   * @param {number} dt - Delta time (optional, defaults to 0.016 for 60fps)
+   */
+  updateAccentColor(dt = 0.016) {
+    if (!this.colorInterpolationActive && this.currentAccentColor) {
+      // No interpolation needed, use cached color
+      this.accentColorCache = this.currentAccentColor;
+      return;
+    }
+    
+    // Interpolate color smoothly
+    if (this.currentAccentColor && this.targetAccentColor) {
+      const lerp = (start, end, t) => start + (end - start) * t;
+      const t = Math.min(COLOR_LERP_SPEED * dt * 60, 1.0); // Scale by 60 for frame-independent speed
+      
+      this.currentAccentColor.r = lerp(this.currentAccentColor.r, this.targetAccentColor.r, t);
+      this.currentAccentColor.g = lerp(this.currentAccentColor.g, this.targetAccentColor.g, t);
+      this.currentAccentColor.b = lerp(this.currentAccentColor.b, this.targetAccentColor.b, t);
+      
+      // Check if interpolation is complete
+      const diff = Math.abs(this.currentAccentColor.r - this.targetAccentColor.r) +
+                   Math.abs(this.currentAccentColor.g - this.targetAccentColor.g) +
+                   Math.abs(this.currentAccentColor.b - this.targetAccentColor.b);
+      
+      if (diff < 0.001) {
+        this.currentAccentColor = { ...this.targetAccentColor };
+        this.colorInterpolationActive = false;
+      }
+      
+      this.accentColorCache = this.currentAccentColor;
+    } else {
+      // Fallback: direct update
+      const color = this.fetchAccentColor();
+      this.accentColorCache = color;
+      this.currentAccentColor = { ...color };
+      this.targetAccentColor = { ...color };
     }
   }
 
@@ -1552,7 +1738,7 @@ export class FluidBackground {
    * Start animation loop
    */
   startAnimation() {
-    this.lastUpdateTime = Date.now();
+    this.lastUpdateTime = performance.now();
     this.colorUpdateTimer = 0.0;
     this.update();
   }
@@ -1571,10 +1757,23 @@ export class FluidBackground {
       return;
     }
 
+    // Frame skipping for low performance
+    if (this.frameSkipInterval > 0) {
+      this.frameSkipCounter++;
+      if (this.frameSkipCounter <= this.frameSkipInterval) {
+        this.animationFrameId = requestAnimationFrame(() => this.update());
+        return;
+      }
+      this.frameSkipCounter = 0;
+    }
+
     const dt = this.calcDeltaTime();
     if (this.resizeCanvas()) {
       this.initFramebuffers();
     }
+    
+    // Update color interpolation
+    this.updateAccentColor(dt);
     
     // Update smooth cursor position with rubber band effect
     if (this.hasUserInteracted) {
@@ -1589,28 +1788,35 @@ export class FluidBackground {
       const deltaX = this.smoothCursorX - prevSmoothX;
       const deltaY = this.smoothCursorY - prevSmoothY;
       
+      // Calculate movement speed for adaptive intensity
+      const movementSpeed = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+      const intensityMultiplier = Math.min(movementSpeed * 10, 1.0); // Scale intensity based on speed
+      
       // Only create splat if smooth cursor actually moved
       if (Math.abs(deltaX) > 0.0001 || Math.abs(deltaY) > 0.0001) {
         const color = this.generateColor();
-        color.r *= 0.6;
-        color.g *= 0.6;
-        color.b *= 0.6;
-        const dx = deltaX * this.config.SPLAT_FORCE * 0.15;
-        const dy = deltaY * this.config.SPLAT_FORCE * 0.15;
+        // Subtle intensity
+        const effectiveIntensity = Math.max(intensityMultiplier, 0.35);
+        color.r *= MAIN_SPLAT_INTENSITY * effectiveIntensity;
+        color.g *= MAIN_SPLAT_INTENSITY * effectiveIntensity;
+        color.b *= MAIN_SPLAT_INTENSITY * effectiveIntensity;
+        const dx = deltaX * this.config.SPLAT_FORCE * 0.14; // Slightly reduced
+        const dy = deltaY * this.config.SPLAT_FORCE * 0.14;
         
         // Main splat at smooth cursor position
         this.splat(this.smoothCursorX, this.smoothCursorY, dx, dy, color);
         
-        // Additional splats behind for denser trail
-        const trailCount = 2;
-        for (let i = 1; i <= trailCount; i++) {
-          const trailX = this.smoothCursorX - deltaX * i * 0.3;
-          const trailY = this.smoothCursorY - deltaY * i * 0.3;
+        // Enhanced trail system with adaptive spacing
+        for (let i = 1; i <= TRAIL_COUNT; i++) {
+          const spacing = TRAIL_SPACING * i;
+          const trailX = this.smoothCursorX - deltaX * spacing;
+          const trailY = this.smoothCursorY - deltaY * spacing;
           const trailColor = this.generateColor();
-          trailColor.r *= 0.4;
-          trailColor.g *= 0.4;
-          trailColor.b *= 0.4;
-          this.splat(trailX, trailY, dx * 0.5, dy * 0.5, trailColor);
+          const trailIntensity = TRAIL_INTENSITY_MULTIPLIER * effectiveIntensity * (1 - i * 0.22); // Slightly more fade
+          trailColor.r *= trailIntensity;
+          trailColor.g *= trailIntensity;
+          trailColor.b *= trailIntensity;
+          this.splat(trailX, trailY, dx * TRAIL_FORCE_MULTIPLIER, dy * TRAIL_FORCE_MULTIPLIER, trailColor);
         }
       }
     }
@@ -1626,11 +1832,82 @@ export class FluidBackground {
    * Calculate delta time
    */
   calcDeltaTime() {
-    let now = Date.now();
+    let now = performance.now();
     let dt = (now - this.lastUpdateTime) / 1000;
-    dt = Math.min(dt, 0.016666);
+    dt = Math.min(dt, MAX_DT);
     this.lastUpdateTime = now;
+    
+    // Update FPS tracking
+    this.updateFPS(dt);
+    
     return dt;
+  }
+
+  /**
+   * Update FPS tracking and adjust quality if needed
+   */
+  updateFPS(dt) {
+    const now = performance.now();
+    const frameTime = dt * 1000; // Convert to milliseconds
+    const fps = Math.min(1000 / frameTime, 120); // Cap at 120fps
+    
+    // Add to history
+    this.fpsHistory.push(fps);
+    if (this.fpsHistory.length > FPS_SAMPLES) {
+      this.fpsHistory.shift();
+    }
+    
+    // Calculate average FPS
+    const averageFps = this.fpsHistory.reduce((a, b) => a + b, 0) / this.fpsHistory.length;
+    
+    // Update metrics
+    this.performanceMetrics.fps = fps;
+    this.performanceMetrics.averageFps = averageFps;
+    this.performanceMetrics.frameTime = frameTime;
+    this.performanceMetrics.quality = this.currentQuality;
+    this.performanceMetrics.lastUpdate = Date.now();
+    
+    // Adjust quality based on performance (only if not manually overridden)
+    if (!this.manualQualityOverride && this.fpsHistory.length >= FPS_SAMPLES) {
+      this.qualityAdjustTimer += dt;
+      
+      if (this.qualityAdjustTimer >= QUALITY_ADJUST_DELAY) {
+        this.qualityAdjustTimer = 0;
+        this.adjustQuality(averageFps);
+      }
+    }
+    
+    // Adjust frame skipping for very low FPS
+    if (averageFps < FPS_LOW_THRESHOLD) {
+      this.frameSkipInterval = Math.floor((FPS_LOW_THRESHOLD - averageFps) / 10);
+    } else {
+      this.frameSkipInterval = 0;
+    }
+  }
+
+  /**
+   * Adjust quality based on FPS
+   */
+  adjustQuality(averageFps) {
+    const qualityOrder = ['LOW', 'MEDIUM', 'HIGH', 'ULTRA'];
+    const currentIndex = qualityOrder.indexOf(this.currentQuality);
+    
+    let newQuality = this.currentQuality;
+    
+    if (averageFps < FPS_LOW_THRESHOLD && currentIndex > 0) {
+      // Lower quality
+      newQuality = qualityOrder[currentIndex - 1];
+    } else if (averageFps > FPS_HIGH_THRESHOLD && currentIndex < qualityOrder.length - 1) {
+      // Raise quality
+      newQuality = qualityOrder[currentIndex + 1];
+    }
+    
+    if (newQuality !== this.currentQuality) {
+      this.currentQuality = newQuality;
+      this.initConfig(newQuality);
+      this.initFramebuffers();
+      this.updateKeywords();
+    }
   }
 
   /**
@@ -2216,11 +2493,11 @@ export class FluidBackground {
         
         // Create initial splat at cursor position
         const color = this.generateColor();
-        color.r *= 0.8;
-        color.g *= 0.8;
-        color.b *= 0.8;
-        const dx = 200 * (Math.random() - 0.5);
-        const dy = 200 * (Math.random() - 0.5);
+        color.r *= MAIN_SPLAT_INTENSITY * 0.95; // Subtle visibility
+        color.g *= MAIN_SPLAT_INTENSITY * 0.95;
+        color.b *= MAIN_SPLAT_INTENSITY * 0.95;
+        const dx = 220 * (Math.random() - 0.5); // Slightly reduced
+        const dy = 220 * (Math.random() - 0.5);
         this.splat(newX, newY, dx, dy, color);
       } else {
         // Update target position (where cursor actually is)
@@ -2246,13 +2523,13 @@ export class FluidBackground {
       if (!this.hasUserInteracted) {
         this.hasUserInteracted = true;
         const color = this.generateColor();
-        color.r *= 0.8;
-        color.g *= 0.8;
-        color.b *= 0.8;
+        color.r *= MAIN_SPLAT_INTENSITY * 0.95; // Subtle visibility
+        color.g *= MAIN_SPLAT_INTENSITY * 0.95;
+        color.b *= MAIN_SPLAT_INTENSITY * 0.95;
         const x = posX / this.canvas.width;
         const y = 1.0 - posY / this.canvas.height;
-        const dx = 200 * (Math.random() - 0.5);
-        const dy = 200 * (Math.random() - 0.5);
+        const dx = 220 * (Math.random() - 0.5); // Slightly reduced
+        const dy = 220 * (Math.random() - 0.5);
         this.splat(x, y, dx, dy, color);
       }
       
@@ -2278,13 +2555,13 @@ export class FluidBackground {
         let posX = this.scaleByPixelRatio(touch.clientX - rect.left);
         let posY = this.scaleByPixelRatio(touch.clientY - rect.top);
         const color = this.generateColor();
-        color.r *= 0.8;
-        color.g *= 0.8;
-        color.b *= 0.8;
+        color.r *= MAIN_SPLAT_INTENSITY * 0.95; // Subtle visibility
+        color.g *= MAIN_SPLAT_INTENSITY * 0.95;
+        color.b *= MAIN_SPLAT_INTENSITY * 0.95;
         const x = posX / this.canvas.width;
         const y = 1.0 - posY / this.canvas.height;
-        const dx = 200 * (Math.random() - 0.5);
-        const dy = 200 * (Math.random() - 0.5);
+        const dx = 220 * (Math.random() - 0.5); // Slightly reduced
+        const dy = 220 * (Math.random() - 0.5);
         this.splat(x, y, dx, dy, color);
       }
       
@@ -2331,13 +2608,13 @@ export class FluidBackground {
         if (scrollDelta > 5 && this.hasUserInteracted) {
           // Create subtle splat effect on scroll
           const color = this.generateColor();
-          color.r *= 0.3;
-          color.g *= 0.3;
-          color.b *= 0.3;
+          color.r *= TRAIL_INTENSITY_MULTIPLIER * 0.6; // Subtle
+          color.g *= TRAIL_INTENSITY_MULTIPLIER * 0.6;
+          color.b *= TRAIL_INTENSITY_MULTIPLIER * 0.6;
           const x = Math.random() * 0.3 + 0.35; // Center area
           const y = Math.random() * 0.3 + 0.35;
-          const dx = (Math.random() - 0.5) * 100;
-          const dy = (Math.random() - 0.5) * 100;
+          const dx = (Math.random() - 0.5) * 110; // Slightly reduced
+          const dy = (Math.random() - 0.5) * 110;
           this.splat(x, y, dx, dy, color);
         }
         
@@ -2418,14 +2695,14 @@ export class FluidBackground {
   }
 
   /**
-   * Get accent background color from CSS variables
+   * Get accent color from CSS variables
    */
   getAccentColor() {
     // Use cached color or update if not cached
     if (!this.accentColorCache) {
       this.updateAccentColor();
     }
-    return this.accentColorCache || this.hexToRgb('#641912');
+    return this.accentColorCache || this.hexToRgb('#d90429');
   }
 
   /**
@@ -2444,9 +2721,9 @@ export class FluidBackground {
     // Use accent color instead of random colors
     const accentColor = this.getAccentColor();
     return {
-      r: accentColor.r * 0.05, // Very reduced brightness for subtle background effect
-      g: accentColor.g * 0.05,
-      b: accentColor.b * 0.05
+      r: accentColor.r * BASE_COLOR_INTENSITY, // Increased visibility (was 0.05)
+      g: accentColor.g * BASE_COLOR_INTENSITY,
+      b: accentColor.b * BASE_COLOR_INTENSITY
     };
   }
 
@@ -2565,7 +2842,7 @@ export class FluidBackground {
   }
 
   /**
-   * Destroy and cleanup
+   * Destroy and cleanup all WebGL resources
    */
   destroy() {
     if (this.animationFrameId) {
@@ -2573,10 +2850,15 @@ export class FluidBackground {
       this.animationFrameId = null;
     }
     
-    // Cleanup theme observer
+    // Cleanup observers
     if (this.themeObserver) {
       this.themeObserver.disconnect();
       this.themeObserver = null;
+    }
+    
+    if (this.styleObserver) {
+      this.styleObserver.disconnect();
+      this.styleObserver = null;
     }
     
     // Cleanup throttled handlers
@@ -2585,7 +2867,174 @@ export class FluidBackground {
       this.mouseMoveThrottleId = null;
     }
     
+    // Cleanup WebGL resources
+    if (this.gl) {
+      try {
+        // Delete textures
+        const deleteTexture = (texture) => {
+          if (texture && texture.texture) {
+            this.gl.deleteTexture(texture.texture);
+          }
+        };
+        
+        const deleteFBO = (fbo) => {
+          if (fbo) {
+            if (fbo.texture) this.gl.deleteTexture(fbo.texture);
+            if (fbo.fbo) this.gl.deleteFramebuffer(fbo.fbo);
+          }
+        };
+        
+        const deleteDoubleFBO = (doubleFBO) => {
+          if (doubleFBO) {
+            deleteFBO(doubleFBO.read);
+            deleteFBO(doubleFBO.write);
+          }
+        };
+        
+        // Cleanup framebuffers
+        if (this.dye) deleteDoubleFBO(this.dye);
+        if (this.velocity) deleteDoubleFBO(this.velocity);
+        if (this.pressure) deleteDoubleFBO(this.pressure);
+        if (this.divergence) deleteFBO(this.divergence);
+        if (this.curl) deleteFBO(this.curl);
+        if (this.bloom) deleteFBO(this.bloom);
+        if (this.sunrays) deleteFBO(this.sunrays);
+        if (this.sunraysTemp) deleteFBO(this.sunraysTemp);
+        if (this.ditheringTexture) deleteTexture(this.ditheringTexture);
+        
+        // Cleanup bloom framebuffers array
+        if (this.bloomFramebuffers) {
+          this.bloomFramebuffers.forEach(fbo => deleteFBO(fbo));
+          this.bloomFramebuffers = [];
+        }
+        
+        // Delete shaders
+        const deleteShader = (shader) => {
+          if (shader) this.gl.deleteShader(shader);
+        };
+        
+        deleteShader(this.baseVertexShader);
+        deleteShader(this.blurVertexShader);
+        
+        // Delete programs
+        const deleteProgram = (program) => {
+          if (program && program.program) {
+            this.gl.deleteProgram(program.program);
+          }
+        };
+        
+        deleteProgram(this.blurProgram);
+        deleteProgram(this.copyProgram);
+        deleteProgram(this.clearProgram);
+        deleteProgram(this.colorProgram);
+        deleteProgram(this.checkerboardProgram);
+        deleteProgram(this.bloomPrefilterProgram);
+        deleteProgram(this.bloomBlurProgram);
+        deleteProgram(this.bloomFinalProgram);
+        deleteProgram(this.sunraysMaskProgram);
+        deleteProgram(this.sunraysProgram);
+        deleteProgram(this.splatProgram);
+        deleteProgram(this.advectionProgram);
+        deleteProgram(this.divergenceProgram);
+        deleteProgram(this.curlProgram);
+        deleteProgram(this.vorticityProgram);
+        deleteProgram(this.pressureProgram);
+        deleteProgram(this.gradienSubtractProgram);
+        
+        // Delete material programs
+        if (this.displayMaterial && this.displayMaterial.programs) {
+          Object.values(this.displayMaterial.programs).forEach(program => {
+            if (program) this.gl.deleteProgram(program);
+          });
+        }
+        
+        // Delete buffers
+        const buffers = this.gl.getParameter(this.gl.ARRAY_BUFFER_BINDING);
+        if (buffers) {
+          // Note: We can't easily track all buffers, but WebGL will clean them up
+        }
+        
+      } catch (error) {
+        console.warn('FluidBackground: Error during WebGL cleanup', error);
+      }
+    }
+    
+    // Clear references
+    this.gl = null;
+    this.ext = null;
+    this.canvas = null;
     this.isInitialized = false;
+  }
+
+  /**
+   * Set quality level manually
+   * @param {string} level - Quality level: 'LOW', 'MEDIUM', 'HIGH', 'ULTRA', or null for auto
+   */
+  setQuality(level) {
+    if (level === null) {
+      this.manualQualityOverride = null;
+      // Reset to auto-adjust based on GPU tier
+      const gpuTier = this.gpuTier || 2;
+      if (gpuTier === 1) {
+        this.currentQuality = 'LOW';
+      } else if (gpuTier === 2) {
+        this.currentQuality = 'MEDIUM';
+      } else {
+        this.currentQuality = 'HIGH';
+      }
+    } else if (QUALITY_LEVELS[level]) {
+      this.manualQualityOverride = level;
+      this.currentQuality = level;
+    } else {
+      console.warn(`FluidBackground: Invalid quality level "${level}". Use 'LOW', 'MEDIUM', 'HIGH', 'ULTRA', or null.`);
+      return;
+    }
+    
+    if (this.isInitialized) {
+      this.initConfig(this.currentQuality);
+      this.initFramebuffers();
+      this.updateKeywords();
+    }
+  }
+
+  /**
+   * Get current performance metrics
+   * @returns {Object} Performance metrics object
+   */
+  getPerformanceMetrics() {
+    return {
+      ...this.performanceMetrics,
+      fpsHistory: [...this.fpsHistory], // Copy array
+      qualityLevel: this.currentQuality,
+      manualOverride: this.manualQualityOverride !== null
+    };
+  }
+
+  /**
+   * Update configuration dynamically
+   * @param {Object} newConfig - Partial configuration object to merge
+   */
+  updateConfig(newConfig) {
+    if (!this.config || !newConfig) {
+      return;
+    }
+    
+    try {
+      // Merge new config
+      Object.assign(this.config, newConfig);
+      
+      // Reinitialize framebuffers if resolution changed
+      if (newConfig.SIM_RESOLUTION || newConfig.DYE_RESOLUTION) {
+        this.initFramebuffers();
+      }
+      
+      // Update keywords if features changed
+      if (newConfig.SHADING !== undefined || newConfig.BLOOM !== undefined || newConfig.SUNRAYS !== undefined) {
+        this.updateKeywords();
+      }
+    } catch (error) {
+      console.error('FluidBackground: Error updating config', error);
+    }
   }
 }
 

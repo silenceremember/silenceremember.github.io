@@ -10,16 +10,25 @@
   pointer-events: none;
   opacity: 1;
   display: block;
+  
   /* Ensure canvas is visible and has dimensions */
   min-width: 100vw;
   min-height: 100vh;
   
   /* GPU acceleration optimizations */
   transform: translateZ(0);
-  will-change: contents;
+  will-change: transform;
   backface-visibility: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
+  /* Performance optimizations - isolate rendering */
+  contain: layout style paint;
+  
+  /* Content visibility optimization (if supported) */
+  @supports (content-visibility: auto) {
+    content-visibility: auto;
+  }
   
   /* Smooth transitions */
   transition: opacity var(--transition-duration-base, 0.3s) var(--timing-function-ease, ease);
@@ -29,10 +38,47 @@
     display: none;
   }
   
-  /* Performance optimizations for low-end devices */
+  /* Performance optimizations for mobile devices */
   @media (max-width: 768px) {
     /* Reduce rendering complexity on mobile */
     image-rendering: optimizeSpeed;
+    /* Optimize will-change for mobile */
+    will-change: auto;
+  }
+  
+  /* Optimizations for tablets */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    will-change: transform;
+  }
+  
+  /* Landscape orientation optimizations */
+  @media (orientation: landscape) and (max-height: 600px) {
+    /* Reduce quality hints for landscape mobile */
+    image-rendering: optimizeSpeed;
+  }
+  
+  /* High DPI displays optimization */
+  @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    /* Ensure proper scaling on retina displays */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+  
+  /* Very large screens optimization */
+  @media (min-width: 2560px) {
+    /* Limit maximum size for performance */
+    max-width: 2560px;
+    max-height: 1440px;
+    left: 50%;
+    transform: translateX(-50%) translateZ(0);
+    will-change: transform;
+  }
+  
+  /* Low-end device optimizations */
+  @media (max-width: 480px) {
+    /* Further reduce complexity on small screens */
+    will-change: auto;
+    contain: layout;
   }
 }
 
