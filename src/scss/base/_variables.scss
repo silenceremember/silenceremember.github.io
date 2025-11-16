@@ -214,7 +214,7 @@
 
 /* Миксин для высоты экрана */
 @mixin height-small {
-  @media (max-height: calc(var(--breakpoint-height-small) - 1px)) {
+  @media (max-height: 899px) {
     @content;
   }
 }

@@ -112,11 +112,14 @@ export class ScrollManager {
     // Определяем, является ли это главной страницей (есть контейнер слайдов)
     const isIndexPage = !!document.querySelector('.slides-container');
 
+    // Обновляем isScrollPage на основе текущего состояния класса
+    this.isScrollPage = document.body.classList.contains('page-with-scroll');
+
     // Для страницы проектов проверяем только ширину (<1024)
     // Для главной страницы проверяем ширину (<1024) ИЛИ высоту (<900)
-    const isNowTablet = this.isScrollPage
-      ? window.innerWidth < 1024
-      : window.innerWidth < 1024 || window.innerHeight < 900;
+    const isNowTablet = isIndexPage
+      ? window.innerWidth < 1024 || window.innerHeight < 900
+      : window.innerWidth < 1024;
 
     const wasTabletMode = this.isTabletMode;
 
