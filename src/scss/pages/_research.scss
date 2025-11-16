@@ -4,6 +4,12 @@
 /* Используем те же стили для прокрутки, что и для projects */
 .research-page {
   @include page-container;
+  position: relative;
+}
+
+/* Контейнер для индикатора загрузки */
+.research-loading-container {
+  @include page-loading-container;
 }
 
 /* Заголовок страницы */

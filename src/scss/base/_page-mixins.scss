@@ -27,7 +27,7 @@
 }
 
 /* Миксин для контейнеров загрузки */
-/* Используется для: index-loading-container, cv-loading-container, community-loading-container */
+/* Используется для: index-loading-container, projects-loading-container, research-loading-container, cv-loading-container, community-loading-container, notfound-loading-container */
 @mixin page-loading-container {
   position: absolute;
   top: 0;

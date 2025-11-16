@@ -77,6 +77,21 @@
       <!-- Main Content -->
       <main class="content-wrapper">
         <div class="container projects-page">
+          <!-- Контейнер для индикатора загрузки -->
+          <div
+            class="projects-loading-container"
+            id="projects-loading-container"
+          >
+            <!-- Индикатор загрузки -->
+            <div class="loading" id="projects-loading">
+              <div class="loading-squares">
+                <div class="loading-square"></div>
+                <div class="loading-square"></div>
+                <div class="loading-square"></div>
+              </div>
+            </div>
+          </div>
+
           <!-- Фильтры проектов -->
           <div
             class="projects-filters-container"
@@ -86,13 +101,6 @@
           <!-- Контейнер для проектов -->
           <div class="projects-grid" id="projects-grid">
             <!-- Проекты будут загружены через JavaScript -->
-            <div class="loading projects-loading" id="projects-loading">
-              <div class="loading-squares">
-                <div class="loading-square"></div>
-                <div class="loading-square"></div>
-                <div class="loading-square"></div>
-              </div>
-            </div>
           </div>
 
           <!-- Навигационное меню для tablet режима -->

@@ -3,6 +3,7 @@
 
 .projects-page {
   @include page-container;
+  position: relative;
 
   /* Контент ограничивается вертикальными линиями */
   /* Вертикальные линии находятся на: calc((100% - var(--max-width-large)) / 2 - var(--spacing-content-side)) от краёв */
@@ -14,6 +15,11 @@
       max-width var(--transition-duration-base) var(--timing-function-ease),
       padding var(--transition-duration-base) var(--timing-function-ease);
   }
+}
+
+/* Контейнер для индикатора загрузки */
+.projects-loading-container {
+  @include page-loading-container;
 }
 
 /* Контейнер фильтров */
