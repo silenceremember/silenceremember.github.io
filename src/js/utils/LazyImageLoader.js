@@ -87,3 +87,4 @@ export class LazyImageLoader {
 // Создаем глобальный экземпляр для переиспользования
 export const lazyImageLoader = new LazyImageLoader();
 
+
