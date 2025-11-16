@@ -36,7 +36,9 @@
           "pages": 15
         }
       ],
-      "links": {},
+      "links": {
+        "site": "https://sites.google.com/view/maxim-elchaninov-magic-bag/magic-bag"
+      },
       "tags": [
         "unity",
         "bolt",
@@ -132,9 +134,8 @@
         ]
       },
       "documents": [],
-      "links": {
-        "github": "https://github.com/silenceremember/gridsnap-addon"
-      },
+      "links": {},
+      "comingSoon": true,
       "tags": ["unity", "editor-tool", "csharp", "shader-graph", "tool"],
       "featured": true,
       "displayMeta": {

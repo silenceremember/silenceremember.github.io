@@ -109,15 +109,27 @@ export class CardFactory {
         return;
       }
       e.stopPropagation();
-      if (onCardClick) onCardClick(project);
+      // Не открываем для проектов "скоро"
+      if (!project.comingSoon && onCardClick) {
+        onCardClick(project);
+      }
     });
 
-    // Кнопка "Подробнее"
+    // Кнопка "Подробнее" или "Скоро"
     const detailsButton = card.querySelector('.project-card-button');
     if (detailsButton) {
+      // Если проект "скоро", меняем текст кнопки
+      if (project.comingSoon) {
+        detailsButton.textContent = 'СКОРО';
+        detailsButton.disabled = true;
+        detailsButton.setAttribute('aria-label', 'Скоро будет доступно');
+      }
       detailsButton.addEventListener('click', (e) => {
         e.stopPropagation();
-        if (onCardClick) onCardClick(project);
+        // Не открываем для проектов "скоро"
+        if (!project.comingSoon && onCardClick) {
+          onCardClick(project);
+        }
       });
     }
 

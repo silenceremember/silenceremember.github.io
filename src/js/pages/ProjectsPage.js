@@ -52,7 +52,27 @@ export class ProjectsPage extends BasePage {
    * Открывает детальную страницу проекта
    */
   openProjectDetails(project) {
-    // TODO: Реализовать модальное окно с деталями проекта
+    // Не открываем для проектов "скоро"
+    if (project.comingSoon) {
+      return;
+    }
+    
+    // Если есть ссылка на сайт, открываем её
+    if (project.links && project.links.site) {
+      window.open(project.links.site, '_blank');
+      return;
+    }
+    
+    // Если есть другие ссылки, открываем первую доступную
+    if (project.links && Object.keys(project.links).length > 0) {
+      const firstLink = Object.values(project.links)[0];
+      if (firstLink) {
+        window.open(firstLink, '_blank');
+        return;
+      }
+    }
+    
+    // TODO: Реализовать модальное окно с деталями проекта для проектов без ссылок
   }
 
   /**

@@ -374,14 +374,20 @@ export class ProjectGroupingManager {
         // Добавляем обработчик клика на всю карточку
         clonedCard.addEventListener('click', (e) => {
           e.stopPropagation();
-          this.onCardClick(project);
+          // Не открываем для проектов "скоро"
+          if (!project.comingSoon) {
+            this.onCardClick(project);
+          }
         });
         // Добавляем обработчик на кнопку "Подробнее"
         const detailsButton = clonedCard.querySelector('.project-card-button');
         if (detailsButton) {
           detailsButton.addEventListener('click', (e) => {
             e.stopPropagation();
-            this.onCardClick(project);
+            // Не открываем для проектов "скоро"
+            if (!project.comingSoon) {
+              this.onCardClick(project);
+            }
           });
         }
         sectionGrid.appendChild(clonedCard);
@@ -414,7 +420,10 @@ export class ProjectGroupingManager {
               return;
             }
             e.stopPropagation();
-            this.onCardClick(project);
+            // Не открываем для проектов "скоро"
+            if (!project.comingSoon) {
+              this.onCardClick(project);
+            }
           });
           // Добавляем обработчик на кнопку "Подробнее"
           const detailsButton = clonedCard.querySelector(
@@ -423,7 +432,10 @@ export class ProjectGroupingManager {
           if (detailsButton) {
             detailsButton.addEventListener('click', (e) => {
               e.stopPropagation();
-              this.onCardClick(project);
+              // Не открываем для проектов "скоро"
+              if (!project.comingSoon) {
+                this.onCardClick(project);
+              }
             });
           }
           sectionGrid.appendChild(clonedCard);

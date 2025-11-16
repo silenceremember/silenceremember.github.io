@@ -429,6 +429,29 @@
     color: var(--color-bg-primary);
     outline: none;
   }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+
+    /* Отключаем hover эффекты для disabled кнопки */
+    &:hover,
+    &:focus {
+      background-color: transparent;
+      border-color: var(--color-text-primary);
+      color: var(--color-text-primary);
+      outline: none;
+    }
+  }
+
+  /* Отключаем hover эффекты при hover на карточку для disabled кнопки */
+  .project-card:hover &:disabled,
+  .project-card:active &:disabled,
+  .project-card:focus-within &:disabled {
+    background-color: transparent;
+    border-color: var(--color-text-primary);
+    color: var(--color-text-primary);
+  }
 }
 
 /* Адаптивность */
