@@ -7,7 +7,7 @@
 /* Fade-in анимация */
 .animate-fade-in {
   opacity: 0;
-  transition: opacity var(--transition-duration-base) ease-out;
+  transition: opacity var(--transition-duration-base) var(--timing-function-ease-out);
 }
 
 .animate-fade-in.visible {
@@ -19,8 +19,8 @@
   opacity: 0;
   transform: translateY(10px);
   transition:
-    opacity var(--transition-duration-base) ease-in-out,
-    transform var(--transition-duration-base) ease-in-out;
+    opacity var(--transition-duration-base) var(--timing-function-ease-in-out),
+    transform var(--transition-duration-base) var(--timing-function-ease-in-out);
 }
 
 .animate-slide-up.visible {
@@ -33,8 +33,8 @@
   opacity: 0;
   transform: translateY(10px);
   transition:
-    opacity var(--transition-duration-base) ease-in-out,
-    transform var(--transition-duration-base) ease-in-out;
+    opacity var(--transition-duration-base) var(--timing-function-ease-in-out),
+    transform var(--transition-duration-base) var(--timing-function-ease-in-out);
 }
 
 .animate-section.visible {

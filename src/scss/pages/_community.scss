@@ -122,9 +122,9 @@
   background-color: transparent;
   border: var(--line-width) solid var(--color-divider);
   transition:
-    background-color var(--transition-duration-base) ease,
-    border-color var(--transition-duration-base) ease,
-    color var(--transition-duration-base) ease;
+    background-color var(--transition-duration-base) var(--timing-function-ease),
+    border-color var(--transition-duration-base) var(--timing-function-ease),
+    color var(--transition-duration-base) var(--timing-function-ease);
   cursor: pointer;
   overflow: hidden;
   width: 100%;
@@ -197,7 +197,7 @@
   width: 32px;
   height: 32px;
   margin-right: var(--spacing-sm);
-  transition: fill var(--transition-duration-base) ease-out;
+  transition: fill var(--transition-duration-base) var(--timing-function-ease-out);
 
   @include tablet-and-mobile {
     width: 28px;
@@ -214,11 +214,11 @@
 
   svg {
     fill: var(--color-text-primary);
-    transition: fill var(--transition-duration-base) ease-out;
+    transition: fill var(--transition-duration-base) var(--timing-function-ease-out);
 
     path {
       fill: var(--color-text-primary);
-      transition: fill var(--transition-duration-base) ease-out;
+      transition: fill var(--transition-duration-base) var(--timing-function-ease-out);
     }
   }
 }
@@ -279,11 +279,11 @@
     height: 100% !important;
     display: block !important;
     fill: var(--color-text-primary);
-    transition: fill var(--transition-duration-base) ease-in-out;
+    transition: fill var(--transition-duration-base) var(--timing-function-ease-in-out);
 
     path {
       fill: var(--color-text-primary);
-      transition: fill var(--transition-duration-base) ease-in-out;
+      transition: fill var(--transition-duration-base) var(--timing-function-ease-in-out);
     }
   }
 }
@@ -330,7 +330,7 @@
 }
 
 .community-card-title-text {
-  transition: color var(--transition-duration-base) ease;
+  transition: color var(--transition-duration-base) var(--timing-function-ease);
   flex: 1;
   min-width: 0;
 }
@@ -342,7 +342,7 @@
   color: var(--color-accent);
   margin: 0;
   flex-shrink: 0;
-  transition: color var(--transition-duration-base) ease;
+  transition: color var(--transition-duration-base) var(--timing-function-ease);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -369,8 +369,8 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   transition:
-    color var(--transition-duration-base) ease,
-    opacity var(--transition-duration-base) ease-in-out;
+    color var(--transition-duration-base) var(--timing-function-ease),
+    opacity var(--transition-duration-base) var(--timing-function-ease-in-out);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -424,7 +424,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
-  transition: border-color var(--transition-duration-base) ease;
+  transition: border-color var(--transition-duration-base) var(--timing-function-ease);
 
   &:hover {
     border-color: var(--color-accent);
@@ -520,11 +520,11 @@
   .community-page {
     padding: var(--spacing-lg) var(--spacing-lg);
     padding-bottom: 0;
-    transition: padding var(--transition-duration-base) ease;
+    transition: padding var(--transition-duration-base) var(--timing-function-ease);
   }
 
   .community-section {
     margin-bottom: var(--spacing-xl);
-    transition: margin-bottom var(--transition-duration-base) ease;
+    transition: margin-bottom var(--transition-duration-base) var(--timing-function-ease);
   }
 }

@@ -261,9 +261,9 @@
   border: var(--line-width) solid var(--color-text-primary);
   background-color: transparent;
   transition:
-    background-color var(--transition-duration-base) ease,
-    color var(--transition-duration-base) ease,
-    border-color var(--transition-duration-base) ease;
+    background-color var(--transition-duration-base) var(--timing-function-ease),
+    color var(--transition-duration-base) var(--timing-function-ease),
+    border-color var(--transition-duration-base) var(--timing-function-ease);
   font-family: var(--font-family);
   cursor: pointer;
 
@@ -297,7 +297,7 @@
   border: none;
   cursor: pointer;
   font-family: var(--font-family);
-  transition: color var(--transition-duration-base) ease;
+  transition: color var(--transition-duration-base) var(--timing-function-ease);
 
   &:hover {
     color: var(--color-text-primary);

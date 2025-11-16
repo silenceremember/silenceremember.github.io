@@ -34,9 +34,9 @@
   /* Transition для opacity: половина длительности анимации */
   /* Transition для visibility: мгновенно, но с задержкой в половину длительности */
   transition:
-    opacity calc(var(--animation-duration) / 2) ease-in-out,
+    opacity calc(var(--animation-duration) / 2) var(--timing-function-ease-in-out),
     visibility 0s calc(var(--animation-duration) / 2),
-    padding var(--transition-duration-base) ease;
+    padding var(--transition-duration-base) var(--timing-function-ease);
   z-index: 1;
   pointer-events: none; /* Отключаем взаимодействие со скрытыми слайдами */
 }
@@ -102,8 +102,8 @@
   margin: 0;
   letter-spacing: var(--letter-spacing-tight);
   transition:
-    font-size var(--transition-duration-base) ease,
-    color var(--transition-duration-base) ease;
+    font-size var(--transition-duration-base) var(--timing-function-ease),
+    color var(--transition-duration-base) var(--timing-function-ease);
 }
 
 .project-info {
@@ -123,7 +123,7 @@
   margin: 0;
   letter-spacing: var(--letter-spacing-tight);
   line-height: var(--line-height-heading);
-  transition: color var(--transition-duration-base) ease;
+  transition: color var(--transition-duration-base) var(--timing-function-ease);
   /* Разрешаем выделение текста */
   user-select: text;
   -webkit-user-select: text;
@@ -138,8 +138,8 @@
   font-size: var(--font-size-small);
   color: var(--color-secondary);
   transition:
-    font-size var(--transition-duration-base) ease,
-    color var(--transition-duration-base) ease;
+    font-size var(--transition-duration-base) var(--timing-function-ease),
+    color var(--transition-duration-base) var(--timing-function-ease);
   /* Разрешаем выделение метаданных */
   user-select: text;
   -webkit-user-select: text;
@@ -274,7 +274,7 @@
   text-transform: uppercase;
   color: var(--color-accent);
   margin: 0;
-  transition: color var(--transition-duration-base) ease;
+  transition: color var(--transition-duration-base) var(--timing-function-ease);
 }
 
 .details-text {
@@ -282,7 +282,7 @@
   line-height: var(--line-height-base);
   color: var(--color-text-primary);
   margin: 0;
-  transition: color var(--transition-duration-base) ease;
+  transition: color var(--transition-duration-base) var(--timing-function-ease);
   /* Разрешаем выделение текста */
   user-select: text;
   -webkit-user-select: text;
@@ -311,7 +311,7 @@
 /* Стили для .cta-button и .cta-buttons теперь в _button.scss */
 
 /* Адаптивность для проектных слайдов */
-@media (max-width: 1024px) {
+@include tablet-and-mobile {
   .project-main-area {
     flex-direction: column;
   }
@@ -343,7 +343,7 @@
   opacity: 0;
   visibility: hidden;
   transition:
-    opacity var(--transition-duration-base) ease-in-out,
+    opacity var(--transition-duration-base) var(--timing-function-ease-in-out),
     visibility 0s var(--transition-duration-base);
   pointer-events: none;
   z-index: 100;
@@ -352,7 +352,7 @@
     opacity: 1;
     visibility: visible;
     transition:
-      opacity var(--transition-duration-base) ease-in-out,
+      opacity var(--transition-duration-base) var(--timing-function-ease-in-out),
       visibility 0s;
   }
 }

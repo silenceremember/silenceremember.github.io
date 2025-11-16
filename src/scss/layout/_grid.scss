@@ -81,7 +81,7 @@
   flex-shrink: 0;
   position: relative;
   z-index: 12;
-  transition: transform var(--transition-duration-base) ease;
+  transition: transform var(--transition-duration-base) var(--timing-function-ease);
 }
 
 /* Основная сетка для контента */
@@ -94,7 +94,7 @@
   padding: var(--spacing-lg) 0;
   align-items: center; /* Центрируем элементы по вертикали */
   justify-items: start; /* Выравниваем элементы по левому краю */
-  transition: gap var(--transition-duration-base) ease;
+  transition: gap var(--transition-duration-base) var(--timing-function-ease);
   width: 100%;
 }
 
@@ -124,8 +124,8 @@
   object-fit: cover;
   user-select: none; /* Запрещаем выделение изображения */
   transition:
-    width var(--transition-duration-base) ease,
-    height var(--transition-duration-base) ease;
+    width var(--transition-duration-base) var(--timing-function-ease),
+    height var(--transition-duration-base) var(--timing-function-ease);
 }
 
 /* Стили для текстового контента */
@@ -152,8 +152,8 @@
   color: var(--color-text-primary);
   margin: 0;
   transition:
-    font-size var(--transition-duration-base) ease,
-    color var(--transition-duration-base) ease;
+    font-size var(--transition-duration-base) var(--timing-function-ease),
+    color var(--transition-duration-base) var(--timing-function-ease);
 }
 
 .main-content-tagline {
@@ -163,7 +163,7 @@
   text-transform: uppercase;
   color: var(--color-accent);
   margin: 0;
-  transition: color var(--transition-duration-base) ease;
+  transition: color var(--transition-duration-base) var(--timing-function-ease);
 }
 
 .main-content-title {
@@ -174,8 +174,8 @@
   color: var(--color-text-primary);
   margin: 0;
   transition:
-    font-size var(--transition-duration-base) ease,
-    color var(--transition-duration-base) ease;
+    font-size var(--transition-duration-base) var(--timing-function-ease),
+    color var(--transition-duration-base) var(--timing-function-ease);
 }
 
 .main-content-description {
@@ -183,7 +183,7 @@
   line-height: var(--line-height-base);
   color: var(--color-text-primary);
   margin: 0;
-  transition: color var(--transition-duration-base) ease;
+  transition: color var(--transition-duration-base) var(--timing-function-ease);
 }
 
 /* Адаптивность для больших экранов */

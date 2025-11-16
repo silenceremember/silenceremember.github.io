@@ -70,6 +70,8 @@
   --breakpoint-tablet: 481px;
   --breakpoint-desktop: 1024px;
   --breakpoint-large: 1025px;
+  /* Breakpoint для высоты экрана */
+  --breakpoint-height-small: 900px;
 
   /* Максимальная ширина контента */
   --max-width-mobile: 100%;
@@ -101,8 +103,23 @@
   --transition-duration-base: 0.3s;
   --transition-duration-slow: 0.5s;
 
+  /* Timing functions для transitions и animations */
+  --timing-function-ease: ease;
+  --timing-function-ease-in: ease-in;
+  --timing-function-ease-out: ease-out;
+  --timing-function-ease-in-out: ease-in-out;
+
+  /* Задержки анимаций */
+  --animation-delay-none: 0s;
+  --animation-delay-short: 0.1s;
+  --animation-delay-medium: 0.2s;
+  --animation-delay-base: 0.3s;
+
   /* Высота header и footer */
   --header-footer-height: 64px;
+
+  /* Размеры для компонентов */
+  --loading-square-size: 14px; /* Размер квадратиков в индикаторе загрузки на мобильных */
 }
 
 [data-theme='dark'] {
@@ -118,11 +135,13 @@
 /* Миксины для breakpoints */
 /* 
  * Основной breakpoint: 1024px - граница между desktop и tablet/mobile
+ * Breakpoint для высоты: 900px - для маленьких экранов по высоте
  * 
  * Примеры использования:
  * @include tablet-and-mobile { ... } - для стилей на планшетах и мобильных
  * @include desktop { ... } - для стилей на десктопе
  * @include desktop-large { ... } - для стилей на больших экранах (1025px+)
+ * @include height-small { ... } - для стилей при высоте экрана <900px
  */
 @mixin mobile {
   @media (max-width: 1023px) {
@@ -185,6 +204,13 @@
   }
 }
 
+/* Миксин для высоты экрана */
+@mixin height-small {
+  @media (max-height: calc(var(--breakpoint-height-small) - 1px)) {
+    @content;
+  }
+}
+
 /* Миксины для общих паттернов адаптивности */
 
 /* Миксин для фиксированного позиционирования header и footer */
@@ -199,9 +225,9 @@
   z-index: 10;
   background-color: var(--color-bg-primary);
   transition:
-    transform var(--transition-duration-base) ease,
-    background-color var(--transition-duration-base) ease,
-    color var(--transition-duration-base) ease;
+    transform var(--transition-duration-base) var(--timing-function-ease),
+    background-color var(--transition-duration-base) var(--timing-function-ease),
+    color var(--transition-duration-base) var(--timing-function-ease);
   pointer-events: none;
   transform: translateZ(0);
   backface-visibility: hidden;

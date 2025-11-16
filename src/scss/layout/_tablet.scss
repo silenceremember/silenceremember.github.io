@@ -3,7 +3,7 @@
 /* Стили для главной страницы при высоте <900px (применяются независимо от ширины) */
 /* Эти стили нужны для десктопа с маленькой высотой окна */
 /* Применяются для главной страницы (где есть .slides-container) даже с классом page-with-scroll */
-@media (max-height: 899px) {
+@include height-small {
   /* Стили для главной страницы - применяются независимо от класса page-with-scroll */
   body:has(.slides-container) .header {
     position: fixed;
@@ -57,7 +57,7 @@
   body:has(.slides-container) main + .decorative-line-horizontal {
     position: fixed;
     left: 0;
-    transition: transform var(--transition-duration-base) ease;
+    transition: transform var(--transition-duration-base) var(--timing-function-ease);
     pointer-events: none;
     transform: translateZ(0);
     backface-visibility: hidden;
@@ -196,7 +196,7 @@
   body:not(.page-with-scroll) main + .decorative-line-horizontal {
     position: fixed;
     left: 0;
-    transition: transform var(--transition-duration-base) ease;
+    transition: transform var(--transition-duration-base) var(--timing-function-ease);
     pointer-events: none;
     transform: translateZ(0);
     backface-visibility: hidden;
@@ -248,7 +248,7 @@
     width: 100%;
     padding: var(--spacing-xl) 0;
     pointer-events: auto !important;
-    transition: padding var(--transition-duration-base) ease;
+    transition: padding var(--transition-duration-base) var(--timing-function-ease);
     z-index: auto !important;
   }
 
@@ -292,7 +292,7 @@
 
 /* Стили для слайдов в tablet режиме при высоте <900px (независимо от ширины) */
 /* Применяются для главной страницы (где есть .slides-container) даже с классом page-with-scroll */
-@media (max-height: 899px) {
+@include height-small {
   /* Стили для главной страницы - применяются независимо от класса page-with-scroll */
   .slides-container.tablet-scroll-mode {
     display: block;
@@ -321,7 +321,7 @@
     width: 100%;
     padding: var(--spacing-xl) 0;
     pointer-events: auto !important;
-    transition: padding var(--transition-duration-base) ease;
+    transition: padding var(--transition-duration-base) var(--timing-function-ease);
     z-index: auto !important;
   }
 
@@ -476,9 +476,9 @@
     z-index: 10;
     background-color: var(--color-bg-primary);
     transition:
-      transform var(--transition-duration-base) ease,
-      background-color var(--transition-duration-base) ease,
-      color var(--transition-duration-base) ease;
+      transform var(--transition-duration-base) var(--timing-function-ease),
+      background-color var(--transition-duration-base) var(--timing-function-ease),
+      color var(--transition-duration-base) var(--timing-function-ease);
     pointer-events: none;
     transform: translateZ(0);
     backface-visibility: hidden;
@@ -510,9 +510,9 @@
     z-index: 10;
     background-color: var(--color-bg-primary);
     transition:
-      transform var(--transition-duration-base) ease,
-      background-color var(--transition-duration-base) ease,
-      color var(--transition-duration-base) ease;
+      transform var(--transition-duration-base) var(--timing-function-ease),
+      background-color var(--transition-duration-base) var(--timing-function-ease),
+      color var(--transition-duration-base) var(--timing-function-ease);
     pointer-events: none;
     transform: translateZ(0);
     backface-visibility: hidden;
@@ -539,7 +539,7 @@
     width: 100vw;
     height: var(--line-width);
     background-color: var(--line-color);
-    transition: transform var(--transition-duration-base) ease;
+    transition: transform var(--transition-duration-base) var(--timing-function-ease);
     pointer-events: none;
     z-index: 12;
     transform: translateZ(0);

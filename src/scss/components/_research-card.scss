@@ -6,13 +6,13 @@
   background-color: var(--color-bg-primary);
   border: var(--line-width) solid var(--color-text-primary);
   transition:
-    transform var(--transition-duration-base) ease-in-out,
-    box-shadow var(--transition-duration-base) ease-in-out,
-    background-color var(--transition-duration-base) ease,
-    border-color var(--transition-duration-base) ease,
-    color var(--transition-duration-base) ease,
-    opacity var(--transition-duration-base) ease-in-out,
-    visibility var(--transition-duration-base) ease-in-out;
+    transform var(--transition-duration-base) var(--timing-function-ease-in-out),
+    box-shadow var(--transition-duration-base) var(--timing-function-ease-in-out),
+    background-color var(--transition-duration-base) var(--timing-function-ease),
+    border-color var(--transition-duration-base) var(--timing-function-ease),
+    color var(--transition-duration-base) var(--timing-function-ease),
+    opacity var(--transition-duration-base) var(--timing-function-ease-in-out),
+    visibility var(--transition-duration-base) var(--timing-function-ease-in-out);
   cursor: pointer;
   overflow: hidden;
   height: 100%;
@@ -40,9 +40,9 @@
     opacity: 0;
     visibility: hidden;
     transition:
-      opacity var(--transition-duration-base) ease-in-out,
-      visibility var(--transition-duration-base) ease-in-out,
-      transform var(--transition-duration-base) ease-in-out;
+      opacity var(--transition-duration-base) var(--timing-function-ease-in-out),
+      visibility var(--transition-duration-base) var(--timing-function-ease-in-out),
+      transform var(--transition-duration-base) var(--timing-function-ease-in-out);
   }
 
   &[style*='display: none'] {
@@ -84,8 +84,8 @@
   min-width: 0;
   background-color: var(--color-bg-primary);
   transition:
-    background-color var(--transition-duration-base) ease,
-    color var(--transition-duration-base) ease;
+    background-color var(--transition-duration-base) var(--timing-function-ease),
+    color var(--transition-duration-base) var(--timing-function-ease);
   flex-shrink: 0;
   margin: 0;
   border: none;
@@ -119,7 +119,7 @@
   gap: var(--spacing-xs);
   flex-shrink: 0;
   min-height: calc(var(--font-size-h4) * var(--line-height-heading));
-  transition: color var(--transition-duration-base) ease;
+  transition: color var(--transition-duration-base) var(--timing-function-ease);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -134,7 +134,7 @@
   white-space: nowrap;
   overflow: hidden;
   min-height: 1.5em;
-  transition: color var(--transition-duration-base) ease;
+  transition: color var(--transition-duration-base) var(--timing-function-ease);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -148,7 +148,7 @@
     position: relative;
     flex-shrink: 0;
     white-space: nowrap;
-    transition: color var(--transition-duration-base) ease;
+    transition: color var(--transition-duration-base) var(--timing-function-ease);
 
     &[style*='display: none'] {
       display: none !important;
@@ -162,7 +162,7 @@
       content: '•';
       margin-left: var(--spacing-xs);
       color: var(--color-divider);
-      transition: color var(--transition-duration-base) ease;
+      transition: color var(--transition-duration-base) var(--timing-function-ease);
     }
   }
 }
@@ -208,7 +208,7 @@
   font-size: var(--font-size-small);
   color: var(--color-secondary);
   font-style: italic;
-  transition: color var(--transition-duration-base) ease;
+  transition: color var(--transition-duration-base) var(--timing-function-ease);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -237,7 +237,7 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--color-secondary);
-  transition: color var(--transition-duration-base) ease;
+  transition: color var(--transition-duration-base) var(--timing-function-ease);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -278,9 +278,9 @@
   cursor: pointer;
   font-family: var(--font-family);
   transition:
-    background-color var(--transition-duration-base) ease,
-    color var(--transition-duration-base) ease,
-    border-color var(--transition-duration-base) ease;
+    background-color var(--transition-duration-base) var(--timing-function-ease),
+    color var(--transition-duration-base) var(--timing-function-ease),
+    border-color var(--transition-duration-base) var(--timing-function-ease);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -332,8 +332,8 @@
   border-radius: 2px;
   font-weight: var(--font-weight-medium);
   transition:
-    background-color var(--transition-duration-base) ease,
-    color var(--transition-duration-base) ease;
+    background-color var(--transition-duration-base) var(--timing-function-ease),
+    color var(--transition-duration-base) var(--timing-function-ease);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
@@ -366,7 +366,7 @@
   border-left: none;
   border-right: none;
   flex-shrink: 0;
-  transition: border-color var(--transition-duration-base) ease;
+  transition: border-color var(--transition-duration-base) var(--timing-function-ease);
   box-sizing: border-box;
   outline: none;
 }
@@ -374,7 +374,7 @@
 .research-card-type {
   font-size: var(--font-size-small);
   color: var(--color-divider);
-  transition: color var(--transition-duration-base) ease;
+  transition: color var(--transition-duration-base) var(--timing-function-ease);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -391,9 +391,9 @@
   letter-spacing: 0.05em;
   cursor: pointer;
   transition:
-    background-color var(--transition-duration-base) ease,
-    color var(--transition-duration-base) ease,
-    border-color var(--transition-duration-base) ease;
+    background-color var(--transition-duration-base) var(--timing-function-ease),
+    color var(--transition-duration-base) var(--timing-function-ease),
+    border-color var(--transition-duration-base) var(--timing-function-ease);
   font-family: var(--font-family);
   pointer-events: auto;
   -webkit-font-smoothing: antialiased;

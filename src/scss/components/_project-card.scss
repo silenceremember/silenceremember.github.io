@@ -6,13 +6,13 @@
   background-color: var(--color-bg-primary);
   border: var(--line-width) solid var(--color-text-primary);
   transition:
-    transform var(--transition-duration-base) ease-in-out,
-    box-shadow var(--transition-duration-base) ease-in-out,
-    background-color var(--transition-duration-base) ease,
-    border-color var(--transition-duration-base) ease,
-    color var(--transition-duration-base) ease,
-    opacity var(--transition-duration-base) ease-in-out,
-    visibility var(--transition-duration-base) ease-in-out;
+    transform var(--transition-duration-base) var(--timing-function-ease-in-out),
+    box-shadow var(--transition-duration-base) var(--timing-function-ease-in-out),
+    background-color var(--transition-duration-base) var(--timing-function-ease),
+    border-color var(--transition-duration-base) var(--timing-function-ease),
+    color var(--transition-duration-base) var(--timing-function-ease),
+    opacity var(--transition-duration-base) var(--timing-function-ease-in-out),
+    visibility var(--transition-duration-base) var(--timing-function-ease-in-out);
   cursor: pointer;
   overflow: hidden;
   height: 100%;
@@ -43,8 +43,8 @@
     opacity: 0;
     visibility: hidden;
     transition:
-      opacity var(--transition-duration-base) ease-in-out,
-      visibility var(--transition-duration-base) ease-in-out;
+      opacity var(--transition-duration-base) var(--timing-function-ease-in-out),
+      visibility var(--transition-duration-base) var(--timing-function-ease-in-out);
   }
 
   &[style*='display: none'] {
@@ -92,8 +92,8 @@
   overflow: hidden; /* Важно: скрываем переполнение при масштабировании изображения */
   background-color: var(--color-divider);
   transition:
-    background-color var(--transition-duration-base) ease,
-    color var(--transition-duration-base) ease;
+    background-color var(--transition-duration-base) var(--timing-function-ease),
+    color var(--transition-duration-base) var(--timing-function-ease);
   flex-shrink: 0; /* Предотвращаем сжатие при трансформации */
   backface-visibility: hidden; /* Улучшает рендеринг при трансформации */
   transform: translateZ(0); /* Создает новый слой для GPU ускорения */
@@ -109,7 +109,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform var(--transition-duration-base) ease-in-out;
+  transition: transform var(--transition-duration-base) var(--timing-function-ease-in-out);
   /* Улучшаем четкость изображений */
   image-rendering: -webkit-optimize-contrast;
   image-rendering: auto;
@@ -135,7 +135,7 @@
   justify-content: space-between;
   padding: var(--spacing-sm);
   opacity: 0;
-  transition: opacity var(--transition-duration-base) ease-in-out;
+  transition: opacity var(--transition-duration-base) var(--timing-function-ease-in-out);
   z-index: 2; /* Убеждаемся, что overlay поверх изображения */
 }
 
@@ -148,8 +148,8 @@
   letter-spacing: 0.05em;
   border-radius: 2px;
   transition:
-    background-color var(--transition-duration-base) ease,
-    color var(--transition-duration-base) ease;
+    background-color var(--transition-duration-base) var(--timing-function-ease),
+    color var(--transition-duration-base) var(--timing-function-ease);
   /* Исправление размытия */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -179,8 +179,8 @@
   border-radius: 2px;
   font-weight: var(--font-weight-medium);
   transition:
-    background-color var(--transition-duration-base) ease,
-    color var(--transition-duration-base) ease;
+    background-color var(--transition-duration-base) var(--timing-function-ease),
+    color var(--transition-duration-base) var(--timing-function-ease);
   /* Исправление размытия */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -209,8 +209,8 @@
   min-width: 0; /* Позволяет сжиматься */
   background-color: var(--color-bg-primary);
   transition:
-    background-color var(--transition-duration-base) ease,
-    color var(--transition-duration-base) ease;
+    background-color var(--transition-duration-base) var(--timing-function-ease),
+    color var(--transition-duration-base) var(--timing-function-ease);
   flex-shrink: 0; /* Предотвращаем сжатие при трансформации */
   backface-visibility: hidden; /* Улучшает рендеринг при трансформации */
   transform: translateZ(0); /* Создает новый слой для GPU ускорения */
@@ -235,7 +235,7 @@
   gap: var(--spacing-xs);
   flex-shrink: 0;
   min-height: calc(var(--font-size-h4) * var(--line-height-heading));
-  transition: color var(--transition-duration-base) ease;
+  transition: color var(--transition-duration-base) var(--timing-function-ease);
   /* Исправление размытия текста */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -251,13 +251,13 @@
   height: 20px;
   flex-shrink: 0;
   color: var(--color-accent);
-  transition: color var(--transition-duration-base) ease;
+  transition: color var(--transition-duration-base) var(--timing-function-ease);
 
   svg {
     width: 100%;
     height: 100%;
     fill: currentColor;
-    transition: fill var(--transition-duration-base) ease;
+    transition: fill var(--transition-duration-base) var(--timing-function-ease);
   }
 }
 
@@ -271,7 +271,7 @@
   overflow: hidden;
   min-height: 1.5em;
   align-items: center;
-  transition: color var(--transition-duration-base) ease;
+  transition: color var(--transition-duration-base) var(--timing-function-ease);
   /* Исправление размытия текста */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -286,7 +286,7 @@
     position: relative;
     flex-shrink: 0;
     white-space: nowrap;
-    transition: color var(--transition-duration-base) ease;
+    transition: color var(--transition-duration-base) var(--timing-function-ease);
     display: inline-flex;
     align-items: center;
 
@@ -318,7 +318,7 @@
       -webkit-mask-repeat: no-repeat;
       -webkit-mask-position: center;
       flex-shrink: 0;
-      transition: opacity var(--transition-duration-base) ease-in-out;
+      transition: opacity var(--transition-duration-base) var(--timing-function-ease-in-out);
     }
   }
 }
@@ -348,7 +348,7 @@
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  transition: color var(--transition-duration-base) ease;
+  transition: color var(--transition-duration-base) var(--timing-function-ease);
   /* Исправление размытия текста */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -371,7 +371,7 @@
   border-left: none;
   border-right: none;
   flex-shrink: 0;
-  transition: border-color var(--transition-duration-base) ease;
+  transition: border-color var(--transition-duration-base) var(--timing-function-ease);
   /* Исправление размытых границ */
   box-sizing: border-box;
 }
@@ -380,7 +380,7 @@
   font-size: var(--font-size-small);
   color: var(--color-divider);
   text-transform: capitalize;
-  transition: color var(--transition-duration-base) ease;
+  transition: color var(--transition-duration-base) var(--timing-function-ease);
   /* Исправление размытия текста */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -398,9 +398,9 @@
   letter-spacing: 0.05em;
   cursor: pointer;
   transition:
-    background-color var(--transition-duration-base) ease,
-    color var(--transition-duration-base) ease,
-    border-color var(--transition-duration-base) ease;
+    background-color var(--transition-duration-base) var(--timing-function-ease),
+    color var(--transition-duration-base) var(--timing-function-ease),
+    border-color var(--transition-duration-base) var(--timing-function-ease);
   font-family: var(--font-family);
   pointer-events: auto; /* Кнопка остается кликабельной */
 

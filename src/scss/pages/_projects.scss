@@ -23,8 +23,8 @@
     padding-right: var(--spacing-lg);
     flex: 1;
     transition:
-      max-width var(--transition-duration-base) ease,
-      padding var(--transition-duration-base) ease;
+      max-width var(--transition-duration-base) var(--timing-function-ease),
+      padding var(--transition-duration-base) var(--timing-function-ease);
   }
 }
 
@@ -89,7 +89,7 @@
   align-items: center;
   gap: var(--spacing-md);
   flex-wrap: wrap;
-  transition: font-size var(--transition-duration-base) ease;
+  transition: font-size var(--transition-duration-base) var(--timing-function-ease);
 
   .project-filters-option-count {
     font-size: inherit;
@@ -123,7 +123,7 @@
   gap: var(--spacing-lg);
   align-items: stretch;
   opacity: 1;
-  transition: opacity var(--transition-duration-base) ease-in-out;
+  transition: opacity var(--transition-duration-base) var(--timing-function-ease-in-out);
 
   .project-card {
     height: 100%;
@@ -134,8 +134,8 @@
     flex-direction: column;
     opacity: 1;
     transition:
-      opacity var(--transition-duration-base) ease-in-out,
-      transform var(--transition-duration-base) ease-in-out;
+      opacity var(--transition-duration-base) var(--timing-function-ease-in-out),
+      transform var(--transition-duration-base) var(--timing-function-ease-in-out);
   }
 }
 
@@ -144,8 +144,8 @@
   opacity: 0;
   visibility: hidden;
   transition:
-    opacity var(--transition-duration-base) ease-in-out,
-    visibility var(--transition-duration-base) ease-in-out;
+    opacity var(--transition-duration-base) var(--timing-function-ease-in-out),
+    visibility var(--transition-duration-base) var(--timing-function-ease-in-out);
 
   &[style*='display: none'] {
     display: none !important;
@@ -295,28 +295,28 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
   .projects-page {
     padding: var(--spacing-lg) var(--spacing-lg);
     padding-bottom: 0;
-    transition: padding var(--transition-duration-base) ease;
+    transition: padding var(--transition-duration-base) var(--timing-function-ease);
   }
 
   .projects-grid {
     grid-template-columns: 1fr;
     gap: var(--spacing-md);
     transition:
-      grid-template-columns var(--transition-duration-base) ease,
-      gap var(--transition-duration-base) ease;
+      grid-template-columns var(--transition-duration-base) var(--timing-function-ease),
+      gap var(--transition-duration-base) var(--timing-function-ease);
   }
 
   .projects-section-grid {
     grid-template-columns: 1fr;
     gap: var(--spacing-md);
     transition:
-      grid-template-columns var(--transition-duration-base) ease,
-      gap var(--transition-duration-base) ease;
+      grid-template-columns var(--transition-duration-base) var(--timing-function-ease),
+      gap var(--transition-duration-base) var(--timing-function-ease);
   }
 
   .projects-section-header {
     margin: var(--spacing-lg) 0 var(--spacing-sm) 0;
-    transition: margin var(--transition-duration-base) ease;
+    transition: margin var(--transition-duration-base) var(--timing-function-ease);
   }
 
   .projects-section-title {
@@ -324,26 +324,26 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
     margin: 0;
     gap: var(--spacing-sm);
     transition:
-      font-size var(--transition-duration-base) ease,
-      gap var(--transition-duration-base) ease;
+      font-size var(--transition-duration-base) var(--timing-function-ease),
+      gap var(--transition-duration-base) var(--timing-function-ease);
   }
 
   .projects-section-expand {
     font-size: var(--font-size-small);
     padding: var(--spacing-xs) var(--spacing-sm);
     transition:
-      font-size var(--transition-duration-base) ease,
-      padding var(--transition-duration-base) ease;
+      font-size var(--transition-duration-base) var(--timing-function-ease),
+      padding var(--transition-duration-base) var(--timing-function-ease);
   }
 
   .projects-empty-title {
     font-size: var(--font-size-h3);
-    transition: font-size var(--transition-duration-base) ease;
+    transition: font-size var(--transition-duration-base) var(--timing-function-ease);
   }
 
   .projects-empty-subtitle {
     font-size: var(--font-size-base);
-    transition: font-size var(--transition-duration-base) ease;
+    transition: font-size var(--transition-duration-base) var(--timing-function-ease);
   }
 }
 
@@ -352,28 +352,28 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
   .projects-page {
     padding: var(--spacing-lg) var(--spacing-lg);
     padding-bottom: 0;
-    transition: padding var(--transition-duration-base) ease;
+    transition: padding var(--transition-duration-base) var(--timing-function-ease);
   }
 
   .projects-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: var(--spacing-md);
     transition:
-      grid-template-columns var(--transition-duration-base) ease,
-      gap var(--transition-duration-base) ease;
+      grid-template-columns var(--transition-duration-base) var(--timing-function-ease),
+      gap var(--transition-duration-base) var(--timing-function-ease);
   }
 
   .projects-section-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: var(--spacing-md);
     transition:
-      grid-template-columns var(--transition-duration-base) ease,
-      gap var(--transition-duration-base) ease;
+      grid-template-columns var(--transition-duration-base) var(--timing-function-ease),
+      gap var(--transition-duration-base) var(--timing-function-ease);
   }
 
   .projects-section-header {
     margin: var(--spacing-lg) 0 var(--spacing-sm) 0;
-    transition: margin var(--transition-duration-base) ease;
+    transition: margin var(--transition-duration-base) var(--timing-function-ease);
   }
 
   .projects-section-title {
@@ -381,26 +381,26 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
     margin: 0;
     gap: var(--spacing-sm);
     transition:
-      font-size var(--transition-duration-base) ease,
-      gap var(--transition-duration-base) ease;
+      font-size var(--transition-duration-base) var(--timing-function-ease),
+      gap var(--transition-duration-base) var(--timing-function-ease);
   }
 
   .projects-section-expand {
     font-size: var(--font-size-small);
     padding: var(--spacing-xs) var(--spacing-sm);
     transition:
-      font-size var(--transition-duration-base) ease,
-      padding var(--transition-duration-base) ease;
+      font-size var(--transition-duration-base) var(--timing-function-ease),
+      padding var(--transition-duration-base) var(--timing-function-ease);
   }
 
   .projects-empty-title {
     font-size: var(--font-size-h3);
-    transition: font-size var(--transition-duration-base) ease;
+    transition: font-size var(--transition-duration-base) var(--timing-function-ease);
   }
 
   .projects-empty-subtitle {
     font-size: var(--font-size-base);
-    transition: font-size var(--transition-duration-base) ease;
+    transition: font-size var(--transition-duration-base) var(--timing-function-ease);
   }
 }
 
@@ -425,10 +425,10 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
   visibility: hidden;
   transform: translateY(0); /* Без смещения по умолчанию */
   transition:
-    opacity var(--transition-duration-base) ease-in-out,
-    visibility var(--transition-duration-base) ease-in-out,
-    bottom var(--transition-duration-base) ease,
-    right var(--transition-duration-base) ease; /* Добавляем right в transition */
+    opacity var(--transition-duration-base) var(--timing-function-ease-in-out),
+    visibility var(--transition-duration-base) var(--timing-function-ease-in-out),
+    bottom var(--transition-duration-base) var(--timing-function-ease),
+    right var(--transition-duration-base) var(--timing-function-ease); /* Добавляем right в transition */
   padding: 0;
   box-sizing: border-box;
 
@@ -444,13 +444,13 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
   svg circle.scroll-to-top-circle,
   circle.scroll-to-top-circle {
     fill: var(--color-text-primary);
-    transition: fill var(--transition-duration-base) ease-in-out;
+    transition: fill var(--transition-duration-base) var(--timing-function-ease-in-out);
   }
 
   svg path.scroll-to-top-icon,
   path.scroll-to-top-icon {
     fill: var(--color-bg-primary);
-    transition: fill var(--transition-duration-base) ease-in-out;
+    transition: fill var(--transition-duration-base) var(--timing-function-ease-in-out);
   }
 
   &:hover,
@@ -469,11 +469,11 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
     opacity: 1;
     visibility: visible;
     transition:
-      opacity var(--transition-duration-base) ease-in-out,
-      visibility var(--transition-duration-base) ease-in-out,
-      transform var(--transition-duration-base) ease-in-out,
-      bottom var(--transition-duration-base) ease,
-      right var(--transition-duration-base) ease; /* Добавляем transform и right в transition только когда видна */
+      opacity var(--transition-duration-base) var(--timing-function-ease-in-out),
+      visibility var(--transition-duration-base) var(--timing-function-ease-in-out),
+      transform var(--transition-duration-base) var(--timing-function-ease-in-out),
+      bottom var(--transition-duration-base) var(--timing-function-ease),
+      right var(--transition-duration-base) var(--timing-function-ease); /* Добавляем transform и right в transition только когда видна */
   }
 
   /* Когда футер скрыт, кнопка перемещается ниже */

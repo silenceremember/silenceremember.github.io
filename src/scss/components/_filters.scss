@@ -135,7 +135,7 @@
       // Предотвращаем размытие
       -webkit-backface-visibility: hidden;
       backface-visibility: hidden;
-      transition: background-color var(--transition-duration-base) ease;
+      transition: background-color var(--transition-duration-base) var(--timing-function-ease);
     }
 
     // Скрываем символ прочерка, но сохраняем высоту
@@ -205,8 +205,8 @@
   line-height: 1;
   cursor: pointer;
   transition:
-    background-color var(--transition-duration-base) ease,
-    color var(--transition-duration-base) ease;
+    background-color var(--transition-duration-base) var(--timing-function-ease),
+    color var(--transition-duration-base) var(--timing-function-ease);
   font-family: var(--font-family);
   text-align: left;
   width: 100%;

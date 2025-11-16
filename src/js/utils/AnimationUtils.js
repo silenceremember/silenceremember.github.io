@@ -3,14 +3,52 @@
  * Унифицированные анимации для всех страниц сайта
  */
 
+/**
+ * Получает значение CSS переменной из root элемента
+ * @param {string} variableName - Имя CSS переменной (без --)
+ * @param {string} defaultValue - Значение по умолчанию, если переменная не найдена
+ * @returns {string} Значение переменной
+ */
+function getCSSVariable(variableName, defaultValue) {
+  if (typeof window === 'undefined' || !document.documentElement) {
+    return defaultValue;
+  }
+  const value = getComputedStyle(document.documentElement)
+    .getPropertyValue(`--${variableName}`)
+    .trim();
+  return value || defaultValue;
+}
+
+/**
+ * Конвертирует CSS значение времени (например, "0.3s") в миллисекунды
+ * @param {string} timeValue - Значение времени в формате CSS (например, "0.3s")
+ * @returns {number} Значение в миллисекундах
+ */
+function cssTimeToMs(timeValue) {
+  const match = timeValue.match(/^([\d.]+)(s|ms)$/);
+  if (!match) return 300; // Значение по умолчанию
+  const value = parseFloat(match[1]);
+  const unit = match[2];
+  return unit === 's' ? value * 1000 : value;
+}
+
 // Константы для унифицированных анимаций
+// Значения синхронизированы с CSS переменными из _variables.scss
 export const ANIMATION_CONFIG = {
-  duration: '0.3s',
-  timing: 'ease-in-out',
+  // Получаем значения из CSS переменных при первом обращении
+  get duration() {
+    return getCSSVariable('transition-duration-base', '0.3s');
+  },
+  get timing() {
+    return getCSSVariable('timing-function-ease-in-out', 'ease-in-out');
+  },
   translateYAppear: '10px', // Начальное смещение при появлении (снизу)
   translateYDisappear: '-10px', // Конечное смещение при исчезновении (вверх)
   translateYFinal: '0', // Финальная позиция
-  timeout: 300, // Таймаут в миллисекундах
+  get timeout() {
+    // Таймаут в миллисекундах, синхронизирован с duration
+    return cssTimeToMs(this.duration);
+  },
 };
 
 /**

@@ -10,9 +10,9 @@
   z-index: 10;
   background-color: var(--color-bg-primary);
   transition:
-    transform var(--transition-duration-base) ease,
-    background-color var(--transition-duration-base) ease,
-    color var(--transition-duration-base) ease;
+    transform var(--transition-duration-base) var(--timing-function-ease),
+    background-color var(--transition-duration-base) var(--timing-function-ease),
+    color var(--transition-duration-base) var(--timing-function-ease);
   transform: translateZ(0);
   backface-visibility: hidden;
   -webkit-font-smoothing: antialiased;
@@ -71,7 +71,7 @@
   width: auto;
   height: 20px;
   color: var(--color-text-primary);
-  transition: color var(--transition-duration-base) ease;
+  transition: color var(--transition-duration-base) var(--timing-function-ease);
   display: block;
   margin: 0 auto;
 }
@@ -120,7 +120,7 @@
   width: 100%;
   height: 100%;
   fill: var(--color-text-primary);
-  transition: fill var(--transition-duration-base) ease-out;
+  transition: fill var(--transition-duration-base) var(--timing-function-ease-out);
 }
 
 /* Правая часть хедера (навигация) */
@@ -157,9 +157,9 @@
   border: var(--line-width) solid var(--color-divider);
   text-decoration: none;
   transition:
-    background-color var(--transition-duration-base) ease,
-    border-color var(--transition-duration-base) ease,
-    color var(--transition-duration-base) ease;
+    background-color var(--transition-duration-base) var(--timing-function-ease),
+    border-color var(--transition-duration-base) var(--timing-function-ease),
+    color var(--transition-duration-base) var(--timing-function-ease);
   font-family: var(--font-family);
   cursor: pointer;
   white-space: nowrap;
@@ -210,7 +210,7 @@
   color: var(--color-text-primary);
   font-size: var(--font-size-base);
   cursor: pointer;
-  transition: color var(--transition-duration-fast) ease;
+  transition: color var(--transition-duration-fast) var(--timing-function-ease);
   background-color: transparent;
   border: none;
   padding: 0;

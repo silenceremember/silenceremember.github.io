@@ -79,9 +79,9 @@
     flex-shrink: 0;
     background-color: var(--color-bg-primary);
     transition:
-      transform var(--transition-duration-base) ease,
-      background-color var(--transition-duration-base) ease,
-      color var(--transition-duration-base) ease;
+      transform var(--transition-duration-base) var(--timing-function-ease),
+      background-color var(--transition-duration-base) var(--timing-function-ease),
+      color var(--transition-duration-base) var(--timing-function-ease);
     pointer-events: none;
     transform: translateZ(0);
     backface-visibility: hidden;
@@ -113,9 +113,9 @@
     flex-shrink: 0;
     background-color: var(--color-bg-primary);
     transition:
-      transform var(--transition-duration-base) ease,
-      background-color var(--transition-duration-base) ease,
-      color var(--transition-duration-base) ease;
+      transform var(--transition-duration-base) var(--timing-function-ease),
+      background-color var(--transition-duration-base) var(--timing-function-ease),
+      color var(--transition-duration-base) var(--timing-function-ease);
     pointer-events: none;
     transform: translateZ(0);
     backface-visibility: hidden;
@@ -144,7 +144,7 @@
     background-color: var(--line-color);
     margin: 0;
     flex-shrink: 0;
-    transition: transform var(--transition-duration-base) ease;
+    transition: transform var(--transition-duration-base) var(--timing-function-ease);
     z-index: 12;
     pointer-events: none;
     transform: translateZ(0);

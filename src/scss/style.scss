@@ -45,7 +45,7 @@
 .content-wrapper,
 main {
   opacity: 0;
-  transition: opacity var(--transition-duration-base) ease-out;
+  transition: opacity var(--transition-duration-base) var(--timing-function-ease-out);
 }
 
 .header-content.fade-in-visible,
@@ -61,9 +61,9 @@ main.fade-in-visible {
   .header,
   .footer {
     transition:
-      transform var(--transition-duration-base) ease,
-      background-color var(--transition-duration-base) ease,
-      color var(--transition-duration-base) ease;
+      transform var(--transition-duration-base) var(--timing-function-ease),
+      background-color var(--transition-duration-base) var(--timing-function-ease),
+      color var(--transition-duration-base) var(--timing-function-ease);
   }
 
   /* Убрано will-change для header и footer - это большие элементы (100vw ширина) */

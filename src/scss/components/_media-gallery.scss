@@ -20,7 +20,7 @@
 
 .media-gallery-track {
   display: flex;
-  transition: transform var(--transition-duration-base) ease;
+  transition: transform var(--transition-duration-base) var(--timing-function-ease);
 }
 
 /* Убрано will-change для media-gallery-track - может быть большим элементом */
@@ -63,8 +63,8 @@
   font-size: var(--font-size-h2);
   font-weight: var(--font-weight-bold);
   transition:
-    background-color var(--transition-duration-base) ease,
-    opacity var(--transition-duration-base) ease;
+    background-color var(--transition-duration-base) var(--timing-function-ease),
+    opacity var(--transition-duration-base) var(--timing-function-ease);
   z-index: 10;
   border: none;
 
@@ -127,8 +127,8 @@
   cursor: pointer;
   border: var(--line-width) solid var(--color-divider);
   transition:
-    border-color var(--transition-duration-base) ease,
-    transform var(--transition-duration-base) ease;
+    border-color var(--transition-duration-base) var(--timing-function-ease),
+    transform var(--transition-duration-base) var(--timing-function-ease);
   overflow: hidden;
 
   img {
@@ -203,8 +203,8 @@
   justify-content: center;
   font-size: var(--font-size-h4);
   transition:
-    background-color var(--transition-duration-base) ease,
-    border-color var(--transition-duration-base) ease;
+    background-color var(--transition-duration-base) var(--timing-function-ease),
+    border-color var(--transition-duration-base) var(--timing-function-ease);
   z-index: 2002;
 
   &:hover {
@@ -234,8 +234,8 @@
   font-size: var(--font-size-h2);
   font-weight: var(--font-weight-bold);
   transition:
-    background-color var(--transition-duration-base) ease,
-    border-color var(--transition-duration-base) ease;
+    background-color var(--transition-duration-base) var(--timing-function-ease),
+    border-color var(--transition-duration-base) var(--timing-function-ease);
   z-index: 2002;
 
   &:hover {
