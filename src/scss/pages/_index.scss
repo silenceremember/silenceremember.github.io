@@ -1,7 +1,5 @@
 /* Стили для главной страницы */
 
-@import '../base/variables';
-
 /* Контейнер главной страницы */
 /* Переопределяем стили .container для главной страницы */
 .index-page {
@@ -19,31 +17,7 @@
 
 /* Контейнер для индикатора загрузки */
 .index-loading-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-  min-height: 400px;
-  pointer-events: none;
-
-  @include tablet-and-mobile {
-    min-height: 300px;
-  }
-
-  &:has(.loading.hidden),
-  &[style*='display: none'] {
-    display: none !important;
-    pointer-events: none !important;
-  }
-
-  .loading:not(.hidden) {
-    pointer-events: auto;
-  }
+  @include page-loading-container;
 }
 
 /* Стили для слайдов внутри контейнера */

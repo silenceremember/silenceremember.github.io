@@ -1,71 +1,20 @@
 /* Стили для страницы резюме */
 /* Общие стили для .page-with-scroll находятся в _responsive-base.scss */
 
-@import '../base/variables';
-
 /* Основной контейнер страницы */
 .cv-page {
-  padding: var(--spacing-lg) var(--spacing-lg);
-  padding-bottom: 0;
-  max-width: var(--max-width-content);
-  margin: 0 auto;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
+  @include page-container;
   position: relative;
-
-  @include tablet-and-mobile {
-    max-width: 100%;
-    padding-left: var(--spacing-lg);
-    padding-right: var(--spacing-lg);
-    flex: 1;
-  }
 }
 
 /* Контейнер для индикатора загрузки */
 .cv-loading-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-  min-height: 400px;
-  pointer-events: none;
-
-  @include tablet-and-mobile {
-    min-height: 300px;
-  }
-
-  &:has(.loading.hidden),
-  &[style*='display: none'] {
-    display: none !important;
-    pointer-events: none !important;
-  }
-
-  .loading:not(.hidden) {
-    pointer-events: auto;
-  }
+  @include page-loading-container;
 }
 
 /* Заголовок страницы */
 .cv-page-title {
-  font-size: var(--font-size-h1);
-  font-weight: 900;
-  text-transform: uppercase;
-  color: var(--color-text-primary);
-  margin: 0 0 var(--spacing-xl) 0;
-  letter-spacing: var(--letter-spacing-tight);
-  line-height: var(--line-height-heading);
-
-  @include tablet-and-mobile {
-    font-size: var(--font-size-h2);
-    margin-bottom: var(--spacing-lg);
-  }
+  @include page-title;
 }
 
 /* Секции резюме */
@@ -772,54 +721,5 @@
 
 /* Навигационное меню для tablet режима */
 .cv-navigation {
-  display: none;
-  margin-top: var(--spacing-xxl);
-  margin-bottom: 0;
-  padding-top: var(--spacing-xl);
-  padding-bottom: var(--spacing-xl);
-  text-align: center;
-  width: 100%;
-  box-sizing: border-box;
-  position: relative;
-}
-
-@include tablet-and-mobile {
-  .cv-navigation {
-    display: block;
-  }
-
-  /* Разделитель над навигацией (как между секциями на главной) */
-  .cv-navigation::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: var(--line-width, 1px);
-    background-color: var(--color-divider);
-  }
-
-  .cv-navigation .section-title {
-    margin-bottom: var(--spacing-lg);
-    text-align: center;
-  }
-
-  .cv-navigation .cta-buttons {
-    max-width: 400px;
-    margin: 0 auto;
-  }
-}
-
-@include desktop {
-  .cv-navigation {
-    display: none !important;
-  }
-}
-
-/* Адаптивность */
-@include tablet-and-mobile {
-  .cv-page {
-    padding: var(--spacing-lg) var(--spacing-lg);
-    padding-bottom: 0;
-  }
+  @include page-navigation;
 }

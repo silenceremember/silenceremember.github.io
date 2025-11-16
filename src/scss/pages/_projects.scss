@@ -1,27 +1,15 @@
 /* Стили для страницы проектов */
 /* Общие стили для .page-with-scroll находятся в _responsive-base.scss */
 
-@import '../base/variables';
-
 .projects-page {
-  padding: var(--spacing-lg) var(--spacing-lg);
-  padding-bottom: 0; /* Убираем нижний отступ, чтобы совпадало с mobile режимом */
+  @include page-container;
+
   /* Контент ограничивается вертикальными линиями */
   /* Вертикальные линии находятся на: calc((100% - var(--max-width-large)) / 2 - var(--spacing-content-side)) от краёв */
   /* Ширина между линиями: var(--max-width-content) */
-  max-width: var(--max-width-content);
-  margin: 0 auto;
-  flex: 1; /* Растягивается на всю доступную высоту родителя (content-wrapper) */
-  display: flex;
-  flex-direction: column;
-  min-height: 0; /* Позволяет flex-элементу сжиматься */
 
-  /* На мобильных устройствах контент на всю ширину с отступами */
+  /* Дополнительный transition для projects-page */
   @include tablet-and-mobile {
-    max-width: 100%;
-    padding-left: var(--spacing-lg);
-    padding-right: var(--spacing-lg);
-    flex: 1;
     transition:
       max-width var(--transition-duration-base) var(--timing-function-ease),
       padding var(--transition-duration-base) var(--timing-function-ease);
@@ -245,58 +233,12 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
 
 /* Навигационное меню для tablet режима */
 .projects-navigation {
-  display: none; /* Скрыто по умолчанию */
-  margin-top: var(--spacing-xxl);
-  margin-bottom: 0;
-  padding-top: var(--spacing-xl);
-  padding-bottom: var(--spacing-xl);
-  text-align: center;
-  width: 100%;
-  box-sizing: border-box;
-  position: relative;
-}
-
-/* Показываем навигацию только в tablet режиме */
-@include tablet-and-mobile {
-  .projects-navigation {
-    display: block;
-  }
-
-  .projects-navigation::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: var(--line-width, 1px);
-    background-color: var(--color-divider);
-  }
-
-  .projects-navigation .section-title {
-    margin-bottom: var(--spacing-lg);
-    text-align: center;
-  }
-
-  .projects-navigation .cta-buttons {
-    max-width: 400px;
-    margin: 0 auto;
-  }
-}
-
-@include desktop {
-  .projects-navigation {
-    display: none !important;
-  }
+  @include page-navigation;
 }
 
 /* Адаптивность */
 /* Мобильные устройства (до 767px) - 1 колонка */
 @include mobile-small {
-  .projects-page {
-    padding: var(--spacing-lg) var(--spacing-lg);
-    padding-bottom: 0;
-    transition: padding var(--transition-duration-base) var(--timing-function-ease);
-  }
 
   .projects-grid {
     grid-template-columns: 1fr;
@@ -349,11 +291,6 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
 
 /* Планшеты (от 768px до 1023px) - 2 колонки */
 @include tablet {
-  .projects-page {
-    padding: var(--spacing-lg) var(--spacing-lg);
-    padding-bottom: 0;
-    transition: padding var(--transition-duration-base) var(--timing-function-ease);
-  }
 
   .projects-grid {
     grid-template-columns: repeat(2, 1fr);

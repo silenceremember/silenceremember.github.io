@@ -1,55 +1,15 @@
 /* Стили для страницы сообщества */
 /* Общие стили для .page-with-scroll находятся в _responsive-base.scss */
 
-@import '../base/variables';
-
 /* Используем те же стили для прокрутки, что и для projects/research */
 .community-page {
-  padding: var(--spacing-lg) var(--spacing-lg);
-  padding-bottom: 0;
-  max-width: var(--max-width-content);
-  margin: 0 auto;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
+  @include page-container;
   position: relative;
-
-  @include tablet-and-mobile {
-    max-width: 100%;
-    padding-left: var(--spacing-lg);
-    padding-right: var(--spacing-lg);
-    flex: 1;
-  }
 }
 
 /* Контейнер для индикатора загрузки */
 .community-loading-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-  min-height: 400px;
-  pointer-events: none;
-
-  @include tablet-and-mobile {
-    min-height: 300px;
-  }
-
-  &:has(.loading.hidden),
-  &[style*='display: none'] {
-    display: none !important;
-    pointer-events: none !important;
-  }
-
-  .loading:not(.hidden) {
-    pointer-events: auto;
-  }
+  @include page-loading-container;
 }
 
 /* Общие стили для секций */
@@ -62,18 +22,7 @@
 }
 
 .community-section-title {
-  font-size: var(--font-size-h2);
-  font-weight: 900;
-  text-transform: uppercase;
-  color: var(--color-text-primary);
-  margin: 0 0 var(--spacing-lg) 0;
-  letter-spacing: var(--letter-spacing-tight);
-  line-height: var(--line-height-heading);
-
-  @include tablet-and-mobile {
-    font-size: var(--font-size-h3);
-    margin-bottom: var(--spacing-md);
-  }
+  @include section-title;
 }
 
 .community-section-description {
@@ -472,54 +421,12 @@
 
 /* Навигационное меню для tablet режима */
 .community-navigation {
-  display: none;
-  margin-top: var(--spacing-xxl);
-  margin-bottom: 0;
-  padding-top: var(--spacing-xl);
-  padding-bottom: var(--spacing-xl);
-  text-align: center;
-  width: 100%;
-  box-sizing: border-box;
-  position: relative;
-}
-
-@include tablet-and-mobile {
-  .community-navigation {
-    display: block;
-  }
-
-  .community-navigation::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: var(--line-width, 1px);
-    background-color: var(--color-divider);
-  }
-
-  .community-navigation .section-title {
-    margin-bottom: var(--spacing-lg);
-    text-align: center;
-  }
-
-  .community-navigation .cta-buttons {
-    max-width: 400px;
-    margin: 0 auto;
-  }
-}
-
-@include desktop {
-  .community-navigation {
-    display: none !important;
-  }
+  @include page-navigation;
 }
 
 /* Адаптивность */
 @include tablet-and-mobile {
   .community-page {
-    padding: var(--spacing-lg) var(--spacing-lg);
-    padding-bottom: 0;
     transition: padding var(--transition-duration-base) var(--timing-function-ease);
   }
 

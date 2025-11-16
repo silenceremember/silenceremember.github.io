@@ -3,6 +3,7 @@
 
 /* 1. БАЗОВЫЕ СТИЛИ (переменные, сброс, типографика, анимации) - КРИТИЧЕСКИЕ */
 @import 'base/variables';
+@import 'base/page-mixins';
 @import 'base/reset';
 @import 'base/typography';
 @import 'base/animations';

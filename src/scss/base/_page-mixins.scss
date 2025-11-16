@@ -1,0 +1,133 @@
+/**
+ * Общие миксины для стилей страниц
+ * Используются для унификации повторяющихся паттернов
+ */
+
+@import 'variables';
+
+/* Миксин для базовых стилей контейнеров страниц */
+/* Используется для: projects-page, research-page, cv-page, community-page */
+@mixin page-container {
+  padding: var(--spacing-lg) var(--spacing-lg);
+  padding-bottom: 0;
+  max-width: var(--max-width-content);
+  margin: 0 auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+
+  @include tablet-and-mobile {
+    max-width: 100%;
+    padding-left: var(--spacing-lg);
+    padding-right: var(--spacing-lg);
+    flex: 1;
+  }
+}
+
+/* Миксин для контейнеров загрузки */
+/* Используется для: index-loading-container, cv-loading-container, community-loading-container */
+@mixin page-loading-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  min-height: 400px;
+  pointer-events: none;
+
+  @include tablet-and-mobile {
+    min-height: 300px;
+  }
+
+  &:has(.loading.hidden),
+  &[style*='display: none'] {
+    display: none !important;
+    pointer-events: none !important;
+  }
+
+  .loading:not(.hidden) {
+    pointer-events: auto;
+  }
+}
+
+/* Миксин для навигационных блоков */
+/* Используется для: projects-navigation, research-navigation, cv-navigation, community-navigation */
+@mixin page-navigation {
+  display: none;
+  margin-top: var(--spacing-xxl);
+  margin-bottom: 0;
+  padding-top: var(--spacing-xl);
+  padding-bottom: var(--spacing-xl);
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+
+  @include tablet-and-mobile {
+    display: block;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: var(--line-width, 1px);
+      background-color: var(--color-divider);
+    }
+
+    .section-title {
+      margin-bottom: var(--spacing-lg);
+      text-align: center;
+    }
+
+    .cta-buttons {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+  }
+
+  @include desktop {
+    display: none !important;
+  }
+}
+
+/* Миксин для заголовков страниц */
+/* Используется для: research-page-title, cv-page-title */
+@mixin page-title {
+  font-size: var(--font-size-h1);
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-xl) 0;
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: var(--line-height-heading);
+
+  @include tablet-and-mobile {
+    font-size: var(--font-size-h2);
+    margin-bottom: var(--spacing-lg);
+  }
+}
+
+/* Миксин для заголовков секций */
+/* Используется для: research-section-title, community-section-title, cv-section-title */
+@mixin section-title {
+  font-size: var(--font-size-h2);
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-lg) 0;
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: var(--line-height-heading);
+
+  @include tablet-and-mobile {
+    font-size: var(--font-size-h3);
+    margin-bottom: var(--spacing-md);
+  }
+}
+
