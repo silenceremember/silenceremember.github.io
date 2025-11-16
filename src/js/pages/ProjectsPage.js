@@ -45,7 +45,36 @@ export class ProjectsPage extends BasePage {
    * Загружает данные проектов из JSON
    */
   async loadProjectsData() {
-    return this.loadPageDataArray('/data/projects.json', 'projects', []);
+    const projects = await this.loadPageDataArray('/data/projects.json', 'projects', []);
+    // Автоматически устанавливаем "скоро" для проектов без ссылок
+    return this.autoSetComingSoon(projects);
+  }
+
+  /**
+   * Автоматически устанавливает comingSoon: true для проектов без ссылок
+   * @param {Array<Object>} projects - Массив проектов
+   * @returns {Array<Object>} Массив проектов с обновленным статусом comingSoon
+   */
+  autoSetComingSoon(projects) {
+    return projects.map(project => {
+      // Если comingSoon уже явно установлен, не меняем его
+      if (project.comingSoon === true || project.comingSoon === false) {
+        return project;
+      }
+      
+      // Проверяем наличие ссылок
+      const hasLinks = project.links && 
+        typeof project.links === 'object' && 
+        Object.keys(project.links).length > 0 &&
+        Object.values(project.links).some(link => link && typeof link === 'string' && link.trim().length > 0);
+      
+      // Если ссылок нет, устанавливаем comingSoon: true
+      if (!hasLinks) {
+        return { ...project, comingSoon: true };
+      }
+      
+      return project;
+    });
   }
 
   /**

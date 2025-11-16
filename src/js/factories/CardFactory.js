@@ -219,6 +219,7 @@ export class CardFactory {
       } else {
         button.disabled = true;
         button.textContent = 'СКОРО';
+        button.setAttribute('aria-label', 'Скоро будет доступно');
       }
     }
 
@@ -234,6 +235,16 @@ export class CardFactory {
           ? publication.pdf_url
           : `/${publication.pdf_url}`;
         window.open(url, '_blank');
+      });
+    } else {
+      // Для исследований без pdf_url предотвращаем открытие при клике
+      card.addEventListener('click', (e) => {
+        const selection = window.getSelection();
+        if (selection && selection.toString().trim().length > 0) {
+          return;
+        }
+        e.stopPropagation();
+        // Не открываем для исследований без ссылок
       });
     }
 
