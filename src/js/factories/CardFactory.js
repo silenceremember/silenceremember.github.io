@@ -244,7 +244,7 @@ export class CardFactory {
 
     // Особый класс для ВКР
     if (publication.type === 'diploma') {
-      card.classList.add('research-card-vkr');
+      card.classList.add('research-card-diploma');
     }
 
     // Оптимизация: динамически управляем will-change только во время hover анимации

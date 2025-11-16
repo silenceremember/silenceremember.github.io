@@ -18,11 +18,11 @@
 }
 
 /* Секция ВКР */
-.research-vkr-section {
+.research-diploma-section {
   @include section-spacing('large');
 }
 
-.research-vkr {
+.research-diploma {
   margin-bottom: var(--spacing-section-large-mobile);
 }
 
@@ -53,7 +53,7 @@
   }
 
   /* Особый стиль для сетки ВКР - на всю ширину */
-  &.research-grid-vkr {
+  &.research-grid-diploma {
     grid-template-columns: 1fr;
   }
 }
@@ -100,7 +100,7 @@
 }
 
 /* ВКР - особое выделение */
-.research-publication-vkr {
+.research-publication-diploma {
   background-color: var(--color-accent-bg);
   padding: var(--spacing-lg);
   border: var(--line-width) solid var(--color-accent);

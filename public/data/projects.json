@@ -71,27 +71,27 @@
         {
           "type": "level-concept",
           "title": "Концепция уровня",
-          "url": "assets/documents/projects/ranhigs/capybara-bunk/level-concept.pdf"
+          "url": "assets/documents/projects/ranepa/capybara-bunk/level-concept.pdf"
         },
         {
           "type": "references",
           "title": "Референсы графики и музыки",
-          "url": "assets/documents/projects/ranhigs/capybara-bunk/references.pdf"
+          "url": "assets/documents/projects/ranepa/capybara-bunk/references.pdf"
         },
         {
           "type": "artist-brief",
           "title": "ТЗ для художника",
-          "url": "assets/documents/projects/ranhigs/capybara-bunk/artist-brief.pdf"
+          "url": "assets/documents/projects/ranepa/capybara-bunk/artist-brief.pdf"
         },
         {
           "type": "narrative-setting",
           "title": "Нарративный концепт сеттинга",
-          "url": "assets/documents/projects/ranhigs/capybara-bunk/narrative-setting.pdf"
+          "url": "assets/documents/projects/ranepa/capybara-bunk/narrative-setting.pdf"
         },
         {
           "type": "three-act",
           "title": "Трехактовый сюжет",
-          "url": "assets/documents/projects/ranhigs/capybara-bunk/three-act.pdf"
+          "url": "assets/documents/projects/ranepa/capybara-bunk/three-act.pdf"
         }
       ],
       "links": {},
@@ -101,7 +101,7 @@
         "team-lead",
         "gamedesign",
         "narrative",
-        "ranhigs"
+        "ranepa"
       ],
       "featured": true,
       "displayMeta": {
@@ -263,7 +263,7 @@
       "technologies": []
     },
     {
-      "id": "ranhigs-dz1",
+      "id": "ranepa-dz1",
       "title": "ДЗ1 - Жанровая классификация",
       "category": "research",
       "type": "document",
@@ -277,16 +277,16 @@
         {
           "type": "homework",
           "title": "ДЗ1 - Жанровая классификация",
-          "url": "assets/documents/projects/ranhigs/dz1-genre-classification.pdf"
+          "url": "assets/documents/projects/ranepa/dz1-genre-classification.pdf"
         }
       ],
       "links": {},
-      "tags": ["genre", "classification", "mechanics", "ranhigs"],
+      "tags": ["genre", "classification", "mechanics", "ranepa"],
       "featured": false,
       "technologies": []
     },
     {
-      "id": "ranhigs-dz2",
+      "id": "ranepa-dz2",
       "title": "ДЗ2 - Анализ игры",
       "category": "research",
       "type": "document",
@@ -300,16 +300,16 @@
         {
           "type": "homework",
           "title": "ДЗ2 - Анализ игры",
-          "url": "assets/documents/projects/ranhigs/dz2-game-analysis.pdf"
+          "url": "assets/documents/projects/ranepa/dz2-game-analysis.pdf"
         }
       ],
       "links": {},
-      "tags": ["analysis", "mechanics", "ranhigs"],
+      "tags": ["analysis", "mechanics", "ranepa"],
       "featured": false,
       "technologies": []
     },
     {
-      "id": "ranhigs-dz4",
+      "id": "ranepa-dz4",
       "title": "ДЗ4 - Концепция уровня (Capybara Bunk)",
       "category": "games",
       "type": "document",
@@ -323,16 +323,16 @@
         {
           "type": "level-concept",
           "title": "ДЗ4 - Концепция уровня",
-          "url": "assets/documents/projects/ranhigs/capybara-bunk/level-concept.pdf"
+          "url": "assets/documents/projects/ranepa/capybara-bunk/level-concept.pdf"
         }
       ],
       "links": {},
-      "tags": ["level-design", "capybara-bunk", "ranhigs"],
+      "tags": ["level-design", "capybara-bunk", "ranepa"],
       "featured": false,
       "technologies": []
     },
     {
-      "id": "ranhigs-dz5",
+      "id": "ranepa-dz5",
       "title": "ДЗ5 - Референсы (Capybara Bunk)",
       "category": "games",
       "type": "document",
@@ -346,16 +346,16 @@
         {
           "type": "references",
           "title": "ДЗ5 - Референсы графики и музыки",
-          "url": "assets/documents/projects/ranhigs/capybara-bunk/references.pdf"
+          "url": "assets/documents/projects/ranepa/capybara-bunk/references.pdf"
         }
       ],
       "links": {},
-      "tags": ["references", "art", "audio", "capybara-bunk", "ranhigs"],
+      "tags": ["references", "art", "audio", "capybara-bunk", "ranepa"],
       "featured": false,
       "technologies": []
     },
     {
-      "id": "ranhigs-dz6",
+      "id": "ranepa-dz6",
       "title": "ДЗ6 - ТЗ для художника (Capybara Bunk)",
       "category": "games",
       "type": "document",
@@ -369,11 +369,11 @@
         {
           "type": "artist-brief",
           "title": "ДЗ6 - ТЗ для художника",
-          "url": "assets/documents/projects/ranhigs/capybara-bunk/artist-brief.pdf"
+          "url": "assets/documents/projects/ranepa/capybara-bunk/artist-brief.pdf"
         }
       ],
       "links": {},
-      "tags": ["artist-brief", "art-direction", "capybara-bunk", "ranhigs"],
+      "tags": ["artist-brief", "art-direction", "capybara-bunk", "ranepa"],
       "featured": false,
       "technologies": []
     },
@@ -392,11 +392,11 @@
         {
           "type": "presentation",
           "title": "ДЗ1 - Игры без нарратива?",
-          "url": "assets/documents/projects/ranhigs/narrative/dz1-games-without-narrative.pdf"
+          "url": "assets/documents/projects/ranepa/narrative/dz1-games-without-narrative.pdf"
         }
       ],
       "links": {},
-      "tags": ["narrative", "analysis", "ranhigs"],
+      "tags": ["narrative", "analysis", "ranepa"],
       "featured": false,
       "technologies": []
     },
@@ -415,11 +415,11 @@
         {
           "type": "presentation",
           "title": "ДЗ2 - Dark Messiah анализ",
-          "url": "assets/documents/projects/ranhigs/narrative/dz2-dark-messiah.pdf"
+          "url": "assets/documents/projects/ranepa/narrative/dz2-dark-messiah.pdf"
         }
       ],
       "links": {},
-      "tags": ["narrative", "vogler", "hero-journey", "ranhigs"],
+      "tags": ["narrative", "vogler", "hero-journey", "ranepa"],
       "featured": false,
       "technologies": []
     },
@@ -438,7 +438,7 @@
         {
           "type": "narrative-setting",
           "title": "ДЗ3 - Нарративный концепт сеттинга",
-          "url": "assets/documents/projects/ranhigs/capybara-bunk/narrative-setting.pdf"
+          "url": "assets/documents/projects/ranepa/capybara-bunk/narrative-setting.pdf"
         }
       ],
       "links": {},
@@ -447,7 +447,7 @@
         "setting",
         "world-building",
         "capybara-bunk",
-        "ranhigs"
+        "ranepa"
       ],
       "featured": false,
       "technologies": []
@@ -467,11 +467,11 @@
         {
           "type": "three-act",
           "title": "ДЗ4 - Трехактовый сюжет",
-          "url": "assets/documents/projects/ranhigs/capybara-bunk/three-act.pdf"
+          "url": "assets/documents/projects/ranepa/capybara-bunk/three-act.pdf"
         }
       ],
       "links": {},
-      "tags": ["narrative", "three-act", "story", "capybara-bunk", "ranhigs"],
+      "tags": ["narrative", "three-act", "story", "capybara-bunk", "ranepa"],
       "featured": false,
       "technologies": []
     },
@@ -490,11 +490,11 @@
         {
           "type": "presentation",
           "title": "ДЗ5 - Disco Elysium разбор",
-          "url": "assets/documents/projects/ranhigs/narrative/dz5-disco-elysium.pdf"
+          "url": "assets/documents/projects/ranepa/narrative/dz5-disco-elysium.pdf"
         }
       ],
       "links": {},
-      "tags": ["narrative", "disco-elysium", "frictional-games", "ranhigs"],
+      "tags": ["narrative", "disco-elysium", "frictional-games", "ranepa"],
       "featured": false,
       "technologies": []
     },

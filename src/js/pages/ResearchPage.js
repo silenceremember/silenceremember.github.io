@@ -91,7 +91,7 @@ export class ResearchPage extends BasePage {
     const publicationsSection = document.getElementById(
       'research-publications-section'
     );
-    const vkrSection = document.getElementById('research-vkr-section');
+    const diplomaSection = document.getElementById('research-diploma-section');
 
     // Убеждаемся, что секции готовы к анимации появления
     if (publicationsSection) {
@@ -103,10 +103,10 @@ export class ResearchPage extends BasePage {
         publicationsSection.style.opacity = '0';
       }
     }
-    if (vkrSection) {
-      vkrSection.style.visibility = 'visible';
-      if (!vkrSection.style.opacity || vkrSection.style.opacity === '') {
-        vkrSection.style.opacity = '0';
+    if (diplomaSection) {
+      diplomaSection.style.visibility = 'visible';
+      if (!diplomaSection.style.opacity || diplomaSection.style.opacity === '') {
+        diplomaSection.style.opacity = '0';
       }
     }
 
@@ -132,51 +132,51 @@ export class ResearchPage extends BasePage {
     }
 
     // Разделяем ВКР и публикации
-    const vkr = publications.find((pub) => pub.type === 'diploma');
+    const diploma = publications.find((pub) => pub.type === 'diploma');
     const regularPublications = publications.filter(
       (pub) => pub.type !== 'diploma'
     );
 
     // Отображаем ВКР
-    if (vkr) {
-      if (vkrSection) {
-        const vkrTitle = document.createElement('h2');
-        vkrTitle.className = 'research-section-title';
-        vkrTitle.textContent = 'Квалификационная работа';
-        vkrSection.appendChild(vkrTitle);
+    if (diploma) {
+      if (diplomaSection) {
+        const diplomaTitle = document.createElement('h2');
+        diplomaTitle.className = 'research-section-title';
+        diplomaTitle.textContent = 'Квалификационная работа';
+        diplomaSection.appendChild(diplomaTitle);
 
-        const vkrGrid = document.createElement('div');
-        vkrGrid.className = 'research-grid research-grid-vkr';
+        const diplomaGrid = document.createElement('div');
+        diplomaGrid.className = 'research-grid research-grid-diploma';
 
-        const vkrCard = CardFactory.createResearchCard(
+        const diplomaCard = CardFactory.createResearchCard(
           this.researchCardTemplate,
-          vkr
+          diploma
         );
-        if (vkrCard) {
-          vkrCard.style.opacity = '0';
-          vkrCard.style.transform = 'translateY(10px)';
-          vkrCard.style.transition = 'none';
-          vkrGrid.appendChild(vkrCard);
+        if (diplomaCard) {
+          diplomaCard.style.opacity = '0';
+          diplomaCard.style.transform = 'translateY(10px)';
+          diplomaCard.style.transition = 'none';
+          diplomaGrid.appendChild(diplomaCard);
         }
 
-        vkrSection.appendChild(vkrGrid);
+        diplomaSection.appendChild(diplomaGrid);
 
-        // Плавное появление vkrSection с контентом, затем карточки
+        // Плавное появление diplomaSection с контентом, затем карточки
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
-            const sectionOpacity = vkrSection.style.opacity;
+            const sectionOpacity = diplomaSection.style.opacity;
             if (
               sectionOpacity === '0' ||
               !sectionOpacity ||
               sectionOpacity === ''
             ) {
-              animateSectionAppearance(vkrSection);
+              animateSectionAppearance(diplomaSection);
             }
 
-            if (vkrCard) {
+            if (diplomaCard) {
               requestAnimationFrame(() => {
                 requestAnimationFrame(() => {
-                  animateElementAppearance(vkrCard);
+                  animateElementAppearance(diplomaCard);
                 });
               });
             }
@@ -269,10 +269,10 @@ export class ResearchPage extends BasePage {
     }
 
     // Если ВКР нет, но секция существует, убеждаемся что она видима (или скрыта, если пустая)
-    if (vkrSection && !vkr) {
-      const sectionOpacity = vkrSection.style.opacity;
-      if (sectionOpacity === '0' && vkrSection.children.length === 0) {
-        vkrSection.style.visibility = 'hidden';
+    if (diplomaSection && !diploma) {
+      const sectionOpacity = diplomaSection.style.opacity;
+      if (sectionOpacity === '0' && diplomaSection.children.length === 0) {
+        diplomaSection.style.visibility = 'hidden';
       }
     }
 
