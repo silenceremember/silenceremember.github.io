@@ -9,7 +9,7 @@
   align-items: center;
   justify-content: center;
   line-height: 1;
-  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  transition: background-color var(--transition-duration-base) ease, color var(--transition-duration-base) ease;
   
   /* Светлый режим: черный фон */
   background-color: var(--theme-light-text-primary);

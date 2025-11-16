@@ -9,7 +9,7 @@
   flex-shrink: 0;
   z-index: 10;
   background-color: var(--color-bg-primary);
-  transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+  transition: transform var(--transition-duration-base) ease, background-color var(--transition-duration-base) ease, color var(--transition-duration-base) ease;
   transform: translateZ(0);
   backface-visibility: hidden;
   -webkit-font-smoothing: antialiased;
@@ -68,7 +68,7 @@
   width: auto;
   height: 20px;
   color: var(--color-text-primary);
-  transition: color 0.3s ease-out;
+  transition: color var(--transition-duration-base) ease;
   display: block;
   margin: 0 auto;
 }
@@ -154,7 +154,7 @@
   background-color: transparent;
   border: var(--line-width) solid var(--color-divider);
   text-decoration: none;
-  transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  transition: background-color var(--transition-duration-base) ease, border-color var(--transition-duration-base) ease, color var(--transition-duration-base) ease;
   font-family: var(--font-family);
   cursor: pointer;
   white-space: nowrap;
@@ -199,7 +199,7 @@
   color: var(--color-text-primary);
   font-size: var(--font-size-base);
   cursor: pointer;
-  transition: color 0.2s ease;
+  transition: color var(--transition-duration-fast) ease;
   background-color: transparent;
   border: none;
   padding: 0;

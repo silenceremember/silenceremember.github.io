@@ -62,7 +62,7 @@
   justify-content: center;
   font-size: var(--font-size-h2);
   font-weight: var(--font-weight-bold);
-  transition: background-color 0.3s ease, opacity 0.3s ease;
+  transition: background-color var(--transition-duration-base) ease, opacity var(--transition-duration-base) ease;
   z-index: 10;
   border: none;
   
@@ -124,7 +124,7 @@
   height: 60px;
   cursor: pointer;
   border: var(--line-width) solid var(--color-divider);
-  transition: border-color 0.3s ease, transform 0.3s ease;
+  transition: border-color var(--transition-duration-base) ease, transform var(--transition-duration-base) ease;
   overflow: hidden;
   
   img {
@@ -198,7 +198,7 @@
   align-items: center;
   justify-content: center;
   font-size: var(--font-size-h4);
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  transition: background-color var(--transition-duration-base) ease, border-color var(--transition-duration-base) ease;
   z-index: 2002;
   
   &:hover {
@@ -227,7 +227,7 @@
   justify-content: center;
   font-size: var(--font-size-h2);
   font-weight: var(--font-weight-bold);
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  transition: background-color var(--transition-duration-base) ease, border-color var(--transition-duration-base) ease;
   z-index: 2002;
   
   &:hover {

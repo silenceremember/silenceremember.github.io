@@ -149,7 +149,7 @@
   text-transform: uppercase;
   color: var(--color-text-primary);
   margin: 0;
-  transition: font-size 0.3s ease;
+  transition: font-size var(--transition-duration-base) ease, color var(--transition-duration-base) ease;
 }
 
 .main-content-tagline {
@@ -159,6 +159,7 @@
   text-transform: uppercase;
   color: var(--color-accent);
   margin: 0;
+  transition: color var(--transition-duration-base) ease;
 }
 
 .main-content-title {
@@ -168,7 +169,7 @@
   text-transform: uppercase;
   color: var(--color-text-primary);
   margin: 0;
-  transition: font-size 0.3s ease;
+  transition: font-size var(--transition-duration-base) ease, color var(--transition-duration-base) ease;
 }
 
 .main-content-description {
@@ -176,6 +177,7 @@
   line-height: var(--line-height-base);
   color: var(--color-text-primary);
   margin: 0;
+  transition: color var(--transition-duration-base) ease;
 }
 
 /* Адаптивность для больших экранов */

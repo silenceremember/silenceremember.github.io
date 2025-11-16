@@ -121,7 +121,7 @@
   flex-direction: column;
   background-color: transparent;
   border: var(--line-width) solid var(--color-divider);
-  transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  transition: background-color var(--transition-duration-base) ease, border-color var(--transition-duration-base) ease, color var(--transition-duration-base) ease;
   cursor: pointer;
   overflow: hidden;
   width: 100%;
@@ -329,7 +329,7 @@
 }
 
 .community-card-title-text {
-  transition: color 0.3s ease-in-out;
+  transition: color var(--transition-duration-base) ease;
   flex: 1;
   min-width: 0;
 }
@@ -341,7 +341,7 @@
   color: var(--color-accent);
   margin: 0;
   flex-shrink: 0;
-  transition: color 0.3s ease-in-out;
+  transition: color var(--transition-duration-base) ease;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -367,7 +367,7 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  transition: color 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  transition: color var(--transition-duration-base) ease, opacity var(--transition-duration-base) ease-in-out;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -422,7 +422,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
-  transition: border-color 0.3s ease;
+  transition: border-color var(--transition-duration-base) ease;
   
   &:hover {
     border-color: var(--color-accent);

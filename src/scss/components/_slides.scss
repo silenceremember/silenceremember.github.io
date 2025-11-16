@@ -100,7 +100,7 @@
   color: var(--color-text-primary);
   margin: 0;
   letter-spacing: var(--letter-spacing-tight);
-  transition: font-size 0.3s ease;
+  transition: font-size var(--transition-duration-base) ease, color var(--transition-duration-base) ease;
 }
 
 .project-info {
@@ -120,6 +120,7 @@
   margin: 0;
   letter-spacing: var(--letter-spacing-tight);
   line-height: var(--line-height-heading);
+  transition: color var(--transition-duration-base) ease;
   /* Разрешаем выделение текста */
   user-select: text;
   -webkit-user-select: text;
@@ -133,7 +134,7 @@
   gap: var(--spacing-xs);
   font-size: var(--font-size-small);
   color: var(--color-secondary);
-  transition: font-size 0.3s ease, color 0.3s ease-in-out;
+  transition: font-size var(--transition-duration-base) ease, color var(--transition-duration-base) ease;
   /* Разрешаем выделение метаданных */
   user-select: text;
   -webkit-user-select: text;
@@ -268,6 +269,7 @@
   text-transform: uppercase;
   color: var(--color-accent);
   margin: 0;
+  transition: color var(--transition-duration-base) ease;
 }
 
 .details-text {
@@ -275,6 +277,7 @@
   line-height: var(--line-height-base);
   color: var(--color-text-primary);
   margin: 0;
+  transition: color var(--transition-duration-base) ease;
   /* Разрешаем выделение текста */
   user-select: text;
   -webkit-user-select: text;

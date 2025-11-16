@@ -295,7 +295,7 @@
   text-decoration: none;
   cursor: pointer;
   white-space: nowrap;
-  transition: color 0.3s ease-in-out;
+  transition: color var(--transition-duration-base) ease;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -364,7 +364,7 @@
   font-weight: var(--font-weight-medium);
   color: var(--color-text-primary);
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: color var(--transition-duration-base) ease;
   
   &:hover {
     color: var(--color-accent);
@@ -459,7 +459,7 @@
   font-size: var(--font-size-small);
   border-radius: 2px;
   font-weight: var(--font-weight-medium);
-  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  transition: background-color var(--transition-duration-base) ease, color var(--transition-duration-base) ease;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
@@ -572,7 +572,7 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   cursor: pointer;
-  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+  transition: background-color var(--transition-duration-base) ease, color var(--transition-duration-base) ease, border-color var(--transition-duration-base) ease;
   font-family: var(--font-family);
   margin-top: var(--spacing-xs);
   align-self: flex-start;

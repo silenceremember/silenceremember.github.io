@@ -260,7 +260,7 @@
   color: var(--color-text-primary);
   border: var(--line-width) solid var(--color-text-primary);
   background-color: transparent;
-  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+  transition: background-color var(--transition-duration-base) ease, color var(--transition-duration-base) ease, border-color var(--transition-duration-base) ease;
   font-family: var(--font-family);
   cursor: pointer;
   
@@ -294,7 +294,7 @@
   border: none;
   cursor: pointer;
   font-family: var(--font-family);
-  transition: color 0.3s ease;
+  transition: color var(--transition-duration-base) ease;
   
   &:hover {
     color: var(--color-text-primary);
