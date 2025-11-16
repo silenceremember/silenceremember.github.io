@@ -49,12 +49,24 @@ export class FluidBackground {
     this.smoothCursorY = 0.5;
     this.targetCursorX = 0.5;
     this.targetCursorY = 0.5;
-    this.smoothFactor = 0.15; // Lower = more delay (rubber band effect)
+    this.smoothFactor = 0.12; // Improved smoothness for rubber band effect
     
     // Activation threshold - minimum distance to move before activating effect
     this.initialCursorX = null;
     this.initialCursorY = null;
     this.activationThreshold = 0.05; // 5% of canvas size (larger gap required)
+    
+    // Performance optimization
+    this.gpuTier = null;
+    this.mouseMoveThrottleId = null;
+    this.lastMouseMoveTime = 0;
+    this.mouseMoveThrottleDelay = 16; // ~60fps throttling
+    this.isPageVisible = true;
+    this.reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
+    // Dynamic color management
+    this.accentColorCache = null;
+    this.themeObserver = null;
 
     // WebGL resources
     this.dye = null;
@@ -97,125 +109,62 @@ export class FluidBackground {
    */
   init() {
     if (this.isInitialized) {
-      console.log('FluidBackground: Already initialized');
       return;
     }
 
     this.canvas = document.querySelector(this.canvasSelector);
     if (!this.canvas) {
-      console.warn(`FluidBackground: Canvas not found with selector "${this.canvasSelector}"`);
+      console.error(`FluidBackground: Canvas not found with selector "${this.canvasSelector}"`);
       return;
     }
 
-    console.log('FluidBackground: Canvas found', this.canvas);
+    // Check for reduced motion preference
+    if (this.reducedMotion) {
+      return;
+    }
 
     try {
       const context = this.getWebGLContext(this.canvas);
       if (!context.gl || !context.ext.formatRGBA) {
-        console.warn('FluidBackground: WebGL not supported', {
-          gl: !!context.gl,
-          formatRGBA: !!context.ext?.formatRGBA
-        });
+        console.error('FluidBackground: WebGL not supported');
         return;
       }
 
       this.gl = context.gl;
       this.ext = context.ext;
 
-      const webglVersion = this.gl.getParameter(this.gl.VERSION);
-      console.log('FluidBackground: WebGL context created', {
-        isWebGL2: webglVersion.includes('WebGL 2'),
-        version: webglVersion,
-        formatRGBA: this.ext.formatRGBA
-      });
+      // Detect GPU tier for performance optimization
+      this.gpuTier = this.detectGPUTier();
 
       // Set initial canvas size after WebGL context is created
       this.resizeCanvas();
-      console.log('FluidBackground: Canvas resized', {
-        width: this.canvas.width,
-        height: this.canvas.height,
-        clientWidth: this.canvas.clientWidth,
-        clientHeight: this.canvas.clientHeight,
-        rect: this.canvas.getBoundingClientRect()
-      });
       
       // Set viewport immediately
       this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
-      console.log('FluidBackground: Viewport set', {
-        viewport: [0, 0, this.canvas.width, this.canvas.height]
-      });
 
-      this.config = {
-        SIM_RESOLUTION: 128,
-        DYE_RESOLUTION: 1024,
-        CAPTURE_RESOLUTION: 512,
-        DENSITY_DISSIPATION: 0.995, // Higher for slower dissipation
-        VELOCITY_DISSIPATION: 0.4, // Further increased for smoother, less turbulent movement
-        PRESSURE: 0.8,
-        PRESSURE_ITERATIONS: 20,
-        CURL: 1, // Minimized to almost eliminate vortices and create smooth flow
-        SPLAT_RADIUS: 0.8, // Increased for larger effect area and bigger trail
-        SPLAT_FORCE: 2000, // Reduced from 6000 for less intense splats
-        SHADING: false,
-        COLORFUL: false, // Disabled to use accent color instead
-        COLOR_UPDATE_SPEED: 5, // Reduced from 10 for slower color changes
-        PAUSED: false,
-        BACK_COLOR: { r: 0, g: 0, b: 0 },
-        TRANSPARENT: true,
-        BLOOM: false,
-        BLOOM_ITERATIONS: 8,
-        BLOOM_RESOLUTION: 256,
-        BLOOM_INTENSITY: 0.8,
-        BLOOM_THRESHOLD: 0.6,
-        BLOOM_SOFT_KNEE: 0.7,
-        SUNRAYS: false,
-        SUNRAYS_RESOLUTION: 196,
-        SUNRAYS_WEIGHT: 1.0,
-      };
-
-      // Adjust for mobile devices
-      if (this.isMobile()) {
-        this.config.DYE_RESOLUTION = 512;
-      }
-      if (!this.ext.supportLinearFiltering) {
-        this.config.DYE_RESOLUTION = 512;
-        this.config.SHADING = false;
-        this.config.BLOOM = false;
-        this.config.SUNRAYS = false;
-      }
+      // Initialize config with adaptive settings
+      this.initConfig();
 
       this.initPointers();
-      console.log('FluidBackground: Pointers initialized');
-      
       this.initShaders();
-      console.log('FluidBackground: Shaders initialized');
-      
       this.initPrograms();
-      console.log('FluidBackground: Programs initialized');
-      
       this.initBlit();
-      console.log('FluidBackground: Blit initialized');
-      
       this.initDitheringTexture();
-      console.log('FluidBackground: Dithering texture initialized');
-      
       this.initFramebuffers();
-      console.log('FluidBackground: Framebuffers initialized');
-      
       this.updateKeywords();
-      console.log('FluidBackground: Keywords updated');
       
-      // Don't create initial splats - wait for user interaction
+      // Setup dynamic color management
+      this.initColorManagement();
+      
+      // Setup visibility API for performance
+      this.setupVisibilityAPI();
       
       this.setupEventListeners();
-      console.log('FluidBackground: Event listeners setup');
       
       // Mark as initialized BEFORE starting animation
       this.isInitialized = true;
-      console.log('FluidBackground: Marked as initialized');
       
       this.startAnimation();
-      console.log('FluidBackground: Animation started');
     } catch (error) {
       console.error('FluidBackground: Initialization error', error);
     }
@@ -403,6 +352,218 @@ export class FluidBackground {
    */
   isMobile() {
     return /Mobi|Android/i.test(navigator.userAgent);
+  }
+
+  /**
+   * Detect GPU tier for performance optimization
+   */
+  detectGPUTier() {
+    const gl = this.gl;
+    const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+    
+    if (!debugInfo) {
+      // Fallback: assume mid-tier if we can't detect
+      return 2;
+    }
+
+    const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL).toLowerCase();
+    
+    // High-tier GPUs (dedicated GPUs)
+    if (renderer.includes('nvidia') || renderer.includes('amd') || 
+        renderer.includes('radeon') || renderer.includes('geforce') ||
+        (renderer.includes('intel') && (renderer.includes('iris') || renderer.includes('uhd') && renderer.includes('6')))) {
+      return 3;
+    }
+    
+    // Mid-tier (integrated GPUs, modern mobile)
+    if (renderer.includes('adreno') || renderer.includes('mali') || 
+        renderer.includes('powervr') || renderer.includes('apple')) {
+      return 2;
+    }
+    
+    // Low-tier (older integrated GPUs)
+    return 1;
+  }
+
+  /**
+   * Initialize config with adaptive settings based on device capabilities
+   */
+  initConfig() {
+    const isMobile = this.isMobile();
+    const gpuTier = this.gpuTier || 2;
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+    const screenArea = screenWidth * screenHeight;
+    
+    // Base resolutions
+    let simRes = 128;
+    let dyeRes = 1024;
+    
+    // Adjust based on GPU tier
+    if (gpuTier === 1) {
+      // Low-tier: reduce resolutions significantly
+      simRes = 64;
+      dyeRes = 512;
+    } else if (gpuTier === 2) {
+      // Mid-tier: moderate resolutions
+      simRes = 96;
+      dyeRes = 768;
+    }
+    // High-tier (gpuTier === 3): use base resolutions
+    
+    // Adjust for mobile devices
+    if (isMobile) {
+      dyeRes = Math.min(dyeRes, 512);
+      simRes = Math.min(simRes, 96);
+    }
+    
+    // Adjust for screen size (reduce for very large screens)
+    if (screenArea > 1920 * 1080) {
+      // Large screens: slightly reduce to maintain performance
+      dyeRes = Math.min(dyeRes, 1024);
+    }
+    
+    // Adaptive pressure iterations based on performance
+    const pressureIterations = gpuTier >= 3 ? 20 : (gpuTier === 2 ? 15 : 10);
+
+    this.config = {
+      SIM_RESOLUTION: simRes,
+      DYE_RESOLUTION: dyeRes,
+      CAPTURE_RESOLUTION: 512,
+      DENSITY_DISSIPATION: 0.996, // Optimized for smoother dissipation
+      VELOCITY_DISSIPATION: 0.45, // Improved for smoother, more natural movement
+      PRESSURE: 0.8,
+      PRESSURE_ITERATIONS: pressureIterations,
+      CURL: 0.8, // Optimized for more organic flow
+      SPLAT_RADIUS: 0.85, // Improved for better trail effect
+      SPLAT_FORCE: 2200, // Optimized force for better responsiveness
+      SHADING: false,
+      COLORFUL: false,
+      COLOR_UPDATE_SPEED: 5,
+      PAUSED: false,
+      BACK_COLOR: { r: 0, g: 0, b: 0 },
+      TRANSPARENT: true,
+      BLOOM: false,
+      BLOOM_ITERATIONS: 8,
+      BLOOM_RESOLUTION: 256,
+      BLOOM_INTENSITY: 0.8,
+      BLOOM_THRESHOLD: 0.6,
+      BLOOM_SOFT_KNEE: 0.7,
+      SUNRAYS: false,
+      SUNRAYS_RESOLUTION: 196,
+      SUNRAYS_WEIGHT: 1.0,
+    };
+
+    // Disable features if linear filtering not supported
+    if (!this.ext.supportLinearFiltering) {
+      this.config.DYE_RESOLUTION = Math.min(this.config.DYE_RESOLUTION, 512);
+      this.config.SHADING = false;
+      this.config.BLOOM = false;
+      this.config.SUNRAYS = false;
+    }
+  }
+
+  /**
+   * Initialize dynamic color management
+   */
+  initColorManagement() {
+    // Initial color load
+    this.updateAccentColor();
+    
+    // Watch for theme changes
+    this.themeObserver = new MutationObserver(() => {
+      this.updateAccentColor();
+    });
+    
+    // Observe theme attribute changes
+    const htmlElement = document.documentElement;
+    this.themeObserver.observe(htmlElement, {
+      attributes: true,
+      attributeFilter: ['data-theme']
+    });
+    
+    // Also watch for CSS variable changes (if supported)
+    if (window.CSS && CSS.supports && CSS.supports('color', 'var(--test)')) {
+      // Listen for CSS custom property changes via style attribute
+      // Note: This is a simplified approach - full CSS variable watching requires more complex setup
+      const styleObserver = new MutationObserver(() => {
+        this.updateAccentColor();
+      });
+      
+      // Observe style changes on root
+      styleObserver.observe(htmlElement, {
+        attributes: true,
+        attributeFilter: ['style', 'class']
+      });
+    }
+  }
+
+  /**
+   * Update accent color from CSS variables
+   */
+  updateAccentColor() {
+    try {
+      const computedStyle = getComputedStyle(document.documentElement);
+      const accentBgColor = computedStyle.getPropertyValue('--color-accent-bg').trim();
+      
+      if (accentBgColor) {
+        // Handle rgb/rgba format
+        if (accentBgColor.startsWith('rgb')) {
+          const matches = accentBgColor.match(/\d+/g);
+          if (matches && matches.length >= 3) {
+            this.accentColorCache = {
+              r: parseInt(matches[0]) / 255,
+              g: parseInt(matches[1]) / 255,
+              b: parseInt(matches[2]) / 255
+            };
+            return;
+          }
+        }
+        
+        // Handle hex format
+        if (accentBgColor.startsWith('#')) {
+          this.accentColorCache = this.hexToRgb(accentBgColor);
+          return;
+        }
+      }
+      
+      // Fallback to default
+      this.accentColorCache = this.hexToRgb('#641912');
+    } catch (error) {
+      // Fallback on error
+      this.accentColorCache = this.hexToRgb('#641912');
+    }
+  }
+
+  /**
+   * Setup visibility API for performance optimization
+   */
+  setupVisibilityAPI() {
+    const handleVisibilityChange = () => {
+      this.isPageVisible = !document.hidden;
+      if (this.isPageVisible) {
+        if (!this.isInitialized) return;
+        this.resume();
+      } else {
+        if (!this.isInitialized) return;
+        this.pause();
+      }
+    };
+    
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
+    // Also handle page focus/blur for better performance
+    window.addEventListener('blur', () => {
+      if (this.isInitialized && !this.isPaused) {
+        this.pause();
+      }
+    });
+    
+    window.addEventListener('focus', () => {
+      if (this.isInitialized && this.isPaused && this.isPageVisible) {
+        this.resume();
+      }
+    });
   }
 
   /**
@@ -1401,16 +1562,17 @@ export class FluidBackground {
    */
   update() {
     if (!this.isInitialized || !this.gl) {
-      console.warn('FluidBackground: Update called but not initialized', {
-        isInitialized: this.isInitialized,
-        hasGL: !!this.gl
-      });
+      return;
+    }
+
+    // Skip update if page is not visible
+    if (!this.isPageVisible || this.isPaused) {
+      this.animationFrameId = requestAnimationFrame(() => this.update());
       return;
     }
 
     const dt = this.calcDeltaTime();
     if (this.resizeCanvas()) {
-      console.log('FluidBackground: Canvas resized during update');
       this.initFramebuffers();
     }
     
@@ -2003,33 +2165,14 @@ export class FluidBackground {
    * Setup event listeners
    */
   setupEventListeners() {
-    // Use window events since canvas has pointer-events: none
-    window.addEventListener('mousedown', (e) => {
-      // Get mouse position relative to canvas
-      const rect = this.canvas.getBoundingClientRect();
-      let posX = this.scaleByPixelRatio(e.clientX - rect.left);
-      let posY = this.scaleByPixelRatio(e.clientY - rect.top);
-      
-      // Initialize effect on first click
-      if (!this.hasUserInteracted) {
-        this.hasUserInteracted = true;
-        const color = this.generateColor();
-        color.r *= 0.8;
-        color.g *= 0.8;
-        color.b *= 0.8;
-        const x = posX / this.canvas.width;
-        const y = 1.0 - posY / this.canvas.height;
-        const dx = 200 * (Math.random() - 0.5);
-        const dy = 200 * (Math.random() - 0.5);
-        this.splat(x, y, dx, dy, color);
+    // Throttled mouse move handler
+    const handleMouseMove = (e) => {
+      const now = Date.now();
+      if (now - this.lastMouseMoveTime < this.mouseMoveThrottleDelay) {
+        return;
       }
+      this.lastMouseMoveTime = now;
       
-      let pointer = this.pointers.find((p) => p.id == -1);
-      if (pointer == null) pointer = this.createPointer();
-      this.updatePointerDownData(pointer, -1, posX, posY);
-    });
-
-    window.addEventListener('mousemove', (e) => {
       // Ensure pointer exists
       if (this.pointers.length === 0) {
         this.pointers.push(this.createPointer());
@@ -2090,7 +2233,36 @@ export class FluidBackground {
         // Mouse button is pressed - use normal pointer tracking
         this.updatePointerMoveData(pointer, posX, posY);
       }
+    };
+
+    // Use window events since canvas has pointer-events: none
+    window.addEventListener('mousedown', (e) => {
+      // Get mouse position relative to canvas
+      const rect = this.canvas.getBoundingClientRect();
+      let posX = this.scaleByPixelRatio(e.clientX - rect.left);
+      let posY = this.scaleByPixelRatio(e.clientY - rect.top);
+      
+      // Initialize effect on first click
+      if (!this.hasUserInteracted) {
+        this.hasUserInteracted = true;
+        const color = this.generateColor();
+        color.r *= 0.8;
+        color.g *= 0.8;
+        color.b *= 0.8;
+        const x = posX / this.canvas.width;
+        const y = 1.0 - posY / this.canvas.height;
+        const dx = 200 * (Math.random() - 0.5);
+        const dy = 200 * (Math.random() - 0.5);
+        this.splat(x, y, dx, dy, color);
+      }
+      
+      let pointer = this.pointers.find((p) => p.id == -1);
+      if (pointer == null) pointer = this.createPointer();
+      this.updatePointerDownData(pointer, -1, posX, posY);
     });
+
+    // Use throttled mouse move handler
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
 
     window.addEventListener('mouseup', () => {
       this.updatePointerUpData(this.pointers[0]);
@@ -2117,6 +2289,7 @@ export class FluidBackground {
       }
       
       const touches = e.targetTouches;
+      // Support multiple touch points
       while (touches.length >= this.pointers.length)
         this.pointers.push(this.createPointer());
       const rect = this.canvas.getBoundingClientRect();
@@ -2130,7 +2303,7 @@ export class FluidBackground {
           posY
         );
       }
-    });
+    }, { passive: false });
 
     window.addEventListener('touchmove', (e) => {
       e.preventDefault();
@@ -2138,12 +2311,40 @@ export class FluidBackground {
       const rect = this.canvas.getBoundingClientRect();
       for (let i = 0; i < touches.length; i++) {
         let pointer = this.pointers[i + 1];
-        if (!pointer.down) continue;
+        if (!pointer || !pointer.down) continue;
         let posX = this.scaleByPixelRatio(touches[i].clientX - rect.left);
         let posY = this.scaleByPixelRatio(touches[i].clientY - rect.top);
         this.updatePointerMoveData(pointer, posX, posY);
       }
-    }, false);
+    }, { passive: false });
+    
+    // Add scroll activation
+    let lastScrollY = window.scrollY;
+    let scrollThrottleId = null;
+    window.addEventListener('scroll', () => {
+      if (scrollThrottleId) return;
+      
+      scrollThrottleId = requestAnimationFrame(() => {
+        const currentScrollY = window.scrollY;
+        const scrollDelta = Math.abs(currentScrollY - lastScrollY);
+        
+        if (scrollDelta > 5 && this.hasUserInteracted) {
+          // Create subtle splat effect on scroll
+          const color = this.generateColor();
+          color.r *= 0.3;
+          color.g *= 0.3;
+          color.b *= 0.3;
+          const x = Math.random() * 0.3 + 0.35; // Center area
+          const y = Math.random() * 0.3 + 0.35;
+          const dx = (Math.random() - 0.5) * 100;
+          const dy = (Math.random() - 0.5) * 100;
+          this.splat(x, y, dx, dy, color);
+        }
+        
+        lastScrollY = currentScrollY;
+        scrollThrottleId = null;
+      });
+    }, { passive: true });
 
     window.addEventListener('touchend', (e) => {
       const touches = e.changedTouches;
@@ -2217,11 +2418,14 @@ export class FluidBackground {
   }
 
   /**
-   * Get accent background color - always use #641912 (dark accent-bg color)
+   * Get accent background color from CSS variables
    */
   getAccentColor() {
-    // Always use #641912 (--theme-dark-accent-bg) regardless of theme
-    return this.hexToRgb('#641912');
+    // Use cached color or update if not cached
+    if (!this.accentColorCache) {
+      this.updateAccentColor();
+    }
+    return this.accentColorCache || this.hexToRgb('#641912');
   }
 
   /**
@@ -2368,6 +2572,19 @@ export class FluidBackground {
       cancelAnimationFrame(this.animationFrameId);
       this.animationFrameId = null;
     }
+    
+    // Cleanup theme observer
+    if (this.themeObserver) {
+      this.themeObserver.disconnect();
+      this.themeObserver = null;
+    }
+    
+    // Cleanup throttled handlers
+    if (this.mouseMoveThrottleId) {
+      cancelAnimationFrame(this.mouseMoveThrottleId);
+      this.mouseMoveThrottleId = null;
+    }
+    
     this.isInitialized = false;
   }
 }

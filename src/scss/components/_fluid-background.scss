@@ -13,5 +13,26 @@
   /* Ensure canvas is visible and has dimensions */
   min-width: 100vw;
   min-height: 100vh;
+  
+  /* GPU acceleration optimizations */
+  transform: translateZ(0);
+  will-change: contents;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+  /* Smooth transitions */
+  transition: opacity var(--transition-duration-base, 0.3s) var(--timing-function-ease, ease);
+  
+  /* Respect reduced motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    display: none;
+  }
+  
+  /* Performance optimizations for low-end devices */
+  @media (max-width: 768px) {
+    /* Reduce rendering complexity on mobile */
+    image-rendering: optimizeSpeed;
+  }
 }
 

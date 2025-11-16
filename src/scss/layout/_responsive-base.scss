@@ -77,7 +77,10 @@
     display: flex;
     align-items: center;
     flex-shrink: 0;
-    background-color: var(--color-bg-primary);
+    /* Fully transparent to show fluid effect through */
+    background-color: transparent;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     transition:
       transform var(--transition-duration-base) var(--timing-function-ease),
       background-color var(--transition-duration-base) var(--timing-function-ease),
@@ -111,7 +114,10 @@
     display: flex;
     align-items: center;
     flex-shrink: 0;
-    background-color: var(--color-bg-primary);
+    /* Fully transparent to show fluid effect through */
+    background-color: transparent;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     transition:
       transform var(--transition-duration-base) var(--timing-function-ease),
       background-color var(--transition-duration-base) var(--timing-function-ease),
