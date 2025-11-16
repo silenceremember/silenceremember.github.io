@@ -136,5 +136,12 @@
     padding-left: var(--spacing-md);
     padding-right: var(--spacing-md);
   }
+  
+  /* Скрываем заголовок "ИЗБРАННЫЕ РАБОТЫ" в слайдах 3 и 4 на tablet/mobile,
+     чтобы избежать дублирования с заголовком из слайда 2 */
+  .index-page .slide[data-slide="2"] .project-slide-header .section-title,
+  .index-page .slide[data-slide="3"] .project-slide-header .section-title {
+    display: none;
+  }
 }
 
