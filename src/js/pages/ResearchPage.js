@@ -25,14 +25,13 @@ export class ResearchPage extends BasePage {
       navigationSelector: '.research-navigation',
       imageSelector: '.research-card img',
     });
-    this.loadingIndicator = null;
     this.researchCardTemplate = null;
   }
 
   /**
-   * Загружает шаблон карточки исследования
+   * Загружает шаблон исследования
    */
-  async loadResearchCardTemplate() {
+  async loadResearchTemplate() {
     if (!this.researchCardTemplate) {
       this.researchCardTemplate = await loadTemplate(
         '/components/research-card.html',
@@ -44,7 +43,7 @@ export class ResearchPage extends BasePage {
   }
 
   /**
-   * Загружает данные исследований из JSON с кешированием
+   * Загружает данные исследований из JSON
    */
   async loadResearchData() {
     try {
@@ -84,11 +83,12 @@ export class ResearchPage extends BasePage {
     // Инициализируем сервис индикатора загрузки
     this.initLoadingIndicator(
       'research-loading',
-      'research-publications-section'
+      'research-loading-container'
     );
+    this.loadingIndicator.show();
 
-    // Загружаем шаблон карточки исследования
-    await this.loadResearchCardTemplate();
+    // Загружаем шаблон исследования
+    await this.loadResearchTemplate();
 
     // Загружаем данные
     const publications = await this.loadResearchData();
@@ -284,5 +284,8 @@ export class ResearchPage extends BasePage {
         vkrSection.style.visibility = 'hidden';
       }
     }
+
+    // Ждем полной загрузки страницы перед завершением инициализации
+    await this.waitForPageReady();
   }
 }

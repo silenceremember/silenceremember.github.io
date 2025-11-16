@@ -55,7 +55,7 @@ export class CommunityPage extends BasePage {
       const data = await loadData('/data/community.json');
       return data;
     } catch (error) {
-      console.error('Ошибка загрузки данных сообщества:', error);
+      console.error('Ошибка загрузки сообщества:', error);
       return null;
     }
   }

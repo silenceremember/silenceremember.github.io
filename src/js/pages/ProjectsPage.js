@@ -23,16 +23,15 @@ export class ProjectsPage extends BasePage {
     });
     this.filtersManager = null;
     this.groupingManager = null;
-    this.loadingIndicator = null;
     this.projectCardTemplate = null;
     this.allProjects = [];
     this.allProjectCards = new Map();
   }
 
   /**
-   * Загружает шаблон карточки проекта
+   * Загружает шаблон проекта
    */
-  async loadProjectCardTemplate() {
+  async loadProjectTemplate() {
     if (!this.projectCardTemplate) {
       this.projectCardTemplate = await loadTemplate(
         '/components/project-card.html',
@@ -108,10 +107,11 @@ export class ProjectsPage extends BasePage {
     await this.initBase();
 
     // Инициализируем сервис индикатора загрузки
-    this.initLoadingIndicator('projects-loading', 'projects-grid');
+    this.initLoadingIndicator('projects-loading', 'projects-loading-container');
+    this.loadingIndicator.show();
 
-    // Загружаем шаблон карточки проекта
-    await this.loadProjectCardTemplate();
+    // Загружаем шаблон проекта
+    await this.loadProjectTemplate();
 
     // Загружаем проекты
     const projects = await this.loadProjectsData();
@@ -158,5 +158,8 @@ export class ProjectsPage extends BasePage {
 
     // Отображаем проекты с группировкой (без фильтров)
     await this.renderGroupedProjects();
+
+    // Ждем полной загрузки страницы перед завершением инициализации
+    await this.waitForPageReady();
   }
 }

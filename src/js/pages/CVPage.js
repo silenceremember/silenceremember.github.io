@@ -38,7 +38,7 @@ export class CVPage extends BasePage {
   }
 
   /**
-   * Загружает данные резюме из JSON с кешированием
+   * Загружает данные резюме из JSON
    */
   async loadCVData() {
     try {
@@ -51,14 +51,14 @@ export class CVPage extends BasePage {
   }
 
   /**
-   * Загружает данные сообщества для контактов с кешированием
+   * Загружает данные сообщества для контактов
    */
   async loadCommunityData() {
     try {
       const data = await loadData('/data/community.json');
       return data;
     } catch (error) {
-      console.error('Ошибка загрузки данных сообщества:', error);
+      console.error('Ошибка загрузки сообщества:', error);
       return null;
     }
   }

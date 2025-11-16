@@ -129,11 +129,11 @@ export class NotFoundPage extends BasePage {
     // Скрываем элементы сразу при инициализации
     this.hideAllElementsImmediately();
 
-    // Ждем готовности страницы (загрузка изображений и шрифтов)
-    await this.waitForPageReady();
-
     // Скрываем индикатор загрузки и ждем завершения fadeout
     await this.loadingIndicator.hide();
+
+    // Ждем готовности страницы (загрузка изображений и шрифтов)
+    await this.waitForPageReady();
 
     // Запускаем анимации появления элементов
     this.initializeAnimations();

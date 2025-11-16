@@ -27,16 +27,13 @@ export class IndexPage extends BasePage {
   }
 
   /**
-   * Загружает featured проекты из JSON
-   * @returns {Promise<Array>} Массив featured проектов
+   * Загружает данные проектов из JSON
+   * @returns {Promise<Array>} Массив проектов
    */
-  async loadFeaturedProjects() {
+  async loadProjectsData() {
     try {
       const data = await loadData('/data/projects.json');
-      const projects = data.projects || [];
-
-      // Фильтруем featured проекты
-      return projects.filter((project) => project.featured === true);
+      return data.projects || [];
     } catch (error) {
       console.error('Ошибка загрузки проектов:', error);
       return [];
@@ -202,11 +199,16 @@ export class IndexPage extends BasePage {
     this.slidesManager = new SlidesManager();
     this.slidesManager.init();
 
-    // Загружаем featured проекты
-    const featuredProjects = await this.loadFeaturedProjects();
+    // Загружаем данные проектов
+    const projectsData = await this.loadProjectsData();
 
     // Скрываем индикатор загрузки и ждем завершения fadeout
     await this.loadingIndicator.hide();
+
+    // Фильтруем featured проекты
+    const featuredProjects = projectsData.filter(
+      (project) => project.featured === true
+    );
 
     // Заполняем слайды данными проектов
     this.populateProjectSlides(featuredProjects);
