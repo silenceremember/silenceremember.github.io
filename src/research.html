@@ -1,99 +1,122 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Научные работы и публикации Maxim Elchaninov">
-  <title>Исследования - Maxim Elchaninov</title>
-  
-  <!-- Google Fonts - Inter (Optimized) -->
-  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
-  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet"></noscript>
-  
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
-  <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
-  <link rel="shortcut icon" href="/favicon/favicon.ico" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
-  <meta name="apple-mobile-web-app-title" content="Portfolio" />
-  <link rel="manifest" href="/favicon/site.webmanifest" />
-  
-  <!-- Resource Hints: Preload критических ресурсов -->
-  <link rel="preload" href="/scss/style.scss" as="style">
-  <!-- Preload скриптов только если они действительно критичны -->
-  <!-- JSON загружается через fetch, не требует preload -->
-  
-  <!-- Prefetch для других страниц -->
-  <link rel="prefetch" href="/index.html">
-  <link rel="prefetch" href="/cv.html">
-  
-  <!-- Theme switcher script - загружается синхронно для предотвращения мерцания -->
-  <script src="/js/components/ThemeInit.js"></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Научные работы и публикации Maxim Elchaninov"
+    />
+    <title>Исследования - Maxim Elchaninov</title>
 
-  <!-- Main CSS -->
-  <link rel="stylesheet" href="/scss/style.scss">
-</head>
-<body class="page-with-scroll">
-  <div class="page-wrapper">
-    <!-- Header -->
-    <header class="header"></header>
+    <!-- Google Fonts - Inter (Optimized) -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript
+      ><link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap"
+        rel="stylesheet"
+    /></noscript>
 
-    <!-- Horizontal decorative line -->
-    <div class="decorative-line-horizontal"></div>
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/png"
+      href="/favicon/favicon-96x96.png"
+      sizes="96x96"
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/favicon/apple-touch-icon.png"
+    />
+    <meta name="apple-mobile-web-app-title" content="Portfolio" />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
 
-    <!-- Main Content -->
-    <main class="content-wrapper">
-      <div class="container research-page">
-        <!-- Контейнер для ВКР -->
-        <section class="research-vkr-section" id="research-vkr-section">
-          <!-- ВКР будет загружена через JavaScript -->
-        </section>
-        
-        <!-- Контейнер для публикаций -->
-        <section class="research-publications-section" id="research-publications-section">
-          <!-- Индикатор загрузки -->
-          <div class="loading" id="research-loading">
-            <div class="loading-squares">
-              <div class="loading-square"></div>
-              <div class="loading-square"></div>
-              <div class="loading-square"></div>
+    <!-- Resource Hints: Preload критических ресурсов -->
+    <link rel="preload" href="/scss/style.scss" as="style" />
+    <!-- Preload скриптов только если они действительно критичны -->
+    <!-- JSON загружается через fetch, не требует preload -->
+
+    <!-- Prefetch для других страниц -->
+    <link rel="prefetch" href="/index.html" />
+    <link rel="prefetch" href="/cv.html" />
+
+    <!-- Theme switcher script - загружается синхронно для предотвращения мерцания -->
+    <script src="/js/components/ThemeInit.js"></script>
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/scss/style.scss" />
+  </head>
+  <body class="page-with-scroll">
+    <div class="page-wrapper">
+      <!-- Header -->
+      <header class="header"></header>
+
+      <!-- Horizontal decorative line -->
+      <div class="decorative-line-horizontal"></div>
+
+      <!-- Main Content -->
+      <main class="content-wrapper">
+        <div class="container research-page">
+          <!-- Контейнер для ВКР -->
+          <section class="research-vkr-section" id="research-vkr-section">
+            <!-- ВКР будет загружена через JavaScript -->
+          </section>
+
+          <!-- Контейнер для публикаций -->
+          <section
+            class="research-publications-section"
+            id="research-publications-section"
+          >
+            <!-- Индикатор загрузки -->
+            <div class="loading" id="research-loading">
+              <div class="loading-squares">
+                <div class="loading-square"></div>
+                <div class="loading-square"></div>
+                <div class="loading-square"></div>
+              </div>
+            </div>
+            <!-- Публикации будут загружены через JavaScript -->
+          </section>
+
+          <!-- Навигационное меню для tablet режима -->
+          <div class="research-navigation">
+            <h2 class="section-title">НАВИГАЦИЯ</h2>
+            <div class="cta-buttons">
+              <a href="index.html" class="cta-button">ГЛАВНАЯ</a>
+              <a href="projects.html" class="cta-button">ПОРТФОЛИО</a>
+              <a href="research.html" class="cta-button">ИССЛЕДОВАНИЯ</a>
+              <a href="cv.html" class="cta-button">РЕЗЮМЕ</a>
+              <a href="community.html" class="cta-button">СООБЩЕСТВО</a>
             </div>
           </div>
-          <!-- Публикации будут загружены через JavaScript -->
-        </section>
-        
-        <!-- Навигационное меню для tablet режима -->
-        <div class="research-navigation">
-          <h2 class="section-title">НАВИГАЦИЯ</h2>
-          <div class="cta-buttons">
-            <a href="index.html" class="cta-button">ГЛАВНАЯ</a>
-            <a href="projects.html" class="cta-button">ПОРТФОЛИО</a>
-            <a href="research.html" class="cta-button">ИССЛЕДОВАНИЯ</a>
-            <a href="cv.html" class="cta-button">РЕЗЮМЕ</a>
-            <a href="community.html" class="cta-button">СООБЩЕСТВО</a>
-          </div>
         </div>
-      </div>
-    </main>
+      </main>
 
-    <!-- Horizontal decorative line -->
-    <div class="decorative-line-horizontal"></div>
+      <!-- Horizontal decorative line -->
+      <div class="decorative-line-horizontal"></div>
 
-    <!-- Footer -->
-    <footer class="footer"></footer>
-  </div>
-  
-  <div class="custom-cursor"></div>
+      <!-- Footer -->
+      <footer class="footer"></footer>
+    </div>
 
-  <!-- Кнопка "Наверх" -->
-  <div id="scroll-to-top-container"></div>
+    <div class="custom-cursor"></div>
 
-  <!-- JavaScript -->
-  <script type="module" src="/js/main.js"></script>
-</body>
+    <!-- Кнопка "Наверх" -->
+    <div id="scroll-to-top-container"></div>
+
+    <!-- JavaScript -->
+    <script type="module" src="/js/main.js"></script>
+  </body>
 </html>
-

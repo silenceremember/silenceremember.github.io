@@ -9,7 +9,10 @@
   flex-shrink: 0;
   z-index: 10;
   background-color: var(--color-bg-primary);
-  transition: transform var(--transition-duration-base) ease, background-color var(--transition-duration-base) ease, color var(--transition-duration-base) ease;
+  transition:
+    transform var(--transition-duration-base) ease,
+    background-color var(--transition-duration-base) ease,
+    color var(--transition-duration-base) ease;
   transform: translateZ(0);
   backface-visibility: hidden;
   -webkit-font-smoothing: antialiased;
@@ -30,7 +33,7 @@
   /* Ширина между линиями: 1200px + 16px (8px с каждой стороны) */
   max-width: calc(1200px + 16px);
   grid-template-columns: 1fr auto 1fr;
-  
+
   /* На мобильных устройствах контент на всю ширину с отступами */
   @media (max-width: 1023px) {
     max-width: 100%;
@@ -85,7 +88,9 @@
   border: 1px solid var(--color-text-primary);
   background-color: transparent;
   cursor: pointer;
-  transition: border-color var(--transition-duration-base) ease, background-color var(--transition-duration-base) ease;
+  transition:
+    border-color var(--transition-duration-base) ease,
+    background-color var(--transition-duration-base) ease;
   flex-shrink: 0;
 }
 
@@ -113,7 +118,7 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-xs);
-  
+
   .icon-divider {
     width: 16px;
     height: 16px;
@@ -143,5 +148,3 @@
   -moz-user-select: text;
   -ms-user-select: text;
 }
-
-

@@ -78,16 +78,17 @@
     align-items: center;
     flex-shrink: 0;
     background-color: var(--color-bg-primary);
-    transition: transform var(--transition-duration-base) ease, 
-                background-color var(--transition-duration-base) ease, 
-                color var(--transition-duration-base) ease;
+    transition:
+      transform var(--transition-duration-base) ease,
+      background-color var(--transition-duration-base) ease,
+      color var(--transition-duration-base) ease;
     pointer-events: none;
     transform: translateZ(0);
     backface-visibility: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  
+
   /* Убрано will-change для header - это большой элемент (100vw ширина) */
   /* Transition достаточно для плавной анимации */
 
@@ -111,16 +112,17 @@
     align-items: center;
     flex-shrink: 0;
     background-color: var(--color-bg-primary);
-    transition: transform var(--transition-duration-base) ease, 
-                background-color var(--transition-duration-base) ease, 
-                color var(--transition-duration-base) ease;
+    transition:
+      transform var(--transition-duration-base) ease,
+      background-color var(--transition-duration-base) ease,
+      color var(--transition-duration-base) ease;
     pointer-events: none;
     transform: translateZ(0);
     backface-visibility: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  
+
   /* Убрано will-change для footer - это большой элемент (100vw ширина) */
   /* Transition достаточно для плавной анимации */
 
@@ -148,7 +150,7 @@
     transform: translateZ(0);
     backface-visibility: hidden;
   }
-  
+
   /* Убрано will-change для декоративных линий - это большие элементы (100vw ширина) */
   /* Transition достаточно для плавной анимации */
 
@@ -168,4 +170,3 @@
     transform: translate3d(0, 65px, 0);
   }
 }
-

@@ -2,7 +2,10 @@
  * Базовый класс для всех страниц
  */
 import { PageReadyManager } from '../utils/PageReady.js';
-import { NavigationHelper, MenuButtonScrollHandler } from '../utils/Navigation.js';
+import {
+  NavigationHelper,
+  MenuButtonScrollHandler,
+} from '../utils/Navigation.js';
 import { ScrollToTopButton } from '../components/scroll/ScrollToTopButton.js';
 import { SvgLoader } from '../components/svg/SvgLoader.js';
 import { LayoutManager } from '../layout/LayoutManager.js';
@@ -41,9 +44,11 @@ export class BasePage {
 
     // Выделяем активную ссылку в навигации
     NavigationHelper.setActiveNavigationLink(navigationSelector);
-    
+
     // Инициализируем обработчик прокрутки к навигации
-    this.menuButtonScrollHandler = new MenuButtonScrollHandler(navigationSelector);
+    this.menuButtonScrollHandler = new MenuButtonScrollHandler(
+      navigationSelector
+    );
     this.menuButtonScrollHandler.init();
   }
 
@@ -66,13 +71,13 @@ export class BasePage {
     // Критические компоненты загружаем сразу
     const layoutManager = new LayoutManager();
     await layoutManager.init();
-    
+
     const svgLoader = new SvgLoader();
     await svgLoader.init();
-    
+
     const themeSwitcher = new ThemeSwitcher();
     themeSwitcher.init();
-    
+
     const languageSwitcher = new LanguageSwitcher();
     languageSwitcher.init();
 
@@ -108,7 +113,10 @@ export class BasePage {
     }
 
     // Если есть слайды в tablet-scroll-mode, убеждаемся что они видимы
-    if (slidesContainer && slidesContainer.classList.contains('tablet-scroll-mode')) {
+    if (
+      slidesContainer &&
+      slidesContainer.classList.contains('tablet-scroll-mode')
+    ) {
       const slides = slidesContainer.querySelectorAll('.slide');
       slides.forEach((slide) => {
         slide.style.opacity = '1';
@@ -187,18 +195,23 @@ export class BasePage {
    * @returns {HTMLElement} Созданная секция
    */
   createSectionWithTitle(config) {
-    const { className, title, titleClassName = 'section-title', titleTag = 'h2' } = config;
-    
+    const {
+      className,
+      title,
+      titleClassName = 'section-title',
+      titleTag = 'h2',
+    } = config;
+
     const section = document.createElement('div');
     section.className = className;
-    
+
     if (title) {
       const titleElement = document.createElement(titleTag);
       titleElement.className = titleClassName;
       titleElement.textContent = title;
       section.appendChild(titleElement);
     }
-    
+
     return section;
   }
 
@@ -217,4 +230,3 @@ export class BasePage {
     await this.initBase();
   }
 }
-

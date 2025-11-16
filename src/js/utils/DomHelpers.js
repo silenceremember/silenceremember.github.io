@@ -1,5 +1,6 @@
 /**
- * Хелпер для работы с DOM
+ * Хелпер для работы с DOM элементами
+ * Предоставляет утилиты для управления видимостью и анимациями элементов
  */
 export class DOMHelper {
   /**
@@ -14,12 +15,14 @@ export class DOMHelper {
     const config = {
       opacity: options.opacity || '0',
       transform: options.transform || 'translateY(10px)',
-      important: options.important !== false
+      important: options.important !== false,
     };
 
-    const elementsArray = Array.isArray(elements) ? elements : Array.from(elements);
-    
-    elementsArray.forEach(element => {
+    const elementsArray = Array.isArray(elements)
+      ? elements
+      : Array.from(elements);
+
+    elementsArray.forEach((element) => {
       if (element) {
         if (config.important) {
           element.style.setProperty('opacity', config.opacity, 'important');
@@ -41,12 +44,12 @@ export class DOMHelper {
    */
   static isElementVisible(element) {
     if (!element) return false;
-    
+
     const computedStyle = window.getComputedStyle(element);
     const opacity = parseFloat(computedStyle.opacity);
     const visibility = computedStyle.visibility;
     const display = computedStyle.display;
-    
+
     return opacity > 0.01 && visibility !== 'hidden' && display !== 'none';
   }
 
@@ -65,9 +68,11 @@ export class DOMHelper {
    * @param {NodeList|Array<HTMLElement>} elements - Элементы для очистки
    */
   static clearAnimationStyles(elements) {
-    const elementsArray = Array.isArray(elements) ? elements : Array.from(elements);
-    
-    elementsArray.forEach(element => {
+    const elementsArray = Array.isArray(elements)
+      ? elements
+      : Array.from(elements);
+
+    elementsArray.forEach((element) => {
       if (element) {
         element.style.removeProperty('opacity');
         element.style.removeProperty('transform');
@@ -76,4 +81,3 @@ export class DOMHelper {
     });
   }
 }
-

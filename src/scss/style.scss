@@ -59,11 +59,12 @@ main.fade-in-visible {
 @include desktop {
   .header,
   .footer {
-    transition: transform var(--transition-duration-base) ease, 
-                background-color var(--transition-duration-base) ease, 
-                color var(--transition-duration-base) ease;
+    transition:
+      transform var(--transition-duration-base) ease,
+      background-color var(--transition-duration-base) ease,
+      color var(--transition-duration-base) ease;
   }
-  
+
   /* Убрано will-change для header и footer - это большие элементы (100vw ширина) */
   /* Transition достаточно для плавной анимации без превышения бюджета памяти */
 }
@@ -88,4 +89,3 @@ main.fade-in-visible {
 .page-wrapper::after {
   opacity: 1 !important;
 }
-

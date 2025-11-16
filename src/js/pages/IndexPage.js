@@ -19,7 +19,7 @@ export class IndexPage extends BasePage {
   constructor() {
     super({
       navigationSelector: '#cta-section',
-      imageSelector: '.slide[data-slide="0"] img'
+      imageSelector: '.slide[data-slide="0"] img',
     });
     this.slideAnimationManager = null;
     this.slidesContainer = null;
@@ -34,9 +34,9 @@ export class IndexPage extends BasePage {
     try {
       const data = await loadData('/data/projects.json');
       const projects = data.projects || [];
-      
+
       // Фильтруем featured проекты
-      return projects.filter(project => project.featured === true);
+      return projects.filter((project) => project.featured === true);
     } catch (error) {
       console.error('Ошибка загрузки проектов:', error);
       return [];
@@ -52,8 +52,10 @@ export class IndexPage extends BasePage {
       return [];
     }
 
-    return Array.from(this.slidesContainer.querySelectorAll('.slide[data-slide]'))
-      .filter(slide => {
+    return Array.from(
+      this.slidesContainer.querySelectorAll('.slide[data-slide]')
+    )
+      .filter((slide) => {
         const slideIndex = parseInt(slide.getAttribute('data-slide'));
         return slideIndex > 0 && slideIndex < 4; // Слайды 1-3 для проектов, 4 - CTA
       })
@@ -88,34 +90,50 @@ export class IndexPage extends BasePage {
     }
 
     // Роль
-    const roleElement = slideElement.querySelector('.details-block:first-of-type .details-text');
+    const roleElement = slideElement.querySelector(
+      '.details-block:first-of-type .details-text'
+    );
     if (roleElement) {
       const roleLabel = getRoleLabel(project.role, true, project.teamName);
       roleElement.textContent = roleLabel;
     }
 
     // Ключевой вклад
-    const contributionElement = slideElement.querySelector('.details-block:last-of-type .details-text');
+    const contributionElement = slideElement.querySelector(
+      '.details-block:last-of-type .details-text'
+    );
     if (contributionElement && project.keyContribution) {
       contributionElement.textContent = project.keyContribution;
     }
 
     // Изображения (если есть preview) - оптимизированная загрузка
     if (project.media?.preview) {
-      const projectPlaceholder = slideElement.querySelector('.project-placeholder');
+      const projectPlaceholder = slideElement.querySelector(
+        '.project-placeholder'
+      );
       if (projectPlaceholder) {
         // Первый слайд виден сразу, остальные загружаем лениво
         const isFirstSlide = slideIndex === 0;
-        backgroundImageService.loadBackgroundImage(projectPlaceholder, project.media.preview, isFirstSlide);
+        backgroundImageService.loadBackgroundImage(
+          projectPlaceholder,
+          project.media.preview,
+          isFirstSlide
+        );
       }
 
       // Заполняем preview изображения с ленивой загрузкой
-      const previewPlaceholders = slideElement.querySelectorAll('.preview-placeholder');
+      const previewPlaceholders = slideElement.querySelectorAll(
+        '.preview-placeholder'
+      );
       if (project.media.screenshots && project.media.screenshots.length > 0) {
         previewPlaceholders.forEach((placeholder, index) => {
           if (index < project.media.screenshots.length) {
             // Preview изображения всегда загружаем лениво
-            backgroundImageService.loadBackgroundImage(placeholder, project.media.screenshots[index], false);
+            backgroundImageService.loadBackgroundImage(
+              placeholder,
+              project.media.screenshots[index],
+              false
+            );
           }
         });
       }
@@ -158,7 +176,9 @@ export class IndexPage extends BasePage {
       return;
     }
 
-    this.slideAnimationManager = new SlideAnimationManager(this.slidesContainer);
+    this.slideAnimationManager = new SlideAnimationManager(
+      this.slidesContainer
+    );
   }
 
   /**
@@ -196,7 +216,7 @@ export class IndexPage extends BasePage {
 
     // Ждем полной загрузки страницы и всех критичных ресурсов перед запуском анимации
     await this.waitForPageReady();
-    
+
     if (this.slideAnimationManager) {
       this.slideAnimationManager.initializeFirstSlideAnimation();
     }
@@ -211,7 +231,7 @@ export class IndexPage extends BasePage {
 export function hideAllSlideElementsEarly() {
   const slidesContainer = document.querySelector('.slides-container');
   if (!slidesContainer) return;
-  
+
   try {
     const slideAnimationManager = new SlideAnimationManager(slidesContainer);
     slideAnimationManager.hideAllSlideElementsImmediately();
@@ -220,5 +240,3 @@ export function hideAllSlideElementsEarly() {
     console.warn('Could not hide slide elements early:', error);
   }
 }
-
-

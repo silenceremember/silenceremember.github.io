@@ -1,6 +1,10 @@
 <div class="media-gallery">
   <div class="media-gallery-main">
-    <button class="media-gallery-nav media-gallery-prev" aria-label="Предыдущее изображение" hidden>
+    <button
+      class="media-gallery-nav media-gallery-prev"
+      aria-label="Предыдущее изображение"
+      hidden
+    >
       <span>‹</span>
     </button>
     <div class="media-gallery-viewport">
@@ -8,40 +12,67 @@
         <!-- Элементы галереи будут добавлены динамически -->
       </div>
     </div>
-    <button class="media-gallery-nav media-gallery-next" aria-label="Следующее изображение" hidden>
+    <button
+      class="media-gallery-nav media-gallery-next"
+      aria-label="Следующее изображение"
+      hidden
+    >
       <span>›</span>
     </button>
   </div>
-  
+
   <div class="media-gallery-thumbnails" hidden>
     <!-- Миниатюры будут добавлены динамически -->
   </div>
-  
+
   <!-- Lightbox для полноэкранного просмотра -->
-  <div class="media-gallery-lightbox" role="dialog" aria-modal="true" aria-labelledby="media-gallery-lightbox-title" hidden>
+  <div
+    class="media-gallery-lightbox"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="media-gallery-lightbox-title"
+    hidden
+  >
     <div class="media-gallery-lightbox-backdrop"></div>
     <div class="media-gallery-lightbox-container">
-      <button class="media-gallery-lightbox-close" aria-label="Закрыть" title="Закрыть">
+      <button
+        class="media-gallery-lightbox-close"
+        aria-label="Закрыть"
+        title="Закрыть"
+      >
         <span>✕</span>
       </button>
-      <button class="media-gallery-lightbox-nav media-gallery-lightbox-prev" aria-label="Предыдущее изображение">
+      <button
+        class="media-gallery-lightbox-nav media-gallery-lightbox-prev"
+        aria-label="Предыдущее изображение"
+      >
         <span>‹</span>
       </button>
       <div class="media-gallery-lightbox-content">
-        <img class="media-gallery-lightbox-image" src="" alt="" id="media-gallery-lightbox-title" loading="lazy" decoding="async">
+        <img
+          class="media-gallery-lightbox-image"
+          src=""
+          alt=""
+          id="media-gallery-lightbox-title"
+          loading="lazy"
+          decoding="async"
+        />
         <video class="media-gallery-lightbox-video" controls hidden>
-          <source src="" type="video/mp4">
+          <source src="" type="video/mp4" />
           Ваш браузер не поддерживает видео.
         </video>
         <iframe class="media-gallery-lightbox-iframe" src="" hidden></iframe>
       </div>
-      <button class="media-gallery-lightbox-nav media-gallery-lightbox-next" aria-label="Следующее изображение">
+      <button
+        class="media-gallery-lightbox-nav media-gallery-lightbox-next"
+        aria-label="Следующее изображение"
+      >
         <span>›</span>
       </button>
       <div class="media-gallery-lightbox-counter">
-        <span class="media-gallery-lightbox-current">1</span> / <span class="media-gallery-lightbox-total">1</span>
+        <span class="media-gallery-lightbox-current">1</span> /
+        <span class="media-gallery-lightbox-total">1</span>
       </div>
     </div>
   </div>
 </div>
-

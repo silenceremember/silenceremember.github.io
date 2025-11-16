@@ -7,7 +7,9 @@ body {
   line-height: var(--line-height-base);
   color: var(--color-text-primary);
   background-color: var(--color-bg-primary);
-  transition: background-color var(--transition-duration-base) ease, color var(--transition-duration-base) ease;
+  transition:
+    background-color var(--transition-duration-base) ease,
+    color var(--transition-duration-base) ease;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -91,4 +93,3 @@ a:hover {
   background-color: var(--color-accent);
   color: var(--color-bg-primary);
 }
-

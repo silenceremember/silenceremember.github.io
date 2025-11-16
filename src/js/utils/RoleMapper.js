@@ -4,21 +4,23 @@
  */
 
 /**
- * Маппинг ролей на читаемые значения
+ * Маппинг ролей на читаемые значения для карточек проектов
+ * @type {Object<string, string>}
  */
 const ROLE_LABELS = {
-  'solo': 'Соло',
+  solo: 'Соло',
   'team-lead': 'Тимлид',
-  'team': 'В команде'
+  team: 'В команде',
 };
 
 /**
  * Маппинг ролей для главной страницы (более детальные описания)
+ * @type {Object<string, string>}
  */
 const ROLE_LABELS_DETAILED = {
-  'solo': 'Соло-разработчик',
+  solo: 'Соло-разработчик',
   'team-lead': 'Гейм-дизайнер / Тимлид',
-  'team': 'В команде'
+  team: 'В команде',
 };
 
 /**
@@ -31,12 +33,11 @@ const ROLE_LABELS_DETAILED = {
 export function getRoleLabel(role, detailed = false, teamName = null) {
   const labels = detailed ? ROLE_LABELS_DETAILED : ROLE_LABELS;
   let label = labels[role] || role;
-  
+
   // Если есть название команды и роль team-lead, добавляем его в скобках
   if (teamName && role === 'team-lead' && detailed) {
     label = `${label} (команда ${teamName})`;
   }
-  
+
   return label;
 }
-

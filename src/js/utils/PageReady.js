@@ -11,13 +11,15 @@ export class PageReadyManager {
     return new Promise((resolve) => {
       // Проверяем поддержку Font Loading API
       if (document.fonts && document.fonts.ready) {
-        document.fonts.ready.then(() => {
-          // Небольшая задержка для гарантии применения шрифтов
-          setTimeout(resolve, 50);
-        }).catch(() => {
-          // В случае ошибки просто продолжаем
-          resolve();
-        });
+        document.fonts.ready
+          .then(() => {
+            // Небольшая задержка для гарантии применения шрифтов
+            setTimeout(resolve, 50);
+          })
+          .catch(() => {
+            // В случае ошибки просто продолжаем
+            resolve();
+          });
       } else {
         // Если API не поддерживается, просто продолжаем
         // Используем небольшую задержку для гарантии загрузки шрифтов
@@ -35,7 +37,7 @@ export class PageReadyManager {
     return new Promise((resolve) => {
       // Находим все изображения
       const images = document.querySelectorAll(selector);
-      
+
       if (images.length === 0) {
         resolve();
         return;
@@ -89,19 +91,22 @@ export class PageReadyManager {
         // Дополнительно проверяем загрузку всех критичных ресурсов
         Promise.all([
           this.waitForImagesLoaded(imageSelector),
-          this.waitForFontsLoaded()
+          this.waitForFontsLoaded(),
         ]).then(() => resolve());
       } else {
         // Ждем события load
-        window.addEventListener('load', () => {
-          // После load проверяем загрузку всех критичных ресурсов
-          Promise.all([
-            this.waitForImagesLoaded(imageSelector),
-            this.waitForFontsLoaded()
-          ]).then(() => resolve());
-        }, { once: true });
+        window.addEventListener(
+          'load',
+          () => {
+            // После load проверяем загрузку всех критичных ресурсов
+            Promise.all([
+              this.waitForImagesLoaded(imageSelector),
+              this.waitForFontsLoaded(),
+            ]).then(() => resolve());
+          },
+          { once: true }
+        );
       }
     });
   }
 }
-

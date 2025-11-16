@@ -5,7 +5,14 @@
   flex-direction: column;
   background-color: var(--color-bg-primary);
   border: var(--line-width) solid var(--color-text-primary);
-  transition: transform var(--transition-duration-base) ease-in-out, box-shadow var(--transition-duration-base) ease-in-out, background-color var(--transition-duration-base) ease, border-color var(--transition-duration-base) ease, color var(--transition-duration-base) ease, opacity var(--transition-duration-base) ease-in-out, visibility var(--transition-duration-base) ease-in-out;
+  transition:
+    transform var(--transition-duration-base) ease-in-out,
+    box-shadow var(--transition-duration-base) ease-in-out,
+    background-color var(--transition-duration-base) ease,
+    border-color var(--transition-duration-base) ease,
+    color var(--transition-duration-base) ease,
+    opacity var(--transition-duration-base) ease-in-out,
+    visibility var(--transition-duration-base) ease-in-out;
   cursor: pointer;
   overflow: hidden;
   height: 100%;
@@ -28,22 +35,25 @@
   outline: none;
   /* Явно задаем border-bottom для предотвращения артефактов в Firefox */
   border-bottom: var(--line-width) solid var(--color-text-primary);
-  
+
   &.research-card-hidden {
     opacity: 0;
     visibility: hidden;
-    transition: opacity var(--transition-duration-base) ease-in-out, visibility var(--transition-duration-base) ease-in-out, transform var(--transition-duration-base) ease-in-out;
+    transition:
+      opacity var(--transition-duration-base) ease-in-out,
+      visibility var(--transition-duration-base) ease-in-out,
+      transform var(--transition-duration-base) ease-in-out;
   }
-  
-  &[style*="display: none"] {
+
+  &[style*='display: none'] {
     display: none !important;
   }
-  
+
   /* Особый стиль для ВКР */
   &.research-card-vkr {
     background-color: var(--color-accent-bg);
   }
-  
+
   &:hover {
     transform: translate3d(0, -4px, 0);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
@@ -53,7 +63,7 @@
     margin-left: 0 !important;
     margin-right: 0 !important;
     transform-origin: center top;
-    
+
     .research-card-button {
       background-color: var(--color-accent);
       border-color: var(--color-accent);
@@ -73,7 +83,9 @@
   max-width: 100%;
   min-width: 0;
   background-color: var(--color-bg-primary);
-  transition: background-color var(--transition-duration-base) ease, color var(--transition-duration-base) ease;
+  transition:
+    background-color var(--transition-duration-base) ease,
+    color var(--transition-duration-base) ease;
   flex-shrink: 0;
   margin: 0;
   border: none;
@@ -131,22 +143,22 @@
   -webkit-user-select: text;
   -moz-user-select: text;
   -ms-user-select: text;
-  
+
   span {
     position: relative;
     flex-shrink: 0;
     white-space: nowrap;
     transition: color var(--transition-duration-base) ease;
-    
-    &[style*="display: none"] {
+
+    &[style*='display: none'] {
       display: none !important;
-      
+
       &::after {
         display: none;
       }
     }
-    
-    &:not(:last-child):not([style*="display: none"])::after {
+
+    &:not(:last-child):not([style*='display: none'])::after {
       content: '•';
       margin-left: var(--spacing-xs);
       color: var(--color-divider);
@@ -160,13 +172,13 @@
   align-items: center;
   flex-wrap: wrap;
   gap: var(--spacing-xs);
-  
-  &[style*="display: none"] {
+
+  &[style*='display: none'] {
     display: none !important;
   }
-  
+
   // Разделитель между журналом и уровнем
-  .research-card-level:not([style*="display: none"])::before {
+  .research-card-level:not([style*='display: none'])::before {
     content: '';
     display: inline-block;
     width: 10px;
@@ -184,9 +196,9 @@
     flex-shrink: 0;
     vertical-align: middle;
   }
-  
+
   // Скрываем разделитель, если журнал скрыт или отсутствует
-  .research-card-journal[style*="display: none"] ~ .research-card-level::before,
+  .research-card-journal[style*='display: none'] ~ .research-card-level::before,
   .research-card-journal:empty ~ .research-card-level::before {
     display: none;
   }
@@ -205,8 +217,8 @@
   -webkit-user-select: text;
   -moz-user-select: text;
   -ms-user-select: text;
-  
-  &[style*="display: none"] {
+
+  &[style*='display: none'] {
     display: none !important;
   }
 }
@@ -236,8 +248,8 @@
   -webkit-user-select: text;
   -moz-user-select: text;
   -ms-user-select: text;
-  
-  &[style*="display: none"] {
+
+  &[style*='display: none'] {
     display: none !important;
   }
 }
@@ -245,8 +257,8 @@
 .research-card-description-container {
   margin-top: var(--spacing-xs);
   flex-shrink: 0;
-  
-  &[style*="display: none"] {
+
+  &[style*='display: none'] {
     display: none !important;
   }
 }
@@ -265,13 +277,16 @@
   border-radius: 0;
   cursor: pointer;
   font-family: var(--font-family);
-  transition: background-color var(--transition-duration-base) ease, color var(--transition-duration-base) ease, border-color var(--transition-duration-base) ease;
+  transition:
+    background-color var(--transition-duration-base) ease,
+    color var(--transition-duration-base) ease,
+    border-color var(--transition-duration-base) ease;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   border-style: solid;
   box-sizing: border-box;
-  
+
   &:hover,
   &:focus {
     background-color: var(--color-accent);
@@ -305,8 +320,8 @@
   gap: var(--spacing-xs);
   flex-shrink: 0;
   margin-top: auto;
-  
-  &[style*="display: none"] {
+
+  &[style*='display: none'] {
     display: none !important;
   }
 }
@@ -316,15 +331,17 @@
   font-size: var(--font-size-small);
   border-radius: 2px;
   font-weight: var(--font-weight-medium);
-  transition: background-color var(--transition-duration-base) ease, color var(--transition-duration-base) ease;
+  transition:
+    background-color var(--transition-duration-base) ease,
+    color var(--transition-duration-base) ease;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
   position: relative;
-  
+
   /* Подложка цвета текста, текст цвета bg */
   color: var(--color-bg-primary);
-  
+
   &::before {
     content: '';
     position: absolute;
@@ -373,7 +390,10 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   cursor: pointer;
-  transition: background-color var(--transition-duration-base) ease, color var(--transition-duration-base) ease, border-color var(--transition-duration-base) ease;
+  transition:
+    background-color var(--transition-duration-base) ease,
+    color var(--transition-duration-base) ease,
+    border-color var(--transition-duration-base) ease;
   font-family: var(--font-family);
   pointer-events: auto;
   -webkit-font-smoothing: antialiased;
@@ -381,7 +401,7 @@
   text-rendering: optimizeLegibility;
   border-style: solid;
   box-sizing: border-box;
-  
+
   /* При наведении/нажатии на карточку кнопка ведет себя как cta-button */
   .research-card:hover &,
   .research-card:active &,
@@ -390,7 +410,7 @@
     border-color: var(--color-accent);
     color: var(--color-bg-primary);
   }
-  
+
   /* Прямой hover на кнопку также работает */
   &:hover,
   &:focus {
@@ -399,11 +419,11 @@
     color: var(--color-bg-primary);
     outline: none;
   }
-  
+
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
-    
+
     /* Отключаем hover эффекты для disabled кнопки */
     &:hover,
     &:focus {
@@ -413,7 +433,7 @@
       outline: none;
     }
   }
-  
+
   /* Отключаем hover эффекты при hover на карточку для disabled кнопки */
   .research-card:hover &:disabled,
   .research-card:active &:disabled,
@@ -429,15 +449,13 @@
   .research-card-content {
     padding: var(--spacing-sm);
   }
-  
+
   .research-card-title {
     font-size: var(--font-size-h5);
   }
-  
+
   .research-card-description {
     font-size: var(--font-size-small);
     padding: var(--spacing-sm);
   }
 }
-
-

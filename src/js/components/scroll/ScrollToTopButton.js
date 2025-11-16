@@ -1,5 +1,5 @@
 /**
- * Кнопка прокрутки наверх
+ * Кнопка прокрутки страницы наверх с анимацией появления/скрытия
  */
 export class ScrollToTopButton {
   /**
@@ -32,17 +32,19 @@ export class ScrollToTopButton {
           this.init();
         }, 100);
       } else {
-        console.warn('Кнопка "Наверх" не найдена после нескольких попыток инициализации');
+        console.warn(
+          'Кнопка "Наверх" не найдена после нескольких попыток инициализации'
+        );
       }
       return;
     }
-    
+
     // Сбрасываем счетчик попыток при успешной инициализации
     this.initAttempts = 0;
-    
+
     this.footer = document.querySelector('.footer');
     this.pageWrapper = document.querySelector('.page-wrapper');
-    
+
     this.setupEventListeners();
     this.lastScrollTop = this.getScrollTop();
     this.handleScroll();
@@ -51,6 +53,7 @@ export class ScrollToTopButton {
 
   /**
    * Определяет, находимся ли мы в tablet режиме
+   * @returns {boolean} true если ширина окна меньше 1024px
    */
   isTabletMode() {
     return window.innerWidth < 1024;
@@ -58,6 +61,7 @@ export class ScrollToTopButton {
 
   /**
    * Получает элемент для скролла
+   * @returns {HTMLElement|Window} Элемент для скролла
    */
   getScrollElement() {
     return this.isTabletMode() && this.pageWrapper ? this.pageWrapper : window;
@@ -65,6 +69,7 @@ export class ScrollToTopButton {
 
   /**
    * Получает текущую позицию скролла
+   * @returns {number} Позиция скролла в пикселях
    */
   getScrollTop() {
     const scrollElement = this.getScrollElement();
@@ -83,9 +88,9 @@ export class ScrollToTopButton {
       this.scrollToTopButton.classList.remove('footer-hidden');
       return;
     }
-    
+
     const isFooterHidden = this.footer.classList.contains('hidden');
-    
+
     if (isFooterHidden) {
       this.scrollToTopButton.classList.add('footer-hidden');
     } else {
@@ -102,30 +107,34 @@ export class ScrollToTopButton {
       this.hideTimeout = null;
       this.isAnimating = false;
     }
-    
+
     // Если кнопка уже видима, просто обновляем позицию без анимации
-    if (this.scrollToTopButton.classList.contains('visible') && !this.isAnimating) {
+    if (
+      this.scrollToTopButton.classList.contains('visible') &&
+      !this.isAnimating
+    ) {
       this.updateButtonPosition();
       return;
     }
-    
+
     // Анимация показывается только один раз при первом появлении или после скрытия
-    const shouldAnimate = !this.wasShown || this.scrollToTopButton.style.display === 'none';
-    
+    const shouldAnimate =
+      !this.wasShown || this.scrollToTopButton.style.display === 'none';
+
     if (shouldAnimate) {
       this.isAnimating = true;
-      
+
       // Убеждаемся, что элемент видим
       if (this.scrollToTopButton.style.display === 'none') {
         this.scrollToTopButton.style.display = 'flex';
       }
-      
+
       // Убираем класс visible, если он был, чтобы сбросить состояние для анимации
       this.scrollToTopButton.classList.remove('visible');
-      
+
       // Обновляем позицию до показа
       this.updateButtonPosition();
-      
+
       // Ждем кадр, чтобы браузер успел применить начальное состояние (opacity: 0), затем добавляем класс для анимации
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
@@ -150,17 +159,20 @@ export class ScrollToTopButton {
    * Скрывает кнопку с анимацией
    */
   hideButton() {
-    if (!this.scrollToTopButton.classList.contains('visible') && this.scrollToTopButton.style.display === 'none') {
+    if (
+      !this.scrollToTopButton.classList.contains('visible') &&
+      this.scrollToTopButton.style.display === 'none'
+    ) {
       return;
     }
-    
+
     if (this.hideTimeout) {
       clearTimeout(this.hideTimeout);
     }
-    
+
     this.isAnimating = true;
     this.scrollToTopButton.classList.remove('visible');
-    
+
     this.hideTimeout = setTimeout(() => {
       if (!this.scrollToTopButton.classList.contains('visible')) {
         this.scrollToTopButton.style.display = 'none';
@@ -179,17 +191,17 @@ export class ScrollToTopButton {
     const scrollTop = this.getScrollTop();
     const isScrollingUp = scrollTop < this.lastScrollTop;
     const isAtTop = scrollTop <= 0;
-    
+
     if (isScrollingUp && !isAtTop) {
       // Определяем, изменилось ли направление прокрутки с вниз на вверх
       const directionChanged = this.wasScrollingDown && isScrollingUp;
-      
+
       // Показываем кнопку с анимацией только при изменении направления с вниз на вверх
       // или если кнопка еще не была показана
       if (directionChanged || !this.wasShown) {
         this.showButton();
       } else {
-        // Если кнопка уже видима и мы продолжаем прокручивать вверх, 
+        // Если кнопка уже видима и мы продолжаем прокручивать вверх,
         // просто обновляем позицию без анимации
         if (this.scrollToTopButton.classList.contains('visible')) {
           this.updateButtonPosition();
@@ -210,9 +222,9 @@ export class ScrollToTopButton {
       }
       this.hideButton();
     }
-    
+
     this.lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-    
+
     requestAnimationFrame(() => {
       this.updateButtonPosition();
     });
@@ -228,16 +240,16 @@ export class ScrollToTopButton {
       if (scrollElement === window) {
         window.scrollTo({
           top: 0,
-          behavior: 'smooth'
+          behavior: 'smooth',
         });
       } else {
         scrollElement.scrollTo({
           top: 0,
-          behavior: 'smooth'
+          behavior: 'smooth',
         });
       }
     });
-    
+
     // Наблюдаем за изменениями класса футера
     if (this.footer) {
       const footerObserver = new MutationObserver(() => {
@@ -245,16 +257,16 @@ export class ScrollToTopButton {
           this.updateButtonPosition();
         });
       });
-      
+
       footerObserver.observe(this.footer, {
         attributes: true,
-        attributeFilter: ['class']
+        attributeFilter: ['class'],
       });
     }
-    
+
     // Настраиваем обработчик скролла
     this.setupScrollListener();
-    
+
     // Обновляем обработчик при изменении размера окна
     window.addEventListener('resize', () => {
       this.updateScrollListener();
@@ -269,9 +281,13 @@ export class ScrollToTopButton {
     const scrollElement = this.getScrollElement();
     this.handleScrollBound = this.handleScroll.bind(this);
     if (scrollElement === window) {
-      window.addEventListener('scroll', this.handleScrollBound, { passive: true });
+      window.addEventListener('scroll', this.handleScrollBound, {
+        passive: true,
+      });
     } else {
-      scrollElement.addEventListener('scroll', this.handleScrollBound, { passive: true });
+      scrollElement.addEventListener('scroll', this.handleScrollBound, {
+        passive: true,
+      });
     }
   }
 
@@ -287,4 +303,3 @@ export class ScrollToTopButton {
     this.setupScrollListener();
   }
 }
-

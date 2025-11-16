@@ -1,5 +1,5 @@
 /**
- * Переключатель темы
+ * Переключатель темы оформления (светлая/темная)
  */
 export class ThemeSwitcher {
   /**
@@ -32,7 +32,8 @@ export class ThemeSwitcher {
   }
 
   /**
-   * Применяет тему
+   * Применяет тему оформления
+   * @param {string} theme - Название темы ('light' или 'dark')
    */
   applyTheme(theme) {
     this.documentElement.setAttribute('data-theme', theme);
@@ -49,10 +50,10 @@ export class ThemeSwitcher {
    * Переключает тему
    */
   toggleTheme() {
-    const currentTheme = this.documentElement.getAttribute('data-theme') || 'light';
+    const currentTheme =
+      this.documentElement.getAttribute('data-theme') || 'light';
     const newTheme = currentTheme === 'light' ? 'dark' : 'light';
     localStorage.setItem('theme', newTheme);
     this.applyTheme(newTheme);
   }
 }
-

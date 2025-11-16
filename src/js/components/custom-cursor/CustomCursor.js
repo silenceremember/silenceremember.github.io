@@ -1,7 +1,10 @@
 /**
- * Кастомный курсор
+ * Кастомный курсор для интерактивного взаимодействия с элементами страницы
  */
 export class CustomCursor {
+  /**
+   * Создает экземпляр кастомного курсора
+   */
   constructor() {
     this.cursor = null;
     this.isHoverSupported = false;
@@ -20,7 +23,8 @@ export class CustomCursor {
     this.storageDebounceTimer = null;
     this.pendingStorageX = null;
     this.pendingStorageY = null;
-    this.interactiveSelector = 'a, button, .header-language, .header-theme, .social-link, .footer-decorative-square, .header-menu-button, .project-card, .research-card';
+    this.interactiveSelector =
+      'a, button, .header-language, .header-theme, .social-link, .footer-decorative-square, .header-menu-button, .project-card, .research-card';
   }
 
   /**
@@ -99,6 +103,8 @@ export class CustomCursor {
 
   /**
    * Сохраняет позицию в sessionStorage с debounce
+   * @param {number} x - Координата X курсора
+   * @param {number} y - Координата Y курсора
    */
   savePositionToStorage(x, y) {
     this.pendingStorageX = x;
@@ -140,10 +146,13 @@ export class CustomCursor {
 
   /**
    * Проверяет hover состояние с throttling
+   * @param {number} x - Координата X курсора
+   * @param {number} y - Координата Y курсора
    */
   checkHoverState(x, y) {
     const now = performance.now();
-    const distanceMoved = Math.abs(x - this.lastHoverCheckX) + Math.abs(y - this.lastHoverCheckY);
+    const distanceMoved =
+      Math.abs(x - this.lastHoverCheckX) + Math.abs(y - this.lastHoverCheckY);
     if (now - this.lastHoverCheck < 50 && distanceMoved < 5) {
       return;
     }
@@ -159,7 +168,9 @@ export class CustomCursor {
       this.isVisible = true;
     }
 
-    const isInteractive = elementUnderCursor && elementUnderCursor.closest(this.interactiveSelector);
+    const isInteractive =
+      elementUnderCursor &&
+      elementUnderCursor.closest(this.interactiveSelector);
     if (isInteractive && !this.isHovering) {
       this.cursor.classList.add('hover');
       this.isHovering = true;
@@ -173,29 +184,33 @@ export class CustomCursor {
    * Настраивает обработчики мыши
    */
   setupMouseHandlers() {
-    window.addEventListener('mousemove', (e) => {
-      if (this.isTouching) {
-        return;
-      }
+    window.addEventListener(
+      'mousemove',
+      (e) => {
+        if (this.isTouching) {
+          return;
+        }
 
-      const x = e.clientX;
-      const y = e.clientY;
+        const x = e.clientX;
+        const y = e.clientY;
 
-      this.targetX = x;
-      this.targetY = y;
+        this.targetX = x;
+        this.targetY = y;
 
-      if (!this.isVisible) {
-        this.cursor.classList.add('visible');
-        this.isVisible = true;
-      }
+        if (!this.isVisible) {
+          this.cursor.classList.add('visible');
+          this.isVisible = true;
+        }
 
-      if (!this.rafId) {
-        this.rafId = requestAnimationFrame(() => this.updateCursorPosition());
-      }
+        if (!this.rafId) {
+          this.rafId = requestAnimationFrame(() => this.updateCursorPosition());
+        }
 
-      this.checkHoverState(x, y);
-      this.savePositionToStorage(x, y);
-    }, { passive: true });
+        this.checkHoverState(x, y);
+        this.savePositionToStorage(x, y);
+      },
+      { passive: true }
+    );
   }
 
   /**
@@ -213,4 +228,3 @@ export class CustomCursor {
     });
   }
 }
-

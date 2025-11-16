@@ -23,22 +23,22 @@ export async function loadData(url, options = {}) {
   if (cached) {
     const { data, timestamp } = cached;
     const age = Date.now() - timestamp;
-    
+
     // Если данные свежие, возвращаем из кеша
     if (age < CACHE_TTL) {
       return Promise.resolve(data);
     }
-    
+
     // Удаляем устаревшие данные из кеша
     cache.delete(url);
   }
-  
+
   // Проверяем, есть ли уже активный запрос для этого URL
   if (pendingRequests.has(url)) {
     // Возвращаем существующий промис
     return pendingRequests.get(url);
   }
-  
+
   // Создаем новый запрос с оптимизацией приоритета
   const requestPromise = fetch(url, {
     ...options,
@@ -53,15 +53,15 @@ export async function loadData(url, options = {}) {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
+
       const data = await response.json();
-      
+
       // Сохраняем в кеш
       cache.set(url, {
         data,
         timestamp: Date.now(),
       });
-      
+
       return data;
     })
     .catch((error) => {
@@ -72,10 +72,9 @@ export async function loadData(url, options = {}) {
       // Удаляем из активных запросов после завершения
       pendingRequests.delete(url);
     });
-  
+
   // Сохраняем промис для дедупликации
   pendingRequests.set(url, requestPromise);
-  
+
   return requestPromise;
 }
-

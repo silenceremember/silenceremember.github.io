@@ -5,7 +5,7 @@
   body.page-404 .header-menu-button {
     display: none;
   }
-  
+
   .header-nav {
     display: none;
   }
@@ -20,7 +20,7 @@
     font-size: 0;
     cursor: pointer;
   }
-  
+
   .header-menu-button:hover {
     background-color: transparent;
   }
@@ -39,32 +39,33 @@
   .cta-button {
     font-size: var(--font-size-small);
     padding: var(--spacing-xs) var(--spacing-lg);
-    transition: font-size var(--transition-duration-base) ease, 
-                padding var(--transition-duration-base) ease;
+    transition:
+      font-size var(--transition-duration-base) ease,
+      padding var(--transition-duration-base) ease;
   }
-  
+
   .project-meta {
     font-size: var(--font-size-small);
     flex-direction: column;
     align-items: flex-start;
     gap: 0;
     transition: font-size var(--transition-duration-base) ease;
-    
+
     span::after {
       display: none !important;
     }
   }
-  
+
   .main-content-name {
     font-size: var(--font-size-h2);
     transition: font-size var(--transition-duration-base) ease;
   }
-  
+
   .main-content-title {
     font-size: var(--font-size-h4);
     transition: font-size var(--transition-duration-base) ease;
   }
-  
+
   .section-title {
     font-size: var(--font-size-h3);
     transition: font-size var(--transition-duration-base) ease;
@@ -75,7 +76,7 @@
   .footer-left {
     display: none;
   }
-  
+
   .footer-content {
     grid-template-columns: 1fr auto;
   }
@@ -85,8 +86,9 @@
   .portrait-image {
     width: clamp(260px, 90.9vw - 30.9px, 280px);
     height: clamp(390px, 136.4vw - 46.4px, 420px);
-    transition: width var(--transition-duration-base) ease, 
-                height var(--transition-duration-base) ease;
+    transition:
+      width var(--transition-duration-base) ease,
+      height var(--transition-duration-base) ease;
   }
 }
 
@@ -95,7 +97,7 @@
     min-width: 320px;
     overflow-x: auto;
   }
-  
+
   .slides-container.tablet-scroll-mode .slide:not(:last-child)::after {
     width: 320px;
   }

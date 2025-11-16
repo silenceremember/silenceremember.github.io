@@ -9,7 +9,10 @@
   flex-shrink: 0;
   z-index: 10;
   background-color: var(--color-bg-primary);
-  transition: transform var(--transition-duration-base) ease, background-color var(--transition-duration-base) ease, color var(--transition-duration-base) ease;
+  transition:
+    transform var(--transition-duration-base) ease,
+    background-color var(--transition-duration-base) ease,
+    color var(--transition-duration-base) ease;
   transform: translateZ(0);
   backface-visibility: hidden;
   -webkit-font-smoothing: antialiased;
@@ -30,7 +33,7 @@
   align-items: center;
   position: relative;
   height: 100%;
-  
+
   /* На мобильных устройствах контент на всю ширину с отступами */
   @media (max-width: 1023px) {
     max-width: 100%;
@@ -44,7 +47,7 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-xs);
-  
+
   .icon-divider {
     width: 16px;
     height: 16px;
@@ -98,7 +101,6 @@
   display: block;
   margin: 0 auto;
 }
-
 
 .header-theme {
   width: 24px;
@@ -154,14 +156,23 @@
   background-color: transparent;
   border: var(--line-width) solid var(--color-divider);
   text-decoration: none;
-  transition: background-color var(--transition-duration-base) ease, border-color var(--transition-duration-base) ease, color var(--transition-duration-base) ease;
+  transition:
+    background-color var(--transition-duration-base) ease,
+    border-color var(--transition-duration-base) ease,
+    color var(--transition-duration-base) ease;
   font-family: var(--font-family);
   cursor: pointer;
   white-space: nowrap;
   box-sizing: border-box;
   /* Фиксированная высота для всех кнопок */
-  min-height: calc(var(--font-size-small) + (var(--spacing-xs) * 2) + (var(--line-width) * 2) + 4px);
-  height: calc(var(--font-size-small) + (var(--spacing-xs) * 2) + (var(--line-width) * 2) + 4px);
+  min-height: calc(
+    var(--font-size-small) + (var(--spacing-xs) * 2) + (var(--line-width) * 2) +
+      4px
+  );
+  height: calc(
+    var(--font-size-small) + (var(--spacing-xs) * 2) + (var(--line-width) * 2) +
+      4px
+  );
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -177,7 +188,7 @@
   background-color: var(--color-text-primary);
   border-color: var(--color-text-primary);
   color: var(--color-bg-primary);
-  
+
   &:hover {
     border-color: var(--color-accent);
     background-color: var(--color-accent);
@@ -214,4 +225,3 @@
 .header-menu-button:hover {
   color: var(--color-accent);
 }
-

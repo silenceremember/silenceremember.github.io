@@ -15,13 +15,8 @@ html {
   width: 100%;
   overflow: hidden;
   /* Плавная смена темы - переходы применяются на уровне html для каскадирования */
-  transition-property: 
-    color,
-    background-color,
-    border-color,
-    fill,
-    stroke,
-    box-shadow;
+  transition-property:
+    color, background-color, border-color, fill, stroke, box-shadow;
   transition-duration: var(--transition-duration-base);
   transition-timing-function: ease;
 }
@@ -78,13 +73,8 @@ table {
 *,
 *::before,
 *::after {
-  transition-property: 
-    color,
-    background-color,
-    border-color,
-    fill,
-    stroke,
-    box-shadow;
+  transition-property:
+    color, background-color, border-color, fill, stroke, box-shadow;
   transition-duration: var(--transition-duration-base);
   transition-timing-function: ease;
 }
@@ -119,7 +109,12 @@ body {
 
 /* Разрешаем выделение для основного текстового контента */
 p,
-h1, h2, h3, h4, h5, h6,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
 .cv-about-text,
 .project-card-description,
 .research-card-description,
@@ -142,7 +137,11 @@ h1, h2, h3, h4, h5, h6,
 .community-event-title,
 .community-event-description,
 .community-section-description,
-.section-title:not(.projects-navigation .section-title):not(.research-navigation .section-title):not(.cv-navigation .section-title):not(.community-navigation .section-title),
+.section-title:not(.projects-navigation .section-title):not(
+    .research-navigation .section-title
+  ):not(.cv-navigation .section-title):not(
+    .community-navigation .section-title
+  ),
 .project-title,
 .details-text,
 .timeline-content,
@@ -250,4 +249,3 @@ img,
   -moz-user-select: none;
   -ms-user-select: none;
 }
-

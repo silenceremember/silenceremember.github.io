@@ -1,142 +1,176 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Резюме геймдизайнера Maxim Elchaninov">
-  <title>Резюме - Maxim Elchaninov</title>
-  
-  <!-- Google Fonts - Inter (Optimized) -->
-  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
-  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet"></noscript>
-  
-  <!-- Resource Hints: Preload только критических ресурсов -->
-  <link rel="preload" href="/scss/style.scss" as="style">
-  <link rel="preload" href="assets/images/portrait.jpg" as="image" fetchpriority="high">
-  <!-- Prefetch для асинхронно загружаемых ресурсов -->
-  <link rel="prefetch" href="/js/main.js" as="script">
-  <link rel="prefetch" href="/js/pages/CVPage.js" as="script">
-  <link rel="prefetch" href="/data/cv.json" as="fetch" crossorigin>
-  <link rel="prefetch" href="/data/community.json" as="fetch" crossorigin>
-  
-  <!-- Prefetch для других страниц -->
-  <link rel="prefetch" href="/index.html">
-  <link rel="prefetch" href="/projects.html">
-  
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
-  <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
-  <link rel="shortcut icon" href="/favicon/favicon.ico" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
-  <meta name="apple-mobile-web-app-title" content="Portfolio" />
-  <link rel="manifest" href="/favicon/site.webmanifest" />
-  
-  <!-- Theme switcher script - загружается синхронно для предотвращения мерцания -->
-  <script src="/js/components/ThemeInit.js"></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Резюме геймдизайнера Maxim Elchaninov" />
+    <title>Резюме - Maxim Elchaninov</title>
 
-  <!-- Main CSS -->
-  <link rel="stylesheet" href="/scss/style.scss">
-</head>
-<body class="page-with-scroll">
-  <div class="page-wrapper">
-    <!-- Header -->
-    <header class="header"></header>
+    <!-- Google Fonts - Inter (Optimized) -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript
+      ><link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap"
+        rel="stylesheet"
+    /></noscript>
 
-    <!-- Horizontal decorative line -->
-    <div class="decorative-line-horizontal"></div>
+    <!-- Resource Hints: Preload только критических ресурсов -->
+    <link rel="preload" href="/scss/style.scss" as="style" />
+    <link
+      rel="preload"
+      href="assets/images/portrait.jpg"
+      as="image"
+      fetchpriority="high"
+    />
+    <!-- Prefetch для асинхронно загружаемых ресурсов -->
+    <link rel="prefetch" href="/js/main.js" as="script" />
+    <link rel="prefetch" href="/js/pages/CVPage.js" as="script" />
+    <link rel="prefetch" href="/data/cv.json" as="fetch" crossorigin />
+    <link rel="prefetch" href="/data/community.json" as="fetch" crossorigin />
 
-    <!-- Main Content -->
-    <main class="content-wrapper">
-      <div class="container cv-page">
-        <!-- Контейнер для индикатора загрузки -->
-        <div class="cv-loading-container" id="cv-loading-container">
-          <!-- Индикатор загрузки -->
-          <div class="loading" id="cv-loading">
-            <div class="loading-squares">
-              <div class="loading-square"></div>
-              <div class="loading-square"></div>
-              <div class="loading-square"></div>
+    <!-- Prefetch для других страниц -->
+    <link rel="prefetch" href="/index.html" />
+    <link rel="prefetch" href="/projects.html" />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/png"
+      href="/favicon/favicon-96x96.png"
+      sizes="96x96"
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/favicon/apple-touch-icon.png"
+    />
+    <meta name="apple-mobile-web-app-title" content="Portfolio" />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+
+    <!-- Theme switcher script - загружается синхронно для предотвращения мерцания -->
+    <script src="/js/components/ThemeInit.js"></script>
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/scss/style.scss" />
+  </head>
+  <body class="page-with-scroll">
+    <div class="page-wrapper">
+      <!-- Header -->
+      <header class="header"></header>
+
+      <!-- Horizontal decorative line -->
+      <div class="decorative-line-horizontal"></div>
+
+      <!-- Main Content -->
+      <main class="content-wrapper">
+        <div class="container cv-page">
+          <!-- Контейнер для индикатора загрузки -->
+          <div class="cv-loading-container" id="cv-loading-container">
+            <!-- Индикатор загрузки -->
+            <div class="loading" id="cv-loading">
+              <div class="loading-squares">
+                <div class="loading-square"></div>
+                <div class="loading-square"></div>
+                <div class="loading-square"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Секция "Заголовок с фото и контактами" -->
+          <section class="cv-section cv-header-section" id="cv-header-section">
+            <!-- Будет загружено через JavaScript -->
+          </section>
+
+          <!-- Секция "О себе" -->
+          <section class="cv-section cv-about-section" id="cv-about-section">
+            <!-- Будет загружено через JavaScript -->
+          </section>
+
+          <!-- Секция "Опыт работы" -->
+          <section class="cv-section cv-work-section" id="cv-work-section">
+            <!-- Будет загружено через JavaScript -->
+          </section>
+
+          <!-- Секция "Образование" -->
+          <section
+            class="cv-section cv-education-section"
+            id="cv-education-section"
+          >
+            <!-- Будет загружено через JavaScript -->
+          </section>
+
+          <!-- Секция "Навыки" -->
+          <section class="cv-section cv-skills-section" id="cv-skills-section">
+            <!-- Будет загружено через JavaScript -->
+          </section>
+
+          <!-- Секция "Сертификаты" -->
+          <section
+            class="cv-section cv-certificates-section"
+            id="cv-certificates-section"
+          >
+            <!-- Будет загружено через JavaScript -->
+          </section>
+
+          <!-- Секция "Курсы" -->
+          <section
+            class="cv-section cv-courses-section"
+            id="cv-courses-section"
+          >
+            <!-- Будет загружено через JavaScript -->
+          </section>
+
+          <!-- Секция "Языки" -->
+          <section
+            class="cv-section cv-languages-section"
+            id="cv-languages-section"
+          >
+            <!-- Будет загружено через JavaScript -->
+          </section>
+
+          <!-- Кнопка скачивания PDF -->
+          <div class="cv-download-section" id="cv-download-section">
+            <!-- Будет загружено через JavaScript -->
+          </div>
+
+          <!-- Навигационное меню для tablet режима -->
+          <div class="cv-navigation">
+            <h2 class="section-title">НАВИГАЦИЯ</h2>
+            <div class="cta-buttons">
+              <a href="index.html" class="cta-button">ГЛАВНАЯ</a>
+              <a href="projects.html" class="cta-button">ПОРТФОЛИО</a>
+              <a href="research.html" class="cta-button">ИССЛЕДОВАНИЯ</a>
+              <a href="cv.html" class="cta-button">РЕЗЮМЕ</a>
+              <a href="community.html" class="cta-button">СООБЩЕСТВО</a>
             </div>
           </div>
         </div>
-        
-        <!-- Секция "Заголовок с фото и контактами" -->
-        <section class="cv-section cv-header-section" id="cv-header-section">
-          <!-- Будет загружено через JavaScript -->
-        </section>
-        
-        <!-- Секция "О себе" -->
-        <section class="cv-section cv-about-section" id="cv-about-section">
-          <!-- Будет загружено через JavaScript -->
-        </section>
-        
-        <!-- Секция "Опыт работы" -->
-        <section class="cv-section cv-work-section" id="cv-work-section">
-          <!-- Будет загружено через JavaScript -->
-        </section>
-        
-        <!-- Секция "Образование" -->
-        <section class="cv-section cv-education-section" id="cv-education-section">
-          <!-- Будет загружено через JavaScript -->
-        </section>
-        
-        <!-- Секция "Навыки" -->
-        <section class="cv-section cv-skills-section" id="cv-skills-section">
-          <!-- Будет загружено через JavaScript -->
-        </section>
-        
-        <!-- Секция "Сертификаты" -->
-        <section class="cv-section cv-certificates-section" id="cv-certificates-section">
-          <!-- Будет загружено через JavaScript -->
-        </section>
-        
-        <!-- Секция "Курсы" -->
-        <section class="cv-section cv-courses-section" id="cv-courses-section">
-          <!-- Будет загружено через JavaScript -->
-        </section>
-        
-        <!-- Секция "Языки" -->
-        <section class="cv-section cv-languages-section" id="cv-languages-section">
-          <!-- Будет загружено через JavaScript -->
-        </section>
-        
-        <!-- Кнопка скачивания PDF -->
-        <div class="cv-download-section" id="cv-download-section">
-          <!-- Будет загружено через JavaScript -->
-        </div>
-        
-        <!-- Навигационное меню для tablet режима -->
-        <div class="cv-navigation">
-          <h2 class="section-title">НАВИГАЦИЯ</h2>
-          <div class="cta-buttons">
-            <a href="index.html" class="cta-button">ГЛАВНАЯ</a>
-            <a href="projects.html" class="cta-button">ПОРТФОЛИО</a>
-            <a href="research.html" class="cta-button">ИССЛЕДОВАНИЯ</a>
-            <a href="cv.html" class="cta-button">РЕЗЮМЕ</a>
-            <a href="community.html" class="cta-button">СООБЩЕСТВО</a>
-          </div>
-        </div>
-      </div>
-    </main>
+      </main>
 
-    <!-- Horizontal decorative line -->
-    <div class="decorative-line-horizontal"></div>
+      <!-- Horizontal decorative line -->
+      <div class="decorative-line-horizontal"></div>
 
-    <!-- Footer -->
-    <footer class="footer"></footer>
-  </div>
-  
-  <div class="custom-cursor"></div>
+      <!-- Footer -->
+      <footer class="footer"></footer>
+    </div>
 
-  <!-- Кнопка "Наверх" -->
-  <div id="scroll-to-top-container"></div>
+    <div class="custom-cursor"></div>
 
-  <!-- JavaScript -->
-  <script type="module" src="/js/main.js"></script>
-</body>
+    <!-- Кнопка "Наверх" -->
+    <div id="scroll-to-top-container"></div>
+
+    <!-- JavaScript -->
+    <script type="module" src="/js/main.js"></script>
+  </body>
 </html>
-

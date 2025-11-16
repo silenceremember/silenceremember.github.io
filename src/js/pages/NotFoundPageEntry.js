@@ -23,6 +23,7 @@ if (document.readyState === 'loading') {
 }
 
 // Обработчик для случая загрузки страницы из кеша (bfcache)
+// Перезапускает анимации при восстановлении страницы из кеша браузера
 window.addEventListener('pageshow', (event) => {
   if (event.persisted) {
     const ctaContent = document.querySelector('.cta-slide-content');
@@ -33,4 +34,3 @@ window.addEventListener('pageshow', (event) => {
     }
   }
 });
-

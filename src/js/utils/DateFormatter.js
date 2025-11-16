@@ -1,5 +1,6 @@
 /**
  * Утилита для централизованного форматирования дат и периодов
+ * Предоставляет статические методы для работы с датами в различных форматах
  */
 export class DateFormatter {
   /**
@@ -12,11 +13,11 @@ export class DateFormatter {
    */
   static formatPeriod(period) {
     if (!period) return '';
-    
+
     const start = period.start || '';
     const end = period.end || 'настоящее время';
     const duration = period.duration ? ` (${period.duration})` : '';
-    
+
     return `${start} — ${end}${duration}`;
   }
 
@@ -30,23 +31,23 @@ export class DateFormatter {
    */
   static formatDate(date) {
     if (!date) return '';
-    
+
     if (date.year) {
       return date.year.toString();
     }
-    
+
     if (date.start && date.end) {
       const startDate = new Date(date.start);
       const endDate = new Date(date.end);
-      
+
       return `${startDate.getDate()}.${String(startDate.getMonth() + 1).padStart(2, '0')}.${startDate.getFullYear()} — ${endDate.getDate()}.${String(endDate.getMonth() + 1).padStart(2, '0')}.${endDate.getFullYear()}`;
     }
-    
+
     if (date.start) {
       const startDate = new Date(date.start);
       return `${startDate.getDate()}.${String(startDate.getMonth() + 1).padStart(2, '0')}.${startDate.getFullYear()}`;
     }
-    
+
     return '';
   }
 
@@ -71,6 +72,3 @@ export class DateFormatter {
     return null;
   }
 }
-
-
-

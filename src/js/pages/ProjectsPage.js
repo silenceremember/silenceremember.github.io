@@ -19,7 +19,7 @@ export class ProjectsPage extends BasePage {
   constructor() {
     super({
       navigationSelector: '.projects-navigation',
-      imageSelector: '.project-card-image'
+      imageSelector: '.project-card-image',
     });
     this.filtersManager = null;
     this.groupingManager = null;
@@ -79,14 +79,14 @@ export class ProjectsPage extends BasePage {
             if (this.groupingManager) {
               this.groupingManager.expandedSections.clear();
             }
-          }
+          },
         }
       );
     } else {
       this.filtersManager.projects = projects;
       this.filtersManager.allProjectCards = this.allProjectCards;
     }
-    
+
     await this.filtersManager.init(projects);
   }
 
@@ -112,22 +112,22 @@ export class ProjectsPage extends BasePage {
 
     // Загружаем шаблон карточки проекта
     await this.loadProjectCardTemplate();
-    
+
     // Загружаем проекты
     const projects = await this.loadProjectsData();
-    
+
     // Скрываем индикатор загрузки и ждем завершения fadeout
     await this.loadingIndicator.hide();
-    
+
     if (projects.length === 0) {
       return;
     }
-    
+
     // Сохраняем проекты для группировки
     this.allProjects = projects;
-    
+
     // Создаем карточки проектов и сохраняем их
-    projects.forEach(project => {
+    projects.forEach((project) => {
       const card = CardFactory.createProjectCard(
         this.projectCardTemplate,
         project,
@@ -137,7 +137,7 @@ export class ProjectsPage extends BasePage {
         this.allProjectCards.set(project.id, card);
       }
     });
-    
+
     // Инициализируем менеджер группировки
     if (!this.groupingManager) {
       this.groupingManager = new ProjectGroupingManager(
@@ -145,19 +145,18 @@ export class ProjectsPage extends BasePage {
         this.allProjectCards,
         {
           onCardClick: (project) => this.openProjectDetails(project),
-          onHideLoading: () => this.loadingIndicator.hide()
+          onHideLoading: () => this.loadingIndicator.hide(),
         }
       );
     } else {
       this.groupingManager.projects = this.allProjects;
       this.groupingManager.allProjectCards = this.allProjectCards;
     }
-    
+
     // Инициализируем фильтры
     await this.initFilters(projects);
-    
+
     // Отображаем проекты с группировкой (без фильтров)
     await this.renderGroupedProjects();
   }
 }
-

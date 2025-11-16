@@ -14,7 +14,10 @@ export default defineConfig({
           const cleanUrl = req.url.split('?')[0].split('#')[0];
 
           // Пропускаем внутренние пути Vite (HMR, клиент и т.д.)
-          if (cleanUrl.startsWith('/@') || cleanUrl.startsWith('/node_modules/')) {
+          if (
+            cleanUrl.startsWith('/@') ||
+            cleanUrl.startsWith('/node_modules/')
+          ) {
             return next();
           }
 
@@ -29,7 +32,7 @@ export default defineConfig({
           if (cleanUrl.includes('.') && !cleanUrl.endsWith('.html')) {
             return next();
           }
-          
+
           const rootPath = server.config.root;
           let filePath = path.join(rootPath, cleanUrl);
 
@@ -44,13 +47,16 @@ export default defineConfig({
             next();
           } catch (e) {
             try {
-                const notFoundHtml = await fs.readFile(path.join(rootPath, '404.html'), 'utf-8');
-                res.statusCode = 404;
-                res.setHeader('Content-Type', 'text/html');
-                res.end(await server.transformIndexHtml(req.url, notFoundHtml));
+              const notFoundHtml = await fs.readFile(
+                path.join(rootPath, '404.html'),
+                'utf-8'
+              );
+              res.statusCode = 404;
+              res.setHeader('Content-Type', 'text/html');
+              res.end(await server.transformIndexHtml(req.url, notFoundHtml));
             } catch (error) {
-                console.error('404.html not found', error);
-                next(error);
+              console.error('404.html not found', error);
+              next(error);
             }
           }
         });
@@ -91,7 +97,10 @@ export default defineConfig({
           if (id.includes('/js/pages/')) {
             const pageName = id.split('/js/pages/')[1].split('.')[0];
             // Конвертируем PascalCase в kebab-case для имен чанков
-            const kebabCase = pageName.replace(/([A-Z])/g, '-$1').toLowerCase().replace(/^-/, '');
+            const kebabCase = pageName
+              .replace(/([A-Z])/g, '-$1')
+              .toLowerCase()
+              .replace(/^-/, '');
             return `page-${kebabCase}`;
           }
           // Разделяем утилиты и компоненты
@@ -115,7 +124,9 @@ export default defineConfig({
         assetFileNames: (assetInfo) => {
           const info = assetInfo.name.split('.');
           const ext = info[info.length - 1];
-          if (/\.(png|jpe?g|svg|gif|tiff|bmp|ico|webp)$/i.test(assetInfo.name)) {
+          if (
+            /\.(png|jpe?g|svg|gif|tiff|bmp|ico|webp)$/i.test(assetInfo.name)
+          ) {
             return `assets/images/[name]-[hash][extname]`;
           }
           if (/\.(woff2?|eot|ttf|otf)$/i.test(assetInfo.name)) {

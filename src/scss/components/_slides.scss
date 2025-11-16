@@ -2,7 +2,7 @@
 
 /* Контейнер слайдов */
 .slides-container {
-  grid-row: 1 / -1;    /* Растягиваем на всю высоту грид-контейнера */
+  grid-row: 1 / -1; /* Растягиваем на всю высоту грид-контейнера */
   grid-column: 1 / -1; /* Растягиваем на всю ширину грид-контейнера */
   position: relative;
   overflow: hidden;
@@ -33,9 +33,10 @@
   visibility: hidden;
   /* Transition для opacity: половина длительности анимации */
   /* Transition для visibility: мгновенно, но с задержкой в половину длительности */
-  transition: opacity calc(var(--animation-duration) / 2) ease-in-out, 
-              visibility 0s calc(var(--animation-duration) / 2),
-              padding 0.3s ease;
+  transition:
+    opacity calc(var(--animation-duration) / 2) ease-in-out,
+    visibility 0s calc(var(--animation-duration) / 2),
+    padding 0.3s ease;
   z-index: 1;
   pointer-events: none; /* Отключаем взаимодействие со скрытыми слайдами */
 }
@@ -100,7 +101,9 @@
   color: var(--color-text-primary);
   margin: 0;
   letter-spacing: var(--letter-spacing-tight);
-  transition: font-size var(--transition-duration-base) ease, color var(--transition-duration-base) ease;
+  transition:
+    font-size var(--transition-duration-base) ease,
+    color var(--transition-duration-base) ease;
 }
 
 .project-info {
@@ -134,18 +137,20 @@
   gap: var(--spacing-xs);
   font-size: var(--font-size-small);
   color: var(--color-secondary);
-  transition: font-size var(--transition-duration-base) ease, color var(--transition-duration-base) ease;
+  transition:
+    font-size var(--transition-duration-base) ease,
+    color var(--transition-duration-base) ease;
   /* Разрешаем выделение метаданных */
   user-select: text;
   -webkit-user-select: text;
   -moz-user-select: text;
   -ms-user-select: text;
-  
+
   span {
     display: inline-flex;
     align-items: center;
     line-height: 1.5;
-    
+
     // Разделитель между элементами (после каждого span, кроме последнего)
     &:not(:last-child)::after {
       content: '';
@@ -165,11 +170,11 @@
       -webkit-mask-position: center;
       flex-shrink: 0;
     }
-    
+
     // Скрываем разделитель для скрытых элементов
-    &[style*="display: none"] {
+    &[style*='display: none'] {
       display: none !important;
-      
+
       &::after {
         display: none;
       }
@@ -224,7 +229,7 @@
   height: 48px;
   background-color: transparent;
   position: relative;
-  
+
   // Большой разделитель как маска поверх изображения
   &::after {
     content: '';
@@ -337,16 +342,18 @@
   transform: translateX(-50%);
   opacity: 0;
   visibility: hidden;
-  transition: opacity var(--transition-duration-base) ease-in-out,
-              visibility 0s var(--transition-duration-base);
+  transition:
+    opacity var(--transition-duration-base) ease-in-out,
+    visibility 0s var(--transition-duration-base);
   pointer-events: none;
   z-index: 100;
-  
+
   &.visible {
     opacity: 1;
     visibility: visible;
-    transition: opacity var(--transition-duration-base) ease-in-out,
-                visibility 0s;
+    transition:
+      opacity var(--transition-duration-base) ease-in-out,
+      visibility 0s;
   }
 }
 

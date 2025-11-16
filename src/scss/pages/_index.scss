@@ -30,17 +30,17 @@
   z-index: 10;
   min-height: 400px;
   pointer-events: none;
-  
+
   @include tablet-and-mobile {
     min-height: 300px;
   }
-  
+
   &:has(.loading.hidden),
-  &[style*="display: none"] {
+  &[style*='display: none'] {
     display: none !important;
     pointer-events: none !important;
   }
-  
+
   .loading:not(.hidden) {
     pointer-events: auto;
   }
@@ -58,7 +58,7 @@
 /* Улучшенные стили для первого слайда */
 .index-page .slide:first-child .main-grid {
   padding: var(--spacing-xl) 0;
-  
+
   @include tablet-and-mobile {
     padding: var(--spacing-lg) 0;
   }
@@ -69,7 +69,7 @@
   width: 100%;
   max-width: 100%;
   padding: 0;
-  
+
   @include desktop-large {
     padding-left: 0;
     padding-right: 0;
@@ -82,19 +82,19 @@
   max-width: 100%;
   padding: 0;
   gap: 0; /* Убираем gap, используем margin для точного контроля */
-  
+
   .section-title {
     margin-bottom: var(--spacing-lg);
-    
+
     @include tablet-and-mobile {
       margin-bottom: var(--spacing-md);
     }
   }
-  
+
   .cta-buttons {
     margin-bottom: var(--spacing-md);
   }
-  
+
   .cta-divider {
     width: 100%;
     max-width: 400px;
@@ -103,7 +103,7 @@
     margin: var(--spacing-md) 0;
     flex-shrink: 0;
   }
-  
+
   .cta-buttons-primary {
     margin-top: var(--spacing-md);
   }
@@ -126,22 +126,21 @@
     padding-left: var(--spacing-md);
     padding-right: var(--spacing-md);
   }
-  
+
   .index-page .slide:first-child {
     padding-left: 0;
     padding-right: 0;
   }
-  
+
   .index-page .slide:first-child .main-grid {
     padding-left: var(--spacing-md);
     padding-right: var(--spacing-md);
   }
-  
+
   /* Скрываем заголовок "ИЗБРАННЫЕ РАБОТЫ" в слайдах 3 и 4 на tablet/mobile,
      чтобы избежать дублирования с заголовком из слайда 2 */
-  .index-page .slide[data-slide="2"] .project-slide-header .section-title,
-  .index-page .slide[data-slide="3"] .project-slide-header .section-title {
+  .index-page .slide[data-slide='2'] .project-slide-header .section-title,
+  .index-page .slide[data-slide='3'] .project-slide-header .section-title {
     display: none;
   }
 }
-

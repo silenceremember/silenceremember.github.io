@@ -28,7 +28,9 @@ export class ScrollManager {
 
     this.header = document.querySelector('.header');
     this.footer = document.querySelector('.footer');
-    this.decorativeLines = document.querySelectorAll('.decorative-line-horizontal');
+    this.decorativeLines = document.querySelectorAll(
+      '.decorative-line-horizontal'
+    );
 
     if (!this.header || !this.footer || this.decorativeLines.length === 0) {
       return;
@@ -36,13 +38,14 @@ export class ScrollManager {
 
     // Проверяем, является ли это страницей со скроллом
     this.isScrollPage = document.body.classList.contains('page-with-scroll');
-    
+
     this.checkViewportForScroll();
     window.addEventListener('resize', () => this.checkViewportForScroll());
   }
 
   /**
    * Определяет контейнер для скролла в зависимости от режима
+   * @returns {HTMLElement|Window} Элемент для скролла
    */
   getScrollElement() {
     if (this.isTabletMode) {
@@ -61,7 +64,7 @@ export class ScrollManager {
     let scrollTop;
     let scrollHeight;
     let clientHeight;
-    
+
     if (scrollElement === window) {
       scrollTop = window.pageYOffset || document.documentElement.scrollTop;
       scrollHeight = document.documentElement.scrollHeight;
@@ -86,17 +89,17 @@ export class ScrollManager {
       // Если вверху или внизу страницы, показываем хедер и футер
       this.header.classList.remove('hidden');
       this.footer.classList.remove('hidden');
-      this.decorativeLines.forEach(line => line.classList.remove('hidden'));
+      this.decorativeLines.forEach((line) => line.classList.remove('hidden'));
     } else if (isScrollingDown && scrollDelta > 1) {
       // Прокрутка вниз: скрываем хедер и футер
       this.header.classList.add('hidden');
       this.footer.classList.add('hidden');
-      this.decorativeLines.forEach(line => line.classList.add('hidden'));
+      this.decorativeLines.forEach((line) => line.classList.add('hidden'));
     } else if (isScrollingUp && scrollDelta > 1) {
       // Прокрутка вверх: показываем хедер и футер
       this.header.classList.remove('hidden');
       this.footer.classList.remove('hidden');
-      this.decorativeLines.forEach(line => line.classList.remove('hidden'));
+      this.decorativeLines.forEach((line) => line.classList.remove('hidden'));
     }
 
     this.lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
@@ -108,29 +111,36 @@ export class ScrollManager {
   checkViewportForScroll() {
     // Определяем, является ли это главной страницей (есть контейнер слайдов)
     const isIndexPage = !!document.querySelector('.slides-container');
-    
+
     // Для страницы проектов проверяем только ширину (<1024)
     // Для главной страницы проверяем ширину (<1024) ИЛИ высоту (<900)
-    const isNowTablet = this.isScrollPage 
-      ? window.innerWidth < 1024 
+    const isNowTablet = this.isScrollPage
+      ? window.innerWidth < 1024
       : window.innerWidth < 1024 || window.innerHeight < 900;
-    
+
     const wasTabletMode = this.isTabletMode;
-    
+
     // Для страницы проектов проверяем изменение состояния только если режим действительно изменился
-    if (isNowTablet === this.isTabletMode && this.isScrollPage && this.isInitialized) {
+    if (
+      isNowTablet === this.isTabletMode &&
+      this.isScrollPage &&
+      this.isInitialized
+    ) {
       return;
     }
-    
+
     this.isTabletMode = isNowTablet;
-    
+
     if (this.isTabletModeCallback) {
       this.isTabletModeCallback(this.isTabletMode);
     }
 
     // Удаляем старые обработчики
     if (wasTabletMode) {
-      this.scrollContainer.removeEventListener('scroll', this.handleScrollBound);
+      this.scrollContainer.removeEventListener(
+        'scroll',
+        this.handleScrollBound
+      );
     }
     if (this.isScrollPage && !wasTabletMode) {
       window.removeEventListener('scroll', this.handleScrollBound);
@@ -145,9 +155,10 @@ export class ScrollManager {
     } else {
       scrollElement = this.scrollContainer;
     }
-    
+
     if (scrollElement === window) {
-      this.lastScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      this.lastScrollTop =
+        window.pageYOffset || document.documentElement.scrollTop;
     } else {
       this.lastScrollTop = scrollElement.scrollTop;
     }
@@ -160,15 +171,16 @@ export class ScrollManager {
       this.scrollContainer.addEventListener('scroll', this.handleScrollBound);
       this.handleScroll();
     } else if (this.isScrollPage) {
-      window.addEventListener('scroll', this.handleScrollBound, { passive: true });
+      window.addEventListener('scroll', this.handleScrollBound, {
+        passive: true,
+      });
       this.handleScroll();
     } else {
       this.header.classList.remove('hidden');
       this.footer.classList.remove('hidden');
-      this.decorativeLines.forEach(line => line.classList.remove('hidden'));
+      this.decorativeLines.forEach((line) => line.classList.remove('hidden'));
     }
-    
+
     this.isInitialized = true;
   }
 }
-

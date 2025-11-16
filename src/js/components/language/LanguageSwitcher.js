@@ -1,5 +1,5 @@
 /**
- * Переключатель языка
+ * Переключатель языка интерфейса
  */
 export class LanguageSwitcher {
   /**
@@ -25,7 +25,7 @@ export class LanguageSwitcher {
     this.checkInterval = setInterval(() => {
       const ruSvg = this.languageButton.querySelector('.language-icon-ru svg');
       const enSvg = this.languageButton.querySelector('.language-icon-en svg');
-      
+
       if (ruSvg && enSvg) {
         this.applyLanguage(this.currentLanguage);
         clearInterval(this.checkInterval);
@@ -41,12 +41,13 @@ export class LanguageSwitcher {
   }
 
   /**
-   * Применяет язык
+   * Применяет язык интерфейса
+   * @param {string} lang - Код языка ('ru' или 'en')
    */
   applyLanguage(lang) {
     const ruIcon = this.languageButton.querySelector('.language-icon-ru');
     const enIcon = this.languageButton.querySelector('.language-icon-en');
-    
+
     if (!ruIcon || !enIcon) return;
 
     const ruSvg = ruIcon.querySelector('svg') || ruIcon;
@@ -69,4 +70,3 @@ export class LanguageSwitcher {
     this.applyLanguage(this.currentLanguage);
   }
 }
-

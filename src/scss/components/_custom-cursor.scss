@@ -12,8 +12,16 @@
   transform: translate(-50%, -50%);
   pointer-events: none;
   z-index: 9999;
-  transition: width 0.2s ease-out, height 0.2s ease-out, opacity 0.2s ease-out;
-  background-color: rgba(18, 18, 18, 0.5); /* Полупрозрачный --color-bg-primary */
+  transition:
+    width 0.2s ease-out,
+    height 0.2s ease-out,
+    opacity 0.2s ease-out;
+  background-color: rgba(
+    18,
+    18,
+    18,
+    0.5
+  ); /* Полупрозрачный --color-bg-primary */
   opacity: 0;
 }
 

@@ -1,5 +1,5 @@
 /**
- * Утилита для маппинга статусов и типов на русский язык
+ * Утилита для маппинга статусов и типов публикаций на русский язык
  */
 export class StatusMapper {
   /**
@@ -9,9 +9,9 @@ export class StatusMapper {
    */
   static getStatusText(status) {
     const statusMap = {
-      'published': 'Опубликовано',
+      published: 'Опубликовано',
       'in-publication': 'На стадии публикации',
-      'in-progress': 'В процессе написания'
+      'in-progress': 'В процессе написания',
     };
     return statusMap[status] || status;
   }
@@ -23,13 +23,10 @@ export class StatusMapper {
    */
   static getTypeText(type) {
     const typeMap = {
-      'thesis': 'Тезисы',
-      'article': 'Статья',
-      'diploma': 'Дипломная работа'
+      thesis: 'Тезисы',
+      article: 'Статья',
+      diploma: 'Дипломная работа',
     };
     return typeMap[type] || type;
   }
 }
-
-
-

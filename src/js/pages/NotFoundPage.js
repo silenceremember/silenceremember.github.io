@@ -13,7 +13,7 @@ export class NotFoundPage extends BasePage {
   constructor() {
     super({
       navigationSelector: '',
-      imageSelector: '.page-404 img'
+      imageSelector: '.page-404 img',
     });
     /** @type {HTMLElement|null} Контейнер с контентом страницы 404 */
     this.ctaContent = null;
@@ -79,7 +79,7 @@ export class NotFoundPage extends BasePage {
         const elementsToAnimate = this.getElementsToAnimate();
 
         // Дополнительная проверка и скрытие видимых элементов
-        elementsToAnimate.forEach(element => {
+        elementsToAnimate.forEach((element) => {
           if (element && DOMHelper.isElementVisible(element)) {
             DOMHelper.hideElementsForAnimation([element]);
           }
@@ -97,14 +97,16 @@ export class NotFoundPage extends BasePage {
             DOMHelper.forceReflow(elementsToAnimate[0]);
 
             // Убеждаемся, что все элементы скрыты перед анимацией
-            elementsToAnimate.forEach(element => {
+            elementsToAnimate.forEach((element) => {
               if (element && DOMHelper.isElementVisible(element)) {
                 DOMHelper.hideElementsForAnimation([element]);
               }
             });
 
             // Запускаем анимацию появления всех элементов одновременно
-            animateElementsAppearance(elementsToAnimate, { skipInitialState: false });
+            animateElementsAppearance(elementsToAnimate, {
+              skipInitialState: false,
+            });
           }
         }, 100);
       });
@@ -137,4 +139,3 @@ export class NotFoundPage extends BasePage {
     this.initializeAnimations();
   }
 }
-

@@ -5,7 +5,14 @@
   flex-direction: column;
   background-color: var(--color-bg-primary);
   border: var(--line-width) solid var(--color-text-primary);
-  transition: transform var(--transition-duration-base) ease-in-out, box-shadow var(--transition-duration-base) ease-in-out, background-color var(--transition-duration-base) ease, border-color var(--transition-duration-base) ease, color var(--transition-duration-base) ease, opacity var(--transition-duration-base) ease-in-out, visibility var(--transition-duration-base) ease-in-out;
+  transition:
+    transform var(--transition-duration-base) ease-in-out,
+    box-shadow var(--transition-duration-base) ease-in-out,
+    background-color var(--transition-duration-base) ease,
+    border-color var(--transition-duration-base) ease,
+    color var(--transition-duration-base) ease,
+    opacity var(--transition-duration-base) ease-in-out,
+    visibility var(--transition-duration-base) ease-in-out;
   cursor: pointer;
   overflow: hidden;
   height: 100%;
@@ -27,23 +34,29 @@
   contain: layout style;
   /* Точка трансформации - центр верхнего края, чтобы не было смещения влево */
   transform-origin: center top;
-  
+
   /* Для плавного появления/исчезновения при фильтрации */
   opacity: 1;
   visibility: visible;
-  
+
   &.project-card-hidden {
     opacity: 0;
     visibility: hidden;
-    transition: opacity var(--transition-duration-base) ease-in-out, visibility var(--transition-duration-base) ease-in-out;
+    transition:
+      opacity var(--transition-duration-base) ease-in-out,
+      visibility var(--transition-duration-base) ease-in-out;
   }
-  
-  &[style*="display: none"] {
+
+  &[style*='display: none'] {
     display: none !important;
   }
-  
+
   &:hover {
-    transform: translate3d(0, -4px, 0); /* Используем translate3d для стабильности и предотвращения subpixel смещений */
+    transform: translate3d(
+      0,
+      -4px,
+      0
+    ); /* Используем translate3d для стабильности и предотвращения subpixel смещений */
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     /* Убрано will-change из CSS - будет добавляться динамически через JS только при необходимости */
     width: 100% !important; /* Сохраняем ширину при hover */
@@ -53,22 +66,22 @@
     margin-right: 0 !important; /* Фиксируем отступ справа */
     /* Убеждаемся, что transform-origin остается в центре */
     transform-origin: center top;
-    
+
     .project-card-image {
       transform: scale(1.05);
     }
-    
+
     .project-card-overlay {
       opacity: 1;
     }
-    
+
     .project-card-button {
       background-color: var(--color-accent);
       border-color: var(--color-accent);
       color: var(--color-bg-primary);
     }
   }
-  
+
   /* will-change управляется через JavaScript динамически */
 }
 
@@ -78,7 +91,9 @@
   padding-top: 56.25%; /* 16:9 aspect ratio */
   overflow: hidden; /* Важно: скрываем переполнение при масштабировании изображения */
   background-color: var(--color-divider);
-  transition: background-color var(--transition-duration-base) ease, color var(--transition-duration-base) ease;
+  transition:
+    background-color var(--transition-duration-base) ease,
+    color var(--transition-duration-base) ease;
   flex-shrink: 0; /* Предотвращаем сжатие при трансформации */
   backface-visibility: hidden; /* Улучшает рендеринг при трансформации */
   transform: translateZ(0); /* Создает новый слой для GPU ускорения */
@@ -100,7 +115,7 @@
   image-rendering: auto;
   /* Предотвращаем размытие при масштабировании */
   transform-origin: center center;
-  
+
   /* will-change управляется через JavaScript динамически */
 }
 
@@ -110,7 +125,11 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -128,22 +147,23 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   border-radius: 2px;
-  transition: background-color var(--transition-duration-base) ease, color var(--transition-duration-base) ease;
+  transition:
+    background-color var(--transition-duration-base) ease,
+    color var(--transition-duration-base) ease;
   /* Исправление размытия */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
-  
+
   /* Светлый режим: светлый фон с темным текстом */
   background-color: var(--theme-light-bg-primary);
   color: var(--theme-light-text-primary);
-  
+
   /* Темный режим: темный фон со светлым текстом */
   [data-theme='dark'] & {
     background-color: var(--theme-dark-bg-primary);
     color: var(--theme-dark-text-primary);
   }
-  
 }
 
 .project-card-tags {
@@ -158,16 +178,18 @@
   font-size: var(--font-size-small);
   border-radius: 2px;
   font-weight: var(--font-weight-medium);
-  transition: background-color var(--transition-duration-base) ease, color var(--transition-duration-base) ease;
+  transition:
+    background-color var(--transition-duration-base) ease,
+    color var(--transition-duration-base) ease;
   /* Исправление размытия */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
-  
+
   /* Светлый режим: темный текст на светлом фоне */
   background-color: var(--theme-light-bg-primary);
   color: var(--theme-light-text-primary);
-  
+
   /* Темный режим: светлый текст на темном фоне */
   [data-theme='dark'] & {
     background-color: var(--theme-dark-bg-primary);
@@ -186,7 +208,9 @@
   max-width: 100%; /* Предотвращаем расширение */
   min-width: 0; /* Позволяет сжиматься */
   background-color: var(--color-bg-primary);
-  transition: background-color var(--transition-duration-base) ease, color var(--transition-duration-base) ease;
+  transition:
+    background-color var(--transition-duration-base) ease,
+    color var(--transition-duration-base) ease;
   flex-shrink: 0; /* Предотвращаем сжатие при трансформации */
   backface-visibility: hidden; /* Улучшает рендеринг при трансформации */
   transform: translateZ(0); /* Создает новый слой для GPU ускорения */
@@ -228,7 +252,7 @@
   flex-shrink: 0;
   color: var(--color-accent);
   transition: color var(--transition-duration-base) ease;
-  
+
   svg {
     width: 100%;
     height: 100%;
@@ -257,7 +281,7 @@
   -webkit-user-select: text;
   -moz-user-select: text;
   -ms-user-select: text;
-  
+
   span {
     position: relative;
     flex-shrink: 0;
@@ -265,18 +289,18 @@
     transition: color var(--transition-duration-base) ease;
     display: inline-flex;
     align-items: center;
-    
+
     // Скрываем разделитель для скрытых элементов
-    &[style*="display: none"] {
+    &[style*='display: none'] {
       display: none !important;
-      
+
       &::after {
         display: none;
       }
     }
-    
+
     // Разделитель только для видимых элементов, которые не последние
-    &:not(:last-child):not([style*="display: none"])::after {
+    &:not(:last-child):not([style*='display: none'])::after {
       content: '';
       display: inline-flex;
       align-items: center;
@@ -373,10 +397,13 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   cursor: pointer;
-  transition: background-color var(--transition-duration-base) ease, color var(--transition-duration-base) ease, border-color var(--transition-duration-base) ease;
+  transition:
+    background-color var(--transition-duration-base) ease,
+    color var(--transition-duration-base) ease,
+    border-color var(--transition-duration-base) ease;
   font-family: var(--font-family);
   pointer-events: auto; /* Кнопка остается кликабельной */
-  
+
   /* Исправление размытых границ */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -384,7 +411,7 @@
   /* Обеспечиваем четкий рендеринг границ */
   border-style: solid;
   box-sizing: border-box;
-  
+
   /* При наведении/нажатии на карточку кнопка ведет себя как cta-button */
   .project-card:hover &,
   .project-card:active &,
@@ -393,7 +420,7 @@
     border-color: var(--color-accent);
     color: var(--color-bg-primary);
   }
-  
+
   /* Прямой hover на кнопку также работает */
   &:hover,
   &:focus {
@@ -409,13 +436,12 @@
   .project-card-content {
     padding: var(--spacing-sm);
   }
-  
+
   .project-card-title {
     font-size: var(--font-size-h5);
   }
-  
+
   .project-card-overlay {
     opacity: 1; /* Всегда показываем overlay на мобильных */
   }
 }
-

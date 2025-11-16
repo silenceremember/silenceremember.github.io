@@ -19,7 +19,10 @@
   color: var(--color-text-primary);
   border: var(--line-width) solid var(--color-text-primary);
   background-color: transparent;
-  transition: background-color var(--transition-duration-base) ease, color var(--transition-duration-base) ease, border-color var(--transition-duration-base) ease;
+  transition:
+    background-color var(--transition-duration-base) ease,
+    color var(--transition-duration-base) ease,
+    border-color var(--transition-duration-base) ease;
   text-align: center;
   flex: 1;
   min-width: 150px;

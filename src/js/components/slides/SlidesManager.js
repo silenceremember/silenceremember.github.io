@@ -1,5 +1,6 @@
 /**
  * Менеджер слайдов для главной страницы
+ * Управляет переключением слайдов, анимациями и режимами отображения
  */
 import { ScrollManager } from '../scroll/ScrollManager.js';
 
@@ -40,10 +41,18 @@ export class SlidesManager {
     this.progressContainer = document.querySelector('.footer-decorative');
     this.header = document.querySelector('.header');
     this.footer = document.querySelector('.footer');
-    this.decorativeLines = document.querySelectorAll('.decorative-line-horizontal');
-    
-    if (!this.slidesContainer || this.slides.length === 0 || !this.progressContainer || 
-        !this.header || !this.footer || this.decorativeLines.length === 0) {
+    this.decorativeLines = document.querySelectorAll(
+      '.decorative-line-horizontal'
+    );
+
+    if (
+      !this.slidesContainer ||
+      this.slides.length === 0 ||
+      !this.progressContainer ||
+      !this.header ||
+      !this.footer ||
+      this.decorativeLines.length === 0
+    ) {
       return;
     }
 
@@ -61,12 +70,12 @@ export class SlidesManager {
 
     // Инициализируем индикаторы
     this.createProgressDots();
-    
+
     // Первоначальная настройка - сначала убедимся, что все слайды скрыты
     this.slides.forEach((slide) => {
       slide.classList.remove('active');
     });
-    
+
     // Инициализируем обработчик скролла
     this.scrollManager = new ScrollManager('.page-wrapper', (isTablet) => {
       this.isTabletMode = isTablet;
@@ -86,16 +95,21 @@ export class SlidesManager {
   }
 
   /**
-   * Показывает подсказку
+   * Показывает подсказку о прокрутке на первом слайде
    */
   showHint() {
-    if (this.slideHint && !this.isTabletMode && this.currentSlideIndex === 0 && 
-        !this.hintShown && !this.hasLeftFirstSlide) {
+    if (
+      this.slideHint &&
+      !this.isTabletMode &&
+      this.currentSlideIndex === 0 &&
+      !this.hintShown &&
+      !this.hasLeftFirstSlide
+    ) {
       this.slideHint.classList.add('visible');
       this.hintShown = true;
     }
   }
-  
+
   /**
    * Скрывает подсказку
    */
@@ -105,7 +119,7 @@ export class SlidesManager {
       this.hintShown = false;
     }
   }
-  
+
   /**
    * Запускает таймер подсказки
    */
@@ -114,16 +128,21 @@ export class SlidesManager {
       clearTimeout(this.hintTimeout);
       this.hintTimeout = null;
     }
-    
+
     this.hideHint();
-    
-    if (this.currentSlideIndex === 0 && !this.isTabletMode && this.slideHint && !this.hasLeftFirstSlide) {
+
+    if (
+      this.currentSlideIndex === 0 &&
+      !this.isTabletMode &&
+      this.slideHint &&
+      !this.hasLeftFirstSlide
+    ) {
       this.hintTimeout = setTimeout(() => {
         this.showHint();
       }, this.HINT_DELAY);
     }
   }
-  
+
   /**
    * Останавливает таймер подсказки
    */
@@ -136,14 +155,15 @@ export class SlidesManager {
   }
 
   /**
-   * Проверяет размер окна и настраивает режим
+   * Проверяет размер окна и настраивает режим отображения
+   * @param {boolean} isTablet - Флаг режима планшета
    */
   checkViewport(isTablet) {
     if (isTablet) {
       this.slidesContainer.classList.add('tablet-scroll-mode');
       document.documentElement.classList.add('page-with-scroll');
       document.body.classList.add('page-with-scroll');
-      
+
       // Восстанавливаем кнопку "наверх" при переходе в tablet/mobile
       const scrollToTopButton = document.getElementById('scroll-to-top');
       if (scrollToTopButton) {
@@ -152,16 +172,16 @@ export class SlidesManager {
         scrollToTopButton.style.visibility = '';
         scrollToTopButton.style.transition = '';
       }
-      
+
       // В tablet-scroll-mode все слайды должны быть видимы
-      this.slides.forEach(slide => {
+      this.slides.forEach((slide) => {
         slide.classList.remove('active');
         slide.style.opacity = '1';
         slide.style.visibility = 'visible';
         slide.style.display = 'block';
         slide.style.position = 'static';
       });
-      
+
       // Немедленно скрываем подсказку без анимации при переходе в tablet/mobile
       if (this.slideHint) {
         this.slideHint.classList.remove('visible');
@@ -170,14 +190,14 @@ export class SlidesManager {
         this.slideHint.style.transition = 'none';
         this.hintShown = false;
       }
-      
+
       this.stopHintTimer();
     } else {
       this.slidesContainer.classList.add('is-resizing');
       this.slidesContainer.classList.remove('tablet-scroll-mode');
       document.documentElement.classList.remove('page-with-scroll');
       document.body.classList.remove('page-with-scroll');
-      
+
       // Немедленно скрываем кнопку "наверх" без анимации при переходе в desktop
       const scrollToTopButton = document.getElementById('scroll-to-top');
       if (scrollToTopButton) {
@@ -187,22 +207,22 @@ export class SlidesManager {
         scrollToTopButton.style.visibility = 'hidden';
         scrollToTopButton.style.transition = 'none';
       }
-      
+
       // Восстанавливаем подсказку при возврате в desktop
       if (this.slideHint) {
         this.slideHint.style.opacity = '';
         this.slideHint.style.visibility = '';
         this.slideHint.style.transition = '';
       }
-      
+
       // Убираем inline стили при возврате в desktop режим
-      this.slides.forEach(slide => {
+      this.slides.forEach((slide) => {
         slide.style.opacity = '';
         slide.style.visibility = '';
         slide.style.display = '';
         slide.style.position = '';
       });
-      
+
       this.showSlideImmediate(this.currentSlideIndex);
       setTimeout(() => {
         this.slidesContainer.classList.remove('is-resizing');
@@ -211,7 +231,7 @@ export class SlidesManager {
           button.style.transition = '';
         }
       }, 50);
-      
+
       // Запускаем таймер подсказки, если мы на первом слайде
       if (this.currentSlideIndex === 0) {
         this.startHintTimer();
@@ -225,7 +245,7 @@ export class SlidesManager {
   createProgressDots() {
     this.progressContainer.innerHTML = '';
     this.progressDots.length = 0;
-    
+
     this.slides.forEach((slide, index) => {
       const dot = document.createElement('div');
       dot.classList.add('footer-decorative-square');
@@ -238,10 +258,11 @@ export class SlidesManager {
 
   /**
    * Показывает активный слайд без анимации
+   * @param {number} index - Индекс слайда для отображения
    */
   showSlideImmediate(index) {
     this.currentSlideIndex = index;
-    
+
     this.slides.forEach((slide, i) => {
       if (i === index) {
         slide.classList.add('active');
@@ -249,7 +270,7 @@ export class SlidesManager {
         slide.classList.remove('active');
       }
     });
-    
+
     this.progressDots.forEach((dot, i) => {
       if (i === index) {
         dot.classList.add('active');
@@ -260,18 +281,23 @@ export class SlidesManager {
   }
 
   /**
-   * Показывает активный слайд
+   * Показывает активный слайд с обновлением индикаторов
+   * @param {number} index - Индекс слайда для отображения
    */
   showSlide(index) {
     // Отслеживаем, покидали ли мы первый слайд
     if (this.currentSlideIndex === 0 && index !== 0) {
       this.hasLeftFirstSlide = true;
     }
-    
+
     this.currentSlideIndex = index;
-    this.slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
-    this.progressDots.forEach((dot, i) => dot.classList.toggle('active', i === index));
-    
+    this.slides.forEach((slide, i) =>
+      slide.classList.toggle('active', i === index)
+    );
+    this.progressDots.forEach((dot, i) =>
+      dot.classList.toggle('active', i === index)
+    );
+
     // Управление подсказкой
     if (index === 0 && !this.isTabletMode && !this.hasLeftFirstSlide) {
       this.startHintTimer();
@@ -281,11 +307,12 @@ export class SlidesManager {
   }
 
   /**
-   * Переключает слайд
+   * Переключает слайд на указанный индекс
+   * @param {number} newIndex - Индекс нового слайда
    */
   changeSlide(newIndex) {
     if (this.isScrolling) return;
-    
+
     if (newIndex >= 0 && newIndex < this.slides.length) {
       // Сбрасываем выделение текста
       if (window.getSelection) {
@@ -294,8 +321,8 @@ export class SlidesManager {
 
       this.isScrolling = true;
       this.showSlide(newIndex);
-      setTimeout(() => { 
-        this.isScrolling = false; 
+      setTimeout(() => {
+        this.isScrolling = false;
       }, this.scrollTimeout);
     }
   }
@@ -306,14 +333,13 @@ export class SlidesManager {
   setupWheelHandler() {
     window.addEventListener('wheel', (event) => {
       if (this.isScrolling || this.isTabletMode) return;
-      
+
       // Скрываем подсказку при прокрутке
       this.stopHintTimer();
-      
+
       const direction = event.deltaY > 0 ? 1 : -1;
       const nextIndex = this.currentSlideIndex + direction;
       this.changeSlide(nextIndex);
     });
   }
 }
-

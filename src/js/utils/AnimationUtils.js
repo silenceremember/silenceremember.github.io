@@ -7,10 +7,10 @@
 export const ANIMATION_CONFIG = {
   duration: '0.3s',
   timing: 'ease-in-out',
-  translateYAppear: '10px',    // Начальное смещение при появлении (снизу)
+  translateYAppear: '10px', // Начальное смещение при появлении (снизу)
   translateYDisappear: '-10px', // Конечное смещение при исчезновении (вверх)
-  translateYFinal: '0',          // Финальная позиция
-  timeout: 300                   // Таймаут в миллисекундах
+  translateYFinal: '0', // Финальная позиция
+  timeout: 300, // Таймаут в миллисекундах
 };
 
 /**
@@ -26,21 +26,23 @@ export const ANIMATION_CONFIG = {
  */
 export function animateElementAppearance(element, options = {}) {
   if (!element) return;
-  
+
   const config = {
     duration: options.duration || ANIMATION_CONFIG.duration,
     timing: options.timing || ANIMATION_CONFIG.timing,
-    translateYAppear: options.translateYAppear || ANIMATION_CONFIG.translateYAppear,
-    translateYFinal: options.translateYFinal || ANIMATION_CONFIG.translateYFinal,
+    translateYAppear:
+      options.translateYAppear || ANIMATION_CONFIG.translateYAppear,
+    translateYFinal:
+      options.translateYFinal || ANIMATION_CONFIG.translateYFinal,
     timeout: options.timeout || ANIMATION_CONFIG.timeout,
-    skipInitialState: options.skipInitialState || false
+    skipInitialState: options.skipInitialState || false,
   };
-  
+
   // Убеждаемся, что элемент видим
   if (element.style.display === 'none') {
     element.style.display = '';
   }
-  
+
   // Устанавливаем начальное состояние СИНХРОННО перед requestAnimationFrame
   if (!config.skipInitialState) {
     // Принудительно устанавливаем начальное состояние
@@ -50,7 +52,7 @@ export function animateElementAppearance(element, options = {}) {
     // Принудительный reflow для применения стилей
     void element.offsetHeight;
   }
-  
+
   // Используем двойной requestAnimationFrame для синхронизации с браузером
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
@@ -67,21 +69,29 @@ export function animateElementAppearance(element, options = {}) {
         const inlineOpacity = element.style.opacity;
         const inlineTransform = element.style.transform;
         const inlineTransition = element.style.transition;
-        
+
         // Если элемент видим или inline стили не установлены, устанавливаем начальное состояние
-        if (computedOpacity > 0.01 || 
-            !inlineOpacity || inlineOpacity === '' || 
-            !inlineTransform || inlineTransform === '' ||
-            (inlineTransition && inlineTransition !== 'none')) {
+        if (
+          computedOpacity > 0.01 ||
+          !inlineOpacity ||
+          inlineOpacity === '' ||
+          !inlineTransform ||
+          inlineTransform === '' ||
+          (inlineTransition && inlineTransition !== 'none')
+        ) {
           // Используем setProperty для гарантии применения (может быть с !important если нужно)
           element.style.setProperty('opacity', '0', 'important');
-          element.style.setProperty('transform', `translateY(${config.translateYAppear})`, 'important');
+          element.style.setProperty(
+            'transform',
+            `translateY(${config.translateYAppear})`,
+            'important'
+          );
           element.style.setProperty('transition', 'none', 'important');
           // Принудительный reflow для применения стилей
           void element.offsetHeight;
         }
       }
-      
+
       // Применяем анимацию
       requestAnimationFrame(() => {
         // Финальная проверка начального состояния перед анимацией
@@ -89,19 +99,27 @@ export function animateElementAppearance(element, options = {}) {
         const finalOpacity = parseFloat(finalComputedStyle.opacity);
         const finalInlineOpacity = element.style.opacity;
         const finalInlineTransform = element.style.transform;
-        
+
         // Если элемент все еще видим или стили не установлены, устанавливаем начальное состояние
-        if (finalOpacity > 0.01 || 
-            !finalInlineOpacity || finalInlineOpacity === '' || 
-            !finalInlineTransform || finalInlineTransform === '') {
+        if (
+          finalOpacity > 0.01 ||
+          !finalInlineOpacity ||
+          finalInlineOpacity === '' ||
+          !finalInlineTransform ||
+          finalInlineTransform === ''
+        ) {
           // Используем setProperty с !important для гарантии применения
           element.style.setProperty('opacity', '0', 'important');
-          element.style.setProperty('transform', `translateY(${config.translateYAppear})`, 'important');
+          element.style.setProperty(
+            'transform',
+            `translateY(${config.translateYAppear})`,
+            'important'
+          );
           element.style.setProperty('transition', 'none', 'important');
           // Принудительный reflow для применения стилей
           void element.offsetHeight;
         }
-        
+
         // Устанавливаем transition и финальное состояние
         // Важно: сначала устанавливаем transition, затем делаем reflow, затем меняем значения
         // Убираем !important перед установкой transition для корректной работы анимации
@@ -109,13 +127,13 @@ export function animateElementAppearance(element, options = {}) {
         element.style.transition = `opacity ${config.duration} ${config.timing}, transform ${config.duration} ${config.timing}`;
         // Принудительный reflow перед изменением opacity и transform для гарантии применения transition
         void element.offsetHeight;
-        
+
         // Устанавливаем финальные значения одновременно (без !important для корректной анимации)
         element.style.removeProperty('opacity');
         element.style.removeProperty('transform');
         element.style.opacity = '1';
         element.style.transform = `translateY(${config.translateYFinal})`;
-        
+
         // Убираем inline стили после анимации
         setTimeout(() => {
           element.style.removeProperty('transform');
@@ -134,32 +152,39 @@ export function animateElementAppearance(element, options = {}) {
  */
 export function animateElementsAppearance(elements, options = {}) {
   if (!elements || elements.length === 0) return;
-  
-  const elementsArray = Array.isArray(elements) ? elements : Array.from(elements);
-  const translateYAppear = options.translateYAppear || ANIMATION_CONFIG.translateYAppear;
+
+  const elementsArray = Array.isArray(elements)
+    ? elements
+    : Array.from(elements);
+  const translateYAppear =
+    options.translateYAppear || ANIMATION_CONFIG.translateYAppear;
   const skipInitialState = options.skipInitialState || false;
-  
+
   // Устанавливаем начальное состояние для всех элементов СИНХРОННО (если не пропущено)
   if (!skipInitialState) {
-  elementsArray.forEach(element => {
-    if (element) {
+    elementsArray.forEach((element) => {
+      if (element) {
         element.style.setProperty('opacity', '0', 'important');
-        element.style.setProperty('transform', `translateY(${translateYAppear})`, 'important');
+        element.style.setProperty(
+          'transform',
+          `translateY(${translateYAppear})`,
+          'important'
+        );
         element.style.setProperty('transition', 'none', 'important');
-    }
-  });
-  
-  // Принудительный reflow для применения стилей
-  if (elementsArray.length > 0 && elementsArray[0]) {
-    void elementsArray[0].offsetHeight;
+      }
+    });
+
+    // Принудительный reflow для применения стилей
+    if (elementsArray.length > 0 && elementsArray[0]) {
+      void elementsArray[0].offsetHeight;
     }
   }
-  
+
   // Используем двойной requestAnimationFrame для синхронизации с браузером
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       // Убеждаемся, что начальное состояние установлено
-      elementsArray.forEach(element => {
+      elementsArray.forEach((element) => {
         if (element) {
           if (skipInitialState) {
             // Проверяем, что начальное состояние действительно установлено
@@ -167,51 +192,64 @@ export function animateElementsAppearance(elements, options = {}) {
             const computedOpacity = parseFloat(computedStyle.opacity);
             const inlineOpacity = element.style.opacity;
             const inlineTransform = element.style.transform;
-            
+
             // Если элемент видим или inline стили не установлены, устанавливаем начальное состояние
-            if (computedOpacity > 0.01 || 
-                !inlineOpacity || inlineOpacity === '' || 
-                !inlineTransform || inlineTransform === '') {
+            if (
+              computedOpacity > 0.01 ||
+              !inlineOpacity ||
+              inlineOpacity === '' ||
+              !inlineTransform ||
+              inlineTransform === ''
+            ) {
               element.style.setProperty('opacity', '0', 'important');
-              element.style.setProperty('transform', `translateY(${translateYAppear})`, 'important');
+              element.style.setProperty(
+                'transform',
+                `translateY(${translateYAppear})`,
+                'important'
+              );
               element.style.setProperty('transition', 'none', 'important');
             }
           } else {
             element.style.setProperty('opacity', '0', 'important');
-            element.style.setProperty('transform', `translateY(${translateYAppear})`, 'important');
+            element.style.setProperty(
+              'transform',
+              `translateY(${translateYAppear})`,
+              'important'
+            );
             element.style.setProperty('transition', 'none', 'important');
           }
         }
       });
-      
+
       // Принудительный reflow для применения стилей
       if (elementsArray.length > 0 && elementsArray[0]) {
         void elementsArray[0].offsetHeight;
       }
-      
+
       // Применяем анимацию одновременно для всех элементов
       requestAnimationFrame(() => {
         const config = {
           duration: options.duration || ANIMATION_CONFIG.duration,
           timing: options.timing || ANIMATION_CONFIG.timing,
-          translateYFinal: options.translateYFinal || ANIMATION_CONFIG.translateYFinal,
-          timeout: options.timeout || ANIMATION_CONFIG.timeout
+          translateYFinal:
+            options.translateYFinal || ANIMATION_CONFIG.translateYFinal,
+          timeout: options.timeout || ANIMATION_CONFIG.timeout,
         };
-        
-        elementsArray.forEach(element => {
+
+        elementsArray.forEach((element) => {
           if (element) {
             // Убираем !important перед установкой transition для корректной работы анимации
             element.style.removeProperty('transition');
             element.style.transition = `opacity ${config.duration} ${config.timing}, transform ${config.duration} ${config.timing}`;
           }
         });
-        
+
         // Принудительный reflow перед изменением значений
         if (elementsArray.length > 0 && elementsArray[0]) {
           void elementsArray[0].offsetHeight;
         }
-        
-        elementsArray.forEach(element => {
+
+        elementsArray.forEach((element) => {
           if (element) {
             // Убираем !important перед установкой финальных значений
             element.style.removeProperty('opacity');
@@ -220,10 +258,10 @@ export function animateElementsAppearance(elements, options = {}) {
             element.style.transform = `translateY(${config.translateYFinal})`;
           }
         });
-        
+
         // Убираем inline стили после анимации
         setTimeout(() => {
-          elementsArray.forEach(element => {
+          elementsArray.forEach((element) => {
             if (element) {
               element.style.removeProperty('transform');
               element.style.removeProperty('opacity');
@@ -245,12 +283,12 @@ export function animateElementsAppearance(elements, options = {}) {
  */
 export function animateTextElements(container, selector, options = {}) {
   if (!container) return;
-  
+
   const elements = container.querySelectorAll(selector);
   if (elements.length === 0) return;
-  
+
   const delay = options.delay || 100;
-  
+
   Array.from(elements).forEach((element, index) => {
     setTimeout(() => {
       animateElementAppearance(element, options);
@@ -266,20 +304,21 @@ export function animateTextElements(container, selector, options = {}) {
  */
 export function animateSectionAppearance(section, options = {}) {
   if (!section) return;
-  
+
   const config = {
     duration: options.duration || ANIMATION_CONFIG.duration,
     timing: options.timing || ANIMATION_CONFIG.timing,
-    translateYAppear: options.translateYAppear || ANIMATION_CONFIG.translateYAppear,
-    translateYFinal: options.translateYFinal || ANIMATION_CONFIG.translateYFinal,
-    timeout: options.timeout || ANIMATION_CONFIG.timeout
+    translateYAppear:
+      options.translateYAppear || ANIMATION_CONFIG.translateYAppear,
+    translateYFinal:
+      options.translateYFinal || ANIMATION_CONFIG.translateYFinal,
+    timeout: options.timeout || ANIMATION_CONFIG.timeout,
   };
-  
+
   // Убеждаемся, что секция видима
   section.style.visibility = 'visible';
   section.style.display = section.style.display || 'block';
-  
+
   // Используем ту же логику, что и в animateElementAppearance для единообразия
   animateElementAppearance(section, config);
 }
-

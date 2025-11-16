@@ -13,7 +13,7 @@
   display: flex;
   flex-direction: column;
   min-height: 0;
-  
+
   @include tablet-and-mobile {
     max-width: 100%;
     padding-left: var(--spacing-lg);
@@ -31,7 +31,7 @@
   margin: 0 0 var(--spacing-xl) 0;
   letter-spacing: var(--letter-spacing-tight);
   line-height: var(--line-height-heading);
-  
+
   @include tablet-and-mobile {
     font-size: var(--font-size-h2);
     margin-bottom: var(--spacing-lg);
@@ -55,7 +55,7 @@
   margin: 0 0 var(--spacing-lg) 0;
   letter-spacing: var(--letter-spacing-tight);
   line-height: var(--line-height-heading);
-  
+
   @include tablet-and-mobile {
     font-size: var(--font-size-h3);
     margin-bottom: var(--spacing-md);
@@ -74,7 +74,7 @@
   gap: var(--spacing-lg);
   margin-bottom: var(--spacing-xl);
   align-items: stretch;
-  
+
   .research-card {
     height: 100%;
     width: 100%;
@@ -83,7 +83,7 @@
     display: flex;
     flex-direction: column;
   }
-  
+
   /* Особый стиль для сетки ВКР - на всю ширину */
   &.research-grid-vkr {
     grid-template-columns: 1fr;
@@ -101,11 +101,11 @@
   border-bottom: var(--line-width) solid var(--color-divider);
   letter-spacing: var(--letter-spacing-tight);
   line-height: var(--line-height-heading);
-  
+
   &:first-of-type {
     margin-top: 0;
   }
-  
+
   @include tablet-and-mobile {
     font-size: var(--font-size-h4);
     margin-top: var(--spacing-lg);
@@ -118,13 +118,13 @@
   margin-bottom: var(--spacing-xl);
   padding-bottom: var(--spacing-lg);
   border-bottom: 1px solid var(--color-divider);
-  
+
   &:last-child {
     border-bottom: none;
     margin-bottom: 0;
     padding-bottom: 0;
   }
-  
+
   @include tablet-and-mobile {
     margin-bottom: var(--spacing-lg);
     padding-bottom: var(--spacing-md);
@@ -137,7 +137,7 @@
   padding: var(--spacing-lg);
   border: var(--line-width) solid var(--color-accent);
   border-radius: 0;
-  
+
   @include tablet-and-mobile {
     padding: var(--spacing-md);
   }
@@ -150,7 +150,7 @@
   color: var(--color-text-primary);
   margin: 0 0 var(--spacing-md) 0;
   line-height: var(--line-height-heading);
-  
+
   @include tablet-and-mobile {
     font-size: var(--font-size-h5);
     margin-bottom: var(--spacing-sm);
@@ -171,7 +171,7 @@
   -webkit-user-select: text;
   -moz-user-select: text;
   -ms-user-select: text;
-  
+
   @include tablet-and-mobile {
     font-size: var(--font-size-small);
     gap: 0.25rem;
@@ -208,17 +208,17 @@
   border: var(--line-width) solid var(--color-text-primary);
   background-color: transparent;
   color: var(--color-text-primary);
-  
+
   &.research-publication-status-published {
     background-color: var(--color-text-primary);
     color: var(--color-bg-primary);
   }
-  
+
   &.research-publication-status-in-publication {
     border-color: var(--color-accent);
     color: var(--color-accent);
   }
-  
+
   &.research-publication-status-in-progress {
     border-color: var(--color-accent);
     background-color: var(--color-accent-bg);
@@ -260,16 +260,19 @@
   color: var(--color-text-primary);
   border: var(--line-width) solid var(--color-text-primary);
   background-color: transparent;
-  transition: background-color var(--transition-duration-base) ease, color var(--transition-duration-base) ease, border-color var(--transition-duration-base) ease;
+  transition:
+    background-color var(--transition-duration-base) ease,
+    color var(--transition-duration-base) ease,
+    border-color var(--transition-duration-base) ease;
   font-family: var(--font-family);
   cursor: pointer;
-  
+
   &:hover {
     background-color: var(--color-accent);
     border-color: var(--color-accent);
     color: var(--color-bg-primary);
   }
-  
+
   @include tablet-and-mobile {
     font-size: var(--font-size-small);
     padding: var(--spacing-xs) var(--spacing-md);
@@ -295,7 +298,7 @@
   cursor: pointer;
   font-family: var(--font-family);
   transition: color var(--transition-duration-base) ease;
-  
+
   &:hover {
     color: var(--color-text-primary);
   }
@@ -314,7 +317,7 @@
   -webkit-user-select: text;
   -moz-user-select: text;
   -ms-user-select: text;
-  
+
   @include tablet-and-mobile {
     font-size: var(--font-size-small);
     padding: var(--spacing-sm);
@@ -332,13 +335,12 @@
   -webkit-user-select: text;
   -moz-user-select: text;
   -ms-user-select: text;
-  
+
   strong {
     font-weight: var(--font-weight-semibold);
     color: var(--color-text-primary);
   }
 }
-
 
 /* Навигационное меню для tablet режима */
 .research-navigation {
@@ -357,7 +359,7 @@
   .research-navigation {
     display: block;
   }
-  
+
   /* Разделитель над навигацией (как между секциями на главной) */
   .research-navigation::before {
     content: '';
@@ -368,12 +370,12 @@
     height: var(--line-width, 1px);
     background-color: var(--color-divider);
   }
-  
+
   .research-navigation .section-title {
     margin-bottom: var(--spacing-lg);
     text-align: center;
   }
-  
+
   .research-navigation .cta-buttons {
     max-width: 400px;
     margin: 0 auto;
@@ -392,15 +394,13 @@
     padding: var(--spacing-lg) var(--spacing-lg);
     padding-bottom: 0;
   }
-  
+
   .research-grid {
     grid-template-columns: 1fr;
     gap: var(--spacing-md);
   }
-  
+
   .research-year-header {
     margin-top: var(--spacing-lg);
   }
 }
-
-

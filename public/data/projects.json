@@ -37,7 +37,14 @@
         }
       ],
       "links": {},
-      "tags": ["unity", "bolt", "economy", "simulator", "prototype", "skillbox"],
+      "tags": [
+        "unity",
+        "bolt",
+        "economy",
+        "simulator",
+        "prototype",
+        "skillbox"
+      ],
       "featured": true,
       "displayMeta": {
         "genre": "ARCADE ECONOMY SIMULATOR",
@@ -90,7 +97,14 @@
         }
       ],
       "links": {},
-      "tags": ["top-down", "shooter", "team-lead", "gamedesign", "narrative", "ranhigs"],
+      "tags": [
+        "top-down",
+        "shooter",
+        "team-lead",
+        "gamedesign",
+        "narrative",
+        "ranhigs"
+      ],
       "featured": true,
       "displayMeta": {
         "genre": "TOP DOWN SHOOTER",
@@ -431,7 +445,13 @@
         }
       ],
       "links": {},
-      "tags": ["narrative", "setting", "world-building", "capybara-bunk", "ranhigs"],
+      "tags": [
+        "narrative",
+        "setting",
+        "world-building",
+        "capybara-bunk",
+        "ranhigs"
+      ],
       "featured": false,
       "technologies": []
     },
@@ -493,9 +513,7 @@
       "fullDescription": "Игра, созданная на трехдневном джеме. Особенность проекта - собственная графика, которую я рисовал сам. Графика получила высокую оценку от участников джема.",
       "media": {
         "preview": "assets/images/projects/outer-signal/preview.jpg",
-        "screenshots": [
-          "assets/images/projects/outer-signal/screenshot-1.jpg"
-        ]
+        "screenshots": ["assets/images/projects/outer-signal/screenshot-1.jpg"]
       },
       "documents": [],
       "links": {
@@ -667,4 +685,3 @@
     }
   ]
 }
-

@@ -55,7 +55,7 @@
   max-width: calc(1200px + 16px);
   margin: 0 auto;
   padding: 0 var(--spacing-lg);
-  
+
   /* Для страницы проектов стили переопределяются в _projects.scss */
   body.page-with-scroll & {
     max-width: 100% !important;
@@ -63,7 +63,7 @@
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
-  
+
   /* На мобильных устройствах контент на всю ширину с отступами */
   @media (max-width: 1023px) {
     max-width: 100%;
@@ -123,7 +123,9 @@
   border: 1px solid var(--color-text-primary);
   object-fit: cover;
   user-select: none; /* Запрещаем выделение изображения */
-  transition: width 0.3s ease, height 0.3s ease;
+  transition:
+    width 0.3s ease,
+    height 0.3s ease;
 }
 
 /* Стили для текстового контента */
@@ -149,7 +151,9 @@
   text-transform: uppercase;
   color: var(--color-text-primary);
   margin: 0;
-  transition: font-size var(--transition-duration-base) ease, color var(--transition-duration-base) ease;
+  transition:
+    font-size var(--transition-duration-base) ease,
+    color var(--transition-duration-base) ease;
 }
 
 .main-content-tagline {
@@ -169,7 +173,9 @@
   text-transform: uppercase;
   color: var(--color-text-primary);
   margin: 0;
-  transition: font-size var(--transition-duration-base) ease, color var(--transition-duration-base) ease;
+  transition:
+    font-size var(--transition-duration-base) ease,
+    color var(--transition-duration-base) ease;
 }
 
 .main-content-description {
@@ -240,19 +246,18 @@ body.page-404 .content-wrapper {
   z-index: 10;
   min-height: 400px;
   pointer-events: none;
-  
+
   @include tablet-and-mobile {
     min-height: 300px;
   }
-  
+
   &:has(.loading.hidden),
-  &[style*="display: none"] {
+  &[style*='display: none'] {
     display: none !important;
     pointer-events: none !important;
   }
-  
+
   .loading:not(.hidden) {
     pointer-events: auto;
   }
 }
-

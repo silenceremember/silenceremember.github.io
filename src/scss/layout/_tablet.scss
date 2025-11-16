@@ -16,7 +16,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  
+
   /* Убрано will-change для header - это большой элемент (100vw ширина) */
   /* Transition достаточно для плавной анимации */
 
@@ -24,7 +24,7 @@
   body:has(.slides-container) .header-content * {
     pointer-events: auto;
   }
-  
+
   body:has(.slides-container) .footer {
     position: fixed;
     bottom: 0;
@@ -36,7 +36,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  
+
   /* Убрано will-change для footer - это большой элемент (100vw ширина) */
   /* Transition достаточно для плавной анимации */
 
@@ -62,7 +62,7 @@
     transform: translateZ(0);
     backface-visibility: hidden;
   }
-  
+
   /* Убрано will-change для декоративных линий - это большие элементы (100vw ширина) */
   /* Transition достаточно для плавной анимации */
 
@@ -155,7 +155,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  
+
   /* Убрано will-change для header - это большой элемент (100vw ширина) */
   /* Transition достаточно для плавной анимации */
 
@@ -163,7 +163,7 @@
   body:not(.page-with-scroll) .header-content * {
     pointer-events: auto;
   }
-  
+
   body:not(.page-with-scroll) .footer {
     position: fixed;
     bottom: 0;
@@ -175,7 +175,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  
+
   /* Убрано will-change для footer - это большой элемент (100vw ширина) */
   /* Transition достаточно для плавной анимации */
 
@@ -201,7 +201,7 @@
     transform: translateZ(0);
     backface-visibility: hidden;
   }
-  
+
   /* Убрано will-change для декоративных линий - это большие элементы (100vw ширина) */
   /* Transition достаточно для плавной анимации */
 
@@ -263,7 +263,11 @@
     box-sizing: border-box;
   }
 
-  .slides-container.tablet-scroll-mode .slide[data-slide="1"] ~ .slide .project-slide-header .section-title {
+  .slides-container.tablet-scroll-mode
+    .slide[data-slide='1']
+    ~ .slide
+    .project-slide-header
+    .section-title {
     display: none;
   }
 
@@ -273,7 +277,10 @@
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: min(calc(100% - 2 * var(--spacing-lg)), calc(var(--max-width-large) - 2 * var(--spacing-lg)));
+    width: min(
+      calc(100% - 2 * var(--spacing-lg)),
+      calc(var(--max-width-large) - 2 * var(--spacing-lg))
+    );
     height: var(--line-width, 1px);
     background-color: var(--color-divider);
   }
@@ -329,7 +336,11 @@
     box-sizing: border-box;
   }
 
-  .slides-container.tablet-scroll-mode .slide[data-slide="1"] ~ .slide .project-slide-header .section-title {
+  .slides-container.tablet-scroll-mode
+    .slide[data-slide='1']
+    ~ .slide
+    .project-slide-header
+    .section-title {
     display: none;
   }
 
@@ -339,7 +350,10 @@
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: min(calc(100% - 2 * var(--spacing-lg)), calc(var(--max-width-large) - 2 * var(--spacing-lg)));
+    width: min(
+      calc(100% - 2 * var(--spacing-lg)),
+      calc(var(--max-width-large) - 2 * var(--spacing-lg))
+    );
     height: var(--line-width, 1px);
     background-color: var(--color-divider);
   }
@@ -376,7 +390,7 @@
     padding-top: var(--spacing-xxl);
     padding-bottom: var(--spacing-xxl);
   }
-  
+
   /* Контейнер для страницы 404 */
   .page-404-container {
     position: relative;
@@ -386,7 +400,7 @@
     align-items: center;
     justify-content: center;
   }
-  
+
   /* Контейнер для индикатора загрузки на странице 404 */
   .notfound-loading-container {
     position: absolute;
@@ -400,13 +414,13 @@
     z-index: 10;
     min-height: 400px;
     pointer-events: none;
-    
+
     &:has(.loading.hidden),
-    &[style*="display: none"] {
+    &[style*='display: none'] {
       display: none !important;
       pointer-events: none !important;
     }
-    
+
     .loading:not(.hidden) {
       pointer-events: auto;
     }
@@ -461,16 +475,17 @@
     flex-shrink: 0;
     z-index: 10;
     background-color: var(--color-bg-primary);
-    transition: transform var(--transition-duration-base) ease, 
-                background-color var(--transition-duration-base) ease, 
-                color var(--transition-duration-base) ease;
+    transition:
+      transform var(--transition-duration-base) ease,
+      background-color var(--transition-duration-base) ease,
+      color var(--transition-duration-base) ease;
     pointer-events: none;
     transform: translateZ(0);
     backface-visibility: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  
+
   /* Убрано will-change для header - это большой элемент (100vw ширина) */
   /* Transition достаточно для плавной анимации */
 
@@ -494,16 +509,17 @@
     flex-shrink: 0;
     z-index: 10;
     background-color: var(--color-bg-primary);
-    transition: transform var(--transition-duration-base) ease, 
-                background-color var(--transition-duration-base) ease, 
-                color var(--transition-duration-base) ease;
+    transition:
+      transform var(--transition-duration-base) ease,
+      background-color var(--transition-duration-base) ease,
+      color var(--transition-duration-base) ease;
     pointer-events: none;
     transform: translateZ(0);
     backface-visibility: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  
+
   /* Убрано will-change для footer - это большой элемент (100vw ширина) */
   /* Transition достаточно для плавной анимации */
 
@@ -529,7 +545,7 @@
     transform: translateZ(0);
     backface-visibility: hidden;
   }
-  
+
   /* Убрано will-change для декоративных линий - это большие элементы (100vw ширина) */
   /* Transition достаточно для плавной анимации */
 

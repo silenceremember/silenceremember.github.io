@@ -1,5 +1,6 @@
 /**
  * Сервис для ленивой загрузки фоновых изображений через Intersection Observer
+ * Оптимизирует загрузку изображений для улучшения производительности
  */
 export class BackgroundImageService {
   /**
@@ -12,26 +13,30 @@ export class BackgroundImageService {
 
   /**
    * Инициализирует Intersection Observer если еще не создан
+   * Observer отслеживает видимость элементов и загружает изображения при появлении в viewport
    */
   initObserver() {
     if (this.observer) return;
 
-    this.observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const imageUrl = entry.target.dataset.bgImage;
-          if (imageUrl) {
-            this.loadBackgroundImage(entry.target, imageUrl);
-            // Удаляем data-атрибут после загрузки
-            delete entry.target.dataset.bgImage;
+    this.observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const imageUrl = entry.target.dataset.bgImage;
+            if (imageUrl) {
+              this.loadBackgroundImage(entry.target, imageUrl);
+              // Удаляем data-атрибут после загрузки
+              delete entry.target.dataset.bgImage;
+            }
+            this.observer.unobserve(entry.target);
           }
-          this.observer.unobserve(entry.target);
-        }
-      });
-    }, {
-      rootMargin: '100px', // Увеличено для более ранней загрузки
-      threshold: 0.01 // Начинаем загрузку при 1% видимости
-    });
+        });
+      },
+      {
+        rootMargin: '100px', // Увеличено для более ранней загрузки
+        threshold: 0.01, // Начинаем загрузку при 1% видимости
+      }
+    );
   }
 
   /**
@@ -42,7 +47,7 @@ export class BackgroundImageService {
    */
   loadBackgroundImage(element, imageUrl, isVisible = false) {
     if (!element || !imageUrl) return;
-    
+
     // Если элемент виден сразу, загружаем изображение немедленно
     if (isVisible) {
       // Используем Image для предзагрузки перед установкой background-image
@@ -60,13 +65,13 @@ export class BackgroundImageService {
       img.src = imageUrl;
       return;
     }
-    
+
     // Используем Intersection Observer для ленивой загрузки
     this.initObserver();
-    
+
     // Сохраняем URL в data-атрибуте для observer
     element.dataset.bgImage = imageUrl;
-    
+
     // Наблюдаем за элементом только если еще не наблюдаем
     if (!this.observedElements.has(element)) {
       this.observer.observe(element);
@@ -99,4 +104,3 @@ export class BackgroundImageService {
 
 // Создаем глобальный экземпляр для переиспользования
 export const backgroundImageService = new BackgroundImageService();
-

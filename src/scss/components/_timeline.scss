@@ -4,7 +4,7 @@
   position: relative;
   padding-left: var(--spacing-xl);
   margin-top: var(--spacing-lg);
-  
+
   &::before {
     content: '';
     position: absolute;
@@ -14,7 +14,7 @@
     width: 1px;
     background-color: var(--color-divider);
   }
-  
+
   @media (max-width: 1023px) {
     padding-left: var(--spacing-lg);
   }
@@ -24,12 +24,12 @@
   position: relative;
   margin-bottom: var(--spacing-xl);
   padding-bottom: var(--spacing-lg);
-  
+
   &:last-child {
     margin-bottom: 0;
     padding-bottom: 0;
   }
-  
+
   @media (max-width: 1023px) {
     margin-bottom: var(--spacing-lg);
     padding-bottom: var(--spacing-md);
@@ -46,7 +46,7 @@
   background-color: var(--color-bg-primary);
   border: 1px solid var(--color-divider);
   z-index: 1;
-  
+
   @media (max-width: 1023px) {
     left: calc(-1 * var(--spacing-lg) - 8px);
   }
@@ -88,7 +88,7 @@
   -webkit-user-select: text;
   -moz-user-select: text;
   -ms-user-select: text;
-  
+
   @media (max-width: 1023px) {
     font-size: var(--font-size-h5);
   }
@@ -105,7 +105,7 @@
   -webkit-user-select: text;
   -moz-user-select: text;
   -ms-user-select: text;
-  
+
   @media (max-width: 1023px) {
     font-size: var(--font-size-small);
   }
@@ -130,14 +130,14 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xs);
-  
+
   li {
     position: relative;
     padding-left: var(--spacing-md);
     font-size: var(--font-size-base);
     line-height: var(--line-height-base);
     color: var(--color-text-primary);
-    
+
     &::before {
       content: '•';
       position: absolute;
@@ -145,7 +145,7 @@
       color: var(--color-accent);
       font-weight: var(--font-weight-bold);
     }
-    
+
     @media (max-width: 1023px) {
       font-size: var(--font-size-small);
       padding-left: var(--spacing-sm);
@@ -169,7 +169,7 @@
   background-color: var(--color-bg-primary);
   border: var(--line-width) solid var(--color-divider);
   border-radius: 0;
-  
+
   @media (max-width: 1023px) {
     font-size: 0.75rem;
     padding: 0.2rem var(--spacing-xs);
@@ -193,4 +193,3 @@
     }
   }
 }
-

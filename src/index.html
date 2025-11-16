@@ -1,252 +1,303 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Портфолио геймдизайнера Maxim Elchaninov">
-  <title>Maxim Elchaninov - Game Designer</title>
-  
-  <!-- Google Fonts - Inter (Optimized) -->
-  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
-  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Google Fonts CSS загружается асинхронно для оптимизации -->
-  <!-- Preload шрифта не нужен - Google Fonts CSS API сам управляет загрузкой с правильными URL -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet"></noscript>
-  
-  <!-- Resource Hints: Preload только критических ресурсов -->
-  <link rel="preload" href="/scss/style.scss" as="style">
-  <link rel="preload" href="assets/images/portrait.webp" as="image" fetchpriority="high">
-  <!-- Prefetch для асинхронно загружаемых ресурсов -->
-  <link rel="prefetch" href="/js/main.js" as="script">
-  <link rel="prefetch" href="/js/pages/IndexPage.js" as="script">
-  
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
-  <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
-  <link rel="shortcut icon" href="/favicon/favicon.ico" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
-  <meta name="apple-mobile-web-app-title" content="Portfolio" />
-  <link rel="manifest" href="/favicon/site.webmanifest" />
-  
-  <!-- Prefetch для других страниц -->
-  <link rel="prefetch" href="/projects.html">
-  <link rel="prefetch" href="/data/projects.json" as="fetch" crossorigin>
-  
-  <!-- Theme switcher script - загружается синхронно для предотвращения мерцания -->
-  <script src="/js/components/ThemeInit.js"></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Портфолио геймдизайнера Maxim Elchaninov"
+    />
+    <title>Maxim Elchaninov - Game Designer</title>
 
-  <!-- Main CSS -->
-  <link rel="stylesheet" href="/scss/style.scss">
-</head>
-<body>
-  <div class="page-wrapper">
-    <!-- Header -->
-    <header class="header"></header>
+    <!-- Google Fonts - Inter (Optimized) -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Google Fonts CSS загружается асинхронно для оптимизации -->
+    <!-- Preload шрифта не нужен - Google Fonts CSS API сам управляет загрузкой с правильными URL -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript
+      ><link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap"
+        rel="stylesheet"
+    /></noscript>
 
-  <!-- Horizontal decorative line -->
-  <div class="decorative-line-horizontal"></div>
+    <!-- Resource Hints: Preload только критических ресурсов -->
+    <link rel="preload" href="/scss/style.scss" as="style" />
+    <link
+      rel="preload"
+      href="assets/images/portrait.webp"
+      as="image"
+      fetchpriority="high"
+    />
+    <!-- Prefetch для асинхронно загружаемых ресурсов -->
+    <link rel="prefetch" href="/js/main.js" as="script" />
+    <link rel="prefetch" href="/js/pages/IndexPage.js" as="script" />
 
-  <!-- Main Content - Slides Container -->
-  <main class="content-wrapper">
-    <div class="container index-page">
-      <!-- Контейнер для индикатора загрузки -->
-      <div class="index-loading-container" id="index-loading-container">
-        <!-- Индикатор загрузки -->
-        <div class="loading" id="index-loading">
-          <div class="loading-squares">
-            <div class="loading-square"></div>
-            <div class="loading-square"></div>
-            <div class="loading-square"></div>
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/png"
+      href="/favicon/favicon-96x96.png"
+      sizes="96x96"
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/favicon/apple-touch-icon.png"
+    />
+    <meta name="apple-mobile-web-app-title" content="Portfolio" />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+
+    <!-- Prefetch для других страниц -->
+    <link rel="prefetch" href="/projects.html" />
+    <link rel="prefetch" href="/data/projects.json" as="fetch" crossorigin />
+
+    <!-- Theme switcher script - загружается синхронно для предотвращения мерцания -->
+    <script src="/js/components/ThemeInit.js"></script>
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/scss/style.scss" />
+  </head>
+  <body>
+    <div class="page-wrapper">
+      <!-- Header -->
+      <header class="header"></header>
+
+      <!-- Horizontal decorative line -->
+      <div class="decorative-line-horizontal"></div>
+
+      <!-- Main Content - Slides Container -->
+      <main class="content-wrapper">
+        <div class="container index-page">
+          <!-- Контейнер для индикатора загрузки -->
+          <div class="index-loading-container" id="index-loading-container">
+            <!-- Индикатор загрузки -->
+            <div class="loading" id="index-loading">
+              <div class="loading-squares">
+                <div class="loading-square"></div>
+                <div class="loading-square"></div>
+                <div class="loading-square"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="slides-container">
+            <!-- СЛАЙД 1: Главная информация -->
+            <div class="slide-wrapper">
+              <section class="slide active" data-slide="0">
+                <div class="main-grid">
+                  <div class="main-content-top">
+                    <h1 class="main-content-name">MAXIM ELCHANINOV</h1>
+                    <p class="main-content-tagline">SILENCEREMEMBER</p>
+                    <p class="main-content-title">SYSTEM GAME DESIGNER</p>
+                    <p class="cv-about-text">
+                      Проектирую игровые системы и нарратив как единое целое для
+                      создания осмысленного опыта. На сайте представлены мои
+                      проекты, исследования и технические эксперименты.
+                    </p>
+                  </div>
+                  <div class="main-content-left">
+                    <div class="portrait-container">
+                      <img
+                        src="assets/images/portrait.webp"
+                        alt="Maxim Elchaninov"
+                        class="portrait-image"
+                        fetchpriority="high"
+                        decoding="async"
+                        loading="eager"
+                        width="280"
+                        height="420"
+                        onerror="this.src='assets/images/portrait-placeholder.svg'"
+                      />
+                    </div>
+                  </div>
+                  <div class="main-content-bottom"></div>
+                </div>
+                <div class="slide-hint" id="slide-hint">
+                  <p class="slide-hint-text">
+                    Прокручивайте колесико мыши для перехода между слайдами
+                  </p>
+                </div>
+              </section>
+            </div>
+
+            <!-- СЛАЙД 2: Проект 1 (загружается динамически) -->
+            <div class="slide-wrapper">
+              <section class="slide" data-slide="1">
+                <div class="project-slide-content">
+                  <div class="project-slide-header">
+                    <h2 class="section-title">ИЗБРАННЫЕ РАБОТЫ</h2>
+                    <div class="project-info">
+                      <h3 class="project-title"></h3>
+                      <div class="project-meta">
+                        <span></span>
+                        <span></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="project-main-area">
+                    <div class="project-visual">
+                      <div class="project-placeholder"></div>
+                      <div class="project-image-previews">
+                        <div class="preview-placeholder"></div>
+                        <div class="preview-placeholder"></div>
+                        <div class="preview-placeholder"></div>
+                      </div>
+                    </div>
+                    <div class="project-details">
+                      <div class="details-block">
+                        <h4 class="details-heading">МОЯ РОЛЬ</h4>
+                        <p class="details-text"></p>
+                      </div>
+                      <div class="details-block">
+                        <h4 class="details-heading">КЛЮЧЕВОЙ ВКЛАД</h4>
+                        <p class="details-text"></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <!-- СЛАЙД 3: Проект 2 (загружается динамически) -->
+            <div class="slide-wrapper">
+              <section class="slide" data-slide="2">
+                <div class="project-slide-content">
+                  <div class="project-slide-header">
+                    <h2 class="section-title">ИЗБРАННЫЕ РАБОТЫ</h2>
+                    <div class="project-info">
+                      <h3 class="project-title"></h3>
+                      <div class="project-meta">
+                        <span></span>
+                        <span></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="project-main-area">
+                    <div class="project-visual">
+                      <div class="project-placeholder"></div>
+                      <div class="project-image-previews">
+                        <div class="preview-placeholder"></div>
+                        <div class="preview-placeholder"></div>
+                        <div class="preview-placeholder"></div>
+                      </div>
+                    </div>
+                    <div class="project-details">
+                      <div class="details-block">
+                        <h4 class="details-heading">МОЯ РОЛЬ</h4>
+                        <p class="details-text"></p>
+                      </div>
+                      <div class="details-block">
+                        <h4 class="details-heading">КЛЮЧЕВОЙ ВКЛАД</h4>
+                        <p class="details-text"></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <!-- СЛАЙД 4: Проект 3 (загружается динамически) -->
+            <div class="slide-wrapper">
+              <section class="slide" data-slide="3">
+                <div class="project-slide-content">
+                  <div class="project-slide-header">
+                    <h2 class="section-title">ИЗБРАННЫЕ РАБОТЫ</h2>
+                    <div class="project-info">
+                      <h3 class="project-title"></h3>
+                      <div class="project-meta">
+                        <span></span>
+                        <span></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="project-main-area">
+                    <div class="project-visual">
+                      <div class="project-placeholder"></div>
+                      <div class="project-image-previews">
+                        <div class="preview-placeholder"></div>
+                        <div class="preview-placeholder"></div>
+                        <div class="preview-placeholder"></div>
+                      </div>
+                    </div>
+                    <div class="project-details">
+                      <div class="details-block">
+                        <h4 class="details-heading">МОЯ РОЛЬ</h4>
+                        <p class="details-text"></p>
+                      </div>
+                      <div class="details-block">
+                        <h4 class="details-heading">КЛЮЧЕВОЙ ВКЛАД</h4>
+                        <p class="details-text"></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <!-- СЛАЙД 5: CTA Кнопки -->
+            <div class="slide-wrapper">
+              <section class="slide" data-slide="4" id="cta-section">
+                <div class="cta-slide-content">
+                  <h2 class="section-title">ЧТО ДАЛЬШЕ?</h2>
+                  <div class="cta-buttons">
+                    <a href="index.html" class="cta-button">ГЛАВНАЯ</a>
+                    <a href="projects.html" class="cta-button">ПОРТФОЛИО</a>
+                    <a href="research.html" class="cta-button">ИССЛЕДОВАНИЯ</a>
+                    <a href="cv.html" class="cta-button">РЕЗЮМЕ</a>
+                    <a href="community.html" class="cta-button">СООБЩЕСТВО</a>
+                  </div>
+                  <div class="cta-divider"></div>
+                  <div class="cta-buttons cta-buttons-primary">
+                    <a
+                      href="mailto:slcrmmbr@outlook.com"
+                      class="cta-button cta-button-primary"
+                      >СВЯЗАТЬСЯ ПО ПОЧТЕ</a
+                    >
+                    <a
+                      href="https://t.me/silenceremember"
+                      class="cta-button cta-button-primary"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >СВЯЗАТЬСЯ В ТЕЛЕГРАММ</a
+                    >
+                  </div>
+                </div>
+              </section>
+            </div>
           </div>
         </div>
-      </div>
-      
-      <div class="slides-container">
-        
-        <!-- СЛАЙД 1: Главная информация -->
-        <div class="slide-wrapper">
-        <section class="slide active" data-slide="0">
-          <div class="main-grid">
-            <div class="main-content-top">
-              <h1 class="main-content-name">MAXIM ELCHANINOV</h1>
-              <p class="main-content-tagline">SILENCEREMEMBER</p>
-              <p class="main-content-title">SYSTEM GAME DESIGNER</p>
-              <p class="cv-about-text">
-                Проектирую игровые системы и нарратив как единое целое для создания осмысленного опыта. На сайте представлены мои проекты, исследования и технические эксперименты.
-              </p>
-            </div>
-            <div class="main-content-left">
-              <div class="portrait-container">
-                <img src="assets/images/portrait.webp" alt="Maxim Elchaninov" class="portrait-image" fetchpriority="high" decoding="async" loading="eager" width="280" height="420" onerror="this.src='assets/images/portrait-placeholder.svg'">
-              </div>
-            </div>
-            <div class="main-content-bottom">
-            </div>
-          </div>
-          <div class="slide-hint" id="slide-hint">
-            <p class="slide-hint-text">Прокручивайте колесико мыши для перехода между слайдами</p>
-          </div>
-        </section>
-        </div>
+      </main>
 
-        <!-- СЛАЙД 2: Проект 1 (загружается динамически) -->
-        <div class="slide-wrapper">
-        <section class="slide" data-slide="1">
-          <div class="project-slide-content">
-            <div class="project-slide-header">
-              <h2 class="section-title">ИЗБРАННЫЕ РАБОТЫ</h2>
-              <div class="project-info">
-                <h3 class="project-title"></h3>
-                <div class="project-meta">
-                  <span></span>
-                  <span></span>
-                </div>
-              </div>
-            </div>
-            <div class="project-main-area">
-              <div class="project-visual">
-                <div class="project-placeholder"></div>
-                <div class="project-image-previews">
-                  <div class="preview-placeholder"></div>
-                  <div class="preview-placeholder"></div>
-                  <div class="preview-placeholder"></div>
-                </div>
-              </div>
-              <div class="project-details">
-                <div class="details-block">
-                  <h4 class="details-heading">МОЯ РОЛЬ</h4>
-                  <p class="details-text"></p>
-                </div>
-                <div class="details-block">
-                  <h4 class="details-heading">КЛЮЧЕВОЙ ВКЛАД</h4>
-                  <p class="details-text"></p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        </div>
+      <!-- Horizontal decorative line -->
+      <div class="decorative-line-horizontal"></div>
 
-        <!-- СЛАЙД 3: Проект 2 (загружается динамически) -->
-        <div class="slide-wrapper">
-        <section class="slide" data-slide="2">
-          <div class="project-slide-content">
-            <div class="project-slide-header">
-              <h2 class="section-title">ИЗБРАННЫЕ РАБОТЫ</h2>
-              <div class="project-info">
-                <h3 class="project-title"></h3>
-                <div class="project-meta">
-                  <span></span>
-                  <span></span>
-                </div>
-              </div>
-            </div>
-            <div class="project-main-area">
-              <div class="project-visual">
-                <div class="project-placeholder"></div>
-                <div class="project-image-previews">
-                  <div class="preview-placeholder"></div>
-                  <div class="preview-placeholder"></div>
-                  <div class="preview-placeholder"></div>
-                </div>
-              </div>
-              <div class="project-details">
-                <div class="details-block">
-                  <h4 class="details-heading">МОЯ РОЛЬ</h4>
-                  <p class="details-text"></p>
-                </div>
-                <div class="details-block">
-                  <h4 class="details-heading">КЛЮЧЕВОЙ ВКЛАД</h4>
-                  <p class="details-text"></p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        </div>
-
-        <!-- СЛАЙД 4: Проект 3 (загружается динамически) -->
-        <div class="slide-wrapper">
-        <section class="slide" data-slide="3">
-          <div class="project-slide-content">
-            <div class="project-slide-header">
-              <h2 class="section-title">ИЗБРАННЫЕ РАБОТЫ</h2>
-              <div class="project-info">
-                <h3 class="project-title"></h3>
-                <div class="project-meta">
-                  <span></span>
-                  <span></span>
-                </div>
-              </div>
-            </div>
-            <div class="project-main-area">
-              <div class="project-visual">
-                <div class="project-placeholder"></div>
-                <div class="project-image-previews">
-                  <div class="preview-placeholder"></div>
-                  <div class="preview-placeholder"></div>
-                  <div class="preview-placeholder"></div>
-                </div>
-              </div>
-              <div class="project-details">
-                <div class="details-block">
-                  <h4 class="details-heading">МОЯ РОЛЬ</h4>
-                  <p class="details-text"></p>
-                </div>
-                <div class="details-block">
-                  <h4 class="details-heading">КЛЮЧЕВОЙ ВКЛАД</h4>
-                  <p class="details-text"></p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        </div>
-
-        <!-- СЛАЙД 5: CTA Кнопки -->
-        <div class="slide-wrapper">
-        <section class="slide" data-slide="4" id="cta-section">
-          <div class="cta-slide-content">
-            <h2 class="section-title">ЧТО ДАЛЬШЕ?</h2>
-            <div class="cta-buttons">
-              <a href="index.html" class="cta-button">ГЛАВНАЯ</a>
-              <a href="projects.html" class="cta-button">ПОРТФОЛИО</a>
-              <a href="research.html" class="cta-button">ИССЛЕДОВАНИЯ</a>
-              <a href="cv.html" class="cta-button">РЕЗЮМЕ</a>
-              <a href="community.html" class="cta-button">СООБЩЕСТВО</a>
-            </div>
-            <div class="cta-divider"></div>
-            <div class="cta-buttons cta-buttons-primary">
-              <a href="mailto:slcrmmbr@outlook.com" class="cta-button cta-button-primary">СВЯЗАТЬСЯ ПО ПОЧТЕ</a>
-              <a href="https://t.me/silenceremember" class="cta-button cta-button-primary" target="_blank" rel="noopener noreferrer">СВЯЗАТЬСЯ В ТЕЛЕГРАММ</a>
-            </div>
-          </div>
-        </section>
-        </div>
-
-      </div>
+      <!-- Footer -->
+      <footer class="footer"></footer>
     </div>
-  </main>
 
-  <!-- Horizontal decorative line -->
-  <div class="decorative-line-horizontal"></div>
+    <div class="custom-cursor"></div>
 
-  <!-- Footer -->
-  <footer class="footer"></footer>
-  </div>
+    <!-- Кнопка "Наверх" -->
+    <button
+      class="scroll-to-top"
+      id="scroll-to-top"
+      aria-label="Прокрутить наверх"
+      style="display: none"
+    >
+      <span data-svg-src="assets/images/icon-scroll-to-top.svg"></span>
+    </button>
 
-  <div class="custom-cursor"></div>
-
-  <!-- Кнопка "Наверх" -->
-  <button class="scroll-to-top" id="scroll-to-top" aria-label="Прокрутить наверх" style="display: none;">
-    <span data-svg-src="assets/images/icon-scroll-to-top.svg"></span>
-  </button>
-
-  <!-- JavaScript -->
-  <script type="module" src="/js/main.js"></script>
-</body>
+    <!-- JavaScript -->
+    <script type="module" src="/js/main.js"></script>
+  </body>
 </html>
-

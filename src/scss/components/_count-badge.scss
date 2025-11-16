@@ -9,12 +9,14 @@
   align-items: center;
   justify-content: center;
   line-height: 1;
-  transition: background-color var(--transition-duration-base) ease, color var(--transition-duration-base) ease;
-  
+  transition:
+    background-color var(--transition-duration-base) ease,
+    color var(--transition-duration-base) ease;
+
   /* Светлый режим: черный фон */
   background-color: var(--theme-light-text-primary);
   color: var(--theme-light-bg-primary);
-  
+
   /* Темный режим: белый фон */
   [data-theme='dark'] & {
     background-color: var(--theme-dark-text-primary);
@@ -30,13 +32,13 @@
 /* Стили для счетчиков в кнопках фильтров */
 .project-filters-option-count {
   @extend %count-badge-base;
-  
+
   .project-filters-option:hover &,
-  .project-filters-option[aria-pressed="true"] & {
+  .project-filters-option[aria-pressed='true'] & {
     /* При наведении и активном состоянии инвертируем цвета */
     background-color: var(--theme-light-bg-primary);
     color: var(--theme-light-text-primary);
-    
+
     [data-theme='dark'] & {
       background-color: var(--theme-dark-bg-primary);
       color: var(--theme-dark-text-primary);
@@ -47,13 +49,13 @@
 /* Стили для счетчиков в кнопках разворачивания разделов */
 .projects-section-expand-count {
   @extend %count-badge-base;
-  
+
   .projects-section-expand:hover &,
-  .projects-section-expand[aria-expanded="true"] & {
+  .projects-section-expand[aria-expanded='true'] & {
     /* При наведении и активном состоянии инвертируем цвета */
     background-color: var(--theme-light-bg-primary);
     color: var(--theme-light-text-primary);
-    
+
     [data-theme='dark'] & {
       background-color: var(--theme-dark-bg-primary);
       color: var(--theme-dark-text-primary);
@@ -65,7 +67,7 @@
 .project-filters-year-button-count,
 .project-filters-year-option-count {
   @extend %count-badge-base;
-  
+
   .project-filters-year-button:hover &,
   .project-filters-year-button.has-count &,
   .project-filters-year-option:hover &,
@@ -73,11 +75,10 @@
     /* При наведении и активном состоянии инвертируем цвета */
     background-color: var(--theme-light-bg-primary);
     color: var(--theme-light-text-primary);
-    
+
     [data-theme='dark'] & {
       background-color: var(--theme-dark-bg-primary);
       color: var(--theme-dark-text-primary);
     }
   }
 }
-

@@ -6,13 +6,16 @@ import { CommunityPage } from './pages/CommunityPage.js';
 import { NotFoundPage } from './pages/NotFoundPage.js';
 import { BasePage } from './pages/BasePage.js';
 
-// Определение текущей страницы и инициализация соответствующего класса
+/**
+ * Определяет текущую страницу и инициализирует соответствующий класс
+ * @returns {Promise<void>}
+ */
 async function initCurrentPage() {
   const path = window.location.pathname;
   const pageName = path.split('/').pop() || 'index.html';
-  
+
   let pageInstance = null;
-  
+
   if (pageName === 'index.html' || pageName === '' || path === '/') {
     pageInstance = new IndexPage();
   } else if (pageName === 'projects.html') {
@@ -26,7 +29,7 @@ async function initCurrentPage() {
   } else if (pageName === '404.html') {
     pageInstance = new NotFoundPage();
   }
-  
+
   if (pageInstance) {
     await pageInstance.init();
     // Показываем контент с fade-in эффектом после инициализации страницы
@@ -35,6 +38,7 @@ async function initCurrentPage() {
 }
 
 // Инициализация при загрузке DOM
+// Скрывает элементы слайдов как можно раньше для предотвращения FOUC
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {
     // Сразу скрываем элементы всех слайдов как можно раньше (только для главной страницы)

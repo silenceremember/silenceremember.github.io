@@ -15,15 +15,16 @@
   display: flex;
   flex-direction: column;
   min-height: 0; /* Позволяет flex-элементу сжиматься */
-  
+
   /* На мобильных устройствах контент на всю ширину с отступами */
   @include tablet-and-mobile {
     max-width: 100%;
     padding-left: var(--spacing-lg);
     padding-right: var(--spacing-lg);
     flex: 1;
-    transition: max-width var(--transition-duration-base) ease, 
-                padding var(--transition-duration-base) ease;
+    transition:
+      max-width var(--transition-duration-base) ease,
+      padding var(--transition-duration-base) ease;
   }
 }
 
@@ -39,7 +40,7 @@
   gap: var(--spacing-lg);
   margin-bottom: var(--spacing-xl);
   align-items: stretch;
-  
+
   /* Когда показывается индикатор загрузки, используем flex для распределения пространства */
   &:has(.projects-loading:not(.hidden)) {
     margin-bottom: 0;
@@ -47,7 +48,7 @@
     flex-direction: column;
     min-height: 0;
   }
-  
+
   .project-card {
     height: 100%;
     width: 100%;
@@ -63,7 +64,7 @@
   grid-column: 1 / -1;
   margin-bottom: var(--spacing-xl);
   opacity: 1;
-  
+
   &:first-child {
     .projects-section-header {
       margin-top: 0;
@@ -89,12 +90,12 @@
   gap: var(--spacing-md);
   flex-wrap: wrap;
   transition: font-size 0.3s ease;
-  
+
   .project-filters-option-count {
     font-size: inherit;
     line-height: 1;
   }
-  
+
   /* Уменьшаем отступ между текстом и счетчиком в заголовке результатов фильтров */
   &#project-filters-results {
     .projects-section-title-text + .project-filters-option-count {
@@ -123,7 +124,7 @@
   align-items: stretch;
   opacity: 1;
   transition: opacity 0.3s ease-in-out;
-  
+
   .project-card {
     height: 100%;
     width: 100%;
@@ -132,7 +133,9 @@
     display: flex;
     flex-direction: column;
     opacity: 1;
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    transition:
+      opacity 0.3s ease-in-out,
+      transform 0.3s ease-in-out;
   }
 }
 
@@ -140,13 +143,15 @@
 .project-card-hidden {
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-  
-  &[style*="display: none"] {
+  transition:
+    opacity 0.3s ease-in-out,
+    visibility 0.3s ease-in-out;
+
+  &[style*='display: none'] {
     display: none !important;
   }
-  
-  &:not([style*="display: none"]) {
+
+  &:not([style*='display: none']) {
     opacity: 1;
     visibility: visible;
   }
@@ -173,7 +178,9 @@
 /* Нужно установить высоту так, чтобы внутренний контент занимал 100vh - header - footer */
 /* Высота = (100vh - header - footer) + padding-top = 100vh - 64px - 64px + 64px = 100vh - 64px */
 body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
-  height: calc(100vh - 64px); /* viewport - footer (padding-top уже включен в box-sizing) */
+  height: calc(
+    100vh - 64px
+  ); /* viewport - footer (padding-top уже включен в box-sizing) */
   min-height: calc(100vh - 64px);
 }
 
@@ -185,7 +192,6 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
   flex: 1; /* Растягивается на всю доступную высоту родителя */
 }
 
-
 /* Адаптивность для индикатора загрузки */
 @include tablet-and-mobile {
   body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
@@ -194,14 +200,13 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
     display: flex !important;
     flex-direction: column;
   }
-  
+
   .projects-page:has(.projects-loading:not(.hidden)) {
     flex: 1;
     min-height: 0;
     display: flex;
     flex-direction: column;
   }
-  
 }
 
 /* Сообщение об отсутствии проектов */
@@ -209,7 +214,9 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
   text-align: center;
   padding: var(--spacing-xl);
   opacity: 1;
-  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  transition:
+    opacity 0.3s ease-in-out,
+    transform 0.3s ease-in-out;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -254,7 +261,7 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
   .projects-navigation {
     display: block;
   }
-  
+
   .projects-navigation::before {
     content: '';
     position: absolute;
@@ -264,12 +271,12 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
     height: var(--line-width, 1px);
     background-color: var(--color-divider);
   }
-  
+
   .projects-navigation .section-title {
     margin-bottom: var(--spacing-lg);
     text-align: center;
   }
-  
+
   .projects-navigation .cta-buttons {
     max-width: 400px;
     margin: 0 auto;
@@ -290,46 +297,50 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
     padding-bottom: 0;
     transition: padding var(--transition-duration-base) ease;
   }
-  
+
   .projects-grid {
     grid-template-columns: 1fr;
     gap: var(--spacing-md);
-    transition: grid-template-columns var(--transition-duration-base) ease, 
-                gap var(--transition-duration-base) ease;
+    transition:
+      grid-template-columns var(--transition-duration-base) ease,
+      gap var(--transition-duration-base) ease;
   }
-  
+
   .projects-section-grid {
     grid-template-columns: 1fr;
     gap: var(--spacing-md);
-    transition: grid-template-columns var(--transition-duration-base) ease, 
-                gap var(--transition-duration-base) ease;
+    transition:
+      grid-template-columns var(--transition-duration-base) ease,
+      gap var(--transition-duration-base) ease;
   }
-  
+
   .projects-section-header {
     margin: var(--spacing-lg) 0 var(--spacing-sm) 0;
     transition: margin var(--transition-duration-base) ease;
   }
-  
+
   .projects-section-title {
     font-size: var(--font-size-h3);
     margin: 0;
     gap: var(--spacing-sm);
-    transition: font-size var(--transition-duration-base) ease, 
-                gap var(--transition-duration-base) ease;
+    transition:
+      font-size var(--transition-duration-base) ease,
+      gap var(--transition-duration-base) ease;
   }
-  
+
   .projects-section-expand {
     font-size: var(--font-size-small);
     padding: var(--spacing-xs) var(--spacing-sm);
-    transition: font-size var(--transition-duration-base) ease, 
-                padding var(--transition-duration-base) ease;
+    transition:
+      font-size var(--transition-duration-base) ease,
+      padding var(--transition-duration-base) ease;
   }
-  
+
   .projects-empty-title {
     font-size: var(--font-size-h3);
     transition: font-size var(--transition-duration-base) ease;
   }
-  
+
   .projects-empty-subtitle {
     font-size: var(--font-size-base);
     transition: font-size var(--transition-duration-base) ease;
@@ -343,46 +354,50 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
     padding-bottom: 0;
     transition: padding var(--transition-duration-base) ease;
   }
-  
+
   .projects-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: var(--spacing-md);
-    transition: grid-template-columns var(--transition-duration-base) ease, 
-                gap var(--transition-duration-base) ease;
+    transition:
+      grid-template-columns var(--transition-duration-base) ease,
+      gap var(--transition-duration-base) ease;
   }
-  
+
   .projects-section-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: var(--spacing-md);
-    transition: grid-template-columns var(--transition-duration-base) ease, 
-                gap var(--transition-duration-base) ease;
+    transition:
+      grid-template-columns var(--transition-duration-base) ease,
+      gap var(--transition-duration-base) ease;
   }
-  
+
   .projects-section-header {
     margin: var(--spacing-lg) 0 var(--spacing-sm) 0;
     transition: margin var(--transition-duration-base) ease;
   }
-  
+
   .projects-section-title {
     font-size: var(--font-size-h3);
     margin: 0;
     gap: var(--spacing-sm);
-    transition: font-size var(--transition-duration-base) ease, 
-                gap var(--transition-duration-base) ease;
+    transition:
+      font-size var(--transition-duration-base) ease,
+      gap var(--transition-duration-base) ease;
   }
-  
+
   .projects-section-expand {
     font-size: var(--font-size-small);
     padding: var(--spacing-xs) var(--spacing-sm);
-    transition: font-size var(--transition-duration-base) ease, 
-                padding var(--transition-duration-base) ease;
+    transition:
+      font-size var(--transition-duration-base) ease,
+      padding var(--transition-duration-base) ease;
   }
-  
+
   .projects-empty-title {
     font-size: var(--font-size-h3);
     transition: font-size var(--transition-duration-base) ease;
   }
-  
+
   .projects-empty-subtitle {
     font-size: var(--font-size-base);
     transition: font-size var(--transition-duration-base) ease;
@@ -393,7 +408,10 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
 .scroll-to-top {
   position: fixed;
   bottom: calc(64px + var(--spacing-md) - 8px);
-  right: max(calc(var(--spacing-lg) - 16px), calc((100% - var(--max-width-large)) / 2 + var(--spacing-lg) - 24px));
+  right: max(
+    calc(var(--spacing-lg) - 16px),
+    calc((100% - var(--max-width-large)) / 2 + var(--spacing-lg) - 24px)
+  );
   width: 40px;
   height: 40px;
   display: flex;
@@ -406,18 +424,21 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
   opacity: 0;
   visibility: hidden;
   transform: translateY(0); /* Без смещения по умолчанию */
-  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out,
-              bottom 0.3s ease, right 0.3s ease; /* Добавляем right в transition */
+  transition:
+    opacity 0.3s ease-in-out,
+    visibility 0.3s ease-in-out,
+    bottom 0.3s ease,
+    right 0.3s ease; /* Добавляем right в transition */
   padding: 0;
   box-sizing: border-box;
-  
+
   > span,
   svg {
     width: 100%;
     height: 100%;
     display: block;
   }
-  
+
   svg path.scroll-to-top-bg,
   path.scroll-to-top-bg,
   svg circle.scroll-to-top-circle,
@@ -425,17 +446,17 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
     fill: var(--color-text-primary);
     transition: fill 0.3s ease-in-out;
   }
-  
+
   svg path.scroll-to-top-icon,
   path.scroll-to-top-icon {
     fill: var(--color-bg-primary);
     transition: fill 0.3s ease-in-out;
   }
-  
+
   &:hover,
   &:focus {
     outline: none;
-    
+
     svg path.scroll-to-top-bg,
     path.scroll-to-top-bg,
     svg circle.scroll-to-top-circle,
@@ -443,14 +464,18 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
       fill: var(--color-accent);
     }
   }
-  
+
   &.visible {
     opacity: 1;
     visibility: visible;
-    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out, transform 0.3s ease-in-out,
-                bottom 0.3s ease, right 0.3s ease; /* Добавляем transform и right в transition только когда видна */
+    transition:
+      opacity 0.3s ease-in-out,
+      visibility 0.3s ease-in-out,
+      transform 0.3s ease-in-out,
+      bottom 0.3s ease,
+      right 0.3s ease; /* Добавляем transform и right в transition только когда видна */
   }
-  
+
   /* Когда футер скрыт, кнопка перемещается ниже */
   &.footer-hidden {
     bottom: calc(var(--spacing-md) - 8px);
@@ -459,4 +484,3 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
 
 /* Адаптивность для кнопки "Наверх" */
 /* Стили для кнопки "Наверх" в tablet/mobile режиме находятся в _tablet.scss */
-

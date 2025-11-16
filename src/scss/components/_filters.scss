@@ -44,7 +44,7 @@
 
 .project-filters-results-header {
   margin: var(--spacing-xl) 0 var(--spacing-md) 0;
-  
+
   &[hidden] {
     display: none;
   }
@@ -61,7 +61,7 @@
   align-items: center;
   gap: var(--spacing-md);
   flex-wrap: wrap;
-  
+
   .project-filters-option-count {
     font-size: inherit;
     line-height: 1;
@@ -76,21 +76,21 @@
     gap: var(--spacing-md) var(--spacing-lg);
     align-items: flex-start;
   }
-  
+
   .project-filters-group {
     flex: 0 1 auto;
-    
+
     // Категория занимает всю ширину, так как там много кнопок
     &:first-child {
       flex: 1 1 100%;
       width: 100%;
     }
   }
-  
+
   .project-filters-results-header {
     margin: var(--spacing-lg) 0 var(--spacing-sm) 0;
   }
-  
+
   .project-filters-results {
     font-size: var(--font-size-h4);
     gap: var(--spacing-sm);
@@ -111,18 +111,18 @@
   flex-grow: 1;
   text-align: center;
   position: relative;
-  
+
   // Когда счетчик видим (есть класс has-count), выравниваем по левому краю
   .project-filters-year-button.has-count & {
     text-align: left;
   }
-  
+
   // Стили для прочерка: создаем горизонтальную линию 1px, когда у кнопки нет has-count
   .project-filters-year-button:not(.has-count) & {
     // Сохраняем высоту, соответствующую размеру шрифта
     min-height: var(--font-size-small);
     line-height: var(--font-size-small);
-    
+
     &::after {
       content: '';
       position: absolute;
@@ -137,28 +137,28 @@
       backface-visibility: hidden;
       transition: background-color var(--transition-duration-base) ease;
     }
-    
+
     // Скрываем символ прочерка, но сохраняем высоту
     font-size: 0;
     color: transparent;
   }
-  
+
   // Обработка hover и активных состояний для линии
   .project-filters-year-button:not(.has-count):hover &::after,
-  .project-filters-year-button:not(.has-count)[aria-expanded="true"] &::after {
+  .project-filters-year-button:not(.has-count)[aria-expanded='true'] &::after {
     background-color: var(--color-bg-primary);
   }
 }
 
 .project-filters-year-button-count {
   display: none; /* Скрыт по умолчанию, показывается только при выборе года */
-  
+
   /* Показываем счетчик только когда он видим (управляется через JavaScript) */
-  &[style*="display: flex"],
-  &[style*="display:flex"] {
+  &[style*='display: flex'],
+  &[style*='display:flex'] {
     display: flex !important;
   }
-  
+
   /* Базовые стили теперь в _count-badge.scss */
 }
 
@@ -176,16 +176,16 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   width: max-content;
   min-width: 100%;
-  
+
   // Ширина может быть установлена через JavaScript
-  &[style*="width"] {
+  &[style*='width'] {
     min-width: unset;
   }
-  
+
   &[hidden] {
     display: none !important;
   }
-  
+
   [data-theme='dark'] & {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   }
@@ -204,21 +204,23 @@
   font-weight: var(--font-weight-medium);
   line-height: 1;
   cursor: pointer;
-  transition: background-color var(--transition-duration-base) ease, color var(--transition-duration-base) ease;
+  transition:
+    background-color var(--transition-duration-base) ease,
+    color var(--transition-duration-base) ease;
   font-family: var(--font-family);
   text-align: left;
   width: 100%;
   box-sizing: border-box;
-  
+
   &:last-child {
     border-bottom: none;
   }
-  
+
   &:hover {
     background-color: var(--color-accent);
     color: var(--color-bg-primary);
   }
-  
+
   &:focus {
     outline: none;
     background-color: var(--color-accent);
@@ -238,7 +240,7 @@
   // Сохраняем высоту, соответствующую размеру шрифта
   min-height: var(--font-size-small);
   line-height: var(--font-size-small);
-  
+
   &::after {
     content: '';
     position: absolute;
@@ -253,15 +255,17 @@
     backface-visibility: hidden;
     transition: background-color var(--transition-duration-base) ease;
   }
-  
+
   // Скрываем символ прочерка, но сохраняем высоту
   font-size: 0;
   color: transparent;
 }
 
 // Обработка hover для линии в опции с прочерком
-.project-filters-year-option-dash:hover .project-filters-year-option-label::after,
-.project-filters-year-option-dash:focus .project-filters-year-option-label::after {
+.project-filters-year-option-dash:hover
+  .project-filters-year-option-label::after,
+.project-filters-year-option-dash:focus
+  .project-filters-year-option-label::after {
   background-color: var(--color-bg-primary);
 }
 
@@ -273,15 +277,14 @@
     width: auto;
     max-width: 100%;
   }
-  
+
   .project-filters-year-dropdown-menu {
     max-height: 200px;
     min-width: 0 !important;
-    
+
     // В mobile режиме ширина должна быть установлена через JavaScript
-    &[style*="width"] {
+    &[style*='width'] {
       min-width: 0 !important;
     }
   }
 }
-

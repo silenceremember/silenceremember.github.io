@@ -5,4 +5,3 @@ export { CVPage } from './CVPage.js';
 export { ResearchPage } from './ResearchPage.js';
 export { CommunityPage } from './CommunityPage.js';
 export { NotFoundPage } from './NotFoundPage.js';
-

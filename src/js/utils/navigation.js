@@ -49,11 +49,11 @@ export class MenuButtonScrollHandler {
 
     this.navigationSection = document.querySelector(this.navigationSelector);
     this.pageWrapper = document.querySelector(this.pageWrapperSelector);
-    
+
     if (!this.navigationSection || !this.pageWrapper) {
       return;
     }
-    
+
     // Ждем появления кнопки меню (header загружается асинхронно)
     this.waitForMenuButton();
   }
@@ -64,10 +64,10 @@ export class MenuButtonScrollHandler {
   waitForMenuButton() {
     let retryCount = 0;
     const maxRetries = 20; // Максимум 1 секунда ожидания (20 * 50ms)
-    
+
     const checkMenuButton = () => {
       this.menuButton = document.querySelector('.header-menu-button');
-      
+
       if (!this.menuButton) {
         retryCount++;
         if (retryCount >= maxRetries) {
@@ -78,36 +78,35 @@ export class MenuButtonScrollHandler {
         setTimeout(checkMenuButton, 50);
         return;
       }
-      
+
       // Проверяем, не был ли уже добавлен обработчик
       const handlerKey = `${this.navigationSelector.replace(/[^a-zA-Z0-9]/g, '_')}_scroll_handler`;
       if (this.menuButton.dataset[handlerKey] === 'true') {
         return; // Обработчик уже добавлен
       }
-      
+
       // Добавляем обработчик
       this.menuButton.addEventListener('click', () => {
         const isTabletMode = window.innerWidth < 1024;
-        
+
         if (isTabletMode) {
           const wrapperRect = this.pageWrapper.getBoundingClientRect();
           const navRect = this.navigationSection.getBoundingClientRect();
           const scrollTop = this.pageWrapper.scrollTop;
           const targetPosition = scrollTop + navRect.top - wrapperRect.top;
-          
+
           this.pageWrapper.scrollTo({
             top: targetPosition,
-            behavior: 'smooth'
+            behavior: 'smooth',
           });
         }
       });
-      
+
       // Помечаем, что обработчик добавлен
       this.menuButton.dataset[handlerKey] = 'true';
       this.isInitialized = true;
     };
-    
+
     checkMenuButton();
   }
 }
-

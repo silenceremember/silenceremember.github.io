@@ -1,95 +1,117 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Страница не найдена">
-  <title>404 - Страница не найдена</title>
-  
-  <!-- Google Fonts - Inter (Optimized) -->
-  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
-  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet"></noscript>
-  
-  <!-- Resource Hints: Preload только критических ресурсов -->
-  <link rel="preload" href="/scss/style.scss" as="style">
-  <!-- Prefetch для асинхронно загружаемых ресурсов -->
-  <link rel="prefetch" href="/js/main.js" as="script">
-  <link rel="prefetch" href="/js/pages/NotFoundPageEntry.js" as="script">
-  
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
-  <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
-  <link rel="shortcut icon" href="/favicon/favicon.ico" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
-  <meta name="apple-mobile-web-app-title" content="Portfolio" />
-  <link rel="manifest" href="/favicon/site.webmanifest" />
-  
-  <!-- Prefetch для главной страницы -->
-  <link rel="prefetch" href="/index.html">
-  
-  <!-- Theme switcher script - загружается синхронно для предотвращения мерцания -->
-  <script src="/js/components/ThemeInit.js"></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Страница не найдена" />
+    <title>404 - Страница не найдена</title>
 
-  <!-- Main CSS -->
-  <link rel="stylesheet" href="/scss/style.scss">
-</head>
-<body class="page-404">
-  <div class="page-wrapper">
-    <!-- Header -->
-    <header class="header"></header>
+    <!-- Google Fonts - Inter (Optimized) -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript
+      ><link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap"
+        rel="stylesheet"
+    /></noscript>
 
-    <!-- Horizontal decorative line -->
-    <div class="decorative-line-horizontal"></div>
+    <!-- Resource Hints: Preload только критических ресурсов -->
+    <link rel="preload" href="/scss/style.scss" as="style" />
+    <!-- Prefetch для асинхронно загружаемых ресурсов -->
+    <link rel="prefetch" href="/js/main.js" as="script" />
+    <link rel="prefetch" href="/js/pages/NotFoundPageEntry.js" as="script" />
 
-    <!-- Main Content -->
-    <main class="content-wrapper">
-      <div class="container page-404-container">
-        <!-- Контейнер для индикатора загрузки -->
-        <div class="notfound-loading-container" id="notfound-loading-container">
-          <!-- Индикатор загрузки -->
-          <div class="loading" id="notfound-loading">
-            <div class="loading-squares">
-              <div class="loading-square"></div>
-              <div class="loading-square"></div>
-              <div class="loading-square"></div>
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/png"
+      href="/favicon/favicon-96x96.png"
+      sizes="96x96"
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/favicon/apple-touch-icon.png"
+    />
+    <meta name="apple-mobile-web-app-title" content="Portfolio" />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+
+    <!-- Prefetch для главной страницы -->
+    <link rel="prefetch" href="/index.html" />
+
+    <!-- Theme switcher script - загружается синхронно для предотвращения мерцания -->
+    <script src="/js/components/ThemeInit.js"></script>
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/scss/style.scss" />
+  </head>
+  <body class="page-404">
+    <div class="page-wrapper">
+      <!-- Header -->
+      <header class="header"></header>
+
+      <!-- Horizontal decorative line -->
+      <div class="decorative-line-horizontal"></div>
+
+      <!-- Main Content -->
+      <main class="content-wrapper">
+        <div class="container page-404-container">
+          <!-- Контейнер для индикатора загрузки -->
+          <div
+            class="notfound-loading-container"
+            id="notfound-loading-container"
+          >
+            <!-- Индикатор загрузки -->
+            <div class="loading" id="notfound-loading">
+              <div class="loading-squares">
+                <div class="loading-square"></div>
+                <div class="loading-square"></div>
+                <div class="loading-square"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cta-slide-content" style="text-align: center; gap: 1rem">
+            <div>
+              <h1 class="main-content-name" style="font-size: 5rem">404</h1>
+              <p class="main-content-title" style="color: var(--color-accent)">
+                СТРАНИЦА НЕ НАЙДЕНА
+              </p>
+            </div>
+            <p class="main-content-description">
+              Возможно, страница была перемещена или удалена
+            </p>
+            <div class="cta-buttons" style="margin-top: 2rem">
+              <a href="/index.html" class="cta-button">ГЛАВНАЯ</a>
+              <a href="/projects.html" class="cta-button">ПОРТФОЛИО</a>
+              <a href="/research.html" class="cta-button">ИССЛЕДОВАНИЯ</a>
+              <a href="/cv.html" class="cta-button">РЕЗЮМЕ</a>
+              <a href="/community.html" class="cta-button">СООБЩЕСТВО</a>
             </div>
           </div>
         </div>
-        
-        <div class="cta-slide-content" style="text-align: center; gap: 1rem;">
-          <div>
-            <h1 class="main-content-name" style="font-size: 5rem;">404</h1>
-            <p class="main-content-title" style="color: var(--color-accent);">СТРАНИЦА НЕ НАЙДЕНА</p>
-          </div>
-        <p class="main-content-description">
-          Возможно, страница была перемещена или удалена
-        </p>
-        <div class="cta-buttons" style="margin-top: 2rem;">
-            <a href="/index.html" class="cta-button">ГЛАВНАЯ</a>
-            <a href="/projects.html" class="cta-button">ПОРТФОЛИО</a>
-            <a href="/research.html" class="cta-button">ИССЛЕДОВАНИЯ</a>
-            <a href="/cv.html" class="cta-button">РЕЗЮМЕ</a>
-            <a href="/community.html" class="cta-button">СООБЩЕСТВО</a>
-        </div>
-        </div>
-      </div>
-    </main>
+      </main>
 
-    <!-- Horizontal decorative line -->
-    <div class="decorative-line-horizontal"></div>
+      <!-- Horizontal decorative line -->
+      <div class="decorative-line-horizontal"></div>
 
-    <!-- Footer -->
-    <footer class="footer"></footer>
-  </div>
+      <!-- Footer -->
+      <footer class="footer"></footer>
+    </div>
 
-  <div class="custom-cursor"></div>
+    <div class="custom-cursor"></div>
 
-  <script type="module" src="/js/main.js"></script>
-  <script type="module" src="/js/pages/NotFoundPageEntry.js"></script>
-</body>
+    <script type="module" src="/js/main.js"></script>
+    <script type="module" src="/js/pages/NotFoundPageEntry.js"></script>
+  </body>
 </html>
-

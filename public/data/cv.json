@@ -55,32 +55,15 @@
     }
   ],
   "skills": {
-    "design-prototyping": [
-      "Unity",
-      "Unreal Engine",
-      "Figma",
-      "Miro"
-    ],
-    "technical-scripting": [
-      "C#",
-      "Blueprints",
-      "AI / ML Models"
-    ],
+    "design-prototyping": ["Unity", "Unreal Engine", "Figma", "Miro"],
+    "technical-scripting": ["C#", "Blueprints", "AI / ML Models"],
     "design-documentation": [
       "Google Suite (Docs, Sheets)",
       "Notion",
       "Confluence"
     ],
-    "production-collaboration": [
-      "Git",
-      "GitHub",
-      "Jira"
-    ],
-    "asset-creation": [
-      "Blender",
-      "Substance Painter",
-      "Adobe Photoshop"
-    ]
+    "production-collaboration": ["Git", "GitHub", "Jira"],
+    "asset-creation": ["Blender", "Substance Painter", "Adobe Photoshop"]
   },
   "certificates": [
     {
@@ -125,4 +108,3 @@
     }
   ]
 }
-

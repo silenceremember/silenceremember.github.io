@@ -17,7 +17,7 @@ export class CommunityPage extends BasePage {
   constructor() {
     super({
       navigationSelector: '.community-navigation',
-      imageSelector: '.community-page img, .community-section img'
+      imageSelector: '.community-page img, .community-section img',
     });
     this.animationManager = new CommunityAnimationManager();
   }
@@ -28,21 +28,23 @@ export class CommunityPage extends BasePage {
    */
   getIconPath(platform) {
     const iconMap = {
-      'discord': 'assets/images/icon-discord.svg',
+      discord: 'assets/images/icon-discord.svg',
       'discord-server': 'assets/images/icon-discord-server.svg',
-      'patreon': 'assets/images/icon-patreon.svg',
-      'boosty': 'assets/images/icon-boosty.svg',
+      patreon: 'assets/images/icon-patreon.svg',
+      boosty: 'assets/images/icon-boosty.svg',
       'ko-fi': 'assets/images/icon-ko-fi.svg',
-      'github': 'assets/images/icon-github.svg',
-      'itch': 'assets/images/icon-itch.svg',
-      'telegram': 'assets/images/icon-telegram.svg',
-      'linkedin': 'assets/images/icon-linkedin.svg',
-      'headhunter': 'assets/images/icon-headhunter.svg',
-      'steam': 'assets/images/icon-steam.svg',
-      'mail': 'assets/images/icon-mail.svg'
+      github: 'assets/images/icon-github.svg',
+      itch: 'assets/images/icon-itch.svg',
+      telegram: 'assets/images/icon-telegram.svg',
+      linkedin: 'assets/images/icon-linkedin.svg',
+      headhunter: 'assets/images/icon-headhunter.svg',
+      steam: 'assets/images/icon-steam.svg',
+      mail: 'assets/images/icon-mail.svg',
     };
-    
-    return iconMap[platform.toLowerCase()] || 'assets/images/icon-placeholder.svg';
+
+    return (
+      iconMap[platform.toLowerCase()] || 'assets/images/icon-placeholder.svg'
+    );
   }
 
   /**
@@ -65,25 +67,30 @@ export class CommunityPage extends BasePage {
     if (!discord) {
       return null;
     }
-    
+
     const section = this.createSectionWithTitle({
       className: 'community-section',
       title: 'DISCORD СЕРВЕР',
-      titleClassName: 'community-section-title'
+      titleClassName: 'community-section-title',
     });
-    
-    const isPlaceholder = !discord.link || discord.link === 'https://discord.gg/...';
+
+    const isPlaceholder =
+      !discord.link || discord.link === 'https://discord.gg/...';
     const card = CardFactory.createCommunityCard({
       url: discord.link || '#',
       iconPath: this.getIconPath('discord-server'),
       platformName: 'сервер сообщества 2IQ',
-      ariaLabel: isPlaceholder ? 'Discord Сервер (скоро)' : 'Присоединиться к Discord серверу',
-      description: discord.description || 'Присоединяйтесь к нашему сообществу разработчиков игр',
-      isDiscord: true
+      ariaLabel: isPlaceholder
+        ? 'Discord Сервер (скоро)'
+        : 'Присоединиться к Discord серверу',
+      description:
+        discord.description ||
+        'Присоединяйтесь к нашему сообществу разработчиков игр',
+      isDiscord: true,
     });
-    
+
     section.appendChild(card);
-    
+
     // Устанавливаем фиксированный размер иконки 128x128
     const iconContainer = card?.querySelector('.community-card-icon-left');
     if (card && iconContainer) {
@@ -91,7 +98,7 @@ export class CommunityPage extends BasePage {
       iconContainer.style.minWidth = '128px';
       iconContainer.style.height = '128px';
     }
-    
+
     return section;
   }
 
@@ -102,41 +109,41 @@ export class CommunityPage extends BasePage {
     if (!socialLinks) {
       return null;
     }
-    
+
     const section = this.createSectionWithTitle({
       className: 'community-section',
       title: 'СОЦИАЛЬНЫЕ СЕТИ',
-      titleClassName: 'community-section-title'
+      titleClassName: 'community-section-title',
     });
-    
+
     const linksContainer = document.createElement('div');
     linksContainer.className = 'community-social-links';
-    
+
     const socialPlatforms = [
       { key: 'steam', label: 'Steam', url: socialLinks.steam },
       { key: 'telegram', label: 'Telegram', url: socialLinks.telegram },
-      { key: 'itch', label: 'itch.io', url: socialLinks.itch }
+      { key: 'itch', label: 'itch.io', url: socialLinks.itch },
     ];
-    
-    socialPlatforms.forEach(platform => {
+
+    socialPlatforms.forEach((platform) => {
       const iconPath = this.getIconPath(platform.key);
       const isPlaceholder = !platform.url || platform.url.includes('...');
-      
+
       const card = CardFactory.createCommunityCard({
         url: platform.url || '#',
         iconPath: iconPath,
         platformName: platform.label,
-        ariaLabel: isPlaceholder ? `${platform.label} (скоро)` : platform.label
+        ariaLabel: isPlaceholder ? `${platform.label} (скоро)` : platform.label,
       });
-      
+
       linksContainer.appendChild(card);
     });
-    
+
     if (linksContainer.children.length > 0) {
       section.appendChild(linksContainer);
       return section;
     }
-    
+
     return null;
   }
 
@@ -147,35 +154,37 @@ export class CommunityPage extends BasePage {
     if (!donationLinks || donationLinks.length === 0) {
       return null;
     }
-    
+
     const section = this.createSectionWithTitle({
       className: 'community-section',
       title: 'ПОДДЕРЖКА',
-      titleClassName: 'community-section-title'
+      titleClassName: 'community-section-title',
     });
-    
+
     const linksContainer = document.createElement('div');
     linksContainer.className = 'community-donations-links';
-    
-    donationLinks.forEach(donation => {
+
+    donationLinks.forEach((donation) => {
       const iconPath = this.getIconPath(donation.id || donation.platform);
       const isPlaceholder = !donation.url || donation.url.includes('...');
-      
+
       const card = CardFactory.createCommunityCard({
         url: donation.url || '#',
         iconPath: iconPath,
         platformName: donation.platform,
-        ariaLabel: isPlaceholder ? `${donation.platform} (скоро)` : `Поддержать на ${donation.platform}`
+        ariaLabel: isPlaceholder
+          ? `${donation.platform} (скоро)`
+          : `Поддержать на ${donation.platform}`,
       });
-      
+
       linksContainer.appendChild(card);
     });
-    
+
     if (linksContainer.children.length > 0) {
       section.appendChild(linksContainer);
       return section;
     }
-    
+
     return null;
   }
 
@@ -186,42 +195,42 @@ export class CommunityPage extends BasePage {
     if (!workLinks) {
       return null;
     }
-    
+
     const section = this.createSectionWithTitle({
       className: 'community-section',
       title: 'РАБОТА',
-      titleClassName: 'community-section-title'
+      titleClassName: 'community-section-title',
     });
-    
+
     const linksContainer = document.createElement('div');
     linksContainer.className = 'community-social-links';
-    
+
     const workPlatforms = [
       { key: 'linkedin', label: 'LinkedIn', url: workLinks.linkedin },
       { key: 'headhunter', label: 'HeadHunter', url: workLinks.headhunter },
       { key: 'github', label: 'GitHub', url: workLinks.github },
-      { key: 'mail', label: 'Email', url: workLinks.mail }
+      { key: 'mail', label: 'Email', url: workLinks.mail },
     ];
-    
-    workPlatforms.forEach(platform => {
+
+    workPlatforms.forEach((platform) => {
       const iconPath = this.getIconPath(platform.key);
       const isPlaceholder = !platform.url || platform.url.includes('...');
-      
+
       const card = CardFactory.createCommunityCard({
         url: platform.url || '#',
         iconPath: iconPath,
         platformName: platform.label,
-        ariaLabel: isPlaceholder ? `${platform.label} (скоро)` : platform.label
+        ariaLabel: isPlaceholder ? `${platform.label} (скоро)` : platform.label,
       });
-      
+
       linksContainer.appendChild(card);
     });
-    
+
     if (linksContainer.children.length > 0) {
       section.appendChild(linksContainer);
       return section;
     }
-    
+
     return null;
   }
 
@@ -232,42 +241,42 @@ export class CommunityPage extends BasePage {
     if (!events || events.length === 0) {
       return null;
     }
-    
+
     const section = this.createSectionWithTitle({
       className: 'community-section',
       title: 'ПРЕДСТОЯЩИЕ СОБЫТИЯ',
-      titleClassName: 'community-section-title'
+      titleClassName: 'community-section-title',
     });
-    
+
     const eventsList = document.createElement('div');
     eventsList.className = 'community-events-list';
-    
-    events.forEach(event => {
+
+    events.forEach((event) => {
       const eventItem = document.createElement('div');
       eventItem.className = 'community-event-item';
-      
+
       const eventTitle = document.createElement('h3');
       eventTitle.className = 'community-event-title';
       eventTitle.textContent = event.title || 'Событие';
       eventItem.appendChild(eventTitle);
-      
+
       if (event.date) {
         const eventDate = document.createElement('p');
         eventDate.className = 'community-event-date';
         eventDate.textContent = event.date;
         eventItem.appendChild(eventDate);
       }
-      
+
       if (event.description) {
         const eventDescription = document.createElement('p');
         eventDescription.className = 'community-event-description';
         eventDescription.textContent = event.description;
         eventItem.appendChild(eventDescription);
       }
-      
+
       eventsList.appendChild(eventItem);
     });
-    
+
     section.appendChild(eventsList);
     return section;
   }
@@ -280,12 +289,12 @@ export class CommunityPage extends BasePage {
     if (!section) {
       return;
     }
-    
+
     // Скрываем секцию перед добавлением в DOM
     section.style.setProperty('opacity', '0', 'important');
     section.style.setProperty('transform', 'translateY(10px)', 'important');
     section.style.setProperty('transition', 'none', 'important');
-    
+
     const container = document.getElementById(containerId);
     if (container) {
       container.appendChild(section);
@@ -312,65 +321,70 @@ export class CommunityPage extends BasePage {
   async init() {
     // Инициализируем базовые компоненты (навигация, scroll-to-top, SVG loader)
     await this.initBase();
-    
+
     // Инициализируем сервис индикатора загрузки
-    this.initLoadingIndicator('community-loading', 'community-loading-container');
+    this.initLoadingIndicator(
+      'community-loading',
+      'community-loading-container'
+    );
     this.loadingIndicator.show();
-    
+
     // Скрываем все элементы сразу для предотвращения FOUC
     this.animationManager.hideAllCommunityElementsImmediately();
-    
+
     // Загружаем данные
     const data = await this.loadCommunityData();
-    
+
     // Скрываем индикатор загрузки и ждем завершения fadeout
     await this.loadingIndicator.hide();
-    
+
     if (!data) {
       return;
     }
-    
+
     // Отображаем Discord сервер
     if (data.discord) {
       const discordSection = this.createDiscordSection(data.discord);
       this.addSectionToContainer(discordSection, 'community-discord-section');
     }
-    
+
     // Отображаем социальные ссылки
     if (data.socialLinks) {
       const socialSection = this.createSocialSection(data.socialLinks);
       this.addSectionToContainer(socialSection, 'community-social-section');
     }
-    
+
     // Отображаем донаты
     if (data.donationLinks) {
       const donationsSection = this.createDonationsSection(data.donationLinks);
-      this.addSectionToContainer(donationsSection, 'community-donations-section');
+      this.addSectionToContainer(
+        donationsSection,
+        'community-donations-section'
+      );
     }
-    
+
     // Отображаем рабочие ссылки
     if (data.workLinks) {
       const workSection = this.createWorkSection(data.workLinks);
       this.addSectionToContainer(workSection, 'community-work-section');
     }
-    
+
     // Отображаем события
     if (data.upcomingEvents) {
       const eventsSection = this.createEventsSection(data.upcomingEvents);
       this.addSectionToContainer(eventsSection, 'community-events-section');
     }
-    
+
     // Скрываем все элементы после добавления всех секций
     this.animationManager.hideAllCommunityElementsImmediately();
-    
+
     // Загружаем SVG иконки для всех добавленных карточек
     // Используем небольшую задержку для гарантии, что все элементы добавлены в DOM
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await new Promise((resolve) => setTimeout(resolve, 0));
     await this.svgLoader.init();
-    
+
     // Ждем полной загрузки страницы и запускаем анимации
     await this.waitForPageReady();
     this.animationManager.initializeAnimations();
   }
 }
-

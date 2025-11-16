@@ -1,5 +1,5 @@
 /**
- * Сервис для управления индикаторами загрузки с анимацией
+ * Сервис для управления индикаторами загрузки с анимацией появления/скрытия
  */
 import { ANIMATION_CONFIG } from '../utils/AnimationUtils.js';
 
@@ -16,7 +16,8 @@ export class LoadingIndicatorService {
   }
 
   /**
-   * Инициализирует сервис
+   * Инициализирует сервис индикатора загрузки
+   * Находит элементы по ID и сохраняет ссылки на них
    */
   init() {
     this.loadingElement = document.getElementById(this.loadingId);
@@ -37,13 +38,14 @@ export class LoadingIndicatorService {
         resolve();
         return;
       }
-      
+
       // Проверяем, виден ли индикатор загрузки
       const computedStyle = window.getComputedStyle(this.loadingElement);
-      const isVisible = computedStyle.display !== 'none' && 
-                       computedStyle.visibility !== 'hidden' &&
-                       parseFloat(computedStyle.opacity) > 0.01;
-      
+      const isVisible =
+        computedStyle.display !== 'none' &&
+        computedStyle.visibility !== 'hidden' &&
+        parseFloat(computedStyle.opacity) > 0.01;
+
       // Если индикатор уже скрыт, сразу разрешаем промис
       if (!isVisible) {
         // Убеждаемся, что элемент удален
@@ -58,16 +60,18 @@ export class LoadingIndicatorService {
         resolve();
         return;
       }
-      
-      const shouldHideContent = this.container && this.container.contains(this.loadingElement);
-      
+
+      const shouldHideContent =
+        this.container && this.container.contains(this.loadingElement);
+
       // Убеждаемся, что loading элемент имеет transition для анимации
-      this.loadingElement.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
-      
+      this.loadingElement.style.transition =
+        'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
+
       // Убеждаемся, что начальное состояние видимо
       this.loadingElement.style.opacity = '1';
       this.loadingElement.style.transform = 'translateY(0)';
-      
+
       // Используем requestAnimationFrame для гарантии применения начального состояния
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
@@ -76,24 +80,24 @@ export class LoadingIndicatorService {
           this.loadingElement.style.transform = 'translateY(-10px)';
         });
       });
-      
+
       // Ждем завершения fadeout анимации loading элемента
       setTimeout(() => {
         // Удаляем loading элемент
         if (this.loadingElement.parentNode) {
           this.loadingElement.remove();
         }
-        
+
         // Проверяем, используется ли контейнер для контента (например, projects-grid)
         // Если контейнер имеет класс, указывающий на то, что он используется для контента,
         // не скрываем его полностью, только восстанавливаем нормальное состояние
-        const isContentContainer = this.container && (
-          this.container.id === 'projects-grid' ||
-          this.container.id === 'research-publications-section' ||
-          this.container.classList.contains('projects-grid') ||
-          this.container.classList.contains('research-publications-section')
-        );
-        
+        const isContentContainer =
+          this.container &&
+          (this.container.id === 'projects-grid' ||
+            this.container.id === 'research-publications-section' ||
+            this.container.classList.contains('projects-grid') ||
+            this.container.classList.contains('research-publications-section'));
+
         if (this.container) {
           if (isContentContainer) {
             // Для контейнеров с контентом только восстанавливаем нормальное состояние
@@ -109,14 +113,14 @@ export class LoadingIndicatorService {
             this.container.style.opacity = '0';
           }
         }
-        
+
         resolve();
       }, 300);
     });
   }
 
   /**
-   * Показывает индикатор загрузки с анимацией
+   * Показывает индикатор загрузки с анимацией появления
    */
   show() {
     if (!this.container) {
@@ -124,27 +128,31 @@ export class LoadingIndicatorService {
     }
 
     if (!this.container) return;
-    
+
     // Проверяем, есть ли уже индикатор загрузки
     let loadingElement = document.getElementById(this.loadingId);
-    
+
     // Проверяем, есть ли контент в container
-    const hasContent = this.container.children.length > 0 && 
-      (!loadingElement || this.container.children.length > 1 || !this.container.contains(loadingElement));
-    
+    const hasContent =
+      this.container.children.length > 0 &&
+      (!loadingElement ||
+        this.container.children.length > 1 ||
+        !this.container.contains(loadingElement));
+
     if (hasContent) {
       // Если есть контент, плавно скрываем его перед показом loading
-      this.container.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
+      this.container.style.transition =
+        'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
       this.container.style.opacity = '1';
       this.container.style.transform = 'translateY(0)';
-      
+
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           this.container.style.opacity = '0';
           this.container.style.transform = 'translateY(-10px)';
         });
       });
-      
+
       setTimeout(() => {
         this.createAndShowLoading();
       }, 300);
@@ -155,14 +163,18 @@ export class LoadingIndicatorService {
   }
 
   /**
-   * Создает и показывает индикатор загрузки
+   * Создает и показывает индикатор загрузки с анимацией
+   * @private
    */
   createAndShowLoading() {
     let loadingElement = document.getElementById(this.loadingId);
-    
+
     // Если индикатор уже есть в контейнере, не очищаем контейнер
-    const loadingExistsInContainer = loadingElement && this.container && this.container.contains(loadingElement);
-    
+    const loadingExistsInContainer =
+      loadingElement &&
+      this.container &&
+      this.container.contains(loadingElement);
+
     if (!loadingElement) {
       loadingElement = document.createElement('div');
       loadingElement.className = 'loading';
@@ -175,7 +187,7 @@ export class LoadingIndicatorService {
         </div>
       `;
     }
-    
+
     if (this.container) {
       // Очищаем контейнер только если индикатор еще не находится в нем
       if (!loadingExistsInContainer) {
@@ -189,24 +201,26 @@ export class LoadingIndicatorService {
       this.container.style.transform = '';
       this.container.style.visibility = 'visible';
     }
-    
+
     // Убираем класс hidden если он есть
     loadingElement.classList.remove('hidden');
     loadingElement.style.display = '';
-    
+
     // Показываем loading с анимацией
     loadingElement.style.opacity = '0';
     loadingElement.style.transform = 'translateY(10px)';
-    
+
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        loadingElement.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
+        loadingElement.style.transition =
+          'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
         loadingElement.style.opacity = '1';
         loadingElement.style.transform = 'translateY(0)';
-        
+
         // Показываем container с анимацией
         if (this.container) {
-          this.container.style.transition = 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
+          this.container.style.transition =
+            'opacity 0.3s ease-in-out, transform 0.3s ease-in-out';
           this.container.style.opacity = '1';
           this.container.style.transform = 'translateY(0)';
           setTimeout(() => {
@@ -217,8 +231,7 @@ export class LoadingIndicatorService {
         }
       });
     });
-    
+
     this.loadingElement = loadingElement;
   }
 }
-

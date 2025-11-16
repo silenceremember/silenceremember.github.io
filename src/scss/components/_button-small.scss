@@ -13,20 +13,29 @@
   font-weight: var(--font-weight-medium);
   line-height: 1;
   cursor: pointer;
-  transition: background-color var(--transition-duration-base) ease, border-color var(--transition-duration-base) ease, color var(--transition-duration-base) ease;
+  transition:
+    background-color var(--transition-duration-base) ease,
+    border-color var(--transition-duration-base) ease,
+    color var(--transition-duration-base) ease;
   font-family: var(--font-family);
   white-space: nowrap;
   box-sizing: border-box;
   /* Фиксированная высота для всех кнопок */
-  min-height: calc(var(--font-size-small) + (var(--spacing-xs) * 2) + (var(--line-width) * 2) + 4px);
-  height: calc(var(--font-size-small) + (var(--spacing-xs) * 2) + (var(--line-width) * 2) + 4px);
-  
+  min-height: calc(
+    var(--font-size-small) + (var(--spacing-xs) * 2) + (var(--line-width) * 2) +
+      4px
+  );
+  height: calc(
+    var(--font-size-small) + (var(--spacing-xs) * 2) + (var(--line-width) * 2) +
+      4px
+  );
+
   &:hover {
     border-color: var(--color-accent);
     background-color: var(--color-accent);
     color: var(--color-bg-primary);
   }
-  
+
   &:focus {
     outline: none;
   }
@@ -40,12 +49,12 @@
 /* Кнопки фильтров проектов */
 .project-filters-option {
   @extend %button-base;
-  
-  &[aria-pressed="true"] {
+
+  &[aria-pressed='true'] {
     background-color: var(--color-text-primary);
     border-color: var(--color-text-primary);
     color: var(--color-bg-primary);
-    
+
     &:hover {
       border-color: var(--color-accent);
       background-color: var(--color-accent);
@@ -57,12 +66,12 @@
 /* Кнопка разворачивания разделов */
 .projects-section-expand {
   @extend %button-base;
-  
-  &[aria-expanded="true"] {
+
+  &[aria-expanded='true'] {
     background-color: var(--color-text-primary);
     border-color: var(--color-text-primary);
     color: var(--color-bg-primary);
-    
+
     &:hover {
       border-color: var(--color-accent);
       background-color: var(--color-accent);
@@ -76,31 +85,31 @@
   @extend %button-base;
   width: auto;
   min-width: fit-content;
-  
+
   // Ширина устанавливается через JavaScript и должна быть фиксированной во всех режимах
   // Inline стили имеют приоритет, поэтому CSS не должен переопределять их
-  &[style*="width"] {
+  &[style*='width'] {
     min-width: unset;
   }
-  
-  &[aria-expanded="true"] {
+
+  &[aria-expanded='true'] {
     background-color: var(--color-text-primary);
     border-color: var(--color-text-primary);
     color: var(--color-bg-primary);
-    
+
     &:hover {
       border-color: var(--color-accent);
       background-color: var(--color-accent);
       color: var(--color-bg-primary);
     }
   }
-  
+
   // Активное состояние когда выбран год (не прочерк)
   &.has-count {
     background-color: var(--color-text-primary);
     border-color: var(--color-text-primary);
     color: var(--color-bg-primary);
-    
+
     &:hover {
       border-color: var(--color-accent);
       background-color: var(--color-accent);
@@ -108,4 +117,3 @@
     }
   }
 }
-

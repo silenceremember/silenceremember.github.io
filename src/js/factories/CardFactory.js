@@ -14,9 +14,9 @@ export class CardFactory {
    */
   static createProjectCard(template, project, onCardClick) {
     if (!template) return null;
-    
+
     const card = template.cloneNode(true);
-    
+
     // Заполняем данные
     const title = card.querySelector('.project-card-title');
     const description = card.querySelector('.project-card-description');
@@ -27,7 +27,7 @@ export class CardFactory {
     const type = card.querySelector('.project-card-type');
     const year = card.querySelector('.project-card-year');
     const role = card.querySelector('.project-card-role');
-    
+
     if (title) title.textContent = project.title;
     if (description) description.textContent = project.description || '';
     if (image && project.media?.preview) {
@@ -40,39 +40,40 @@ export class CardFactory {
         image.decoding = 'async';
       }
     }
-    
+
     // Теги
     if (tags && project.tags?.length) {
       tags.innerHTML = '';
-      project.tags.forEach(tag => {
+      project.tags.forEach((tag) => {
         const tagEl = document.createElement('span');
         tagEl.className = 'project-card-tag';
         tagEl.textContent = tag;
         tags.appendChild(tagEl);
       });
     }
-    
+
     // Статус
     if (status) {
-      status.textContent = project.status === 'completed' ? 'Готов' : 'В разработке';
+      status.textContent =
+        project.status === 'completed' ? 'Готов' : 'В разработке';
       status.className = `project-card-status project-card-status-${project.status}`;
     }
-    
+
     // Мета-информация
     if (category) {
       category.style.display = 'none';
     }
-    
+
     if (type) {
       const typeLabels = {
-        'game': 'Игра',
-        'document': 'Документ',
-        'tool': 'Инструмент',
-        'script': 'Скрипт'
+        game: 'Игра',
+        document: 'Документ',
+        tool: 'Инструмент',
+        script: 'Скрипт',
       };
       type.textContent = typeLabels[project.type] || project.type;
     }
-    
+
     // Добавляем звездочку для избранных проектов
     if (project.featured && title) {
       const starIcon = document.createElement('span');
@@ -81,15 +82,15 @@ export class CardFactory {
       starIcon.setAttribute('aria-label', 'Избранный проект');
       title.appendChild(starIcon);
     }
-    
+
     if (year && project.year) {
       year.textContent = project.year;
     }
-    
+
     if (role) {
       role.textContent = getRoleLabel(project.role, false, project.teamName);
     }
-    
+
     // Добавляем data-атрибуты
     card.setAttribute('data-project-id', project.id);
     card.setAttribute('data-category', project.category);
@@ -98,7 +99,7 @@ export class CardFactory {
     if (project.year) {
       card.setAttribute('data-year', project.year.toString());
     }
-    
+
     // Обработчик клика
     card.addEventListener('click', (e) => {
       const selection = window.getSelection();
@@ -108,7 +109,7 @@ export class CardFactory {
       e.stopPropagation();
       if (onCardClick) onCardClick(project);
     });
-    
+
     // Кнопка "Подробнее"
     const detailsButton = card.querySelector('.project-card-button');
     if (detailsButton) {
@@ -117,7 +118,7 @@ export class CardFactory {
         if (onCardClick) onCardClick(project);
       });
     }
-    
+
     return card;
   }
 
@@ -129,23 +130,23 @@ export class CardFactory {
    */
   static createResearchCard(template, publication) {
     if (!template) return null;
-    
+
     const card = template.cloneNode(true);
-    
+
     // Заполняем данные
     const title = card.querySelector('.research-card-title');
     const type = card.querySelector('.research-card-type');
     const keywords = card.querySelector('.research-card-keywords');
     const button = card.querySelector('.research-card-button');
-    
+
     if (title) title.textContent = publication.title;
-    
+
     // Журнал и уровень
     const journalWrapper = card.querySelector('.research-card-journal-wrapper');
     if (journalWrapper) {
       const journal = journalWrapper.querySelector('.research-card-journal');
       const level = journalWrapper.querySelector('.research-card-level');
-      
+
       if (journal && publication.journal) {
         let journalText = publication.journal;
         if (publication.location) {
@@ -155,29 +156,31 @@ export class CardFactory {
       } else if (journal) {
         journal.style.display = 'none';
       }
-      
+
       if (level && publication.level) {
         level.textContent = publication.level;
       } else if (level) {
         level.style.display = 'none';
       }
-      
-      const journalVisible = journal && publication.journal && journal.style.display !== 'none';
-      const levelVisible = level && publication.level && level.style.display !== 'none';
+
+      const journalVisible =
+        journal && publication.journal && journal.style.display !== 'none';
+      const levelVisible =
+        level && publication.level && level.style.display !== 'none';
       if (!journalVisible && !levelVisible) {
         journalWrapper.style.display = 'none';
       }
     }
-    
+
     // Тип
     if (type) {
       type.textContent = StatusMapper.getTypeText(publication.type);
     }
-    
+
     // Ключевые слова
     if (keywords && publication.keywords && publication.keywords.length > 0) {
       keywords.innerHTML = '';
-      publication.keywords.forEach(keyword => {
+      publication.keywords.forEach((keyword) => {
         const keywordEl = document.createElement('span');
         keywordEl.className = 'research-card-keyword';
         keywordEl.textContent = keyword;
@@ -186,15 +189,16 @@ export class CardFactory {
     } else if (keywords) {
       keywords.style.display = 'none';
     }
-    
+
     // Кнопка PDF
     if (button) {
       if (publication.pdf_url) {
-        button.textContent = publication.type === 'diploma' ? 'ЧИТАТЬ ГЛАВУ' : 'ЧИТАТЬ';
+        button.textContent =
+          publication.type === 'diploma' ? 'ЧИТАТЬ ГЛАВУ' : 'ЧИТАТЬ';
         button.addEventListener('click', (e) => {
           e.stopPropagation();
-          const url = publication.pdf_url.startsWith('http') 
-            ? publication.pdf_url 
+          const url = publication.pdf_url.startsWith('http')
+            ? publication.pdf_url
             : `/${publication.pdf_url}`;
           window.open(url, '_blank');
         });
@@ -203,7 +207,7 @@ export class CardFactory {
         button.textContent = 'СКОРО';
       }
     }
-    
+
     // Обработчик клика для открытия документа
     if (publication.pdf_url) {
       card.addEventListener('click', (e) => {
@@ -212,23 +216,23 @@ export class CardFactory {
           return;
         }
         e.stopPropagation();
-        const url = publication.pdf_url.startsWith('http') 
-          ? publication.pdf_url 
+        const url = publication.pdf_url.startsWith('http')
+          ? publication.pdf_url
           : `/${publication.pdf_url}`;
         window.open(url, '_blank');
       });
     }
-    
+
     // Добавляем data-атрибуты
     card.setAttribute('data-research-id', publication.id);
     card.setAttribute('data-type', publication.type);
     card.setAttribute('data-status', publication.status);
-    
+
     // Особый класс для ВКР
     if (publication.type === 'diploma') {
       card.classList.add('research-card-vkr');
     }
-    
+
     // Оптимизация: динамически управляем will-change только во время hover анимации
     let hoverTimeout = null;
     card.addEventListener('mouseenter', () => {
@@ -238,14 +242,14 @@ export class CardFactory {
         hoverTimeout = null;
       }
     });
-    
+
     card.addEventListener('mouseleave', () => {
       hoverTimeout = setTimeout(() => {
         card.style.willChange = 'auto';
         hoverTimeout = null;
       }, 300);
     });
-    
+
     return card;
   }
 
@@ -262,114 +266,135 @@ export class CardFactory {
    * @returns {HTMLElement} Созданная карточка
    */
   static createCommunityCard(config) {
-    const { url, iconPath, platformName, ariaLabel, description, subtitle, isDiscord } = config;
-    
+    const {
+      url,
+      iconPath,
+      platformName,
+      ariaLabel,
+      description,
+      subtitle,
+      isDiscord,
+    } = config;
+
     if (isDiscord) {
-      return this.createDiscordCard(url, iconPath, platformName, ariaLabel, description, subtitle);
+      return this.createDiscordCard(
+        url,
+        iconPath,
+        platformName,
+        ariaLabel,
+        description,
+        subtitle
+      );
     }
-    
+
     const card = document.createElement('a');
     card.href = url || '#';
     card.target = '_blank';
     card.rel = 'noopener noreferrer';
     card.className = 'community-card';
     card.setAttribute('aria-label', ariaLabel);
-    
+
     const content = document.createElement('div');
     content.className = 'community-card-content';
-    
+
     const title = document.createElement('h3');
     title.className = 'community-card-title';
-    
+
     const iconContainer = document.createElement('div');
     iconContainer.className = 'community-card-icon';
-    
+
     const iconSpan = document.createElement('span');
     iconSpan.setAttribute('data-svg-src', iconPath);
     iconContainer.appendChild(iconSpan);
-    
+
     title.appendChild(iconContainer);
-    
+
     const titleText = document.createElement('span');
     titleText.className = 'community-card-title-text';
     titleText.textContent = platformName;
     title.appendChild(titleText);
-    
+
     content.appendChild(title);
-    
+
     if (subtitle) {
       const subtitleElement = document.createElement('p');
       subtitleElement.className = 'community-card-subtitle';
       subtitleElement.textContent = subtitle;
       content.appendChild(subtitleElement);
     }
-    
+
     if (description) {
       const descriptionElement = document.createElement('p');
       descriptionElement.className = 'community-card-description';
       descriptionElement.textContent = description;
       content.appendChild(descriptionElement);
     }
-    
+
     card.appendChild(content);
-    
+
     return card;
   }
 
   /**
    * Создает карточку Discord с горизонтальной раскладкой
    */
-  static createDiscordCard(url, iconPath, platformName, ariaLabel, description, subtitle) {
+  static createDiscordCard(
+    url,
+    iconPath,
+    platformName,
+    ariaLabel,
+    description,
+    subtitle
+  ) {
     const card = document.createElement('a');
     card.href = url || '#';
     card.target = '_blank';
     card.rel = 'noopener noreferrer';
     card.className = 'community-card community-card-discord';
     card.setAttribute('aria-label', ariaLabel);
-    
+
     const content = document.createElement('div');
     content.className = 'community-card-content';
-    
+
     const iconContainer = document.createElement('div');
     iconContainer.className = 'community-card-icon community-card-icon-left';
-    
+
     const iconSpan = document.createElement('span');
     iconSpan.setAttribute('data-svg-src', iconPath);
     iconContainer.appendChild(iconSpan);
-    
+
     content.appendChild(iconContainer);
-    
+
     const textBlock = document.createElement('div');
     textBlock.className = 'community-card-text-block';
-    
+
     const title = document.createElement('h3');
     title.className = 'community-card-title';
-    
+
     const titleText = document.createElement('span');
     titleText.className = 'community-card-title-text';
     titleText.textContent = platformName;
     title.appendChild(titleText);
-    
+
     textBlock.appendChild(title);
-    
+
     if (subtitle) {
       const subtitleElement = document.createElement('p');
       subtitleElement.className = 'community-card-subtitle';
       subtitleElement.textContent = subtitle;
       textBlock.appendChild(subtitleElement);
     }
-    
+
     if (description) {
       const descriptionElement = document.createElement('p');
       descriptionElement.className = 'community-card-description';
       descriptionElement.textContent = description;
       textBlock.appendChild(descriptionElement);
     }
-    
+
     content.appendChild(textBlock);
     card.appendChild(content);
-    
+
     return card;
   }
 }
-
