@@ -2,6 +2,7 @@ import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import { promises as fs } from 'fs';
 import path from 'path';
+import viteCompression from 'vite-plugin-compression';
 
 export default defineConfig({
   root: 'src',
@@ -62,6 +63,21 @@ export default defineConfig({
         });
       },
     },
+    // Compression plugin для генерации gzip и brotli версий
+    viteCompression({
+      algorithm: 'gzip',
+      ext: '.gz',
+      threshold: 1024, // Сжимать файлы больше 1KB
+      deleteOriginFile: false, // Оставляем оригинальные файлы
+      verbose: true,
+    }),
+    viteCompression({
+      algorithm: 'brotliCompress',
+      ext: '.br',
+      threshold: 1024, // Сжимать файлы больше 1KB
+      deleteOriginFile: false, // Оставляем оригинальные файлы
+      verbose: true,
+    }),
   ],
   build: {
     outDir: '../dist',

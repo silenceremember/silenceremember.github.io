@@ -51,9 +51,10 @@
 
     <!-- Resource Hints: Preload критических ресурсов -->
     <link rel="preload" href="/scss/style.scss" as="style" />
+    <!-- Modulepreload для критических JS модулей (загружает и парсит модуль) -->
+    <link rel="modulepreload" href="/js/main.js" />
+    <link rel="modulepreload" href="/js/pages/ResearchPage.js" />
     <!-- Prefetch для асинхронно загружаемых ресурсов -->
-    <link rel="prefetch" href="/js/main.js" as="script" />
-    <link rel="prefetch" href="/js/pages/ResearchPage.js" as="script" />
     <link rel="prefetch" href="/data/research.json" as="fetch" crossorigin />
 
     <!-- Prefetch для других страниц (низкий приоритет) -->

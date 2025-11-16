@@ -37,9 +37,10 @@
       as="image"
       fetchpriority="high"
     />
+    <!-- Modulepreload для критических JS модулей (загружает и парсит модуль) -->
+    <link rel="modulepreload" href="/js/main.js" />
+    <link rel="modulepreload" href="/js/pages/CVPage.js" />
     <!-- Prefetch для асинхронно загружаемых ресурсов -->
-    <link rel="prefetch" href="/js/main.js" as="script" />
-    <link rel="prefetch" href="/js/pages/CVPage.js" as="script" />
     <link rel="prefetch" href="/data/cv.json" as="fetch" crossorigin />
     <link rel="prefetch" href="/data/community.json" as="fetch" crossorigin />
 

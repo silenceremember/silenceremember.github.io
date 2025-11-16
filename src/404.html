@@ -30,9 +30,9 @@
 
     <!-- Resource Hints: Preload только критических ресурсов -->
     <link rel="preload" href="/scss/style.scss" as="style" />
-    <!-- Prefetch для асинхронно загружаемых ресурсов -->
-    <link rel="prefetch" href="/js/main.js" as="script" />
-    <link rel="prefetch" href="/js/pages/NotFoundPageEntry.js" as="script" />
+    <!-- Modulepreload для критических JS модулей (загружает и парсит модуль) -->
+    <link rel="modulepreload" href="/js/main.js" />
+    <link rel="modulepreload" href="/js/pages/NotFoundPageEntry.js" />
 
     <!-- Favicon -->
     <link
