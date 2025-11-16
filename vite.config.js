@@ -103,11 +103,21 @@ export default defineConfig({
               .replace(/^-/, '');
             return `page-${kebabCase}`;
           }
-          // Разделяем утилиты и компоненты
+          // Разделяем утилиты и компоненты для лучшего кеширования
           if (id.includes('/js/utils/')) {
             return 'utils';
           }
+          // Разделяем компоненты на более мелкие чанки для лучшей производительности
           if (id.includes('/js/components/')) {
+            // Критические компоненты (тема, язык, курсор) - загружаются сразу
+            if (
+              id.includes('/components/theme/') ||
+              id.includes('/components/language/') ||
+              id.includes('/components/custom-cursor/')
+            ) {
+              return 'components-core';
+            }
+            // Остальные компоненты
             return 'components';
           }
           if (id.includes('/js/services/')) {
@@ -116,6 +126,14 @@ export default defineConfig({
           // Общий layout код
           if (id.includes('/js/layout/')) {
             return 'layout';
+          }
+          // Менеджеры анимаций - могут быть большими, разделяем
+          if (id.includes('/js/managers/')) {
+            return 'managers';
+          }
+          // Фабрики
+          if (id.includes('/js/factories/')) {
+            return 'factories';
           }
         },
         // Оптимизация имен файлов для кеширования
@@ -150,8 +168,10 @@ export default defineConfig({
       tryCatchDeoptimization: false,
     },
     // Оптимизация target для современных браузеров
-    target: 'esnext',
-    // Минификация CSS
+    target: ['esnext', 'edge88', 'firefox78', 'chrome87', 'safari14'],
+    // Минификация CSS с оптимизацией
     cssCodeSplit: true,
+    // Оптимизация для лучшей производительности
+    reportCompressedSize: false, // Отключаем отчет о размере для ускорения сборки
   },
 });

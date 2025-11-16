@@ -40,13 +40,14 @@ async function initCurrentPage() {
 // Инициализация при загрузке DOM
 // Скрывает элементы слайдов как можно раньше для предотвращения FOUC
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('DOMContentLoaded', async () => {
     // Сразу скрываем элементы всех слайдов как можно раньше (только для главной страницы)
-    hideAllSlideElementsEarly();
+    await hideAllSlideElementsEarly();
     initCurrentPage();
   });
 } else {
   // Если DOM уже готов, скрываем элементы сразу
-  hideAllSlideElementsEarly();
-  initCurrentPage();
+  hideAllSlideElementsEarly().then(() => {
+    initCurrentPage();
+  });
 }

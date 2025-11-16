@@ -4,10 +4,9 @@
 
 import { BasePage } from './BasePage.js';
 import { getRoleLabel } from '../utils/RoleMapper.js';
-import { loadData } from '../utils/DataLoader.js';
-import { SlideAnimationManager } from '../managers/SlideAnimationManager.js';
 import { SlidesManager } from '../components/index.js';
 import { backgroundImageService } from '../services/BackgroundImageService.js';
+import { PageReadyManager } from '../utils/PageReady.js';
 
 /**
  * Класс для главной страницы
@@ -31,13 +30,7 @@ export class IndexPage extends BasePage {
    * @returns {Promise<Array>} Массив проектов
    */
   async loadProjectsData() {
-    try {
-      const data = await loadData('/data/projects.json');
-      return data.projects || [];
-    } catch (error) {
-      console.error('Ошибка загрузки проектов:', error);
-      return [];
-    }
+    return this.loadPageDataArray('/data/projects.json', 'projects', []);
   }
 
   /**
@@ -166,16 +159,20 @@ export class IndexPage extends BasePage {
   }
 
   /**
-   * Инициализирует менеджер анимаций слайдов
+   * Инициализирует менеджер анимаций слайдов (ленивая загрузка)
    */
-  initSlideAnimationManager() {
+  async initSlideAnimationManager() {
     if (!this.slidesContainer) {
       return;
     }
 
-    this.slideAnimationManager = new SlideAnimationManager(
-      this.slidesContainer
-    );
+    if (!this.slideAnimationManager) {
+      this.slideAnimationManager = await this.loadAnimationManager(
+        '../managers/SlideAnimationManager.js',
+        [this.slidesContainer]
+      );
+    }
+    return this.slideAnimationManager;
   }
 
   /**
@@ -195,12 +192,14 @@ export class IndexPage extends BasePage {
     this.initLoadingIndicator('index-loading', 'index-loading-container');
     this.loadingIndicator.show();
 
-    // Инициализируем менеджер слайдов (обработка скролла, колесика мыши, смена слайдов)
+    // Параллельная загрузка данных и инициализация менеджера слайдов
+    const projectsDataPromise = this.loadProjectsData();
+    
+    // Инициализируем менеджер слайдов сразу (не блокирует загрузку данных)
     this.slidesManager = new SlidesManager();
     this.slidesManager.init();
-
-    // Загружаем данные проектов
-    const projectsData = await this.loadProjectsData();
+    
+    const projectsData = await projectsDataPromise;
 
     // Скрываем индикатор загрузки и ждем завершения fadeout
     await this.loadingIndicator.hide();
@@ -213,11 +212,17 @@ export class IndexPage extends BasePage {
     // Заполняем слайды данными проектов
     this.populateProjectSlides(featuredProjects);
 
-    // Инициализируем менеджер анимаций слайдов
-    this.initSlideAnimationManager();
+    // Инициализируем менеджер анимаций слайдов (ленивая загрузка)
+    await this.initSlideAnimationManager();
 
-    // Ждем полной загрузки страницы и всех критичных ресурсов перед запуском анимации
-    await this.waitForPageReady();
+    // Не ждем загрузки всех изображений - ждем только критичные (шрифты и первое изображение)
+    // Остальные изображения загружаются лениво через BackgroundImageService
+    await PageReadyManager.waitForFontsLoaded();
+    
+    // Небольшая задержка для гарантии готовности первого слайда
+    await new Promise((resolve) => requestAnimationFrame(() => {
+      requestAnimationFrame(resolve);
+    }));
 
     if (this.slideAnimationManager) {
       this.slideAnimationManager.initializeFirstSlideAnimation();
@@ -230,11 +235,15 @@ export class IndexPage extends BasePage {
  * Это критично важно - нужно сделать до того как элементы станут видимыми
  * Вызывается как можно раньше, до полной инициализации страницы
  */
-export function hideAllSlideElementsEarly() {
+export async function hideAllSlideElementsEarly() {
   const slidesContainer = document.querySelector('.slides-container');
   if (!slidesContainer) return;
 
   try {
+    // Используем динамический импорт для ленивой загрузки
+    const { SlideAnimationManager } = await import(
+      '../managers/SlideAnimationManager.js'
+    );
     const slideAnimationManager = new SlideAnimationManager(slidesContainer);
     slideAnimationManager.hideAllSlideElementsImmediately();
   } catch (error) {

@@ -24,8 +24,24 @@ export class BackgroundImageService {
           if (entry.isIntersecting) {
             const imageUrl = entry.target.dataset.bgImage;
             if (imageUrl) {
-              this.loadBackgroundImage(entry.target, imageUrl);
-              // Удаляем data-атрибут после загрузки
+              // Загружаем изображение через Image API для лучшей производительности
+              const img = new Image();
+              img.loading = 'lazy';
+              img.decoding = 'async';
+              img.onload = () => {
+                requestAnimationFrame(() => {
+                  entry.target.style.backgroundImage = `url(${imageUrl})`;
+                  entry.target.style.backgroundSize = 'cover';
+                  entry.target.style.backgroundPosition = 'center';
+                  entry.target.style.opacity = '1';
+                });
+              };
+              img.onerror = () => {
+                console.warn(`Failed to load background image: ${imageUrl}`);
+              };
+              img.src = imageUrl;
+              
+              // Удаляем data-атрибут после начала загрузки
               delete entry.target.dataset.bgImage;
             }
             this.observer.unobserve(entry.target);
@@ -33,7 +49,7 @@ export class BackgroundImageService {
         });
       },
       {
-        rootMargin: '100px', // Увеличено для более ранней загрузки
+        rootMargin: '150px', // Увеличено для более ранней загрузки (оптимизация для прокрутки)
         threshold: 0.01, // Начинаем загрузку при 1% видимости
       }
     );
@@ -54,14 +70,24 @@ export class BackgroundImageService {
       const img = new Image();
       img.loading = 'eager';
       img.fetchPriority = 'high';
+      img.decoding = 'async';
+      
+      // Добавляем обработчики до установки src для предотвращения race condition
       img.onload = () => {
-        element.style.backgroundImage = `url(${imageUrl})`;
-        element.style.backgroundSize = 'cover';
-        element.style.backgroundPosition = 'center';
+        // Используем requestAnimationFrame для плавного появления
+        requestAnimationFrame(() => {
+          element.style.backgroundImage = `url(${imageUrl})`;
+          element.style.backgroundSize = 'cover';
+          element.style.backgroundPosition = 'center';
+          element.style.opacity = '1';
+        });
       };
       img.onerror = () => {
         console.warn(`Failed to load background image: ${imageUrl}`);
+        // Можно добавить fallback изображение здесь
       };
+      
+      // Устанавливаем src в конце для начала загрузки
       img.src = imageUrl;
       return;
     }

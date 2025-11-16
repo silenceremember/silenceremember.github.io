@@ -31,14 +31,16 @@ export class CardFactory {
     if (title) title.textContent = project.title;
     if (description) description.textContent = project.description || '';
     if (image && project.media?.preview) {
-      image.src = project.media.preview;
+      // Используем data-src для ленивой загрузки через Intersection Observer
+      image.dataset.src = project.media.preview;
       image.alt = project.title;
-      if (!image.hasAttribute('loading')) {
-        image.loading = 'lazy';
-      }
-      if (!image.hasAttribute('decoding')) {
-        image.decoding = 'async';
-      }
+      image.loading = 'lazy';
+      image.decoding = 'async';
+      // Устанавливаем placeholder для предотвращения layout shift
+      image.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1"%3E%3C/svg%3E';
+      image.onerror = function () {
+        this.src = 'assets/images/portrait-placeholder.svg';
+      };
     }
 
     // Теги

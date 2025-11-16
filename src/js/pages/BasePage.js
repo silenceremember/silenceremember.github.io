@@ -14,9 +14,14 @@ import { ThemeSwitcher } from '../components/index.js';
 import { LanguageSwitcher } from '../components/index.js';
 import { CustomCursor } from '../components/index.js';
 import { LoadingIndicatorService } from '../services/LoadingIndicatorService.js';
+import { loadData } from '../utils/DataLoader.js';
+import { loadTemplate } from '../utils/TemplateLoader.js';
 
 // Глобальные компоненты инициализируются один раз
 let globalComponentsInitialized = false;
+
+// Кеш для шаблонов (общий для всех страниц)
+const templateCache = new Map();
 
 export class BasePage {
   /**
@@ -102,6 +107,23 @@ export class BasePage {
     customCursor.init();
 
     globalComponentsInitialized = true;
+  }
+
+  /**
+   * Ленивая загрузка менеджера анимаций
+   * @param {string} managerPath - Путь к модулю менеджера (например, '../managers/CVAnimationManager.js')
+   * @param {Array} constructorArgs - Аргументы для конструктора менеджера (опционально)
+   * @returns {Promise<any>} Экземпляр менеджера анимаций
+   */
+  async loadAnimationManager(managerPath, constructorArgs = []) {
+    try {
+      const module = await import(managerPath);
+      const ManagerClass = module[Object.keys(module)[0]]; // Получаем первый экспорт
+      return new ManagerClass(...constructorArgs);
+    } catch (error) {
+      console.error(`Ошибка загрузки менеджера анимаций ${managerPath}:`, error);
+      return null;
+    }
   }
 
   /**
@@ -203,6 +225,84 @@ export class BasePage {
     this.loadingIndicator = new LoadingIndicatorService(loadingId, containerId);
     this.loadingIndicator.init();
     return this.loadingIndicator;
+  }
+
+  /**
+   * Унифицированный метод для загрузки JSON данных с обработкой ошибок
+   * @param {string} url - URL для загрузки данных
+   * @param {Object} options - Опции для загрузки (по умолчанию {})
+   * @param {*} defaultValue - Значение по умолчанию при ошибке (по умолчанию null)
+   * @returns {Promise<any>} Загруженные данные или defaultValue при ошибке
+   */
+  async loadPageData(url, options = {}, defaultValue = null) {
+    try {
+      const data = await loadData(url, options);
+      return data;
+    } catch (error) {
+      console.error(`Ошибка загрузки данных из ${url}:`, error);
+      return defaultValue;
+    }
+  }
+
+  /**
+   * Унифицированный метод для загрузки JSON данных с извлечением свойства
+   * @param {string} url - URL для загрузки данных
+   * @param {string} property - Имя свойства для извлечения (например, 'projects', 'publications')
+   * @param {Array} defaultValue - Значение по умолчанию при ошибке (по умолчанию [])
+   * @returns {Promise<Array>} Массив данных или defaultValue при ошибке
+   */
+  async loadPageDataArray(url, property, defaultValue = []) {
+    try {
+      const data = await loadData(url);
+      return data[property] || defaultValue;
+    } catch (error) {
+      console.error(`Ошибка загрузки данных из ${url}:`, error);
+      return defaultValue;
+    }
+  }
+
+  /**
+   * Унифицированный метод для загрузки шаблонов с кешированием
+   * @param {string} url - URL шаблона
+   * @param {string} selector - CSS селектор для поиска элемента в шаблоне
+   * @param {boolean} useCache - Использовать кеш (по умолчанию true)
+   * @returns {Promise<HTMLElement|null>} Найденный элемент или null если не найден
+   */
+  async loadPageTemplate(url, selector, useCache = true) {
+    // Проверяем кеш
+    if (useCache && templateCache.has(url)) {
+      const cachedTemplate = templateCache.get(url);
+      // Клонируем шаблон для переиспользования
+      return cachedTemplate.cloneNode(true);
+    }
+
+    try {
+      const template = await loadTemplate(url, selector, (url) =>
+        this.loadHTML(url)
+      );
+
+      if (template && useCache) {
+        // Сохраняем в кеш оригинальный шаблон
+        templateCache.set(url, template.cloneNode(true));
+      }
+
+      return template;
+    } catch (error) {
+      console.error(`Ошибка загрузки шаблона ${url}:`, error);
+      return null;
+    }
+  }
+
+  /**
+   * Очищает кеш шаблонов (может быть полезно при обновлении данных)
+   * @param {string} url - URL шаблона для очистки (опционально, если не указан - очищает весь кеш)
+   */
+  static clearTemplateCache(url = null) {
+    if (url) {
+      templateCache.delete(url);
+    } else {
+      templateCache.clear();
+    }
   }
 
   /**

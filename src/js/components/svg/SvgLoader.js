@@ -72,20 +72,34 @@ export class SvgLoader {
   }
 
   /**
-   * Инициализирует загрузку всех SVG элементов на странице
+   * Инициализирует загрузку всех SVG элементов на странице батчами
    * @returns {Promise<void>}
    */
   async init() {
     // Находим только элементы, которые еще не были обработаны
-    const svgPlaceholders = document.querySelectorAll(
-      '[data-svg-src]:not([data-svg-loaded])'
-    );
+    const svgPlaceholders = Array.from(
+      document.querySelectorAll('[data-svg-src]:not([data-svg-loaded])')
+    ).filter((element) => element.parentNode); // Фильтруем элементы, которые еще в DOM
+
     if (svgPlaceholders.length === 0) return;
 
-    const promises = Array.from(svgPlaceholders)
-      .filter((element) => element.parentNode) // Фильтруем элементы, которые еще в DOM
-      .map((element) => this.loadSvg(element));
-
-    await Promise.allSettled(promises);
+    // Загружаем SVG батчами для оптимизации производительности
+    const batchSize = 10;
+    for (let i = 0; i < svgPlaceholders.length; i += batchSize) {
+      const batch = svgPlaceholders.slice(i, i + batchSize);
+      const promises = batch.map((element) => this.loadSvg(element));
+      await Promise.allSettled(promises);
+      
+      // Небольшая задержка между батчами для неблокирующей обработки
+      if (i + batchSize < svgPlaceholders.length) {
+        await new Promise((resolve) => {
+          if (window.requestIdleCallback) {
+            requestIdleCallback(() => resolve(), { timeout: 50 });
+          } else {
+            setTimeout(resolve, 0);
+          }
+        });
+      }
+    }
   }
 }

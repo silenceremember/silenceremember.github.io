@@ -44,6 +44,8 @@ export async function loadData(url, options = {}) {
     ...options,
     // Оптимизация: используем высокий приоритет для критических данных
     priority: options.priority || 'high',
+    // Используем keepalive для лучшей производительности
+    keepalive: true,
     headers: {
       'Cache-Control': 'max-age=300', // 5 минут
       ...options.headers,

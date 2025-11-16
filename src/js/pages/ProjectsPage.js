@@ -3,11 +3,11 @@
  */
 
 import { BasePage } from './BasePage.js';
-import { loadData } from '../utils/DataLoader.js';
 import { CardFactory } from '../factories/CardFactory.js';
 import { ProjectFiltersManager } from '../managers/ProjectFiltersManager.js';
 import { ProjectGroupingManager } from '../managers/ProjectGroupingManager.js';
-import { loadTemplate } from '../utils/TemplateLoader.js';
+import { PageReadyManager } from '../utils/PageReady.js';
+import { lazyImageLoader } from '../utils/LazyImageLoader.js';
 
 /**
  * Класс страницы проектов
@@ -33,10 +33,9 @@ export class ProjectsPage extends BasePage {
    */
   async loadProjectTemplate() {
     if (!this.projectCardTemplate) {
-      this.projectCardTemplate = await loadTemplate(
+      this.projectCardTemplate = await this.loadPageTemplate(
         '/components/project-card.html',
-        '.project-card',
-        (url) => this.loadHTML(url)
+        '.project-card'
       );
     }
     return this.projectCardTemplate;
@@ -46,13 +45,7 @@ export class ProjectsPage extends BasePage {
    * Загружает данные проектов из JSON
    */
   async loadProjectsData() {
-    try {
-      const data = await loadData('/data/projects.json');
-      return data.projects || [];
-    } catch (error) {
-      console.error('Ошибка загрузки проектов:', error);
-      return [];
-    }
+    return this.loadPageDataArray('/data/projects.json', 'projects', []);
   }
 
   /**
@@ -101,6 +94,49 @@ export class ProjectsPage extends BasePage {
   }
 
   /**
+   * Создает карточки проектов батчами для оптимизации производительности
+   * @param {Array<Object>} projects - Массив проектов
+   * @param {number} batchSize - Размер батча (по умолчанию 10)
+   * @returns {Promise<void>}
+   */
+  async createProjectCardsBatched(projects, batchSize = 10) {
+    return new Promise((resolve) => {
+      let index = 0;
+
+      const processBatch = () => {
+        const end = Math.min(index + batchSize, projects.length);
+        
+        for (let i = index; i < end; i++) {
+          const project = projects[i];
+          const card = CardFactory.createProjectCard(
+            this.projectCardTemplate,
+            project,
+            (project) => this.openProjectDetails(project)
+          );
+          if (card) {
+            this.allProjectCards.set(project.id, card);
+          }
+        }
+
+        index = end;
+
+        if (index < projects.length) {
+          // Используем requestIdleCallback для неблокирующей обработки
+          if (window.requestIdleCallback) {
+            requestIdleCallback(processBatch, { timeout: 100 });
+          } else {
+            setTimeout(processBatch, 0);
+          }
+        } else {
+          resolve();
+        }
+      };
+
+      processBatch();
+    });
+  }
+
+  /**
    * Инициализация страницы
    */
   async init() {
@@ -110,14 +146,15 @@ export class ProjectsPage extends BasePage {
     this.initLoadingIndicator('projects-loading', 'projects-loading-container');
     this.loadingIndicator.show();
 
-    // Загружаем шаблон проекта
-    await this.loadProjectTemplate();
-
-    // Загружаем проекты
-    const projects = await this.loadProjectsData();
-
-    // Скрываем индикатор загрузки и ждем завершения fadeout
-    await this.loadingIndicator.hide();
+    // Параллельная загрузка шаблона и данных для ускорения
+    const [projects] = await Promise.all([
+      this.loadProjectsData(),
+      this.loadProjectTemplate(),
+    ]);
+    
+    // Скрываем индикатор загрузки сразу после загрузки данных (не ждем создания карточек)
+    // Это улучшает воспринимаемую производительность
+    const hideLoadingPromise = this.loadingIndicator.hide();
 
     if (projects.length === 0) {
       return;
@@ -126,17 +163,11 @@ export class ProjectsPage extends BasePage {
     // Сохраняем проекты для группировки
     this.allProjects = projects;
 
-    // Создаем карточки проектов и сохраняем их
-    projects.forEach((project) => {
-      const card = CardFactory.createProjectCard(
-        this.projectCardTemplate,
-        project,
-        (project) => this.openProjectDetails(project)
-      );
-      if (card) {
-        this.allProjectCards.set(project.id, card);
-      }
-    });
+    // Ждем завершения скрытия индикатора загрузки параллельно с созданием карточек
+    await Promise.all([
+      hideLoadingPromise,
+      this.createProjectCardsBatched(projects),
+    ]);
 
     // Инициализируем менеджер группировки
     if (!this.groupingManager) {
@@ -153,13 +184,20 @@ export class ProjectsPage extends BasePage {
       this.groupingManager.allProjectCards = this.allProjectCards;
     }
 
-    // Инициализируем фильтры
-    await this.initFilters(projects);
+    // Параллельная инициализация фильтров и рендеринг проектов
+    const [renderPromise] = await Promise.all([
+      this.renderGroupedProjects(),
+      this.initFilters(projects), // Инициализируем фильтры параллельно
+    ]);
 
-    // Отображаем проекты с группировкой (без фильтров)
-    await this.renderGroupedProjects();
+    // Инициализируем ленивую загрузку изображений для всех карточек после рендеринга
+    // Изображения уже начали загружаться в renderGroupedProjects, но убеждаемся что все обработаны
+    requestAnimationFrame(() => {
+      lazyImageLoader.loadAllImages();
+    });
 
-    // Ждем полной загрузки страницы перед завершением инициализации
-    await this.waitForPageReady();
+    // Не ждем загрузки всех изображений - они загружаются лениво
+    // Ждем только критичные ресурсы (шрифты и базовые изображения)
+    await PageReadyManager.waitForFontsLoaded();
   }
 }

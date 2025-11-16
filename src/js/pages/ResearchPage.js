@@ -3,7 +3,6 @@
  */
 
 import { BasePage } from './BasePage.js';
-import { loadData } from '../utils/DataLoader.js';
 import { CardFactory } from '../factories/CardFactory.js';
 import { DateFormatter } from '../utils/DateFormatter.js';
 import {
@@ -11,7 +10,6 @@ import {
   animateSectionAppearance,
   animateElementAppearance,
 } from '../utils/AnimationUtils.js';
-import { loadTemplate } from '../utils/TemplateLoader.js';
 
 /**
  * Класс страницы исследований
@@ -33,10 +31,9 @@ export class ResearchPage extends BasePage {
    */
   async loadResearchTemplate() {
     if (!this.researchCardTemplate) {
-      this.researchCardTemplate = await loadTemplate(
+      this.researchCardTemplate = await this.loadPageTemplate(
         '/components/research-card.html',
-        '.research-card',
-        (url) => this.loadHTML(url)
+        '.research-card'
       );
     }
     return this.researchCardTemplate;
@@ -46,13 +43,7 @@ export class ResearchPage extends BasePage {
    * Загружает данные исследований из JSON
    */
   async loadResearchData() {
-    try {
-      const data = await loadData('/data/research.json');
-      return data.publications || [];
-    } catch (error) {
-      console.error('Ошибка загрузки исследований:', error);
-      return [];
-    }
+    return this.loadPageDataArray('/data/research.json', 'publications', []);
   }
 
   /**

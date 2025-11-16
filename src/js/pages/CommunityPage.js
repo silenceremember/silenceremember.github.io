@@ -3,9 +3,7 @@
  */
 
 import { BasePage } from './BasePage.js';
-import { loadData } from '../utils/DataLoader.js';
 import { CardFactory } from '../factories/CardFactory.js';
-import { CommunityAnimationManager } from '../managers/CommunityAnimationManager.js';
 
 /**
  * Класс страницы сообщества
@@ -19,7 +17,19 @@ export class CommunityPage extends BasePage {
       navigationSelector: '.community-navigation',
       imageSelector: '.community-page img, .community-section img',
     });
-    this.animationManager = new CommunityAnimationManager();
+    this.animationManager = null; // Загружается лениво
+  }
+
+  /**
+   * Инициализирует менеджер анимаций (ленивая загрузка)
+   */
+  async initAnimationManager() {
+    if (!this.animationManager) {
+      this.animationManager = await this.loadAnimationManager(
+        '../managers/CommunityAnimationManager.js'
+      );
+    }
+    return this.animationManager;
   }
 
   /**
@@ -51,13 +61,7 @@ export class CommunityPage extends BasePage {
    * Загружает данные сообщества из JSON
    */
   async loadCommunityData() {
-    try {
-      const data = await loadData('/data/community.json');
-      return data;
-    } catch (error) {
-      console.error('Ошибка загрузки сообщества:', error);
-      return null;
-    }
+    return this.loadPageData('/data/community.json', {}, null);
   }
 
   /**
@@ -309,7 +313,9 @@ export class CommunityPage extends BasePage {
       const firstSection = document.querySelector('.community-section');
       if (firstSection && firstSection.children.length > 0) {
         setTimeout(() => {
-          this.animationManager.initializeAnimations();
+          if (this.animationManager) {
+            this.animationManager.initializeAnimations();
+          }
         }, 100);
       }
     }
@@ -329,8 +335,13 @@ export class CommunityPage extends BasePage {
     );
     this.loadingIndicator.show();
 
+    // Загружаем менеджер анимаций лениво перед использованием
+    await this.initAnimationManager();
+
     // Скрываем все элементы сразу для предотвращения FOUC
-    this.animationManager.hideAllCommunityElementsImmediately();
+    if (this.animationManager) {
+      this.animationManager.hideAllCommunityElementsImmediately();
+    }
 
     // Загружаем данные
     const data = await this.loadCommunityData();
@@ -375,8 +386,13 @@ export class CommunityPage extends BasePage {
       this.addSectionToContainer(eventsSection, 'community-events-section');
     }
 
+    // Загружаем менеджер анимаций лениво
+    await this.initAnimationManager();
+
     // Скрываем все элементы после добавления всех секций
-    this.animationManager.hideAllCommunityElementsImmediately();
+    if (this.animationManager) {
+      this.animationManager.hideAllCommunityElementsImmediately();
+    }
 
     // Загружаем SVG иконки для всех добавленных карточек
     // Используем небольшую задержку для гарантии, что все элементы добавлены в DOM
@@ -385,6 +401,8 @@ export class CommunityPage extends BasePage {
 
     // Ждем полной загрузки страницы и запускаем анимации
     await this.waitForPageReady();
-    this.animationManager.initializeAnimations();
+    if (this.animationManager) {
+      this.animationManager.initializeAnimations();
+    }
   }
 }

@@ -4,10 +4,7 @@
  */
 
 import { BasePage } from './BasePage.js';
-import { loadData } from '../utils/DataLoader.js';
-import { CVAnimationManager } from '../managers/CVAnimationManager.js';
 import { DateFormatter } from '../utils/DateFormatter.js';
-import { loadTemplate } from '../utils/TemplateLoader.js';
 
 /**
  * Класс страницы резюме
@@ -21,8 +18,20 @@ export class CVPage extends BasePage {
       navigationSelector: '.cv-navigation',
       imageSelector: '.cv-page img',
     });
-    this.animationManager = new CVAnimationManager();
+    this.animationManager = null; // Загружается лениво
     this.timelineTemplate = null;
+  }
+
+  /**
+   * Инициализирует менеджер анимаций (ленивая загрузка)
+   */
+  async initAnimationManager() {
+    if (!this.animationManager) {
+      this.animationManager = await this.loadAnimationManager(
+        '../managers/CVAnimationManager.js'
+      );
+    }
+    return this.animationManager;
   }
 
   /**
@@ -30,10 +39,10 @@ export class CVPage extends BasePage {
    */
   async loadTemplates() {
     // Всегда перезагружаем шаблон, чтобы убедиться, что он валиден
-    this.timelineTemplate = await loadTemplate(
+    this.timelineTemplate = await this.loadPageTemplate(
       '/components/timeline.html',
       '.timeline-item',
-      (url) => this.loadHTML(url)
+      false // Не используем кеш для timeline, так как он может изменяться
     );
   }
 
@@ -41,26 +50,14 @@ export class CVPage extends BasePage {
    * Загружает данные резюме из JSON
    */
   async loadCVData() {
-    try {
-      const data = await loadData('/data/cv.json');
-      return data;
-    } catch (error) {
-      console.error('Ошибка загрузки резюме:', error);
-      return null;
-    }
+    return this.loadPageData('/data/cv.json', {}, null);
   }
 
   /**
    * Загружает данные сообщества для контактов
    */
   async loadCommunityData() {
-    try {
-      const data = await loadData('/data/community.json');
-      return data;
-    } catch (error) {
-      console.error('Ошибка загрузки сообщества:', error);
-      return null;
-    }
+    return this.loadPageData('/data/community.json', {}, null);
   }
 
   /**
@@ -549,7 +546,9 @@ export class CVPage extends BasePage {
       // Убеждаемся, что секция видима после добавления контента
       workSection.style.visibility = 'visible';
       // Скрываем элементы секции сразу
-      this.animationManager.hideAllCVElementsImmediately();
+      if (this.animationManager) {
+        this.animationManager.hideAllCVElementsImmediately();
+      }
     } else {
       workSection.style.display = 'none';
     }
@@ -594,7 +593,9 @@ export class CVPage extends BasePage {
       // Убеждаемся, что секция видима после добавления контента
       educationSection.style.visibility = 'visible';
       // Скрываем элементы секции сразу
-      this.animationManager.hideAllCVElementsImmediately();
+      if (this.animationManager) {
+        this.animationManager.hideAllCVElementsImmediately();
+      }
     } else {
       educationSection.style.display = 'none';
     }
@@ -626,8 +627,13 @@ export class CVPage extends BasePage {
     this.initLoadingIndicator('cv-loading', 'cv-loading-container');
     this.loadingIndicator.show();
 
+    // Загружаем менеджер анимаций лениво
+    await this.initAnimationManager();
+
     // Скрываем все элементы сразу для предотвращения FOUC
-    this.animationManager.hideAllCVElementsImmediately();
+    if (this.animationManager) {
+      this.animationManager.hideAllCVElementsImmediately();
+    }
 
     // Загружаем шаблоны
     await this.loadTemplates();
@@ -684,7 +690,9 @@ export class CVPage extends BasePage {
         // Секция уже очищена в начале функции, просто добавляем контент
         headerSection.appendChild(headerContent);
         // Скрываем элементы заголовка сразу
-        this.animationManager.hideAllCVElementsImmediately();
+        if (this.animationManager) {
+          this.animationManager.hideAllCVElementsImmediately();
+        }
       }
     }
 
@@ -732,7 +740,9 @@ export class CVPage extends BasePage {
         // Убеждаемся, что секция видима после добавления контента
         certificatesSection.style.visibility = 'visible';
         // Скрываем элементы секции сразу
-        this.animationManager.hideAllCVElementsImmediately();
+        if (this.animationManager) {
+          this.animationManager.hideAllCVElementsImmediately();
+        }
       } else {
         certificatesSection.style.display = 'none';
       }
@@ -756,7 +766,9 @@ export class CVPage extends BasePage {
         // Убеждаемся, что секция видима после добавления контента
         coursesSection.style.visibility = 'visible';
         // Скрываем элементы секции сразу
-        this.animationManager.hideAllCVElementsImmediately();
+        if (this.animationManager) {
+          this.animationManager.hideAllCVElementsImmediately();
+        }
       } else {
         coursesSection.style.display = 'none';
       }
@@ -780,7 +792,9 @@ export class CVPage extends BasePage {
         // Убеждаемся, что секция видима после добавления контента
         languagesSection.style.visibility = 'visible';
         // Скрываем элементы секции сразу
-        this.animationManager.hideAllCVElementsImmediately();
+        if (this.animationManager) {
+          this.animationManager.hideAllCVElementsImmediately();
+        }
       } else {
         languagesSection.style.display = 'none';
       }
@@ -799,7 +813,9 @@ export class CVPage extends BasePage {
         // Убеждаемся, что секция видима после добавления контента
         downloadSection.style.visibility = 'visible';
         // Скрываем элементы секции сразу
-        this.animationManager.hideAllCVElementsImmediately();
+        if (this.animationManager) {
+          this.animationManager.hideAllCVElementsImmediately();
+        }
       }
     }
 
@@ -819,7 +835,9 @@ export class CVPage extends BasePage {
     // Ждем полной загрузки страницы и запускаем анимации
     // Анимация запускается каждый раз при загрузке страницы (как при первой загрузке, так и при повторном посещении)
     await this.waitForPageReady();
-    this.animationManager.initializeAnimations();
+    if (this.animationManager) {
+      this.animationManager.initializeAnimations();
+    }
   }
 
   /**
@@ -832,8 +850,11 @@ export class CVPage extends BasePage {
       const headerSection = document.getElementById('cv-header-section');
       if (headerSection && headerSection.children.length > 0) {
         // Небольшая задержка для гарантии готовности DOM
-        setTimeout(() => {
-          this.animationManager.initializeAnimations();
+        setTimeout(async () => {
+          await this.initAnimationManager();
+          if (this.animationManager) {
+            this.animationManager.initializeAnimations();
+          }
         }, 100);
       }
     }

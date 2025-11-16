@@ -8,6 +8,7 @@ import {
   animateElementsAppearance,
 } from '../utils/AnimationUtils.js';
 import { SvgLoader } from '../components/index.js';
+import { lazyImageLoader } from '../utils/LazyImageLoader.js';
 
 /**
  * Класс для управления группировкой и отображением проектов
@@ -384,6 +385,12 @@ export class ProjectGroupingManager {
           });
         }
         sectionGrid.appendChild(clonedCard);
+        
+        // Инициализируем ленивую загрузку изображения для карточки
+        const cardImage = clonedCard.querySelector('img[data-src]');
+        if (cardImage) {
+          lazyImageLoader.loadImage(cardImage);
+        }
       }
     });
 
@@ -420,6 +427,12 @@ export class ProjectGroupingManager {
             });
           }
           sectionGrid.appendChild(clonedCard);
+          
+          // Инициализируем ленивую загрузку изображения для скрытой карточки
+          const cardImage = clonedCard.querySelector('img[data-src]');
+          if (cardImage) {
+            lazyImageLoader.loadImage(cardImage);
+          }
         }
       });
     }
@@ -569,17 +582,31 @@ export class ProjectGroupingManager {
         });
       });
 
-      // Загружаем SVG для звездочек после рендеринга
-      requestAnimationFrame(async () => {
-        try {
-          const svgLoader = new SvgLoader();
-          await svgLoader.init();
-        } catch (error) {
-          console.error('Ошибка загрузки SVG:', error);
-        } finally {
-          this.isRendering = false;
-        }
-      });
+      // Загружаем SVG для звездочек асинхронно после рендеринга (не блокируем основной поток)
+      // Используем requestIdleCallback для неблокирующей загрузки
+      if (window.requestIdleCallback) {
+        requestIdleCallback(async () => {
+          try {
+            const svgLoader = new SvgLoader();
+            await svgLoader.init();
+          } catch (error) {
+            console.error('Ошибка загрузки SVG:', error);
+          } finally {
+            this.isRendering = false;
+          }
+        }, { timeout: 2000 });
+      } else {
+        setTimeout(async () => {
+          try {
+            const svgLoader = new SvgLoader();
+            await svgLoader.init();
+          } catch (error) {
+            console.error('Ошибка загрузки SVG:', error);
+          } finally {
+            this.isRendering = false;
+          }
+        }, 100);
+      }
     } catch (error) {
       console.error('Ошибка при рендеринге проектов:', error);
       this.isRendering = false;
