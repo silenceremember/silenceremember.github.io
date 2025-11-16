@@ -33,6 +33,12 @@ export class ProjectGroupingManager {
     /** @type {boolean} */
     this.isRendering = false;
 
+    /** @type {Map<string, Array<number>>} */
+    this.activeTimeouts = new Map(); // Хранит активные таймауты для каждой категории
+
+    /** @type {Map<string, boolean>} */
+    this.isAnimating = new Map(); // Флаг анимации для каждой категории
+
     // Константа для анимаций карточек (для обратной совместимости)
     this.CARD_ANIMATION = ANIMATION_CONFIG;
   }
@@ -47,22 +53,48 @@ export class ProjectGroupingManager {
     const section = document.querySelector(`[data-category="${category}"]`);
     if (!section) return;
 
+    // Защита от множественных одновременных вызовов
+    if (this.isAnimating.get(category)) {
+      return;
+    }
+
+    // Отменяем все предыдущие таймауты для этой категории
+    const timeouts = this.activeTimeouts.get(category) || [];
+    timeouts.forEach((timeoutId) => {
+      clearTimeout(timeoutId);
+    });
+    this.activeTimeouts.set(category, []);
+
     const isExpanded = this.expandedSections.has(category);
-    // Находим карточки по data-атрибуту или по классу
+    
+    // Находим карточки для анимации
+    // Атрибут data-hidden-card устанавливается сразу при разворачивании,
+    // поэтому можем использовать единый способ поиска
     const hiddenCards = Array.from(
       section.querySelectorAll(
         '[data-hidden-card="true"], .project-card-hidden'
       )
-    );
+    ).filter((card) => card && card.parentNode);
+
+    // Устанавливаем флаг анимации
+    this.isAnimating.set(category, true);
 
     if (isExpanded) {
       // Сворачиваем с плавной анимацией - все карточки одновременно
+      // Сначала останавливаем все текущие анимации, очищая стили
       hiddenCards.forEach((card) => {
+        // Останавливаем текущую анимацию
+        card.style.transition = 'none';
+        // Принудительно применяем текущее состояние
+        void card.offsetHeight;
+        // Устанавливаем стили для анимации исчезновения
         card.style.transition = `opacity ${this.CARD_ANIMATION.duration} ${this.CARD_ANIMATION.timing}, transform ${this.CARD_ANIMATION.duration} ${this.CARD_ANIMATION.timing}, visibility ${this.CARD_ANIMATION.duration} ${this.CARD_ANIMATION.timing}`;
         card.style.opacity = '0';
         card.style.transform = `translateY(${ANIMATION_CONFIG.translateYDisappear})`;
       });
-      setTimeout(() => {
+
+      // Сохраняем ID таймаута для возможной отмены
+      const timeoutId = setTimeout(() => {
         hiddenCards.forEach((card) => {
           card.style.display = 'none';
           // Полностью очищаем все inline стили после анимации для чистого состояния при следующем показе
@@ -74,7 +106,21 @@ export class ProjectGroupingManager {
           card.classList.add('project-card-hidden');
           card.setAttribute('data-hidden-card', 'true');
         });
+        // Сбрасываем флаг анимации
+        this.isAnimating.set(category, false);
+        // Удаляем таймаут из списка активных
+        const activeTimeouts = this.activeTimeouts.get(category) || [];
+        const index = activeTimeouts.indexOf(timeoutId);
+        if (index > -1) {
+          activeTimeouts.splice(index, 1);
+        }
       }, this.CARD_ANIMATION.timeout);
+
+      // Сохраняем ID таймаута
+      const activeTimeouts = this.activeTimeouts.get(category) || [];
+      activeTimeouts.push(timeoutId);
+      this.activeTimeouts.set(category, activeTimeouts);
+
       this.expandedSections.delete(category);
       button.setAttribute('aria-expanded', 'false');
       button.querySelector('.projects-section-expand-text').textContent =
@@ -83,6 +129,8 @@ export class ProjectGroupingManager {
       // Разворачиваем с плавной анимацией - все карточки одновременно
       // Сначала полностью очищаем все inline стили и классы, которые могут мешать анимации
       hiddenCards.forEach((card) => {
+        // Останавливаем любые текущие анимации
+        card.style.transition = 'none';
         // Очищаем все inline стили, которые могли остаться от предыдущих анимаций
         card.style.removeProperty('opacity');
         card.style.removeProperty('transform');
@@ -90,6 +138,8 @@ export class ProjectGroupingManager {
         card.style.removeProperty('visibility');
         // Убираем класс, который может влиять на видимость
         card.classList.remove('project-card-hidden');
+        // Устанавливаем атрибут сразу, чтобы карточки можно было найти при сворачивании
+        card.setAttribute('data-hidden-card', 'true');
         // Устанавливаем display, но пока оставляем карточку невидимой для правильной инициализации анимации
         card.style.display = '';
         // Устанавливаем начальное состояние для анимации СИНХРОННО
@@ -105,16 +155,34 @@ export class ProjectGroupingManager {
 
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
+          // Проверяем, что анимация все еще актуальна (не была отменена)
+          if (!this.isAnimating.get(category)) {
+            return;
+          }
+
           // Применяем анимацию одновременно для всех карточек
           if (hiddenCards.length > 0) {
             // Используем skipInitialState: true, так как мы уже установили начальное состояние
             animateElementsAppearance(hiddenCards, { skipInitialState: true });
-            // Убираем атрибут после анимации (класс уже убран выше)
-            setTimeout(() => {
-              hiddenCards.forEach((card) => {
-                card.setAttribute('data-hidden-card', 'true');
-              });
+            // Атрибут уже установлен выше, просто сбрасываем флаг анимации после завершения
+            const timeoutId = setTimeout(() => {
+              // Сбрасываем флаг анимации
+              this.isAnimating.set(category, false);
+              // Удаляем таймаут из списка активных
+              const activeTimeouts = this.activeTimeouts.get(category) || [];
+              const index = activeTimeouts.indexOf(timeoutId);
+              if (index > -1) {
+                activeTimeouts.splice(index, 1);
+              }
             }, ANIMATION_CONFIG.timeout);
+
+            // Сохраняем ID таймаута
+            const activeTimeouts = this.activeTimeouts.get(category) || [];
+            activeTimeouts.push(timeoutId);
+            this.activeTimeouts.set(category, activeTimeouts);
+          } else {
+            // Если карточек нет, сразу сбрасываем флаг
+            this.isAnimating.set(category, false);
           }
         });
       });
@@ -279,6 +347,15 @@ export class ProjectGroupingManager {
     }
 
     this.isRendering = true;
+
+    // Отменяем все активные анимации и таймауты перед новым рендерингом
+    this.activeTimeouts.forEach((timeouts, category) => {
+      timeouts.forEach((timeoutId) => {
+        clearTimeout(timeoutId);
+      });
+    });
+    this.activeTimeouts.clear();
+    this.isAnimating.clear();
 
     // Сбрасываем состояние развернутости при новом рендеринге
     this.expandedSections.clear();
