@@ -56,20 +56,20 @@ const COLOR_LERP_SPEED = 0.15; // Speed of color interpolation (0-1)
 const COLOR_UPDATE_THROTTLE = 100; // ms between color updates
 
 // Trail effect constants
-const TRAIL_COUNT = 2;
-const TRAIL_SPACING = 0.3;
-const TRAIL_INTENSITY_MULTIPLIER = 0.25; // Moderate visibility
-const MAIN_SPLAT_INTENSITY = 0.40; // Moderate visibility
+const TRAIL_COUNT = 3;
+const TRAIL_SPACING = 0.25; // More dense trails
+const TRAIL_INTENSITY_MULTIPLIER = 0.25; // Slightly increased visibility
+const MAIN_SPLAT_INTENSITY = 0.42; // Slightly increased visibility
 const TRAIL_FORCE_MULTIPLIER = 0.5;
-const BASE_COLOR_INTENSITY = 0.07; // Moderate base intensity
+const BASE_COLOR_INTENSITY = 0.08; // Slightly increased base intensity
 
 // Default configuration
 const DEFAULT_CONFIG = {
-  DENSITY_DISSIPATION: 0.997, // Balanced dissipation
+  DENSITY_DISSIPATION: 0.995, // Longer-lasting effects
   VELOCITY_DISSIPATION: 0.45, // Balanced velocity dissipation
   PRESSURE: 0.8,
-  CURL: 0.8,
-  SPLAT_RADIUS: 0.85, // Balanced radius
+  CURL: 1.0, // More pronounced vortices
+  SPLAT_RADIUS: 0.90, // Slightly larger radius
   SPLAT_FORCE: 2100, // Balanced force
   SHADING: false,
   COLORFUL: false,
@@ -77,7 +77,7 @@ const DEFAULT_CONFIG = {
   PAUSED: false,
   BACK_COLOR: { r: 0, g: 0, b: 0 },
   TRANSPARENT: true,
-  BLOOM: false,
+  BLOOM: false, // Bloom disabled - no glow effect
   BLOOM_ITERATIONS: 8,
   BLOOM_RESOLUTION: 256,
   BLOOM_INTENSITY: 0.8,
@@ -110,7 +110,7 @@ export class FluidBackground {
     this.smoothCursorY = 0.5;
     this.targetCursorX = 0.5;
     this.targetCursorY = 0.5;
-    this.smoothFactor = 0.12;
+    this.smoothFactor = 0.15; // Improved smoothness for better following
     
     // Activation threshold
     this.initialCursorX = null;
@@ -1790,33 +1790,41 @@ export class FluidBackground {
       
       // Calculate movement speed for adaptive intensity
       const movementSpeed = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-      const intensityMultiplier = Math.min(movementSpeed * 10, 1.0); // Scale intensity based on speed
+      // Enhanced adaptive intensity based on speed with smoother curve
+      const intensityMultiplier = Math.min(movementSpeed * 12, 1.0); // More responsive to speed
+      const speedFactor = Math.min(movementSpeed * 8, 1.0); // Additional speed factor for force
       
       // Only create splat if smooth cursor actually moved
       if (Math.abs(deltaX) > 0.0001 || Math.abs(deltaY) > 0.0001) {
         const color = this.generateColor();
-        // Moderate intensity
-        const effectiveIntensity = Math.max(intensityMultiplier, 0.28);
+        // Enhanced intensity with better minimum threshold
+        const effectiveIntensity = Math.max(intensityMultiplier, 0.35);
         color.r *= MAIN_SPLAT_INTENSITY * effectiveIntensity;
         color.g *= MAIN_SPLAT_INTENSITY * effectiveIntensity;
         color.b *= MAIN_SPLAT_INTENSITY * effectiveIntensity;
-        const dx = deltaX * this.config.SPLAT_FORCE * 0.14; // Slightly reduced
-        const dy = deltaY * this.config.SPLAT_FORCE * 0.14;
+        // Dynamic force based on movement speed
+        const dx = deltaX * this.config.SPLAT_FORCE * (0.15 + speedFactor * 0.05);
+        const dy = deltaY * this.config.SPLAT_FORCE * (0.15 + speedFactor * 0.05);
         
         // Main splat at smooth cursor position
         this.splat(this.smoothCursorX, this.smoothCursorY, dx, dy, color);
         
-        // Enhanced trail system with adaptive spacing
+        // Enhanced trail system with improved spacing and color variations
         for (let i = 1; i <= TRAIL_COUNT; i++) {
           const spacing = TRAIL_SPACING * i;
           const trailX = this.smoothCursorX - deltaX * spacing;
           const trailY = this.smoothCursorY - deltaY * spacing;
-          const trailColor = this.generateColor();
-          const trailIntensity = TRAIL_INTENSITY_MULTIPLIER * effectiveIntensity * (1 - i * 0.22); // Reduced fade
+          // Generate color with slight variation for trail particles
+          const trailColor = this.generateColorWithVariation(i);
+          // Improved fade curve for smoother trail appearance
+          const fadeFactor = 1 - (i / (TRAIL_COUNT + 1)) * 0.65; // Smoother fade
+          const trailIntensity = TRAIL_INTENSITY_MULTIPLIER * effectiveIntensity * fadeFactor;
           trailColor.r *= trailIntensity;
           trailColor.g *= trailIntensity;
           trailColor.b *= trailIntensity;
-          this.splat(trailX, trailY, dx * TRAIL_FORCE_MULTIPLIER, dy * TRAIL_FORCE_MULTIPLIER, trailColor);
+          // Slightly reduced force for trail particles
+          const trailForce = TRAIL_FORCE_MULTIPLIER * (1 - i * 0.1);
+          this.splat(trailX, trailY, dx * trailForce, dy * trailForce, trailColor);
         }
       }
     }
@@ -2721,9 +2729,27 @@ export class FluidBackground {
     // Use accent color instead of random colors
     const accentColor = this.getAccentColor();
     return {
-      r: accentColor.r * BASE_COLOR_INTENSITY, // Increased visibility (was 0.05)
+      r: accentColor.r * BASE_COLOR_INTENSITY,
       g: accentColor.g * BASE_COLOR_INTENSITY,
       b: accentColor.b * BASE_COLOR_INTENSITY
+    };
+  }
+
+  /**
+   * Generate color with slight variation for trail particles
+   * Adds subtle color shifts for more visual interest
+   */
+  generateColorWithVariation(trailIndex = 0) {
+    const accentColor = this.getAccentColor();
+    // Add subtle color variation based on trail index
+    // Creates a slight hue shift for more dynamic appearance
+    const variation = (trailIndex * 0.08) % 1.0; // Subtle variation
+    const brightnessShift = 1.0 + variation * 0.15; // Slight brightness variation
+    
+    return {
+      r: Math.min(accentColor.r * BASE_COLOR_INTENSITY * brightnessShift, 1.0),
+      g: Math.min(accentColor.g * BASE_COLOR_INTENSITY * brightnessShift, 1.0),
+      b: Math.min(accentColor.b * BASE_COLOR_INTENSITY * brightnessShift, 1.0)
     };
   }
 
