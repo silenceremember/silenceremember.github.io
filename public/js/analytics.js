@@ -51,6 +51,10 @@ if (isAnalyticsEnabled() && GA_MEASUREMENT_ID) {
         gaConfig.cookie_domain = 'none';
         gaConfig.cookie_update = false;
         gaConfig.cookie_expires = 0; // Отключаем cookies
+        // Используем только localStorage, без cookies
+        gaConfig.storage = 'none';
+        // Отключаем автоматическое создание cookies
+        gaConfig.cookie_flags = '';
       }
       
       gtag('config', GA_MEASUREMENT_ID, gaConfig);
