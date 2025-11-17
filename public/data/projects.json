@@ -202,13 +202,13 @@
     },
     {
       "id": "assignment-concept",
-      "title": "Задание [Концепт]",
+      "title": "Гейм-дизайн и анализ концепта",
       "category": "research",
       "type": "document",
       "role": "solo",
       "year": 2024,
       "status": "completed",
-      "description": "Анализ готового концепта с курсов и его улучшение",
+      "description": "Разработка трех игровых концепций: от создания идеи до анализа и переработки концепта",
       "fullDescription": "Анализ существующего концепта игры с курсов Skillbox с последующим предложением улучшений. Демонстрирует навыки критического анализа и улучшения игровых концепций.",
       "media": {},
       "documents": [
@@ -219,19 +219,19 @@
         }
       ],
       "links": {},
-      "tags": ["analysis", "concept", "improvement", "skillbox"],
+      "tags": ["analysis", "concept", "improvement", "skillbox", "case-study"],
       "featured": false,
       "technologies": []
     },
     {
       "id": "assignment-decomposition",
-      "title": "Задание [Декомпозиция]",
+      "title": "Деконструкция игровых механик",
       "category": "research",
       "type": "document",
       "role": "solo",
       "year": 2024,
       "status": "completed",
-      "description": "Анализ игр и их разбор с точки зрения геймдизайна",
+      "description": "Серия аналитических разборов игр: декомпозиция, анализ опыта, улучшения и переработка сеттинга",
       "fullDescription": "Детальный анализ нескольких игр с точки зрения геймдизайна. Разбор механик, систем и их взаимодействия. Демонстрирует навыки декомпозиции игровых систем.",
       "media": {},
       "documents": [
@@ -242,30 +242,7 @@
         }
       ],
       "links": {},
-      "tags": ["analysis", "decomposition", "gamedesign", "skillbox"],
-      "featured": false,
-      "technologies": []
-    },
-    {
-      "id": "assignment-roguelike-deckbuilder",
-      "title": "Задание [Roguelike Deckbuilder]",
-      "category": "research",
-      "type": "document",
-      "role": "solo",
-      "year": 2024,
-      "status": "completed",
-      "description": "Анализ жанра roguelike deckbuilder, выделение ключевых характеристик",
-      "fullDescription": "Анализ жанра roguelike deckbuilder с выделением ключевых характеристик жанра. Структурированный разбор в формате таблицы.",
-      "media": {},
-      "documents": [
-        {
-          "type": "genre-analysis",
-          "title": "Анализ жанра Roguelike Deckbuilder",
-          "url": "assets/documents/projects/skillbox/assignment-roguelike-deckbuilder.pdf"
-        }
-      ],
-      "links": {},
-      "tags": ["genre-analysis", "roguelike", "deckbuilder", "skillbox"],
+      "tags": ["analysis", "decomposition", "gamedesign", "skillbox", "case-study"],
       "featured": false,
       "technologies": []
     },
@@ -297,77 +274,8 @@
       "technologies": []
     },
     {
-      "id": "ranepa-dz1",
-      "title": "ДЗ1 - Жанровая классификация",
-      "category": "research",
-      "type": "document",
-      "role": "solo",
-      "year": 2024,
-      "status": "completed",
-      "description": "Разбор 3 игр на механики (док-домашка)",
-      "fullDescription": "Жанровая классификация с разбором 3 игр на механики. Анализ игровых систем и их классификация по жанрам.",
-      "media": {},
-      "documents": [
-        {
-          "type": "homework",
-          "title": "ДЗ1 - Жанровая классификация",
-          "url": "assets/documents/projects/ranepa/dz1-genre-classification.pdf"
-        }
-      ],
-      "links": {},
-      "tags": ["genre", "classification", "mechanics", "ranepa"],
-      "featured": false,
-      "technologies": []
-    },
-    {
-      "id": "ranepa-dz2",
-      "title": "ДЗ2 - Анализ игры",
-      "category": "research",
-      "type": "document",
-      "role": "solo",
-      "year": 2024,
-      "status": "completed",
-      "description": "Анализ игры с точки зрения механик",
-      "fullDescription": "Детальный анализ игры с точки зрения механик. Разбор игровых систем, их взаимодействия и влияния на игровой опыт.",
-      "media": {},
-      "documents": [
-        {
-          "type": "homework",
-          "title": "ДЗ2 - Анализ игры",
-          "url": "assets/documents/projects/ranepa/dz2-game-analysis.pdf"
-        }
-      ],
-      "links": {},
-      "tags": ["analysis", "mechanics", "ranepa"],
-      "featured": false,
-      "technologies": []
-    },
-    {
-      "id": "narrative-dz1",
-      "title": "ДЗ1 - Игры без нарратива?",
-      "category": "research",
-      "type": "document",
-      "role": "solo",
-      "year": 2024,
-      "status": "completed",
-      "description": "Существуют ли игры без нарратива? Как нелинейный сюжет может помешать игре",
-      "fullDescription": "Исследование существования игр без нарратива. Анализ того, как нелинейный сюжет может помешать игре. Примеры хороших игр с плохим нарративом.",
-      "media": {},
-      "documents": [
-        {
-          "type": "presentation",
-          "title": "ДЗ1 - Игры без нарратива?",
-          "url": "assets/documents/projects/ranepa/narrative/dz1-games-without-narrative.pdf"
-        }
-      ],
-      "links": {},
-      "tags": ["narrative", "analysis", "ranepa"],
-      "featured": false,
-      "technologies": []
-    },
-    {
       "id": "narrative-dz2",
-      "title": "ДЗ2 - Dark Messiah анализ",
+      "title": "DARK MESSIAH АНАЛИЗ",
       "category": "research",
       "type": "document",
       "role": "solo",
@@ -390,7 +298,7 @@
     },
     {
       "id": "narrative-dz5",
-      "title": "ДЗ5 - Disco Elysium разбор",
+      "title": "DISCO ELYSIUM РАЗБОР",
       "category": "research",
       "type": "document",
       "role": "solo",
