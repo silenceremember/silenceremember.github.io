@@ -442,7 +442,9 @@
       "status": "completed",
       "description": "Джем-игра с таймером",
       "fullDescription": "Игра, созданная на трехдневном джеме.",
-      "media": {},
+      "media": {
+        "preview": "assets/images/projects/couch-potato-physicist/preview.webp"
+      },
       "documents": [],
       "links": {
         "itch": "https://silenceremember.itch.io/couchpotatophysicist"
@@ -461,7 +463,9 @@
       "status": "completed",
       "description": "Джем-игра про погоню за демоном",
       "fullDescription": "Игра, созданная на трехдневном джеме.",
-      "media": {},
+      "media": {
+        "preview": "assets/images/projects/infernal-run/preview.webp"
+      },
       "documents": [],
       "links": {
         "itch": "https://silenceremember.itch.io/infernal-run"
@@ -480,7 +484,9 @@
       "status": "completed",
       "description": "Джем-игра с головоломкой",
       "fullDescription": "Игра, созданная на трехдневном джеме.",
-      "media": {},
+      "media": {
+        "preview": "assets/images/projects/mushroom-loop/preview.webp"
+      },
       "documents": [],
       "links": {
         "itch": "https://thebestmrand.itch.io/mushhoom-loop"
