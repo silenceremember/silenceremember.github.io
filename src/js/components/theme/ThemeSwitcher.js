@@ -57,17 +57,23 @@ export class ThemeSwitcher {
     this.moonIcon.classList.remove('active');
     this.sunIcon.classList.remove('active');
 
-    // Используем setTimeout для гарантии, что классы удалены перед добавлением новых
-    setTimeout(() => {
+    // Используем requestAnimationFrame для гарантии, что DOM обновлен
+    requestAnimationFrame(() => {
       // Добавляем класс active только к активной иконке
       if (theme === 'dark') {
         this.sunIcon.classList.add('active');
-        console.log('Applied dark theme, sun icon active');
+        console.log('Applied dark theme, sun icon active', {
+          moonHasActive: this.moonIcon.classList.contains('active'),
+          sunHasActive: this.sunIcon.classList.contains('active')
+        });
       } else {
         this.moonIcon.classList.add('active');
-        console.log('Applied light theme, moon icon active');
+        console.log('Applied light theme, moon icon active', {
+          moonHasActive: this.moonIcon.classList.contains('active'),
+          sunHasActive: this.sunIcon.classList.contains('active')
+        });
       }
-    }, 0);
+    });
   }
 
   /**
