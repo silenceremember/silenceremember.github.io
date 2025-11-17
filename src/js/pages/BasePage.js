@@ -127,7 +127,9 @@ export class BasePage {
    */
   async loadAnimationManager(managerPath, constructorArgs = []) {
     try {
-      const module = await import(managerPath);
+      // Преобразуем относительный путь в абсолютный через import.meta.url для production сборки
+      const managerUrl = new URL(managerPath, import.meta.url).href;
+      const module = await import(managerUrl);
       const ManagerClass = module[Object.keys(module)[0]]; // Получаем первый экспорт
       return new ManagerClass(...constructorArgs);
     } catch (error) {

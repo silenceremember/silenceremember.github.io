@@ -224,9 +224,9 @@ export async function hideAllSlideElementsEarly() {
 
   try {
     // Используем динамический импорт для ленивой загрузки
-    const { SlideAnimationManager } = await import(
-      '../managers/SlideAnimationManager.js'
-    );
+    // Используем правильный путь через import.meta.url для production сборки
+    const managerUrl = new URL('../managers/SlideAnimationManager.js', import.meta.url).href;
+    const { SlideAnimationManager } = await import(managerUrl);
     const slideAnimationManager = new SlideAnimationManager(slidesContainer);
     slideAnimationManager.hideAllSlideElementsImmediately();
   } catch (error) {
