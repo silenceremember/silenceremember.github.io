@@ -90,10 +90,11 @@ export default defineConfig({
     outDir: '../dist',
     emptyOutDir: true,
     // Оптимизация размера бандла
-    minify: 'esbuild', // Используем esbuild для быстрой минификации
-    cssMinify: true,
-    // Порог для инлайна ассетов (4KB - меньше будут инлайниться)
-    assetsInlineLimit: 4096,
+    minify: 'esbuild', // Используем esbuild (быстрее, Vite 7 не требует terser)
+    // esbuild автоматически минифицирует и удаляет console.log в production
+    cssMinify: true, // Встроенная минификация CSS
+    // Порог для инлайна ассетов (2KB - меньше будут инлайниться, уменьшает количество запросов)
+    assetsInlineLimit: 2048,
     // Оптимизация chunk splitting
     rollupOptions: {
       input: {
@@ -105,6 +106,13 @@ export default defineConfig({
         404: resolve(__dirname, 'src/404.html'),
       },
       output: {
+        // Оптимизация для лучшего tree shaking и уменьшения размера
+        generatedCode: {
+          preset: 'es2015',
+          constBindings: true,
+        },
+        // Компактный вывод для уменьшения размера
+        compact: true,
         // Стратегия разделения чанков для лучшего кеширования и уменьшения unused JS
         manualChunks: (id) => {
           // Разделяем node_modules на отдельные чанки
@@ -188,7 +196,7 @@ export default defineConfig({
       },
     },
     // Оптимизация размера чанков
-    chunkSizeWarningLimit: 300, // Уменьшено для более строгого контроля размера и лучшего code splitting
+    chunkSizeWarningLimit: 200, // Уменьшено для более строгого контроля размера и лучшего code splitting
     // Включаем source maps только для production debugging (опционально)
     sourcemap: false,
     // Оптимизация tree shaking

@@ -1,9 +1,5 @@
-import { IndexPage, hideAllSlideElementsEarly } from './pages/IndexPage.js';
-import { ProjectsPage } from './pages/ProjectsPage.js';
-import { CVPage } from './pages/CVPage.js';
-import { ResearchPage } from './pages/ResearchPage.js';
-import { CommunityPage } from './pages/CommunityPage.js';
-import { NotFoundPage } from './pages/NotFoundPage.js';
+// Динамические импорты для уменьшения initial bundle size
+// Импортируем только текущую страницу, остальные загружаются по требованию
 import { BasePage } from './pages/BasePage.js';
 import { CustomCursor } from './components/index.js';
 
@@ -23,6 +19,7 @@ function quickInitCursor() {
 
 /**
  * Определяет текущую страницу и инициализирует соответствующий класс
+ * Использует динамические импорты для уменьшения initial bundle size
  * @returns {Promise<void>}
  */
 async function initCurrentPage() {
@@ -30,26 +27,41 @@ async function initCurrentPage() {
   const pageName = path.split('/').pop() || 'index.html';
 
   let pageInstance = null;
+  let hideAllSlideElementsEarly = null;
 
-  if (pageName === 'index.html' || pageName === '' || path === '/') {
-    pageInstance = new IndexPage();
-  } else if (pageName === 'projects.html') {
-    pageInstance = new ProjectsPage();
-  } else if (pageName === 'cv.html') {
-    pageInstance = new CVPage();
-  } else if (pageName === 'research.html') {
-    pageInstance = new ResearchPage();
-  } else if (pageName === 'community.html') {
-    pageInstance = new CommunityPage();
-  } else if (pageName === '404.html') {
-    pageInstance = new NotFoundPage();
-  }
+  try {
+    if (pageName === 'index.html' || pageName === '' || path === '/') {
+      // Импортируем только главную страницу
+      const { IndexPage, hideAllSlideElementsEarly: hideSlides } = await import('./pages/IndexPage.js');
+      hideAllSlideElementsEarly = hideSlides;
+      pageInstance = new IndexPage();
+    } else if (pageName === 'projects.html') {
+      const { ProjectsPage } = await import('./pages/ProjectsPage.js');
+      pageInstance = new ProjectsPage();
+    } else if (pageName === 'cv.html') {
+      const { CVPage } = await import('./pages/CVPage.js');
+      pageInstance = new CVPage();
+    } else if (pageName === 'research.html') {
+      const { ResearchPage } = await import('./pages/ResearchPage.js');
+      pageInstance = new ResearchPage();
+    } else if (pageName === 'community.html') {
+      const { CommunityPage } = await import('./pages/CommunityPage.js');
+      pageInstance = new CommunityPage();
+    } else if (pageName === '404.html') {
+      const { NotFoundPage } = await import('./pages/NotFoundPage.js');
+      pageInstance = new NotFoundPage();
+    }
 
-  if (pageInstance) {
-    await pageInstance.init();
-    // Показываем контент с fade-in эффектом после инициализации страницы
-    BasePage.updateFadeInElements();
+    if (pageInstance) {
+      await pageInstance.init();
+      // Показываем контент с fade-in эффектом после инициализации страницы
+      BasePage.updateFadeInElements();
+    }
+  } catch (error) {
+    console.error('Ошибка при загрузке страницы:', error);
   }
+  
+  return hideAllSlideElementsEarly;
 }
 
 // Быстрая инициализация курсора как можно раньше
@@ -65,13 +77,17 @@ if (document.readyState !== 'loading') {
 // Скрывает элементы слайдов как можно раньше для предотвращения FOUC
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', async () => {
-    // Сразу скрываем элементы всех слайдов как можно раньше (только для главной страницы)
-    await hideAllSlideElementsEarly();
-    initCurrentPage();
+    const hideSlides = await initCurrentPage();
+    // Скрываем элементы слайдов после загрузки страницы (только для главной страницы)
+    if (hideSlides) {
+      await hideSlides();
+    }
   });
 } else {
-  // Если DOM уже готов, скрываем элементы сразу
-  hideAllSlideElementsEarly().then(() => {
-    initCurrentPage();
+  // Если DOM уже готов, инициализируем сразу
+  initCurrentPage().then((hideSlides) => {
+    if (hideSlides) {
+      hideSlides();
+    }
   });
 }
