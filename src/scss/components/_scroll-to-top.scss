@@ -59,6 +59,17 @@
     }
   }
 
+  &:active {
+    outline: none;
+
+    svg path.scroll-to-top-bg,
+    path.scroll-to-top-bg,
+    svg circle.scroll-to-top-circle,
+    circle.scroll-to-top-circle {
+      fill: var(--color-text-primary);
+    }
+  }
+
   &.visible {
     opacity: 1;
     visibility: visible;
@@ -124,7 +135,7 @@
       path.scroll-to-top-bg,
       svg circle.scroll-to-top-circle,
       circle.scroll-to-top-circle {
-        fill: var(--color-accent);
+        fill: var(--color-text-primary);
       }
     }
 
@@ -141,6 +152,19 @@
 
     &.footer-hidden {
       bottom: calc(var(--spacing-md) - var(--spacing-content-side));
+    }
+  }
+
+  /* Отключаем hover эффекты на мобильных и планшетах */
+  .scroll-to-top {
+    &:hover,
+    &:focus {
+      svg path.scroll-to-top-bg,
+      path.scroll-to-top-bg,
+      svg circle.scroll-to-top-circle,
+      circle.scroll-to-top-circle {
+        fill: var(--color-text-primary);
+      }
     }
   }
 }

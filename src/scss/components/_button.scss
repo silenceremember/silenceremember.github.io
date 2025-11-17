@@ -36,6 +36,12 @@
   color: var(--color-bg-primary);
 }
 
+.cta-button:active {
+  background-color: var(--color-text-primary);
+  border-color: var(--color-text-primary);
+  color: var(--color-bg-primary);
+}
+
 .cta-button-primary {
   border-color: var(--color-accent);
   color: var(--color-accent);
@@ -43,6 +49,12 @@
 
 .cta-button-primary:hover {
   background-color: var(--color-accent);
+  color: var(--color-bg-primary);
+}
+
+.cta-button-primary:active {
+  background-color: var(--color-text-primary);
+  border-color: var(--color-text-primary);
   color: var(--color-bg-primary);
 }
 
@@ -65,4 +77,29 @@
   border-color: var(--color-accent);
   background-color: var(--color-accent);
   color: var(--color-bg-primary);
+}
+
+/* Отключаем hover эффекты на мобильных и планшетах */
+@include tablet-and-mobile {
+  .cta-button:hover {
+    background-color: transparent;
+    border-color: var(--color-text-primary);
+    color: var(--color-text-primary);
+  }
+
+  .cta-button-primary:hover {
+    background-color: transparent;
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  .projects-navigation .cta-button.active:hover,
+  .research-navigation .cta-button.active:hover,
+  .cv-navigation .cta-button.active:hover,
+  .community-navigation .cta-button.active:hover,
+  #cta-section .cta-button.active:hover {
+    border-color: var(--color-text-primary);
+    background-color: var(--color-text-primary);
+    color: var(--color-bg-primary);
+  }
 }

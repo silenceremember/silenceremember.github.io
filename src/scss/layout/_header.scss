@@ -84,6 +84,10 @@
   color: var(--color-accent);
 }
 
+.header-language:active svg {
+  color: var(--color-text-primary);
+}
+
 .language-icon-ru,
 .language-icon-en {
   position: absolute;
@@ -176,6 +180,10 @@
   fill: var(--color-accent);
 }
 
+.header-theme:active svg {
+  fill: var(--color-text-primary);
+}
+
 .header-theme svg {
   width: 100%;
   height: 100%;
@@ -244,6 +252,12 @@
   color: var(--color-bg-primary);
 }
 
+.header-nav-item:active {
+  background-color: var(--color-text-primary);
+  border-color: var(--color-text-primary);
+  color: var(--color-bg-primary);
+}
+
 .header-nav-item.active {
   background-color: var(--color-text-primary);
   border-color: var(--color-text-primary);
@@ -284,4 +298,35 @@
 
 .header-menu-button:hover {
   color: var(--color-accent);
+}
+
+.header-menu-button:active {
+  color: var(--color-text-primary);
+}
+
+/* Отключаем hover эффекты на мобильных и планшетах */
+@include tablet-and-mobile {
+  .header-language:hover svg {
+    color: var(--color-text-primary);
+  }
+
+  .header-theme:hover svg {
+    fill: var(--color-text-primary);
+  }
+
+  .header-nav-item:hover {
+    border-color: var(--color-divider);
+    background-color: transparent;
+    color: var(--color-text-primary);
+  }
+
+  .header-nav-item.active:hover {
+    border-color: var(--color-text-primary);
+    background-color: var(--color-text-primary);
+    color: var(--color-bg-primary);
+  }
+
+  .header-menu-button:hover {
+    color: var(--color-text-primary);
+  }
 }

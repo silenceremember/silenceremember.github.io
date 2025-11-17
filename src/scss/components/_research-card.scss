@@ -294,6 +294,13 @@
     color: var(--color-bg-primary);
     outline: none;
   }
+
+  &:active {
+    background-color: var(--color-text-primary);
+    border-color: var(--color-text-primary);
+    color: var(--color-bg-primary);
+    outline: none;
+  }
 }
 
 .research-card-description {
@@ -420,6 +427,13 @@
     outline: none;
   }
 
+  &:active {
+    background-color: var(--color-text-primary);
+    border-color: var(--color-text-primary);
+    color: var(--color-bg-primary);
+    outline: none;
+  }
+
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -457,5 +471,45 @@
   .research-card-description {
     font-size: var(--font-size-small);
     padding: var(--spacing-sm);
+  }
+
+  /* Отключаем hover эффекты на мобильных и планшетах */
+  .research-card:hover {
+    transform: none;
+    box-shadow: none;
+
+    .research-card-button {
+      background-color: transparent;
+      border-color: var(--color-text-primary);
+      color: var(--color-text-primary);
+    }
+  }
+
+  .research-card-button {
+    &:hover,
+    &:focus {
+      background-color: transparent;
+      border-color: var(--color-text-primary);
+      color: var(--color-text-primary);
+      outline: none;
+    }
+
+    .research-card:hover &,
+    .research-card:active &,
+    .research-card:focus-within & {
+      background-color: transparent;
+      border-color: var(--color-text-primary);
+      color: var(--color-text-primary);
+    }
+  }
+
+  .research-card-abstract-toggle {
+    &:hover,
+    &:focus {
+      background-color: transparent;
+      border-color: var(--color-text-primary);
+      color: var(--color-text-primary);
+      outline: none;
+    }
   }
 }

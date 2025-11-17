@@ -82,3 +82,45 @@
     }
   }
 }
+
+/* Отключаем hover эффекты на мобильных и планшетах */
+@include tablet-and-mobile {
+  .project-filters-option-count {
+    .project-filters-option:hover & {
+      background-color: var(--theme-light-text-primary);
+      color: var(--theme-light-bg-primary);
+
+      [data-theme='dark'] & {
+        background-color: var(--theme-dark-text-primary);
+        color: var(--theme-dark-bg-primary);
+      }
+    }
+  }
+
+  .projects-section-expand-count {
+    .projects-section-expand:hover & {
+      background-color: var(--theme-light-text-primary);
+      color: var(--theme-light-bg-primary);
+
+      [data-theme='dark'] & {
+        background-color: var(--theme-dark-text-primary);
+        color: var(--theme-dark-bg-primary);
+      }
+    }
+  }
+
+  .project-filters-year-button-count,
+  .project-filters-year-option-count {
+    .project-filters-year-button:hover &,
+    .project-filters-year-option:hover &,
+    .project-filters-year-option:focus & {
+      background-color: var(--theme-light-text-primary);
+      color: var(--theme-light-bg-primary);
+
+      [data-theme='dark'] & {
+        background-color: var(--theme-dark-text-primary);
+        color: var(--theme-dark-bg-primary);
+      }
+    }
+  }
+}

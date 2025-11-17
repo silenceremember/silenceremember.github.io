@@ -543,6 +543,13 @@
     outline: none;
   }
 
+  &:active:not(:disabled) {
+    background-color: var(--color-text-primary);
+    border-color: var(--color-text-primary);
+    color: var(--color-bg-primary);
+    outline: none;
+  }
+
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -722,4 +729,25 @@
 /* Навигационное меню для tablet режима */
 .cv-navigation {
   @include page-navigation;
+}
+
+/* Отключаем hover эффекты на мобильных и планшетах */
+@include tablet-and-mobile {
+  .cv-header-contact-link:hover {
+    color: var(--color-secondary);
+  }
+
+  .cv-contact-item:hover {
+    color: var(--color-text-primary);
+  }
+
+  .cv-certificate-button {
+    &:hover:not(:disabled),
+    &:focus:not(:disabled) {
+      background-color: transparent;
+      border-color: var(--color-text-primary);
+      color: var(--color-text-primary);
+      outline: none;
+    }
+  }
 }

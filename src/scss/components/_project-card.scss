@@ -449,6 +449,13 @@
     outline: none;
   }
 
+  &:active {
+    background-color: var(--color-text-primary);
+    border-color: var(--color-text-primary);
+    color: var(--color-bg-primary);
+    outline: none;
+  }
+
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -485,5 +492,43 @@
 
   .project-card-overlay {
     opacity: 1; /* Всегда показываем overlay на мобильных */
+  }
+
+  /* Отключаем hover эффекты на мобильных и планшетах */
+  .project-card:hover {
+    transform: none;
+    box-shadow: none;
+
+    .project-card-image {
+      transform: none;
+    }
+
+    .project-card-overlay {
+      opacity: 1;
+    }
+
+    .project-card-button {
+      background-color: transparent;
+      border-color: var(--color-text-primary);
+      color: var(--color-text-primary);
+    }
+  }
+
+  .project-card-button {
+    &:hover,
+    &:focus {
+      background-color: transparent;
+      border-color: var(--color-text-primary);
+      color: var(--color-text-primary);
+      outline: none;
+    }
+
+    .project-card:hover &,
+    .project-card:active &,
+    .project-card:focus-within & {
+      background-color: transparent;
+      border-color: var(--color-text-primary);
+      color: var(--color-text-primary);
+    }
   }
 }

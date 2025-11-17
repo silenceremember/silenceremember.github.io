@@ -241,6 +241,12 @@
     color: var(--color-bg-primary);
   }
 
+  &:active {
+    background-color: var(--color-text-primary);
+    border-color: var(--color-text-primary);
+    color: var(--color-bg-primary);
+  }
+
   @include tablet-and-mobile {
     font-size: var(--font-size-small);
     padding: var(--spacing-xs) var(--spacing-md);
@@ -324,5 +330,20 @@
 
   .research-year-header {
     margin-top: var(--spacing-lg);
+  }
+
+  /* Отключаем hover эффекты на мобильных и планшетах */
+  .research-publication-pdf-button {
+    &:hover {
+      background-color: transparent;
+      border-color: var(--color-text-primary);
+      color: var(--color-text-primary);
+    }
+  }
+
+  .research-publication-abstract-toggle {
+    &:hover {
+      color: var(--color-accent);
+    }
   }
 }

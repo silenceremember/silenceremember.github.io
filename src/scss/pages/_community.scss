@@ -429,4 +429,52 @@
   .community-page {
     transition: padding var(--transition-duration-base) var(--timing-function-ease);
   }
+
+  /* Отключаем hover эффекты на мобильных и планшетах */
+  .community-card:hover {
+    border-color: var(--color-divider);
+    background-color: transparent;
+
+    .community-card-icon svg,
+    .community-card-icon svg path {
+      fill: var(--color-text-primary);
+    }
+
+    .community-card-title-text {
+      color: var(--color-text-primary);
+    }
+
+    .community-card-subtitle {
+      color: var(--color-accent);
+    }
+
+    .community-card-description {
+      color: var(--color-text-secondary);
+      opacity: 1;
+    }
+  }
+
+  .community-card-discord:hover {
+    .community-card-icon-left svg,
+    .community-card-icon-left svg path {
+      fill: var(--color-text-primary) !important;
+    }
+
+    .community-card-title-text {
+      color: var(--color-text-primary);
+    }
+
+    .community-card-subtitle {
+      color: var(--color-accent);
+    }
+
+    .community-card-description {
+      color: var(--color-text-secondary);
+      opacity: 1;
+    }
+  }
+
+  .community-event-item:hover {
+    border-color: var(--color-divider);
+  }
 }

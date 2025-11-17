@@ -73,6 +73,7 @@
   }
 
   &:active {
+    background-color: var(--color-text-primary);
     transform: translateY(-50%) scale(0.95);
   }
 
@@ -212,6 +213,11 @@
     border-color: rgba(255, 255, 255, 0.5);
   }
 
+  &:active {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.6);
+  }
+
   span {
     line-height: 1;
     display: block;
@@ -241,6 +247,11 @@
   &:hover {
     background-color: rgba(255, 255, 255, 0.2);
     border-color: rgba(255, 255, 255, 0.5);
+  }
+
+  &:active {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.6);
   }
 
   span {
@@ -346,5 +357,33 @@
 
   .media-gallery-lightbox-next {
     right: var(--spacing-sm);
+  }
+
+  /* Отключаем hover эффекты на мобильных и планшетах */
+  .media-gallery-nav {
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.7);
+    }
+  }
+
+  .media-gallery-thumbnail {
+    &:hover {
+      border-color: var(--color-divider);
+      transform: none;
+    }
+  }
+
+  .media-gallery-lightbox-close {
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+  }
+
+  .media-gallery-lightbox-nav {
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
   }
 }

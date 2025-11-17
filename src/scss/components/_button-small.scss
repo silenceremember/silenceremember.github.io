@@ -36,6 +36,12 @@
     color: var(--color-bg-primary);
   }
 
+  &:active {
+    background-color: var(--color-text-primary);
+    border-color: var(--color-text-primary);
+    color: var(--color-bg-primary);
+  }
+
   &:focus {
     outline: none;
   }
@@ -114,6 +120,55 @@
       border-color: var(--color-accent);
       background-color: var(--color-accent);
       color: var(--color-bg-primary);
+    }
+  }
+}
+
+/* Отключаем hover эффекты на мобильных и планшетах */
+@include tablet-and-mobile {
+  %button-base {
+    &:hover {
+      border-color: var(--color-divider);
+      background-color: transparent;
+      color: var(--color-text-primary);
+    }
+  }
+
+  .project-filters-option {
+    &[aria-pressed='true'] {
+      &:hover {
+        border-color: var(--color-text-primary);
+        background-color: var(--color-text-primary);
+        color: var(--color-bg-primary);
+      }
+    }
+  }
+
+  .projects-section-expand {
+    &[aria-expanded='true'] {
+      &:hover {
+        border-color: var(--color-text-primary);
+        background-color: var(--color-text-primary);
+        color: var(--color-bg-primary);
+      }
+    }
+  }
+
+  .project-filters-year-button {
+    &[aria-expanded='true'] {
+      &:hover {
+        border-color: var(--color-text-primary);
+        background-color: var(--color-text-primary);
+        color: var(--color-bg-primary);
+      }
+    }
+
+    &.has-count {
+      &:hover {
+        border-color: var(--color-text-primary);
+        background-color: var(--color-text-primary);
+        color: var(--color-bg-primary);
+      }
     }
   }
 }

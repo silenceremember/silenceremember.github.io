@@ -82,6 +82,13 @@ a:hover {
   color: var(--color-accent);
 }
 
+/* Отключаем hover эффекты на мобильных и планшетах */
+@include tablet-and-mobile {
+  a:hover {
+    color: var(--color-text-primary);
+  }
+}
+
 /* Маленький текст */
 .text-small {
   font-size: var(--font-size-small);

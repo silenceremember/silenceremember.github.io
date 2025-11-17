@@ -102,6 +102,11 @@
   border-color: var(--color-accent);
 }
 
+/* Состояние нажатия: черная внутренняя обводка */
+.footer-decorative-square:active:not(.active) {
+  border-color: var(--color-text-primary);
+}
+
 /* Активное состояние: красный фон */
 .footer-decorative-square.active {
   background-color: var(--color-accent);
@@ -166,4 +171,15 @@
   -webkit-user-select: text;
   -moz-user-select: text;
   -ms-user-select: text;
+}
+
+/* Отключаем hover эффекты на мобильных и планшетах */
+@include tablet-and-mobile {
+  .footer-email:hover {
+    color: var(--color-secondary);
+  }
+
+  .footer-decorative-square:hover:not(.active) {
+    border-color: var(--color-text-primary);
+  }
 }

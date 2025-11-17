@@ -427,3 +427,18 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
 
 /* Адаптивность для кнопки "Наверх" */
 /* Стили для кнопки "Наверх" в tablet/mobile режиме находятся в _tablet.scss */
+
+/* Отключаем hover эффекты на мобильных и планшетах */
+@include tablet-and-mobile {
+  .scroll-to-top {
+    &:hover,
+    &:focus {
+      svg path.scroll-to-top-bg,
+      path.scroll-to-top-bg,
+      svg circle.scroll-to-top-circle,
+      circle.scroll-to-top-circle {
+        fill: var(--color-text-primary);
+      }
+    }
+  }
+}
