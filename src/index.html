@@ -110,11 +110,11 @@
     <!-- Prefetch для других страниц (низкий приоритет) -->
     <link rel="prefetch" href="/projects.html" as="document" />
 
-    <!-- Theme switcher script - загружается синхронно для предотвращения мерцания -->
-    <script src="/js/components/ThemeInit.js"></script>
+    <!-- Theme switcher script - загружается с defer для неблокирующей загрузки -->
+    <script src="/js/components/ThemeInit.js" defer></script>
     
-    <!-- Google Analytics -->
-    <script src="/js/analytics.js"></script>
+    <!-- Google Analytics - загружается асинхронно -->
+    <script src="/js/analytics.js" defer></script>
 
     <!-- Main CSS -->
     <link rel="stylesheet" href="/scss/style.scss" />
@@ -164,6 +164,7 @@
                     <div class="portrait-container">
                       <img
                         src="assets/images/portrait.webp"
+                        srcset="assets/images/portrait.webp 1x, assets/images/portrait.webp 2x"
                         alt="Maxim Elchaninov"
                         class="portrait-image"
                         fetchpriority="high"
@@ -171,6 +172,7 @@
                         loading="eager"
                         width="280"
                         height="420"
+                        sizes="(max-width: 1023px) 200px, 280px"
                         onerror="this.src='assets/images/portrait-placeholder.svg'"
                       />
                     </div>

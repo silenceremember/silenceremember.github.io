@@ -41,12 +41,28 @@ https://fonts.gstatic.com/*
   X-Content-Type-Options: nosniff
 
 # JavaScript файлы - кешируются на год
+/assets/js/*
+  Cache-Control: public, max-age=31536000, immutable
+  X-Content-Type-Options: nosniff
 /assets/*.js
   Cache-Control: public, max-age=31536000, immutable
   X-Content-Type-Options: nosniff
 
 # CSS файлы - кешируются на год
+/assets/css/*
+  Cache-Control: public, max-age=31536000, immutable
+  X-Content-Type-Options: nosniff
 /assets/*.css
+  Cache-Control: public, max-age=31536000, immutable
+  X-Content-Type-Options: nosniff
+
+# Статические JS файлы в корне
+/js/*
+  Cache-Control: public, max-age=31536000, immutable
+  X-Content-Type-Options: nosniff
+
+# Компоненты в корне
+/components/*
   Cache-Control: public, max-age=31536000, immutable
   X-Content-Type-Options: nosniff
 

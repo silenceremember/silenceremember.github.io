@@ -74,20 +74,30 @@ if (document.readyState !== 'loading') {
 }
 
 // Инициализация при загрузке DOM
-// Скрывает элементы слайдов как можно раньше для предотвращения FOUC
+// Используем requestIdleCallback для неблокирующей инициализации
+const initPageAsync = async () => {
+  const hideSlides = await initCurrentPage();
+  // Скрываем элементы слайдов после загрузки страницы (только для главной страницы)
+  if (hideSlides) {
+    await hideSlides();
+  }
+};
+
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', async () => {
-    const hideSlides = await initCurrentPage();
-    // Скрываем элементы слайдов после загрузки страницы (только для главной страницы)
-    if (hideSlides) {
-      await hideSlides();
+  document.addEventListener('DOMContentLoaded', () => {
+    // Используем requestIdleCallback для неблокирующей инициализации
+    if (window.requestIdleCallback) {
+      requestIdleCallback(initPageAsync, { timeout: 2000 });
+    } else {
+      // Fallback для браузеров без requestIdleCallback
+      setTimeout(initPageAsync, 0);
     }
   });
 } else {
-  // Если DOM уже готов, инициализируем сразу
-  initCurrentPage().then((hideSlides) => {
-    if (hideSlides) {
-      hideSlides();
-    }
-  });
+  // Если DOM уже готов, используем requestIdleCallback
+  if (window.requestIdleCallback) {
+    requestIdleCallback(initPageAsync, { timeout: 2000 });
+  } else {
+    setTimeout(initPageAsync, 0);
+  }
 }
