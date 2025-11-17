@@ -396,7 +396,8 @@ export class CommunityPage extends BasePage {
     // Загружаем SVG иконки для всех добавленных карточек
     // Используем небольшую задержку для гарантии, что все элементы добавлены в DOM
     await new Promise((resolve) => setTimeout(resolve, 0));
-    await this.svgLoader.init();
+    const svgLoader = await this.getSvgLoader();
+    await svgLoader.init();
 
     // Ждем полной загрузки страницы и запускаем анимации
     await this.waitForPageReady();

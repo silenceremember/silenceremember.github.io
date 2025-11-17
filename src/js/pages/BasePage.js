@@ -38,9 +38,48 @@ export class BasePage {
     this.menuButtonScrollHandler = null;
     this.scrollToTopButton = null;
     this.scrollManager = null;
-    this.svgLoader = new SvgLoader();
+    this._svgLoader = null; // Ленивая инициализация
+    this._svgLoaderPromise = null; // Промис для синхронизации загрузки
     this.layoutManager = null;
     this.loadingIndicator = null;
+  }
+
+  /**
+   * Получает или создает экземпляр SvgLoader (ленивая загрузка)
+   * @returns {Promise<SvgLoader>} Экземпляр SvgLoader
+   */
+  async getSvgLoader() {
+    if (this._svgLoader) {
+      return this._svgLoader;
+    }
+    
+    // Если уже идет загрузка, ждем ее завершения
+    if (this._svgLoaderPromise) {
+      return this._svgLoaderPromise;
+    }
+
+    // Загружаем SvgLoader динамически
+    this._svgLoaderPromise = (async () => {
+      try {
+        const { SvgLoader } = await import('../components/svg/SvgLoader.js');
+        this._svgLoader = new SvgLoader();
+        return this._svgLoader;
+      } catch (error) {
+        console.error('Failed to load SvgLoader:', error);
+        this._svgLoaderPromise = null;
+        throw error;
+      }
+    })();
+
+    return this._svgLoaderPromise;
+  }
+
+  /**
+   * Синхронный геттер для обратной совместимости (возвращает null если еще не загружен)
+   * @returns {SvgLoader|null}
+   */
+  get svgLoader() {
+    return this._svgLoader || null;
   }
 
   /**
