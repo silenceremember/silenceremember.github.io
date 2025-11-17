@@ -152,7 +152,9 @@
       "status": "completed",
       "description": "Качественная презентация концепта игры",
       "fullDescription": "Концепт-док игры Cycle of Ashes в формате таблицы с презентацией идеи. Демонстрирует навыки создания концептуальной документации и презентации игровых идей.",
-      "media": {},
+      "media": {
+        "preview": "assets/images/projects/cycle-of-ashes/preview.webp"
+      },
       "documents": [
         {
           "type": "concept-doc",
