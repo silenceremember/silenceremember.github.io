@@ -50,15 +50,15 @@ export class LanguageSwitcher {
 
     if (!ruIcon || !enIcon) return;
 
-    const ruSvg = ruIcon.querySelector('svg') || ruIcon;
-    const enSvg = enIcon.querySelector('svg') || enIcon;
+    // Убираем класс active со всех иконок
+    ruIcon.classList.remove('active');
+    enIcon.classList.remove('active');
 
+    // Добавляем класс active только к активной иконке
     if (lang === 'ru') {
-      ruSvg.style.display = 'block';
-      enSvg.style.display = 'none';
+      ruIcon.classList.add('active');
     } else {
-      ruSvg.style.display = 'none';
-      enSvg.style.display = 'block';
+      enIcon.classList.add('active');
     }
   }
 

@@ -37,12 +37,24 @@ export class ThemeSwitcher {
    */
   applyTheme(theme) {
     this.documentElement.setAttribute('data-theme', theme);
+    
+    // Убираем класс active со всех иконок
+    if (this.moonIcon) {
+      this.moonIcon.classList.remove('active');
+    }
+    if (this.sunIcon) {
+      this.sunIcon.classList.remove('active');
+    }
+
+    // Добавляем класс active только к активной иконке
     if (theme === 'dark') {
-      this.moonIcon.style.display = 'none';
-      this.sunIcon.style.display = 'block';
+      if (this.sunIcon) {
+        this.sunIcon.classList.add('active');
+      }
     } else {
-      this.moonIcon.style.display = 'block';
-      this.sunIcon.style.display = 'none';
+      if (this.moonIcon) {
+        this.moonIcon.classList.add('active');
+      }
     }
   }
 
