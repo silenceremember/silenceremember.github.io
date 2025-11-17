@@ -11,6 +11,7 @@ import {
 } from '../utils/AnimationUtils.js';
 import { LayoutManager } from '../layout/LayoutManager.js';
 import { SvgLoader } from '../components/index.js';
+import { lazyImageLoader } from '../utils/LazyImageLoader.js';
 
 const layoutManager = new LayoutManager();
 const loadHTML = (url) => layoutManager.loadHTML(url);
@@ -849,6 +850,13 @@ export class ProjectFiltersManager {
 
           if (card) {
             sectionGrid.appendChild(card);
+            
+            // Инициализируем ленивую загрузку изображения для карточки
+            const cardImage = card.querySelector('img[data-src]');
+            if (cardImage) {
+              lazyImageLoader.loadImage(cardImage);
+            }
+            
             visibleCount++;
           }
         }
