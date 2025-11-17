@@ -10,6 +10,10 @@
     top: 0;
     left: 0;
     width: 100%;
+    /* Fully transparent to show fluid effect through */
+    background-color: transparent;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     pointer-events: none;
     transform: translateZ(0);
     backface-visibility: hidden;
@@ -30,6 +34,10 @@
     bottom: 0;
     left: 0;
     width: 100%;
+    /* Fully transparent to show fluid effect through */
+    background-color: transparent;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     pointer-events: none;
     transform: translateZ(0);
     backface-visibility: hidden;
@@ -149,6 +157,10 @@
     top: 0;
     left: 0;
     width: 100%;
+    /* Fully transparent to show fluid effect through */
+    background-color: transparent;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     pointer-events: none;
     transform: translateZ(0);
     backface-visibility: hidden;
@@ -169,6 +181,10 @@
     bottom: 0;
     left: 0;
     width: 100%;
+    /* Fully transparent to show fluid effect through */
+    background-color: transparent;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     pointer-events: none;
     transform: translateZ(0);
     backface-visibility: hidden;
@@ -474,7 +490,10 @@
     align-items: center;
     flex-shrink: 0;
     z-index: 10;
-    background-color: var(--color-bg-primary);
+    /* Fully transparent to show fluid effect through */
+    background-color: transparent;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     transition:
       transform var(--transition-duration-base) var(--timing-function-ease),
       background-color var(--transition-duration-base) var(--timing-function-ease),
@@ -508,7 +527,10 @@
     align-items: center;
     flex-shrink: 0;
     z-index: 10;
-    background-color: var(--color-bg-primary);
+    /* Fully transparent to show fluid effect through */
+    background-color: transparent;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     transition:
       transform var(--transition-duration-base) var(--timing-function-ease),
       background-color var(--transition-duration-base) var(--timing-function-ease),
