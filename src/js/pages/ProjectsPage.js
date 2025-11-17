@@ -88,7 +88,7 @@ export class ProjectsPage extends BasePage {
     
     // Если есть ссылка на сайт, открываем её
     if (project.links && project.links.site) {
-      window.open(project.links.site, '_blank');
+      window.open(project.links.site, '_blank', 'noopener,noreferrer');
       return;
     }
     
@@ -96,7 +96,7 @@ export class ProjectsPage extends BasePage {
     if (project.links && Object.keys(project.links).length > 0) {
       const firstLink = Object.values(project.links)[0];
       if (firstLink) {
-        window.open(firstLink, '_blank');
+        window.open(firstLink, '_blank', 'noopener,noreferrer');
         return;
       }
     }

@@ -253,7 +253,7 @@ export class CardFactory {
           publication.type === 'diploma' ? 'ЧИТАТЬ ГЛАВУ' : 'ЧИТАТЬ';
         button.addEventListener('click', (e) => {
           e.stopPropagation();
-          window.open(publicationUrl, '_blank');
+          window.open(publicationUrl, '_blank', 'noopener,noreferrer');
         });
       } else {
         button.disabled = true;
@@ -270,7 +270,7 @@ export class CardFactory {
           return;
         }
         e.stopPropagation();
-        window.open(publicationUrl, '_blank');
+        window.open(publicationUrl, '_blank', 'noopener,noreferrer');
       });
     } else {
       // Для исследований без ссылок предотвращаем открытие при клике

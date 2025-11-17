@@ -14,15 +14,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/silenceremember/portfolio.git"
+    "url": "git+https://github.com/silenceremember/silenceremember.github.io.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/silenceremember/portfolio/issues"
+    "url": "https://github.com/silenceremember/silenceremember.github.io/issues"
   },
-  "homepage": "https://github.com/silenceremember/portfolio#readme",
+  "homepage": "https://silenceremember.github.io",
   "devDependencies": {
     "eslint": "^9.39.1",
     "prettier": "^3.6.2",

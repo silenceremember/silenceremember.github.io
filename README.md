@@ -55,8 +55,8 @@
 1.  Клонируйте репозиторий:
 
     ```bash
-    git clone https://github.com/silenceremember/portfolio.git
-    cd portfolio
+    git clone https://github.com/silenceremember/silenceremember.github.io.git
+    cd silenceremember.github.io
     ```
 
 2.  Установите все необходимые зависимости:

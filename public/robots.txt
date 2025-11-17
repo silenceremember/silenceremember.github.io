@@ -10,7 +10,7 @@ Disallow: /node_modules/
 Disallow: /*.json$
 
 # Указываем расположение sitemap
-Sitemap: https://yourdomain.com/sitemap.xml
+Sitemap: https://silenceremember.github.io/sitemap.xml
 
 # Crawl-delay для вежливого сканирования (опционально)
 Crawl-delay: 1
