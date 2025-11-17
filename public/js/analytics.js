@@ -28,14 +28,19 @@ if (isAnalyticsEnabled() && GA_MEASUREMENT_ID) {
   function gtag() {
     dataLayer.push(arguments);
   }
-  gtag('js', new Date());
-  gtag('config', GA_MEASUREMENT_ID, {
-    // Настройки приватности
-    anonymize_ip: true,
-    // Отключаем автоматическое отслеживание рекламных функций
-    allow_google_signals: false,
-    allow_ad_personalization_signals: false,
-  });
+      gtag('js', new Date());
+      gtag('config', GA_MEASUREMENT_ID, {
+        // Настройки приватности
+        anonymize_ip: true,
+        // Отключаем автоматическое отслеживание рекламных функций
+        allow_google_signals: false,
+        allow_ad_personalization_signals: false,
+        // Настройка cookies для GitHub Pages домена
+        cookie_domain: 'auto',
+        cookie_flags: 'SameSite=None;Secure',
+        // Отключаем автоматическое определение домена для cookies
+        cookie_update: true,
+      });
 
   // Отслеживание переходов между страницами (для SPA)
   let lastUrl = location.href;
