@@ -8,6 +8,10 @@ export default defineConfig({
   base: '/',
   root: 'src',
   publicDir: '../public',
+  resolve: {
+    // Правильное разрешение путей для динамических импортов
+    preserveSymlinks: false,
+  },
   plugins: [
     {
       name: 'custom-404-plugin',
