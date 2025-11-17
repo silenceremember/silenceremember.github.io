@@ -1406,9 +1406,9 @@ export class FluidBackground {
 
   /**
    * Initialize dithering texture
+   * Uses a simple white texture as dithering texture
    */
   initDitheringTexture() {
-    // Create a simple white texture as fallback if LDR_LLL1_0.png is not available
     const gl = this.gl;
     let texture = gl.createTexture();
     gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -1439,26 +1439,7 @@ export class FluidBackground {
       },
     };
 
-    // Try to load the dithering texture, fallback to white if not found
-    const image = new Image();
-    image.onload = () => {
-      obj.width = image.width;
-      obj.height = image.height;
-      gl.bindTexture(gl.TEXTURE_2D, texture);
-      gl.texImage2D(
-        gl.TEXTURE_2D,
-        0,
-        gl.RGB,
-        gl.RGB,
-        gl.UNSIGNED_BYTE,
-        image
-      );
-    };
-    image.onerror = () => {
-      // Keep the white texture fallback
-    };
-    image.src = '/assets/images/LDR_LLL1_0.png';
-
+    // Use white texture as dithering texture (no external image needed)
     this.ditheringTexture = obj;
   }
 
