@@ -9,6 +9,18 @@ export class CardFactory {
    * Создает карточку проекта
    * @param {HTMLElement} template - Шаблон карточки
    * @param {Object} project - Данные проекта
+   * @param {string} project.title - Название проекта
+   * @param {string} project.description - Краткое описание проекта
+   * @param {number} project.year - Год проекта
+   * @param {string} project.status - Статус проекта
+   * @param {string} project.category - Категория проекта
+   * @param {string} project.type - Тип проекта
+   * @param {string} project.role - Роль в проекте
+   * @param {Array<string>} project.tags - Теги проекта
+   * @param {Object} project.media - Медиа файлы проекта
+   * @param {boolean} [project.featured] - Флаг избранного проекта
+   * @param {number} [project.tier] - Тир проекта (2 для тир 2)
+   * @param {boolean} [project.comingSoon] - Флаг "скоро"
    * @param {Function} onCardClick - Обработчик клика на карточку
    * @returns {HTMLElement} Созданная карточка
    */
@@ -149,6 +161,14 @@ export class CardFactory {
    * Создает карточку исследования
    * @param {HTMLElement} template - Шаблон карточки
    * @param {Object} publication - Данные публикации
+   * @param {string} publication.title - Название публикации
+   * @param {string} publication.type - Тип публикации
+   * @param {string} publication.journal - Журнал публикации
+   * @param {string} publication.location - Местоположение публикации
+   * @param {string} publication.level - Уровень публикации
+   * @param {string} publication.pdf_url - URL PDF файла
+   * @param {Array<string>} publication.keywords - Ключевые слова
+   * @param {string} publication.status - Статус публикации
    * @returns {HTMLElement} Созданная карточка
    */
   static createResearchCard(template, publication) {

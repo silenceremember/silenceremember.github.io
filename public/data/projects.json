@@ -11,7 +11,6 @@
       "year": 2024,
       "status": "completed",
       "description": "Готовый прототип аркадного экономического симулятора",
-      "fullDescription": "Magic Bag - это аркадный экономический симулятор, созданный полностью на Unity Bolt (визуальное программирование). Проект включает полный игровой цикл: от механики крафта до системы экономики с высоким риском и наградой. Прототип демонстрирует возможности проектирования сложных игровых систем.",
       "media": {
         "preview": "assets/images/projects/magic-bag/preview.webp",
         "screenshots": [],
@@ -49,7 +48,11 @@
         "platform": "PC (UNITY)"
       },
       "keyContribution": "Спроектировал с нуля и реализовал полный игровой цикл: от механики крафта до системы экономики с высоким риском и наградой.",
-      "technologies": ["Unity", "Bolt Visual Scripting", "C#"],
+      "technologies": [
+        "Unity",
+        "Bolt Visual Scripting",
+        "C#"
+      ],
       "teamSize": 1,
       "duration": "3 месяца"
     },
@@ -62,7 +65,6 @@
       "year": 2025,
       "status": "in-development",
       "description": "Динамичный PvP Top-Down шутер в разработке",
-      "fullDescription": "Capybara Bunk - это top-down шутер, разрабатываемый командой 2IQ. Проект включает полный цикл разработки: от концепции уровня до нарративного дизайна. Я руковожу командой в качестве гейм-дизайнера и тимлида, отвечаю за стратегическое видение (Vision), лор (Bible) и проектирование ключевых систем (GDD, UI Flow).",
       "media": {
         "preview": "assets/images/projects/capybara-bunk/preview.webp",
         "screenshots": []
@@ -124,7 +126,6 @@
       "year": 2024,
       "status": "completed",
       "description": "Аддон для Unity, добавляющий сетку и привязку к сетке в Unity Shader Graph",
-      "fullDescription": "Выявил и решил проблему отсутствия сетки в Unity Shader Graph, создав уникальный редакторный аддон с помощью рефлексии. Аддон позволяет визуализировать сетку и обеспечивает привязку объектов к сетке прямо в Shader Graph редакторе.",
       "media": {
         "preview": "assets/images/projects/gridsnap-addon/preview.webp",
         "screenshots": []
@@ -132,14 +133,24 @@
       "documents": [],
       "links": {},
       "comingSoon": true,
-      "tags": ["unity", "editor-tool", "csharp", "shader-graph", "tool"],
+      "tags": [
+        "unity",
+        "editor-tool",
+        "csharp",
+        "shader-graph",
+        "tool"
+      ],
       "featured": true,
       "displayMeta": {
         "genre": "UNITY EDITOR TOOL",
         "platform": "C# (UNITY)"
       },
       "keyContribution": "Выявил и решил проблему отсутствия сетки в Unity Shader Graph, создав уникальный редакторный аддон с помощью рефлексии.",
-      "technologies": ["Unity", "C#", "Reflection"],
+      "technologies": [
+        "Unity",
+        "C#",
+        "Reflection"
+      ],
       "teamSize": 1
     },
     {
@@ -151,7 +162,6 @@
       "year": 2024,
       "status": "completed",
       "description": "Презентация концепта игры",
-      "fullDescription": "Концепт-док игры Cycle of Ashes в формате таблицы с презентацией идеи. Демонстрирует навыки создания концептуальной документации и презентации игровых идей.",
       "media": {
         "preview": "assets/images/projects/cycle-of-ashes/preview.webp"
       },
@@ -170,7 +180,11 @@
       "links": {
         "site": "https://sites.google.com/view/maxim-elchaninov-cycle-of-ashe?usp=sharing"
       },
-      "tags": ["concept", "presentation", "skillbox"],
+      "tags": [
+        "concept",
+        "presentation",
+        "skillbox"
+      ],
       "featured": false,
       "tier": 2,
       "technologies": []
@@ -184,7 +198,6 @@
       "year": 2025,
       "status": "in-progress",
       "description": "Выпускная квалификационная работа магистратуры",
-      "fullDescription": "Первая глава дипломной работы (ВКР) магистратуры, посвященная системе процедурной генерации нарративного дизайна для компьютерных игр жанра роуглайк. Работа включает анализ существующих подходов и разработку собственной системы.",
       "media": {
         "preview": "assets/images/projects/diploma-chapter-1/preview.webp"
       },
@@ -196,7 +209,14 @@
         }
       ],
       "links": {},
-      "tags": ["процедурная генерация", "нарративный дизайн", "роуглайк", "компьютерные игры", "диплом", "вкр"],
+      "tags": [
+        "процедурная генерация",
+        "нарративный дизайн",
+        "роуглайк",
+        "компьютерные игры",
+        "диплом",
+        "вкр"
+      ],
       "featured": true,
       "technologies": []
     },
@@ -209,7 +229,6 @@
       "year": 2024,
       "status": "completed",
       "description": "Разработка трех игровых концепций: от создания идеи до анализа и переработки концепта",
-      "fullDescription": "Анализ существующего концепта игры с курсов Skillbox с последующим предложением улучшений. Демонстрирует навыки критического анализа и улучшения игровых концепций.",
       "media": {},
       "documents": [
         {
@@ -222,7 +241,13 @@
         "document": "https://docs.google.com/document/d/19t0UzWGSesBgbiOmchBNCp7uN3sS9mF8qLfaWQfRTDQ/edit?usp=sharing"
       },
       "comingSoon": false,
-      "tags": ["analysis", "concept", "improvement", "skillbox", "case-study"],
+      "tags": [
+        "analysis",
+        "concept",
+        "improvement",
+        "skillbox",
+        "case-study"
+      ],
       "featured": false,
       "technologies": []
     },
@@ -235,7 +260,6 @@
       "year": 2024,
       "status": "completed",
       "description": "Серия аналитических разборов игр: декомпозиция, анализ опыта, улучшения и переработка сеттинга",
-      "fullDescription": "Детальный анализ нескольких игр с точки зрения геймдизайна. Разбор механик, систем и их взаимодействия. Демонстрирует навыки декомпозиции игровых систем.",
       "media": {},
       "documents": [
         {
@@ -248,7 +272,13 @@
         "document": "https://docs.google.com/document/d/14Yfol-FkqrOKm-gx2bZCW28ivScmY57XmEhz2RZ-O8U/edit?usp=sharing"
       },
       "comingSoon": false,
-      "tags": ["analysis", "decomposition", "gamedesign", "skillbox", "case-study"],
+      "tags": [
+        "analysis",
+        "decomposition",
+        "gamedesign",
+        "skillbox",
+        "case-study"
+      ],
       "featured": false,
       "technologies": []
     },
@@ -261,7 +291,6 @@
       "year": 2024,
       "status": "completed",
       "description": "Концепт игры с 2D симуляцией физики боя",
-      "fullDescription": "Концепт-док игры Edge of a Blade - симуляторного 2D боя на мечах. Детальная проработка механик, систем и игрового процесса.",
       "media": {
         "preview": "assets/images/projects/edge-of-a-blade/preview.webp"
       },
@@ -275,7 +304,13 @@
       "links": {
         "concept": "https://docs.google.com/spreadsheets/d/1xReKq4H_dXWN13aAuhny5kp9nOZkxFV21tLip_2XkQg/edit?usp=sharing"
       },
-      "tags": ["concept", "2d", "combat", "simulator", "skillbox"],
+      "tags": [
+        "concept",
+        "2d",
+        "combat",
+        "simulator",
+        "skillbox"
+      ],
       "featured": false,
       "technologies": []
     },
@@ -288,7 +323,6 @@
       "year": 2025,
       "status": "completed",
       "description": "Разбор Dark Messiah of Might and Magic по пути героя Воглера",
-      "fullDescription": "Детальный разбор игры Dark Messiah of Might and Magic по структуре пути героя Воглера. Анализ нарративной структуры и её применения в игре.",
       "media": {},
       "documents": [
         {
@@ -301,7 +335,12 @@
         "presentation": "https://docs.google.com/presentation/d/17j2HR1JpiZh1xhHnALkh0U3Z9SRhuE4ecBb2YduRJeA/edit?usp=sharing"
       },
       "comingSoon": false,
-      "tags": ["narrative", "vogler", "hero-journey", "ranepa"],
+      "tags": [
+        "narrative",
+        "vogler",
+        "hero-journey",
+        "ranepa"
+      ],
       "featured": false,
       "technologies": []
     },
@@ -314,7 +353,6 @@
       "year": 2025,
       "status": "completed",
       "description": "Разбор пролога сюжета Disco Elysium по 4 слоям нарративного дизайна",
-      "fullDescription": "Детальный разбор пролога сюжета Disco Elysium по 4 слоям нарративного дизайна (методология Frictional Games). Анализ многослойной структуры повествования.",
       "media": {},
       "documents": [
         {
@@ -327,7 +365,12 @@
         "presentation": "https://docs.google.com/presentation/d/1SNIyt3Yp0KUyv1EQ-WMwJTTNOOGBUl-w6hFtTFyXOHs/edit?usp=sharing"
       },
       "comingSoon": false,
-      "tags": ["narrative", "disco-elysium", "frictional-games", "ranepa"],
+      "tags": [
+        "narrative",
+        "disco-elysium",
+        "frictional-games",
+        "ranepa"
+      ],
       "featured": false,
       "technologies": []
     },
@@ -340,16 +383,23 @@
       "year": 2024,
       "status": "completed",
       "description": "Джем-игра с красивой графикой",
-      "fullDescription": "Игра, созданная на трехдневном джеме. Особенность проекта - собственная графика, которую я рисовал сам. Графика получила высокую оценку от участников джема.",
       "media": {
         "preview": "assets/images/projects/outer-signal/preview.webp",
-        "screenshots": ["assets/images/projects/outer-signal/screenshot-1.jpg"]
+        "screenshots": [
+          "assets/images/projects/outer-signal/screenshot-1.jpg"
+        ]
       },
       "documents": [],
       "links": {
         "itch": "https://silenceremember.itch.io/outer-signal"
       },
-      "tags": ["jam", "2d", "art", "graphics", "game"],
+      "tags": [
+        "jam",
+        "2d",
+        "art",
+        "graphics",
+        "game"
+      ],
       "featured": false,
       "technologies": [],
       "highlight": "Собственная графика"
@@ -363,7 +413,6 @@
       "year": 2024,
       "status": "completed",
       "description": "Джем-игра с таймером",
-      "fullDescription": "Игра, созданная на трехдневном джеме.",
       "media": {
         "preview": "assets/images/projects/couch-potato-physicist/preview.webp"
       },
@@ -371,7 +420,10 @@
       "links": {
         "itch": "https://silenceremember.itch.io/couchpotatophysicist"
       },
-      "tags": ["jam", "game"],
+      "tags": [
+        "jam",
+        "game"
+      ],
       "featured": false,
       "technologies": []
     },
@@ -384,7 +436,6 @@
       "year": 2024,
       "status": "completed",
       "description": "Джем-игра про погоню за демоном",
-      "fullDescription": "Игра, созданная на трехдневном джеме.",
       "media": {
         "preview": "assets/images/projects/infernal-run/preview.webp"
       },
@@ -392,7 +443,10 @@
       "links": {
         "itch": "https://silenceremember.itch.io/infernal-run"
       },
-      "tags": ["jam", "game"],
+      "tags": [
+        "jam",
+        "game"
+      ],
       "featured": false,
       "technologies": []
     },
@@ -405,7 +459,6 @@
       "year": 2024,
       "status": "completed",
       "description": "Джем-игра с головоломкой",
-      "fullDescription": "Игра, созданная на трехдневном джеме.",
       "media": {
         "preview": "assets/images/projects/mushroom-loop/preview.webp"
       },
@@ -413,7 +466,10 @@
       "links": {
         "itch": "https://thebestmrand.itch.io/mushhoom-loop"
       },
-      "tags": ["jam", "game"],
+      "tags": [
+        "jam",
+        "game"
+      ],
       "featured": false,
       "technologies": []
     },
@@ -426,7 +482,6 @@
       "year": 2024,
       "status": "completed",
       "description": "Джем-игра с двумя концовками",
-      "fullDescription": "Игра, созданная на трехдневном джеме.",
       "media": {
         "preview": "assets/images/projects/thermic-spirit/preview.webp"
       },
@@ -434,7 +489,10 @@
       "links": {
         "itch": "https://silenceremember.itch.io/thermic-spirit"
       },
-      "tags": ["jam", "game"],
+      "tags": [
+        "jam",
+        "game"
+      ],
       "featured": false,
       "technologies": []
     },
@@ -447,7 +505,6 @@
       "year": 2024,
       "status": "completed",
       "description": "Назначение пинка и атаки в прыжке на отдельные кнопки",
-      "fullDescription": "AutoHotkey скрипт для Dark Souls 1, решающий проблему и позволяющий выполнять пинок и атаку в прыжке на отдельные кнопки.",
       "media": {
         "preview": "assets/images/projects/dark-souls-ahk/preview.webp"
       },
@@ -455,9 +512,16 @@
       "links": {
         "github": "https://github.com/silenceremember/dark-souls-hotkeys"
       },
-      "tags": ["autohotkey", "script", "dark-souls", "game-mod"],
+      "tags": [
+        "autohotkey",
+        "script",
+        "dark-souls",
+        "game-mod"
+      ],
       "featured": false,
-      "technologies": ["AutoHotkey"]
+      "technologies": [
+        "AutoHotkey"
+      ]
     },
     {
       "id": "elden-ring-ahk",
@@ -468,7 +532,6 @@
       "year": 2024,
       "status": "completed",
       "description": "Решение проблемы с перемещением курсора на другой экран в игре",
-      "fullDescription": "AutoHotkey скрипт для Elden Ring, решающий проблему и позволяющий залочить курсор в окне игры при игре на нескольких мониторах.",
       "media": {
         "preview": "assets/images/projects/elden-ring-ahk/preview.webp"
       },
@@ -476,9 +539,16 @@
       "links": {
         "github": "https://github.com/silenceremember/elden-ring-cursor-lock"
       },
-      "tags": ["autohotkey", "script", "elden-ring", "game-mod"],
+      "tags": [
+        "autohotkey",
+        "script",
+        "elden-ring",
+        "game-mod"
+      ],
       "featured": false,
-      "technologies": ["AutoHotkey"]
+      "technologies": [
+        "AutoHotkey"
+      ]
     },
     {
       "id": "blender-to-all-ahk",
@@ -489,7 +559,6 @@
       "year": 2024,
       "status": "completed",
       "description": "Унификация навигации в разных 3D/2D пакетах",
-      "fullDescription": "AutoHotkey скрипт, решающий проблему навигации в разных 3D и 2D пакетах, стараясь привести навигацию к одному виду. Скрипт отслеживает процессы и активное окно, эмулирует навигацию Blender исходя из того, какое окно активно.",
       "media": {
         "preview": "assets/images/projects/blender-to-all-ahk/preview.webp"
       },
@@ -497,9 +566,16 @@
       "links": {
         "github": "https://github.com/silenceremember/blender-to-all"
       },
-      "tags": ["autohotkey", "script", "navigation", "3d-software"],
+      "tags": [
+        "autohotkey",
+        "script",
+        "navigation",
+        "3d-software"
+      ],
       "featured": false,
-      "technologies": ["AutoHotkey"]
+      "technologies": [
+        "AutoHotkey"
+      ]
     }
   ]
 }

@@ -315,6 +315,17 @@ export class ProjectGroupingManager {
     const tier2Projects = allCategoryProjects.filter((p) => !p.featured && p.tier === 2);
     const tier3Projects = allCategoryProjects.filter((p) => !p.featured && p.tier !== 2);
     
+    // Сортируем каждый тир по дате (year) - сначала более новые
+    const sortByDate = (a, b) => {
+      const yearA = a.year || 0;
+      const yearB = b.year || 0;
+      return yearB - yearA; // Сортировка по убыванию (новые сначала)
+    };
+    
+    tier1Projects.sort(sortByDate);
+    tier2Projects.sort(sortByDate);
+    tier3Projects.sort(sortByDate);
+    
     // Объединяем тир 2 и тир 3 для скрытых проектов (тир 2 должны быть выше)
     const hiddenProjects = [...tier2Projects, ...tier3Projects];
 
