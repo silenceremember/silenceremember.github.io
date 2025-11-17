@@ -444,7 +444,9 @@
       "fullDescription": "Игра, созданная на трехдневном джеме.",
       "media": {},
       "documents": [],
-      "links": {},
+      "links": {
+        "itch": "https://silenceremember.itch.io/couchpotatophysicist"
+      },
       "tags": ["jam", "game"],
       "featured": false,
       "technologies": []
@@ -461,7 +463,9 @@
       "fullDescription": "Игра, созданная на трехдневном джеме.",
       "media": {},
       "documents": [],
-      "links": {},
+      "links": {
+        "itch": "https://silenceremember.itch.io/infernal-run"
+      },
       "tags": ["jam", "game"],
       "featured": false,
       "technologies": []
@@ -478,7 +482,9 @@
       "fullDescription": "Игра, созданная на трехдневном джеме.",
       "media": {},
       "documents": [],
-      "links": {},
+      "links": {
+        "itch": "https://thebestmrand.itch.io/mushhoom-loop"
+      },
       "tags": ["jam", "game"],
       "featured": false,
       "technologies": []
@@ -495,7 +501,9 @@
       "fullDescription": "Игра, созданная на трехдневном джеме.",
       "media": {},
       "documents": [],
-      "links": {},
+      "links": {
+        "itch": "https://silenceremember.itch.io/thermic-spirit"
+      },
       "tags": ["jam", "game"],
       "featured": false,
       "technologies": []
