@@ -2570,7 +2570,8 @@ export class FluidBackground {
     });
 
     window.addEventListener('touchstart', (e) => {
-      e.preventDefault();
+      // Canvas has pointer-events: none, so touches will be on elements above it
+      // Process touches for fluid effect without blocking scroll
       // Initialize effect on first touch
       if (!this.hasUserInteracted) {
         this.hasUserInteracted = true;
@@ -2604,12 +2605,28 @@ export class FluidBackground {
           posY
         );
       }
-    }, { passive: false });
+    }, { passive: true });
 
     window.addEventListener('touchmove', (e) => {
-      e.preventDefault();
+      // Don't prevent default for touchmove to allow normal scrolling
+      // Only process touches if they started on canvas
       const touches = e.targetTouches;
       const rect = this.canvas.getBoundingClientRect();
+      
+      // Check if any active pointer is tracking (started on canvas)
+      let hasActivePointers = false;
+      for (let i = 0; i < touches.length; i++) {
+        let pointer = this.pointers[i + 1];
+        if (pointer && pointer.down) {
+          hasActivePointers = true;
+          break;
+        }
+      }
+      
+      // Only process if we have active pointers from canvas interaction
+      if (!hasActivePointers) return;
+      
+      // Process touches for fluid effect without blocking scroll
       for (let i = 0; i < touches.length; i++) {
         let pointer = this.pointers[i + 1];
         if (!pointer || !pointer.down) continue;
@@ -2617,7 +2634,7 @@ export class FluidBackground {
         let posY = this.scaleByPixelRatio(touches[i].clientY - rect.top);
         this.updatePointerMoveData(pointer, posX, posY);
       }
-    }, { passive: false });
+    }, { passive: true });
     
     // Add scroll activation
     let lastScrollY = window.scrollY;
