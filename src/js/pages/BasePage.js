@@ -6,15 +6,17 @@ import {
   NavigationHelper,
   MenuButtonScrollHandler,
 } from '../utils/Navigation.js';
+// Критические компоненты - импортируем статически
 import { ScrollToTopButton } from '../components/scroll/ScrollToTopButton.js';
 import { ScrollManager } from '../components/scroll/ScrollManager.js';
-import { SvgLoader } from '../components/svg/SvgLoader.js';
 import { LayoutManager } from '../layout/LayoutManager.js';
 import { ThemeSwitcher } from '../components/index.js';
 import { LanguageSwitcher } from '../components/index.js';
 import { CustomCursor } from '../components/index.js';
-import { FluidBackground } from '../components/index.js';
 import { LoadingIndicatorService } from '../services/LoadingIndicatorService.js';
+// Некритические компоненты - загружаем динамически
+// import { SvgLoader } from '../components/svg/SvgLoader.js';
+// import { FluidBackground } from '../components/index.js';
 import { loadData } from '../utils/DataLoader.js';
 import { loadTemplate } from '../utils/TemplateLoader.js';
 
@@ -95,9 +97,6 @@ export class BasePage {
     const layoutManager = new LayoutManager();
     await layoutManager.init();
 
-    const svgLoader = new SvgLoader();
-    await svgLoader.init();
-
     const themeSwitcher = new ThemeSwitcher();
     themeSwitcher.init();
 
@@ -119,14 +118,38 @@ export class BasePage {
       }
     }
 
-    // Initialize fluid background with a small delay to ensure canvas is in DOM
-    const fluidBackground = new FluidBackground();
-    // Use requestAnimationFrame to ensure canvas is rendered
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        fluidBackground.init();
-      });
-    });
+    // Некритические компоненты загружаем асинхронно после критических
+    // Используем requestIdleCallback для неблокирующей загрузки
+    const loadNonCriticalComponents = async () => {
+      try {
+        // Динамически импортируем некритические компоненты
+        const [{ SvgLoader }, { FluidBackground }] = await Promise.all([
+          import('../components/svg/SvgLoader.js'),
+          import('../components/index.js').then(m => ({ FluidBackground: m.FluidBackground })),
+        ]);
+
+        const svgLoader = new SvgLoader();
+        await svgLoader.init();
+
+        // Initialize fluid background with a small delay to ensure canvas is in DOM
+        const fluidBackground = new FluidBackground();
+        // Use requestAnimationFrame to ensure canvas is rendered
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            fluidBackground.init();
+          });
+        });
+      } catch (error) {
+        console.warn('Failed to load non-critical components:', error);
+      }
+    };
+
+    // Загружаем некритические компоненты в idle time
+    if (window.requestIdleCallback) {
+      requestIdleCallback(loadNonCriticalComponents, { timeout: 3000 });
+    } else {
+      setTimeout(loadNonCriticalComponents, 100);
+    }
 
     globalComponentsInitialized = true;
   }

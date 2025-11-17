@@ -39,6 +39,10 @@ https://fonts.gstatic.com/*
 /assets/images/*
   Cache-Control: public, max-age=31536000, immutable
   X-Content-Type-Options: nosniff
+# Изображения с query параметрами (оптимизированные версии)
+/assets/images/*?*
+  Cache-Control: public, max-age=31536000, immutable
+  X-Content-Type-Options: nosniff
 
 # JavaScript файлы - кешируются на год
 /assets/js/*

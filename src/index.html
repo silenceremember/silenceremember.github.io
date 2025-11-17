@@ -79,11 +79,14 @@
 
     <!-- Resource Hints: Preload критических ресурсов -->
     <link rel="preload" href="/scss/style.scss" as="style" />
+    <!-- Preload изображения с правильным размером для уменьшения LCP -->
     <link
       rel="preload"
       href="assets/images/portrait.webp"
       as="image"
       fetchpriority="high"
+      imagesrcset="assets/images/portrait.webp?w=280 1x, assets/images/portrait.webp?w=560 2x"
+      imagesizes="(max-width: 1023px) 200px, 280px"
     />
     <!-- Modulepreload для критических JS модулей (загружает и парсит модуль) -->
     <!-- Vite автоматически добавит правильные modulepreload ссылки при сборке -->
@@ -162,19 +165,30 @@
                   </div>
                   <div class="main-content-left">
                     <div class="portrait-container">
-                      <img
-                        src="assets/images/portrait.webp"
-                        srcset="assets/images/portrait.webp 1x, assets/images/portrait.webp 2x"
-                        alt="Maxim Elchaninov"
-                        class="portrait-image"
-                        fetchpriority="high"
-                        decoding="async"
-                        loading="eager"
-                        width="280"
-                        height="420"
-                        sizes="(max-width: 1023px) 200px, 280px"
-                        onerror="this.src='assets/images/portrait-placeholder.svg'"
-                      />
+                      <picture>
+                        <source
+                          type="image/webp"
+                          srcset="assets/images/portrait.webp?w=280 1x, assets/images/portrait.webp?w=560 2x"
+                          media="(min-width: 1024px)"
+                        />
+                        <source
+                          type="image/webp"
+                          srcset="assets/images/portrait.webp?w=200 1x, assets/images/portrait.webp?w=400 2x"
+                          media="(max-width: 1023px)"
+                        />
+                        <img
+                          src="assets/images/portrait.webp"
+                          alt="Maxim Elchaninov"
+                          class="portrait-image"
+                          fetchpriority="high"
+                          decoding="async"
+                          loading="eager"
+                          width="280"
+                          height="420"
+                          sizes="(max-width: 1023px) 200px, 280px"
+                          onerror="this.src='assets/images/portrait-placeholder.svg'"
+                        />
+                      </picture>
                     </div>
                   </div>
                   <div class="main-content-bottom"></div>

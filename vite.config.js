@@ -155,6 +155,18 @@ export default defineConfig({
             ) {
               return 'components-core';
             }
+            // Компоненты скролла - отдельный чанк
+            if (id.includes('/components/scroll/')) {
+              return 'components-scroll';
+            }
+            // Фоновые эффекты - большой компонент, отдельный чанк
+            if (id.includes('/components/background-effect/')) {
+              return 'components-background';
+            }
+            // SVG loader - отдельный чанк
+            if (id.includes('/components/svg/')) {
+              return 'components-svg';
+            }
             // Остальные компоненты
             return 'components';
           }
