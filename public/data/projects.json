@@ -416,7 +416,7 @@
       "description": "Джем-игра с собственной графикой",
       "fullDescription": "Игра, созданная на трехдневном джеме. Особенность проекта - собственная графика, которую я рисовал сам. Графика получила высокую оценку от участников джема.",
       "media": {
-        "preview": "assets/images/projects/outer-signal/preview.jpg",
+        "preview": "assets/images/projects/outer-signal/preview.webp",
         "screenshots": ["assets/images/projects/outer-signal/screenshot-1.jpg"]
       },
       "documents": [],
