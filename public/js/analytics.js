@@ -37,29 +37,33 @@ if (isAnalyticsEnabled() && GA_MEASUREMENT_ID) {
       // GA4 будет использовать localStorage для хранения данных
       const isGitHubPages = hostname.includes('github.io');
       
-      gtag('config', GA_MEASUREMENT_ID, {
+      // Базовая конфигурация GA4
+      const gaConfig = {
         // Настройки приватности
         anonymize_ip: true,
         // Отключаем автоматическое отслеживание рекламных функций
         allow_google_signals: false,
         allow_ad_personalization_signals: false,
-        // Для GitHub Pages отключаем cookies, используем только localStorage
-        cookie_domain: isGitHubPages ? 'none' : 'auto',
-        // Отключаем cookies полностью для GitHub Pages
-        cookie_flags: isGitHubPages ? undefined : 'SameSite=Lax;Secure',
-        // Используем только localStorage для GitHub Pages (без cookies)
-        storage: isGitHubPages ? 'none' : undefined,
-        // Отключаем автоматическое создание cookies
-        cookie_update: !isGitHubPages,
-      });
+      };
+      
+      // Для GitHub Pages отключаем cookies полностью
+      if (isGitHubPages) {
+        gaConfig.cookie_domain = 'none';
+        gaConfig.cookie_update = false;
+        gaConfig.cookie_expires = 0; // Отключаем cookies
+      }
+      
+      gtag('config', GA_MEASUREMENT_ID, gaConfig);
 
   // Отслеживание переходов между страницами (для SPA)
+  // Используем только page_path, не перезаписываем всю конфигурацию
   let lastUrl = location.href;
   new MutationObserver(() => {
     const url = location.href;
     if (url !== lastUrl) {
       lastUrl = url;
-      gtag('config', GA_MEASUREMENT_ID, {
+      // Используем event вместо config, чтобы не перезаписывать cookies
+      gtag('event', 'page_view', {
         page_path: location.pathname + location.search,
       });
     }
