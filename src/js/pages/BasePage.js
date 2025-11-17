@@ -14,6 +14,9 @@ import { ThemeSwitcher } from '../components/index.js';
 import { LanguageSwitcher } from '../components/index.js';
 import { CustomCursor } from '../components/index.js';
 import { FluidBackground } from '../components/index.js';
+
+// Глобальный экземпляр курсора для переиспользования между страницами
+let globalCustomCursor = null;
 import { LoadingIndicatorService } from '../services/LoadingIndicatorService.js';
 import { loadData } from '../utils/DataLoader.js';
 import { loadTemplate } from '../utils/TemplateLoader.js';
@@ -104,8 +107,24 @@ export class BasePage {
     const languageSwitcher = new LanguageSwitcher();
     languageSwitcher.init();
 
-    const customCursor = new CustomCursor();
-    customCursor.init();
+    // Используем глобальный экземпляр курсора, если он уже создан
+    // Иначе создаем новый и инициализируем полностью
+    if (!globalCustomCursor || !globalCustomCursor.isInitialized) {
+      // Используем глобальный экземпляр курсора из main.js, если он доступен
+    // Иначе создаем новый и инициализируем полностью
+    if (typeof window !== 'undefined' && window.__globalCustomCursor) {
+      const customCursor = window.__globalCustomCursor;
+      if (!customCursor.isInitialized) {
+        customCursor.init();
+      }
+    } else {
+      const customCursor = new CustomCursor();
+      customCursor.init();
+      if (typeof window !== 'undefined') {
+        window.__globalCustomCursor = customCursor;
+      }
+    }
+    }
 
     // Initialize fluid background with a small delay to ensure canvas is in DOM
     const fluidBackground = new FluidBackground();

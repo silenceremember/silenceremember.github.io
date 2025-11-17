@@ -5,6 +5,21 @@ import { ResearchPage } from './pages/ResearchPage.js';
 import { CommunityPage } from './pages/CommunityPage.js';
 import { NotFoundPage } from './pages/NotFoundPage.js';
 import { BasePage } from './pages/BasePage.js';
+import { CustomCursor } from './components/index.js';
+
+/**
+ * Быстрая инициализация курсора при загрузке страницы
+ * Восстанавливает позицию из sessionStorage сразу для мгновенного отображения
+ */
+function quickInitCursor() {
+  if (!window.__globalCustomCursor) {
+    const cursor = new CustomCursor();
+    // Быстрая инициализация - только восстановление позиции
+    cursor.quickInit();
+    // Сохраняем в глобальной переменной для переиспользования
+    window.__globalCustomCursor = cursor;
+  }
+}
 
 /**
  * Определяет текущую страницу и инициализирует соответствующий класс
@@ -35,6 +50,15 @@ async function initCurrentPage() {
     // Показываем контент с fade-in эффектом после инициализации страницы
     BasePage.updateFadeInElements();
   }
+}
+
+// Быстрая инициализация курсора как можно раньше
+// Пытаемся инициализировать сразу, если DOM уже готов
+if (document.readyState !== 'loading') {
+  quickInitCursor();
+} else {
+  // Если DOM еще загружается, ждем DOMContentLoaded, но инициализируем как можно раньше
+  document.addEventListener('DOMContentLoaded', quickInitCursor, { once: true });
 }
 
 // Инициализация при загрузке DOM

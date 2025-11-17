@@ -25,12 +25,20 @@ export class CustomCursor {
     this.pendingStorageY = null;
     this.interactiveSelector =
       'a, button, .header-language, .header-theme, .social-link, .footer-decorative-square, .header-menu-button, .project-card, .research-card';
+    this.isInitialized = false;
   }
 
   /**
    * Инициализирует кастомный курсор
+   * Оптимизировано для быстрой загрузки при переходе на другую страницу
    */
   init() {
+    // Предотвращаем повторную инициализацию
+    if (this.isInitialized) {
+      return;
+    }
+
+    // Пытаемся найти курсор сразу
     this.cursor = document.querySelector('.custom-cursor');
     this.isHoverSupported = window.matchMedia('(hover: hover)').matches;
 
@@ -39,10 +47,37 @@ export class CustomCursor {
       return;
     }
 
-    this.setupTouchHandlers();
+    // Восстанавливаем позицию сразу (синхронно) для мгновенного отображения
     this.restorePosition();
+
+    // Настраиваем обработчики
+    this.setupTouchHandlers();
     this.setupMouseHandlers();
     this.setupBeforeUnload();
+
+    this.isInitialized = true;
+  }
+
+  /**
+   * Быстрая инициализация - только восстановление позиции
+   * Используется для мгновенного отображения курсора при переходе на страницу
+   */
+  quickInit() {
+    if (this.isInitialized) {
+      return;
+    }
+
+    // Пытаемся найти курсор
+    this.cursor = document.querySelector('.custom-cursor');
+    this.isHoverSupported = window.matchMedia('(hover: hover)').matches;
+
+    if (!this.cursor || !this.isHoverSupported) {
+      if (this.cursor) this.cursor.style.display = 'none';
+      return;
+    }
+
+    // Только восстановление позиции для мгновенного отображения
+    this.restorePosition();
   }
 
   /**
@@ -66,27 +101,44 @@ export class CustomCursor {
 
   /**
    * Восстанавливает позицию курсора из sessionStorage
+   * Оптимизировано для мгновенного отображения
    */
   restorePosition() {
-    const lastX = sessionStorage.getItem('cursorX');
-    const lastY = sessionStorage.getItem('cursorY');
+    try {
+      const lastX = sessionStorage.getItem('cursorX');
+      const lastY = sessionStorage.getItem('cursorY');
 
-    if (lastX && lastY) {
-      const x = Number(lastX);
-      const y = Number(lastY);
-      this.targetX = x;
-      this.targetY = y;
-      this.currentX = x;
-      this.currentY = y;
-      this.cursor.style.left = `${x}px`;
-      this.cursor.style.top = `${y}px`;
-      this.cursor.classList.add('visible');
-      this.isVisible = true;
+      if (lastX && lastY) {
+        const x = Number(lastX);
+        const y = Number(lastY);
+        
+        // Проверяем валидность координат
+        if (isNaN(x) || isNaN(y) || x < 0 || y < 0) {
+          return;
+        }
 
-      // Проверяем hover состояние для начальной позиции
-      setTimeout(() => {
-        this.checkHoverState(x, y);
-      }, 100);
+        this.targetX = x;
+        this.targetY = y;
+        this.currentX = x;
+        this.currentY = y;
+        
+        // Устанавливаем позицию сразу для мгновенного отображения
+        this.cursor.style.left = `${x}px`;
+        this.cursor.style.top = `${y}px`;
+        this.cursor.classList.add('visible');
+        this.isVisible = true;
+
+        // Проверяем hover состояние для начальной позиции с минимальной задержкой
+        // Используем requestAnimationFrame вместо setTimeout для лучшей производительности
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            this.checkHoverState(x, y);
+          });
+        });
+      }
+    } catch (error) {
+      // Игнорируем ошибки доступа к sessionStorage (например, в приватном режиме)
+      console.warn('Failed to restore cursor position:', error);
     }
   }
 
@@ -145,7 +197,7 @@ export class CustomCursor {
   }
 
   /**
-   * Проверяет hover состояние с throttling
+   * Проверяет hover состояние с оптимизированным throttling
    * @param {number} x - Координата X курсора
    * @param {number} y - Координата Y курсора
    */
@@ -153,7 +205,10 @@ export class CustomCursor {
     const now = performance.now();
     const distanceMoved =
       Math.abs(x - this.lastHoverCheckX) + Math.abs(y - this.lastHoverCheckY);
-    if (now - this.lastHoverCheck < 50 && distanceMoved < 5) {
+    
+    // Оптимизированный throttling: проверяем чаще при движении и реже на месте
+    const throttleTime = distanceMoved > 10 ? 16 : 50; // ~60fps при движении, ~20fps на месте
+    if (now - this.lastHoverCheck < throttleTime && distanceMoved < 5) {
       return;
     }
 
@@ -161,22 +216,28 @@ export class CustomCursor {
     this.lastHoverCheckX = x;
     this.lastHoverCheckY = y;
 
-    const elementUnderCursor = document.elementFromPoint(x, y);
-
+    // Используем elementFromPoint только если курсор видим
     if (!this.isVisible) {
       this.cursor.classList.add('visible');
       this.isVisible = true;
     }
 
-    const isInteractive =
-      elementUnderCursor &&
-      elementUnderCursor.closest(this.interactiveSelector);
-    if (isInteractive && !this.isHovering) {
-      this.cursor.classList.add('hover');
-      this.isHovering = true;
-    } else if (!isInteractive && this.isHovering) {
-      this.cursor.classList.remove('hover');
-      this.isHovering = false;
+    // Оптимизация: проверяем hover только если курсор видим
+    try {
+      const elementUnderCursor = document.elementFromPoint(x, y);
+      const isInteractive =
+        elementUnderCursor &&
+        elementUnderCursor.closest(this.interactiveSelector);
+      
+      if (isInteractive && !this.isHovering) {
+        this.cursor.classList.add('hover');
+        this.isHovering = true;
+      } else if (!isInteractive && this.isHovering) {
+        this.cursor.classList.remove('hover');
+        this.isHovering = false;
+      }
+    } catch (error) {
+      // Игнорируем ошибки elementFromPoint (может быть вне viewport)
     }
   }
 
