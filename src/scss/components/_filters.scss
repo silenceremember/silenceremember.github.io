@@ -143,10 +143,16 @@
     color: transparent;
   }
 
-  // Обработка hover и активных состояний для линии
-  .project-filters-year-button:not(.has-count):hover &::after,
+  // Активное состояние (когда dropdown открыт) - работает всегда
   .project-filters-year-button:not(.has-count)[aria-expanded='true'] &::after {
     background-color: var(--color-bg-primary);
+  }
+
+  // Hover эффект - только на десктопе
+  @include desktop {
+    .project-filters-year-button:not(.has-count):hover &::after {
+      background-color: var(--color-bg-primary);
+    }
   }
 }
 
@@ -265,12 +271,14 @@
   color: transparent;
 }
 
-// Обработка hover для линии в опции с прочерком
-.project-filters-year-option-dash:hover
-  .project-filters-year-option-label::after,
-.project-filters-year-option-dash:focus
-  .project-filters-year-option-label::after {
-  background-color: var(--color-bg-primary);
+// Обработка hover и focus для линии в опции с прочерком - только на десктопе
+@include desktop {
+  .project-filters-year-option-dash:hover
+    .project-filters-year-option-label::after,
+  .project-filters-year-option-dash:focus
+    .project-filters-year-option-label::after {
+    background-color: var(--color-bg-primary);
+  }
 }
 
 /* Стили для .project-filters-year-option-count теперь в _count-badge.scss */
@@ -301,13 +309,8 @@
     }
   }
 
-  .project-filters-year-option-dash:hover .project-filters-year-option-label::after,
-  .project-filters-year-option-dash:focus .project-filters-year-option-label::after {
-    background-color: var(--color-text-primary);
-  }
-
-  .project-filters-year-button:not(.has-count):hover .project-filters-year-button-label::after,
+  /* Активное состояние прочерка должно работать всегда */
   .project-filters-year-button:not(.has-count)[aria-expanded='true'] .project-filters-year-button-label::after {
-    background-color: var(--color-text-primary);
+    background-color: var(--color-bg-primary);
   }
 }

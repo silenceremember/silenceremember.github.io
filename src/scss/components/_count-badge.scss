@@ -33,9 +33,8 @@
 .project-filters-option-count {
   @extend %count-badge-base;
 
-  .project-filters-option:hover &,
+  /* Активное состояние - работает всегда */
   .project-filters-option[aria-pressed='true'] & {
-    /* При наведении и активном состоянии инвертируем цвета */
     background-color: var(--theme-light-bg-primary);
     color: var(--theme-light-text-primary);
 
@@ -44,21 +43,46 @@
       color: var(--theme-dark-text-primary);
     }
   }
+
+  /* Hover эффект - только на десктопе */
+  @include desktop {
+    .project-filters-option:hover & {
+      background-color: var(--theme-light-bg-primary);
+      color: var(--theme-light-text-primary);
+
+      [data-theme='dark'] & {
+        background-color: var(--theme-dark-bg-primary);
+        color: var(--theme-dark-text-primary);
+      }
+    }
+  }
 }
 
 /* Стили для счетчиков в кнопках разворачивания разделов */
 .projects-section-expand-count {
   @extend %count-badge-base;
 
-  .projects-section-expand:hover &,
+  /* Активное состояние - работает всегда */
   .projects-section-expand[aria-expanded='true'] & {
-    /* При наведении и активном состоянии инвертируем цвета */
     background-color: var(--theme-light-bg-primary);
     color: var(--theme-light-text-primary);
 
     [data-theme='dark'] & {
       background-color: var(--theme-dark-bg-primary);
       color: var(--theme-dark-text-primary);
+    }
+  }
+
+  /* Hover эффект - только на десктопе */
+  @include desktop {
+    .projects-section-expand:hover & {
+      background-color: var(--theme-light-bg-primary);
+      color: var(--theme-light-text-primary);
+
+      [data-theme='dark'] & {
+        background-color: var(--theme-dark-bg-primary);
+        color: var(--theme-dark-text-primary);
+      }
     }
   }
 }
@@ -68,11 +92,8 @@
 .project-filters-year-option-count {
   @extend %count-badge-base;
 
-  .project-filters-year-button:hover &,
-  .project-filters-year-button.has-count &,
-  .project-filters-year-option:hover &,
-  .project-filters-year-option:focus & {
-    /* При наведении и активном состоянии инвертируем цвета */
+  /* Активное состояние - работает всегда */
+  .project-filters-year-button.has-count & {
     background-color: var(--theme-light-bg-primary);
     color: var(--theme-light-text-primary);
 
@@ -81,78 +102,18 @@
       color: var(--theme-dark-text-primary);
     }
   }
-}
 
-/* Отключаем hover эффекты на мобильных и планшетах */
-@include tablet-and-mobile {
-  .project-filters-option-count {
-    .project-filters-option:hover & {
-      background-color: var(--theme-light-text-primary);
-      color: var(--theme-light-bg-primary);
-
-      [data-theme='dark'] & {
-        background-color: var(--theme-dark-text-primary);
-        color: var(--theme-dark-bg-primary);
-      }
-    }
-
-    /* Отключаем изменение цвета счетчика при активном состоянии кнопки */
-    .project-filters-option[aria-pressed='true'] & {
-      background-color: var(--theme-light-text-primary);
-      color: var(--theme-light-bg-primary);
-
-      [data-theme='dark'] & {
-        background-color: var(--theme-dark-text-primary);
-        color: var(--theme-dark-bg-primary);
-      }
-    }
-  }
-
-  .projects-section-expand-count {
-    .projects-section-expand:hover & {
-      background-color: var(--theme-light-text-primary);
-      color: var(--theme-light-bg-primary);
-
-      [data-theme='dark'] & {
-        background-color: var(--theme-dark-text-primary);
-        color: var(--theme-dark-bg-primary);
-      }
-    }
-
-    /* Отключаем изменение цвета счетчика при активном состоянии кнопки */
-    .projects-section-expand[aria-expanded='true'] & {
-      background-color: var(--theme-light-text-primary);
-      color: var(--theme-light-bg-primary);
-
-      [data-theme='dark'] & {
-        background-color: var(--theme-dark-text-primary);
-        color: var(--theme-dark-bg-primary);
-      }
-    }
-  }
-
-  .project-filters-year-button-count,
-  .project-filters-year-option-count {
+  /* Hover и focus эффекты - только на десктопе */
+  @include desktop {
     .project-filters-year-button:hover &,
     .project-filters-year-option:hover &,
     .project-filters-year-option:focus & {
-      background-color: var(--theme-light-text-primary);
-      color: var(--theme-light-bg-primary);
+      background-color: var(--theme-light-bg-primary);
+      color: var(--theme-light-text-primary);
 
       [data-theme='dark'] & {
-        background-color: var(--theme-dark-text-primary);
-        color: var(--theme-dark-bg-primary);
-      }
-    }
-
-    /* Отключаем изменение цвета счетчика при активном состоянии кнопки */
-    .project-filters-year-button.has-count & {
-      background-color: var(--theme-light-text-primary);
-      color: var(--theme-light-bg-primary);
-
-      [data-theme='dark'] & {
-        background-color: var(--theme-dark-text-primary);
-        color: var(--theme-dark-bg-primary);
+        background-color: var(--theme-dark-bg-primary);
+        color: var(--theme-dark-text-primary);
       }
     }
   }
