@@ -80,11 +80,11 @@ export class ThemeSwitcher {
     // Убираем класс active с обеих иконок
     moonIcon.classList.remove('active');
     sunIcon.classList.remove('active');
-    
+
     // Принудительно пересчитываем стили для применения изменений
     void moonIcon.offsetHeight;
     void sunIcon.offsetHeight;
-    
+
     // Явно скрываем неактивную иконку через inline стили с important
     inactiveIcon.style.setProperty('opacity', '0', 'important');
     inactiveIcon.style.setProperty('visibility', 'hidden', 'important');

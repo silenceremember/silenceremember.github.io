@@ -6,8 +6,10 @@
   display: block;
   flex-shrink: 0;
   color: var(--color-text-primary);
+  transition: color var(--transition-duration-base) var(--timing-function-ease);
 }
 
 .icon-divider path {
   fill: currentColor;
+  transition: fill var(--transition-duration-base) var(--timing-function-ease);
 }

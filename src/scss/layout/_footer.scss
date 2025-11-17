@@ -121,6 +121,7 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-xs);
+  transition: color var(--transition-duration-base) var(--timing-function-ease);
 
   .icon-divider {
     width: var(--spacing-sm);
@@ -132,6 +133,13 @@
   display: block;
   color: var(--color-text-primary);
   fill: currentColor;
+  transition: 
+    color var(--transition-duration-base) var(--timing-function-ease),
+    fill var(--transition-duration-base) var(--timing-function-ease);
+}
+
+.footer-logo-text path {
+  transition: fill var(--transition-duration-base) var(--timing-function-ease);
 }
 
 .footer-logo-icon {
@@ -140,6 +148,14 @@
   display: block;
   color: var(--color-text-primary);
   fill: currentColor;
+  transition: 
+    color var(--transition-duration-base) var(--timing-function-ease),
+    fill var(--transition-duration-base) var(--timing-function-ease);
+}
+
+.footer-logo-icon svg,
+.footer-logo-icon path {
+  transition: fill var(--transition-duration-base) var(--timing-function-ease);
 }
 
 .footer-copyright {
