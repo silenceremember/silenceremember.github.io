@@ -105,34 +105,34 @@ export class CustomCursor {
    */
   restorePosition() {
     try {
-      const lastX = sessionStorage.getItem('cursorX');
-      const lastY = sessionStorage.getItem('cursorY');
+    const lastX = sessionStorage.getItem('cursorX');
+    const lastY = sessionStorage.getItem('cursorY');
 
-      if (lastX && lastY) {
-        const x = Number(lastX);
-        const y = Number(lastY);
+    if (lastX && lastY) {
+      const x = Number(lastX);
+      const y = Number(lastY);
         
         // Проверяем валидность координат
         if (isNaN(x) || isNaN(y) || x < 0 || y < 0) {
           return;
         }
 
-        this.targetX = x;
-        this.targetY = y;
-        this.currentX = x;
-        this.currentY = y;
+      this.targetX = x;
+      this.targetY = y;
+      this.currentX = x;
+      this.currentY = y;
         
         // Устанавливаем позицию сразу для мгновенного отображения
-        this.cursor.style.left = `${x}px`;
-        this.cursor.style.top = `${y}px`;
-        this.cursor.classList.add('visible');
-        this.isVisible = true;
+      this.cursor.style.left = `${x}px`;
+      this.cursor.style.top = `${y}px`;
+      this.cursor.classList.add('visible');
+      this.isVisible = true;
 
         // Проверяем hover состояние для начальной позиции с минимальной задержкой
         // Используем requestAnimationFrame вместо setTimeout для лучшей производительности
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
-            this.checkHoverState(x, y);
+        this.checkHoverState(x, y);
           });
         });
       }
@@ -225,16 +225,16 @@ export class CustomCursor {
     // Оптимизация: проверяем hover только если курсор видим
     try {
       const elementUnderCursor = document.elementFromPoint(x, y);
-      const isInteractive =
-        elementUnderCursor &&
-        elementUnderCursor.closest(this.interactiveSelector);
+    const isInteractive =
+      elementUnderCursor &&
+      elementUnderCursor.closest(this.interactiveSelector);
       
-      if (isInteractive && !this.isHovering) {
-        this.cursor.classList.add('hover');
-        this.isHovering = true;
-      } else if (!isInteractive && this.isHovering) {
-        this.cursor.classList.remove('hover');
-        this.isHovering = false;
+    if (isInteractive && !this.isHovering) {
+      this.cursor.classList.add('hover');
+      this.isHovering = true;
+    } else if (!isInteractive && this.isHovering) {
+      this.cursor.classList.remove('hover');
+      this.isHovering = false;
       }
     } catch (error) {
       // Игнорируем ошибки elementFromPoint (может быть вне viewport)
