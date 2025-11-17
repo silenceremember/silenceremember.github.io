@@ -181,7 +181,7 @@ export default defineConfig({
       },
     },
     // Оптимизация размера чанков
-    chunkSizeWarningLimit: 500, // Уменьшено для более строгого контроля размера
+    chunkSizeWarningLimit: 300, // Уменьшено для более строгого контроля размера и лучшего code splitting
     // Включаем source maps только для production debugging (опционально)
     sourcemap: false,
     // Оптимизация tree shaking
@@ -196,5 +196,25 @@ export default defineConfig({
     cssCodeSplit: true,
     // Оптимизация для лучшей производительности
     reportCompressedSize: false, // Отключаем отчет о размере для ускорения сборки
+    // Улучшенный code splitting для уменьшения unused JS
+    manualChunks: (id) => {
+      // Разделяем vendor библиотеки на отдельные чанки
+      if (id.includes('node_modules')) {
+        // Разделяем большие библиотеки
+        if (id.includes('three') || id.includes('cannon')) {
+          return 'vendor-physics';
+        }
+        return 'vendor';
+      }
+      // Разделяем компоненты по страницам для lazy loading
+      if (id.includes('/pages/')) {
+        const pageName = id.split('/pages/')[1].split('.')[0];
+        return `page-${pageName}`;
+      }
+      // Разделяем менеджеры
+      if (id.includes('/managers/')) {
+        return 'managers';
+      }
+    },
   },
 });

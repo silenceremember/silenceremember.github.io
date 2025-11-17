@@ -613,29 +613,34 @@ export class ProjectGroupingManager {
       });
 
       // Загружаем SVG для звездочек асинхронно после рендеринга (не блокируем основной поток)
-      // Используем requestIdleCallback для неблокирующей загрузки
+      // Используем requestIdleCallback для неблокирующей загрузки с разбивкой на микрозадачи
+      const loadSvgAsync = async () => {
+        try {
+          const svgLoader = new SvgLoader();
+          // Разбиваем загрузку на микрозадачи для избежания long tasks
+          await new Promise((resolve) => {
+            if (window.requestIdleCallback) {
+              requestIdleCallback(() => {
+                svgLoader.init().then(resolve).catch(resolve);
+              }, { timeout: 2000 });
+            } else {
+              setTimeout(() => {
+                svgLoader.init().then(resolve).catch(resolve);
+              }, 0);
+            }
+          });
+        } catch (error) {
+          console.error('Ошибка загрузки SVG:', error);
+        } finally {
+          this.isRendering = false;
+        }
+      };
+      
+      // Используем requestIdleCallback для отложенной загрузки
       if (window.requestIdleCallback) {
-        requestIdleCallback(async () => {
-          try {
-            const svgLoader = new SvgLoader();
-            await svgLoader.init();
-          } catch (error) {
-            console.error('Ошибка загрузки SVG:', error);
-          } finally {
-            this.isRendering = false;
-          }
-        }, { timeout: 2000 });
+        requestIdleCallback(loadSvgAsync, { timeout: 2000 });
       } else {
-        setTimeout(async () => {
-          try {
-            const svgLoader = new SvgLoader();
-            await svgLoader.init();
-          } catch (error) {
-            console.error('Ошибка загрузки SVG:', error);
-          } finally {
-            this.isRendering = false;
-          }
-        }, 100);
+        setTimeout(loadSvgAsync, 100);
       }
     } catch (error) {
       console.error('Ошибка при рендеринге проектов:', error);
