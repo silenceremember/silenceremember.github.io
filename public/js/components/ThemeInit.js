@@ -4,6 +4,28 @@
  * Устанавливает тему из localStorage и настраивает классы для страниц со скроллом
  */
 (function () {
+  // Регистрируем взаимодействие пользователя как можно раньше
+  // Это предотвращает удаление состояния сайта Chrome в bounce tracking mitigation
+  let userInteractionRegistered = false;
+  const registerUserInteraction = () => {
+    if (!userInteractionRegistered) {
+      userInteractionRegistered = true;
+      // Сохраняем флаг взаимодействия в sessionStorage
+      try {
+        sessionStorage.setItem('user_interaction', 'true');
+      } catch (e) {
+        // Игнорируем ошибки sessionStorage
+      }
+    }
+  };
+  
+  // Регистрируем события пользователя сразу
+  document.addEventListener('mousemove', registerUserInteraction, { passive: true, once: true });
+  document.addEventListener('touchstart', registerUserInteraction, { passive: true, once: true });
+  document.addEventListener('click', registerUserInteraction, { passive: true, once: true });
+  document.addEventListener('keydown', registerUserInteraction, { passive: true, once: true });
+  document.addEventListener('scroll', registerUserInteraction, { passive: true, once: true });
+  
   const theme = localStorage.getItem('theme');
   if (theme === 'dark') {
     document.documentElement.setAttribute('data-theme', 'dark');

@@ -64,6 +64,35 @@ async function initCurrentPage() {
   return hideAllSlideElementsEarly;
 }
 
+// Регистрируем взаимодействие пользователя для предотвращения удаления состояния Chrome
+// Это важно для bounce tracking mitigation в Chrome
+(function registerEarlyUserInteraction() {
+  let interactionRegistered = false;
+  const markInteraction = () => {
+    if (!interactionRegistered) {
+      interactionRegistered = true;
+      try {
+        sessionStorage.setItem('user_interaction_registered', Date.now().toString());
+      } catch (e) {
+        // Игнорируем ошибки sessionStorage
+      }
+    }
+  };
+  
+  // Регистрируем события как можно раньше
+  if (document.readyState !== 'loading') {
+    document.addEventListener('mousemove', markInteraction, { passive: true, once: true });
+    document.addEventListener('touchstart', markInteraction, { passive: true, once: true });
+    document.addEventListener('click', markInteraction, { passive: true, once: true });
+  } else {
+    document.addEventListener('DOMContentLoaded', () => {
+      document.addEventListener('mousemove', markInteraction, { passive: true, once: true });
+      document.addEventListener('touchstart', markInteraction, { passive: true, once: true });
+      document.addEventListener('click', markInteraction, { passive: true, once: true });
+    }, { once: true });
+  }
+})();
+
 // Быстрая инициализация курсора как можно раньше
 // Пытаемся инициализировать сразу, если DOM уже готов
 if (document.readyState !== 'loading') {
