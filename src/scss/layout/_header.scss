@@ -150,23 +150,26 @@
     visibility var(--transition-duration-base) var(--timing-function-ease);
 }
 
-/* Скрываем неактивную иконку явно */
+/* Скрываем неактивную иконку явно - более специфичное правило */
 .header-theme .theme-icon-moon:not(.active),
 .header-theme .theme-icon-sun:not(.active) {
   opacity: 0 !important;
   visibility: hidden !important;
+  display: none !important; /* Дополнительная гарантия скрытия */
 }
 
-/* Показываем moon иконку когда она активна */
+/* Показываем moon иконку когда она активна - более специфичное правило */
 .header-theme .theme-icon-moon.active {
   opacity: 1 !important;
   visibility: visible !important;
+  display: flex !important; /* Явно показываем */
 }
 
-/* Показываем sun иконку когда она активна */
+/* Показываем sun иконку когда она активна - более специфичное правило */
 .header-theme .theme-icon-sun.active {
   opacity: 1 !important;
   visibility: visible !important;
+  display: flex !important; /* Явно показываем */
 }
 
 .header-theme:hover svg {
