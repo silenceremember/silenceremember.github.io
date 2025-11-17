@@ -95,10 +95,32 @@
         color: var(--theme-dark-bg-primary);
       }
     }
+
+    /* Отключаем изменение цвета счетчика при активном состоянии кнопки */
+    .project-filters-option[aria-pressed='true'] & {
+      background-color: var(--theme-light-text-primary);
+      color: var(--theme-light-bg-primary);
+
+      [data-theme='dark'] & {
+        background-color: var(--theme-dark-text-primary);
+        color: var(--theme-dark-bg-primary);
+      }
+    }
   }
 
   .projects-section-expand-count {
     .projects-section-expand:hover & {
+      background-color: var(--theme-light-text-primary);
+      color: var(--theme-light-bg-primary);
+
+      [data-theme='dark'] & {
+        background-color: var(--theme-dark-text-primary);
+        color: var(--theme-dark-bg-primary);
+      }
+    }
+
+    /* Отключаем изменение цвета счетчика при активном состоянии кнопки */
+    .projects-section-expand[aria-expanded='true'] & {
       background-color: var(--theme-light-text-primary);
       color: var(--theme-light-bg-primary);
 
@@ -114,6 +136,17 @@
     .project-filters-year-button:hover &,
     .project-filters-year-option:hover &,
     .project-filters-year-option:focus & {
+      background-color: var(--theme-light-text-primary);
+      color: var(--theme-light-bg-primary);
+
+      [data-theme='dark'] & {
+        background-color: var(--theme-dark-text-primary);
+        color: var(--theme-dark-bg-primary);
+      }
+    }
+
+    /* Отключаем изменение цвета счетчика при активном состоянии кнопки */
+    .project-filters-year-button.has-count & {
       background-color: var(--theme-light-text-primary);
       color: var(--theme-light-bg-primary);
 
