@@ -37,10 +37,7 @@
       "tags": [
         "unity",
         "bolt",
-        "economy",
-        "simulator",
-        "prototype",
-        "skillbox"
+        "prototype"
       ],
       "featured": true,
       "displayMeta": {
@@ -100,12 +97,9 @@
         "site": "https://sites.google.com/view/maxim-elchaninov-capybara-bunk/capybara-bunk"
       },
       "tags": [
-        "top-down",
-        "shooter",
         "team-lead",
         "gamedesign",
-        "narrative",
-        "ranepa"
+        "narrative"
       ],
       "featured": true,
       "displayMeta": {
@@ -137,8 +131,7 @@
         "unity",
         "editor-tool",
         "csharp",
-        "shader-graph",
-        "tool"
+        "shader-graph"
       ],
       "featured": true,
       "displayMeta": {
@@ -181,9 +174,7 @@
         "site": "https://sites.google.com/view/maxim-elchaninov-cycle-of-ashe?usp=sharing"
       },
       "tags": [
-        "concept",
-        "presentation",
-        "skillbox"
+        "case-study"
       ],
       "featured": false,
       "tier": 2,
@@ -210,12 +201,8 @@
       ],
       "links": {},
       "tags": [
-        "процедурная генерация",
-        "нарративный дизайн",
-        "роуглайк",
-        "компьютерные игры",
-        "диплом",
-        "вкр"
+        "procedural-generation",
+        "narrative-design"
       ],
       "featured": true,
       "technologies": []
@@ -243,10 +230,8 @@
       "comingSoon": false,
       "tags": [
         "analysis",
-        "concept",
-        "improvement",
-        "skillbox",
-        "case-study"
+        "case-study",
+        "gamedesign"
       ],
       "featured": false,
       "technologies": []
@@ -276,7 +261,6 @@
         "analysis",
         "decomposition",
         "gamedesign",
-        "skillbox",
         "case-study"
       ],
       "featured": false,
@@ -305,11 +289,7 @@
         "concept": "https://docs.google.com/spreadsheets/d/1xReKq4H_dXWN13aAuhny5kp9nOZkxFV21tLip_2XkQg/edit?usp=sharing"
       },
       "tags": [
-        "concept",
-        "2d",
-        "combat",
-        "simulator",
-        "skillbox"
+        "case-study"
       ],
       "featured": false,
       "technologies": []
@@ -337,9 +317,7 @@
       "comingSoon": false,
       "tags": [
         "narrative",
-        "vogler",
-        "hero-journey",
-        "ranepa"
+        "case-study"
       ],
       "featured": false,
       "technologies": []
@@ -367,9 +345,7 @@
       "comingSoon": false,
       "tags": [
         "narrative",
-        "disco-elysium",
-        "frictional-games",
-        "ranepa"
+        "case-study"
       ],
       "featured": false,
       "technologies": []
@@ -394,11 +370,7 @@
         "itch": "https://silenceremember.itch.io/outer-signal"
       },
       "tags": [
-        "jam",
-        "2d",
-        "art",
-        "graphics",
-        "game"
+        "jam"
       ],
       "featured": false,
       "technologies": [],
@@ -421,8 +393,7 @@
         "itch": "https://silenceremember.itch.io/couchpotatophysicist"
       },
       "tags": [
-        "jam",
-        "game"
+        "jam"
       ],
       "featured": false,
       "technologies": []
@@ -444,8 +415,7 @@
         "itch": "https://silenceremember.itch.io/infernal-run"
       },
       "tags": [
-        "jam",
-        "game"
+        "jam"
       ],
       "featured": false,
       "technologies": []
@@ -467,8 +437,7 @@
         "itch": "https://thebestmrand.itch.io/mushhoom-loop"
       },
       "tags": [
-        "jam",
-        "game"
+        "jam"
       ],
       "featured": false,
       "technologies": []
@@ -490,8 +459,7 @@
         "itch": "https://silenceremember.itch.io/thermic-spirit"
       },
       "tags": [
-        "jam",
-        "game"
+        "jam"
       ],
       "featured": false,
       "technologies": []
@@ -514,8 +482,6 @@
       },
       "tags": [
         "autohotkey",
-        "script",
-        "dark-souls",
         "game-mod"
       ],
       "featured": false,
@@ -541,8 +507,6 @@
       },
       "tags": [
         "autohotkey",
-        "script",
-        "elden-ring",
         "game-mod"
       ],
       "featured": false,
@@ -567,10 +531,7 @@
         "github": "https://github.com/silenceremember/blender-to-all"
       },
       "tags": [
-        "autohotkey",
-        "script",
-        "navigation",
-        "3d-software"
+        "autohotkey"
       ],
       "featured": false,
       "technologies": [
