@@ -218,7 +218,9 @@
       "year": 2024,
       "status": "completed",
       "description": "Разработка трех игровых концепций: от создания идеи до анализа и переработки концепта",
-      "media": {},
+      "media": {
+        "preview": "assets/images/projects/assignment-concept/preview.webp"
+      },
       "documents": [
         {
           "type": "analysis",
@@ -247,7 +249,9 @@
       "year": 2024,
       "status": "completed",
       "description": "Серия аналитических разборов игр: декомпозиция, анализ опыта, улучшения и переработка сеттинга",
-      "media": {},
+      "media": {
+        "preview": "assets/images/projects/assignment-decomposition/preview.webp"
+      },
       "documents": [
         {
           "type": "analysis",
@@ -305,7 +309,9 @@
       "year": 2025,
       "status": "completed",
       "description": "Разбор Dark Messiah of Might and Magic по пути героя Воглера",
-      "media": {},
+      "media": {
+        "preview": "assets/images/projects/narrative-dz2/preview.webp"
+      },
       "documents": [
         {
           "type": "presentation",
@@ -333,7 +339,9 @@
       "year": 2025,
       "status": "completed",
       "description": "Разбор пролога сюжета Disco Elysium по 4 слоям нарративного дизайна",
-      "media": {},
+      "media": {
+        "preview": "assets/images/projects/narrative-dz5/preview.webp"
+      },
       "documents": [
         {
           "type": "presentation",
