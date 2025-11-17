@@ -487,6 +487,7 @@
         "game-mod"
       ],
       "featured": false,
+      "comingSoon": true,
       "technologies": [
         "AutoHotkey"
       ]
@@ -536,6 +537,7 @@
         "autohotkey"
       ],
       "featured": false,
+      "comingSoon": true,
       "technologies": [
         "AutoHotkey"
       ]
