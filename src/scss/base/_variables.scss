@@ -231,8 +231,8 @@
   align-items: center;
   flex-shrink: 0;
   z-index: 10;
-  /* Fully transparent to show fluid effect through */
-  background-color: transparent;
+  /* Background with 50% opacity to show fluid effect through */
+  background-color: color-mix(in srgb, var(--color-bg-primary) 50%, transparent);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   transition:
