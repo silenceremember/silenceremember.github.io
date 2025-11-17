@@ -56,9 +56,9 @@
   X-XSS-Protection: 1; mode=block
   Referrer-Policy: strict-origin-when-cross-origin
   X-Content-Type-Options: nosniff
-  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
   Cross-Origin-Opener-Policy: same-origin
-  Cross-Origin-Embedder-Policy: require-corp
+  Cross-Origin-Embedder-Policy: credentialless
   Permissions-Policy: geolocation=(), microphone=(), camera=()
   # Content-Security-Policy: разрешаем Google Drive для встраивания документов
   # frame-src разрешает загрузку iframes с Google Drive и Google Docs
