@@ -165,7 +165,9 @@
           "url": "assets/documents/projects/skillbox/cycle-of-ashes-presentation.pdf"
         }
       ],
-      "links": {},
+      "links": {
+        "site": "https://sites.google.com/view/maxim-elchaninov-cycle-of-ashe?usp=sharing"
+      },
       "tags": ["concept", "presentation", "skillbox"],
       "featured": false,
       "tier": 2,
