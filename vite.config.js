@@ -14,14 +14,6 @@ export default defineConfig({
     // Правильная обработка расширений файлов
     extensions: ['.mjs', '.js', '.mts', '.ts', '.jsx', '.tsx', '.json'],
   },
-  optimizeDeps: {
-    // Включаем предварительную оптимизацию для динамических импортов
-    include: [
-      'src/js/managers/SlideAnimationManager.js',
-      'src/js/managers/CVAnimationManager.js',
-      'src/js/managers/CommunityAnimationManager.js',
-    ],
-  },
   plugins: [
     {
       name: 'custom-404-plugin',

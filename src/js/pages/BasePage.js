@@ -120,22 +120,15 @@ export class BasePage {
   }
 
   /**
-   * Ленивая загрузка менеджера анимаций
+   * Ленивая загрузка менеджера анимаций (deprecated - используйте статические импорты)
+   * @deprecated Этот метод больше не используется, так как все менеджеры теперь импортируются статически
    * @param {string} managerPath - Путь к модулю менеджера (например, '../managers/CVAnimationManager.js')
    * @param {Array} constructorArgs - Аргументы для конструктора менеджера (опционально)
    * @returns {Promise<any>} Экземпляр менеджера анимаций
    */
   async loadAnimationManager(managerPath, constructorArgs = []) {
-    try {
-      // Преобразуем относительный путь в абсолютный через import.meta.url для production сборки
-      const managerUrl = new URL(managerPath, import.meta.url).href;
-      const module = await import(managerUrl);
-      const ManagerClass = module[Object.keys(module)[0]]; // Получаем первый экспорт
-      return new ManagerClass(...constructorArgs);
-    } catch (error) {
-      console.error(`Ошибка загрузки менеджера анимаций ${managerPath}:`, error);
-      return null;
-    }
+    console.warn('loadAnimationManager is deprecated. Use static imports instead.');
+    return null;
   }
 
   /**
