@@ -1,10 +1,10 @@
 /**
  * Google Analytics 4 (GA4) Configuration
- * Замените G-XXXXXXXXXX на ваш Measurement ID из Google Analytics
+ * Measurement ID: G-PGX35FVEM1
  */
 
-// Замените на ваш Measurement ID из Google Analytics
-const GA_MEASUREMENT_ID = 'G-XXXXXXXXXX';
+// Google Analytics Measurement ID
+const GA_MEASUREMENT_ID = 'G-PGX35FVEM1';
 
 // Проверяем, включена ли аналитика (можно отключить для разработки)
 const isAnalyticsEnabled = () => {
@@ -16,7 +16,7 @@ const isAnalyticsEnabled = () => {
 };
 
 // Инициализация Google Analytics
-if (isAnalyticsEnabled() && GA_MEASUREMENT_ID !== 'G-XXXXXXXXXX') {
+if (isAnalyticsEnabled() && GA_MEASUREMENT_ID) {
   // Загружаем Google Analytics скрипт
   const script = document.createElement('script');
   script.async = true;
