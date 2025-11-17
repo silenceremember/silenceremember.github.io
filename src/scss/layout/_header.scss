@@ -155,7 +155,6 @@
 .header-theme .theme-icon-sun:not(.active) {
   opacity: 0 !important;
   visibility: hidden !important;
-  display: none !important; /* Дополнительная гарантия скрытия */
 }
 
 /* Показываем moon иконку когда она активна - более специфичное правило */
