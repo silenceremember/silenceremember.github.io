@@ -199,7 +199,9 @@
           "url": "https://drive.google.com/file/d/1PwLrsrIdLz6l4AsuiTbQarKr-mo6ELox/view?usp=sharing"
         }
       ],
-      "links": {},
+      "links": {
+        "document": "https://drive.google.com/file/d/16fNAfzXP0id_JSVj5v-CnErR3EIvChW3/view?usp=sharing"
+      },
       "tags": [
         "procedural-generation",
         "narrative-design"

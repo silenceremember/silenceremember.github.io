@@ -14,7 +14,9 @@
       },
       "status": "published",
       "level": "РИНЦ",
-      "pdf_url": "assets/documents/research/publications/procedural-narrative-generation.pdf",
+      "links": {
+        "document": "assets/documents/research/publications/procedural-narrative-generation.pdf"
+      },
       "keywords": [
         "процедурная генерация",
         "нарративный дизайн",
@@ -34,7 +36,9 @@
       },
       "status": "published",
       "level": "РИНЦ",
-      "pdf_url": "assets/documents/research/publications/ai-in-gamedesign.pdf",
+      "links": {
+        "document": "assets/documents/research/publications/ai-in-gamedesign.pdf"
+      },
       "keywords": [
         "искусственный интеллект",
         "геймдизайн",
@@ -53,7 +57,7 @@
       },
       "status": "in-publication",
       "level": "РИНЦ",
-      "pdf_url": null,
+      "links": {},
       "keywords": [
         "машинное обучение",
         "динамическая генерация",
@@ -72,7 +76,7 @@
       },
       "status": "in-publication",
       "level": "Scopus",
-      "pdf_url": null,
+      "links": {},
       "keywords": [
         "алгоритмическое повествование",
         "формальные системы",
@@ -91,7 +95,9 @@
       },
       "status": "in-progress",
       "level": null,
-      "pdf_url": "https://drive.google.com/file/d/1PwLrsrIdLz6l4AsuiTbQarKr-mo6ELox/view?usp=sharing",
+      "links": {
+        "document": "https://drive.google.com/file/d/16fNAfzXP0id_JSVj5v-CnErR3EIvChW3/view?usp=sharing"
+      },
       "keywords": [
         "процедурная генерация",
         "нарративный дизайн",

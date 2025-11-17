@@ -166,7 +166,7 @@ export class CardFactory {
    * @param {string} publication.journal - Журнал публикации
    * @param {string} publication.location - Местоположение публикации
    * @param {string} publication.level - Уровень публикации
-   * @param {string} publication.pdf_url - URL PDF файла
+   * @param {Object} publication.links - Ссылки на документы
    * @param {Array<string>} publication.keywords - Ключевые слова
    * @param {string} publication.status - Статус публикации
    * @returns {HTMLElement} Созданная карточка
@@ -233,17 +233,27 @@ export class CardFactory {
       keywords.style.display = 'none';
     }
 
+    // Получаем URL для открытия из links
+    const getPublicationUrl = () => {
+      if (publication.links && Object.keys(publication.links).length > 0) {
+        const firstLink = Object.values(publication.links)[0];
+        if (firstLink) {
+          return firstLink.startsWith('http') ? firstLink : `/${firstLink}`;
+        }
+      }
+      return null;
+    };
+
+    const publicationUrl = getPublicationUrl();
+
     // Кнопка PDF
     if (button) {
-      if (publication.pdf_url) {
+      if (publicationUrl) {
         button.textContent =
           publication.type === 'diploma' ? 'ЧИТАТЬ ГЛАВУ' : 'ЧИТАТЬ';
         button.addEventListener('click', (e) => {
           e.stopPropagation();
-          const url = publication.pdf_url.startsWith('http')
-            ? publication.pdf_url
-            : `/${publication.pdf_url}`;
-          window.open(url, '_blank');
+          window.open(publicationUrl, '_blank');
         });
       } else {
         button.disabled = true;
@@ -253,20 +263,17 @@ export class CardFactory {
     }
 
     // Обработчик клика для открытия документа
-    if (publication.pdf_url) {
+    if (publicationUrl) {
       card.addEventListener('click', (e) => {
         const selection = window.getSelection();
         if (selection && selection.toString().trim().length > 0) {
           return;
         }
         e.stopPropagation();
-        const url = publication.pdf_url.startsWith('http')
-          ? publication.pdf_url
-          : `/${publication.pdf_url}`;
-        window.open(url, '_blank');
+        window.open(publicationUrl, '_blank');
       });
     } else {
-      // Для исследований без pdf_url предотвращаем открытие при клике
+      // Для исследований без ссылок предотвращаем открытие при клике
       card.addEventListener('click', (e) => {
         const selection = window.getSelection();
         if (selection && selection.toString().trim().length > 0) {
