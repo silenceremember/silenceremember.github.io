@@ -99,6 +99,12 @@
     visibility var(--transition-duration-base) var(--timing-function-ease);
 }
 
+/* По умолчанию показываем RU иконку */
+.language-icon-ru {
+  opacity: 1;
+  visibility: visible;
+}
+
 .language-icon-ru.active,
 .language-icon-en.active {
   opacity: 1;
@@ -140,6 +146,23 @@
   visibility: hidden;
   transition: opacity var(--transition-duration-base) var(--timing-function-ease),
     visibility var(--transition-duration-base) var(--timing-function-ease);
+}
+
+/* По умолчанию показываем moon иконку (светлая тема) */
+.theme-icon-moon {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Для темной темы показываем sun иконку */
+[data-theme='dark'] .theme-icon-moon {
+  opacity: 0;
+  visibility: hidden;
+}
+
+[data-theme='dark'] .theme-icon-sun {
+  opacity: 1;
+  visibility: visible;
 }
 
 .theme-icon-moon.active,
