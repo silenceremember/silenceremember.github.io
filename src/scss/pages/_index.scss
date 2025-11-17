@@ -34,7 +34,8 @@
   padding: var(--spacing-xl) 0;
 
   @include tablet-and-mobile {
-    padding: var(--spacing-lg) 0;
+    padding-top: 0;
+    padding-bottom: 0;
   }
 }
 
@@ -106,9 +107,20 @@
     padding-right: 0;
   }
 
+  /* Убираем верхний и нижний отступы для первого слайда */
+  .index-page .slide[data-slide='0'] {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
   .index-page .slide:first-child .main-grid {
     padding-left: var(--spacing-md);
     padding-right: var(--spacing-md);
+  }
+
+  /* Добавляем нижний отступ для CTA секции, чтобы кнопки не заходили за футер */
+  .index-page #cta-section {
+    padding-bottom: calc(var(--header-footer-height) + var(--spacing-md));
   }
 
   /* Скрываем заголовок "ИЗБРАННЫЕ РАБОТЫ" в слайдах 3 и 4 на tablet/mobile,

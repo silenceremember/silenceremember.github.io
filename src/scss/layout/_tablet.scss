@@ -268,6 +268,12 @@
     z-index: auto !important;
   }
 
+  /* Убираем верхний и нижний отступы для первого слайда */
+  .slides-container.tablet-scroll-mode .slide[data-slide='0'] {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
   .slides-container.tablet-scroll-mode .slide:first-child .main-grid,
   .slides-container.tablet-scroll-mode .project-slide-content,
   .slides-container.tablet-scroll-mode .cta-slide-content {
@@ -277,6 +283,17 @@
     margin-left: auto;
     margin-right: auto;
     box-sizing: border-box;
+  }
+
+  /* Убираем верхний и нижний отступы для main-grid первого слайда */
+  .slides-container.tablet-scroll-mode .slide[data-slide='0'] .main-grid {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  /* Добавляем нижний отступ для CTA секции, чтобы кнопки не заходили за футер */
+  .slides-container.tablet-scroll-mode #cta-section {
+    padding-bottom: calc(var(--header-footer-height) + var(--spacing-md));
   }
 
   .slides-container.tablet-scroll-mode
@@ -341,6 +358,12 @@
     z-index: auto !important;
   }
 
+  /* Убираем верхний и нижний отступы для первого слайда */
+  .slides-container.tablet-scroll-mode .slide[data-slide='0'] {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
   .slides-container.tablet-scroll-mode .slide:first-child .main-grid,
   .slides-container.tablet-scroll-mode .project-slide-content,
   .slides-container.tablet-scroll-mode .cta-slide-content {
@@ -350,6 +373,17 @@
     margin-left: auto;
     margin-right: auto;
     box-sizing: border-box;
+  }
+
+  /* Убираем верхний и нижний отступы для main-grid первого слайда */
+  .slides-container.tablet-scroll-mode .slide[data-slide='0'] .main-grid {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  /* Добавляем нижний отступ для CTA секции, чтобы кнопки не заходили за футер */
+  .slides-container.tablet-scroll-mode #cta-section {
+    padding-bottom: calc(var(--header-footer-height) + var(--spacing-md));
   }
 
   .slides-container.tablet-scroll-mode
