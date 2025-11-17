@@ -29,6 +29,18 @@ if (isAnalyticsEnabled() && GA_MEASUREMENT_ID) {
     dataLayer.push(arguments);
   }
       gtag('js', new Date());
+      
+      // Определяем правильный домен для cookies
+      const hostname = window.location.hostname;
+      let cookieDomain = 'none'; // По умолчанию отключаем cookies
+      
+      // Для GitHub Pages используем явный домен без точки
+      if (hostname.includes('github.io')) {
+        cookieDomain = hostname; // Используем полный домен без точки в начале
+      } else if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
+        cookieDomain = 'auto'; // Для других доменов используем автоопределение
+      }
+      
       gtag('config', GA_MEASUREMENT_ID, {
         // Настройки приватности
         anonymize_ip: true,
@@ -36,10 +48,10 @@ if (isAnalyticsEnabled() && GA_MEASUREMENT_ID) {
         allow_google_signals: false,
         allow_ad_personalization_signals: false,
         // Настройка cookies для GitHub Pages домена
-        cookie_domain: 'auto',
-        cookie_flags: 'SameSite=None;Secure',
-        // Отключаем автоматическое определение домена для cookies
-        cookie_update: true,
+        cookie_domain: cookieDomain,
+        cookie_flags: cookieDomain !== 'none' ? 'SameSite=Lax;Secure' : undefined,
+        // Используем localStorage вместо cookies если cookies отключены
+        storage: cookieDomain === 'none' ? 'none' : undefined,
       });
 
   // Отслеживание переходов между страницами (для SPA)
