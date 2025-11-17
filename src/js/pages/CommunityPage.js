@@ -4,6 +4,7 @@
 
 import { BasePage } from './BasePage.js';
 import { CardFactory } from '../factories/CardFactory.js';
+import { CommunityAnimationManager } from '../managers/CommunityAnimationManager.js';
 
 /**
  * Класс страницы сообщества
@@ -25,9 +26,7 @@ export class CommunityPage extends BasePage {
    */
   async initAnimationManager() {
     if (!this.animationManager) {
-      this.animationManager = await this.loadAnimationManager(
-        '../managers/CommunityAnimationManager.js'
-      );
+      this.animationManager = new CommunityAnimationManager();
     }
     return this.animationManager;
   }

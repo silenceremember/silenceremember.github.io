@@ -7,6 +7,7 @@ import { getRoleLabel } from '../utils/RoleMapper.js';
 import { SlidesManager } from '../components/index.js';
 import { backgroundImageService } from '../services/BackgroundImageService.js';
 import { PageReadyManager } from '../utils/PageReady.js';
+import { SlideAnimationManager } from '../managers/SlideAnimationManager.js';
 
 /**
  * Класс для главной страницы
@@ -150,10 +151,7 @@ export class IndexPage extends BasePage {
     }
 
     if (!this.slideAnimationManager) {
-      this.slideAnimationManager = await this.loadAnimationManager(
-        '../managers/SlideAnimationManager.js',
-        [this.slidesContainer]
-      );
+      this.slideAnimationManager = new SlideAnimationManager(this.slidesContainer);
     }
     return this.slideAnimationManager;
   }
@@ -223,10 +221,7 @@ export async function hideAllSlideElementsEarly() {
   if (!slidesContainer) return;
 
   try {
-    // Используем динамический импорт для ленивой загрузки
-    // Используем правильный путь через import.meta.url для production сборки
-    const managerUrl = new URL('../managers/SlideAnimationManager.js', import.meta.url).href;
-    const { SlideAnimationManager } = await import(managerUrl);
+    // Используем статический импорт для надежности в production
     const slideAnimationManager = new SlideAnimationManager(slidesContainer);
     slideAnimationManager.hideAllSlideElementsImmediately();
   } catch (error) {

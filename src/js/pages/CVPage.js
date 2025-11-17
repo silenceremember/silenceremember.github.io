@@ -5,6 +5,7 @@
 
 import { BasePage } from './BasePage.js';
 import { DateFormatter } from '../utils/DateFormatter.js';
+import { CVAnimationManager } from '../managers/CVAnimationManager.js';
 
 /**
  * Класс страницы резюме
@@ -27,9 +28,7 @@ export class CVPage extends BasePage {
    */
   async initAnimationManager() {
     if (!this.animationManager) {
-      this.animationManager = await this.loadAnimationManager(
-        '../managers/CVAnimationManager.js'
-      );
+      this.animationManager = new CVAnimationManager();
     }
     return this.animationManager;
   }
