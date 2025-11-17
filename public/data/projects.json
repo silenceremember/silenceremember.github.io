@@ -499,7 +499,9 @@
       "status": "completed",
       "description": "Джем-игра с двумя концовками",
       "fullDescription": "Игра, созданная на трехдневном джеме.",
-      "media": {},
+      "media": {
+        "preview": "assets/images/projects/thermic-spirit/preview.webp"
+      },
       "documents": [],
       "links": {
         "itch": "https://silenceremember.itch.io/thermic-spirit"
