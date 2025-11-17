@@ -61,14 +61,14 @@ https://fonts.gstatic.com/*
   Cache-Control: public, max-age=31536000, immutable
   X-Content-Type-Options: nosniff
 
-# Компоненты в корне
-/components/*
-  Cache-Control: public, max-age=31536000, immutable
+# Компоненты HTML - кешируются на 1 час (переопределяет правило выше для HTML)
+/components/*.html
+  Cache-Control: public, max-age=3600
   X-Content-Type-Options: nosniff
 
-# Компоненты HTML - кешируются на 1 час
+# Остальные компоненты (JS, CSS и т.д.) - кешируются на год
 /components/*
-  Cache-Control: public, max-age=3600
+  Cache-Control: public, max-age=31536000, immutable
   X-Content-Type-Options: nosniff
 
 # Безопасность и производительность
