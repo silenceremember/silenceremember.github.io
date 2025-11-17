@@ -73,7 +73,6 @@
   }
 
   &:active {
-    background-color: var(--color-text-primary);
     transform: translateY(-50%) scale(0.95);
   }
 
@@ -213,11 +212,6 @@
     border-color: rgba(255, 255, 255, 0.5);
   }
 
-  &:active {
-    background-color: rgba(255, 255, 255, 0.3);
-    border-color: rgba(255, 255, 255, 0.6);
-  }
-
   span {
     line-height: 1;
     display: block;
@@ -247,11 +241,6 @@
   &:hover {
     background-color: rgba(255, 255, 255, 0.2);
     border-color: rgba(255, 255, 255, 0.5);
-  }
-
-  &:active {
-    background-color: rgba(255, 255, 255, 0.3);
-    border-color: rgba(255, 255, 255, 0.6);
   }
 
   span {

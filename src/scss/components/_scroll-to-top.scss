@@ -59,17 +59,6 @@
     }
   }
 
-  &:active {
-    outline: none;
-
-    svg path.scroll-to-top-bg,
-    path.scroll-to-top-bg,
-    svg circle.scroll-to-top-circle,
-    circle.scroll-to-top-circle {
-      fill: var(--color-text-primary);
-    }
-  }
-
   &.visible {
     opacity: 1;
     visibility: visible;

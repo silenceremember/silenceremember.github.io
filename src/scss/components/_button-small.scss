@@ -36,12 +36,6 @@
     color: var(--color-bg-primary);
   }
 
-  &:active {
-    background-color: var(--color-text-primary);
-    border-color: var(--color-text-primary);
-    color: var(--color-bg-primary);
-  }
-
   &:focus {
     outline: none;
   }

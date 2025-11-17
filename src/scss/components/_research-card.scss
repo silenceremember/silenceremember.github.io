@@ -294,13 +294,6 @@
     color: var(--color-bg-primary);
     outline: none;
   }
-
-  &:active {
-    background-color: var(--color-text-primary);
-    border-color: var(--color-text-primary);
-    color: var(--color-bg-primary);
-    outline: none;
-  }
 }
 
 .research-card-description {
@@ -423,13 +416,6 @@
   &:focus {
     background-color: var(--color-accent);
     border-color: var(--color-accent);
-    color: var(--color-bg-primary);
-    outline: none;
-  }
-
-  &:active {
-    background-color: var(--color-text-primary);
-    border-color: var(--color-text-primary);
     color: var(--color-bg-primary);
     outline: none;
   }

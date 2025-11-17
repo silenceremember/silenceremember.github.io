@@ -36,12 +36,6 @@
   color: var(--color-bg-primary);
 }
 
-.cta-button:active {
-  background-color: var(--color-text-primary);
-  border-color: var(--color-text-primary);
-  color: var(--color-bg-primary);
-}
-
 .cta-button-primary {
   border-color: var(--color-accent);
   color: var(--color-accent);
@@ -49,12 +43,6 @@
 
 .cta-button-primary:hover {
   background-color: var(--color-accent);
-  color: var(--color-bg-primary);
-}
-
-.cta-button-primary:active {
-  background-color: var(--color-text-primary);
-  border-color: var(--color-text-primary);
   color: var(--color-bg-primary);
 }
 

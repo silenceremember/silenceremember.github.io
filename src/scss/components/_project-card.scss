@@ -449,13 +449,6 @@
     outline: none;
   }
 
-  &:active {
-    background-color: var(--color-text-primary);
-    border-color: var(--color-text-primary);
-    color: var(--color-bg-primary);
-    outline: none;
-  }
-
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;

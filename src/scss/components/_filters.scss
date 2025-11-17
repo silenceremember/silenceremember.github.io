@@ -225,11 +225,6 @@
     color: var(--color-bg-primary);
   }
 
-  &:active {
-    background-color: var(--color-text-primary);
-    color: var(--color-bg-primary);
-  }
-
   &:focus {
     outline: none;
     background-color: var(--color-accent);

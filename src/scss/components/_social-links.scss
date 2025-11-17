@@ -18,10 +18,6 @@
   fill: var(--color-accent);
 }
 
-.social-link:active svg {
-  fill: var(--color-text-primary);
-}
-
 /* Отключаем hover эффекты на мобильных и планшетах */
 @include tablet-and-mobile {
   .social-link:hover svg {

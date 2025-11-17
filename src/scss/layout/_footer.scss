@@ -102,11 +102,6 @@
   border-color: var(--color-accent);
 }
 
-/* Состояние нажатия: черная внутренняя обводка */
-.footer-decorative-square:active:not(.active) {
-  border-color: var(--color-text-primary);
-}
-
 /* Активное состояние: красный фон */
 .footer-decorative-square.active {
   background-color: var(--color-accent);
