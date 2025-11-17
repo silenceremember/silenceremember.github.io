@@ -277,7 +277,9 @@
       "status": "completed",
       "description": "Концепт-док игры - симуляторный 2D бой на мечах",
       "fullDescription": "Концепт-док игры Edge of a Blade - симуляторного 2D боя на мечах. Детальная проработка механик, систем и игрового процесса.",
-      "media": {},
+      "media": {
+        "preview": "assets/images/projects/edge-of-a-blade/preview.webp"
+      },
       "documents": [
         {
           "type": "concept-doc",
@@ -285,7 +287,9 @@
           "url": "assets/documents/projects/skillbox/edge-of-a-blade-concept.pdf"
         }
       ],
-      "links": {},
+      "links": {
+        "concept": "https://docs.google.com/spreadsheets/d/1xReKq4H_dXWN13aAuhny5kp9nOZkxFV21tLip_2XkQg/edit?usp=sharing"
+      },
       "tags": ["concept", "2d", "combat", "simulator", "skillbox"],
       "featured": false,
       "technologies": []
