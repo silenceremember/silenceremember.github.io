@@ -32,14 +32,10 @@ if (isAnalyticsEnabled() && GA_MEASUREMENT_ID) {
       
       // Определяем правильный домен для cookies
       const hostname = window.location.hostname;
-      let cookieDomain = 'none'; // По умолчанию отключаем cookies
       
-      // Для GitHub Pages используем явный домен без точки
-      if (hostname.includes('github.io')) {
-        cookieDomain = hostname; // Используем полный домен без точки в начале
-      } else if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
-        cookieDomain = 'auto'; // Для других доменов используем автоопределение
-      }
+      // Для GitHub Pages отключаем cookies полностью из-за ограничений браузера
+      // GA4 будет использовать localStorage для хранения данных
+      const isGitHubPages = hostname.includes('github.io');
       
       gtag('config', GA_MEASUREMENT_ID, {
         // Настройки приватности
@@ -47,11 +43,14 @@ if (isAnalyticsEnabled() && GA_MEASUREMENT_ID) {
         // Отключаем автоматическое отслеживание рекламных функций
         allow_google_signals: false,
         allow_ad_personalization_signals: false,
-        // Настройка cookies для GitHub Pages домена
-        cookie_domain: cookieDomain,
-        cookie_flags: cookieDomain !== 'none' ? 'SameSite=Lax;Secure' : undefined,
-        // Используем localStorage вместо cookies если cookies отключены
-        storage: cookieDomain === 'none' ? 'none' : undefined,
+        // Для GitHub Pages отключаем cookies, используем только localStorage
+        cookie_domain: isGitHubPages ? 'none' : 'auto',
+        // Отключаем cookies полностью для GitHub Pages
+        cookie_flags: isGitHubPages ? undefined : 'SameSite=Lax;Secure',
+        // Используем только localStorage для GitHub Pages (без cookies)
+        storage: isGitHubPages ? 'none' : undefined,
+        // Отключаем автоматическое создание cookies
+        cookie_update: !isGitHubPages,
       });
 
   // Отслеживание переходов между страницами (для SPA)
