@@ -96,6 +96,13 @@
   justify-items: start; /* Выравниваем элементы по левому краю */
   transition: gap var(--transition-duration-base) var(--timing-function-ease);
   width: 100%;
+
+  /* На tablet/mobile отступы управляются через родительские слайды */
+  @include tablet-and-mobile {
+    padding-top: 0;
+    padding-bottom: 0;
+    gap: var(--spacing-md);
+  }
 }
 
 /* Колонки контента */

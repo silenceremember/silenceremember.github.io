@@ -107,20 +107,35 @@
     padding-right: 0;
   }
 
-  /* Убираем верхний и нижний отступы для первого слайда */
-  .index-page .slide[data-slide='0'] {
+  /* Убираем все отступы у .slide элементов, отступы только через внутренние div */
+  .index-page .slide {
     padding-top: 0;
     padding-bottom: 0;
   }
 
+  /* Первый слайд: равные отступы сверху и снизу у .main-grid */
   .index-page .slide:first-child .main-grid {
     padding-left: var(--spacing-md);
     padding-right: var(--spacing-md);
+    padding-top: var(--spacing-page-top);
+    padding-bottom: var(--spacing-page-top);
   }
 
-  /* Добавляем нижний отступ для CTA секции, чтобы кнопки не заходили за футер */
-  .index-page #cta-section {
-    padding-bottom: calc(var(--header-footer-height) + var(--spacing-md));
+  /* Отступы для project-slide-content (слайды с проектами) */
+  .index-page .project-slide-content {
+    padding-top: var(--spacing-section-large-mobile);
+    padding-bottom: var(--spacing-section-large-mobile);
+  }
+
+  /* Отступы для cta-slide-content (последний слайд) - как у projects-navigation */
+  .index-page #cta-section .cta-slide-content {
+    padding-top: var(--spacing-xl);
+    padding-bottom: var(--spacing-xl);
+  }
+
+  /* Убираем margin-bottom у последних элементов в cta-slide-content */
+  .index-page #cta-section .cta-slide-content > *:last-child {
+    margin-bottom: 0;
   }
 
   /* Скрываем заголовок "ИЗБРАННЫЕ РАБОТЫ" в слайдах 3 и 4 на tablet/mobile,

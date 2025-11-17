@@ -66,6 +66,11 @@
 
 .slide:first-child .main-grid {
   padding: var(--spacing-xl) 0;
+
+  @include tablet-and-mobile {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
 }
 
 /* Стили для проектных слайдов */
@@ -76,7 +81,7 @@
   box-sizing: border-box;
   flex-direction: column;
   align-items: stretch;
-  gap: var(--spacing-sm);
+  gap: 0;
   width: 100%;
   max-width: 100%;
 }
@@ -215,6 +220,7 @@
   background-color: var(--color-placeholder);
   border: 1px solid var(--color-text-primary);
   height: auto;
+  margin-top: var(--spacing-sm);
 }
 
 .project-image-previews {
@@ -259,6 +265,7 @@
   flex-direction: column;
   gap: var(--spacing-md);
   flex: 2; /* Задаем пропорцию для текста */
+  margin-top: var(--spacing-sm);
   min-width: 0; /* Предотвращаем переполнение */
 }
 
@@ -301,7 +308,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--spacing-lg);
+  gap: 0;
   text-align: center;
   box-sizing: border-box;
   width: 100%;

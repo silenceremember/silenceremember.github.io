@@ -262,16 +262,11 @@
     height: auto;
     min-height: auto;
     width: 100%;
-    padding: var(--spacing-xl) 0;
+    padding-top: 0;
+    padding-bottom: 0;
     pointer-events: auto !important;
     transition: padding var(--transition-duration-base) var(--timing-function-ease);
     z-index: auto !important;
-  }
-
-  /* Убираем верхний и нижний отступы для первого слайда */
-  .slides-container.tablet-scroll-mode .slide[data-slide='0'] {
-    padding-top: 0;
-    padding-bottom: 0;
   }
 
   .slides-container.tablet-scroll-mode .slide:first-child .main-grid,
@@ -285,15 +280,38 @@
     box-sizing: border-box;
   }
 
-  /* Убираем верхний и нижний отступы для main-grid первого слайда */
+  /* Добавляем верхний и нижний отступы для project-slide-content */
+  .slides-container.tablet-scroll-mode .project-slide-content {
+    padding-top: var(--spacing-section-large-mobile);
+    padding-bottom: var(--spacing-section-large-mobile);
+  }
+
+  /* Первый слайд: равные отступы сверху и снизу у .main-grid */
   .slides-container.tablet-scroll-mode .slide[data-slide='0'] .main-grid {
+    padding-top: var(--spacing-page-top);
+    padding-bottom: var(--spacing-page-top);
+  }
+
+  /* Gap у cta-slide-content на tablet/mobile убран, используем только margin/padding через div */
+  .slides-container.tablet-scroll-mode .cta-slide-content {
+    gap: 0;
+  }
+
+  /* Убираем верхний и нижний отступы для main-grid всех слайдов */
+  .slides-container.tablet-scroll-mode .slide .main-grid {
     padding-top: 0;
     padding-bottom: 0;
   }
 
-  /* Добавляем нижний отступ для CTA секции, чтобы кнопки не заходили за футер */
-  .slides-container.tablet-scroll-mode #cta-section {
-    padding-bottom: calc(var(--header-footer-height) + var(--spacing-md));
+  /* Последний слайд (CTA): верхний и нижний отступы у .cta-slide-content - как у projects-navigation */
+  .slides-container.tablet-scroll-mode #cta-section .cta-slide-content {
+    padding-top: var(--spacing-xl);
+    padding-bottom: var(--spacing-xl);
+  }
+
+  /* Убираем margin-bottom у последних элементов в cta-slide-content */
+  .slides-container.tablet-scroll-mode #cta-section .cta-slide-content > *:last-child {
+    margin-bottom: 0;
   }
 
   .slides-container.tablet-scroll-mode
@@ -352,16 +370,11 @@
     height: auto;
     min-height: auto;
     width: 100%;
-    padding: var(--spacing-xl) 0;
+    padding-top: 0;
+    padding-bottom: 0;
     pointer-events: auto !important;
     transition: padding var(--transition-duration-base) var(--timing-function-ease);
     z-index: auto !important;
-  }
-
-  /* Убираем верхний и нижний отступы для первого слайда */
-  .slides-container.tablet-scroll-mode .slide[data-slide='0'] {
-    padding-top: 0;
-    padding-bottom: 0;
   }
 
   .slides-container.tablet-scroll-mode .slide:first-child .main-grid,
@@ -375,15 +388,38 @@
     box-sizing: border-box;
   }
 
-  /* Убираем верхний и нижний отступы для main-grid первого слайда */
+  /* Добавляем верхний и нижний отступы для project-slide-content */
+  .slides-container.tablet-scroll-mode .project-slide-content {
+    padding-top: var(--spacing-section-large-mobile);
+    padding-bottom: var(--spacing-section-large-mobile);
+  }
+
+  /* Первый слайд: равные отступы сверху и снизу у .main-grid */
   .slides-container.tablet-scroll-mode .slide[data-slide='0'] .main-grid {
+    padding-top: var(--spacing-page-top);
+    padding-bottom: var(--spacing-page-top);
+  }
+
+  /* Gap у cta-slide-content на tablet/mobile убран, используем только margin/padding через div */
+  .slides-container.tablet-scroll-mode .cta-slide-content {
+    gap: 0;
+  }
+
+  /* Убираем верхний и нижний отступы для main-grid всех слайдов */
+  .slides-container.tablet-scroll-mode .slide .main-grid {
     padding-top: 0;
     padding-bottom: 0;
   }
 
-  /* Добавляем нижний отступ для CTA секции, чтобы кнопки не заходили за футер */
-  .slides-container.tablet-scroll-mode #cta-section {
-    padding-bottom: calc(var(--header-footer-height) + var(--spacing-md));
+  /* Последний слайд (CTA): верхний и нижний отступы у .cta-slide-content - как у projects-navigation */
+  .slides-container.tablet-scroll-mode #cta-section .cta-slide-content {
+    padding-top: var(--spacing-xl);
+    padding-bottom: var(--spacing-xl);
+  }
+
+  /* Убираем margin-bottom у последних элементов в cta-slide-content */
+  .slides-container.tablet-scroll-mode #cta-section .cta-slide-content > *:last-child {
+    margin-bottom: 0;
   }
 
   .slides-container.tablet-scroll-mode
