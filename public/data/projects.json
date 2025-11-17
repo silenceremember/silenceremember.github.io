@@ -59,7 +59,7 @@
       "category": "games",
       "type": "game",
       "role": "team-lead",
-      "year": 2024,
+      "year": 2025,
       "status": "in-development",
       "description": "Динамичный PvP Top-Down шутер в разработке",
       "fullDescription": "Capybara Bunk - это top-down шутер, разрабатываемый командой 2IQ. Проект включает полный цикл разработки: от концепции уровня до нарративного дизайна. Я руковожу командой в качестве гейм-дизайнера и тимлида, отвечаю за стратегическое видение (Vision), лор (Bible) и проектирование ключевых систем (GDD, UI Flow).",
@@ -218,7 +218,10 @@
           "url": "assets/documents/projects/skillbox/assignment-concept.pdf"
         }
       ],
-      "links": {},
+      "links": {
+        "document": "https://docs.google.com/document/d/19t0UzWGSesBgbiOmchBNCp7uN3sS9mF8qLfaWQfRTDQ/edit?usp=sharing"
+      },
+      "comingSoon": false,
       "tags": ["analysis", "concept", "improvement", "skillbox", "case-study"],
       "featured": false,
       "technologies": []
@@ -241,7 +244,10 @@
           "url": "assets/documents/projects/skillbox/assignment-decomposition.pdf"
         }
       ],
-      "links": {},
+      "links": {
+        "document": "https://docs.google.com/document/d/14Yfol-FkqrOKm-gx2bZCW28ivScmY57XmEhz2RZ-O8U/edit?usp=sharing"
+      },
+      "comingSoon": false,
       "tags": ["analysis", "decomposition", "gamedesign", "skillbox", "case-study"],
       "featured": false,
       "technologies": []
@@ -279,7 +285,7 @@
       "category": "research",
       "type": "document",
       "role": "solo",
-      "year": 2024,
+      "year": 2025,
       "status": "completed",
       "description": "Разбор Dark Messiah of Might and Magic по пути героя Воглера",
       "fullDescription": "Детальный разбор игры Dark Messiah of Might and Magic по структуре пути героя Воглера. Анализ нарративной структуры и её применения в игре.",
@@ -291,7 +297,10 @@
           "url": "assets/documents/projects/ranepa/narrative/dz2-dark-messiah.pdf"
         }
       ],
-      "links": {},
+      "links": {
+        "presentation": "https://docs.google.com/presentation/d/17j2HR1JpiZh1xhHnALkh0U3Z9SRhuE4ecBb2YduRJeA/edit?usp=sharing"
+      },
+      "comingSoon": false,
       "tags": ["narrative", "vogler", "hero-journey", "ranepa"],
       "featured": false,
       "technologies": []
@@ -302,7 +311,7 @@
       "category": "research",
       "type": "document",
       "role": "solo",
-      "year": 2024,
+      "year": 2025,
       "status": "completed",
       "description": "Разбор пролога сюжета Disco Elysium по 4 слоям нарративного дизайна",
       "fullDescription": "Детальный разбор пролога сюжета Disco Elysium по 4 слоям нарративного дизайна (методология Frictional Games). Анализ многослойной структуры повествования.",
@@ -314,7 +323,10 @@
           "url": "assets/documents/projects/ranepa/narrative/dz5-disco-elysium.pdf"
         }
       ],
-      "links": {},
+      "links": {
+        "presentation": "https://docs.google.com/presentation/d/1SNIyt3Yp0KUyv1EQ-WMwJTTNOOGBUl-w6hFtTFyXOHs/edit?usp=sharing"
+      },
+      "comingSoon": false,
       "tags": ["narrative", "disco-elysium", "frictional-games", "ranepa"],
       "featured": false,
       "technologies": []
