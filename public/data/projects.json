@@ -185,7 +185,9 @@
       "status": "in-progress",
       "description": "Выпускная квалификационная работа магистратуры",
       "fullDescription": "Первая глава дипломной работы (ВКР) магистратуры, посвященная системе процедурной генерации нарративного дизайна для компьютерных игр жанра роуглайк. Работа включает анализ существующих подходов и разработку собственной системы.",
-      "media": {},
+      "media": {
+        "preview": "assets/images/projects/diploma-chapter-1/preview.webp"
+      },
       "documents": [
         {
           "type": "diploma",
@@ -526,7 +528,9 @@
       "status": "completed",
       "description": "Назначение пинка и атаки в прыжке на отдельные кнопки",
       "fullDescription": "AutoHotkey скрипт для Dark Souls 1, решающий проблему и позволяющий выполнять пинок и атаку в прыжке на отдельные кнопки.",
-      "media": {},
+      "media": {
+        "preview": "assets/images/projects/dark-souls-ahk/preview.webp"
+      },
       "documents": [],
       "links": {
         "github": "https://github.com/silenceremember/dark-souls-hotkeys"
@@ -545,7 +549,9 @@
       "status": "completed",
       "description": "Решение проблемы с перемещением курсора на другой экран в игре",
       "fullDescription": "AutoHotkey скрипт для Elden Ring, решающий проблему и позволяющий залочить курсор в окне игры при игре на нескольких мониторах.",
-      "media": {},
+      "media": {
+        "preview": "assets/images/projects/elden-ring-ahk/preview.webp"
+      },
       "documents": [],
       "links": {
         "github": "https://github.com/silenceremember/elden-ring-cursor-lock"
@@ -564,7 +570,9 @@
       "status": "completed",
       "description": "Унификация навигации в разных 3D/2D пакетах",
       "fullDescription": "AutoHotkey скрипт, решающий проблему навигации в разных 3D и 2D пакетах, стараясь привести навигацию к одному виду. Скрипт отслеживает процессы и активное окно, эмулирует навигацию Blender исходя из того, какое окно активно.",
-      "media": {},
+      "media": {
+        "preview": "assets/images/projects/blender-to-all-ahk/preview.webp"
+      },
       "documents": [],
       "links": {
         "github": "https://github.com/silenceremember/blender-to-all"
