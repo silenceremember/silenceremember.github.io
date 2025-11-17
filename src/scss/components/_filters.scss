@@ -167,6 +167,8 @@
   top: calc(100% + var(--spacing-xs));
   left: 0;
   background-color: transparent;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border: var(--line-width) solid var(--color-divider);
   z-index: 1000;
   max-height: 300px;
@@ -197,6 +199,8 @@
   gap: var(--spacing-xs);
   padding: var(--spacing-xs) var(--spacing-sm);
   background-color: transparent;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border: none;
   border-bottom: var(--line-width) solid var(--color-divider);
   color: var(--color-text-primary);
