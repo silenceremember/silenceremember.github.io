@@ -33,26 +33,16 @@ export class ThemeSwitcher {
     // Убеждаемся, что начальное состояние установлено правильно
     this.moonIcon.classList.remove('active');
     this.sunIcon.classList.remove('active');
-    
-    // Устанавливаем начальные стили явно
-    this.moonIcon.style.opacity = '0';
-    this.moonIcon.style.visibility = 'hidden';
-    this.sunIcon.style.opacity = '0';
-    this.sunIcon.style.visibility = 'hidden';
 
     this.themeButton.addEventListener('click', () => this.toggleTheme());
 
     // Применяем сохраненную тему при загрузке
-    // Используем небольшую задержку, чтобы убедиться, что SVG загружены
     const savedTheme = localStorage.getItem('theme') || 'light';
     
-    // Применяем тему сразу
-    this.applyTheme(savedTheme);
-    
-    // Также применяем после небольшой задержки на случай, если SVG еще загружаются
-    setTimeout(() => {
+    // Используем requestAnimationFrame для гарантии, что DOM готов
+    requestAnimationFrame(() => {
       this.applyTheme(savedTheme);
-    }, 100);
+    });
   }
 
   /**
@@ -71,22 +61,15 @@ export class ThemeSwitcher {
     this.moonIcon.classList.remove('active');
     this.sunIcon.classList.remove('active');
 
-    // Добавляем класс active только к активной иконке
-    if (theme === 'dark') {
-      this.sunIcon.classList.add('active');
-      // Убеждаемся, что moon скрыта
-      this.moonIcon.style.opacity = '0';
-      this.moonIcon.style.visibility = 'hidden';
-      this.sunIcon.style.opacity = '1';
-      this.sunIcon.style.visibility = 'visible';
-    } else {
-      this.moonIcon.classList.add('active');
-      // Убеждаемся, что sun скрыта
-      this.sunIcon.style.opacity = '0';
-      this.sunIcon.style.visibility = 'hidden';
-      this.moonIcon.style.opacity = '1';
-      this.moonIcon.style.visibility = 'visible';
-    }
+    // Небольшая задержка для гарантии, что классы удалены
+    requestAnimationFrame(() => {
+      // Добавляем класс active только к активной иконке
+      if (theme === 'dark') {
+        this.sunIcon.classList.add('active');
+      } else {
+        this.moonIcon.classList.add('active');
+      }
+    });
   }
 
   /**
