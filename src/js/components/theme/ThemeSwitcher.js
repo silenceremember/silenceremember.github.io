@@ -64,6 +64,13 @@ export class ThemeSwitcher {
     // Добавляем класс active только к активной иконке синхронно
     if (theme === 'dark') {
       this.sunIcon.classList.add('active');
+      // Принудительно обновляем стили после добавления класса
+      void this.sunIcon.offsetHeight;
+      // Явно устанавливаем стили для гарантии
+      this.moonIcon.style.opacity = '0';
+      this.moonIcon.style.visibility = 'hidden';
+      this.sunIcon.style.opacity = '1';
+      this.sunIcon.style.visibility = 'visible';
       console.log('Applied dark theme, sun icon active', {
         moonHasActive: this.moonIcon.classList.contains('active'),
         sunHasActive: this.sunIcon.classList.contains('active'),
@@ -72,6 +79,13 @@ export class ThemeSwitcher {
       });
     } else {
       this.moonIcon.classList.add('active');
+      // Принудительно обновляем стили после добавления класса
+      void this.moonIcon.offsetHeight;
+      // Явно устанавливаем стили для гарантии
+      this.sunIcon.style.opacity = '0';
+      this.sunIcon.style.visibility = 'hidden';
+      this.moonIcon.style.opacity = '1';
+      this.moonIcon.style.visibility = 'visible';
       console.log('Applied light theme, moon icon active', {
         moonHasActive: this.moonIcon.classList.contains('active'),
         sunHasActive: this.sunIcon.classList.contains('active'),
