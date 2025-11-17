@@ -94,7 +94,9 @@
           "url": "assets/documents/projects/ranepa/capybara-bunk/three-act.pdf"
         }
       ],
-      "links": {},
+      "links": {
+        "site": "https://sites.google.com/view/maxim-elchaninov-capybara-bunk/capybara-bunk"
+      },
       "tags": [
         "top-down",
         "shooter",
@@ -103,7 +105,6 @@
         "narrative",
         "ranepa"
       ],
-      "comingSoon": true,
       "featured": true,
       "displayMeta": {
         "genre": "TOP DOWN SHOOTER",
@@ -332,75 +333,6 @@
       "technologies": []
     },
     {
-      "id": "ranepa-dz4",
-      "title": "ДЗ4 - Концепция уровня (Capybara Bunk)",
-      "category": "games",
-      "type": "document",
-      "role": "solo",
-      "year": 2024,
-      "status": "completed",
-      "description": "Концепция уровня для Capybara Bunk",
-      "fullDescription": "Концепция уровня для проекта Capybara Bunk. Детальная проработка дизайна уровня, размещения объектов и игрового потока.",
-      "media": {},
-      "documents": [
-        {
-          "type": "level-concept",
-          "title": "ДЗ4 - Концепция уровня",
-          "url": "assets/documents/projects/ranepa/capybara-bunk/level-concept.pdf"
-        }
-      ],
-      "links": {},
-      "tags": ["level-design", "capybara-bunk", "ranepa"],
-      "featured": false,
-      "technologies": []
-    },
-    {
-      "id": "ranepa-dz5",
-      "title": "ДЗ5 - Референсы (Capybara Bunk)",
-      "category": "games",
-      "type": "document",
-      "role": "solo",
-      "year": 2024,
-      "status": "completed",
-      "description": "Референсы графики и музыки для Capybara Bunk",
-      "fullDescription": "Подбор и анализ референсов графики и музыки для проекта Capybara Bunk. Определение визуального стиля и аудио-атмосферы игры.",
-      "media": {},
-      "documents": [
-        {
-          "type": "references",
-          "title": "ДЗ5 - Референсы графики и музыки",
-          "url": "assets/documents/projects/ranepa/capybara-bunk/references.pdf"
-        }
-      ],
-      "links": {},
-      "tags": ["references", "art", "audio", "capybara-bunk", "ranepa"],
-      "featured": false,
-      "technologies": []
-    },
-    {
-      "id": "ranepa-dz6",
-      "title": "ДЗ6 - ТЗ для художника (Capybara Bunk)",
-      "category": "games",
-      "type": "document",
-      "role": "solo",
-      "year": 2024,
-      "status": "completed",
-      "description": "Техническое задание для художника",
-      "fullDescription": "Техническое задание для художника по проекту Capybara Bunk. Детальное описание требований к визуальному стилю, ассетам и их реализации.",
-      "media": {},
-      "documents": [
-        {
-          "type": "artist-brief",
-          "title": "ДЗ6 - ТЗ для художника",
-          "url": "assets/documents/projects/ranepa/capybara-bunk/artist-brief.pdf"
-        }
-      ],
-      "links": {},
-      "tags": ["artist-brief", "art-direction", "capybara-bunk", "ranepa"],
-      "featured": false,
-      "technologies": []
-    },
-    {
       "id": "narrative-dz1",
       "title": "ДЗ1 - Игры без нарратива?",
       "category": "research",
@@ -443,58 +375,6 @@
       ],
       "links": {},
       "tags": ["narrative", "vogler", "hero-journey", "ranepa"],
-      "featured": false,
-      "technologies": []
-    },
-    {
-      "id": "narrative-dz3",
-      "title": "ДЗ3 - Нарративный концепт сеттинга (Capybara Bunk)",
-      "category": "games",
-      "type": "document",
-      "role": "solo",
-      "year": 2024,
-      "status": "completed",
-      "description": "Нарративный концепт сеттинга Capybara Bunk",
-      "fullDescription": "Нарративный концепт сеттинга для проекта Capybara Bunk. Детальная проработка мира, его истории, культуры и атмосферы.",
-      "media": {},
-      "documents": [
-        {
-          "type": "narrative-setting",
-          "title": "ДЗ3 - Нарративный концепт сеттинга",
-          "url": "assets/documents/projects/ranepa/capybara-bunk/narrative-setting.pdf"
-        }
-      ],
-      "links": {},
-      "tags": [
-        "narrative",
-        "setting",
-        "world-building",
-        "capybara-bunk",
-        "ranepa"
-      ],
-      "featured": false,
-      "technologies": []
-    },
-    {
-      "id": "narrative-dz4",
-      "title": "ДЗ4 - Трехактовый сюжет (Capybara Bunk)",
-      "category": "games",
-      "type": "document",
-      "role": "solo",
-      "year": 2024,
-      "status": "completed",
-      "description": "Нарративный концепт трехактового сюжета для Capybara Bunk",
-      "fullDescription": "Нарративный концепт возможного трехактового сюжета, разворачивающегося в Capybara Bunk. Структурирование истории по классической трехактной структуре.",
-      "media": {},
-      "documents": [
-        {
-          "type": "three-act",
-          "title": "ДЗ4 - Трехактовый сюжет",
-          "url": "assets/documents/projects/ranepa/capybara-bunk/three-act.pdf"
-        }
-      ],
-      "links": {},
-      "tags": ["narrative", "three-act", "story", "capybara-bunk", "ranepa"],
       "featured": false,
       "technologies": []
     },
@@ -598,23 +478,6 @@
     {
       "id": "thermic-spirit",
       "title": "Thermic Spirit",
-      "category": "games",
-      "type": "game",
-      "role": "team",
-      "year": 2024,
-      "status": "completed",
-      "description": "Джем-игра",
-      "fullDescription": "Игра, созданная на трехдневном джеме.",
-      "media": {},
-      "documents": [],
-      "links": {},
-      "tags": ["jam", "game"],
-      "featured": false,
-      "technologies": []
-    },
-    {
-      "id": "chaidos",
-      "title": "ChaiDOS",
       "category": "games",
       "type": "game",
       "role": "team",
