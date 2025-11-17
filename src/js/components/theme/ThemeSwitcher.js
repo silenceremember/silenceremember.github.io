@@ -38,11 +38,7 @@ export class ThemeSwitcher {
 
     // Применяем сохраненную тему при загрузке
     const savedTheme = localStorage.getItem('theme') || 'light';
-    
-    // Используем requestAnimationFrame для гарантии, что DOM готов
-    requestAnimationFrame(() => {
-      this.applyTheme(savedTheme);
-    });
+    this.applyTheme(savedTheme);
   }
 
   /**
@@ -61,15 +57,12 @@ export class ThemeSwitcher {
     this.moonIcon.classList.remove('active');
     this.sunIcon.classList.remove('active');
 
-    // Небольшая задержка для гарантии, что классы удалены
-    requestAnimationFrame(() => {
-      // Добавляем класс active только к активной иконке
-      if (theme === 'dark') {
-        this.sunIcon.classList.add('active');
-      } else {
-        this.moonIcon.classList.add('active');
-      }
-    });
+    // Добавляем класс active только к активной иконке синхронно
+    if (theme === 'dark') {
+      this.sunIcon.classList.add('active');
+    } else {
+      this.moonIcon.classList.add('active');
+    }
   }
 
   /**
