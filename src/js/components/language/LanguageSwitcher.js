@@ -18,6 +18,15 @@ export class LanguageSwitcher {
     this.languageButton = document.querySelector('.header-language');
     if (!this.languageButton) return;
 
+    const ruIcon = this.languageButton.querySelector('.language-icon-ru');
+    const enIcon = this.languageButton.querySelector('.language-icon-en');
+    
+    // Убеждаемся, что начальное состояние установлено правильно
+    if (ruIcon && enIcon) {
+      ruIcon.classList.remove('active');
+      enIcon.classList.remove('active');
+    }
+
     this.applyLanguage(this.currentLanguage);
     this.languageButton.addEventListener('click', () => this.toggleLanguage());
 

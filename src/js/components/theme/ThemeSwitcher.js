@@ -24,6 +24,10 @@ export class ThemeSwitcher {
 
     if (!this.moonIcon || !this.sunIcon) return;
 
+    // Убеждаемся, что начальное состояние установлено правильно
+    this.moonIcon.classList.remove('active');
+    this.sunIcon.classList.remove('active');
+
     this.themeButton.addEventListener('click', () => this.toggleTheme());
 
     // Применяем сохраненную тему при загрузке

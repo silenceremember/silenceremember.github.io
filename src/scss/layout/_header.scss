@@ -99,16 +99,18 @@
     visibility var(--transition-duration-base) var(--timing-function-ease);
 }
 
-/* По умолчанию показываем RU иконку */
-.language-icon-ru {
-  opacity: 1;
-  visibility: visible;
-}
-
+/* Показываем только активную иконку */
 .language-icon-ru.active,
 .language-icon-en.active {
-  opacity: 1;
-  visibility: visible;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Скрываем неактивную иконку явно */
+.language-icon-ru:not(.active),
+.language-icon-en:not(.active) {
+  opacity: 0 !important;
+  visibility: hidden !important;
 }
 
 .language-icon-ru svg,
@@ -148,27 +150,18 @@
     visibility var(--transition-duration-base) var(--timing-function-ease);
 }
 
-/* По умолчанию показываем moon иконку (светлая тема) */
-.theme-icon-moon {
-  opacity: 1;
-  visibility: visible;
-}
-
-/* Для темной темы показываем sun иконку */
-[data-theme='dark'] .theme-icon-moon {
-  opacity: 0;
-  visibility: hidden;
-}
-
-[data-theme='dark'] .theme-icon-sun {
-  opacity: 1;
-  visibility: visible;
-}
-
+/* Показываем только активную иконку */
 .theme-icon-moon.active,
 .theme-icon-sun.active {
-  opacity: 1;
-  visibility: visible;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Скрываем неактивную иконку явно */
+.theme-icon-moon:not(.active),
+.theme-icon-sun:not(.active) {
+  opacity: 0 !important;
+  visibility: hidden !important;
 }
 
 .header-theme:hover svg {
