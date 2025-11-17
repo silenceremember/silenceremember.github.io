@@ -746,16 +746,25 @@ export class FluidBackground {
     
     document.addEventListener('visibilitychange', handleVisibilityChange);
     
-    // Also handle page focus/blur for better performance
-    window.addEventListener('blur', () => {
-      if (this.isInitialized && !this.isPaused) {
-        this.pause();
+    // Handle window focus/blur to ensure animation resumes when tab regains focus
+    // This is important for cases where navigation happens without mouse click
+    window.addEventListener('focus', () => {
+      // Always check document.hidden state when window gets focus
+      // This ensures animation resumes even if visibilitychange didn't fire
+      if (this.isInitialized && !document.hidden) {
+        this.isPageVisible = true;
+        if (this.isPaused) {
+          this.resume();
+        }
       }
     });
     
-    window.addEventListener('focus', () => {
-      if (this.isInitialized && this.isPaused && this.isPageVisible) {
-        this.resume();
+    // Only pause on blur if page is actually hidden
+    // Don't pause just because window lost focus (tab might still be visible)
+    window.addEventListener('blur', () => {
+      if (this.isInitialized && document.hidden && !this.isPaused) {
+        this.isPageVisible = false;
+        this.pause();
       }
     });
   }
@@ -1763,6 +1772,18 @@ export class FluidBackground {
   update() {
     if (!this.isInitialized || !this.gl) {
       return;
+    }
+
+    // Sync visibility state with document.hidden to handle edge cases
+    // This ensures animation resumes even if visibilitychange event didn't fire
+    const actuallyVisible = !document.hidden;
+    if (this.isPageVisible !== actuallyVisible) {
+      this.isPageVisible = actuallyVisible;
+      if (actuallyVisible && this.isPaused) {
+        this.resume();
+      } else if (!actuallyVisible && !this.isPaused) {
+        this.pause();
+      }
     }
 
     // Skip update if page is not visible
