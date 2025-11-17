@@ -2,7 +2,7 @@
  * Менеджер layout страницы
  * Управляет загрузкой и отображением header, footer и других компонентов макета
  */
-import { NavigationHelper } from '../utils/Navigation.js';
+import { NavigationHelper } from '../utils/Navigation';
 
 export class LayoutManager {
   /**

@@ -82,6 +82,10 @@ export default defineConfig({
   build: {
     outDir: '../dist',
     emptyOutDir: true,
+    // Исключаем ThemeInit.js из бандлинга (он загружается отдельно)
+    rollupOptions: {
+      external: ['/js/components/ThemeInit.js'],
+    },
     // Оптимизация размера бандла
     minify: 'esbuild', // Используем esbuild для быстрой минификации
     cssMinify: true,
