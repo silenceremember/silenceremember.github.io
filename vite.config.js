@@ -105,10 +105,14 @@ export default defineConfig({
         404: resolve(__dirname, 'src/404.html'),
       },
       output: {
-        // Стратегия разделения чанков для лучшего кеширования
+        // Стратегия разделения чанков для лучшего кеширования и уменьшения unused JS
         manualChunks: (id) => {
           // Разделяем node_modules на отдельные чанки
           if (id.includes('node_modules')) {
+            // Разделяем большие библиотеки для лучшего code splitting
+            if (id.includes('three') || id.includes('cannon')) {
+              return 'vendor-physics';
+            }
             // Vite и его зависимости (если есть)
             if (id.includes('vite')) {
               return 'vite-vendor';
@@ -116,15 +120,18 @@ export default defineConfig({
             // Остальные vendor библиотеки
             return 'vendor';
           }
-          // Разделяем страницы на отдельные чанки для лучшего кеширования
-          if (id.includes('/js/pages/')) {
-            const pageName = id.split('/js/pages/')[1].split('.')[0];
-            // Конвертируем PascalCase в kebab-case для имен чанков
-            const kebabCase = pageName
-              .replace(/([A-Z])/g, '-$1')
-              .toLowerCase()
-              .replace(/^-/, '');
-            return `page-${kebabCase}`;
+          // Разделяем страницы на отдельные чанки для lazy loading
+          if (id.includes('/js/pages/') || id.includes('/pages/')) {
+            const pageMatch = id.match(/\/(pages|js\/pages)\/([^/]+)\./);
+            if (pageMatch) {
+              const pageName = pageMatch[2];
+              // Конвертируем PascalCase в kebab-case для имен чанков
+              const kebabCase = pageName
+                .replace(/([A-Z])/g, '-$1')
+                .toLowerCase()
+                .replace(/^-/, '');
+              return `page-${kebabCase}`;
+            }
           }
           // Разделяем утилиты и компоненты для лучшего кеширования
           if (id.includes('/js/utils/')) {
@@ -151,7 +158,7 @@ export default defineConfig({
             return 'layout';
           }
           // Менеджеры анимаций - могут быть большими, разделяем
-          if (id.includes('/js/managers/')) {
+          if (id.includes('/js/managers/') || id.includes('/managers/')) {
             return 'managers';
           }
           // Фабрики
@@ -196,25 +203,5 @@ export default defineConfig({
     cssCodeSplit: true,
     // Оптимизация для лучшей производительности
     reportCompressedSize: false, // Отключаем отчет о размере для ускорения сборки
-    // Улучшенный code splitting для уменьшения unused JS
-    manualChunks: (id) => {
-      // Разделяем vendor библиотеки на отдельные чанки
-      if (id.includes('node_modules')) {
-        // Разделяем большие библиотеки
-        if (id.includes('three') || id.includes('cannon')) {
-          return 'vendor-physics';
-        }
-        return 'vendor';
-      }
-      // Разделяем компоненты по страницам для lazy loading
-      if (id.includes('/pages/')) {
-        const pageName = id.split('/pages/')[1].split('.')[0];
-        return `page-${pageName}`;
-      }
-      // Разделяем менеджеры
-      if (id.includes('/managers/')) {
-        return 'managers';
-      }
-    },
   },
 });
