@@ -57,6 +57,45 @@ export class ScrollManager {
   }
 
   /**
+   * Получает высоту header и footer
+   * @returns {number} Высота header/footer в пикселях
+   */
+  getHeaderFooterHeight() {
+    if (!this.header || !this.footer) return 0;
+
+    // Пытаемся получить значение из CSS переменной
+    const root = document.documentElement;
+    const cssValue = getComputedStyle(root).getPropertyValue(
+      '--header-footer-height'
+    );
+    if (cssValue) {
+      // Убираем 'px' и преобразуем в число
+      const height = parseFloat(cssValue);
+      if (!isNaN(height)) {
+        return height;
+      }
+    }
+
+    // Если CSS переменная недоступна, получаем из DOM
+    const headerHeight = this.header.offsetHeight || 0;
+    const footerHeight = this.footer.offsetHeight || 0;
+    // Возвращаем максимальное значение (обычно они одинаковые)
+    return Math.max(headerHeight, footerHeight);
+  }
+
+  /**
+   * Проверяет, видимы ли header и footer (не скрыты)
+   * @returns {boolean} true если header и footer видимы
+   */
+  areHeaderFooterVisible() {
+    if (!this.header || !this.footer) return false;
+    return (
+      !this.header.classList.contains('hidden') &&
+      !this.footer.classList.contains('hidden')
+    );
+  }
+
+  /**
    * Обработчик события скролла
    */
   handleScroll() {
@@ -79,8 +118,17 @@ export class ScrollManager {
     // Для других страниц только в режиме планшета
     if (!this.isScrollPage && !this.isTabletMode) return;
 
+    // Учитываем высоту header и footer при расчете atBottom, если они видимы
+    // Когда header и footer видимы, они перекрывают контент, уменьшая доступную область прокрутки
+    let effectiveClientHeight = clientHeight;
+    if (this.areHeaderFooterVisible()) {
+      const headerFooterHeight = this.getHeaderFooterHeight();
+      // Вычитаем высоты header и footer из доступной высоты viewport
+      effectiveClientHeight = clientHeight - headerFooterHeight * 2;
+    }
+
     const atTop = scrollTop <= 2;
-    const atBottom = scrollTop + clientHeight >= scrollHeight - 2;
+    const atBottom = scrollTop + effectiveClientHeight >= scrollHeight - 2;
     const scrollDelta = Math.abs(scrollTop - this.lastScrollTop);
     const isScrollingDown = scrollTop > this.lastScrollTop;
     const isScrollingUp = scrollTop < this.lastScrollTop;
