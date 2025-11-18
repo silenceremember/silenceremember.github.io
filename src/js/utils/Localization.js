@@ -31,6 +31,18 @@ class Localization {
       this.currentLanguage = lang;
       localStorage.setItem('language', lang);
       document.documentElement.lang = lang;
+      
+      // Принудительно применяем стили для Firefox после смены языка
+      // Это предотвращает изменение размеров шрифтов при переключении языка
+      if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+        // Принудительно пересчитываем стили для всех элементов
+        document.body.style.fontSize = getComputedStyle(document.body).fontSize;
+        // Небольшая задержка для гарантии применения стилей
+        requestAnimationFrame(() => {
+          document.body.style.fontSize = '';
+        });
+      }
+      
       this.notifyListeners();
     } catch (error) {
       console.error('Error loading translations:', error);

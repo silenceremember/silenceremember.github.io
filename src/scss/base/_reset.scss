@@ -19,6 +19,16 @@ html {
     color, background-color, border-color, fill, stroke, box-shadow;
   transition-duration: var(--transition-duration-base);
   transition-timing-function: ease;
+  /* Фиксируем размер шрифта независимо от языка для Firefox */
+  font-size: 16px;
+}
+
+/* Гарантируем одинаковые размеры шрифтов для всех языков в Firefox */
+html[lang="ru"],
+html[lang="en"] {
+  font-size: 16px;
+  -moz-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {

@@ -12,6 +12,24 @@ body {
     color var(--transition-duration-base) ease;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Фиксируем размер шрифта независимо от языка для Firefox */
+  -moz-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Гарантируем одинаковые размеры шрифтов для всех языков в Firefox */
+html[lang="ru"] body,
+html[lang="en"] body {
+  font-size: var(--font-size-base);
+  -moz-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Гарантируем одинаковые размеры шрифтов для всех элементов независимо от языка в Firefox */
+html[lang="ru"] *,
+html[lang="en"] * {
+  -moz-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 /* Заголовки */
