@@ -124,6 +124,12 @@
 /* Стили для слайдов в tablet/mobile режиме */
 /* Применяются при ширине <=1023px ИЛИ высоте <900px */
 @include tablet-and-mobile {
+  /* Разрешаем overscroll для pull-to-refresh на мобильных устройствах */
+  html:not(.page-with-scroll),
+  body:not(.page-with-scroll) {
+    overscroll-behavior-y: auto;
+  }
+
   /* Стили для главной страницы в мобильном режиме */
   body:not(.page-with-scroll) .page-wrapper {
     display: block;
@@ -518,8 +524,14 @@
 
 /* Стили для страниц с прокруткой в tablet/mobile режиме */
 @include tablet-and-mobile {
+  /* Разрешаем overscroll для pull-to-refresh на мобильных устройствах */
+  html.page-with-scroll,
   body.page-with-scroll {
-    overflow: hidden !important;
+    overscroll-behavior-y: auto;
+  }
+
+  body.page-with-scroll {
+    overflow: visible !important;
     height: 100vh !important;
   }
 
@@ -659,6 +671,12 @@
 
   body.page-with-scroll main + .decorative-line-horizontal.hidden {
     transform: translate3d(0, calc(var(--header-footer-height) + 1px), 0);
+  }
+
+  /* Разрешаем overscroll для pull-to-refresh на странице 404 */
+  html.page-404,
+  body.page-404 {
+    overscroll-behavior-y: auto;
   }
 
   /* Стили для 404 страницы в tablet/mobile режиме */
