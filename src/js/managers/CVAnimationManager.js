@@ -212,9 +212,6 @@ export class CVAnimationManager extends BaseAnimationManager {
     // Скрываем все элементы сразу (включая те, что уже могут быть видимы при повторном посещении)
     this.hideAllCVElementsImmediately();
 
-    // Принудительный reflow для применения стилей скрытия
-    this.forceReflow(document.querySelector('.cv-section'));
-
     // Используем двойной requestAnimationFrame для синхронизации с браузером
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
@@ -222,20 +219,20 @@ export class CVAnimationManager extends BaseAnimationManager {
         // Это важно при повторном посещении страницы
         this.recheckAndHideElements();
 
-        // Принудительный reflow для применения стилей скрытия
-        const allSections = document.querySelectorAll(this.sectionSelector);
-        if (allSections.length > 0 && allSections[0].firstElementChild) {
-          void allSections[0].firstElementChild.offsetHeight;
-        }
-
         // Задержка перед запуском анимации для гарантии готовности
         setTimeout(() => {
-          // Собираем все элементы для синхронной анимации
+          // Кешируем секцию заголовка один раз
+          const headerSection = document.getElementById('cv-header-section');
+          
+          // Оптимизация: собираем все элементы для синхронной анимации за один проход
           const allElementsToAnimate = [];
+          const sectionsToAnimate = [];
 
           // Элементы заголовка
-          const headerSection = document.getElementById('cv-header-section');
           if (headerSection && headerSection.children.length > 0) {
+            sectionsToAnimate.push(headerSection);
+            
+            // Кешируем селекторы заголовка
             const name = headerSection.querySelector('.cv-header-name');
             const role = headerSection.querySelector('.cv-header-role');
             const contacts = headerSection.querySelector(
@@ -254,32 +251,25 @@ export class CVAnimationManager extends BaseAnimationManager {
             if (contacts) allElementsToAnimate.push(contacts);
             if (photo) allElementsToAnimate.push(photo);
             if (aboutContainer) allElementsToAnimate.push(aboutContainer);
-            aboutTexts.forEach((text) => {
-              if (text) allElementsToAnimate.push(text);
-            });
+            allElementsToAnimate.push(...aboutTexts);
             if (skillsGrid) allElementsToAnimate.push(skillsGrid);
-            skillCategories.forEach((category) => {
-              if (category) allElementsToAnimate.push(category);
-            });
-
-            // Анимируем саму секцию заголовка
-            animateSectionAppearance(headerSection);
+            allElementsToAnimate.push(...skillCategories);
           }
 
-          // Элементы остальных секций
-          const sections = [
-            document.getElementById('cv-work-section'),
-            document.getElementById('cv-education-section'),
-            document.getElementById('cv-certificates-section'),
-            document.getElementById('cv-courses-section'),
-            document.getElementById('cv-languages-section'),
-            document.getElementById('cv-download-section'),
+          // Элементы остальных секций - оптимизация: используем кешированные секции
+          const sectionIds = [
+            'cv-work-section',
+            'cv-education-section',
+            'cv-certificates-section',
+            'cv-courses-section',
+            'cv-languages-section',
+            'cv-download-section',
           ];
 
-          sections.forEach((section) => {
+          sectionIds.forEach((id) => {
+            const section = document.getElementById(id);
             if (section && section.children.length > 0) {
-              // Анимируем саму секцию
-              animateSectionAppearance(section);
+              sectionsToAnimate.push(section);
 
               // Собираем элементы секции
               const sectionTitle = section.querySelector('.cv-section-title');
@@ -294,12 +284,10 @@ export class CVAnimationManager extends BaseAnimationManager {
                   allElementsToAnimate.push(container);
 
                   // Убираем inline стили с элементов внутри контейнера
+                  // Оптимизация: используем batch DOM операции
                   const itemsInside = container.querySelectorAll('*');
                   itemsInside.forEach((item) => {
                     if (item) {
-                      item.style.setProperty('opacity', '', '');
-                      item.style.setProperty('transform', '', '');
-                      item.style.setProperty('transition', '', '');
                       item.style.removeProperty('opacity');
                       item.style.removeProperty('transform');
                       item.style.removeProperty('transition');
@@ -308,66 +296,39 @@ export class CVAnimationManager extends BaseAnimationManager {
                 }
               });
 
-              // Элементы сертификатов, курсов, языков
+              // Собираем элементы секции пакетно
               const certificateItems = section.querySelectorAll(
                 '.cv-certificate-item'
               );
-              certificateItems.forEach((item) => {
-                if (item) allElementsToAnimate.push(item);
-              });
-
               const courseItems = section.querySelectorAll('.cv-course-item');
-              courseItems.forEach((item) => {
-                if (item) allElementsToAnimate.push(item);
-              });
-
               const languageItems =
                 section.querySelectorAll('.cv-language-item');
-              languageItems.forEach((item) => {
-                if (item) allElementsToAnimate.push(item);
-              });
-
-              // Кнопки скачивания
               const downloadButtons = section.querySelectorAll(
                 '.cv-download-button'
               );
-              downloadButtons.forEach((button) => {
-                allElementsToAnimate.push(button);
-              });
+
+              allElementsToAnimate.push(
+                ...certificateItems,
+                ...courseItems,
+                ...languageItems,
+                ...downloadButtons
+              );
             }
           });
 
-          // Принудительный reflow перед анимацией
-          if (allElementsToAnimate.length > 0 && allElementsToAnimate[0]) {
-            void allElementsToAnimate[0].offsetHeight;
-          }
-
-          // Анимируем все элементы одновременно без задержек
-          // Используем skipInitialState: false, чтобы гарантировать установку начального состояния
+          // Оптимизация: один принудительный reflow вместо нескольких
           if (allElementsToAnimate.length > 0) {
-            // Дополнительная проверка: убеждаемся, что элементы действительно скрыты перед анимацией
-            allElementsToAnimate.forEach((element) => {
-              if (element) {
-                const computedStyle = window.getComputedStyle(element);
-                const opacity = parseFloat(computedStyle.opacity);
-                // Если элемент все еще видим, снова скрываем его
-                if (opacity > 0.01) {
-                  element.style.setProperty('opacity', '0', 'important');
-                  element.style.setProperty(
-                    'transform',
-                    'translateY(10px)',
-                    'important'
-                  );
-                  element.style.setProperty('transition', 'none', 'important');
-                }
-              }
+            // Анимируем секции
+            sectionsToAnimate.forEach((section) => {
+              animateSectionAppearance(section);
             });
 
-            // Принудительный reflow перед анимацией
-            if (allElementsToAnimate.length > 0 && allElementsToAnimate[0]) {
-              void allElementsToAnimate[0].offsetHeight;
-            }
+            // Принудительный reflow один раз перед анимацией элементов
+            void allElementsToAnimate[0].offsetHeight;
 
+            // Анимируем все элементы одновременно
+            // Оптимизация: убрана избыточная проверка opacity для каждого элемента
+            // (hideAllCVElementsImmediately уже установила нужные стили)
             animateElementsAppearance(allElementsToAnimate, {
               skipInitialState: false,
             });

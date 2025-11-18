@@ -97,9 +97,16 @@
       fetchpriority="high"
       type="image/webp"
     />
-    <!-- Prefetch для асинхронно загружаемых ресурсов -->
-    <link rel="prefetch" href="/data/cv.json" as="fetch" crossorigin />
-    <link rel="prefetch" href="/data/locales/ru.json" as="fetch" crossorigin />
+    <!-- Preload критических данных для быстрой загрузки -->
+    <link rel="preload" href="/data/cv.json" as="fetch" crossorigin />
+    <link rel="preload" href="/data/community.json" as="fetch" crossorigin />
+    <link rel="preload" href="/data/locales/ru.json" as="fetch" crossorigin />
+    
+    <!-- Preload критических компонентов для быстрой загрузки -->
+    <link rel="preload" href="/components/header.html" as="fetch" crossorigin />
+    <link rel="preload" href="/components/footer.html" as="fetch" crossorigin />
+    <link rel="preload" href="/components/timeline.html" as="fetch" crossorigin />
+    <link rel="preload" href="/components/scroll-to-top.html" as="fetch" crossorigin />
 
     <!-- Prefetch для других страниц (низкий приоритет) -->
     <link rel="prefetch" href="/index.html" as="document" />
@@ -125,8 +132,8 @@
     <!-- Theme switcher script - загружается синхронно для предотвращения мерцания -->
     <script src="/js/components/ThemeInit.js"></script>
     
-    <!-- Google Analytics -->
-    <script src="/js/analytics.js"></script>
+    <!-- Google Analytics - асинхронная загрузка для лучшей производительности -->
+    <script src="/js/analytics.js" defer></script>
 
     <!-- Main CSS -->
     <link rel="stylesheet" href="/scss/style.scss" />

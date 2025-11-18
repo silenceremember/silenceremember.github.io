@@ -45,6 +45,7 @@ export class CVPage extends BasePage {
       '.timeline-item',
       false // Не используем кеш для timeline, так как он может изменяться
     );
+    return this.timelineTemplate;
   }
 
   /**
@@ -598,10 +599,7 @@ export class CVPage extends BasePage {
       workSection.appendChild(timelineContainer);
       // Убеждаемся, что секция видима после добавления контента
       workSection.style.visibility = 'visible';
-      // Скрываем элементы секции сразу
-      if (this.animationManager) {
-        this.animationManager.hideAllCVElementsImmediately();
-      }
+      // Скрытие элементов будет выполнено один раз в конце
     } else {
       workSection.style.display = 'none';
     }
@@ -645,10 +643,7 @@ export class CVPage extends BasePage {
       educationSection.appendChild(timelineContainer);
       // Убеждаемся, что секция видима после добавления контента
       educationSection.style.visibility = 'visible';
-      // Скрываем элементы секции сразу
-      if (this.animationManager) {
-        this.animationManager.hideAllCVElementsImmediately();
-      }
+      // Скрытие элементов будет выполнено один раз в конце
     } else {
       educationSection.style.display = 'none';
     }
@@ -689,18 +684,13 @@ export class CVPage extends BasePage {
     // Загружаем менеджер анимаций лениво
     await this.initAnimationManager();
 
-    // Скрываем все элементы сразу для предотвращения FOUC
-    if (this.animationManager) {
-      this.animationManager.hideAllCVElementsImmediately();
-    }
-
-    // Загружаем шаблоны
-    await this.loadTemplates();
-
-    // Загружаем данные
-    const cvData = await this.loadCVData();
+    // Параллельная загрузка шаблонов и данных для ускорения
+    const [cvData, communityData, timelineTemplate] = await Promise.all([
+      this.loadCVData(),
+      this.loadCommunityData(),
+      this.loadTemplates(),
+    ]);
     this.cvData = cvData; // Сохраняем для обновления при смене языка
-    const communityData = await this.loadCommunityData();
 
     // Скрываем индикатор загрузки и ждем завершения fadeout
     await this.loadingIndicator.hide();
@@ -749,10 +739,7 @@ export class CVPage extends BasePage {
       if (headerContent) {
         // Секция уже очищена в начале функции, просто добавляем контент
         headerSection.appendChild(headerContent);
-        // Скрываем элементы заголовка сразу
-        if (this.animationManager) {
-          this.animationManager.hideAllCVElementsImmediately();
-        }
+        // Скрытие элементов будет выполнено один раз в конце
       }
     }
 
@@ -799,10 +786,7 @@ export class CVPage extends BasePage {
         certificatesSection.appendChild(certificatesList);
         // Убеждаемся, что секция видима после добавления контента
         certificatesSection.style.visibility = 'visible';
-        // Скрываем элементы секции сразу
-        if (this.animationManager) {
-          this.animationManager.hideAllCVElementsImmediately();
-        }
+        // Скрытие элементов будет выполнено один раз в конце
       } else {
         certificatesSection.style.display = 'none';
       }
@@ -825,10 +809,7 @@ export class CVPage extends BasePage {
         coursesSection.appendChild(coursesList);
         // Убеждаемся, что секция видима после добавления контента
         coursesSection.style.visibility = 'visible';
-        // Скрываем элементы секции сразу
-        if (this.animationManager) {
-          this.animationManager.hideAllCVElementsImmediately();
-        }
+        // Скрытие элементов будет выполнено один раз в конце
       } else {
         coursesSection.style.display = 'none';
       }
@@ -851,10 +832,7 @@ export class CVPage extends BasePage {
         languagesSection.appendChild(languagesList);
         // Убеждаемся, что секция видима после добавления контента
         languagesSection.style.visibility = 'visible';
-        // Скрываем элементы секции сразу
-        if (this.animationManager) {
-          this.animationManager.hideAllCVElementsImmediately();
-        }
+        // Скрытие элементов будет выполнено один раз в конце
       } else {
         languagesSection.style.display = 'none';
       }
@@ -872,23 +850,20 @@ export class CVPage extends BasePage {
         downloadSection.appendChild(downloadButton);
         // Убеждаемся, что секция видима после добавления контента
         downloadSection.style.visibility = 'visible';
-        // Скрываем элементы секции сразу
-        if (this.animationManager) {
-          this.animationManager.hideAllCVElementsImmediately();
-        }
+        // Скрытие элементов будет выполнено один раз в конце
       }
     }
 
+    // Скрываем все элементы один раз после создания всего контента
+    if (this.animationManager) {
+      this.animationManager.hideAllCVElementsImmediately();
+    }
+
     // Убеждаемся, что прокрутка остается в начале после загрузки контента
-    // Это предотвращает "прыжки" при обновлении страницы
-    // Используем несколько попыток с задержками, чтобы переопределить возможное восстановление браузером
+    // Оптимизация: используем двойной requestAnimationFrame для надежности
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         this.ensureScrollAtTop();
-        setTimeout(() => this.ensureScrollAtTop(), 0);
-        setTimeout(() => this.ensureScrollAtTop(), 50);
-        setTimeout(() => this.ensureScrollAtTop(), 100);
-        setTimeout(() => this.ensureScrollAtTop(), 200);
       });
     });
 
