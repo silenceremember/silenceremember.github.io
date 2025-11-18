@@ -35,7 +35,6 @@
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     transition:
-      transform var(--transition-duration-base) var(--timing-function-ease),
       background-color var(--transition-duration-base) var(--timing-function-ease),
       color var(--transition-duration-base) var(--timing-function-ease);
     pointer-events: none;
@@ -63,7 +62,6 @@
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     transition:
-      transform var(--transition-duration-base) var(--timing-function-ease),
       background-color var(--transition-duration-base) var(--timing-function-ease),
       color var(--transition-duration-base) var(--timing-function-ease);
     pointer-events: none;
@@ -73,34 +71,19 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Убрано will-change для footer - это большой элемент (100vw ширина) */
-  /* Transition достаточно для плавной анимации */
-
   body:has(.slides-container) .footer-content,
   body:has(.slides-container) .footer-content * {
     pointer-events: auto;
-  }
-
-  body:has(.slides-container) .header.hidden {
-    transform: translate3d(0, -100%, 0);
-  }
-
-  body:has(.slides-container) .footer.hidden {
-    transform: translate3d(0, 100%, 0);
   }
 
   body:has(.slides-container) .header + .decorative-line-horizontal,
   body:has(.slides-container) main + .decorative-line-horizontal {
     position: fixed;
     left: 0;
-    transition: transform var(--transition-duration-base) var(--timing-function-ease);
     pointer-events: none;
     transform: translateZ(0);
     backface-visibility: hidden;
   }
-
-  /* Убрано will-change для декоративных линий - это большие элементы (100vw ширина) */
-  /* Transition достаточно для плавной анимации */
 
   body:has(.slides-container) .header + .decorative-line-horizontal {
     top: var(--header-footer-height);
@@ -108,14 +91,6 @@
 
   body:has(.slides-container) main + .decorative-line-horizontal {
     bottom: var(--header-footer-height);
-  }
-
-  body:has(.slides-container) .header + .decorative-line-horizontal.hidden {
-    transform: translate3d(0, calc(-1 * var(--header-footer-height) - 1px), 0);
-  }
-
-  body:has(.slides-container) main + .decorative-line-horizontal.hidden {
-    transform: translate3d(0, calc(var(--header-footer-height) + 1px), 0);
   }
 
   /* При высоте <900px применяем скролл для главной страницы (независимо от ширины) */
@@ -183,6 +158,9 @@
     background-color: color-mix(in srgb, var(--color-bg-primary) 50%, transparent);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
+    transition:
+      background-color var(--transition-duration-base) var(--timing-function-ease),
+      color var(--transition-duration-base) var(--timing-function-ease);
     pointer-events: none;
     transform: translateZ(0);
     backface-visibility: hidden;
@@ -207,6 +185,9 @@
     background-color: color-mix(in srgb, var(--color-bg-primary) 50%, transparent);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
+    transition:
+      background-color var(--transition-duration-base) var(--timing-function-ease),
+      color var(--transition-duration-base) var(--timing-function-ease);
     pointer-events: none;
     transform: translateZ(0);
     backface-visibility: hidden;
@@ -214,34 +195,19 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Убрано will-change для footer - это большой элемент (100vw ширина) */
-  /* Transition достаточно для плавной анимации */
-
   body:not(.page-with-scroll) .footer-content,
   body:not(.page-with-scroll) .footer-content * {
     pointer-events: auto;
-  }
-
-  body:not(.page-with-scroll) .header.hidden {
-    transform: translate3d(0, -100%, 0);
-  }
-
-  body:not(.page-with-scroll) .footer.hidden {
-    transform: translate3d(0, 100%, 0);
   }
 
   body:not(.page-with-scroll) .header + .decorative-line-horizontal,
   body:not(.page-with-scroll) main + .decorative-line-horizontal {
     position: fixed;
     left: 0;
-    transition: transform var(--transition-duration-base) var(--timing-function-ease);
     pointer-events: none;
     transform: translateZ(0);
     backface-visibility: hidden;
   }
-
-  /* Убрано will-change для декоративных линий - это большие элементы (100vw ширина) */
-  /* Transition достаточно для плавной анимации */
 
   body:not(.page-with-scroll) .header + .decorative-line-horizontal {
     top: var(--header-footer-height);
@@ -249,14 +215,6 @@
 
   body:not(.page-with-scroll) main + .decorative-line-horizontal {
     bottom: var(--header-footer-height);
-  }
-
-  body:not(.page-with-scroll) .header + .decorative-line-horizontal.hidden {
-    transform: translate3d(0, calc(-1 * var(--header-footer-height) - 1px), 0);
-  }
-
-  body:not(.page-with-scroll) main + .decorative-line-horizontal.hidden {
-    transform: translate3d(0, calc(var(--header-footer-height) + 1px), 0);
   }
 
   .slides-container.tablet-scroll-mode {
@@ -586,7 +544,6 @@
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     transition:
-      transform var(--transition-duration-base) var(--timing-function-ease),
       background-color var(--transition-duration-base) var(--timing-function-ease),
       color var(--transition-duration-base) var(--timing-function-ease);
     pointer-events: none;
@@ -604,10 +561,6 @@
     pointer-events: auto;
   }
 
-  body.page-with-scroll .header.hidden {
-    transform: translate3d(0, -100%, 0);
-  }
-
   body.page-with-scroll .footer {
     position: fixed;
     bottom: 0;
@@ -623,7 +576,6 @@
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     transition:
-      transform var(--transition-duration-base) var(--timing-function-ease),
       background-color var(--transition-duration-base) var(--timing-function-ease),
       color var(--transition-duration-base) var(--timing-function-ease);
     pointer-events: none;
@@ -633,16 +585,9 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Убрано will-change для footer - это большой элемент (100vw ширина) */
-  /* Transition достаточно для плавной анимации */
-
   body.page-with-scroll .footer-content,
   body.page-with-scroll .footer-content * {
     pointer-events: auto;
-  }
-
-  body.page-with-scroll .footer.hidden {
-    transform: translate3d(0, 100%, 0);
   }
 
   body.page-with-scroll .header + .decorative-line-horizontal,
@@ -652,15 +597,11 @@
     width: 100vw;
     height: var(--line-width);
     background-color: var(--line-color);
-    transition: transform var(--transition-duration-base) var(--timing-function-ease);
     pointer-events: none;
     z-index: 12;
     transform: translateZ(0);
     backface-visibility: hidden;
   }
-
-  /* Убрано will-change для декоративных линий - это большие элементы (100vw ширина) */
-  /* Transition достаточно для плавной анимации */
 
   body.page-with-scroll .header + .decorative-line-horizontal {
     top: var(--header-footer-height);
@@ -668,14 +609,6 @@
 
   body.page-with-scroll main + .decorative-line-horizontal {
     bottom: var(--header-footer-height);
-  }
-
-  body.page-with-scroll .header + .decorative-line-horizontal.hidden {
-    transform: translate3d(0, calc(-1 * var(--header-footer-height) - 1px), 0);
-  }
-
-  body.page-with-scroll main + .decorative-line-horizontal.hidden {
-    transform: translate3d(0, calc(var(--header-footer-height) + 1px), 0);
   }
 
   /* Стили для 404 страницы в tablet/mobile режиме */
@@ -713,7 +646,6 @@
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     transition:
-      transform var(--transition-duration-base) var(--timing-function-ease),
       background-color var(--transition-duration-base) var(--timing-function-ease),
       color var(--transition-duration-base) var(--timing-function-ease);
     pointer-events: none;
@@ -726,10 +658,6 @@
   body.page-404 .header-content,
   body.page-404 .header-content * {
     pointer-events: auto;
-  }
-
-  body.page-404 .header.hidden {
-    transform: translate3d(0, -100%, 0);
   }
 
   body.page-404 .footer {
@@ -746,7 +674,6 @@
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     transition:
-      transform var(--transition-duration-base) var(--timing-function-ease),
       background-color var(--transition-duration-base) var(--timing-function-ease),
       color var(--transition-duration-base) var(--timing-function-ease);
     pointer-events: none;
@@ -761,10 +688,6 @@
     pointer-events: auto;
   }
 
-  body.page-404 .footer.hidden {
-    transform: translate3d(0, 100%, 0);
-  }
-
   body.page-404 .header + .decorative-line-horizontal,
   body.page-404 main + .decorative-line-horizontal {
     position: fixed;
@@ -772,7 +695,6 @@
     width: 100vw;
     height: var(--line-width);
     background-color: var(--line-color);
-    transition: transform var(--transition-duration-base) var(--timing-function-ease);
     pointer-events: none;
     z-index: 12;
     transform: translateZ(0);
@@ -785,13 +707,5 @@
 
   body.page-404 main + .decorative-line-horizontal {
     bottom: var(--header-footer-height);
-  }
-
-  body.page-404 .header + .decorative-line-horizontal.hidden {
-    transform: translate3d(0, calc(-1 * var(--header-footer-height) - 1px), 0);
-  }
-
-  body.page-404 main + .decorative-line-horizontal.hidden {
-    transform: translate3d(0, calc(var(--header-footer-height) + 1px), 0);
   }
 }

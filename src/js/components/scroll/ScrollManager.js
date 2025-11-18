@@ -1,6 +1,7 @@
 /**
  * Менеджер скролла страницы
- * Управляет скрытием/показом header и footer при прокрутке
+ * Управляет скрытием/показом header и footer при прокрутке на desktop
+ * На mobile/tablet header и footer всегда видны и зафиксированы
  */
 export class ScrollManager {
   /**
@@ -19,13 +20,11 @@ export class ScrollManager {
     this.lastScrollTop = 0;
     this.isInitialized = false;
     this.ticking = false; // Флаг для requestAnimationFrame
-    this.lastKnownScrollPosition = 0;
     this.isScrolling = false; // Флаг активной прокрутки
     this.scrollTimeout = null; // Таймаут для определения окончания прокрутки
     this.headerFooterHeight = 0; // Кешированная высота хедера/футера
-    this.currentTranslateY = 0; // Текущее смещение хедера/футера (от 0 до headerFooterHeight)
-    this.currentFooterOffset = 0; // Текущее смещение футера для других компонентов
-    this.scrollToTopButton = null; // Ссылка на кнопку "наверх" для синхронного обновления
+    this.currentTranslateY = 0; // Текущее смещение хедера/футера (только для desktop)
+    this.scrollToTopButton = null; // Ссылка на кнопку "наверх"
   }
 
   /**
@@ -197,9 +196,11 @@ export class ScrollManager {
   onScrollEnd() {
     this.isScrolling = false;
 
-    // Для страниц со скроллом на десктопе всегда обрабатываем скролл
-    // Для других страниц только в режиме планшета
-    if (!this.isScrollPage && !this.isTabletMode) return;
+    // На мобильных/планшетах header и footer всегда видны
+    if (this.isTabletMode) return;
+
+    // Только для страниц со скроллом на десктопе
+    if (!this.isScrollPage) return;
 
     const scrollElement = this.getScrollElement();
     let scrollTop;
@@ -217,8 +218,7 @@ export class ScrollManager {
     }
 
     const atTop = scrollTop <= 10;
-    const bottomThreshold = this.isTabletMode ? 50 : 10;
-    const atBottom = scrollTop + clientHeight >= scrollHeight - bottomThreshold;
+    const atBottom = scrollTop + clientHeight >= scrollHeight - 10;
 
     // Если на верху или внизу страницы - показываем полностью
     if (atTop || atBottom) {
@@ -226,24 +226,11 @@ export class ScrollManager {
       return;
     }
 
-    // На мобильных устройствах применяем логику "больше половины"
-    if (this.isTabletMode) {
-      const visiblePercentage = (this.headerFooterHeight - Math.abs(this.currentTranslateY)) / this.headerFooterHeight;
-      
-      if (visiblePercentage > 0.5) {
-        // Показалось больше половины - доводим до полного показа
-        this.animateToFullyVisible();
-      } else {
-        // Показалось меньше половины - скрываем
-        this.animateToFullyHidden();
-      }
+    // На десктопе проверяем, больше ли половины скрыто
+    if (Math.abs(this.currentTranslateY) > this.headerFooterHeight / 2) {
+      this.animateToFullyHidden();
     } else {
-      // На десктопе используем старую логику
-      if (Math.abs(this.currentTranslateY) > this.headerFooterHeight / 2) {
-        this.animateToFullyHidden();
-      } else {
-        this.animateToFullyVisible();
-      }
+      this.animateToFullyVisible();
     }
   }
 
@@ -252,18 +239,7 @@ export class ScrollManager {
    */
   animateToFullyVisible() {
     this.currentTranslateY = 0;
-    this.enableTransitions();
-    
-    if (this.isTabletMode) {
-      // На мобильных используем transform с transition
-      this.applyPartialTransform(0, true);
-      // Убираем класс hidden для совместимости
-      this.header.classList.remove('hidden');
-      this.footer.classList.remove('hidden');
-      this.decorativeLines.forEach((line) => line.classList.remove('hidden'));
-    } else {
-      this.showHeaderFooter();
-    }
+    this.showHeaderFooter();
   }
 
   /**
@@ -271,50 +247,16 @@ export class ScrollManager {
    */
   animateToFullyHidden() {
     this.currentTranslateY = -this.headerFooterHeight;
-    this.enableTransitions();
-    
-    if (this.isTabletMode) {
-      // На мобильных используем transform с transition
-      this.applyPartialTransform(-this.headerFooterHeight, true);
-      // Добавляем класс hidden для совместимости
-      this.header.classList.add('hidden');
-      this.footer.classList.add('hidden');
-      this.decorativeLines.forEach((line) => line.classList.add('hidden'));
-    } else {
-      this.hideHeaderFooter();
-    }
-  }
-
-  /**
-   * Включает CSS transitions для плавной анимации
-   */
-  enableTransitions() {
-    if (this.isTabletMode) {
-      this.header.style.transition = 'transform 0.3s ease';
-      this.footer.style.transition = 'transform 0.3s ease';
-      this.decorativeLines.forEach((line) => {
-        line.style.transition = 'transform 0.3s ease';
-      });
-    }
-  }
-
-  /**
-   * Отключает CSS transitions для прямого управления
-   */
-  disableTransitions() {
-    if (this.isTabletMode) {
-      this.header.style.transition = 'none';
-      this.footer.style.transition = 'none';
-      this.decorativeLines.forEach((line) => {
-        line.style.transition = 'none';
-      });
-    }
+    this.hideHeaderFooter();
   }
 
   /**
    * Обновляет видимость header и footer
    */
   updateHeaderFooterVisibility() {
+    // На мобильных/планшетах header и footer всегда видны
+    if (this.isTabletMode) return;
+
     const scrollElement = this.getScrollElement();
     let scrollTop;
     let scrollHeight;
@@ -331,102 +273,30 @@ export class ScrollManager {
     }
 
     // Для страниц со скроллом на десктопе всегда обрабатываем скролл
-    // Для других страниц только в режиме планшета
-    if (!this.isScrollPage && !this.isTabletMode) return;
+    if (!this.isScrollPage) return;
 
     // Проверяем достижение верха и низа страницы
     const atTop = scrollTop <= 10;
-    const bottomThreshold = this.isTabletMode ? 50 : 10;
-    const atBottom = scrollTop + clientHeight >= scrollHeight - bottomThreshold;
+    const atBottom = scrollTop + clientHeight >= scrollHeight - 10;
     
     const scrollDelta = scrollTop - this.lastScrollTop;
     const isScrollingDown = scrollDelta > 0;
     const isScrollingUp = scrollDelta < 0;
 
-    // На мобильных устройствах применяем постепенное появление
-    if (this.isTabletMode && this.isScrolling) {
-      if (atTop || atBottom) {
-        // На верху или внизу - плавно показываем полностью
-        if (this.currentTranslateY !== 0) {
-          this.currentTranslateY = 0;
-          this.enableTransitions();
-          this.applyPartialTransform(0, true);
-        }
-      } else {
-        // Постепенное движение в зависимости от прокрутки
-        // Отключаем transitions для плавного следования за пальцем
-        this.disableTransitions();
-        
-        if (isScrollingUp) {
-          // Прокрутка вверх - показываем header/footer
-          this.currentTranslateY = Math.min(0, this.currentTranslateY + Math.abs(scrollDelta));
-        } else if (isScrollingDown) {
-          // Прокрутка вниз - скрываем header/footer
-          this.currentTranslateY = Math.max(-this.headerFooterHeight, this.currentTranslateY - Math.abs(scrollDelta));
-        }
-        
-        this.applyPartialTransform(this.currentTranslateY, true);
-      }
-    } else if (!this.isTabletMode) {
-      // На десктопе используем старую логику с классами
-      const minDelta = 0.5;
+    // На десктопе используем логику с классами
+    const minDelta = 0.5;
 
-      if (atTop || atBottom) {
-        this.showHeaderFooter();
-      } else if (isScrollingDown && Math.abs(scrollDelta) > minDelta) {
-        this.hideHeaderFooter();
-      } else if (isScrollingUp && Math.abs(scrollDelta) > minDelta) {
-        this.showHeaderFooter();
-      }
+    if (atTop || atBottom) {
+      this.showHeaderFooter();
+    } else if (isScrollingDown && Math.abs(scrollDelta) > minDelta) {
+      this.hideHeaderFooter();
+    } else if (isScrollingUp && Math.abs(scrollDelta) > minDelta) {
+      this.showHeaderFooter();
     }
 
     this.lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
   }
 
-  /**
-   * Применяет частичное смещение к header и footer
-   * @param {number} translateY - Смещение в пикселях (отрицательное для скрытия)
-   * @param {ScrollToTopButton} scrollToTopButton - Опциональная ссылка на кнопку для синхронного обновления
-   */
-  applyPartialTransform(translateY, scrollToTopButton = null) {
-    // Ограничиваем значения
-    const clampedY = Math.max(-this.headerFooterHeight, Math.min(0, translateY));
-    
-    // Применяем transform напрямую для header
-    this.header.style.transform = `translate3d(0, ${clampedY}px, 0)`;
-    
-    // Применяем transform для footer (в обратную сторону)
-    this.footer.style.transform = `translate3d(0, ${-clampedY}px, 0)`;
-    
-    // Применяем transform для всех декоративных линий
-    // Добавляем дополнительный 1px для полного скрытия (как на desktop)
-    this.decorativeLines.forEach((line) => {
-      // Определяем, это линия под header или над footer
-      const isHeaderLine = line.previousElementSibling === this.header;
-      const isFooterLine = line.nextElementSibling === this.footer;
-      
-      if (isHeaderLine) {
-        // Линия под header - движется вместе с header
-        // Добавляем -1px при скрытии для полного ухода за край
-        const lineOffset = clampedY < 0 ? clampedY - 1 : clampedY;
-        line.style.transform = `translate3d(0, ${lineOffset}px, 0)`;
-      } else if (isFooterLine) {
-        // Линия над footer - движется вместе с footer
-        // Добавляем +1px при скрытии для полного ухода за край
-        const lineOffset = clampedY < 0 ? -clampedY + 1 : -clampedY;
-        line.style.transform = `translate3d(0, ${lineOffset}px, 0)`;
-      }
-    });
-    
-    // Обновляем footerOffset для доступа из других компонентов
-    this.currentFooterOffset = Math.abs(clampedY);
-    
-    // Если передана кнопка, обновляем её позицию синхронно
-    if (scrollToTopButton && this.scrollToTopButton) {
-      this.scrollToTopButton.updateButtonPositionDirect(this.currentFooterOffset);
-    }
-  }
-  
   /**
    * Устанавливает ссылку на ScrollToTopButton для синхронного обновления
    * @param {ScrollToTopButton} button - Экземпляр кнопки
@@ -439,19 +309,9 @@ export class ScrollManager {
    * Показывает header и footer
    */
   showHeaderFooter() {
-    if (this.isTabletMode) {
-      // На мобильных используем прямое управление transform
-      this.applyPartialTransform(0, true);
-      // Убираем класс hidden, если был
-      this.header.classList.remove('hidden');
-      this.footer.classList.remove('hidden');
-      this.decorativeLines.forEach((line) => line.classList.remove('hidden'));
-    } else {
-      // На десктопе используем классы
-      this.header.classList.remove('hidden');
-      this.footer.classList.remove('hidden');
-      this.decorativeLines.forEach((line) => line.classList.remove('hidden'));
-    }
+    this.header.classList.remove('hidden');
+    this.footer.classList.remove('hidden');
+    this.decorativeLines.forEach((line) => line.classList.remove('hidden'));
     this.currentTranslateY = 0;
   }
 
@@ -459,19 +319,9 @@ export class ScrollManager {
    * Скрывает header и footer
    */
   hideHeaderFooter() {
-    if (this.isTabletMode) {
-      // На мобильных используем прямое управление transform
-      this.applyPartialTransform(-this.headerFooterHeight, true);
-      // Добавляем класс hidden для совместимости
-      this.header.classList.add('hidden');
-      this.footer.classList.add('hidden');
-      this.decorativeLines.forEach((line) => line.classList.add('hidden'));
-    } else {
-      // На десктопе используем классы
-      this.header.classList.add('hidden');
-      this.footer.classList.add('hidden');
-      this.decorativeLines.forEach((line) => line.classList.add('hidden'));
-    }
+    this.header.classList.add('hidden');
+    this.footer.classList.add('hidden');
+    this.decorativeLines.forEach((line) => line.classList.add('hidden'));
     this.currentTranslateY = -this.headerFooterHeight;
   }
 
@@ -517,31 +367,11 @@ export class ScrollManager {
     // При переключении режимов сбрасываем состояние
     if (wasTabletMode !== this.isTabletMode) {
       if (this.isTabletMode) {
-        // Переход в tablet режим - инициализируем currentTranslateY на основе текущего состояния
-        // Проверяем, скрыты ли сейчас header и footer
-        const isCurrentlyHidden = this.header.classList.contains('hidden');
-        if (isCurrentlyHidden) {
-          // Если скрыты, устанавливаем начальное смещение равным высоте
-          this.currentTranslateY = -this.headerFooterHeight;
-          // Применяем transform сразу, чтобы не было скачка
-          this.disableTransitions();
-          this.applyPartialTransform(this.currentTranslateY, true);
-        } else {
-          // Если видимы, оставляем на месте
-          this.currentTranslateY = 0;
-          this.disableTransitions();
-          this.applyPartialTransform(0, true);
-        }
+        // Переход в tablet режим - показываем header и footer
+        this.showHeaderFooter();
+        this.currentTranslateY = 0;
       } else {
-        // Переход в desktop режим - очищаем inline стили
-        this.header.style.transform = '';
-        this.footer.style.transform = '';
-        this.header.style.transition = '';
-        this.footer.style.transition = '';
-        this.decorativeLines.forEach((line) => {
-          line.style.transform = '';
-          line.style.transition = '';
-        });
+        // Переход в desktop режим - сбрасываем состояние
         this.currentTranslateY = 0;
       }
     }
@@ -576,11 +406,6 @@ export class ScrollManager {
         this.handleScrollBound
       );
     }
-    // Удаляем touchend обработчик если был tablet режим
-    if (wasTabletMode && this.handleTouchEndBound) {
-      document.removeEventListener('touchend', this.handleTouchEndBound);
-    }
-
     // Инициализируем lastScrollTop перед добавлением обработчиков
     const scrollElement = this.getScrollElement();
 
@@ -601,16 +426,10 @@ export class ScrollManager {
         passive: true,
       });
       
-      // На мобильных также слушаем touch события для более быстрой реакции
-      if (this.isTabletMode) {
-        this.handleTouchEndBound = this.handleTouchEnd.bind(this);
-        document.addEventListener('touchend', this.handleTouchEndBound, {
-          passive: true,
-        });
-      }
-      
       // Устанавливаем начальное состояние при инициализации
-      this.updateHeaderFooterVisibility();
+      if (!this.isTabletMode) {
+        this.updateHeaderFooterVisibility();
+      }
     } else {
       // Для десктоп режима без скролла показываем header и footer
       this.showHeaderFooter();
@@ -620,30 +439,12 @@ export class ScrollManager {
   }
 
   /**
-   * Обработчик события touchend для мобильных устройств
-   */
-  handleTouchEnd() {
-    // При окончании касания немедленно проверяем, нужно ли доводить анимацию
-    if (this.scrollTimeout) {
-      clearTimeout(this.scrollTimeout);
-    }
-    
-    // Устанавливаем минимальную задержку для обработки окончания
-    this.scrollTimeout = setTimeout(() => {
-      this.onScrollEnd();
-    }, 50);
-  }
-
-  /**
    * Возвращает текущее смещение футера для других компонентов
    * @returns {number} Смещение в пикселях (положительное значение = виден больше)
    */
   getFooterOffset() {
-    if (this.isTabletMode && this.currentTranslateY !== undefined) {
-      // На мобильных возвращаем текущее смещение
-      // currentTranslateY отрицательное, поэтому инвертируем
-      return Math.abs(this.currentTranslateY);
-    }
+    // На мобильных/планшетах footer всегда видим, смещение = 0
+    if (this.isTabletMode) return 0;
     // На десктопе проверяем класс hidden
     return this.footer && this.footer.classList.contains('hidden') ? this.headerFooterHeight : 0;
   }
