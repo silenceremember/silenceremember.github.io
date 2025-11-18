@@ -111,7 +111,7 @@ if (document.readyState !== 'loading') {
   quickInitCursor();
 } else {
   // Если DOM еще загружается, ждем DOMContentLoaded, но инициализируем как можно раньше
-  document.addEventListener('DOMContentLoaded', quickInitCursor, { once: true });
+  document.addEventListener('DOMContentLoaded', quickInitCursor, { once: true, passive: true });
 }
 
 // Инициализация при загрузке DOM
@@ -124,21 +124,25 @@ const initPageAsync = async () => {
   }
 };
 
+// Оптимизированная инициализация страницы
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {
-    // Используем requestIdleCallback для неблокирующей инициализации
+    // Используем requestAnimationFrame для немедленной инициализации без блокировки
+    requestAnimationFrame(() => {
+      if (window.requestIdleCallback) {
+        requestIdleCallback(initPageAsync, { timeout: 1000 });
+      } else {
+        initPageAsync();
+      }
+    });
+  }, { once: true, passive: true });
+} else {
+  // Если DOM уже готов, инициализируем немедленно
+  requestAnimationFrame(() => {
     if (window.requestIdleCallback) {
-      requestIdleCallback(initPageAsync, { timeout: 2000 });
+      requestIdleCallback(initPageAsync, { timeout: 1000 });
     } else {
-      // Fallback для браузеров без requestIdleCallback
-      setTimeout(initPageAsync, 0);
+      initPageAsync();
     }
   });
-} else {
-  // Если DOM уже готов, используем requestIdleCallback
-  if (window.requestIdleCallback) {
-    requestIdleCallback(initPageAsync, { timeout: 2000 });
-  } else {
-    setTimeout(initPageAsync, 0);
-  }
 }
