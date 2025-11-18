@@ -14,6 +14,7 @@ export class ScrollManager {
     this.header = null;
     this.footer = null;
     this.decorativeLines = null;
+    this.spacerElement = null; // Фиктивный элемент для резервирования места под footer
     this.isTabletMode = false;
     this.lastScrollTop = 0;
     this.isInitialized = false;
@@ -40,7 +41,10 @@ export class ScrollManager {
     this.isScrollPage = document.body.classList.contains('page-with-scroll');
 
     this.checkViewportForScroll();
-    window.addEventListener('resize', () => this.checkViewportForScroll());
+    window.addEventListener('resize', () => {
+      this.updateSpacerElement();
+      this.checkViewportForScroll();
+    });
   }
 
   /**
@@ -96,6 +100,49 @@ export class ScrollManager {
   }
 
   /**
+   * Создает фиктивный элемент внизу страницы для резервирования места под footer
+   */
+  createSpacerElement() {
+    // Находим контейнер контента
+    const contentWrapper = document.querySelector('.content-wrapper');
+    if (!contentWrapper) return;
+
+    // Удаляем существующий элемент, если есть
+    if (this.spacerElement) {
+      this.spacerElement.remove();
+    }
+
+    // Создаем новый фиктивный элемент
+    this.spacerElement = document.createElement('div');
+    this.spacerElement.className = 'scroll-spacer-footer';
+    this.spacerElement.style.cssText = `
+      width: 100%;
+      height: 0;
+      pointer-events: none;
+      visibility: hidden;
+      flex-shrink: 0;
+    `;
+
+    // Добавляем в конец контента
+    contentWrapper.appendChild(this.spacerElement);
+
+    // Обновляем высоту
+    this.updateSpacerElement();
+  }
+
+  /**
+   * Обновляет высоту фиктивного элемента
+   */
+  updateSpacerElement() {
+    if (!this.spacerElement) return;
+
+    const headerFooterHeight = this.getHeaderFooterHeight();
+    // Устанавливаем высоту равную высоте footer
+    // Это гарантирует, что когда footer появится, он не перекроет контент
+    this.spacerElement.style.height = `${headerFooterHeight}px`;
+  }
+
+  /**
    * Обработчик события скролла
    */
   handleScroll() {
@@ -118,18 +165,10 @@ export class ScrollManager {
     // Для других страниц только в режиме планшета
     if (!this.isScrollPage && !this.isTabletMode) return;
 
-    // Учитываем высоту footer при расчете atBottom
-    // Когда footer появляется, он перекрывает нижний контент, поэтому нужно
-    // чтобы он появлялся только когда пользователь прокрутил достаточно далеко,
-    // чтобы весь контент был виден даже когда footer появится
-    const headerFooterHeight = this.getHeaderFooterHeight();
-    // Проверяем, достиг ли пользователь реального низа страницы
-    // Вычитаем высоту footer из scrollHeight, чтобы footer появлялся когда
-    // весь контент уже виден (footer перекроет только padding, который уже учтен в scrollHeight)
-    // Используем небольшой threshold (5px) для более плавного появления
+    // Теперь используем простую проверку достижения низа страницы
+    // Фиктивный элемент уже занимает место под footer, поэтому footer не перекроет контент
     const atTop = scrollTop <= 2;
-    const atBottom =
-      scrollTop + clientHeight >= scrollHeight - headerFooterHeight - 5;
+    const atBottom = scrollTop + clientHeight >= scrollHeight - 2;
     const scrollDelta = Math.abs(scrollTop - this.lastScrollTop);
     const isScrollingDown = scrollTop > this.lastScrollTop;
     const isScrollingUp = scrollTop < this.lastScrollTop;
@@ -164,6 +203,16 @@ export class ScrollManager {
     // Обновляем isScrollPage на основе текущего состояния класса
     this.isScrollPage = document.body.classList.contains('page-with-scroll');
 
+    // Создаем фиктивный элемент при первой инициализации, если нужно
+    if (!this.isInitialized && (this.isScrollPage || window.innerWidth < 1024)) {
+      const willBeTablet = isIndexPage
+        ? window.innerWidth < 1024 || window.innerHeight < 900
+        : window.innerWidth < 1024;
+      if (willBeTablet || this.isScrollPage) {
+        this.createSpacerElement();
+      }
+    }
+
     // Для страницы проектов проверяем только ширину (<1024)
     // Для главной страницы проверяем ширину (<1024) ИЛИ высоту (<900)
     const isNowTablet = isIndexPage
@@ -182,6 +231,20 @@ export class ScrollManager {
     }
 
     this.isTabletMode = isNowTablet;
+
+    // Создаем или обновляем фиктивный элемент при изменении режима
+    // Фиктивный элемент нужен только в режиме tablet или на страницах со скроллом
+    if (this.isTabletMode || this.isScrollPage) {
+      if (!this.spacerElement) {
+        this.createSpacerElement();
+      } else {
+        this.updateSpacerElement();
+      }
+    } else if (this.spacerElement) {
+      // Удаляем фиктивный элемент, если он не нужен
+      this.spacerElement.remove();
+      this.spacerElement = null;
+    }
 
     if (this.isTabletModeCallback) {
       this.isTabletModeCallback(this.isTabletMode);
