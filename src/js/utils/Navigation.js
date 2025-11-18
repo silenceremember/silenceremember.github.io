@@ -9,7 +9,9 @@ export class NavigationHelper {
   static setActiveNavigationLink(navSelector) {
     const navLinks = document.querySelectorAll(`${navSelector} .cta-button`);
     let currentPage = window.location.pathname.split('/').pop();
-    if (currentPage === '' || currentPage === 'index.html') {
+    
+    // Обрабатываем главную страницу: '', '/', 'index.html'
+    if (currentPage === '' || currentPage === 'index.html' || window.location.pathname === '/') {
       currentPage = 'index.html';
     }
 
