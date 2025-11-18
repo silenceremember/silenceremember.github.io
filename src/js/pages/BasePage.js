@@ -113,9 +113,12 @@ export class BasePage {
    * Инициализирует менеджер скролла для страниц с прокруткой
    */
   initScrollManager() {
-    // Инициализируем ScrollManager только для страниц с классом page-with-scroll
-    // (projects, research, cv, community)
-    if (document.body.classList.contains('page-with-scroll')) {
+    // Инициализируем ScrollManager для страниц с классом page-with-scroll
+    // (projects, research, cv, community) или для страницы 404 в tablet режиме
+    const isScrollPage = document.body.classList.contains('page-with-scroll');
+    const is404Page = document.body.classList.contains('page-404');
+    
+    if (isScrollPage || is404Page) {
       this.scrollManager = new ScrollManager('.page-wrapper', (isTablet) => {
         // Callback для уведомления об изменении режима планшета
         // Можно использовать для дополнительной логики при необходимости

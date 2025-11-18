@@ -97,6 +97,12 @@
   .page-wrapper {
     min-width: 320px;
     overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .page-wrapper::-webkit-scrollbar {
+    display: none;
   }
 
   .slides-container.tablet-scroll-mode .slide:not(:last-child)::after {
