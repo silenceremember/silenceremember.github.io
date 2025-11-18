@@ -71,8 +71,23 @@
       />
     </noscript>
 
-    <!-- Resource Hints: Preload только критических ресурсов -->
+    <!-- Resource Hints: Preload критических ресурсов -->
     <link rel="preload" href="/scss/style.scss" as="style" />
+    <!-- Preload критических JSON данных -->
+    <link rel="preload" href="/data/locales/ru.json" as="fetch" crossorigin />
+    <!-- Preload критических HTML шаблонов -->
+    <link rel="preload" href="/components/header.html" as="fetch" crossorigin />
+    <link rel="preload" href="/components/footer.html" as="fetch" crossorigin />
+    <!-- Prefetch для SVG иконок (загружаются асинхронно через SvgLoader) -->
+    <link rel="prefetch" href="/assets/images/icon-language-ru.svg" as="image" />
+    <link rel="prefetch" href="/assets/images/icon-language-en.svg" as="image" />
+    <link rel="prefetch" href="/assets/images/icon-divider-medium.svg" as="image" />
+    <link rel="prefetch" href="/assets/images/icon-moon.svg" as="image" />
+    <link rel="prefetch" href="/assets/images/icon-sun.svg" as="image" />
+    <link rel="prefetch" href="/assets/images/icon-linkedin.svg" as="image" />
+    <link rel="prefetch" href="/assets/images/icon-headhunter.svg" as="image" />
+    <link rel="prefetch" href="/assets/images/icon-telegram.svg" as="image" />
+    <link rel="prefetch" href="/assets/images/logo-icon.svg" as="image" />
     <!-- Modulepreload для критических JS модулей (загружает и парсит модуль) -->
     <!-- Vite автоматически добавит правильные modulepreload ссылки при сборке -->
 

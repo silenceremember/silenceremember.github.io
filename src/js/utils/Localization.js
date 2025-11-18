@@ -126,9 +126,10 @@ class Localization {
    * Получает перевод по ключу
    * @param {string} key - Ключ перевода (например, "common.nav.home")
    * @param {Object} params - Параметры для подстановки
+   * @param {boolean} silent - Не выводить предупреждения (по умолчанию false)
    * @returns {string} - Переведенный текст
    */
-  t(key, params = {}) {
+  t(key, params = {}, silent = false) {
     const keys = key.split('.');
     let value = this.translations;
 
@@ -136,13 +137,18 @@ class Localization {
       if (value && typeof value === 'object' && k in value) {
         value = value[k];
       } else {
-        console.warn(`Translation key not found: ${key}`);
+        // Выводим предупреждение только если переводы загружены и это не тихая проверка
+        if (!silent && Object.keys(this.translations).length > 0) {
+          console.warn(`Translation key not found: ${key}`);
+        }
         return key;
       }
     }
 
     if (typeof value !== 'string') {
-      console.warn(`Translation value is not a string: ${key}`);
+      if (!silent && Object.keys(this.translations).length > 0) {
+        console.warn(`Translation value is not a string: ${key}`);
+      }
       return key;
     }
 
