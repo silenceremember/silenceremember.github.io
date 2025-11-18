@@ -41,16 +41,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - name: Cache Vite build
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules/.vite
-            .vite
-          key: ${{ runner.os }}-vite-${{ hashFiles('**/package-lock.json', '**/vite.config.js', '**/src/**') }}
-          restore-keys: |
-            ${{ runner.os }}-vite-
-
       - name: Install dependencies
         # Используем npm ci для более быстрой и надежной установки в CI/CD
         # --prefer-offline использует кеш, --no-audit отключает проверку безопасности для скорости
