@@ -2,6 +2,7 @@
   <div class="media-gallery-main">
     <button
       class="media-gallery-nav media-gallery-prev"
+      data-i18n-attr="aria-label:media.previousImage"
       aria-label="Предыдущее изображение"
       hidden
     >
@@ -14,6 +15,7 @@
     </div>
     <button
       class="media-gallery-nav media-gallery-next"
+      data-i18n-attr="aria-label:media.nextImage"
       aria-label="Следующее изображение"
       hidden
     >
@@ -37,14 +39,17 @@
     <div class="media-gallery-lightbox-container">
       <button
         class="media-gallery-lightbox-close"
+        data-i18n-attr="aria-label:media.close"
         aria-label="Закрыть"
+        data-i18n-attr-title="media.close"
         title="Закрыть"
       >
         <span>✕</span>
       </button>
       <button
         class="media-gallery-lightbox-nav media-gallery-lightbox-prev"
-        aria-label="Предыдущее изображение"
+        data-i18n-attr="aria-label:media.previousImage"
+      aria-label="Предыдущее изображение"
       >
         <span>‹</span>
       </button>
@@ -59,13 +64,14 @@
         />
         <video class="media-gallery-lightbox-video" controls hidden>
           <source src="" type="video/mp4" />
-          Ваш браузер не поддерживает видео.
+          <span data-i18n="media.videoNotSupported">Ваш браузер не поддерживает видео.</span>
         </video>
         <iframe class="media-gallery-lightbox-iframe" src="" hidden></iframe>
       </div>
       <button
         class="media-gallery-lightbox-nav media-gallery-lightbox-next"
-        aria-label="Следующее изображение"
+        data-i18n-attr="aria-label:media.nextImage"
+      aria-label="Следующее изображение"
       >
         <span>›</span>
       </button>

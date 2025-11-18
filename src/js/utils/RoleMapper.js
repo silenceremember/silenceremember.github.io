@@ -2,26 +2,7 @@
  * Унифицированный маппинг ролей для проектов
  * Используется на главной странице и в портфолио
  */
-
-/**
- * Маппинг ролей на читаемые значения для карточек проектов
- * @type {Object<string, string>}
- */
-const ROLE_LABELS = {
-  solo: 'Соло',
-  'team-lead': 'Тимлид',
-  team: 'В команде',
-};
-
-/**
- * Маппинг ролей для главной страницы (более детальные описания)
- * @type {Object<string, string>}
- */
-const ROLE_LABELS_DETAILED = {
-  solo: 'Соло-разработчик',
-  'team-lead': 'Гейм-дизайнер / Тимлид',
-  team: 'В команде',
-};
+import { localization } from './Localization.js';
 
 /**
  * Получает читаемое название роли
@@ -31,12 +12,19 @@ const ROLE_LABELS_DETAILED = {
  * @returns {string} Читаемое название роли
  */
 export function getRoleLabel(role, detailed = false, teamName = null) {
-  const labels = detailed ? ROLE_LABELS_DETAILED : ROLE_LABELS;
-  let label = labels[role] || role;
+  const roleKeyMap = {
+    solo: detailed ? 'soloDetailed' : 'solo',
+    'team-lead': detailed ? 'teamLeadDetailed' : 'teamLead',
+    team: 'team',
+  };
+  
+  const key = roleKeyMap[role];
+  let label = key ? localization.t(`roles.${key}`) : role;
 
   // Если есть название команды и роль team-lead, добавляем его в скобках
   if (teamName && role === 'team-lead' && detailed) {
-    label = `${label} (команда ${teamName})`;
+    const teamNameLabel = localization.t('roles.teamName');
+    label = `${label} (${teamNameLabel} ${teamName})`;
   }
 
   return label;

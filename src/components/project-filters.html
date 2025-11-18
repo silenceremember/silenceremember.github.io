@@ -2,14 +2,14 @@
   <div class="project-filters-content">
     <!-- Фильтр по категории -->
     <div class="project-filters-group">
-      <h3 class="project-filters-group-title">Категория</h3>
+      <h3 class="project-filters-group-title" data-i18n="projects.filters.category">Категория</h3>
       <div class="project-filters-options" data-filter="category">
         <button
           class="project-filters-option"
           data-value="games"
           aria-pressed="false"
         >
-          <span class="project-filters-option-label">Игровые проекты</span>
+          <span class="project-filters-option-label" data-i18n="projects.filters.categories.games">Игровые проекты</span>
           <span class="project-filters-option-count">0</span>
         </button>
         <button
@@ -17,7 +17,7 @@
           data-value="tools"
           aria-pressed="false"
         >
-          <span class="project-filters-option-label">Инструменты</span>
+          <span class="project-filters-option-label" data-i18n="projects.filters.categories.tools">Инструменты</span>
           <span class="project-filters-option-count">0</span>
         </button>
         <button
@@ -25,7 +25,7 @@
           data-value="research"
           aria-pressed="false"
         >
-          <span class="project-filters-option-label">Исследования</span>
+          <span class="project-filters-option-label" data-i18n="projects.filters.categories.research">Исследования</span>
           <span class="project-filters-option-count">0</span>
         </button>
       </div>
@@ -33,14 +33,14 @@
 
     <!-- Фильтр по статусу -->
     <div class="project-filters-group">
-      <h3 class="project-filters-group-title">Статус</h3>
+      <h3 class="project-filters-group-title" data-i18n="projects.filters.status">Статус</h3>
       <div class="project-filters-options" data-filter="status">
         <button
           class="project-filters-option"
           data-value="completed"
           aria-pressed="false"
         >
-          <span class="project-filters-option-label">Завершено</span>
+          <span class="project-filters-option-label" data-i18n="projects.filters.statuses.completed">Завершено</span>
           <span class="project-filters-option-count">0</span>
         </button>
         <button
@@ -48,7 +48,7 @@
           data-value="in-development"
           aria-pressed="false"
         >
-          <span class="project-filters-option-label">В разработке</span>
+          <span class="project-filters-option-label" data-i18n="projects.filters.statuses.inDevelopment">В разработке</span>
           <span class="project-filters-option-count">0</span>
         </button>
       </div>
@@ -56,7 +56,7 @@
 
     <!-- Фильтр по году -->
     <div class="project-filters-group">
-      <h3 class="project-filters-group-title">Год</h3>
+      <h3 class="project-filters-group-title" data-i18n="projects.filters.year">Год</h3>
       <div class="project-filters-year-dropdown" data-filter="year">
         <button
           class="project-filters-year-button"
@@ -85,15 +85,16 @@
     hidden
   >
     <h2 class="projects-section-title" id="project-filters-results">
-      <span class="projects-section-title-text">НАЙДЕНО ПРОЕКТОВ</span>
+      <span class="projects-section-title-text" data-i18n="projects.filters.found">НАЙДЕНО ПРОЕКТОВ</span>
       <span class="project-filters-option-count">0</span>
       <button
         class="projects-section-expand"
         aria-expanded="false"
+        data-i18n-attr="aria-label:projects.filters.showAllAria"
         aria-label="Показать все проекты"
         id="project-filters-reset"
       >
-        <span class="projects-section-expand-text">Показать все</span>
+        <span class="projects-section-expand-text" data-i18n="projects.filters.showAll">Показать все</span>
         <span class="projects-section-expand-count">0</span>
       </button>
     </h2>

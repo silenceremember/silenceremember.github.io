@@ -1,32 +1,42 @@
 /**
  * Утилита для маппинга статусов и типов публикаций на русский язык
  */
+import { localization } from './Localization.js';
+
 export class StatusMapper {
   /**
-   * Получает текст статуса на русском языке
+   * Получает текст статуса на текущем языке
    * @param {string} status - Код статуса
-   * @returns {string} Текст статуса на русском или исходный код, если маппинг не найден
+   * @returns {string} Текст статуса на текущем языке или исходный код, если маппинг не найден
    */
   static getStatusText(status) {
-    const statusMap = {
-      published: 'Опубликовано',
-      'in-publication': 'На стадии публикации',
-      'in-progress': 'В процессе написания',
+    const statusKeyMap = {
+      published: 'published',
+      'in-publication': 'inPublication',
+      'in-progress': 'inProgress',
     };
-    return statusMap[status] || status;
+    const key = statusKeyMap[status];
+    if (key) {
+      return localization.t(`research.statuses.${key}`);
+    }
+    return status;
   }
 
   /**
-   * Получает текст типа на русском языке
+   * Получает текст типа на текущем языке
    * @param {string} type - Код типа
-   * @returns {string} Текст типа на русском или исходный код, если маппинг не найден
+   * @returns {string} Текст типа на текущем языке или исходный код, если маппинг не найден
    */
   static getTypeText(type) {
-    const typeMap = {
-      thesis: 'Тезисы',
-      article: 'Статья',
-      diploma: 'ВКР',
+    const typeKeyMap = {
+      thesis: 'thesis',
+      article: 'article',
+      diploma: 'diploma',
     };
-    return typeMap[type] || type;
+    const key = typeKeyMap[type];
+    if (key) {
+      return localization.t(`research.types.${key}`);
+    }
+    return type;
   }
 }

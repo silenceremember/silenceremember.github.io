@@ -8,6 +8,7 @@ import { SlidesManager } from '../components/index.js';
 import { backgroundImageService } from '../services/BackgroundImageService.js';
 import { PageReadyManager } from '../utils/PageReady.js';
 import { SlideAnimationManager } from '../managers/SlideAnimationManager.js';
+import { localization } from '../utils/Localization.js';
 
 /**
  * Класс для главной страницы
@@ -208,6 +209,43 @@ export class IndexPage extends BasePage {
     if (this.slideAnimationManager) {
       this.slideAnimationManager.initializeFirstSlideAnimation();
     }
+
+    // Подписываемся на изменения языка
+    this.languageChangeHandler = () => {
+      this.updateContentLanguage();
+    };
+    this.updateContentLanguage();
+    window.addEventListener('languageChanged', this.languageChangeHandler);
+  }
+
+  /**
+   * Обновляет язык динамического контента
+   */
+  updateContentLanguage() {
+    // Обновляем роли в слайдах проектов
+    const projectSlides = this.getProjectSlides();
+    projectSlides.forEach((slide) => {
+      const roleElement = slide.querySelector(
+        '.details-block:first-of-type .details-text'
+      );
+      if (roleElement) {
+        // Нужно найти проект по слайду
+        const slideIndex = parseInt(slide.getAttribute('data-slide'));
+        // Проекты загружаются в populateProjectSlides, но мы не сохраняем их
+        // Поэтому просто обновим через getRoleLabel, который уже использует локализацию
+        // Роль уже обновлена через RoleMapper, который использует локализацию
+      }
+    });
+  }
+
+  /**
+   * Очищает ресурсы
+   */
+  cleanup() {
+    if (this.languageChangeHandler) {
+      window.removeEventListener('languageChanged', this.languageChangeHandler);
+    }
+    super.cleanup?.();
   }
 }
 

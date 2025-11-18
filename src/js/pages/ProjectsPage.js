@@ -8,6 +8,8 @@ import { ProjectFiltersManager } from '../managers/ProjectFiltersManager.js';
 import { ProjectGroupingManager } from '../managers/ProjectGroupingManager.js';
 import { PageReadyManager } from '../utils/PageReady.js';
 import { lazyImageLoader } from '../utils/LazyImageLoader.js';
+import { localization } from '../utils/Localization.js';
+import { getRoleLabel } from '../utils/RoleMapper.js';
 
 /**
  * Класс страницы проектов
@@ -248,5 +250,104 @@ export class ProjectsPage extends BasePage {
     // Не ждем загрузки всех изображений - они загружаются лениво
     // Ждем только критичные ресурсы (шрифты и базовые изображения)
     await PageReadyManager.waitForFontsLoaded();
+
+    // Подписываемся на изменения языка
+    this.languageChangeHandler = () => {
+      this.updateContentLanguage();
+    };
+    this.updateContentLanguage();
+    window.addEventListener('languageChanged', this.languageChangeHandler);
+  }
+
+  /**
+   * Обновляет язык динамического контента
+   */
+  updateContentLanguage() {
+    // Обновляем карточки проектов
+    this.allProjectCards.forEach((card, projectId) => {
+      const project = this.allProjects.find(p => p.id === projectId);
+      if (project) {
+        // Обновляем статус
+        const status = card.querySelector('.project-card-status');
+        if (status) {
+          const statusKey = project.status === 'completed' ? 'completed' : 'inDevelopment';
+          status.textContent = localization.t(`projects.filters.statuses.${statusKey}`);
+        }
+
+        // Обновляем тип
+        const type = card.querySelector('.project-card-type');
+        if (type && project.type) {
+          const typeLabels = {
+            game: localization.t('projects.card.types.game'),
+            document: localization.t('projects.card.types.document'),
+            tool: localization.t('projects.card.types.tool'),
+            script: localization.t('projects.card.types.script'),
+          };
+          type.textContent = typeLabels[project.type] || project.type;
+        }
+
+        // Обновляем роль
+        const role = card.querySelector('.project-card-role');
+        if (role) {
+          role.textContent = getRoleLabel(project.role, false, project.teamName);
+        }
+
+        // Обновляем кнопку
+        const button = card.querySelector('.project-card-button');
+        if (button) {
+          if (project.comingSoon) {
+            button.textContent = localization.t('projects.card.comingSoon');
+            button.setAttribute('aria-label', localization.t('projects.card.comingSoonAria'));
+          } else {
+            const buttonText = button.querySelector('span[data-i18n]') || button;
+            if (buttonText.textContent) {
+              buttonText.textContent = localization.t('projects.card.details');
+            }
+            button.setAttribute('aria-label', localization.t('projects.card.detailsAria'));
+          }
+        }
+      }
+    });
+
+    // Обновляем фильтры через менеджер фильтров
+    if (this.filtersManager) {
+      // Фильтры обновятся автоматически через LanguageSwitcher, но нужно обновить динамически созданные элементы
+      const resetButton = document.getElementById('project-filters-reset');
+      if (resetButton) {
+        const resetButtonText = resetButton.querySelector('.projects-section-expand-text');
+        if (resetButtonText) {
+          resetButtonText.textContent = localization.t('projects.filters.reset');
+        }
+        resetButton.setAttribute('aria-label', localization.t('projects.filters.resetAria'));
+      }
+
+      const foundText = document.querySelector('#project-filters-results .projects-section-title-text');
+      if (foundText) {
+        foundText.textContent = localization.t('projects.filters.found');
+      }
+    }
+
+    // Обновляем группировку через менеджер группировки
+    if (this.groupingManager) {
+      // Кнопки "Показать все" / "Скрыть" обновятся автоматически при следующем взаимодействии
+      document.querySelectorAll('.projects-section-expand-text').forEach(textEl => {
+        const button = textEl.closest('.projects-section-expand');
+        if (button && button.getAttribute('aria-expanded') === 'true') {
+          textEl.textContent = localization.t('projects.filters.hide');
+        } else if (button) {
+          textEl.textContent = localization.t('projects.filters.showAll');
+        }
+      });
+    }
+  }
+
+  /**
+   * Очищает ресурсы
+   */
+  cleanup() {
+    if (this.languageChangeHandler) {
+      window.removeEventListener('languageChanged', this.languageChangeHandler);
+    }
+    super.cleanup?.();
   }
 }

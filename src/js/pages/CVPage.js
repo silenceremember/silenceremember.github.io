@@ -400,7 +400,7 @@ export class CVPage extends BasePage {
       } else {
         // Если URL нет, можно показать alert или сделать кнопку неактивной
         detailsButton.disabled = true;
-        detailsButton.title = 'Информация о сертификате недоступна';
+        detailsButton.title = localization.t('cv.certificateUnavailable');
       }
 
       itemDiv.appendChild(detailsButton);

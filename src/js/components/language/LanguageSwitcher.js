@@ -128,6 +128,15 @@ export class LanguageSwitcher {
       }
     });
 
+    // Обновляем атрибуты title с data-i18n-attr-title
+    document.querySelectorAll('[data-i18n-attr-title]').forEach(element => {
+      const key = element.getAttribute('data-i18n-attr-title');
+      const text = localization.t(key);
+      if (text) {
+        element.setAttribute('title', text);
+      }
+    });
+
     // Обновляем title и meta description
     this.updateMetaTags();
 

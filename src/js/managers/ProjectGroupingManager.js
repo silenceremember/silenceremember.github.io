@@ -9,6 +9,7 @@ import {
 } from '../utils/AnimationUtils.js';
 import { SvgLoader } from '../components/index.js';
 import { lazyImageLoader } from '../utils/LazyImageLoader.js';
+import { localization } from '../utils/Localization.js';
 
 /**
  * Класс для управления группировкой и отображением проектов
@@ -166,7 +167,7 @@ export class ProjectGroupingManager {
       this.expandedSections.delete(category);
       button.setAttribute('aria-expanded', 'false');
       button.querySelector('.projects-section-expand-text').textContent =
-        'Показать все';
+        localization.t('projects.filters.showAll');
     } else {
       // Разворачиваем с плавной анимацией - все карточки одновременно
       // Сначала принудительно останавливаем все текущие анимации
@@ -295,7 +296,7 @@ export class ProjectGroupingManager {
       this.expandedSections.add(category);
       button.setAttribute('aria-expanded', 'true');
       button.querySelector('.projects-section-expand-text').textContent =
-        'Скрыть';
+        localization.t('projects.filters.hide');
     }
   }
 
@@ -362,9 +363,9 @@ export class ProjectGroupingManager {
       const expandButton = document.createElement('button');
       expandButton.className = 'projects-section-expand';
       expandButton.setAttribute('aria-expanded', 'false');
-      expandButton.setAttribute('aria-label', 'Показать все проекты');
+      expandButton.setAttribute('aria-label', localization.t('projects.filters.showAllAria'));
       expandButton.innerHTML = `
-        <span class="projects-section-expand-text">Показать все</span>
+        <span class="projects-section-expand-text">${localization.t('projects.filters.showAll')}</span>
         <span class="projects-section-expand-count">${allCategoryProjects.length}</span>
       `;
       expandButton.addEventListener('click', () => {
@@ -550,9 +551,9 @@ export class ProjectGroupingManager {
 
       // Заголовки разделов
       const sectionTitles = {
-        games: 'Игровые проекты',
-        tools: 'Инструменты',
-        research: 'Исследования',
+        games: localization.t('projects.filters.categories.games'),
+        tools: localization.t('projects.filters.categories.tools'),
+        research: localization.t('projects.filters.categories.research'),
       };
 
       // Отображаем каждый раздел

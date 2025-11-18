@@ -35,7 +35,41 @@
   "projects": {
     "title": "Portfolio",
     "description": "Portfolio of game designer Maxim Elchaninov. Game systems, tools, and experiments.",
-    "navigation": "NAVIGATION"
+    "navigation": "NAVIGATION",
+    "card": {
+      "details": "DETAILS",
+      "detailsAria": "More about the project",
+      "comingSoon": "COMING SOON",
+      "comingSoonAria": "Coming soon",
+      "featured": "Featured project",
+      "tier2": "Tier 2 project",
+      "types": {
+        "game": "Game",
+        "document": "Document",
+        "tool": "Tool",
+        "script": "Script"
+      }
+    },
+    "filters": {
+      "category": "Category",
+      "status": "Status",
+      "year": "Year",
+      "categories": {
+        "games": "Game Projects",
+        "tools": "Tools",
+        "research": "Research"
+      },
+      "statuses": {
+        "completed": "Completed",
+        "inDevelopment": "In Development"
+      },
+      "found": "PROJECTS FOUND",
+      "showAll": "Show All",
+      "showAllAria": "Show all projects",
+      "reset": "Reset",
+      "resetAria": "Reset filters",
+      "hide": "Hide"
+    }
   },
   "research": {
     "title": "Research",
@@ -43,6 +77,20 @@
     "navigation": "NAVIGATION",
     "diploma": {
       "title": "Qualification Work"
+    },
+    "card": {
+      "read": "READ",
+      "readAria": "Open publication"
+    },
+    "statuses": {
+      "published": "Published",
+      "inPublication": "In Publication",
+      "inProgress": "In Progress"
+    },
+    "types": {
+      "thesis": "Thesis",
+      "article": "Article",
+      "diploma": "Diploma"
     },
     "errors": {
       "noPublications": "No publications found."
@@ -55,6 +103,7 @@
     "name": "MAXIM ELCHANINOV",
     "role": "SYSTEM GAME DESIGNER",
     "workDescription": "Optimizing workflows and solving technical problems",
+    "certificateUnavailable": "Certificate information unavailable",
     "sections": {
       "about": "ABOUT",
       "workExperience": "WORK EXPERIENCE",
@@ -121,16 +170,37 @@
       "join": "Join our game development community"
     },
     "donation": {
-      "support": "Support via Boosty"
+      "support": "Support via Boosty",
+      "supportOn": "Support on"
     },
     "events": {
       "defaultTitle": "Event"
-    }
+    },
+    "discordServer": {
+      "name": "2IQ community server",
+      "comingSoon": "Discord Server (coming soon)",
+      "join": "Join Discord server"
+    },
+    "comingSoon": "(coming soon)"
+  },
+  "roles": {
+    "solo": "Solo",
+    "teamLead": "Team Lead",
+    "team": "In Team",
+    "soloDetailed": "Solo Developer",
+    "teamLeadDetailed": "Game Designer / Team Lead",
+    "teamName": "team"
   },
   "404": {
     "title": "Page not found",
     "message": "Unfortunately, the requested page does not exist.",
     "backHome": "Back to home"
+  },
+  "media": {
+    "previousImage": "Previous image",
+    "nextImage": "Next image",
+    "close": "Close",
+    "videoNotSupported": "Your browser does not support video."
   }
 }
 

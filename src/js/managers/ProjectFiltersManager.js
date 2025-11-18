@@ -12,6 +12,7 @@ import {
 import { LayoutManager } from '../layout/LayoutManager.js';
 import { SvgLoader } from '../components/index.js';
 import { lazyImageLoader } from '../utils/LazyImageLoader.js';
+import { localization } from '../utils/Localization.js';
 
 const layoutManager = new LayoutManager();
 const loadHTML = (url) => layoutManager.loadHTML(url);
@@ -748,7 +749,7 @@ export class ProjectFiltersManager {
       // Создаем контейнер для названия
       const titleContainer = document.createElement('span');
       titleContainer.className = 'projects-section-title-text';
-      titleContainer.textContent = 'НАЙДЕНО ПРОЕКТОВ';
+      titleContainer.textContent = localization.t('projects.filters.found');
       sectionTitle.appendChild(titleContainer);
 
       // Добавляем счетчик
@@ -761,10 +762,10 @@ export class ProjectFiltersManager {
       const resetButton = document.createElement('button');
       resetButton.className = 'projects-section-expand';
       resetButton.id = 'project-filters-reset';
-      resetButton.setAttribute('aria-label', 'Сбросить фильтры');
+      resetButton.setAttribute('aria-label', localization.t('projects.filters.resetAria'));
       const resetButtonText = document.createElement('span');
       resetButtonText.className = 'projects-section-expand-text';
-      resetButtonText.textContent = 'Сбросить';
+      resetButtonText.textContent = localization.t('projects.filters.reset');
       resetButton.appendChild(resetButtonText);
       resetButton.addEventListener('click', () => {
         this.clearAllFilters();

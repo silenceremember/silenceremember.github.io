@@ -83,10 +83,10 @@ export class CommunityPage extends BasePage {
     const card = CardFactory.createCommunityCard({
       url: discord.link || '#',
       iconPath: this.getIconPath('discord-server'),
-      platformName: 'сервер сообщества 2IQ',
+      platformName: localization.t('community.discordServer.name'),
       ariaLabel: isPlaceholder
-        ? 'Discord Сервер (скоро)'
-        : 'Присоединиться к Discord серверу',
+        ? localization.t('community.discordServer.comingSoon')
+        : localization.t('community.discordServer.join'),
       description:
         discord.description ||
         localization.t('community.discord.join'),
@@ -137,7 +137,7 @@ export class CommunityPage extends BasePage {
         url: platform.url || '#',
         iconPath: iconPath,
         platformName: platform.label,
-        ariaLabel: isPlaceholder ? `${platform.label} (скоро)` : platform.label,
+        ariaLabel: isPlaceholder ? `${platform.label} ${localization.t('community.comingSoon')}` : platform.label,
       });
 
       linksContainer.appendChild(card);
@@ -177,8 +177,8 @@ export class CommunityPage extends BasePage {
         iconPath: iconPath,
         platformName: donation.platform,
         ariaLabel: isPlaceholder
-          ? `${donation.platform} (скоро)`
-          : `Поддержать на ${donation.platform}`,
+          ? `${donation.platform} ${localization.t('community.comingSoon')}`
+          : `${localization.t('community.donation.supportOn')} ${donation.platform}`,
       });
 
       linksContainer.appendChild(card);
@@ -224,7 +224,7 @@ export class CommunityPage extends BasePage {
         url: platform.url || '#',
         iconPath: iconPath,
         platformName: platform.label,
-        ariaLabel: isPlaceholder ? `${platform.label} (скоро)` : platform.label,
+        ariaLabel: isPlaceholder ? `${platform.label} ${localization.t('community.comingSoon')}` : platform.label,
       });
 
       linksContainer.appendChild(card);

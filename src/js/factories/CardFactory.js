@@ -3,6 +3,7 @@
  */
 import { getRoleLabel } from '../utils/RoleMapper.js';
 import { StatusMapper } from '../utils/StatusMapper.js';
+import { localization } from '../utils/Localization.js';
 
 export class CardFactory {
   /**
@@ -68,8 +69,8 @@ export class CardFactory {
 
     // Статус
     if (status) {
-      status.textContent =
-        project.status === 'completed' ? 'Готов' : 'В разработке';
+      const statusKey = project.status === 'completed' ? 'completed' : 'inDevelopment';
+      status.textContent = localization.t(`projects.filters.statuses.${statusKey}`);
       status.className = `project-card-status project-card-status-${project.status}`;
     }
 
@@ -80,10 +81,10 @@ export class CardFactory {
 
     if (type) {
       const typeLabels = {
-        game: 'Игра',
-        document: 'Документ',
-        tool: 'Инструмент',
-        script: 'Скрипт',
+        game: localization.t('projects.card.types.game'),
+        document: localization.t('projects.card.types.document'),
+        tool: localization.t('projects.card.types.tool'),
+        script: localization.t('projects.card.types.script'),
       };
       type.textContent = typeLabels[project.type] || project.type;
     }
@@ -93,7 +94,7 @@ export class CardFactory {
       const starIcon = document.createElement('span');
       starIcon.className = 'project-card-star';
       starIcon.setAttribute('data-svg-src', 'assets/images/icon-star.svg');
-      starIcon.setAttribute('aria-label', 'Избранный проект');
+      starIcon.setAttribute('aria-label', localization.t('projects.card.featured'));
       title.appendChild(starIcon);
     }
 
@@ -102,7 +103,7 @@ export class CardFactory {
       const dividerIcon = document.createElement('span');
       dividerIcon.className = 'project-card-divider';
       dividerIcon.setAttribute('data-svg-src', 'assets/images/icon-divider-small.svg');
-      dividerIcon.setAttribute('aria-label', 'Проект тир 2');
+      dividerIcon.setAttribute('aria-label', localization.t('projects.card.tier2'));
       title.appendChild(dividerIcon);
     }
 
@@ -141,9 +142,9 @@ export class CardFactory {
     if (detailsButton) {
       // Если проект "скоро", меняем текст кнопки
       if (project.comingSoon) {
-        detailsButton.textContent = 'СКОРО';
+        detailsButton.textContent = localization.t('projects.card.comingSoon');
         detailsButton.disabled = true;
-        detailsButton.setAttribute('aria-label', 'Скоро будет доступно');
+        detailsButton.setAttribute('aria-label', localization.t('projects.card.comingSoonAria'));
       }
       detailsButton.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -249,15 +250,15 @@ export class CardFactory {
     // Кнопка PDF
     if (button) {
       if (publicationUrl) {
-        button.textContent = 'ЧИТАТЬ';
+        button.textContent = localization.t('research.card.read');
         button.addEventListener('click', (e) => {
           e.stopPropagation();
           window.open(publicationUrl, '_blank', 'noopener,noreferrer');
         });
       } else {
         button.disabled = true;
-        button.textContent = 'СКОРО';
-        button.setAttribute('aria-label', 'Скоро будет доступно');
+        button.textContent = localization.t('projects.card.comingSoon');
+        button.setAttribute('aria-label', localization.t('projects.card.comingSoonAria'));
       }
     }
 
