@@ -87,9 +87,7 @@ export class CommunityPage extends BasePage {
       ariaLabel: isPlaceholder
         ? localization.t('community.discordServer.comingSoon')
         : localization.t('community.discordServer.join'),
-      description:
-        discord.description ||
-        localization.t('community.discord.join'),
+      description: localization.t('community.discord.join'),
       isDiscord: true,
     });
 
