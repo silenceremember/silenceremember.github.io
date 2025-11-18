@@ -24,7 +24,6 @@
     "tagline": "SILENCEREMEMBER",
     "title": "SYSTEM GAME DESIGNER",
     "about": "I design game systems and narrative as a unified whole to create meaningful experiences. The site features my projects, research, and technical experiments.",
-    "meta_title": "Maxim Elchaninov — System Game Designer",
     "meta_description": "Maxim Elchaninov — System Game Designer crafting meaningful player experiences through unified game systems and narrative design. Explore projects, research, and technical experiments.",
     "slideHint": "Scroll the mouse wheel to navigate between slides",
     "featuredWorks": "FEATURED WORKS",
@@ -35,7 +34,8 @@
     }
   },
   "projects": {
-    "title": "Projects | Maxim Elchaninov — System Game Designer",
+    "title": "Portfolio",
+    "meta_title": "Projects",
     "description": "Portfolio of projects by Maxim Elchaninov. Explore works on system game design, game mechanics creation, and narrative design.",
     "navigation": "NAVIGATION",
     "card": {
@@ -74,7 +74,8 @@
     }
   },
   "research": {
-    "title": "Research | Maxim Elchaninov — System Game Designer",
+    "title": "Research",
+    "meta_title": "Research",
     "description": "Academic publications and research by Maxim Elchaninov in the field of game design, game systems, and interactive storytelling.",
     "navigation": "NAVIGATION",
     "diploma": {
@@ -112,7 +113,8 @@
     }
   },
   "cv": {
-    "title": "CV | Maxim Elchaninov — System Game Designer",
+    "title": "CV",
+    "meta_title": "CV",
     "description": "Professional resume of Maxim Elchaninov. Work experience, technical skills, education, and achievements in the field of game design.",
     "navigation": "NAVIGATION",
     "name": "MAXIM ELCHANINOV",
@@ -171,7 +173,8 @@
     }
   },
   "community": {
-    "title": "Community | Maxim Elchaninov — System Game Designer",
+    "title": "Community",
+    "meta_title": "Community",
     "description": "Join the community of Maxim Elchaninov. Links to Discord, social networks, and ways to support.",
     "navigation": "NAVIGATION",
     "sections": {
@@ -207,8 +210,8 @@
     "teamName": "team"
   },
   "404": {
-    "title": "404 — Page Not Found | Maxim Elchaninov",
-    "message": "The requested page was not found on Maxim Elchaninov's website.",
+    "title": "Page not found",
+    "message": "Unfortunately, the requested page does not exist.",
     "backHome": "Back to home"
   },
   "media": {

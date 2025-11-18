@@ -198,30 +198,35 @@ export class LanguageSwitcher {
     let descKey = '';
     
     if (pageName === 'index.html' || pageName === '' || path === '/') {
-      titleKey = 'index.meta_title';
       descKey = 'index.meta_description';
     } else if (pageName === 'projects.html') {
-      titleKey = 'projects.title';
+      titleKey = 'projects.meta_title';
       descKey = 'projects.description';
     } else if (pageName === 'research.html') {
-      titleKey = 'research.title';
+      titleKey = 'research.meta_title';
       descKey = 'research.description';
     } else if (pageName === 'cv.html') {
-      titleKey = 'cv.title';
+      titleKey = 'cv.meta_title';
       descKey = 'cv.description';
     } else if (pageName === 'community.html') {
-      titleKey = 'community.title';
+      titleKey = 'community.meta_title';
       descKey = 'community.description';
     } else if (pageName === '404.html') {
       titleKey = '404.title';
-      descKey = '404.description';
+      descKey = '404.message'; // Using message for description on 404
     }
 
     if (titleKey) {
-      const title = localization.t(titleKey);
-      if (title) {
-        document.title = title;
+      const pageTitle = localization.t(titleKey);
+      if (pageTitle) {
+        if (pageName === '404.html') {
+          document.title = pageTitle + ' | Maxim Elchaninov';
+        } else {
+          document.title = pageTitle + ' | Maxim Elchaninov — System Game Designer';
+        }
       }
+    } else {
+      document.title = 'Maxim Elchaninov — System Game Designer';
     }
 
     if (descKey) {
