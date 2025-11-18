@@ -284,14 +284,19 @@ export class ScrollManager {
 
     // Добавляем новые обработчики
     if (this.isTabletMode) {
-      this.scrollContainer.addEventListener('scroll', this.handleScrollBound);
+      this.scrollContainer.addEventListener('scroll', this.handleScrollBound, {
+        passive: true,
+      });
+      // Устанавливаем начальное состояние при инициализации
       this.handleScroll();
     } else if (this.isScrollPage) {
       window.addEventListener('scroll', this.handleScrollBound, {
         passive: true,
       });
+      // Устанавливаем начальное состояние при инициализации
       this.handleScroll();
     } else {
+      // Для десктоп режима без скролла показываем header и footer
       this.header.classList.remove('hidden');
       this.footer.classList.remove('hidden');
       this.decorativeLines.forEach((line) => line.classList.remove('hidden'));

@@ -4,6 +4,12 @@
 /* Эти стили нужны для десктопа с маленькой высотой окна */
 /* Применяются для главной страницы (где есть .slides-container) даже с классом page-with-scroll */
 @include height-small {
+  /* Разрешаем overscroll для pull-to-refresh на главной странице при высоте <900px */
+  html:has(.slides-container),
+  body:has(.slides-container) {
+    overscroll-behavior-y: auto;
+  }
+
   /* Стили для главной страницы - применяются независимо от класса page-with-scroll */
   body:has(.slides-container) .header {
     position: fixed;
@@ -125,8 +131,9 @@
 /* Применяются при ширине <=1023px ИЛИ высоте <900px */
 @include tablet-and-mobile {
   /* Разрешаем overscroll для pull-to-refresh на мобильных устройствах */
-  html:not(.page-with-scroll),
-  body:not(.page-with-scroll) {
+  /* Применяем для всех страниц, включая главную */
+  html,
+  body {
     overscroll-behavior-y: auto;
   }
 
