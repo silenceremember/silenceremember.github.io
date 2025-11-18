@@ -17,6 +17,7 @@ export class ScrollToTopButton {
     this.wasScrollingDown = false;
     this.initAttempts = 0;
     this.MAX_INIT_ATTEMPTS = 10;
+    this.previousIsTabletMode = false;
   }
 
   /**
@@ -60,11 +61,25 @@ export class ScrollToTopButton {
   }
 
   /**
+   * Проверяет, является ли это страницей со скроллом
+   * @returns {boolean} true если body имеет класс page-with-scroll
+   */
+  isScrollPage() {
+    return document.body.classList.contains('page-with-scroll');
+  }
+
+  /**
    * Получает элемент для скролла
    * @returns {HTMLElement|Window} Элемент для скролла
    */
   getScrollElement() {
-    return this.isTabletMode() && this.pageWrapper ? this.pageWrapper : window;
+    // На мобильных/планшетных устройствах и на страницах со скроллом 
+    // всегда используется window
+    if (this.isTabletMode() || this.isScrollPage()) {
+      return window;
+    }
+    // Только на десктопе для главной страницы используется pageWrapper (если есть)
+    return this.pageWrapper || window;
   }
 
   /**
@@ -267,9 +282,17 @@ export class ScrollToTopButton {
     // Настраиваем обработчик скролла
     this.setupScrollListener();
 
+    // Сохраняем предыдущий режим для отслеживания изменений
+    this.previousIsTabletMode = this.isTabletMode();
+
     // Обновляем обработчик при изменении размера окна
     window.addEventListener('resize', () => {
-      this.updateScrollListener();
+      const currentIsTabletMode = this.isTabletMode();
+      // Обновляем обработчик только если изменился режим
+      if (currentIsTabletMode !== this.previousIsTabletMode) {
+        this.updateScrollListener();
+        this.previousIsTabletMode = currentIsTabletMode;
+      }
       this.handleScroll();
     });
   }
@@ -280,26 +303,30 @@ export class ScrollToTopButton {
   setupScrollListener() {
     const scrollElement = this.getScrollElement();
     this.handleScrollBound = this.handleScroll.bind(this);
-    if (scrollElement === window) {
-      window.addEventListener('scroll', this.handleScrollBound, {
-        passive: true,
-      });
-    } else {
-      scrollElement.addEventListener('scroll', this.handleScrollBound, {
-        passive: true,
-      });
-    }
+    
+    // Добавляем обработчик на соответствующий элемент
+    scrollElement.addEventListener('scroll', this.handleScrollBound, {
+      passive: true,
+    });
   }
 
   /**
    * Обновляет обработчик скролла
    */
   updateScrollListener() {
+    // Удаляем обработчики со всех возможных элементов
     window.removeEventListener('scroll', this.handleScrollBound);
     if (this.pageWrapper) {
       this.pageWrapper.removeEventListener('scroll', this.handleScrollBound);
     }
+    
+    // Обновляем lastScrollTop для предотвращения скачков
     this.lastScrollTop = this.getScrollTop();
+    
+    // Настраиваем новый обработчик
     this.setupScrollListener();
+    
+    // Обновляем состояние кнопки
+    this.handleScroll();
   }
 }

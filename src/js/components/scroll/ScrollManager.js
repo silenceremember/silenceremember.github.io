@@ -18,6 +18,8 @@ export class ScrollManager {
     this.isTabletMode = false;
     this.lastScrollTop = 0;
     this.isInitialized = false;
+    this.ticking = false; // Флаг для requestAnimationFrame
+    this.lastKnownScrollPosition = 0;
   }
 
   /**
@@ -138,16 +140,31 @@ export class ScrollManager {
 
     const headerFooterHeight = this.getHeaderFooterHeight();
     // Устанавливаем высоту равную высоте footer плюс запас
-    // Увеличиваем запас до 20px для надежности на мобильных устройствах
+    // На мобильных устройствах используем больший запас из-за плавающей адресной строки
+    // и других особенностей браузеров
+    const extraSpace = this.isTabletMode ? 60 : 20;
     // Это гарантирует, что когда footer появится, он не перекроет контент
     // и пользователь сможет прокрутить до самого низа
-    this.spacerElement.style.height = `${headerFooterHeight + 20}px`;
+    this.spacerElement.style.height = `${headerFooterHeight + extraSpace}px`;
   }
 
   /**
-   * Обработчик события скролла
+   * Обработчик события скролла с оптимизацией через requestAnimationFrame
    */
   handleScroll() {
+    if (!this.ticking) {
+      window.requestAnimationFrame(() => {
+        this.updateHeaderFooterVisibility();
+        this.ticking = false;
+      });
+      this.ticking = true;
+    }
+  }
+
+  /**
+   * Обновляет видимость header и footer
+   */
+  updateHeaderFooterVisibility() {
     const scrollElement = this.getScrollElement();
     let scrollTop;
     let scrollHeight;
@@ -167,32 +184,53 @@ export class ScrollManager {
     // Для других страниц только в режиме планшета
     if (!this.isScrollPage && !this.isTabletMode) return;
 
-    // Проверяем достижение низа страницы
-    // Фиктивный элемент уже занимает место под footer, поэтому просто проверяем реальный низ
-    const atTop = scrollTop <= 2;
-    const atBottom = scrollTop + clientHeight >= scrollHeight - 2;
+    // Проверяем достижение верха и низа страницы
+    // Увеличиваем порог до 10px для более надежной работы на мобильных устройствах
+    const atTop = scrollTop <= 10;
+    // Для определения конца страницы используем более толерантный порог
+    // На мобильных устройствах из-за плавающей адресной строки и других факторов
+    // может быть погрешность до 5-10px
+    const bottomThreshold = this.isTabletMode ? 50 : 10;
+    const atBottom = scrollTop + clientHeight >= scrollHeight - bottomThreshold;
+    
     const scrollDelta = Math.abs(scrollTop - this.lastScrollTop);
     const isScrollingDown = scrollTop > this.lastScrollTop;
     const isScrollingUp = scrollTop < this.lastScrollTop;
 
+    // Определяем минимальную дельту для скрытия/показа
+    // Для медленной прокрутки используем меньший порог
+    const minDelta = 0.5;
+
     if (atTop || atBottom) {
-      // Если вверху или внизу страницы, показываем хедер и футер
-      this.header.classList.remove('hidden');
-      this.footer.classList.remove('hidden');
-      this.decorativeLines.forEach((line) => line.classList.remove('hidden'));
-    } else if (isScrollingDown && scrollDelta > 1) {
+      // Если вверху или внизу страницы, всегда показываем хедер и футер
+      this.showHeaderFooter();
+    } else if (isScrollingDown && scrollDelta > minDelta) {
       // Прокрутка вниз: скрываем хедер и футер
-      this.header.classList.add('hidden');
-      this.footer.classList.add('hidden');
-      this.decorativeLines.forEach((line) => line.classList.add('hidden'));
-    } else if (isScrollingUp && scrollDelta > 1) {
+      this.hideHeaderFooter();
+    } else if (isScrollingUp && scrollDelta > minDelta) {
       // Прокрутка вверх: показываем хедер и футер
-      this.header.classList.remove('hidden');
-      this.footer.classList.remove('hidden');
-      this.decorativeLines.forEach((line) => line.classList.remove('hidden'));
+      this.showHeaderFooter();
     }
 
     this.lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+  }
+
+  /**
+   * Показывает header и footer
+   */
+  showHeaderFooter() {
+    this.header.classList.remove('hidden');
+    this.footer.classList.remove('hidden');
+    this.decorativeLines.forEach((line) => line.classList.remove('hidden'));
+  }
+
+  /**
+   * Скрывает header и footer
+   */
+  hideHeaderFooter() {
+    this.header.classList.add('hidden');
+    this.footer.classList.add('hidden');
+    this.decorativeLines.forEach((line) => line.classList.add('hidden'));
   }
 
   /**
@@ -285,12 +323,10 @@ export class ScrollManager {
         passive: true,
       });
       // Устанавливаем начальное состояние при инициализации
-      this.handleScroll();
+      this.updateHeaderFooterVisibility();
     } else {
       // Для десктоп режима без скролла показываем header и footer
-      this.header.classList.remove('hidden');
-      this.footer.classList.remove('hidden');
-      this.decorativeLines.forEach((line) => line.classList.remove('hidden'));
+      this.showHeaderFooter();
     }
 
     this.isInitialized = true;
