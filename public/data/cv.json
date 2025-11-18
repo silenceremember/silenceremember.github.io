@@ -2,16 +2,28 @@
   "version": "1.0.0",
   "lastUpdated": "2025-01-XX",
   "about": "Создаю системы, формирующие повествование, и нарратив, определяющий игровой процесс.\n\nПрименяю инженерный и исследовательский подход: эксперементирую с технологиями, разрабатываю утилиты и использую нейросетевые модели. Обеспечиваю полный цикл создания проектной документации – от концепт-документов до технических заданий для команды.",
+  "aboutLocalized": {
+    "en": "I create systems that shape narrative and narrative that defines gameplay.\n\nI apply an engineering and research approach: experimenting with technologies, developing utilities, and using neural network models. I ensure the full cycle of project documentation creation – from concept documents to technical specifications for the team."
+  },
   "workExperience": [
     {
       "id": "aiti-novatsiya",
       "period": {
         "start": "2023-11",
         "end": "2024-08",
-        "duration": "10 месяцев"
+        "duration": "10 месяцев",
+        "durationLocalized": {
+          "en": "10 months"
+        }
       },
       "company": "ООО Айти Новация",
+      "companyLocalized": {
+        "en": "IT Novation LLC"
+      },
       "position": "Инженер технической поддержки",
+      "positionLocalized": {
+        "en": "Technical Support Engineer"
+      },
       "responsibilities": [
         "Обеспечение технической поддержки клиентов",
         "Решение проблем и оптимизация рабочих процессов"
@@ -33,11 +45,23 @@
       },
       "institution": "Российская академия народного хозяйства и государственной службы при Президенте Российской Федерации",
       "institutionShort": "РАНХиГС",
+      "institutionShortLocalized": {
+        "en": "RANEPA"
+      },
       "direction": "09.04.03 Прикладная информатика — Разработка компьютерных игр (Гейм-дизайн)",
+      "directionLocalized": {
+        "en": "09.04.03 Applied Informatics — Computer Game Development (Game Design)"
+      },
       "degree": "Магистр",
+      "degreeLocalized": {
+        "en": "Master's Degree"
+      },
       "graduationYear": 2026,
       "status": "in-progress",
-      "location": "Москва"
+      "location": "Москва",
+      "locationLocalized": {
+        "en": "Moscow"
+      }
     },
     {
       "id": "kubstu-bachelors",
@@ -47,11 +71,23 @@
       },
       "institution": "Кубанский государственный технологический университет",
       "institutionShort": "КубГТУ",
+      "institutionShortLocalized": {
+        "en": "KubSTU"
+      },
       "direction": "10.03.01 Информационная безопасность",
+      "directionLocalized": {
+        "en": "10.03.01 Information Security"
+      },
       "degree": "Бакалавр",
+      "degreeLocalized": {
+        "en": "Bachelor's Degree"
+      },
       "graduationYear": 2024,
       "status": "completed",
-      "location": "Краснодар"
+      "location": "Краснодар",
+      "locationLocalized": {
+        "en": "Krasnodar"
+      }
     }
   ],
   "skills": {
@@ -85,6 +121,9 @@
     {
       "id": "draft-punk",
       "title": "Draft Punk. 3D-моделирование объектов",
+      "titleLocalized": {
+        "en": "Draft Punk. 3D Object Modeling"
+      },
       "organization": "XYZ School",
       "year": 2022,
       "url": null
@@ -92,6 +131,9 @@
     {
       "id": "texturniy-trip",
       "title": "Текстурный трип",
+      "titleLocalized": {
+        "en": "Texture Trip"
+      },
       "organization": "XYZ School",
       "year": 2022,
       "url": null
@@ -100,10 +142,19 @@
   "languages": [
     {
       "language": "Русский",
-      "level": "Родной"
+      "languageLocalized": {
+        "en": "Russian"
+      },
+      "level": "Родной",
+      "levelLocalized": {
+        "en": "Native"
+      }
     },
     {
       "language": "Английский",
+      "languageLocalized": {
+        "en": "English"
+      },
       "level": "Pre-Intermediate"
     }
   ]

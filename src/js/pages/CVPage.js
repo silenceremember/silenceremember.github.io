@@ -195,17 +195,28 @@ export class CVPage extends BasePage {
 
     // Период
     if (period && work.period) {
-      period.textContent = DateFormatter.formatPeriod(work.period);
+      const lang = localization.getCurrentLanguage();
+      period.textContent = DateFormatter.formatPeriod(work.period, lang);
     }
 
     // Заголовок - должность
     if (title) {
-      title.textContent = work.position || '';
+      const lang = localization.getCurrentLanguage();
+      if (work.positionLocalized && work.positionLocalized[lang]) {
+        title.textContent = work.positionLocalized[lang];
+      } else {
+        title.textContent = work.position || '';
+      }
     }
 
     // Подзаголовок - компания
     if (subtitle) {
-      subtitle.textContent = work.company || '';
+      const lang = localization.getCurrentLanguage();
+      if (work.companyLocalized && work.companyLocalized[lang]) {
+        subtitle.textContent = work.companyLocalized[lang];
+      } else {
+        subtitle.textContent = work.company || '';
+      }
     }
 
     // Описание - акцент на оптимизации процессов
@@ -241,21 +252,43 @@ export class CVPage extends BasePage {
 
     // Период
     if (period && edu.period) {
-      period.textContent = DateFormatter.formatPeriod(edu.period);
+      const lang = localization.getCurrentLanguage();
+      period.textContent = DateFormatter.formatPeriod(edu.period, lang);
     }
 
     // Заголовок - направление
     if (title) {
-      title.textContent = edu.direction || '';
+      const lang = localization.getCurrentLanguage();
+      if (edu.directionLocalized && edu.directionLocalized[lang]) {
+        title.textContent = edu.directionLocalized[lang];
+      } else {
+        title.textContent = edu.direction || '';
+      }
     }
 
     // Подзаголовок - учреждение и степень
     if (subtitle) {
-      const institution = edu.institutionShort || edu.institution || '';
-      const degree = edu.degree ? `, ${edu.degree}` : '';
+      const lang = localization.getCurrentLanguage();
+      let institution = '';
+      // Сначала проверяем локализованное сокращенное название
+      if (edu.institutionShortLocalized && edu.institutionShortLocalized[lang]) {
+        institution = edu.institutionShortLocalized[lang];
+      } else if (edu.institutionLocalized && edu.institutionLocalized[lang]) {
+        institution = edu.institutionLocalized[lang];
+      } else {
+        institution = edu.institutionShort || edu.institution || '';
+      }
+      
+      // Всегда добавляем запятую перед степенью
+      const degree = edu.degreeLocalized && edu.degreeLocalized[lang]
+        ? `, ${edu.degreeLocalized[lang]}`
+        : (edu.degree ? `, ${edu.degree}` : '');
       subtitle.textContent = `${institution}${degree}`;
       if (edu.location) {
-        subtitle.textContent += ` (${edu.location})`;
+        const location = edu.locationLocalized && edu.locationLocalized[lang]
+          ? edu.locationLocalized[lang]
+          : edu.location;
+        subtitle.textContent += ` (${location})`;
       }
     }
 
@@ -272,6 +305,9 @@ export class CVPage extends BasePage {
 
     item.setAttribute('data-cv-id', edu.id || '');
     item.setAttribute('data-type', 'education');
+    if (edu.status) {
+      item.setAttribute('data-status', edu.status);
+    }
 
     return item;
   }
@@ -423,10 +459,16 @@ export class CVPage extends BasePage {
     courses.forEach((course) => {
       const itemDiv = document.createElement('div');
       itemDiv.className = 'cv-course-item';
+      itemDiv.setAttribute('data-course-id', course.id || '');
 
       const title = document.createElement('h4');
       title.className = 'cv-course-title';
-      title.textContent = course.title || '';
+      const lang = localization.getCurrentLanguage();
+      if (course.titleLocalized && course.titleLocalized[lang]) {
+        title.textContent = course.titleLocalized[lang];
+      } else {
+        title.textContent = course.title || '';
+      }
       itemDiv.appendChild(title);
 
       const meta = document.createElement('div');
@@ -460,19 +502,29 @@ export class CVPage extends BasePage {
     const section = document.createElement('div');
     section.className = 'cv-languages-list';
 
-    languages.forEach((lang) => {
+    languages.forEach((langData) => {
       const itemDiv = document.createElement('div');
       itemDiv.className = 'cv-language-item';
+      itemDiv.setAttribute('data-language', langData.language || '');
 
       const language = document.createElement('h4');
       language.className = 'cv-language-name';
-      language.textContent = lang.language || '';
+      const currentLang = localization.getCurrentLanguage();
+      if (langData.languageLocalized && langData.languageLocalized[currentLang]) {
+        language.textContent = langData.languageLocalized[currentLang];
+      } else {
+        language.textContent = langData.language || '';
+      }
       itemDiv.appendChild(language);
 
-      if (lang.level) {
+      if (langData.level) {
         const level = document.createElement('span');
         level.className = 'cv-language-level';
-        level.textContent = lang.level;
+        if (langData.levelLocalized && langData.levelLocalized[currentLang]) {
+          level.textContent = langData.levelLocalized[currentLang];
+        } else {
+          level.textContent = langData.level;
+        }
         itemDiv.appendChild(level);
       }
 
@@ -840,6 +892,9 @@ export class CVPage extends BasePage {
       });
     });
 
+    // Обновляем язык контента для правильного отображения при начальной загрузке
+    this.updateContentLanguage();
+
     // Ждем полной загрузки страницы и запускаем анимации
     // Анимация запускается каждый раз при загрузке страницы (как при первой загрузке, так и при повторном посещении)
     await this.waitForPageReady();
@@ -902,17 +957,7 @@ export class CVPage extends BasePage {
       }
     });
 
-    // Обновляем статусы образования
-    document.querySelectorAll('[data-type="education"]').forEach(item => {
-      const description = item.querySelector('.timeline-description');
-      if (description) {
-        const status = item.getAttribute('data-status');
-        if (status) {
-          const statusKey = status === 'in-progress' ? 'inProgress' : 'completed';
-          description.textContent = localization.t(`cv.status.${statusKey}`);
-        }
-      }
-    });
+    // Статусы образования обновляются в блоке выше вместе с другими полями
 
     // Обновляем категории навыков
     document.querySelectorAll('.cv-skill-category-title').forEach((title, index) => {
@@ -971,11 +1016,17 @@ export class CVPage extends BasePage {
 
     // Обновляем названия проектов/компаний в опыте работы
     document.querySelectorAll('[data-type="work"]').forEach(item => {
-      const workId = item.getAttribute('data-id');
+      const workId = item.getAttribute('data-cv-id');
       if (workId && this.cvData && this.cvData.workExperience) {
         const work = this.cvData.workExperience.find(w => w.id === workId);
         if (work) {
           const lang = localization.getCurrentLanguage();
+          
+          // Обновляем период
+          const period = item.querySelector('.timeline-period');
+          if (period && work.period) {
+            period.textContent = DateFormatter.formatPeriod(work.period, lang);
+          }
           
           const title = item.querySelector('.timeline-title');
           if (title) {
@@ -994,17 +1045,29 @@ export class CVPage extends BasePage {
               subtitle.textContent = work.company || '';
             }
           }
+
+          // Обновляем описание
+          const description = item.querySelector('.timeline-description');
+          if (description) {
+            description.textContent = localization.t('cv.workDescription');
+          }
         }
       }
     });
 
     // Обновляем названия в образовании
     document.querySelectorAll('[data-type="education"]').forEach(item => {
-      const eduId = item.getAttribute('data-id');
+      const eduId = item.getAttribute('data-cv-id');
       if (eduId && this.cvData && this.cvData.education) {
         const edu = this.cvData.education.find(e => e.id === eduId);
         if (edu) {
           const lang = localization.getCurrentLanguage();
+          
+          // Обновляем период
+          const period = item.querySelector('.timeline-period');
+          if (period && edu.period) {
+            period.textContent = DateFormatter.formatPeriod(edu.period, lang);
+          }
           
           const title = item.querySelector('.timeline-title');
           if (title) {
@@ -1018,16 +1081,18 @@ export class CVPage extends BasePage {
           const subtitle = item.querySelector('.timeline-subtitle');
           if (subtitle) {
             let institution = '';
-            if (edu.institutionLocalized && edu.institutionLocalized[lang]) {
-              institution = edu.institutionShortLocalized && edu.institutionShortLocalized[lang]
-                ? edu.institutionShortLocalized[lang]
-                : edu.institutionLocalized[lang];
+            // Сначала проверяем локализованное сокращенное название
+            if (edu.institutionShortLocalized && edu.institutionShortLocalized[lang]) {
+              institution = edu.institutionShortLocalized[lang];
+            } else if (edu.institutionLocalized && edu.institutionLocalized[lang]) {
+              institution = edu.institutionLocalized[lang];
             } else {
               institution = edu.institutionShort || edu.institution || '';
             }
             
+            // Всегда добавляем запятую перед степенью
             const degree = edu.degreeLocalized && edu.degreeLocalized[lang]
-              ? edu.degreeLocalized[lang]
+              ? `, ${edu.degreeLocalized[lang]}`
               : (edu.degree ? `, ${edu.degree}` : '');
             subtitle.textContent = `${institution}${degree}`;
             if (edu.location) {
@@ -1037,9 +1102,66 @@ export class CVPage extends BasePage {
               subtitle.textContent += ` (${location})`;
             }
           }
+
+          // Обновляем статус
+          const description = item.querySelector('.timeline-description');
+          if (description && edu.status) {
+            const statusKey = edu.status === 'in-progress' ? 'inProgress' : 'completed';
+            description.textContent = localization.t(`cv.status.${statusKey}`);
+          }
         }
       }
     });
+
+    // Обновляем курсы
+    if (this.cvData && this.cvData.courses) {
+      document.querySelectorAll('.cv-course-item').forEach(item => {
+        const courseId = item.getAttribute('data-course-id');
+        if (courseId) {
+          const course = this.cvData.courses.find(c => c.id === courseId);
+          if (course) {
+            const lang = localization.getCurrentLanguage();
+            const title = item.querySelector('.cv-course-title');
+            if (title) {
+              if (course.titleLocalized && course.titleLocalized[lang]) {
+                title.textContent = course.titleLocalized[lang];
+              } else {
+                title.textContent = course.title || '';
+              }
+            }
+          }
+        }
+      });
+    }
+
+    // Обновляем языки
+    if (this.cvData && this.cvData.languages) {
+      document.querySelectorAll('.cv-language-item').forEach(item => {
+        const languageName = item.getAttribute('data-language');
+        if (languageName) {
+          const langData = this.cvData.languages.find(l => l.language === languageName);
+          if (langData) {
+            const lang = localization.getCurrentLanguage();
+            const languageElement = item.querySelector('.cv-language-name');
+            if (languageElement) {
+              if (langData.languageLocalized && langData.languageLocalized[lang]) {
+                languageElement.textContent = langData.languageLocalized[lang];
+              } else {
+                languageElement.textContent = langData.language || '';
+              }
+            }
+            const levelElement = item.querySelector('.cv-language-level');
+            if (levelElement && langData.level) {
+              if (langData.levelLocalized && langData.levelLocalized[lang]) {
+                levelElement.textContent = langData.levelLocalized[lang];
+              } else {
+                levelElement.textContent = langData.level;
+              }
+            }
+          }
+        }
+      });
+    }
   }
 
   /**
