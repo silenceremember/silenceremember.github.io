@@ -35,12 +35,12 @@ SOFTWARE.
  * - Performance monitoring API
  */
 
-// Quality levels configuration
+// Quality levels configuration - optimized for maximum visual quality
 const QUALITY_LEVELS = {
   LOW: { simRes: 64, dyeRes: 512, pressureIterations: 10 },
   MEDIUM: { simRes: 96, dyeRes: 768, pressureIterations: 15 },
   HIGH: { simRes: 128, dyeRes: 1024, pressureIterations: 20 },
-  ULTRA: { simRes: 160, dyeRes: 1280, pressureIterations: 25 }
+  ULTRA: { simRes: 192, dyeRes: 1536, pressureIterations: 30 } // Increased for maximum quality
 };
 
 // Performance constants
@@ -55,22 +55,22 @@ const MAX_DT = 0.016666; // Maximum delta time (60fps cap)
 const COLOR_LERP_SPEED = 0.15; // Speed of color interpolation (0-1)
 const COLOR_UPDATE_THROTTLE = 100; // ms between color updates
 
-// Trail effect constants
-const TRAIL_COUNT = 3;
-const TRAIL_SPACING = 0.25; // More dense trails
-const TRAIL_INTENSITY_MULTIPLIER = 0.275; // Increased by 10%
-const MAIN_SPLAT_INTENSITY = 0.462; // Increased by 10%
-const TRAIL_FORCE_MULTIPLIER = 0.5;
-const BASE_COLOR_INTENSITY = 0.088; // Increased by 10%
+// Trail effect constants - maximized for best visual impact
+const TRAIL_COUNT = 4; // Increased for smoother trails
+const TRAIL_SPACING = 0.22; // More dense trails for smoother effect
+const TRAIL_INTENSITY_MULTIPLIER = 0.32; // Increased for better visibility
+const MAIN_SPLAT_INTENSITY = 0.52; // Increased for brighter effect
+const TRAIL_FORCE_MULTIPLIER = 0.55; // Increased for more dynamic trails
+const BASE_COLOR_INTENSITY = 0.105; // Increased for better color visibility
 
-// Default configuration
+// Default configuration - optimized for maximum visual quality
 const DEFAULT_CONFIG = {
-  DENSITY_DISSIPATION: 0.995, // Longer-lasting effects
-  VELOCITY_DISSIPATION: 0.45, // Balanced velocity dissipation
-  PRESSURE: 0.8,
-  CURL: 1.0, // More pronounced vortices
-  SPLAT_RADIUS: 0.90, // Slightly larger radius
-  SPLAT_FORCE: 2100, // Balanced force
+  DENSITY_DISSIPATION: 0.998, // Longer-lasting effects for better visibility
+  VELOCITY_DISSIPATION: 0.42, // Reduced for more dynamic movement
+  PRESSURE: 0.85, // Increased for better fluid dynamics
+  CURL: 1.15, // Increased for more pronounced and beautiful vortices
+  SPLAT_RADIUS: 0.95, // Increased radius for more visible splats
+  SPLAT_FORCE: 2400, // Increased force for more dynamic interactions
   SHADING: false,
   COLORFUL: false,
   COLOR_UPDATE_SPEED: 5,
@@ -110,7 +110,7 @@ export class FluidBackground {
     this.smoothCursorY = 0.5;
     this.targetCursorX = 0.5;
     this.targetCursorY = 0.5;
-    this.smoothFactor = 0.15; // Improved smoothness for better following
+    this.smoothFactor = 0.18; // Increased for smoother, more responsive following
     
     // Activation threshold
     this.initialCursorX = null;
@@ -929,6 +929,32 @@ export class FluidBackground {
           return max(1.055 * pow(color, vec3(0.416666667)) - 0.055, vec3(0));
       }
 
+      // Enhanced saturation function
+      vec3 enhanceSaturation(vec3 color, float saturation) {
+          float gray = dot(color, vec3(0.299, 0.587, 0.114));
+          return mix(vec3(gray), color, saturation);
+      }
+
+      // Improved tone mapping with smooth curve - optimized for reduced brightness
+      vec3 toneMap(vec3 color) {
+          float brightness = max(color.r, max(color.g, color.b));
+          
+          // Enhanced tone mapping curve - slightly reduced for less brightness
+          // Uses a smoother, more gradual curve that preserves mid-tones better
+          float toneMappedBrightness = brightness / (brightness + 1.1);
+          
+          // Apply smooth rolloff for very bright areas (prevents overexposure)
+          // Increased rolloff threshold for more natural dimming
+          float rolloff = smoothstep(0.35, 1.1, brightness);
+          toneMappedBrightness = mix(toneMappedBrightness, toneMappedBrightness * 0.8, rolloff);
+          
+          // Preserve color ratios while applying tone mapping
+          if (brightness > 0.0) {
+              return color * (toneMappedBrightness / brightness);
+          }
+          return color;
+      }
+
       void main () {
           vec3 c = texture2D(uTexture, vUv).rgb;
 
@@ -968,11 +994,25 @@ export class FluidBackground {
           c += bloom;
       #endif
 
-          // Tone mapping для затемнения максимального скопления света
-          float brightness = max(c.r, max(c.g, c.b));
-          // Применяем кривую затемнения: чем ярче, тем сильнее затемнение
-          float darkeningFactor = 1.0 - smoothstep(0.3, 1.0, brightness) * 0.6;
-          c *= darkeningFactor;
+          // Enhanced saturation for more vibrant colors
+          // Increase saturation by 20% for balanced visual impact
+          c = enhanceSaturation(c, 1.20);
+          
+          // Improved tone mapping with smooth curve - reduced brightness
+          c = toneMap(c);
+          
+          // Reduced brightness for more subtle effect
+          c *= 0.85; // Reduce overall brightness by 15%
+          
+          // Gamma correction - slightly reduced for less brightness
+          c = pow(c, vec3(0.95)); // Less aggressive gamma boost
+          
+          // Ensure minimum brightness for visibility (reduced threshold)
+          float minBrightness = 0.015;
+          float currentBrightness = max(c.r, max(c.g, c.b));
+          if (currentBrightness > 0.0 && currentBrightness < minBrightness) {
+              c *= (minBrightness / currentBrightness);
+          }
 
           float a = max(c.r, max(c.g, c.b));
           gl_FragColor = vec4(c, a);
@@ -1806,21 +1846,21 @@ export class FluidBackground {
       
       // Calculate movement speed for adaptive intensity
       const movementSpeed = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-      // Enhanced adaptive intensity based on speed with smoother curve
-      const intensityMultiplier = Math.min(movementSpeed * 12, 1.0); // More responsive to speed
-      const speedFactor = Math.min(movementSpeed * 8, 1.0); // Additional speed factor for force
+      // Enhanced adaptive intensity based on speed with smoother curve - maximized
+      const intensityMultiplier = Math.min(movementSpeed * 14, 1.0); // More responsive to speed
+      const speedFactor = Math.min(movementSpeed * 9, 1.0); // Additional speed factor for force
       
       // Only create splat if smooth cursor actually moved
       if (Math.abs(deltaX) > 0.0001 || Math.abs(deltaY) > 0.0001) {
         const color = this.generateColor();
-        // Enhanced intensity with better minimum threshold
-        const effectiveIntensity = Math.max(intensityMultiplier, 0.35);
+        // Enhanced intensity with better minimum threshold - increased for better visibility
+        const effectiveIntensity = Math.max(intensityMultiplier, 0.42);
         color.r *= MAIN_SPLAT_INTENSITY * effectiveIntensity;
         color.g *= MAIN_SPLAT_INTENSITY * effectiveIntensity;
         color.b *= MAIN_SPLAT_INTENSITY * effectiveIntensity;
-        // Dynamic force based on movement speed
-        const dx = deltaX * this.config.SPLAT_FORCE * (0.15 + speedFactor * 0.05);
-        const dy = deltaY * this.config.SPLAT_FORCE * (0.15 + speedFactor * 0.05);
+        // Dynamic force based on movement speed - increased for more dynamic effect
+        const dx = deltaX * this.config.SPLAT_FORCE * (0.18 + speedFactor * 0.06);
+        const dy = deltaY * this.config.SPLAT_FORCE * (0.18 + speedFactor * 0.06);
         
         // Main splat at smooth cursor position
         this.splat(this.smoothCursorX, this.smoothCursorY, dx, dy, color);
@@ -1832,14 +1872,14 @@ export class FluidBackground {
           const trailY = this.smoothCursorY - deltaY * spacing;
           // Generate color with slight variation for trail particles
           const trailColor = this.generateColorWithVariation(i);
-          // Improved fade curve for smoother trail appearance
-          const fadeFactor = 1 - (i / (TRAIL_COUNT + 1)) * 0.65; // Smoother fade
+          // Improved fade curve for smoother trail appearance - optimized
+          const fadeFactor = 1 - (i / (TRAIL_COUNT + 1)) * 0.6; // Better fade curve
           const trailIntensity = TRAIL_INTENSITY_MULTIPLIER * effectiveIntensity * fadeFactor;
           trailColor.r *= trailIntensity;
           trailColor.g *= trailIntensity;
           trailColor.b *= trailIntensity;
-          // Slightly reduced force for trail particles
-          const trailForce = TRAIL_FORCE_MULTIPLIER * (1 - i * 0.1);
+          // Optimized force for trail particles - increased for more visible trails
+          const trailForce = TRAIL_FORCE_MULTIPLIER * (1 - i * 0.08);
           this.splat(trailX, trailY, dx * trailForce, dy * trailForce, trailColor);
         }
       }
@@ -2142,16 +2182,26 @@ export class FluidBackground {
     }
 
     const gl = this.gl;
-    // For background effect, always use blending for transparency when rendering to screen
+    // Optimized blending for maximum visual quality with improved smoothness
     if (target == null) {
-      // Render to screen - always enable blending for transparent background effect
-      gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+      // Render to screen - use improved alpha blending with premultiplied alpha
+      // This creates smoother, more natural blending with better color mixing
       gl.enable(gl.BLEND);
+      gl.blendEquation(gl.FUNC_ADD);
+      // Use premultiplied alpha blending for better quality
+      // This provides smoother edges and better color mixing
+      gl.blendFuncSeparate(
+        gl.SRC_ALPHA,
+        gl.ONE_MINUS_SRC_ALPHA,
+        gl.ONE,
+        gl.ONE_MINUS_SRC_ALPHA
+      );
     } else {
       // Render to framebuffer
       if (!this.config.TRANSPARENT) {
         gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
         gl.enable(gl.BLEND);
+        gl.blendEquation(gl.FUNC_ADD);
       } else {
         gl.disable(gl.BLEND);
       }
@@ -2517,11 +2567,11 @@ export class FluidBackground {
         
         // Create initial splat at cursor position
         const color = this.generateColor();
-        color.r *= MAIN_SPLAT_INTENSITY * 0.85; // Moderate visibility
-        color.g *= MAIN_SPLAT_INTENSITY * 0.85;
-        color.b *= MAIN_SPLAT_INTENSITY * 0.85;
-        const dx = 220 * (Math.random() - 0.5); // Slightly reduced
-        const dy = 220 * (Math.random() - 0.5);
+        color.r *= MAIN_SPLAT_INTENSITY * 0.92; // Increased visibility
+        color.g *= MAIN_SPLAT_INTENSITY * 0.92;
+        color.b *= MAIN_SPLAT_INTENSITY * 0.92;
+        const dx = 250 * (Math.random() - 0.5); // Increased for more dynamic effect
+        const dy = 250 * (Math.random() - 0.5);
         this.splat(newX, newY, dx, dy, color);
       } else {
         // Update target position (where cursor actually is)
@@ -2547,13 +2597,13 @@ export class FluidBackground {
       if (!this.hasUserInteracted) {
         this.hasUserInteracted = true;
         const color = this.generateColor();
-        color.r *= MAIN_SPLAT_INTENSITY * 0.7; // Reduced visibility
-        color.g *= MAIN_SPLAT_INTENSITY * 0.7;
-        color.b *= MAIN_SPLAT_INTENSITY * 0.7;
+        color.r *= MAIN_SPLAT_INTENSITY * 0.8; // Increased visibility
+        color.g *= MAIN_SPLAT_INTENSITY * 0.8;
+        color.b *= MAIN_SPLAT_INTENSITY * 0.8;
         const x = posX / this.canvas.width;
         const y = 1.0 - posY / this.canvas.height;
-        const dx = 220 * (Math.random() - 0.5); // Slightly reduced
-        const dy = 220 * (Math.random() - 0.5);
+        const dx = 250 * (Math.random() - 0.5); // Increased for more dynamic effect
+        const dy = 250 * (Math.random() - 0.5);
         this.splat(x, y, dx, dy, color);
       }
       
@@ -2580,13 +2630,13 @@ export class FluidBackground {
         let posX = this.scaleByPixelRatio(touch.clientX - rect.left);
         let posY = this.scaleByPixelRatio(touch.clientY - rect.top);
         const color = this.generateColor();
-        color.r *= MAIN_SPLAT_INTENSITY * 0.7; // Reduced visibility
-        color.g *= MAIN_SPLAT_INTENSITY * 0.7;
-        color.b *= MAIN_SPLAT_INTENSITY * 0.7;
+        color.r *= MAIN_SPLAT_INTENSITY * 0.8; // Increased visibility
+        color.g *= MAIN_SPLAT_INTENSITY * 0.8;
+        color.b *= MAIN_SPLAT_INTENSITY * 0.8;
         const x = posX / this.canvas.width;
         const y = 1.0 - posY / this.canvas.height;
-        const dx = 220 * (Math.random() - 0.5); // Slightly reduced
-        const dy = 220 * (Math.random() - 0.5);
+        const dx = 250 * (Math.random() - 0.5); // Increased for more dynamic effect
+        const dy = 250 * (Math.random() - 0.5);
         this.splat(x, y, dx, dy, color);
       }
       
@@ -2701,13 +2751,13 @@ export class FluidBackground {
           
           // Create subtle splat effect on scroll
           const color = this.generateColor();
-          color.r *= TRAIL_INTENSITY_MULTIPLIER * 0.6; // Slightly increased
-          color.g *= TRAIL_INTENSITY_MULTIPLIER * 0.6;
-          color.b *= TRAIL_INTENSITY_MULTIPLIER * 0.6;
+          color.r *= TRAIL_INTENSITY_MULTIPLIER * 0.75; // Increased for better visibility
+          color.g *= TRAIL_INTENSITY_MULTIPLIER * 0.75;
+          color.b *= TRAIL_INTENSITY_MULTIPLIER * 0.75;
           const x = Math.random() * 0.3 + 0.35; // Center area
           const y = Math.random() * 0.3 + 0.35;
-          const dx = (Math.random() - 0.5) * 120;
-          const dy = (Math.random() - 0.5) * 120;
+          const dx = (Math.random() - 0.5) * 140; // Increased for more dynamic scroll effect
+          const dy = (Math.random() - 0.5) * 140;
           this.splat(x, y, dx, dy, color);
         }
         
@@ -2816,12 +2866,44 @@ export class FluidBackground {
   }
 
   generateColor() {
-    // Use a saturated red color for better visibility
-    // Direct red color to ensure proper red hue, not pink
+    // Use accent color from CSS variables with enhanced saturation and brightness
+    const accentColor = this.getAccentColor();
+    
+    // Enhance saturation and brightness for better visibility
+    // Convert RGB to HSV for saturation manipulation
+    const max = Math.max(accentColor.r, accentColor.g, accentColor.b);
+    const min = Math.min(accentColor.r, accentColor.g, accentColor.b);
+    const delta = max - min;
+    
+    let h = 0;
+    let s = max === 0 ? 0 : delta / max;
+    let v = max;
+    
+    // Calculate hue
+    if (delta !== 0) {
+      if (max === accentColor.r) {
+        h = ((accentColor.g - accentColor.b) / delta) % 6;
+      } else if (max === accentColor.g) {
+        h = (accentColor.b - accentColor.r) / delta + 2;
+      } else {
+        h = (accentColor.r - accentColor.g) / delta + 4;
+      }
+    }
+    h /= 6;
+    if (h < 0) h += 1;
+    
+    // Enhance saturation (increase by 20%) and brightness (increase by 15%)
+    s = Math.min(s * 1.2, 1.0);
+    v = Math.min(v * 1.15, 1.0);
+    
+    // Convert back to RGB
+    const rgb = this.HSVtoRGB(h, s, v);
+    
+    // Apply base intensity multiplier
     return {
-      r: 0.88 * BASE_COLOR_INTENSITY, // Strong red component
-      g: 0.0 * BASE_COLOR_INTENSITY,  // No green
-      b: 0.16 * BASE_COLOR_INTENSITY  // Minimal blue for pure red
+      r: rgb.r * BASE_COLOR_INTENSITY,
+      g: rgb.g * BASE_COLOR_INTENSITY,
+      b: rgb.b * BASE_COLOR_INTENSITY
     };
   }
 
@@ -2830,14 +2912,48 @@ export class FluidBackground {
    * Adds subtle color shifts for more visual interest
    */
   generateColorWithVariation(trailIndex = 0) {
-    // Use saturated red color with slight brightness variation
-    const variation = (trailIndex * 0.08) % 1.0; // Subtle variation
-    const brightnessShift = 1.0 + variation * 0.15; // Slight brightness variation
+    // Use accent color with variation
+    const accentColor = this.getAccentColor();
     
+    // Convert RGB to HSV for manipulation
+    const max = Math.max(accentColor.r, accentColor.g, accentColor.b);
+    const min = Math.min(accentColor.r, accentColor.g, accentColor.b);
+    const delta = max - min;
+    
+    let h = 0;
+    let s = max === 0 ? 0 : delta / max;
+    let v = max;
+    
+    // Calculate hue
+    if (delta !== 0) {
+      if (max === accentColor.r) {
+        h = ((accentColor.g - accentColor.b) / delta) % 6;
+      } else if (max === accentColor.g) {
+        h = (accentColor.b - accentColor.r) / delta + 2;
+      } else {
+        h = (accentColor.r - accentColor.g) / delta + 4;
+      }
+    }
+    h /= 6;
+    if (h < 0) h += 1;
+    
+    // Add subtle hue shift for variation
+    const variation = (trailIndex * 0.05) % 1.0;
+    h = (h + variation * 0.02) % 1.0; // Small hue shift
+    
+    // Enhance saturation and brightness with trail-specific adjustments
+    s = Math.min(s * 1.2, 1.0);
+    const brightnessShift = 1.0 + variation * 0.12; // Subtle brightness variation
+    v = Math.min(v * 1.15 * brightnessShift, 1.0);
+    
+    // Convert back to RGB
+    const rgb = this.HSVtoRGB(h, s, v);
+    
+    // Apply base intensity multiplier
     return {
-      r: Math.min(0.88 * BASE_COLOR_INTENSITY * brightnessShift, 1.0), // Strong red
-      g: 0.0 * BASE_COLOR_INTENSITY * brightnessShift, // No green
-      b: Math.min(0.16 * BASE_COLOR_INTENSITY * brightnessShift, 1.0) // Minimal blue
+      r: rgb.r * BASE_COLOR_INTENSITY,
+      g: rgb.g * BASE_COLOR_INTENSITY,
+      b: rgb.b * BASE_COLOR_INTENSITY
     };
   }
 
