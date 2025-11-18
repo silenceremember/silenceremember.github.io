@@ -51,31 +51,24 @@
       history.scrollRestoration = 'manual';
     }
 
-    // Сбрасываем прокрутку в начало при загрузке страницы
-    // Контент загрузится асинхронно, поэтому нужно подождать
-    // Используем несколько попыток, чтобы убедиться, что прокрутка сброшена
+    // Оптимизированный сброс прокрутки без forced reflow
+    // Используем requestAnimationFrame для батчинга операций
     function resetScroll() {
-      if (window.scrollTo) {
-        window.scrollTo(0, 0);
-      }
-      const pageWrapper = document.querySelector('.page-wrapper');
-      if (pageWrapper) {
-        pageWrapper.scrollTop = 0;
-      }
+      requestAnimationFrame(() => {
+        if (window.scrollTo) {
+          window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+        }
+        const pageWrapper = document.querySelector('.page-wrapper');
+        if (pageWrapper) {
+          pageWrapper.scrollTop = 0;
+        }
+      });
     }
 
-    // Сбрасываем сразу
+    // Сбрасываем один раз сразу
     resetScroll();
 
-    // Сбрасываем после небольшой задержки, чтобы переопределить возможное восстановление браузером
-    setTimeout(resetScroll, 0);
-    setTimeout(resetScroll, 10);
-    setTimeout(resetScroll, 50);
-
-    // Также сбрасываем после полной загрузки страницы
-    window.addEventListener('load', function () {
-      setTimeout(resetScroll, 0);
-      setTimeout(resetScroll, 100);
-    });
+    // Также сбрасываем после полной загрузки страницы (один раз)
+    window.addEventListener('load', resetScroll, { once: true, passive: true });
   }
 })();
