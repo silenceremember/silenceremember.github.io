@@ -62,9 +62,11 @@ export class SlidesManager {
 
     if (this.menuButton) {
       this.menuButton.addEventListener('click', () => {
-        if (this.isTabletMode && this.ctaSection) {
-          this.ctaSection.scrollIntoView({ behavior: 'smooth' });
-        }
+        // Прокручиваем до низа страницы
+        window.scrollTo({
+          top: document.documentElement.scrollHeight,
+          behavior: 'smooth',
+        });
       });
     }
 

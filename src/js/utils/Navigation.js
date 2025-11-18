@@ -87,16 +87,11 @@ export class MenuButtonScrollHandler {
 
       // Добавляем обработчик
       this.menuButton.addEventListener('click', () => {
-        const isTabletMode = window.innerWidth < 1024;
-
-        if (isTabletMode) {
-          // На мобильных/планшетных устройствах прокрутка происходит на window
-          // Просто прокручиваем к навигации
-          this.navigationSection.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start',
-          });
-        }
+        // Прокручиваем до низа страницы
+        window.scrollTo({
+          top: document.documentElement.scrollHeight,
+          behavior: 'smooth',
+        });
       });
 
       // Помечаем, что обработчик добавлен
