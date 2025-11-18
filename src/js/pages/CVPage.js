@@ -502,13 +502,9 @@ export class CVPage extends BasePage {
     // Кнопка для английской версии
     const buttonEN = document.createElement('a');
     buttonEN.className = 'cv-download-button cta-button';
-    buttonEN.href = '#';
-    buttonEN.textContent = 'Скачать CV в PDF [EN]';
-    buttonEN.addEventListener('click', (e) => {
-      e.preventDefault();
-      // TODO: Реализовать генерацию/скачивание PDF для EN
-      alert('Функция скачивания PDF [EN] будет реализована позже');
-    });
+    buttonEN.href = 'https://docs.google.com/document/d/1XUQqdlww_pMwcZ04OSdwZJq9leMMBnhE9d7yyT_5LTQ/edit?tab=t.0';
+    buttonEN.textContent = 'СКАЧАТЬ CV В PDF [EN]';
+    buttonEN.target = '_blank';
 
     section.appendChild(buttonRU);
     section.appendChild(buttonEN);
