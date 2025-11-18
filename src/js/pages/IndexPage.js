@@ -122,8 +122,8 @@ export class IndexPage extends BasePage {
           window.innerWidth < 1024 || window.innerHeight < 900;
         
         // В tablet режиме все слайды видимы - загружаем все изображения сразу
-        // В desktop режиме: первый слайд загружаем сразу, остальные - лениво
-        const isVisible = isTabletMode || slideIndex === 0;
+        // В desktop режиме: слайды проектов (индексы 0-2) загружаем сразу без lazy
+        const isVisible = isTabletMode || slideIndex <= 2;
         backgroundImageService.loadBackgroundImage(
           projectPlaceholder,
           project.media.preview,
