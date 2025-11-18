@@ -5,6 +5,7 @@
 import { BasePage } from './BasePage.js';
 import { CardFactory } from '../factories/CardFactory.js';
 import { DateFormatter } from '../utils/DateFormatter.js';
+import { localization } from '../utils/Localization.js';
 import {
   animateElementsAppearance,
   animateSectionAppearance,
@@ -71,6 +72,12 @@ export class ResearchPage extends BasePage {
   async init() {
     await this.initBase();
 
+    // Подписываемся на изменения языка
+    this.languageChangeHandler = () => {
+      this.updateContentLanguage();
+    };
+    window.addEventListener('languageChanged', this.languageChangeHandler);
+
     // Инициализируем сервис индикатора загрузки
     this.initLoadingIndicator(
       'research-loading',
@@ -112,7 +119,7 @@ export class ResearchPage extends BasePage {
 
     if (publications.length === 0) {
       if (publicationsSection) {
-        publicationsSection.innerHTML = '<p>Публикации не найдены.</p>';
+        publicationsSection.innerHTML = `<p>${localization.t('research.errors.noPublications')}</p>`;
         const sectionOpacity = publicationsSection.style.opacity;
         if (
           sectionOpacity === '0' ||
@@ -142,7 +149,7 @@ export class ResearchPage extends BasePage {
       if (diplomaSection) {
         const diplomaTitle = document.createElement('h2');
         diplomaTitle.className = 'research-section-title';
-        diplomaTitle.textContent = 'Квалификационная работа';
+        diplomaTitle.textContent = localization.t('research.diploma.title');
         diplomaSection.appendChild(diplomaTitle);
 
         const diplomaGrid = document.createElement('div');
@@ -278,5 +285,25 @@ export class ResearchPage extends BasePage {
 
     // Ждем полной загрузки страницы перед завершением инициализации
     await this.waitForPageReady();
+  }
+
+  /**
+   * Обновляет язык динамического контента
+   */
+  updateContentLanguage() {
+    // Обновляем заголовок ВКР
+    const diplomaTitle = document.querySelector('#research-diploma-section .research-section-title');
+    if (diplomaTitle) {
+      diplomaTitle.textContent = localization.t('research.diploma.title');
+    }
+  }
+
+  /**
+   * Очищает ресурсы
+   */
+  destroy() {
+    if (this.languageChangeHandler) {
+      window.removeEventListener('languageChanged', this.languageChangeHandler);
+    }
   }
 }

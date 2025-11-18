@@ -1,0 +1,136 @@
+{
+  "common": {
+    "nav": {
+      "home": "HOME",
+      "portfolio": "PORTFOLIO",
+      "research": "RESEARCH",
+      "cv": "CV",
+      "community": "COMMUNITY"
+    },
+    "buttons": {
+      "scrollToTop": "Scroll to top",
+      "contactEmail": "CONTACT BY EMAIL",
+      "contactTelegram": "CONTACT ON TELEGRAM",
+      "downloadPDF": "DOWNLOAD PDF",
+      "navigation": "NAVIGATION"
+    },
+    "aria": {
+      "languageSwitch": "Switch language",
+      "themeSwitch": "Switch theme",
+      "menu": "Menu"
+    }
+  },
+  "index": {
+    "tagline": "SILENCEREMEMBER",
+    "title": "SYSTEM GAME DESIGNER",
+    "about": "I design game systems and narrative as a unified whole to create meaningful experiences. The site features my projects, research, and technical experiments.",
+    "slideHint": "Scroll the mouse wheel to navigate between slides",
+    "featuredWorks": "FEATURED WORKS",
+    "whatsNext": "WHAT'S NEXT?",
+    "projectDetails": {
+      "myRole": "MY ROLE",
+      "keyContribution": "KEY CONTRIBUTION"
+    }
+  },
+  "projects": {
+    "title": "Portfolio",
+    "description": "Portfolio of game designer Maxim Elchaninov. Game systems, tools, and experiments.",
+    "navigation": "NAVIGATION"
+  },
+  "research": {
+    "title": "Research",
+    "description": "Scientific works and publications by Maxim Elchaninov on game design and game development",
+    "navigation": "NAVIGATION",
+    "diploma": {
+      "title": "Qualification Work"
+    },
+    "errors": {
+      "noPublications": "No publications found."
+    }
+  },
+  "cv": {
+    "title": "CV",
+    "description": "CV of game designer Maxim Elchaninov. Work experience, skills, and education.",
+    "navigation": "NAVIGATION",
+    "name": "MAXIM ELCHANINOV",
+    "role": "SYSTEM GAME DESIGNER",
+    "workDescription": "Optimizing workflows and solving technical problems",
+    "sections": {
+      "about": "ABOUT",
+      "workExperience": "WORK EXPERIENCE",
+      "education": "EDUCATION",
+      "skills": "SKILLS",
+      "certificates": "CERTIFICATES",
+      "courses": "COURSES",
+      "languages": "LANGUAGES"
+    },
+    "skills": {
+      "designPrototyping": "Design Prototyping",
+      "technicalScripting": "Technical Scripting",
+      "designDocumentation": "Design Documentation",
+      "productionCollaboration": "Production & Collaboration",
+      "assetCreation": "Asset Creation",
+      "categories": {
+        "designPrototyping": {
+          "title": "DESIGN & PROTOTYPING",
+          "description": "Core toolkit for creating and testing game experiences"
+        },
+        "technicalScripting": {
+          "title": "TECHNICAL SKILLS & SCRIPTING",
+          "description": "Languages and technologies for implementing systems and conducting research"
+        },
+        "designDocumentation": {
+          "title": "DESIGN DOCUMENTATION",
+          "description": "Tools for describing and visualizing game design decisions"
+        },
+        "productionCollaboration": {
+          "title": "PRODUCTION & COLLABORATION",
+          "description": "Industry standards for version control and task management"
+        },
+        "assetCreation": {
+          "title": "ASSET CREATION",
+          "description": "Supporting skills for visualizing prototypes"
+        }
+      }
+    },
+    "status": {
+      "completed": "Completed",
+      "inProgress": "In Progress"
+    },
+    "buttons": {
+      "details": "Details",
+      "downloadRU": "DOWNLOAD CV IN PDF [RU]",
+      "downloadEN": "DOWNLOAD CV IN PDF [EN]"
+    },
+    "errors": {
+      "loadFailed": "Failed to load CV data."
+    }
+  },
+  "community": {
+    "title": "Community",
+    "description": "Maxim Elchaninov's community. Social networks, platforms, and ways to connect",
+    "navigation": "NAVIGATION",
+    "sections": {
+      "discord": "DISCORD SERVER",
+      "social": "SOCIAL NETWORKS",
+      "donations": "SUPPORT",
+      "work": "WORK LINKS",
+      "events": "UPCOMING EVENTS"
+    },
+    "discord": {
+      "join": "Join our game development community"
+    },
+    "donation": {
+      "support": "Support via Boosty"
+    },
+    "events": {
+      "defaultTitle": "Event"
+    }
+  },
+  "404": {
+    "title": "Page not found",
+    "message": "Unfortunately, the requested page does not exist.",
+    "backHome": "Back to home"
+  }
+}
+

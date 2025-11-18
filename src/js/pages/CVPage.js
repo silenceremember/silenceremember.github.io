@@ -6,6 +6,7 @@
 import { BasePage } from './BasePage.js';
 import { DateFormatter } from '../utils/DateFormatter.js';
 import { CVAnimationManager } from '../managers/CVAnimationManager.js';
+import { localization } from '../utils/Localization.js';
 
 /**
  * Класс страницы резюме
@@ -95,11 +96,11 @@ export class CVPage extends BasePage {
 
     const nameTitle = document.createElement('h2');
     nameTitle.className = 'cv-header-name';
-    nameTitle.textContent = 'MAXIM ELCHANINOV';
+    nameTitle.textContent = localization.t('cv.name');
 
     const roleSubtitle = document.createElement('h3');
     roleSubtitle.className = 'cv-header-role';
-    roleSubtitle.textContent = 'SYSTEM GAME DESIGNER';
+    roleSubtitle.textContent = localization.t('cv.role');
 
     // Контакты под ролью
     const contactsWrapper = document.createElement('div');
@@ -208,8 +209,7 @@ export class CVPage extends BasePage {
 
     // Описание - акцент на оптимизации процессов
     if (description) {
-      description.textContent =
-        'Оптимизация рабочих процессов и решение технических проблем';
+      description.textContent = localization.t('cv.workDescription');
       description.style.display = 'block';
     }
 
@@ -260,9 +260,8 @@ export class CVPage extends BasePage {
 
     // Описание - статус
     if (description) {
-      const statusText =
-        edu.status === 'in-progress' ? 'В процессе' : 'Завершено';
-      description.textContent = statusText;
+      const statusKey = edu.status === 'in-progress' ? 'inProgress' : 'completed';
+      description.textContent = localization.t(`cv.status.${statusKey}`);
       description.style.display = 'block';
     }
 
@@ -289,35 +288,32 @@ export class CVPage extends BasePage {
     const categories = [
       {
         key: 'design-prototyping',
-        title: 'ДИЗАЙН И ПРОТОТИПИРОВАНИЕ',
-        description:
-          'Основной инструментарий для создания и проверки игрового опыта',
+        titleKey: 'cv.skills.categories.designPrototyping.title',
+        descriptionKey: 'cv.skills.categories.designPrototyping.description',
         skills: skills['design-prototyping'] || [],
       },
       {
         key: 'technical-scripting',
-        title: 'ТЕХНИЧЕСКИЕ НАВЫКИ И СКРИПТИНГ',
-        description:
-          'Языки и технологии для реализации систем и проведения исследований',
+        titleKey: 'cv.skills.categories.technicalScripting.title',
+        descriptionKey: 'cv.skills.categories.technicalScripting.description',
         skills: skills['technical-scripting'] || [],
       },
       {
         key: 'design-documentation',
-        title: 'ДИЗАЙН-ДОКУМЕНТАЦИЯ',
-        description:
-          'Инструменты для описания и визуализации геймдизайнерских решений',
+        titleKey: 'cv.skills.categories.designDocumentation.title',
+        descriptionKey: 'cv.skills.categories.designDocumentation.description',
         skills: skills['design-documentation'] || [],
       },
       {
         key: 'production-collaboration',
-        title: 'ПРОИЗВОДСТВО И СОВМЕСТНАЯ РАБОТА',
-        description: 'Стандарты индустрии для управления версиями и задачами',
+        titleKey: 'cv.skills.categories.productionCollaboration.title',
+        descriptionKey: 'cv.skills.categories.productionCollaboration.description',
         skills: skills['production-collaboration'] || [],
       },
       {
         key: 'asset-creation',
-        title: 'СОЗДАНИЕ АССЕТОВ',
-        description: 'Вспомогательные навыки для визуализации прототипов',
+        titleKey: 'cv.skills.categories.assetCreation.title',
+        descriptionKey: 'cv.skills.categories.assetCreation.description',
         skills: skills['asset-creation'] || [],
       },
     ];
@@ -330,13 +326,13 @@ export class CVPage extends BasePage {
 
       const categoryTitle = document.createElement('h3');
       categoryTitle.className = 'cv-skill-category-title';
-      categoryTitle.textContent = category.title;
+      categoryTitle.textContent = localization.t(category.titleKey);
       categoryDiv.appendChild(categoryTitle);
 
-      if (category.description) {
+      if (category.descriptionKey) {
         const categoryDescription = document.createElement('p');
         categoryDescription.className = 'cv-skill-category-description';
-        categoryDescription.textContent = category.description;
+        categoryDescription.textContent = localization.t(category.descriptionKey);
         categoryDiv.appendChild(categoryDescription);
       }
 
@@ -395,7 +391,7 @@ export class CVPage extends BasePage {
       // Кнопка "Подробнее"
       const detailsButton = document.createElement('button');
       detailsButton.className = 'cv-certificate-button';
-      detailsButton.textContent = 'Подробнее';
+      detailsButton.textContent = localization.t('cv.buttons.details');
 
       if (cert.url) {
         detailsButton.addEventListener('click', () => {
@@ -496,14 +492,14 @@ export class CVPage extends BasePage {
     const buttonRU = document.createElement('a');
     buttonRU.className = 'cv-download-button cta-button';
     buttonRU.href = 'https://docs.google.com/document/d/15toQDK1N_Tt6c8jg8v8mfzUBjL0Xi34xeVMMH5x_Jns/edit?usp=sharing';
-    buttonRU.textContent = 'СКАЧАТЬ CV В PDF [RU]';
+    buttonRU.textContent = localization.t('cv.buttons.downloadRU');
     buttonRU.target = '_blank';
 
     // Кнопка для английской версии
     const buttonEN = document.createElement('a');
     buttonEN.className = 'cv-download-button cta-button';
     buttonEN.href = 'https://docs.google.com/document/d/1XUQqdlww_pMwcZ04OSdwZJq9leMMBnhE9d7yyT_5LTQ/edit?tab=t.0';
-    buttonEN.textContent = 'СКАЧАТЬ CV В PDF [EN]';
+    buttonEN.textContent = localization.t('cv.buttons.downloadEN');
     buttonEN.target = '_blank';
 
     section.appendChild(buttonRU);
@@ -530,7 +526,7 @@ export class CVPage extends BasePage {
     // Секция уже очищена в начале функции
     const workTitle = document.createElement('h2');
     workTitle.className = 'cv-section-title';
-    workTitle.textContent = 'Опыт работы';
+    workTitle.textContent = localization.t('cv.sections.workExperience');
     workSection.appendChild(workTitle);
 
     const timelineContainer = document.createElement('div');
@@ -577,7 +573,7 @@ export class CVPage extends BasePage {
     // Секция уже очищена в начале функции
     const educationTitle = document.createElement('h2');
     educationTitle.className = 'cv-section-title';
-    educationTitle.textContent = 'Образование';
+    educationTitle.textContent = localization.t('cv.sections.education');
     educationSection.appendChild(educationTitle);
 
     const timelineContainer = document.createElement('div');
@@ -627,6 +623,12 @@ export class CVPage extends BasePage {
   async init() {
     await this.initBase();
 
+    // Подписываемся на изменения языка
+    this.languageChangeHandler = () => {
+      this.updateContentLanguage();
+    };
+    window.addEventListener('languageChanged', this.languageChangeHandler);
+
     // Инициализируем сервис индикатора загрузки
     this.initLoadingIndicator('cv-loading', 'cv-loading-container');
     this.loadingIndicator.show();
@@ -652,7 +654,7 @@ export class CVPage extends BasePage {
     if (!cvData) {
       const headerSection = document.getElementById('cv-header-section');
       if (headerSection) {
-        headerSection.innerHTML = '<p>Не удалось загрузить данные резюме.</p>';
+        headerSection.innerHTML = `<p>${localization.t('cv.errors.loadFailed')}</p>`;
         headerSection.style.display = 'block';
         headerSection.style.visibility = 'visible';
         headerSection.style.opacity = '';
@@ -733,7 +735,7 @@ export class CVPage extends BasePage {
       // Секция уже очищена в начале функции
       const certificatesTitle = document.createElement('h2');
       certificatesTitle.className = 'cv-section-title';
-      certificatesTitle.textContent = 'Сертификаты';
+      certificatesTitle.textContent = localization.t('cv.sections.certificates');
       certificatesSection.appendChild(certificatesTitle);
 
       const certificatesList = this.createCertificatesSection(
@@ -761,7 +763,7 @@ export class CVPage extends BasePage {
       // Секция уже очищена в начале функции
       const coursesTitle = document.createElement('h2');
       coursesTitle.className = 'cv-section-title';
-      coursesTitle.textContent = 'Курсы';
+      coursesTitle.textContent = localization.t('cv.sections.courses');
       coursesSection.appendChild(coursesTitle);
 
       const coursesList = this.createCoursesSection(cvData.courses);
@@ -787,7 +789,7 @@ export class CVPage extends BasePage {
       // Секция уже очищена в начале функции
       const languagesTitle = document.createElement('h2');
       languagesTitle.className = 'cv-section-title';
-      languagesTitle.textContent = 'Языки';
+      languagesTitle.textContent = localization.t('cv.sections.languages');
       languagesSection.appendChild(languagesTitle);
 
       const languagesList = this.createLanguagesSection(cvData.languages);
@@ -861,6 +863,94 @@ export class CVPage extends BasePage {
           }
         }, 100);
       }
+    }
+  }
+
+  /**
+   * Обновляет язык динамического контента
+   */
+  updateContentLanguage() {
+    // Обновляем заголовки секций
+    const sectionTitles = {
+      'cv-work-section': 'cv.sections.workExperience',
+      'cv-education-section': 'cv.sections.education',
+      'cv-skills-section': 'cv.sections.skills',
+      'cv-certificates-section': 'cv.sections.certificates',
+      'cv-courses-section': 'cv.sections.courses',
+      'cv-languages-section': 'cv.sections.languages',
+    };
+
+    Object.entries(sectionTitles).forEach(([sectionId, titleKey]) => {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        const titleElement = section.querySelector('.cv-section-title');
+        if (titleElement) {
+          titleElement.textContent = localization.t(titleKey);
+        }
+      }
+    });
+
+    // Обновляем кнопки загрузки PDF
+    const downloadButtons = document.querySelectorAll('.cv-download-button');
+    downloadButtons.forEach((button, index) => {
+      if (index === 0) {
+        button.textContent = localization.t('cv.buttons.downloadRU');
+      } else if (index === 1) {
+        button.textContent = localization.t('cv.buttons.downloadEN');
+      }
+    });
+
+    // Обновляем статусы образования
+    document.querySelectorAll('[data-type="education"]').forEach(item => {
+      const description = item.querySelector('.timeline-description');
+      if (description) {
+        const status = item.getAttribute('data-status');
+        if (status) {
+          const statusKey = status === 'in-progress' ? 'inProgress' : 'completed';
+          description.textContent = localization.t(`cv.status.${statusKey}`);
+        }
+      }
+    });
+
+    // Обновляем категории навыков
+    document.querySelectorAll('.cv-skill-category-title').forEach((title, index) => {
+      const categoryKeys = [
+        'cv.skills.categories.designPrototyping.title',
+        'cv.skills.categories.technicalScripting.title',
+        'cv.skills.categories.designDocumentation.title',
+        'cv.skills.categories.productionCollaboration.title',
+        'cv.skills.categories.assetCreation.title',
+      ];
+      if (categoryKeys[index]) {
+        title.textContent = localization.t(categoryKeys[index]);
+      }
+    });
+
+    document.querySelectorAll('.cv-skill-category-description').forEach((desc, index) => {
+      const categoryKeys = [
+        'cv.skills.categories.designPrototyping.description',
+        'cv.skills.categories.technicalScripting.description',
+        'cv.skills.categories.designDocumentation.description',
+        'cv.skills.categories.productionCollaboration.description',
+        'cv.skills.categories.assetCreation.description',
+      ];
+      if (categoryKeys[index]) {
+        desc.textContent = localization.t(categoryKeys[index]);
+      }
+    });
+
+    // Обновляем кнопки "Подробнее"
+    document.querySelectorAll('.cv-certificate-button').forEach(button => {
+      button.textContent = localization.t('cv.buttons.details');
+    });
+  }
+
+  /**
+   * Очищает ресурсы
+   */
+  destroy() {
+    if (this.languageChangeHandler) {
+      window.removeEventListener('languageChanged', this.languageChangeHandler);
     }
   }
 }

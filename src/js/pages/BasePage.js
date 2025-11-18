@@ -166,7 +166,7 @@ export class BasePage {
     themeSwitcher.init();
 
     const languageSwitcher = new LanguageSwitcher();
-    languageSwitcher.init();
+    await languageSwitcher.init();
 
     // Используем глобальный экземпляр курсора из main.js, если он доступен
     // Иначе создаем новый и инициализируем полностью

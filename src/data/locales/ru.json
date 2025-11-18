@@ -1,0 +1,136 @@
+{
+  "common": {
+    "nav": {
+      "home": "ГЛАВНАЯ",
+      "portfolio": "ПОРТФОЛИО",
+      "research": "ИССЛЕДОВАНИЯ",
+      "cv": "РЕЗЮМЕ",
+      "community": "СООБЩЕСТВО"
+    },
+    "buttons": {
+      "scrollToTop": "Прокрутить наверх",
+      "contactEmail": "СВЯЗАТЬСЯ ПО ПОЧТЕ",
+      "contactTelegram": "СВЯЗАТЬСЯ В ТЕЛЕГРАММ",
+      "downloadPDF": "СКАЧАТЬ PDF",
+      "navigation": "НАВИГАЦИЯ"
+    },
+    "aria": {
+      "languageSwitch": "Смена языка",
+      "themeSwitch": "Смена режима",
+      "menu": "Меню"
+    }
+  },
+  "index": {
+    "tagline": "SILENCEREMEMBER",
+    "title": "SYSTEM GAME DESIGNER",
+    "about": "Проектирую игровые системы и нарратив как единое целое для создания осмысленного опыта. На сайте представлены мои проекты, исследования и технические эксперименты.",
+    "slideHint": "Прокручивайте колесико мыши для перехода между слайдами",
+    "featuredWorks": "ИЗБРАННЫЕ РАБОТЫ",
+    "whatsNext": "ЧТО ДАЛЬШЕ?",
+    "projectDetails": {
+      "myRole": "МОЯ РОЛЬ",
+      "keyContribution": "КЛЮЧЕВОЙ ВКЛАД"
+    }
+  },
+  "projects": {
+    "title": "Портфолио",
+    "description": "Портфолио проектов геймдизайнера Maxim Elchaninov. Игровые системы, инструменты и эксперименты.",
+    "navigation": "НАВИГАЦИЯ"
+  },
+  "research": {
+    "title": "Исследования",
+    "description": "Научные работы и публикации Maxim Elchaninov по геймдизайну и разработке игр",
+    "navigation": "НАВИГАЦИЯ",
+    "diploma": {
+      "title": "Квалификационная работа"
+    },
+    "errors": {
+      "noPublications": "Публикации не найдены."
+    }
+  },
+  "cv": {
+    "title": "Резюме",
+    "description": "Резюме геймдизайнера Maxim Elchaninov. Опыт работы, навыки и образование.",
+    "navigation": "НАВИГАЦИЯ",
+    "name": "MAXIM ELCHANINOV",
+    "role": "SYSTEM GAME DESIGNER",
+    "workDescription": "Оптимизация рабочих процессов и решение технических проблем",
+    "sections": {
+      "about": "О СЕБЕ",
+      "workExperience": "ОПЫТ РАБОТЫ",
+      "education": "ОБРАЗОВАНИЕ",
+      "skills": "НАВЫКИ",
+      "certificates": "СЕРТИФИКАТЫ",
+      "courses": "КУРСЫ",
+      "languages": "ЯЗЫКИ"
+    },
+    "skills": {
+      "designPrototyping": "Прототипирование дизайна",
+      "technicalScripting": "Технический скриптинг",
+      "designDocumentation": "Дизайн-документация",
+      "productionCollaboration": "Продакшн и коллаборация",
+      "assetCreation": "Создание ассетов",
+      "categories": {
+        "designPrototyping": {
+          "title": "ДИЗАЙН И ПРОТОТИПИРОВАНИЕ",
+          "description": "Основной инструментарий для создания и проверки игрового опыта"
+        },
+        "technicalScripting": {
+          "title": "ТЕХНИЧЕСКИЕ НАВЫКИ И СКРИПТИНГ",
+          "description": "Языки и технологии для реализации систем и проведения исследований"
+        },
+        "designDocumentation": {
+          "title": "ДИЗАЙН-ДОКУМЕНТАЦИЯ",
+          "description": "Инструменты для описания и визуализации геймдизайнерских решений"
+        },
+        "productionCollaboration": {
+          "title": "ПРОИЗВОДСТВО И СОВМЕСТНАЯ РАБОТА",
+          "description": "Стандарты индустрии для управления версиями и задачами"
+        },
+        "assetCreation": {
+          "title": "СОЗДАНИЕ АССЕТОВ",
+          "description": "Вспомогательные навыки для визуализации прототипов"
+        }
+      }
+    },
+    "status": {
+      "completed": "Завершено",
+      "inProgress": "В процессе"
+    },
+    "buttons": {
+      "details": "Подробнее",
+      "downloadRU": "СКАЧАТЬ CV В PDF [RU]",
+      "downloadEN": "СКАЧАТЬ CV В PDF [EN]"
+    },
+    "errors": {
+      "loadFailed": "Не удалось загрузить данные резюме."
+    }
+  },
+  "community": {
+    "title": "Сообщество",
+    "description": "Сообщество Maxim Elchaninov. Социальные сети, платформы и способы связи",
+    "navigation": "НАВИГАЦИЯ",
+    "sections": {
+      "discord": "DISCORD СЕРВЕР",
+      "social": "СОЦИАЛЬНЫЕ СЕТИ",
+      "donations": "ПОДДЕРЖКА",
+      "work": "РАБОЧИЕ ССЫЛКИ",
+      "events": "ПРЕДСТОЯЩИЕ СОБЫТИЯ"
+    },
+    "discord": {
+      "join": "Присоединяйтесь к нашему сообществу разработчиков игр"
+    },
+    "donation": {
+      "support": "Поддержка через Boosty"
+    },
+    "events": {
+      "defaultTitle": "Событие"
+    }
+  },
+  "404": {
+    "title": "Страница не найдена",
+    "message": "К сожалению, запрашиваемая страница не существует.",
+    "backHome": "Вернуться на главную"
+  }
+}
+

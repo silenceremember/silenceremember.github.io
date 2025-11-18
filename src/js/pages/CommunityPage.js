@@ -5,6 +5,7 @@
 import { BasePage } from './BasePage.js';
 import { CardFactory } from '../factories/CardFactory.js';
 import { CommunityAnimationManager } from '../managers/CommunityAnimationManager.js';
+import { localization } from '../utils/Localization.js';
 
 /**
  * Класс страницы сообщества
@@ -73,7 +74,7 @@ export class CommunityPage extends BasePage {
 
     const section = this.createSectionWithTitle({
       className: 'community-section',
-      title: 'DISCORD СЕРВЕР',
+      title: localization.t('community.sections.discord'),
       titleClassName: 'community-section-title',
     });
 
@@ -88,7 +89,7 @@ export class CommunityPage extends BasePage {
         : 'Присоединиться к Discord серверу',
       description:
         discord.description ||
-        'Присоединяйтесь к нашему сообществу разработчиков игр',
+        localization.t('community.discord.join'),
       isDiscord: true,
     });
 
@@ -115,7 +116,7 @@ export class CommunityPage extends BasePage {
 
     const section = this.createSectionWithTitle({
       className: 'community-section',
-      title: 'СОЦИАЛЬНЫЕ СЕТИ',
+      title: localization.t('community.sections.social'),
       titleClassName: 'community-section-title',
     });
 
@@ -160,7 +161,7 @@ export class CommunityPage extends BasePage {
 
     const section = this.createSectionWithTitle({
       className: 'community-section',
-      title: 'ПОДДЕРЖКА',
+      title: localization.t('community.sections.donations'),
       titleClassName: 'community-section-title',
     });
 
@@ -201,7 +202,7 @@ export class CommunityPage extends BasePage {
 
     const section = this.createSectionWithTitle({
       className: 'community-section',
-      title: 'РАБОТА',
+      title: localization.t('community.sections.work'),
       titleClassName: 'community-section-title',
     });
 
@@ -247,7 +248,7 @@ export class CommunityPage extends BasePage {
 
     const section = this.createSectionWithTitle({
       className: 'community-section',
-      title: 'ПРЕДСТОЯЩИЕ СОБЫТИЯ',
+      title: localization.t('community.sections.events'),
       titleClassName: 'community-section-title',
     });
 
@@ -260,7 +261,7 @@ export class CommunityPage extends BasePage {
 
       const eventTitle = document.createElement('h3');
       eventTitle.className = 'community-event-title';
-      eventTitle.textContent = event.title || 'Событие';
+      eventTitle.textContent = event.title || localization.t('community.events.defaultTitle');
       eventItem.appendChild(eventTitle);
 
       if (event.date) {
@@ -326,6 +327,12 @@ export class CommunityPage extends BasePage {
   async init() {
     // Инициализируем базовые компоненты (навигация, scroll-to-top, SVG loader)
     await this.initBase();
+
+    // Подписываемся на изменения языка
+    this.languageChangeHandler = () => {
+      this.updateContentLanguage();
+    };
+    window.addEventListener('languageChanged', this.languageChangeHandler);
 
     // Инициализируем сервис индикатора загрузки
     this.initLoadingIndicator(
@@ -403,6 +410,46 @@ export class CommunityPage extends BasePage {
     await this.waitForPageReady();
     if (this.animationManager) {
       this.animationManager.initializeAnimations();
+    }
+  }
+
+  /**
+   * Обновляет язык динамического контента
+   */
+  updateContentLanguage() {
+    // Обновляем заголовки секций
+    const sectionTitles = {
+      'community-discord-section': 'community.sections.discord',
+      'community-social-section': 'community.sections.social',
+      'community-donations-section': 'community.sections.donations',
+      'community-work-section': 'community.sections.work',
+      'community-events-section': 'community.sections.events',
+    };
+
+    Object.entries(sectionTitles).forEach(([sectionId, titleKey]) => {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        const titleElement = section.querySelector('.community-section-title');
+        if (titleElement) {
+          titleElement.textContent = localization.t(titleKey);
+        }
+      }
+    });
+
+    // Обновляем события по умолчанию
+    document.querySelectorAll('.community-event-title').forEach(title => {
+      if (!title.textContent || title.textContent === 'Событие' || title.textContent === 'Event') {
+        title.textContent = localization.t('community.events.defaultTitle');
+      }
+    });
+  }
+
+  /**
+   * Очищает ресурсы
+   */
+  destroy() {
+    if (this.languageChangeHandler) {
+      window.removeEventListener('languageChanged', this.languageChangeHandler);
     }
   }
 }
