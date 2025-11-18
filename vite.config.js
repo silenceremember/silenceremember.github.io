@@ -2,6 +2,7 @@ import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import { promises as fs } from 'fs';
 import path from 'path';
+import { constants } from 'zlib';
 import viteCompression from 'vite-plugin-compression';
 
 export default defineConfig({
@@ -76,14 +77,22 @@ export default defineConfig({
       ext: '.gz',
       threshold: 1024, // Сжимать файлы больше 1KB
       deleteOriginFile: false, // Оставляем оригинальные файлы
-      verbose: true,
+      verbose: false, // Отключаем verbose для ускорения сборки
+      compressOptions: {
+        level: 6, // Баланс между скоростью и степенью сжатия (1-9, по умолчанию 9)
+      },
     }),
     viteCompression({
       algorithm: 'brotliCompress',
       ext: '.br',
       threshold: 1024, // Сжимать файлы больше 1KB
       deleteOriginFile: false, // Оставляем оригинальные файлы
-      verbose: true,
+      verbose: false, // Отключаем verbose для ускорения сборки
+      compressOptions: {
+        params: {
+          [constants.BROTLI_PARAM_QUALITY]: 4, // Баланс скорости и сжатия (1-11, по умолчанию 11)
+        },
+      },
     }),
   ],
   build: {

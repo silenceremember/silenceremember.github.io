@@ -30,6 +30,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          # Кеширование npm для ускорения установки
+          cache: 'npm'
 
       - name: Cache node modules
         uses: actions/cache@v4
@@ -37,12 +39,29 @@ jobs:
           path: |
             node_modules
             ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package.json') }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json', '**/package.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
 
+      - name: Cache Vite build
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules/.vite
+            .vite
+          key: ${{ runner.os }}-vite-${{ hashFiles('**/package-lock.json', '**/vite.config.js', '**/src/**') }}
+          restore-keys: |
+            ${{ runner.os }}-vite-
+
       - name: Install dependencies
-        run: npm install --legacy-peer-deps --prefer-offline --no-audit
+        # Используем npm ci для более быстрой и надежной установки в CI/CD
+        # --prefer-offline использует кеш, --no-audit отключает проверку безопасности для скорости
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci --legacy-peer-deps --prefer-offline --no-audit --no-fund
+          else
+            npm install --legacy-peer-deps --prefer-offline --no-audit --no-fund
+          fi
 
       - name: Build
         run: npm run build
