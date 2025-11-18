@@ -477,7 +477,7 @@
 .cv-certificate-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--spacing-sm);
+  gap: 0;
   align-items: center;
   /* Разрешаем выделение метаданных */
   user-select: text;
@@ -487,28 +487,64 @@
 }
 
 .cv-certificate-organization {
+  position: relative;
+  flex-shrink: 0;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-medium);
   color: var(--color-secondary);
+  transition: color var(--transition-duration-base) var(--timing-function-ease);
+  /* Исправление размытия текста */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 
   @include tablet-and-mobile {
     font-size: var(--font-size-small);
+  }
+
+  // Разделитель только для видимых элементов, которые не последние
+  &:not(:last-child)::after {
+    content: '';
+    display: inline-flex;
+    align-items: center;
+    width: 10px;
+    height: 10px;
+    margin-left: var(--spacing-xs);
+    margin-right: var(--spacing-xs);
+    background-color: var(--color-secondary);
+    mask-image: url('/assets/images/icon-divider-small.svg');
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-image: url('/assets/images/icon-divider-small.svg');
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    flex-shrink: 0;
+    transition: opacity var(--transition-duration-base) var(--timing-function-ease-in-out);
   }
 }
 
 .cv-certificate-year {
+  position: relative;
+  flex-shrink: 0;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-semibold);
   color: var(--color-secondary);
+  transition: color var(--transition-duration-base) var(--timing-function-ease);
+  /* Исправление размытия текста */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 
   @include tablet-and-mobile {
     font-size: var(--font-size-small);
-  }
-
-  &::before {
-    content: '•';
-    margin-right: var(--spacing-xs);
-    color: var(--color-divider);
   }
 }
 
@@ -607,7 +643,7 @@
 .cv-course-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--spacing-sm);
+  gap: 0;
   align-items: center;
   /* Разрешаем выделение метаданных */
   user-select: text;
@@ -617,28 +653,64 @@
 }
 
 .cv-course-organization {
+  position: relative;
+  flex-shrink: 0;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-medium);
   color: var(--color-secondary);
+  transition: color var(--transition-duration-base) var(--timing-function-ease);
+  /* Исправление размытия текста */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 
   @include tablet-and-mobile {
     font-size: var(--font-size-small);
+  }
+
+  // Разделитель только для видимых элементов, которые не последние
+  &:not(:last-child)::after {
+    content: '';
+    display: inline-flex;
+    align-items: center;
+    width: 10px;
+    height: 10px;
+    margin-left: var(--spacing-xs);
+    margin-right: var(--spacing-xs);
+    background-color: var(--color-secondary);
+    mask-image: url('/assets/images/icon-divider-small.svg');
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-image: url('/assets/images/icon-divider-small.svg');
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    flex-shrink: 0;
+    transition: opacity var(--transition-duration-base) var(--timing-function-ease-in-out);
   }
 }
 
 .cv-course-year {
+  position: relative;
+  flex-shrink: 0;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-semibold);
   color: var(--color-secondary);
+  transition: color var(--transition-duration-base) var(--timing-function-ease);
+  /* Исправление размытия текста */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 
   @include tablet-and-mobile {
     font-size: var(--font-size-small);
-  }
-
-  &::before {
-    content: '•';
-    margin-right: var(--spacing-xs);
-    color: var(--color-divider);
   }
 }
 
