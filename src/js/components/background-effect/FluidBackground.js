@@ -58,10 +58,10 @@ const COLOR_UPDATE_THROTTLE = 100; // ms between color updates
 // Trail effect constants
 const TRAIL_COUNT = 3;
 const TRAIL_SPACING = 0.25; // More dense trails
-const TRAIL_INTENSITY_MULTIPLIER = 0.25; // Slightly increased visibility
-const MAIN_SPLAT_INTENSITY = 0.42; // Slightly increased visibility
+const TRAIL_INTENSITY_MULTIPLIER = 0.275; // Increased by 10%
+const MAIN_SPLAT_INTENSITY = 0.462; // Increased by 10%
 const TRAIL_FORCE_MULTIPLIER = 0.5;
-const BASE_COLOR_INTENSITY = 0.08; // Slightly increased base intensity
+const BASE_COLOR_INTENSITY = 0.088; // Increased by 10%
 
 // Default configuration
 const DEFAULT_CONFIG = {
@@ -2607,9 +2607,13 @@ export class FluidBackground {
       }
     }, { passive: true });
 
+    // Track touch movement for scroll effect
+    let lastTouchY = null;
+    let lastTouchX = null;
+    let touchScrollThrottleId = null;
+    
     window.addEventListener('touchmove', (e) => {
       // Don't prevent default for touchmove to allow normal scrolling
-      // Only process touches if they started on canvas
       const touches = e.targetTouches;
       const rect = this.canvas.getBoundingClientRect();
       
@@ -2623,16 +2627,59 @@ export class FluidBackground {
         }
       }
       
-      // Only process if we have active pointers from canvas interaction
-      if (!hasActivePointers) return;
-      
       // Process touches for fluid effect without blocking scroll
-      for (let i = 0; i < touches.length; i++) {
-        let pointer = this.pointers[i + 1];
-        if (!pointer || !pointer.down) continue;
-        let posX = this.scaleByPixelRatio(touches[i].clientX - rect.left);
-        let posY = this.scaleByPixelRatio(touches[i].clientY - rect.top);
-        this.updatePointerMoveData(pointer, posX, posY);
+      if (hasActivePointers) {
+        for (let i = 0; i < touches.length; i++) {
+          let pointer = this.pointers[i + 1];
+          if (!pointer || !pointer.down) continue;
+          let posX = this.scaleByPixelRatio(touches[i].clientX - rect.left);
+          let posY = this.scaleByPixelRatio(touches[i].clientY - rect.top);
+          this.updatePointerMoveData(pointer, posX, posY);
+        }
+      }
+      
+      // Add touch scroll effect for all touches (even during scroll)
+      if (touches.length > 0 && !touchScrollThrottleId) {
+        touchScrollThrottleId = requestAnimationFrame(() => {
+          const touch = touches[0];
+          const currentTouchY = touch.clientY;
+          const currentTouchX = touch.clientX;
+          
+          if (lastTouchY !== null && lastTouchX !== null) {
+            const deltaY = Math.abs(currentTouchY - lastTouchY);
+            const deltaX = Math.abs(currentTouchX - lastTouchX);
+            const delta = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+            
+            // Create effect if touch moved significantly
+            if (delta > 3) {
+              // Activate effect on first touch movement
+              if (!this.hasUserInteracted) {
+                this.hasUserInteracted = true;
+              }
+              
+              // Create fluid effect at touch position
+              const color = this.generateColor();
+              const intensity = Math.min(delta / 30, 1.0); // Scale with movement
+              color.r *= TRAIL_INTENSITY_MULTIPLIER * 1.2 * intensity;
+              color.g *= TRAIL_INTENSITY_MULTIPLIER * 1.2 * intensity;
+              color.b *= TRAIL_INTENSITY_MULTIPLIER * 1.2 * intensity;
+              
+              const posX = this.scaleByPixelRatio(currentTouchX - rect.left);
+              const posY = this.scaleByPixelRatio(currentTouchY - rect.top);
+              const x = posX / this.canvas.width;
+              const y = 1.0 - posY / this.canvas.height;
+              
+              const dx = (currentTouchX - lastTouchX) * 2;
+              const dy = (currentTouchY - lastTouchY) * 2;
+              
+              this.splat(x, y, dx, dy, color);
+            }
+          }
+          
+          lastTouchY = currentTouchY;
+          lastTouchX = currentTouchX;
+          touchScrollThrottleId = null;
+        });
       }
     }, { passive: true });
     
@@ -2646,16 +2693,21 @@ export class FluidBackground {
         const currentScrollY = window.scrollY;
         const scrollDelta = Math.abs(currentScrollY - lastScrollY);
         
-        if (scrollDelta > 5 && this.hasUserInteracted) {
+        // Activate effect on first scroll
+        if (scrollDelta > 5) {
+          if (!this.hasUserInteracted) {
+            this.hasUserInteracted = true;
+          }
+          
           // Create subtle splat effect on scroll
           const color = this.generateColor();
-          color.r *= TRAIL_INTENSITY_MULTIPLIER * 0.5; // Moderate
-          color.g *= TRAIL_INTENSITY_MULTIPLIER * 0.5;
-          color.b *= TRAIL_INTENSITY_MULTIPLIER * 0.5;
+          color.r *= TRAIL_INTENSITY_MULTIPLIER * 0.6; // Slightly increased
+          color.g *= TRAIL_INTENSITY_MULTIPLIER * 0.6;
+          color.b *= TRAIL_INTENSITY_MULTIPLIER * 0.6;
           const x = Math.random() * 0.3 + 0.35; // Center area
           const y = Math.random() * 0.3 + 0.35;
-          const dx = (Math.random() - 0.5) * 110; // Slightly reduced
-          const dy = (Math.random() - 0.5) * 110;
+          const dx = (Math.random() - 0.5) * 120;
+          const dy = (Math.random() - 0.5) * 120;
           this.splat(x, y, dx, dy, color);
         }
         
@@ -2672,6 +2724,11 @@ export class FluidBackground {
         );
         if (pointer == null) continue;
         this.updatePointerUpData(pointer);
+      }
+      // Reset touch tracking when all touches end
+      if (e.touches.length === 0) {
+        lastTouchY = null;
+        lastTouchX = null;
       }
     });
   }
