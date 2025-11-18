@@ -102,12 +102,6 @@
       "RSCI": "РИНЦ",
       "Scopus": "Scopus"
     },
-    "card": {
-      "read": "ЧИТАТЬ",
-      "readAria": "Открыть публикацию",
-      "comingSoon": "СКОРО",
-      "comingSoonAria": "Скоро будет доступно"
-    },
     "errors": {
       "noPublications": "Публикации не найдены."
     }

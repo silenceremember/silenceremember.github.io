@@ -99,12 +99,6 @@
       "RSCI": "RSCI",
       "Scopus": "Scopus"
     },
-    "card": {
-      "read": "READ",
-      "readAria": "Open publication",
-      "comingSoon": "SOON",
-      "comingSoonAria": "Soon"
-    },
     "errors": {
       "noPublications": "No publications found."
     }
