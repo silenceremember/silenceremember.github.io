@@ -88,18 +88,6 @@ export class ScrollManager {
   }
 
   /**
-   * Проверяет, видимы ли header и footer (не скрыты)
-   * @returns {boolean} true если header и footer видимы
-   */
-  areHeaderFooterVisible() {
-    if (!this.header || !this.footer) return false;
-    return (
-      !this.header.classList.contains('hidden') &&
-      !this.footer.classList.contains('hidden')
-    );
-  }
-
-  /**
    * Создает фиктивный элемент внизу страницы для резервирования места под footer
    */
   createSpacerElement() {
@@ -179,13 +167,9 @@ export class ScrollManager {
     if (!this.isScrollPage && !this.isTabletMode) return;
 
     // Проверяем достижение низа страницы
-    // Фиктивный элемент уже занимает место под footer, поэтому footer не перекроет контент
-    // Используем небольшой threshold для более точного определения низа
+    // Фиктивный элемент уже занимает место под footer, поэтому просто проверяем реальный низ
     const atTop = scrollTop <= 2;
-    // Вычитаем высоту footer из scrollHeight, чтобы footer появлялся когда весь контент виден
-    const headerFooterHeight = this.getHeaderFooterHeight();
-    const atBottom =
-      scrollTop + clientHeight >= scrollHeight - headerFooterHeight - 5;
+    const atBottom = scrollTop + clientHeight >= scrollHeight - 2;
     const scrollDelta = Math.abs(scrollTop - this.lastScrollTop);
     const isScrollingDown = scrollTop > this.lastScrollTop;
     const isScrollingUp = scrollTop < this.lastScrollTop;
