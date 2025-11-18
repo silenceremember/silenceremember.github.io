@@ -90,14 +90,11 @@ export class MenuButtonScrollHandler {
         const isTabletMode = window.innerWidth < 1024;
 
         if (isTabletMode) {
-          const wrapperRect = this.pageWrapper.getBoundingClientRect();
-          const navRect = this.navigationSection.getBoundingClientRect();
-          const scrollTop = this.pageWrapper.scrollTop;
-          const targetPosition = scrollTop + navRect.top - wrapperRect.top;
-
-          this.pageWrapper.scrollTo({
-            top: targetPosition,
+          // На мобильных/планшетных устройствах прокрутка происходит на window
+          // Просто прокручиваем к навигации
+          this.navigationSection.scrollIntoView({
             behavior: 'smooth',
+            block: 'start',
           });
         }
       });
