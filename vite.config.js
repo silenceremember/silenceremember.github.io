@@ -4,6 +4,8 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import { constants } from 'zlib';
 import viteCompression from 'vite-plugin-compression';
+import { visualizer } from 'rollup-plugin-visualizer';
+import { vitePurgeCSS } from './vite-plugin-purgecss.js';
 
 export default defineConfig({
   base: '/',
@@ -94,6 +96,15 @@ export default defineConfig({
         },
       },
     }),
+    // Bundle analyzer для визуализации размера бандла
+    visualizer({
+      filename: './dist/stats.html',
+      open: false,
+      gzipSize: true,
+      brotliSize: true,
+    }),
+    // PurgeCSS для удаления неиспользуемых стилей
+    vitePurgeCSS(),
   ],
   build: {
     outDir: '../dist',
@@ -102,8 +113,8 @@ export default defineConfig({
     minify: 'esbuild', // Используем esbuild (быстрее, Vite 7 не требует terser)
     // esbuild автоматически минифицирует и удаляет console.log в production
     cssMinify: true, // Встроенная минификация CSS
-    // Порог для инлайна ассетов (2KB - меньше будут инлайниться, уменьшает количество запросов)
-    assetsInlineLimit: 2048,
+    // Порог для инлайна ассетов (4KB - оптимальный баланс между размером и количеством запросов)
+    assetsInlineLimit: 4096,
     // Оптимизация chunk splitting
     rollupOptions: {
       input: {
@@ -201,17 +212,36 @@ export default defineConfig({
         assetFileNames: (assetInfo) => {
           const info = assetInfo.name.split('.');
           const ext = info[info.length - 1];
+          
+          // Изображения
           if (
             /\.(png|jpe?g|svg|gif|tiff|bmp|ico|webp)$/i.test(assetInfo.name)
           ) {
             return `assets/images/[name]-[hash][extname]`;
           }
+          
+          // Шрифты
           if (/\.(woff2?|eot|ttf|otf)$/i.test(assetInfo.name)) {
             return `assets/fonts/[name]-[hash][extname]`;
           }
+          
+          // CSS
           if (/\.css$/i.test(assetInfo.name)) {
             return `assets/css/[name]-[hash][extname]`;
           }
+          
+          // HTML файлы (компоненты, шаблоны)
+          if (/\.html$/i.test(assetInfo.name)) {
+            return `assets/[name]-[hash][extname]`;
+          }
+          
+          // JSON и другие данные
+          if (/\.(json|xml|txt)$/i.test(assetInfo.name)) {
+            return `[name][extname]`;
+          }
+          
+          // Все остальные файлы (но НЕ .js, они должны быть entry/chunk)
+          // JS файлы НЕ должны попадать сюда - они обрабатываются через entryFileNames/chunkFileNames
           return `assets/[name]-[hash][extname]`;
         },
       },

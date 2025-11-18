@@ -25,9 +25,11 @@
   },
   "homepage": "https://silenceremember.github.io",
   "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^7.0.2",
     "eslint": "^9.39.1",
     "gh-pages": "^6.3.0",
     "prettier": "^3.6.2",
+    "rollup-plugin-visualizer": "^6.0.5",
     "sass": "^1.93.3",
     "sharp": "^0.34.5",
     "stylelint": "^16.25.0",
