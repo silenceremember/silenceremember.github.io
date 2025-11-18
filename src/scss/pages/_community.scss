@@ -112,9 +112,11 @@
       opacity: 0.9;
     }
   }
+}
 
-  // Специальные стили для Discord карточки
-  &.community-card-discord {
+/* Специальные стили для Discord карточки только на десктопе */
+@include desktop {
+  .community-card.community-card-discord {
     &:hover {
       .community-card-icon-left svg,
       .community-card-icon-left svg path {
@@ -235,11 +237,6 @@
       transition: fill var(--transition-duration-base) var(--timing-function-ease-in-out);
     }
   }
-}
-
-.community-card-discord:hover .community-card-icon-left svg,
-.community-card-discord:hover .community-card-icon-left svg path {
-  fill: var(--color-bg-primary) !important;
 }
 
 .community-card-discord .community-card-text-block {
@@ -454,7 +451,10 @@
     }
   }
 
-  .community-card-discord:hover {
+  .community-card.community-card-discord:hover {
+    border-color: var(--color-divider);
+    background-color: transparent;
+
     .community-card-icon-left svg,
     .community-card-icon-left svg path {
       fill: var(--color-text-primary) !important;
