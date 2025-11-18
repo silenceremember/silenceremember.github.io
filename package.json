@@ -8,6 +8,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "deploy": "npm run build && gh-pages -d dist",
     "format": "prettier --write .",
     "lint:js": "eslint .",
     "lint:css": "stylelint \"src/scss/**/*.scss\""
@@ -25,6 +26,7 @@
   "homepage": "https://silenceremember.github.io",
   "devDependencies": {
     "eslint": "^9.39.1",
+    "gh-pages": "^6.3.0",
     "prettier": "^3.6.2",
     "sass": "^1.93.3",
     "sharp": "^0.34.5",
