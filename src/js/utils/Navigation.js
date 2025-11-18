@@ -8,16 +8,14 @@ export class NavigationHelper {
    */
   static setActiveNavigationLink(navSelector) {
     const navLinks = document.querySelectorAll(`${navSelector} .cta-button`);
-    let currentPage = window.location.pathname.split('/').pop() || '';
+    let currentPage = window.location.pathname.split('/').pop();
+    if (currentPage === '' || currentPage === 'index.html') {
+      currentPage = 'index.html';
+    }
 
     navLinks.forEach((link) => {
-      const href = link.getAttribute('href');
-      // Проверяем, является ли текущая страница главной
-      const isCurrentPageHome = currentPage === '' || window.location.pathname === '/';
-      // Проверяем, является ли ссылка на главную страницу
-      const isLinkToHome = href === '/' || href === '';
-      
-      if ((isCurrentPageHome && isLinkToHome) || (href && href.split('/').pop() === currentPage && currentPage !== '')) {
+      const linkPage = link.getAttribute('href').split('/').pop();
+      if (linkPage === currentPage) {
         link.classList.add('active');
       } else {
         link.classList.remove('active');
