@@ -30,7 +30,7 @@ export class ThemeSwitcher {
     this.themeButton.addEventListener('click', () => this.toggleTheme());
 
     // Применяем сохраненную тему при загрузке
-    const savedTheme = localStorage.getItem('theme') || 'light';
+    const savedTheme = localStorage.getItem('theme') || 'dark';
     this.applyTheme(savedTheme);
   }
 
@@ -103,7 +103,7 @@ export class ThemeSwitcher {
    */
   toggleTheme() {
     const currentTheme =
-      this.documentElement.getAttribute('data-theme') || 'light';
+      this.documentElement.getAttribute('data-theme') || 'dark';
     const newTheme = currentTheme === 'light' ? 'dark' : 'light';
     localStorage.setItem('theme', newTheme);
     this.applyTheme(newTheme);

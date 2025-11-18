@@ -26,7 +26,7 @@
   --theme-dark-placeholder: #444444;
   --theme-dark-secondary: #888888;
 
-  /* По умолчанию используется светлая тема */
+  /* Значения по умолчанию для светлой темы (применяются, если data-theme='light' или не установлен) */
   --color-text-primary: var(--theme-light-text-primary);
   --color-bg-primary: var(--theme-light-bg-primary);
   --color-accent: var(--theme-light-accent);
