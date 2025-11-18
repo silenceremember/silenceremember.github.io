@@ -3,6 +3,18 @@
 import { BasePage } from './pages/BasePage.js';
 import { CustomCursor } from './components/index.js';
 
+// Предотвращаем восстановление позиции скролла браузером
+// Это критически важно для mobile/tablet, где header и footer скроллятся с контентом
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+
+// Гарантируем, что страница всегда загружается с верхней позиции
+// Делаем это как можно раньше, до любой инициализации
+window.scrollTo(0, 0);
+document.documentElement.scrollTop = 0;
+document.body.scrollTop = 0;
+
 /**
  * Быстрая инициализация курсора при загрузке страницы
  * Восстанавливает позицию из sessionStorage сразу для мгновенного отображения

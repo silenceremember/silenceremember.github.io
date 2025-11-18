@@ -134,6 +134,23 @@ export class BasePage {
   }
 
   /**
+   * Гарантирует, что страница загружается с верхней позиции скролла
+   * Особенно важно для mobile/tablet, где header и footer теперь скроллятся с контентом
+   */
+  ensureScrollAtTop() {
+    // Проверяем, нужно ли скроллить к верху (для всех устройств)
+    if (window.pageYOffset > 0 || document.documentElement.scrollTop > 0) {
+      window.scrollTo(0, 0);
+    }
+    
+    // Дополнительная проверка для page-wrapper на случай, если там есть скролл
+    const pageWrapper = document.querySelector('.page-wrapper');
+    if (pageWrapper && pageWrapper.scrollTop > 0) {
+      pageWrapper.scrollTop = 0;
+    }
+  }
+
+  /**
    * Инициализирует глобальные компоненты (вызывается один раз)
    */
   static async initGlobalComponents() {
@@ -267,6 +284,9 @@ export class BasePage {
    * Инициализирует базовые компоненты страницы
    */
   async initBase() {
+    // Гарантируем, что страница загружается с верхней позиции
+    this.ensureScrollAtTop();
+    
     // Инициализируем глобальные компоненты (если еще не инициализированы)
     await BasePage.initGlobalComponents();
 

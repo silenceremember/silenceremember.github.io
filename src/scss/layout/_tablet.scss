@@ -26,9 +26,7 @@
 
   /* Стили для главной страницы - применяются независимо от класса page-with-scroll */
   body:has(.slides-container) .header {
-    position: fixed;
-    top: 0;
-    left: 0;
+    position: relative;
     width: 100%;
     /* Background with 50% opacity to show fluid effect through */
     background-color: color-mix(in srgb, var(--color-bg-primary) 50%, transparent);
@@ -37,25 +35,10 @@
     transition:
       background-color var(--transition-duration-base) var(--timing-function-ease),
       color var(--transition-duration-base) var(--timing-function-ease);
-    pointer-events: none;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  /* Убрано will-change для header - это большой элемент (100vw ширина) */
-  /* Transition достаточно для плавной анимации */
-
-  body:has(.slides-container) .header-content,
-  body:has(.slides-container) .header-content * {
-    pointer-events: auto;
   }
 
   body:has(.slides-container) .footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
+    position: relative;
     width: 100%;
     /* Background with 50% opacity to show fluid effect through */
     background-color: color-mix(in srgb, var(--color-bg-primary) 50%, transparent);
@@ -64,33 +47,11 @@
     transition:
       background-color var(--transition-duration-base) var(--timing-function-ease),
       color var(--transition-duration-base) var(--timing-function-ease);
-    pointer-events: none;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  body:has(.slides-container) .footer-content,
-  body:has(.slides-container) .footer-content * {
-    pointer-events: auto;
   }
 
   body:has(.slides-container) .header + .decorative-line-horizontal,
   body:has(.slides-container) main + .decorative-line-horizontal {
-    position: fixed;
-    left: 0;
-    pointer-events: none;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-  }
-
-  body:has(.slides-container) .header + .decorative-line-horizontal {
-    top: var(--header-footer-height);
-  }
-
-  body:has(.slides-container) main + .decorative-line-horizontal {
-    bottom: var(--header-footer-height);
+    position: relative;
   }
 
   /* При высоте <900px применяем скролл для главной страницы (независимо от ширины) */
@@ -100,7 +61,7 @@
     max-width: none;
     width: 100vw;
     margin-left: calc(50% - 50vw);
-    min-height: calc(100vh - var(--header-footer-height) * 2);
+    min-height: 100vh;
     box-sizing: border-box;
   }
 
@@ -109,8 +70,6 @@
     height: auto;
     min-height: 100vh;
     overflow: visible;
-    padding-top: var(--header-footer-height);
-    padding-bottom: var(--header-footer-height);
     box-sizing: border-box;
   }
 }
@@ -134,8 +93,6 @@
     height: auto;
     min-height: 100vh;
     overflow: visible;
-    padding-top: var(--header-footer-height);
-    padding-bottom: var(--header-footer-height);
     box-sizing: border-box;
   }
 
@@ -145,14 +102,12 @@
     max-width: none;
     width: 100vw;
     margin-left: calc(50% - 50vw);
-    min-height: calc(100vh - var(--header-footer-height) * 2);
+    min-height: 100vh;
     box-sizing: border-box;
   }
 
   body:not(.page-with-scroll) .header {
-    position: fixed;
-    top: 0;
-    left: 0;
+    position: relative;
     width: 100%;
     /* Background with 50% opacity to show fluid effect through */
     background-color: color-mix(in srgb, var(--color-bg-primary) 50%, transparent);
@@ -161,25 +116,10 @@
     transition:
       background-color var(--transition-duration-base) var(--timing-function-ease),
       color var(--transition-duration-base) var(--timing-function-ease);
-    pointer-events: none;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  /* Убрано will-change для header - это большой элемент (100vw ширина) */
-  /* Transition достаточно для плавной анимации */
-
-  body:not(.page-with-scroll) .header-content,
-  body:not(.page-with-scroll) .header-content * {
-    pointer-events: auto;
   }
 
   body:not(.page-with-scroll) .footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
+    position: relative;
     width: 100%;
     /* Background with 50% opacity to show fluid effect through */
     background-color: color-mix(in srgb, var(--color-bg-primary) 50%, transparent);
@@ -188,33 +128,11 @@
     transition:
       background-color var(--transition-duration-base) var(--timing-function-ease),
       color var(--transition-duration-base) var(--timing-function-ease);
-    pointer-events: none;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  body:not(.page-with-scroll) .footer-content,
-  body:not(.page-with-scroll) .footer-content * {
-    pointer-events: auto;
   }
 
   body:not(.page-with-scroll) .header + .decorative-line-horizontal,
   body:not(.page-with-scroll) main + .decorative-line-horizontal {
-    position: fixed;
-    left: 0;
-    pointer-events: none;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-  }
-
-  body:not(.page-with-scroll) .header + .decorative-line-horizontal {
-    top: var(--header-footer-height);
-  }
-
-  body:not(.page-with-scroll) main + .decorative-line-horizontal {
-    bottom: var(--header-footer-height);
+    position: relative;
   }
 
   .slides-container.tablet-scroll-mode {
@@ -454,13 +372,11 @@
     height: auto;
     min-height: 100vh;
     overflow: visible;
-    padding-top: var(--header-footer-height);
-    padding-bottom: var(--header-footer-height);
     box-sizing: border-box;
   }
 
   body.page-404 .content-wrapper {
-    min-height: calc(100vh - var(--header-footer-height) * 2);
+    min-height: 100vh;
     box-sizing: border-box;
     display: flex;
     align-items: center;
@@ -512,13 +428,11 @@
     height: auto;
     min-height: 100vh;
     overflow: visible;
-    padding-top: var(--header-footer-height);
-    padding-bottom: var(--header-footer-height);
     box-sizing: border-box;
   }
 
   body.page-with-scroll .content-wrapper {
-    min-height: calc(100vh - var(--header-footer-height) * 2);
+    min-height: 100vh;
     box-sizing: border-box;
     display: block;
     padding-top: 0;
@@ -530,15 +444,12 @@
   }
 
   body.page-with-scroll .header {
-    position: fixed;
-    top: 0;
-    left: 0;
+    position: relative;
     width: 100%;
     height: var(--header-footer-height);
     display: flex;
     align-items: center;
     flex-shrink: 0;
-    z-index: 10;
     /* Background with 50% opacity to show fluid effect through */
     background-color: color-mix(in srgb, var(--color-bg-primary) 50%, transparent);
     backdrop-filter: blur(8px);
@@ -546,31 +457,15 @@
     transition:
       background-color var(--transition-duration-base) var(--timing-function-ease),
       color var(--transition-duration-base) var(--timing-function-ease);
-    pointer-events: none;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  /* Убрано will-change для header - это большой элемент (100vw ширина) */
-  /* Transition достаточно для плавной анимации */
-
-  body.page-with-scroll .header-content,
-  body.page-with-scroll .header-content * {
-    pointer-events: auto;
   }
 
   body.page-with-scroll .footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
+    position: relative;
     width: 100%;
     height: var(--header-footer-height);
     display: flex;
     align-items: center;
     flex-shrink: 0;
-    z-index: 10;
     /* Background with 50% opacity to show fluid effect through */
     background-color: color-mix(in srgb, var(--color-bg-primary) 50%, transparent);
     backdrop-filter: blur(8px);
@@ -578,37 +473,14 @@
     transition:
       background-color var(--transition-duration-base) var(--timing-function-ease),
       color var(--transition-duration-base) var(--timing-function-ease);
-    pointer-events: none;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  body.page-with-scroll .footer-content,
-  body.page-with-scroll .footer-content * {
-    pointer-events: auto;
   }
 
   body.page-with-scroll .header + .decorative-line-horizontal,
   body.page-with-scroll main + .decorative-line-horizontal {
-    position: fixed;
-    left: 0;
-    width: 100vw;
+    position: relative;
+    width: 100%;
     height: var(--line-width);
     background-color: var(--line-color);
-    pointer-events: none;
-    z-index: 12;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-  }
-
-  body.page-with-scroll .header + .decorative-line-horizontal {
-    top: var(--header-footer-height);
-  }
-
-  body.page-with-scroll main + .decorative-line-horizontal {
-    bottom: var(--header-footer-height);
   }
 
   /* Стили для 404 страницы в tablet/mobile режиме */
@@ -617,13 +489,11 @@
     height: auto;
     min-height: 100vh;
     overflow: visible;
-    padding-top: var(--header-footer-height);
-    padding-bottom: var(--header-footer-height);
     box-sizing: border-box;
   }
 
   body.page-404 .content-wrapper {
-    min-height: calc(100vh - var(--header-footer-height) * 2);
+    min-height: 100vh;
     box-sizing: border-box;
     display: flex;
     align-items: center;
@@ -633,79 +503,42 @@
   }
 
   body.page-404 .header {
-    position: fixed;
-    top: 0;
-    left: 0;
+    position: relative;
     width: 100%;
     height: var(--header-footer-height);
     display: flex;
     align-items: center;
     flex-shrink: 0;
-    z-index: 10;
+    /* Background with 50% opacity to show fluid effect through */
     background-color: color-mix(in srgb, var(--color-bg-primary) 50%, transparent);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     transition:
       background-color var(--transition-duration-base) var(--timing-function-ease),
       color var(--transition-duration-base) var(--timing-function-ease);
-    pointer-events: none;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  body.page-404 .header-content,
-  body.page-404 .header-content * {
-    pointer-events: auto;
   }
 
   body.page-404 .footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
+    position: relative;
     width: 100%;
     height: var(--header-footer-height);
     display: flex;
     align-items: center;
     flex-shrink: 0;
-    z-index: 10;
+    /* Background with 50% opacity to show fluid effect through */
     background-color: color-mix(in srgb, var(--color-bg-primary) 50%, transparent);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     transition:
       background-color var(--transition-duration-base) var(--timing-function-ease),
       color var(--transition-duration-base) var(--timing-function-ease);
-    pointer-events: none;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  body.page-404 .footer-content,
-  body.page-404 .footer-content * {
-    pointer-events: auto;
   }
 
   body.page-404 .header + .decorative-line-horizontal,
   body.page-404 main + .decorative-line-horizontal {
-    position: fixed;
-    left: 0;
-    width: 100vw;
+    position: relative;
+    width: 100%;
     height: var(--line-width);
     background-color: var(--line-color);
-    pointer-events: none;
-    z-index: 12;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-  }
-
-  body.page-404 .header + .decorative-line-horizontal {
-    top: var(--header-footer-height);
-  }
-
-  body.page-404 main + .decorative-line-horizontal {
-    bottom: var(--header-footer-height);
   }
 }

@@ -77,21 +77,18 @@
 
 /* Адаптивность для кнопки "Наверх" в tablet/mobile режиме */
 @include tablet-and-mobile {
-  body.page-with-scroll .scroll-to-top {
+  .scroll-to-top {
     position: fixed;
-    bottom: calc(var(--header-footer-height) + var(--spacing-md) - var(--spacing-content-side));
-    right: calc(var(--spacing-md) - var(--spacing-sm));
+    bottom: var(--spacing-md);
+    right: var(--spacing-md);
     width: 32px;
     height: 32px;
     z-index: 15;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(0);
     transition:
       opacity var(--transition-duration-base) ease-in-out,
-      visibility var(--transition-duration-base) ease-in-out,
-      bottom var(--transition-duration-base) ease,
-      right var(--transition-duration-base) ease;
+      visibility var(--transition-duration-base) ease-in-out;
     padding: 0;
     box-sizing: border-box;
 
@@ -133,14 +130,12 @@
       visibility: visible;
       transition:
         opacity var(--transition-duration-base) ease-in-out,
-        visibility var(--transition-duration-base) ease-in-out,
-        transform var(--transition-duration-base) ease-in-out,
-        bottom var(--transition-duration-base) ease,
-        right var(--transition-duration-base) ease;
+        visibility var(--transition-duration-base) ease-in-out;
     }
 
+    /* На мобильных footer не скрывается, поэтому этот класс не должен применяться */
     &.footer-hidden {
-      bottom: calc(var(--spacing-md) - var(--spacing-content-side));
+      bottom: var(--spacing-md);
     }
   }
 

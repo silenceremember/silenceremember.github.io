@@ -156,9 +156,7 @@ export class ScrollManager {
 
     const headerFooterHeight = this.getHeaderFooterHeight();
     // Устанавливаем высоту равную высоте footer плюс запас
-    // На мобильных устройствах используем больший запас из-за плавающей адресной строки
-    // и других особенностей браузеров
-    const extraSpace = this.isTabletMode ? 60 : 20;
+    const extraSpace = 20;
     // Это гарантирует, что когда footer появится, он не перекроет контент
     // и пользователь сможет прокрутить до самого низа
     this.spacerElement.style.height = `${headerFooterHeight + extraSpace}px`;
@@ -335,14 +333,9 @@ export class ScrollManager {
     // Обновляем isScrollPage на основе текущего состояния класса
     this.isScrollPage = document.body.classList.contains('page-with-scroll');
 
-    // Создаем фиктивный элемент при первой инициализации, если нужно
-    if (!this.isInitialized && (this.isScrollPage || window.innerWidth < 1024)) {
-      const willBeTablet = isIndexPage
-        ? window.innerWidth < 1024 || window.innerHeight < 900
-        : window.innerWidth < 1024;
-      if (willBeTablet || this.isScrollPage) {
-        this.createSpacerElement();
-      }
+    // Создаем фиктивный элемент при первой инициализации только для desktop страниц со скроллом
+    if (!this.isInitialized && this.isScrollPage && window.innerWidth >= 1024) {
+      this.createSpacerElement();
     }
 
     // Для страницы проектов проверяем только ширину (<1024)
@@ -377,15 +370,15 @@ export class ScrollManager {
     }
 
     // Создаем или обновляем фиктивный элемент при изменении режима
-    // Фиктивный элемент нужен только в режиме tablet или на страницах со скроллом
-    if (this.isTabletMode || this.isScrollPage) {
+    // Фиктивный элемент нужен только на desktop страницах со скроллом
+    if (!this.isTabletMode && this.isScrollPage) {
       if (!this.spacerElement) {
         this.createSpacerElement();
       } else {
         this.updateSpacerElement();
       }
     } else if (this.spacerElement) {
-      // Удаляем фиктивный элемент, если он не нужен
+      // Удаляем фиктивный элемент для мобильных или если он не нужен
       this.spacerElement.remove();
       this.spacerElement = null;
     }
