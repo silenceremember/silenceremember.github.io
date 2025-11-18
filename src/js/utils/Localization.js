@@ -15,14 +15,15 @@ class Localization {
   isUserFromCIS() {
     // Проверяем язык браузера
     const browserLang = navigator.language || navigator.userLanguage || '';
-    if (browserLang.toLowerCase().startsWith('ru')) {
+    const cisLangCodes = ['ru', 'uk', 'be', 'kk', 'uz', 'hy', 'az', 'ky', 'tg', 'tk', 'mo'];
+    if (cisLangCodes.some(code => browserLang.toLowerCase().startsWith(code))) {
       return true;
     }
 
     // Проверяем список языков браузера
     if (navigator.languages) {
       for (const lang of navigator.languages) {
-        if (lang.toLowerCase().startsWith('ru')) {
+        if (cisLangCodes.some(code => lang.toLowerCase().startsWith(code))) {
           return true;
         }
       }
