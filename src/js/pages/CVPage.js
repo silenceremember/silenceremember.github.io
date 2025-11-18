@@ -403,7 +403,7 @@ export class CVPage extends BasePage {
       const itemDiv = document.createElement('div');
       itemDiv.className = 'cv-certificate-item';
 
-      const title = document.createElement('h4');
+      const title = document.createElement('h3');
       title.className = 'cv-certificate-title';
       title.textContent = cert.title || '';
       itemDiv.appendChild(title);
@@ -461,7 +461,7 @@ export class CVPage extends BasePage {
       itemDiv.className = 'cv-course-item';
       itemDiv.setAttribute('data-course-id', course.id || '');
 
-      const title = document.createElement('h4');
+      const title = document.createElement('h3');
       title.className = 'cv-course-title';
       const lang = localization.getCurrentLanguage();
       if (course.titleLocalized && course.titleLocalized[lang]) {
@@ -507,7 +507,7 @@ export class CVPage extends BasePage {
       itemDiv.className = 'cv-language-item';
       itemDiv.setAttribute('data-language', langData.language || '');
 
-      const language = document.createElement('h4');
+      const language = document.createElement('h3');
       language.className = 'cv-language-name';
       const currentLang = localization.getCurrentLanguage();
       if (langData.languageLocalized && langData.languageLocalized[currentLang]) {
