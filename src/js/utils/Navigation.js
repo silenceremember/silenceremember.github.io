@@ -87,9 +87,17 @@ export class MenuButtonScrollHandler {
 
       // Добавляем обработчик
       this.menuButton.addEventListener('click', () => {
-        // Прокручиваем до низа страницы
+        // Прокручиваем до самого низа страницы
+        // Используем максимальное значение, чтобы учесть все элементы включая footer/header
+        const maxScrollTop = Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight,
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        );
+        
         window.scrollTo({
-          top: document.documentElement.scrollHeight,
+          top: maxScrollTop,
           behavior: 'smooth',
         });
       });
