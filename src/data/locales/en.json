@@ -39,8 +39,8 @@
     "card": {
       "details": "DETAILS",
       "detailsAria": "More about the project",
-      "comingSoon": "COMING SOON",
-      "comingSoonAria": "Coming soon",
+      "comingSoon": "SOON",
+      "comingSoonAria": "Soon",
       "featured": "Featured project",
       "tier2": "Tier 2 project",
       "types": {
@@ -60,8 +60,8 @@
         "research": "Research"
       },
       "statuses": {
-        "completed": "Completed",
-        "inDevelopment": "In Development"
+        "completed": "READY",
+        "inDevelopment": "IN DEVELOPMENT"
       },
       "found": "PROJECTS FOUND",
       "showAll": "Show All",
@@ -80,17 +80,30 @@
     },
     "card": {
       "read": "READ",
-      "readAria": "Open publication"
+      "readAria": "Open publication",
+      "comingSoon": "SOON",
+      "comingSoonAria": "Soon"
     },
     "statuses": {
       "published": "Published",
-      "inPublication": "In Publication",
+      "inPublication": "SOON",
       "inProgress": "In Progress"
     },
     "types": {
       "thesis": "Thesis",
       "article": "Article",
       "diploma": "Diploma"
+    },
+    "levels": {
+      "РИНЦ": "RSCI",
+      "RSCI": "RSCI",
+      "Scopus": "Scopus"
+    },
+    "card": {
+      "read": "READ",
+      "readAria": "Open publication",
+      "comingSoon": "SOON",
+      "comingSoonAria": "Soon"
     },
     "errors": {
       "noPublications": "No publications found."
@@ -178,10 +191,10 @@
     },
     "discordServer": {
       "name": "2IQ community server",
-      "comingSoon": "Discord Server (coming soon)",
+      "comingSoon": "Discord Server (soon)",
       "join": "Join Discord server"
     },
-    "comingSoon": "(coming soon)"
+    "comingSoon": "(soon)"
   },
   "roles": {
     "solo": "Solo",

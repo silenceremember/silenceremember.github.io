@@ -156,11 +156,20 @@ export class CardFactory {
     // Кнопка "Подробнее" или "Скоро"
     const detailsButton = card.querySelector('.project-card-button');
     if (detailsButton) {
-      // Если проект "скоро", меняем текст кнопки
+      // Обновляем текст кнопки и aria-label
       if (project.comingSoon) {
         detailsButton.textContent = localization.t('projects.card.comingSoon');
         detailsButton.disabled = true;
         detailsButton.setAttribute('aria-label', localization.t('projects.card.comingSoonAria'));
+      } else {
+        // Обновляем текст кнопки для обычных проектов
+        const buttonText = detailsButton.querySelector('span[data-i18n]');
+        if (buttonText) {
+          buttonText.textContent = localization.t('projects.card.details');
+        } else {
+          detailsButton.textContent = localization.t('projects.card.details');
+        }
+        detailsButton.setAttribute('aria-label', localization.t('projects.card.detailsAria'));
       }
       detailsButton.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -216,9 +225,19 @@ export class CardFactory {
       const level = journalWrapper.querySelector('.research-card-level');
 
       if (journal && publication.journal) {
-        let journalText = publication.journal;
+        // Используем локализованную версию журнала если доступна
+        const lang = localization.getCurrentLanguage();
+        let journalText = '';
+        if (publication.journalLocalized && publication.journalLocalized[lang]) {
+          journalText = publication.journalLocalized[lang];
+        } else {
+          journalText = publication.journal;
+        }
         if (publication.location) {
-          journalText += ` (${publication.location})`;
+          const locationText = publication.locationLocalized && publication.locationLocalized[lang]
+            ? publication.locationLocalized[lang]
+            : publication.location;
+          journalText += ` (${locationText})`;
         }
         journal.textContent = journalText;
       } else if (journal) {
@@ -226,7 +245,15 @@ export class CardFactory {
       }
 
       if (level && publication.level) {
-        level.textContent = publication.level;
+        // Используем локализованную версию уровня если доступна
+        const lang = localization.getCurrentLanguage();
+        const levelKey = publication.level === 'РИНЦ' ? 'RSCI' : publication.level;
+        const levelText = localization.t(`research.levels.${levelKey}`);
+        if (levelText && levelText !== `research.levels.${levelKey}`) {
+          level.textContent = levelText;
+        } else {
+          level.textContent = publication.level;
+        }
       } else if (level) {
         level.style.display = 'none';
       }
@@ -248,7 +275,12 @@ export class CardFactory {
     // Ключевые слова
     if (keywords && publication.keywords && publication.keywords.length > 0) {
       keywords.innerHTML = '';
-      publication.keywords.forEach((keyword) => {
+      // Используем локализованную версию ключевых слов если доступна
+      const lang = localization.getCurrentLanguage();
+      const keywordsToUse = publication.keywordsLocalized && publication.keywordsLocalized[lang]
+        ? publication.keywordsLocalized[lang]
+        : publication.keywords;
+      keywordsToUse.forEach((keyword) => {
         const keywordEl = document.createElement('span');
         keywordEl.className = 'research-card-keyword';
         keywordEl.textContent = keyword;
@@ -274,15 +306,28 @@ export class CardFactory {
     // Кнопка PDF
     if (button) {
       if (publicationUrl) {
-        button.textContent = localization.t('research.card.read');
+        // Обновляем текст кнопки - проверяем наличие span с data-i18n
+        const buttonText = button.querySelector('span[data-i18n]');
+        if (buttonText) {
+          buttonText.textContent = localization.t('research.card.read');
+        } else {
+          button.textContent = localization.t('research.card.read');
+        }
+        button.setAttribute('aria-label', localization.t('research.card.readAria'));
         button.addEventListener('click', (e) => {
           e.stopPropagation();
           window.open(publicationUrl, '_blank', 'noopener,noreferrer');
         });
       } else {
         button.disabled = true;
-        button.textContent = localization.t('projects.card.comingSoon');
-        button.setAttribute('aria-label', localization.t('projects.card.comingSoonAria'));
+        // Для заблокированных публикаций показываем "СКОРО" / "SOON"
+        const buttonText = button.querySelector('span[data-i18n]');
+        if (buttonText) {
+          buttonText.textContent = localization.t('research.card.comingSoon');
+        } else {
+          button.textContent = localization.t('research.card.comingSoon');
+        }
+        button.setAttribute('aria-label', localization.t('research.card.comingSoonAria'));
       }
     }
 

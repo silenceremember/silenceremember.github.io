@@ -6,6 +6,7 @@ import { BasePage } from './BasePage.js';
 import { CardFactory } from '../factories/CardFactory.js';
 import { DateFormatter } from '../utils/DateFormatter.js';
 import { localization } from '../utils/Localization.js';
+import { StatusMapper } from '../utils/StatusMapper.js';
 import {
   animateElementsAppearance,
   animateSectionAppearance,
@@ -287,6 +288,9 @@ export class ResearchPage extends BasePage {
 
     // Ждем полной загрузки страницы перед завершением инициализации
     await this.waitForPageReady();
+
+    // Обновляем контент после создания всех карточек для правильной локализации
+    this.updateContentLanguage();
   }
 
   /**
@@ -343,22 +347,88 @@ export class ResearchPage extends BasePage {
         }
       }
 
+      // Обновляем ключевые слова
+      const keywordsElement = card.querySelector('.research-card-keywords');
+      if (keywordsElement) {
+        const researchId = card.getAttribute('data-research-id');
+        if (researchId && this.publications) {
+          const publication = this.publications.find(p => p.id === researchId);
+          if (publication && publication.keywords && publication.keywords.length > 0) {
+            const lang = localization.getCurrentLanguage();
+            const keywordsToUse = publication.keywordsLocalized && publication.keywordsLocalized[lang]
+              ? publication.keywordsLocalized[lang]
+              : publication.keywords;
+            keywordsElement.innerHTML = '';
+            keywordsToUse.forEach((keyword) => {
+              const keywordEl = document.createElement('span');
+              keywordEl.className = 'research-card-keyword';
+              keywordEl.textContent = keyword;
+              keywordsElement.appendChild(keywordEl);
+            });
+          }
+        }
+      }
+
+      // Обновляем тип
       const typeElement = card.querySelector('.research-card-type');
       if (typeElement) {
-        const type = card.getAttribute('data-type');
-        if (type) {
-          typeElement.textContent = StatusMapper.getTypeText(type);
+        const researchId = card.getAttribute('data-research-id');
+        if (researchId && this.publications) {
+          const publication = this.publications.find(p => p.id === researchId);
+          if (publication) {
+            typeElement.textContent = StatusMapper.getTypeText(publication.type);
+          }
+        } else {
+          const type = card.getAttribute('data-type');
+          if (type) {
+            typeElement.textContent = StatusMapper.getTypeText(type);
+          }
         }
       }
 
       // Обновляем кнопку
       const button = card.querySelector('.research-card-button');
       if (button) {
-        const buttonText = button.querySelector('span[data-i18n]') || button;
-        if (buttonText.textContent) {
-          buttonText.textContent = localization.t('research.card.read');
+        const researchId = card.getAttribute('data-research-id');
+        if (researchId && this.publications) {
+          const publication = this.publications.find(p => p.id === researchId);
+          if (publication) {
+            // Проверяем, есть ли ссылки
+            const hasLinks = publication.links && Object.keys(publication.links).length > 0 && 
+              Object.values(publication.links).some(link => link && typeof link === 'string' && link.trim().length > 0);
+            
+            if (hasLinks) {
+              const buttonText = button.querySelector('span[data-i18n]') || button;
+              if (buttonText.textContent) {
+                buttonText.textContent = localization.t('research.card.read');
+              }
+              button.setAttribute('aria-label', localization.t('research.card.readAria'));
+              button.disabled = false;
+            } else {
+              button.textContent = localization.t('research.card.comingSoon');
+              button.setAttribute('aria-label', localization.t('research.card.comingSoonAria'));
+              button.disabled = true;
+            }
+          }
+        } else {
+          const buttonText = button.querySelector('span[data-i18n]') || button;
+          if (buttonText.textContent) {
+            buttonText.textContent = localization.t('research.card.read');
+          }
+          button.setAttribute('aria-label', localization.t('research.card.readAria'));
         }
-        button.setAttribute('aria-label', localization.t('research.card.readAria'));
+      }
+
+      // Обновляем уровень публикации (РИНЦ -> RSCI)
+      const levelElement = card.querySelector('.research-card-level');
+      if (levelElement && levelElement.textContent) {
+        const levelText = levelElement.textContent.trim();
+        if (levelText === 'РИНЦ' || levelText === 'RSCI') {
+          const lang = localization.getCurrentLanguage();
+          levelElement.textContent = localization.t('research.levels.RSCI');
+        } else if (levelText === 'Scopus') {
+          levelElement.textContent = localization.t('research.levels.Scopus');
+        }
       }
     });
   }

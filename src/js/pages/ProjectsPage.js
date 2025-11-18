@@ -255,6 +255,7 @@ export class ProjectsPage extends BasePage {
     this.languageChangeHandler = () => {
       this.updateContentLanguage();
     };
+    // Обновляем контент сразу после загрузки для правильной локализации
     this.updateContentLanguage();
     window.addEventListener('languageChanged', this.languageChangeHandler);
   }
@@ -263,70 +264,77 @@ export class ProjectsPage extends BasePage {
    * Обновляет язык динамического контента
    */
   updateContentLanguage() {
-    // Обновляем карточки проектов
-    this.allProjectCards.forEach((card, projectId) => {
+    // Обновляем все карточки проектов в DOM (включая клонированные)
+    document.querySelectorAll('.project-card').forEach(card => {
+      const projectId = card.getAttribute('data-project-id');
+      if (!projectId) return;
+      
       const project = this.allProjects.find(p => p.id === projectId);
-      if (project) {
-        // Обновляем название
-        const title = card.querySelector('.project-card-title');
-        if (title) {
-          const lang = localization.getCurrentLanguage();
-          if (project.titleLocalized && project.titleLocalized[lang]) {
-            title.textContent = project.titleLocalized[lang];
+      if (!project) return;
+
+      // Обновляем название
+      const title = card.querySelector('.project-card-title');
+      if (title) {
+        const lang = localization.getCurrentLanguage();
+        if (project.titleLocalized && project.titleLocalized[lang]) {
+          title.textContent = project.titleLocalized[lang];
+        } else {
+          title.textContent = project.title;
+        }
+      }
+
+      // Обновляем описание
+      const description = card.querySelector('.project-card-description');
+      if (description) {
+        const lang = localization.getCurrentLanguage();
+        if (project.descriptionLocalized && project.descriptionLocalized[lang]) {
+          description.textContent = project.descriptionLocalized[lang];
+        } else {
+          description.textContent = project.description || '';
+        }
+      }
+
+      // Обновляем статус
+      const status = card.querySelector('.project-card-status');
+      if (status) {
+        const statusKey = project.status === 'completed' ? 'completed' : 'inDevelopment';
+        status.textContent = localization.t(`projects.filters.statuses.${statusKey}`);
+      }
+
+      // Обновляем тип
+      const type = card.querySelector('.project-card-type');
+      if (type && project.type) {
+        const typeLabels = {
+          game: localization.t('projects.card.types.game'),
+          document: localization.t('projects.card.types.document'),
+          tool: localization.t('projects.card.types.tool'),
+          script: localization.t('projects.card.types.script'),
+        };
+        type.textContent = typeLabels[project.type] || project.type;
+      }
+
+      // Обновляем роль
+      const role = card.querySelector('.project-card-role');
+      if (role) {
+        role.textContent = getRoleLabel(project.role, false, project.teamName);
+      }
+
+      // Обновляем кнопку
+      const button = card.querySelector('.project-card-button');
+      if (button) {
+        if (project.comingSoon) {
+          button.textContent = localization.t('projects.card.comingSoon');
+          button.setAttribute('aria-label', localization.t('projects.card.comingSoonAria'));
+        } else {
+          // Обновляем текст кнопки - проверяем наличие span с data-i18n
+          const buttonText = button.querySelector('span[data-i18n]');
+          if (buttonText) {
+            buttonText.textContent = localization.t('projects.card.details');
           } else {
-            title.textContent = project.title;
+            // Если нет span, обновляем напрямую текст кнопки
+            button.textContent = localization.t('projects.card.details');
           }
-        }
-
-        // Обновляем описание
-        const description = card.querySelector('.project-card-description');
-        if (description) {
-          const lang = localization.getCurrentLanguage();
-          if (project.descriptionLocalized && project.descriptionLocalized[lang]) {
-            description.textContent = project.descriptionLocalized[lang];
-          } else {
-            description.textContent = project.description || '';
-          }
-        }
-
-        // Обновляем статус
-        const status = card.querySelector('.project-card-status');
-        if (status) {
-          const statusKey = project.status === 'completed' ? 'completed' : 'inDevelopment';
-          status.textContent = localization.t(`projects.filters.statuses.${statusKey}`);
-        }
-
-        // Обновляем тип
-        const type = card.querySelector('.project-card-type');
-        if (type && project.type) {
-          const typeLabels = {
-            game: localization.t('projects.card.types.game'),
-            document: localization.t('projects.card.types.document'),
-            tool: localization.t('projects.card.types.tool'),
-            script: localization.t('projects.card.types.script'),
-          };
-          type.textContent = typeLabels[project.type] || project.type;
-        }
-
-        // Обновляем роль
-        const role = card.querySelector('.project-card-role');
-        if (role) {
-          role.textContent = getRoleLabel(project.role, false, project.teamName);
-        }
-
-        // Обновляем кнопку
-        const button = card.querySelector('.project-card-button');
-        if (button) {
-          if (project.comingSoon) {
-            button.textContent = localization.t('projects.card.comingSoon');
-            button.setAttribute('aria-label', localization.t('projects.card.comingSoonAria'));
-          } else {
-            const buttonText = button.querySelector('span[data-i18n]') || button;
-            if (buttonText.textContent) {
-              buttonText.textContent = localization.t('projects.card.details');
-            }
-            button.setAttribute('aria-label', localization.t('projects.card.detailsAria'));
-          }
+          button.setAttribute('aria-label', localization.t('projects.card.detailsAria'));
         }
       }
     });

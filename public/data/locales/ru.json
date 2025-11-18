@@ -60,8 +60,8 @@
         "research": "Исследования"
       },
       "statuses": {
-        "completed": "Завершено",
-        "inDevelopment": "В разработке"
+        "completed": "ГОТОВ",
+        "inDevelopment": "В РАЗРАБОТКЕ"
       },
       "found": "НАЙДЕНО ПРОЕКТОВ",
       "showAll": "Показать все",
@@ -80,17 +80,30 @@
     },
     "card": {
       "read": "ЧИТАТЬ",
-      "readAria": "Открыть публикацию"
+      "readAria": "Открыть публикацию",
+      "comingSoon": "СКОРО",
+      "comingSoonAria": "Скоро будет доступно"
     },
     "statuses": {
       "published": "Опубликовано",
-      "inPublication": "На стадии публикации",
+      "inPublication": "СКОРО",
       "inProgress": "В процессе написания"
     },
     "types": {
       "thesis": "Тезисы",
       "article": "Статья",
       "diploma": "ВКР"
+    },
+    "levels": {
+      "РИНЦ": "РИНЦ",
+      "RSCI": "РИНЦ",
+      "Scopus": "Scopus"
+    },
+    "card": {
+      "read": "ЧИТАТЬ",
+      "readAria": "Открыть публикацию",
+      "comingSoon": "СКОРО",
+      "comingSoonAria": "Скоро будет доступно"
     },
     "errors": {
       "noPublications": "Публикации не найдены."

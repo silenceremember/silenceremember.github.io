@@ -11,6 +11,10 @@
       "year": 2024,
       "status": "completed",
       "description": "Готовый прототип аркадного экономического симулятора",
+      "descriptionLocalized": {
+        "ru": "Готовый прототип аркадного экономического симулятора",
+        "en": "Complete prototype of an arcade economy simulator"
+      },
       "media": {
         "preview": "assets/images/projects/magic-bag/preview.webp",
         "screenshots": [],
@@ -66,6 +70,10 @@
       "year": 2025,
       "status": "in-development",
       "description": "Динамичный PvP Top-Down шутер в разработке",
+      "descriptionLocalized": {
+        "ru": "Динамичный PvP Top-Down шутер в разработке",
+        "en": "Dynamic PvP Top-Down shooter in development"
+      },
       "media": {
         "preview": "assets/images/projects/capybara-bunk/preview.webp",
         "screenshots": []
@@ -128,6 +136,10 @@
       "year": 2024,
       "status": "completed",
       "description": "Аддон для Unity, добавляющий сетку и привязку к сетке в Unity Shader Graph",
+      "descriptionLocalized": {
+        "ru": "Аддон для Unity, добавляющий сетку и привязку к сетке в Unity Shader Graph",
+        "en": "Unity addon that adds grid and grid snapping to Unity Shader Graph"
+      },
       "media": {
         "preview": "assets/images/projects/gridsnap-addon/preview.webp",
         "screenshots": []
@@ -167,6 +179,10 @@
       "year": 2024,
       "status": "completed",
       "description": "Презентация концепта игры",
+      "descriptionLocalized": {
+        "ru": "Презентация концепта игры",
+        "en": "Game concept presentation"
+      },
       "media": {
         "preview": "assets/images/projects/cycle-of-ashes/preview.webp"
       },
@@ -195,12 +211,20 @@
     {
       "id": "diploma-chapter-1",
       "title": "Система процедурной генерации нарративного дизайна для компьютерных игр жанра роуглайк",
+      "titleLocalized": {
+        "ru": "Система процедурной генерации нарративного дизайна для компьютерных игр жанра роуглайк",
+        "en": "Procedural Narrative Design Generation System for Roguelike Computer Games"
+      },
       "category": "research",
       "type": "document",
       "role": "solo",
       "year": 2025,
       "status": "in-progress",
       "description": "Выпускная квалификационная работа магистратуры",
+      "descriptionLocalized": {
+        "ru": "Выпускная квалификационная работа магистратуры",
+        "en": "Master's degree final qualification work"
+      },
       "media": {
         "preview": "assets/images/projects/diploma-chapter-1/preview.webp"
       },
@@ -224,12 +248,20 @@
     {
       "id": "assignment-concept",
       "title": "Гейм-дизайн и анализ концепта",
+      "titleLocalized": {
+        "ru": "Гейм-дизайн и анализ концепта",
+        "en": "Game Design and Concept Analysis"
+      },
       "category": "research",
       "type": "document",
       "role": "solo",
       "year": 2024,
       "status": "completed",
       "description": "Разработка трех игровых концепций: от создания идеи до анализа и переработки концепта",
+      "descriptionLocalized": {
+        "ru": "Разработка трех игровых концепций: от создания идеи до анализа и переработки концепта",
+        "en": "Development of three game concepts: from idea creation to analysis and concept refinement"
+      },
       "media": {
         "preview": "assets/images/projects/assignment-concept/preview.webp"
       },
@@ -255,12 +287,20 @@
     {
       "id": "assignment-decomposition",
       "title": "Деконструкция игровых механик",
+      "titleLocalized": {
+        "ru": "Деконструкция игровых механик",
+        "en": "Game Mechanics Deconstruction"
+      },
       "category": "research",
       "type": "document",
       "role": "solo",
       "year": 2024,
       "status": "completed",
       "description": "Серия аналитических разборов игр: декомпозиция, анализ опыта, улучшения и переработка сеттинга",
+      "descriptionLocalized": {
+        "ru": "Серия аналитических разборов игр: декомпозиция, анализ опыта, улучшения и переработка сеттинга",
+        "en": "Series of analytical game breakdowns: decomposition, experience analysis, improvements and setting refinement"
+      },
       "media": {
         "preview": "assets/images/projects/assignment-decomposition/preview.webp"
       },
@@ -293,6 +333,10 @@
       "year": 2024,
       "status": "completed",
       "description": "Концепт игры с 2D симуляцией физики боя",
+      "descriptionLocalized": {
+        "ru": "Концепт игры с 2D симуляцией физики боя",
+        "en": "Game concept with 2D combat physics simulation"
+      },
       "media": {
         "preview": "assets/images/projects/edge-of-a-blade/preview.webp"
       },
@@ -321,6 +365,10 @@
       "year": 2025,
       "status": "completed",
       "description": "Разбор Dark Messiah of Might and Magic по пути героя Воглера",
+      "descriptionLocalized": {
+        "ru": "Разбор Dark Messiah of Might and Magic по пути героя Воглера",
+        "en": "Dark Messiah of Might and Magic breakdown following Vogler's hero's journey"
+      },
       "media": {
         "preview": "assets/images/projects/narrative-dz2/preview.webp"
       },
@@ -351,6 +399,10 @@
       "year": 2025,
       "status": "completed",
       "description": "Разбор пролога сюжета Disco Elysium по 4 слоям нарративного дизайна Frictional Games",
+      "descriptionLocalized": {
+        "ru": "Разбор пролога сюжета Disco Elysium по 4 слоям нарративного дизайна Frictional Games",
+        "en": "Disco Elysium prologue breakdown using Frictional Games' 4 layers of narrative design"
+      },
       "media": {
         "preview": "assets/images/projects/narrative-dz5/preview.webp"
       },
@@ -381,6 +433,10 @@
       "year": 2024,
       "status": "completed",
       "description": "Джем-игра с красивой графикой",
+      "descriptionLocalized": {
+        "ru": "Джем-игра с красивой графикой",
+        "en": "Jam game with beautiful graphics"
+      },
       "media": {
         "preview": "assets/images/projects/outer-signal/preview.webp",
         "screenshots": [
@@ -407,6 +463,10 @@
       "year": 2024,
       "status": "completed",
       "description": "Джем-игра с таймером",
+      "descriptionLocalized": {
+        "ru": "Джем-игра с таймером",
+        "en": "Jam game with timer"
+      },
       "media": {
         "preview": "assets/images/projects/couch-potato-physicist/preview.webp"
       },
@@ -429,6 +489,10 @@
       "year": 2024,
       "status": "completed",
       "description": "Джем-игра про погоню за демоном",
+      "descriptionLocalized": {
+        "ru": "Джем-игра про погоню за демоном",
+        "en": "Jam game about chasing a demon"
+      },
       "media": {
         "preview": "assets/images/projects/infernal-run/preview.webp"
       },
@@ -451,6 +515,10 @@
       "year": 2024,
       "status": "completed",
       "description": "Джем-игра с головоломкой",
+      "descriptionLocalized": {
+        "ru": "Джем-игра с головоломкой",
+        "en": "Jam game with puzzle"
+      },
       "media": {
         "preview": "assets/images/projects/mushroom-loop/preview.webp"
       },
@@ -473,6 +541,10 @@
       "year": 2024,
       "status": "completed",
       "description": "Джем-игра с двумя концовками",
+      "descriptionLocalized": {
+        "ru": "Джем-игра с двумя концовками",
+        "en": "Jam game with two endings"
+      },
       "media": {
         "preview": "assets/images/projects/thermic-spirit/preview.webp"
       },
@@ -495,6 +567,10 @@
       "year": 2024,
       "status": "completed",
       "description": "Назначение пинка и атаки в прыжке на отдельные кнопки",
+      "descriptionLocalized": {
+        "ru": "Назначение пинка и атаки в прыжке на отдельные кнопки",
+        "en": "Assigning kick and jump attack to separate buttons"
+      },
       "media": {
         "preview": "assets/images/projects/dark-souls-ahk/preview.webp"
       },
@@ -521,6 +597,10 @@
       "year": 2024,
       "status": "completed",
       "description": "Решение проблемы с перемещением курсора на другой экран в игре",
+      "descriptionLocalized": {
+        "ru": "Решение проблемы с перемещением курсора на другой экран в игре",
+        "en": "Solving cursor movement to another screen issue in game"
+      },
       "media": {
         "preview": "assets/images/projects/elden-ring-ahk/preview.webp"
       },
@@ -546,6 +626,10 @@
       "year": 2024,
       "status": "completed",
       "description": "Унификация навигации в разных 3D/2D пакетах",
+      "descriptionLocalized": {
+        "ru": "Унификация навигации в разных 3D/2D пакетах",
+        "en": "Unifying navigation across different 3D/2D packages"
+      },
       "media": {
         "preview": "assets/images/projects/blender-to-all-ahk/preview.webp"
       },
