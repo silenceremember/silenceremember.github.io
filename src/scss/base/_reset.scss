@@ -29,6 +29,37 @@ body {
   overflow: hidden;
 }
 
+/* Глобальное скрытие скроллбара для всех браузеров */
+html,
+body {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+  width: 0;
+  height: 0;
+}
+
+/* На мобильных/планшетных устройствах разрешаем прокрутку на body для работы pull-to-refresh и скрытия хедера браузера */
+@media (max-width: 1023px) {
+  html {
+    overflow: visible;
+    height: 100%;
+  }
+  
+  body {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: auto;
+    min-height: 100vh;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain; /* Предотвращаем bounce эффект при достижении границ */
+  }
+}
+
 img,
 picture,
 video,

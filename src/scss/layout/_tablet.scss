@@ -4,10 +4,24 @@
 /* Эти стили нужны для десктопа с маленькой высотой окна */
 /* Применяются для главной страницы (где есть .slides-container) даже с классом page-with-scroll */
 @include height-small {
-  /* Разрешаем overscroll для pull-to-refresh на главной странице при высоте <900px */
-  html:has(.slides-container),
+  /* На десктопе при высоте <900px включаем прокрутку на html/body */
+  html:has(.slides-container) {
+    overflow: visible;
+    height: 100%;
+  }
+  
   body:has(.slides-container) {
-    overscroll-behavior-y: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: auto;
+    min-height: 100vh;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  body:has(.slides-container)::-webkit-scrollbar {
+    display: none;
   }
 
   /* Стили для главной страницы - применяются независимо от класса page-with-scroll */
@@ -103,60 +117,43 @@
     max-width: none;
     width: 100vw;
     margin-left: calc(50% - 50vw);
-    min-height: 100%;
+    min-height: calc(100vh - var(--header-footer-height) * 2);
     box-sizing: border-box;
   }
 
   body:has(.slides-container) .page-wrapper {
     display: block;
-    height: 100vh;
-    overflow-y: auto;
-    overflow-x: hidden;
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
     padding-top: var(--header-footer-height);
     padding-bottom: var(--header-footer-height);
     box-sizing: border-box;
-    -webkit-overflow-scrolling: touch;
-    scroll-behavior: auto;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    overscroll-behavior-y: auto;
-    touch-action: pan-y;
-  }
-
-  body:has(.slides-container) .page-wrapper::-webkit-scrollbar {
-    display: none;
   }
 }
 
 /* Стили для слайдов в tablet/mobile режиме */
 /* Применяются при ширине <=1023px ИЛИ высоте <900px */
 @include tablet-and-mobile {
-  /* Разрешаем overscroll для pull-to-refresh на мобильных устройствах */
-  /* Применяем для всех страниц, включая главную */
-  html,
+  /* Скрываем скроллбар на body, но оставляем прокрутку */
   body {
-    overscroll-behavior-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  body::-webkit-scrollbar {
+    display: none;
   }
 
   /* Стили для главной страницы в мобильном режиме */
   body:not(.page-with-scroll) .page-wrapper {
     display: block;
-    height: 100vh;
-    overflow-y: auto;
-    overflow-x: hidden;
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
     padding-top: var(--header-footer-height);
     padding-bottom: var(--header-footer-height);
     box-sizing: border-box;
-    -webkit-overflow-scrolling: touch;
-    scroll-behavior: auto;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    overscroll-behavior-y: auto;
-    touch-action: pan-y;
-  }
-
-  body:not(.page-with-scroll) .page-wrapper::-webkit-scrollbar {
-    display: none;
   }
 
   body:not(.page-with-scroll) .content-wrapper {
@@ -165,7 +162,7 @@
     max-width: none;
     width: 100vw;
     margin-left: calc(50% - 50vw);
-    min-height: 100%;
+    min-height: calc(100vh - var(--header-footer-height) * 2);
     box-sizing: border-box;
   }
 
@@ -467,27 +464,37 @@
   }
 
   /* Стили для 404 страницы при высоте <900px */
-  body.page-404 .page-wrapper {
-    display: block;
-    height: 100vh;
-    overflow-y: auto;
-    padding-top: var(--header-footer-height);
-    padding-bottom: var(--header-footer-height);
-    box-sizing: border-box;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-    scroll-behavior: auto;
-    overscroll-behavior-y: auto;
-    touch-action: pan-y;
+  html.page-404 {
+    overflow: visible;
+    height: 100%;
   }
 
-  body.page-404 .page-wrapper::-webkit-scrollbar {
+  body.page-404 {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: auto;
+    min-height: 100vh;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  body.page-404::-webkit-scrollbar {
     display: none;
   }
 
+  body.page-404 .page-wrapper {
+    display: block;
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+    padding-top: var(--header-footer-height);
+    padding-bottom: var(--header-footer-height);
+    box-sizing: border-box;
+  }
+
   body.page-404 .content-wrapper {
-    min-height: 100%;
+    min-height: calc(100vh - var(--header-footer-height) * 2);
     box-sizing: border-box;
     display: flex;
     align-items: center;
@@ -534,35 +541,14 @@
 
 /* Стили для страниц с прокруткой в tablet/mobile режиме */
 @include tablet-and-mobile {
-  /* Разрешаем overscroll для pull-to-refresh на мобильных устройствах */
-  html.page-with-scroll,
-  body.page-with-scroll {
-    overscroll-behavior-y: auto;
-  }
-
-  body.page-with-scroll {
-    overflow: visible !important;
-    height: 100vh !important;
-  }
-
   body.page-with-scroll .page-wrapper {
     display: block;
-    height: 100vh;
-    overflow-y: auto;
-    overflow-x: hidden;
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
     padding-top: var(--header-footer-height);
     padding-bottom: var(--header-footer-height);
     box-sizing: border-box;
-    -webkit-overflow-scrolling: touch;
-    scroll-behavior: auto;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    overscroll-behavior-y: auto;
-    touch-action: pan-y;
-  }
-
-  body.page-with-scroll .page-wrapper::-webkit-scrollbar {
-    display: none;
   }
 
   body.page-with-scroll .content-wrapper {
@@ -684,31 +670,15 @@
     transform: translate3d(0, calc(var(--header-footer-height) + 1px), 0);
   }
 
-  /* Разрешаем overscroll для pull-to-refresh на странице 404 */
-  html.page-404,
-  body.page-404 {
-    overscroll-behavior-y: auto;
-  }
-
   /* Стили для 404 страницы в tablet/mobile режиме */
   body.page-404 .page-wrapper {
     display: block;
-    height: 100vh;
-    overflow-y: auto;
-    overflow-x: hidden;
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
     padding-top: var(--header-footer-height);
     padding-bottom: var(--header-footer-height);
     box-sizing: border-box;
-    -webkit-overflow-scrolling: touch;
-    scroll-behavior: auto;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    overscroll-behavior-y: auto;
-    touch-action: pan-y;
-  }
-
-  body.page-404 .page-wrapper::-webkit-scrollbar {
-    display: none;
   }
 
   body.page-404 .content-wrapper {

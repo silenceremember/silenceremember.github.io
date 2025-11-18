@@ -52,11 +52,12 @@ export class ScrollManager {
    * @returns {HTMLElement|Window} Элемент для скролла
    */
   getScrollElement() {
-    if (this.isTabletMode) {
-      return this.scrollContainer;
-    } else if (this.isScrollPage) {
+    // На мобильных/планшетных устройствах прокрутка происходит на body (window)
+    // На десктопе для страниц с прокруткой также используется window
+    if (this.isTabletMode || this.isScrollPage) {
       return window;
     }
+    // Только на десктопе для главной страницы используется scrollContainer
     return this.scrollContainer;
   }
 
@@ -252,25 +253,20 @@ export class ScrollManager {
     }
 
     // Удаляем старые обработчики
-    if (wasTabletMode) {
+    // Если был режим tablet или isScrollPage, удаляем обработчик с window
+    if (wasTabletMode || (this.isScrollPage && !wasTabletMode)) {
+      window.removeEventListener('scroll', this.handleScrollBound);
+    }
+    // Если не был режим tablet и не isScrollPage, удаляем обработчик со scrollContainer
+    if (!wasTabletMode && !this.isScrollPage) {
       this.scrollContainer.removeEventListener(
         'scroll',
         this.handleScrollBound
       );
     }
-    if (this.isScrollPage && !wasTabletMode) {
-      window.removeEventListener('scroll', this.handleScrollBound);
-    }
 
     // Инициализируем lastScrollTop перед добавлением обработчиков
-    let scrollElement;
-    if (this.isTabletMode) {
-      scrollElement = this.scrollContainer;
-    } else if (this.isScrollPage) {
-      scrollElement = window;
-    } else {
-      scrollElement = this.scrollContainer;
-    }
+    const scrollElement = this.getScrollElement();
 
     if (scrollElement === window) {
       this.lastScrollTop =
@@ -283,13 +279,8 @@ export class ScrollManager {
     this.handleScrollBound = this.handleScroll.bind(this);
 
     // Добавляем новые обработчики
-    if (this.isTabletMode) {
-      this.scrollContainer.addEventListener('scroll', this.handleScrollBound, {
-        passive: true,
-      });
-      // Устанавливаем начальное состояние при инициализации
-      this.handleScroll();
-    } else if (this.isScrollPage) {
+    // На мобильных/планшетных и страницах с прокруткой используем window
+    if (this.isTabletMode || this.isScrollPage) {
       window.addEventListener('scroll', this.handleScrollBound, {
         passive: true,
       });
