@@ -146,17 +146,19 @@ export class ProjectsPage extends BasePage {
 
   /**
    * Создает карточки проектов батчами для оптимизации производительности
+   * Оптимизировано: использует requestAnimationFrame для лучшей производительности
    * @param {Array<Object>} projects - Массив проектов
-   * @param {number} batchSize - Размер батча (по умолчанию 10)
+   * @param {number} batchSize - Размер батча (по умолчанию 15, увеличен для лучшей производительности)
    * @returns {Promise<void>}
    */
-  async createProjectCardsBatched(projects, batchSize = 10) {
+  async createProjectCardsBatched(projects, batchSize = 15) {
     return new Promise((resolve) => {
       let index = 0;
 
       const processBatch = () => {
         const end = Math.min(index + batchSize, projects.length);
         
+        // Создаем карточки синхронно в рамках одного батча
         for (let i = index; i < end; i++) {
           const project = projects[i];
           const card = CardFactory.createProjectCard(
@@ -172,18 +174,23 @@ export class ProjectsPage extends BasePage {
         index = end;
 
         if (index < projects.length) {
-          // Используем requestIdleCallback для неблокирующей обработки
-          if (window.requestIdleCallback) {
-            requestIdleCallback(processBatch, { timeout: 100 });
-          } else {
-            setTimeout(processBatch, 0);
-          }
+          // Используем requestAnimationFrame для неблокирующей обработки
+          // Это обеспечивает лучшую производительность, чем requestIdleCallback
+          requestAnimationFrame(() => {
+            // Используем requestIdleCallback внутри RAF для оптимальной производительности
+            if (window.requestIdleCallback) {
+              requestIdleCallback(processBatch, { timeout: 50 });
+            } else {
+              setTimeout(processBatch, 0);
+            }
+          });
         } else {
           resolve();
         }
       };
 
-      processBatch();
+      // Начинаем обработку в следующем кадре анимации
+      requestAnimationFrame(processBatch);
     });
   }
 
@@ -198,7 +205,8 @@ export class ProjectsPage extends BasePage {
     this.loadingIndicator.show();
 
     // Параллельная загрузка шаблона и данных для ускорения
-    const [projects] = await Promise.all([
+    // Используем Promise.all для максимальной параллельности
+    const [projects, template] = await Promise.all([
       this.loadProjectsData(),
       this.loadProjectTemplate(),
     ]);

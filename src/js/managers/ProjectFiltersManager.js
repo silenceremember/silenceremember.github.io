@@ -883,10 +883,11 @@ export class ProjectFiltersManager {
       });
 
       // Загружаем SVG для звездочек после добавления карточек
+      // Используем глобальный экземпляр для переиспользования кеша
       requestAnimationFrame(async () => {
         try {
-          const svgLoader = new SvgLoader();
-          await svgLoader.init();
+          const { globalSvgLoader } = await import('../components/svg/SvgLoader.js');
+          await globalSvgLoader.init();
         } catch (error) {
           console.error('Ошибка загрузки SVG:', error);
         }

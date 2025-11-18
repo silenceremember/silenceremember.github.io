@@ -615,9 +615,11 @@ export class ProjectGroupingManager {
 
       // Загружаем SVG для звездочек асинхронно после рендеринга (не блокируем основной поток)
       // Используем requestIdleCallback для неблокирующей загрузки с разбивкой на микрозадачи
+      // Используем глобальный экземпляр для переиспользования кеша
       const loadSvgAsync = async () => {
         try {
-          const svgLoader = new SvgLoader();
+          const { globalSvgLoader } = await import('../components/svg/SvgLoader.js');
+          const svgLoader = globalSvgLoader;
           // Разбиваем загрузку на микрозадачи для избежания long tasks
           await new Promise((resolve) => {
             if (window.requestIdleCallback) {

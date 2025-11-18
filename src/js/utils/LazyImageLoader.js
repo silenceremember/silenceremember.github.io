@@ -26,7 +26,11 @@ export class LazyImageLoader {
             const imageUrl = img.dataset.src;
             
             if (imageUrl) {
-              // Загружаем изображение
+              // Загружаем изображение с приоритетом
+              // Используем loading="lazy" для браузерной оптимизации
+              if (!img.hasAttribute('loading')) {
+                img.loading = 'lazy';
+              }
               img.src = imageUrl;
               img.removeAttribute('data-src');
               
@@ -38,7 +42,7 @@ export class LazyImageLoader {
         });
       },
       {
-        rootMargin: '100px', // Начинаем загрузку за 100px до появления в viewport
+        rootMargin: '150px', // Увеличено до 150px для более ранней загрузки
         threshold: 0.01,
       }
     );
