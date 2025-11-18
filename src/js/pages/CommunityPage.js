@@ -442,6 +442,32 @@ export class CommunityPage extends BasePage {
         title.textContent = localization.t('community.events.defaultTitle');
       }
     });
+
+    // Обновляем Discord карточку
+    const discordCard = document.querySelector('.community-card-discord');
+    if (discordCard) {
+      const titleText = discordCard.querySelector('.community-card-title-text');
+      if (titleText) {
+        titleText.textContent = localization.t('community.discordServer.name');
+      }
+
+      const ariaLabel = discordCard.getAttribute('aria-label');
+      if (ariaLabel) {
+        const isPlaceholder = !discordCard.href || discordCard.href === '#';
+        discordCard.setAttribute('aria-label', isPlaceholder
+          ? localization.t('community.discordServer.comingSoon')
+          : localization.t('community.discordServer.join'));
+      }
+
+      const description = discordCard.querySelector('.community-card-description');
+      if (description) {
+        // Описание может быть из JSON или локализовано
+        const lang = localization.getCurrentLanguage();
+        // Если есть локализованная версия в данных, используем её
+        // Иначе используем дефолтное
+        description.textContent = localization.t('community.discord.join');
+      }
+    }
   }
 
   /**

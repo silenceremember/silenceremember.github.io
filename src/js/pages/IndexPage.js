@@ -25,6 +25,7 @@ export class IndexPage extends BasePage {
     this.slideAnimationManager = null;
     this.slidesContainer = null;
     this.slidesManager = null;
+    this.featuredProjects = []; // Сохраняем для обновления при смене языка
   }
 
   /**
@@ -68,7 +69,13 @@ export class IndexPage extends BasePage {
     // Заголовок проекта
     const titleElement = slideElement.querySelector('.project-title');
     if (titleElement) {
-      titleElement.textContent = project.title.toUpperCase();
+      // Используем локализованную версию названия если доступна
+      const lang = localization.getCurrentLanguage();
+      let titleText = project.title;
+      if (project.titleLocalized && project.titleLocalized[lang]) {
+        titleText = project.titleLocalized[lang];
+      }
+      titleElement.textContent = titleText.toUpperCase();
     }
 
     // Мета-информация (жанр и платформа)
@@ -95,7 +102,13 @@ export class IndexPage extends BasePage {
       '.details-block:last-of-type .details-text'
     );
     if (contributionElement && project.keyContribution) {
-      contributionElement.textContent = project.keyContribution;
+      // Используем локализованную версию если доступна
+      const lang = localization.getCurrentLanguage();
+      if (project.keyContributionLocalized && project.keyContributionLocalized[lang]) {
+        contributionElement.textContent = project.keyContributionLocalized[lang];
+      } else {
+        contributionElement.textContent = project.keyContribution;
+      }
     }
 
     // Изображения (если есть preview) - оптимизированная загрузка
@@ -187,12 +200,12 @@ export class IndexPage extends BasePage {
     await this.loadingIndicator.hide();
 
     // Фильтруем featured проекты
-    const featuredProjects = projectsData.filter(
+    this.featuredProjects = projectsData.filter(
       (project) => project.featured === true
     );
 
     // Заполняем слайды данными проектов
-    this.populateProjectSlides(featuredProjects);
+    this.populateProjectSlides(this.featuredProjects);
 
     // Инициализируем менеджер анимаций слайдов (ленивая загрузка)
     await this.initSlideAnimationManager();
@@ -222,18 +235,43 @@ export class IndexPage extends BasePage {
    * Обновляет язык динамического контента
    */
   updateContentLanguage() {
-    // Обновляем роли в слайдах проектов
+    // Обновляем роли и ключевые вклады в слайдах проектов
     const projectSlides = this.getProjectSlides();
-    projectSlides.forEach((slide) => {
+    projectSlides.forEach((slide, index) => {
+      const project = this.featuredProjects[index];
+      if (!project) return;
+
+      // Обновляем заголовок проекта
+      const titleElement = slide.querySelector('.project-title');
+      if (titleElement) {
+        const lang = localization.getCurrentLanguage();
+        let titleText = project.title;
+        if (project.titleLocalized && project.titleLocalized[lang]) {
+          titleText = project.titleLocalized[lang];
+        }
+        titleElement.textContent = titleText.toUpperCase();
+      }
+
+      // Обновляем роль
       const roleElement = slide.querySelector(
         '.details-block:first-of-type .details-text'
       );
       if (roleElement) {
-        // Нужно найти проект по слайду
-        const slideIndex = parseInt(slide.getAttribute('data-slide'));
-        // Проекты загружаются в populateProjectSlides, но мы не сохраняем их
-        // Поэтому просто обновим через getRoleLabel, который уже использует локализацию
-        // Роль уже обновлена через RoleMapper, который использует локализацию
+        roleElement.textContent = getRoleLabel(project.role, true, project.teamName);
+      }
+
+      // Обновляем ключевой вклад (берется из JSON, но может быть локализован)
+      const contributionElement = slide.querySelector(
+        '.details-block:last-of-type .details-text'
+      );
+      if (contributionElement && project.keyContribution) {
+        // Если есть локализованная версия, используем её
+        const lang = localization.getCurrentLanguage();
+        if (project.keyContributionLocalized && project.keyContributionLocalized[lang]) {
+          contributionElement.textContent = project.keyContributionLocalized[lang];
+        } else {
+          contributionElement.textContent = project.keyContribution;
+        }
       }
     });
   }

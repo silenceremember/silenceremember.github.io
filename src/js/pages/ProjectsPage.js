@@ -267,6 +267,28 @@ export class ProjectsPage extends BasePage {
     this.allProjectCards.forEach((card, projectId) => {
       const project = this.allProjects.find(p => p.id === projectId);
       if (project) {
+        // Обновляем название
+        const title = card.querySelector('.project-card-title');
+        if (title) {
+          const lang = localization.getCurrentLanguage();
+          if (project.titleLocalized && project.titleLocalized[lang]) {
+            title.textContent = project.titleLocalized[lang];
+          } else {
+            title.textContent = project.title;
+          }
+        }
+
+        // Обновляем описание
+        const description = card.querySelector('.project-card-description');
+        if (description) {
+          const lang = localization.getCurrentLanguage();
+          if (project.descriptionLocalized && project.descriptionLocalized[lang]) {
+            description.textContent = project.descriptionLocalized[lang];
+          } else {
+            description.textContent = project.description || '';
+          }
+        }
+
         // Обновляем статус
         const status = card.querySelector('.project-card-status');
         if (status) {
@@ -311,7 +333,79 @@ export class ProjectsPage extends BasePage {
 
     // Обновляем фильтры через менеджер фильтров
     if (this.filtersManager) {
-      // Фильтры обновятся автоматически через LanguageSwitcher, но нужно обновить динамически созданные элементы
+      // Обновляем заголовки групп фильтров - находим по родительским элементам
+      const filtersContent = document.querySelector('.project-filters-content');
+      if (filtersContent) {
+        const filterGroups = filtersContent.querySelectorAll('.project-filters-group');
+        filterGroups.forEach((group, index) => {
+          const title = group.querySelector('.project-filters-group-title');
+          if (title) {
+            // Определяем тип фильтра по data-filter атрибуту дочернего элемента
+            const filterOptions = group.querySelector('[data-filter]');
+            if (filterOptions) {
+              const filterType = filterOptions.getAttribute('data-filter');
+              const keyMap = {
+                'category': 'projects.filters.category',
+                'status': 'projects.filters.status',
+                'year': 'projects.filters.year',
+              };
+              if (keyMap[filterType]) {
+                title.textContent = localization.t(keyMap[filterType]);
+              }
+            } else {
+              // Если нет data-filter, используем data-i18n
+              const key = title.getAttribute('data-i18n');
+              if (key) {
+                title.textContent = localization.t(key);
+              }
+            }
+          }
+        });
+      }
+
+      // Также обновляем через data-i18n на всякий случай
+      document.querySelectorAll('.project-filters-group-title').forEach(title => {
+        const key = title.getAttribute('data-i18n');
+        if (key) {
+          title.textContent = localization.t(key);
+        }
+      });
+
+      // Обновляем метки опций фильтров
+      document.querySelectorAll('.project-filters-option-label').forEach(label => {
+        const key = label.getAttribute('data-i18n');
+        if (key) {
+          label.textContent = localization.t(key);
+        } else {
+          // Обновляем по data-value если нет data-i18n
+          const button = label.closest('.project-filters-option');
+          if (button) {
+            const value = button.getAttribute('data-value');
+            const filterType = button.closest('[data-filter]')?.getAttribute('data-filter');
+            
+            if (filterType === 'category') {
+              const categoryMap = {
+                'games': 'projects.filters.categories.games',
+                'tools': 'projects.filters.categories.tools',
+                'research': 'projects.filters.categories.research',
+              };
+              if (categoryMap[value]) {
+                label.textContent = localization.t(categoryMap[value]);
+              }
+            } else if (filterType === 'status') {
+              const statusMap = {
+                'completed': 'projects.filters.statuses.completed',
+                'in-development': 'projects.filters.statuses.inDevelopment',
+              };
+              if (statusMap[value]) {
+                label.textContent = localization.t(statusMap[value]);
+              }
+            }
+          }
+        }
+      });
+
+      // Обновляем кнопку сброса
       const resetButton = document.getElementById('project-filters-reset');
       if (resetButton) {
         const resetButtonText = resetButton.querySelector('.projects-section-expand-text');
@@ -329,7 +423,24 @@ export class ProjectsPage extends BasePage {
 
     // Обновляем группировку через менеджер группировки
     if (this.groupingManager) {
-      // Кнопки "Показать все" / "Скрыть" обновятся автоматически при следующем взаимодействии
+      // Обновляем заголовки секций
+      const sectionTitles = {
+        games: localization.t('projects.filters.categories.games'),
+        tools: localization.t('projects.filters.categories.tools'),
+        research: localization.t('projects.filters.categories.research'),
+      };
+
+      document.querySelectorAll('.projects-section-title-text').forEach(titleEl => {
+        const section = titleEl.closest('.projects-section');
+        if (section) {
+          const category = section.getAttribute('data-category');
+          if (category && sectionTitles[category]) {
+            titleEl.textContent = sectionTitles[category];
+          }
+        }
+      });
+
+      // Кнопки "Показать все" / "Скрыть" обновляются
       document.querySelectorAll('.projects-section-expand-text').forEach(textEl => {
         const button = textEl.closest('.projects-section-expand');
         if (button && button.getAttribute('aria-expanded') === 'true') {

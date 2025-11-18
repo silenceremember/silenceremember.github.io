@@ -22,6 +22,7 @@ export class CVPage extends BasePage {
     });
     this.animationManager = null; // Загружается лениво
     this.timelineTemplate = null;
+    this.cvData = null; // Сохраняем для обновления при смене языка
   }
 
   /**
@@ -646,6 +647,7 @@ export class CVPage extends BasePage {
 
     // Загружаем данные
     const cvData = await this.loadCVData();
+    this.cvData = cvData; // Сохраняем для обновления при смене языка
     const communityData = await this.loadCommunityData();
 
     // Скрываем индикатор загрузки и ждем завершения fadeout
@@ -942,6 +944,101 @@ export class CVPage extends BasePage {
     // Обновляем кнопки "Подробнее"
     document.querySelectorAll('.cv-certificate-button').forEach(button => {
       button.textContent = localization.t('cv.buttons.details');
+    });
+
+    // Обновляем текст "О себе"
+    if (this.cvData && this.cvData.about) {
+      const aboutContainer = document.querySelector('.cv-header-about');
+      if (aboutContainer) {
+        const lang = localization.getCurrentLanguage();
+        let aboutText = '';
+        if (this.cvData.aboutLocalized && this.cvData.aboutLocalized[lang]) {
+          aboutText = this.cvData.aboutLocalized[lang];
+        } else {
+          aboutText = this.cvData.about;
+        }
+
+        // Обновляем параграфы
+        const paragraphs = aboutText.trim().split('\n\n').filter((p) => p.trim());
+        const existingParagraphs = aboutContainer.querySelectorAll('.cv-about-text');
+        paragraphs.forEach((paragraph, index) => {
+          if (existingParagraphs[index]) {
+            existingParagraphs[index].textContent = paragraph.trim();
+          }
+        });
+      }
+    }
+
+    // Обновляем названия проектов/компаний в опыте работы
+    document.querySelectorAll('[data-type="work"]').forEach(item => {
+      const workId = item.getAttribute('data-id');
+      if (workId && this.cvData && this.cvData.workExperience) {
+        const work = this.cvData.workExperience.find(w => w.id === workId);
+        if (work) {
+          const lang = localization.getCurrentLanguage();
+          
+          const title = item.querySelector('.timeline-title');
+          if (title) {
+            if (work.positionLocalized && work.positionLocalized[lang]) {
+              title.textContent = work.positionLocalized[lang];
+            } else {
+              title.textContent = work.position || '';
+            }
+          }
+
+          const subtitle = item.querySelector('.timeline-subtitle');
+          if (subtitle) {
+            if (work.companyLocalized && work.companyLocalized[lang]) {
+              subtitle.textContent = work.companyLocalized[lang];
+            } else {
+              subtitle.textContent = work.company || '';
+            }
+          }
+        }
+      }
+    });
+
+    // Обновляем названия в образовании
+    document.querySelectorAll('[data-type="education"]').forEach(item => {
+      const eduId = item.getAttribute('data-id');
+      if (eduId && this.cvData && this.cvData.education) {
+        const edu = this.cvData.education.find(e => e.id === eduId);
+        if (edu) {
+          const lang = localization.getCurrentLanguage();
+          
+          const title = item.querySelector('.timeline-title');
+          if (title) {
+            if (edu.directionLocalized && edu.directionLocalized[lang]) {
+              title.textContent = edu.directionLocalized[lang];
+            } else {
+              title.textContent = edu.direction || '';
+            }
+          }
+
+          const subtitle = item.querySelector('.timeline-subtitle');
+          if (subtitle) {
+            let institution = '';
+            if (edu.institutionLocalized && edu.institutionLocalized[lang]) {
+              institution = edu.institutionShortLocalized && edu.institutionShortLocalized[lang]
+                ? edu.institutionShortLocalized[lang]
+                : edu.institutionLocalized[lang];
+            } else {
+              institution = edu.institutionShort || edu.institution || '';
+            }
+            
+            const degree = edu.degreeLocalized && edu.degreeLocalized[lang]
+              ? edu.degreeLocalized[lang]
+              : (edu.degree ? `, ${edu.degree}` : '');
+            subtitle.textContent = `${institution}${degree}`;
+            if (edu.location) {
+              const location = edu.locationLocalized && edu.locationLocalized[lang]
+                ? edu.locationLocalized[lang]
+                : edu.location;
+              subtitle.textContent += ` (${location})`;
+            }
+          }
+        }
+      }
     });
   }
 

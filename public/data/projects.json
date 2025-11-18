@@ -45,6 +45,10 @@
         "platform": "PC (UNITY)"
       },
       "keyContribution": "Спроектировал с нуля и реализовал полный игровой цикл: от механики крафта до системы экономики с высоким риском и наградой.",
+      "keyContributionLocalized": {
+        "ru": "Спроектировал с нуля и реализовал полный игровой цикл: от механики крафта до системы экономики с высоким риском и наградой.",
+        "en": "Designed from scratch and implemented a complete game loop: from crafting mechanics to an economy system with high risk and reward."
+      },
       "technologies": [
         "Unity",
         "Bolt Visual Scripting",
@@ -107,6 +111,10 @@
         "platform": "PC (В РАЗРАБОТКЕ)"
       },
       "keyContribution": "Руковожу командой в качестве гейм-дизайнера и тимлида. Отвечаю за стратегическое видение (Vision), лор (Bible) и проектирование ключевых систем (GDD, UI Flow), формируя ТЗ для разработки.",
+      "keyContributionLocalized": {
+        "ru": "Руковожу командой в качестве гейм-дизайнера и тимлида. Отвечаю за стратегическое видение (Vision), лор (Bible) и проектирование ключевых систем (GDD, UI Flow), формируя ТЗ для разработки.",
+        "en": "Leading the team as a game designer and team lead. Responsible for strategic vision (Vision), lore (Bible), and key system design (GDD, UI Flow), creating technical specifications for development."
+      },
       "technologies": [],
       "teamSize": 5,
       "teamName": "2IQ"
@@ -139,6 +147,10 @@
         "platform": "C# (UNITY)"
       },
       "keyContribution": "Выявил и решил проблему отсутствия сетки в Unity Shader Graph, создав уникальный редакторный аддон с помощью рефлексии.",
+      "keyContributionLocalized": {
+        "ru": "Выявил и решил проблему отсутствия сетки в Unity Shader Graph, создав уникальный редакторный аддон с помощью рефлексии.",
+        "en": "Identified and solved the problem of missing grid in Unity Shader Graph by creating a unique editor addon using reflection."
+      },
       "technologies": [
         "Unity",
         "C#",

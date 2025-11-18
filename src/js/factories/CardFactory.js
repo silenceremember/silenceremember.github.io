@@ -41,8 +41,24 @@ export class CardFactory {
     const year = card.querySelector('.project-card-year');
     const role = card.querySelector('.project-card-role');
 
-    if (title) title.textContent = project.title;
-    if (description) description.textContent = project.description || '';
+    if (title) {
+      // Используем локализованную версию названия если доступна
+      const lang = localization.getCurrentLanguage();
+      if (project.titleLocalized && project.titleLocalized[lang]) {
+        title.textContent = project.titleLocalized[lang];
+      } else {
+        title.textContent = project.title;
+      }
+    }
+    if (description) {
+      // Используем локализованную версию описания если доступна
+      const lang = localization.getCurrentLanguage();
+      if (project.descriptionLocalized && project.descriptionLocalized[lang]) {
+        description.textContent = project.descriptionLocalized[lang];
+      } else {
+        description.textContent = project.description || '';
+      }
+    }
     if (image && project.media?.preview) {
       // Используем data-src для ленивой загрузки через Intersection Observer
       image.dataset.src = project.media.preview;
@@ -183,7 +199,15 @@ export class CardFactory {
     const keywords = card.querySelector('.research-card-keywords');
     const button = card.querySelector('.research-card-button');
 
-    if (title) title.textContent = publication.title;
+    if (title) {
+      // Используем локализованную версию названия если доступна
+      const lang = localization.getCurrentLanguage();
+      if (publication.titleLocalized && publication.titleLocalized[lang]) {
+        title.textContent = publication.titleLocalized[lang];
+      } else {
+        title.textContent = publication.title;
+      }
+    }
 
     // Журнал и уровень
     const journalWrapper = card.querySelector('.research-card-journal-wrapper');
