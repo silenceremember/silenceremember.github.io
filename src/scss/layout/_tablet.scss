@@ -52,6 +52,10 @@
   body:has(.slides-container) .header + .decorative-line-horizontal,
   body:has(.slides-container) main + .decorative-line-horizontal {
     position: relative;
+    top: 0 !important;
+    bottom: auto !important;
+    left: 0 !important;
+    right: auto !important;
   }
 
   /* При высоте <900px применяем скролл для главной страницы (независимо от ширины) */
@@ -133,6 +137,10 @@
   body:not(.page-with-scroll) .header + .decorative-line-horizontal,
   body:not(.page-with-scroll) main + .decorative-line-horizontal {
     position: relative;
+    top: 0 !important;
+    bottom: auto !important;
+    left: 0 !important;
+    right: auto !important;
   }
 
   .slides-container.tablet-scroll-mode {
@@ -438,6 +446,10 @@
     width: 100%;
     height: var(--line-width);
     background-color: var(--line-color);
+    top: 0 !important;
+    bottom: auto !important;
+    left: 0 !important;
+    right: auto !important;
   }
 
   /* Стили для 404 страницы при высоте <900px */
@@ -574,6 +586,10 @@
     width: 100%;
     height: var(--line-width);
     background-color: var(--line-color);
+    top: 0 !important;
+    bottom: auto !important;
+    left: 0 !important;
+    right: auto !important;
   }
 
   /* Стили для 404 страницы в tablet/mobile режиме */
@@ -633,5 +649,9 @@
     width: 100%;
     height: var(--line-width);
     background-color: var(--line-color);
+    top: 0 !important;
+    bottom: auto !important;
+    left: 0 !important;
+    right: auto !important;
   }
 }

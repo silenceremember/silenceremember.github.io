@@ -109,3 +109,38 @@
     }
   }
 }
+
+/* Адаптивность для кнопки "Наверх" при высоте <900px */
+@include height-small {
+  .scroll-to-top {
+    bottom: var(--spacing-sm) !important;
+    right: var(--spacing-sm) !important;
+    width: 32px !important;
+    height: 32px !important;
+    transition:
+      opacity var(--transition-duration-base) ease-in-out,
+      visibility var(--transition-duration-base) ease-in-out;
+
+    &.visible {
+      transition:
+        opacity var(--transition-duration-base) ease-in-out,
+        visibility var(--transition-duration-base) ease-in-out;
+    }
+
+    /* При высоте <900px footer не скрывается, позиция фиксированная */
+    &.footer-hidden {
+      bottom: var(--spacing-sm) !important;
+    }
+
+    /* Отключаем hover эффекты при высоте <900px */
+    &:hover,
+    &:focus {
+      svg path.scroll-to-top-bg,
+      path.scroll-to-top-bg,
+      svg circle.scroll-to-top-circle,
+      circle.scroll-to-top-circle {
+        fill: var(--color-text-primary);
+      }
+    }
+  }
+}
