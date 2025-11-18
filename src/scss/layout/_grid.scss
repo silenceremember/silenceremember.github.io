@@ -49,6 +49,10 @@
   flex-grow: 1;
   width: 100%;
   overflow: hidden;
+  /* Высота: вся высота viewport минус хедер, футер и две декоративные линии */
+  height: calc(100vh - var(--header-footer-height) * 2 - var(--line-width) * 2);
+  min-height: calc(100vh - var(--header-footer-height) * 2 - var(--line-width) * 2);
+  max-height: calc(100vh - var(--header-footer-height) * 2 - var(--line-width) * 2);
   /* Контент ограничивается вертикальными линиями */
   /* Вертикальные линии находятся на: calc((100% - var(--max-width-large)) / 2 - var(--spacing-content-side)) от краёв */
   /* Ширина между линиями: var(--max-width-content) */
@@ -62,6 +66,10 @@
     margin: 0 !important;
     padding-left: 0 !important;
     padding-right: 0 !important;
+    /* Для страниц с прокруткой высота вычисляется отдельно */
+    height: auto !important;
+    min-height: calc(100vh - var(--header-footer-height) * 2) !important;
+    max-height: none !important;
   }
 
   /* На мобильных устройствах контент на всю ширину с отступами */
@@ -228,6 +236,10 @@ body.page-404 .content-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
+  /* Высота: вся высота viewport минус хедер, футер и две декоративные линии */
+  height: calc(100vh - var(--header-footer-height) * 2 - var(--line-width) * 2);
+  min-height: calc(100vh - var(--header-footer-height) * 2 - var(--line-width) * 2);
+  max-height: calc(100vh - var(--header-footer-height) * 2 - var(--line-width) * 2);
 }
 
 /* Контейнер для страницы 404 */
