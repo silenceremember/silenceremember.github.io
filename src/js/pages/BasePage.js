@@ -58,11 +58,12 @@ export class BasePage {
       return this._svgLoaderPromise;
     }
 
-    // Загружаем SvgLoader динамически
+    // Загружаем SvgLoader динамически, используем глобальный экземпляр
     this._svgLoaderPromise = (async () => {
       try {
-        const { SvgLoader } = await import('../components/svg/SvgLoader.js');
-        this._svgLoader = new SvgLoader();
+        const { globalSvgLoader } = await import('../components/svg/SvgLoader.js');
+        // Используем глобальный экземпляр для переиспользования кеша
+        this._svgLoader = globalSvgLoader;
         return this._svgLoader;
       } catch (error) {
         console.error('Failed to load SvgLoader:', error);
@@ -188,13 +189,14 @@ export class BasePage {
     const loadNonCriticalComponents = async () => {
       try {
         // Динамически импортируем некритические компоненты
-        const [{ SvgLoader }, { FluidBackground }] = await Promise.all([
+        // Используем глобальный экземпляр SvgLoader для переиспользования кеша
+        const [{ globalSvgLoader }, { FluidBackground }] = await Promise.all([
           import('../components/svg/SvgLoader.js'),
           import('../components/index.js').then(m => ({ FluidBackground: m.FluidBackground })),
         ]);
 
-        const svgLoader = new SvgLoader();
-        await svgLoader.init();
+        // Используем глобальный экземпляр для единого кеша
+        await globalSvgLoader.init();
 
         // Initialize fluid background with a small delay to ensure canvas is in DOM
         // Оптимизация: уменьшена вложенность requestAnimationFrame

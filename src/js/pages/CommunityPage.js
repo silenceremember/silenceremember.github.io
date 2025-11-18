@@ -339,16 +339,16 @@ export class CommunityPage extends BasePage {
     );
     this.loadingIndicator.show();
 
-    // Загружаем менеджер анимаций лениво перед использованием
-    await this.initAnimationManager();
+    // Параллельная загрузка данных и инициализация менеджера анимаций
+    const [data] = await Promise.all([
+      this.loadCommunityData(),
+      this.initAnimationManager(),
+    ]);
 
     // Скрываем все элементы сразу для предотвращения FOUC
     if (this.animationManager) {
       this.animationManager.hideAllCommunityElementsImmediately();
     }
-
-    // Загружаем данные
-    const data = await this.loadCommunityData();
 
     // Скрываем индикатор загрузки и ждем завершения fadeout
     await this.loadingIndicator.hide();
@@ -390,19 +390,20 @@ export class CommunityPage extends BasePage {
       this.addSectionToContainer(eventsSection, 'community-events-section');
     }
 
-    // Загружаем менеджер анимаций лениво
-    await this.initAnimationManager();
-
     // Скрываем все элементы после добавления всех секций
     if (this.animationManager) {
       this.animationManager.hideAllCommunityElementsImmediately();
     }
 
     // Загружаем SVG иконки для всех добавленных карточек
-    // Используем небольшую задержку для гарантии, что все элементы добавлены в DOM
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    // Используем requestAnimationFrame для гарантии, что все элементы добавлены в DOM
+    await new Promise((resolve) => requestAnimationFrame(resolve));
     const svgLoader = await this.getSvgLoader();
-    await svgLoader.init();
+    // Проверяем, есть ли новые SVG элементы для загрузки (избегаем дублирования)
+    const hasNewSvgs = document.querySelectorAll('[data-svg-src]:not([data-svg-loaded])').length > 0;
+    if (hasNewSvgs) {
+      await svgLoader.init();
+    }
 
     // Ждем полной загрузки страницы и запускаем анимации
     await this.waitForPageReady();

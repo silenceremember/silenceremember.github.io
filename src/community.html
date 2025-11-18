@@ -91,9 +91,20 @@
     </noscript>
 
     <!-- Resource Hints: Preload критических ресурсов -->
-    <!-- Prefetch для асинхронно загружаемых ресурсов -->
-    <link rel="prefetch" href="/data/community.json" as="fetch" crossorigin />
-    <link rel="prefetch" href="/data/locales/ru.json" as="fetch" crossorigin />
+    <!-- Preload для критичных данных (загружаются сразу) -->
+    <link rel="preload" href="/data/community.json" as="fetch" crossorigin />
+    <link rel="preload" href="/data/locales/ru.json" as="fetch" crossorigin />
+    
+    <!-- Prefetch для SVG иконок (загружаются асинхронно через SvgLoader) -->
+    <link rel="prefetch" href="/assets/images/icon-discord-server.svg" as="image" type="image/svg+xml" />
+    <link rel="prefetch" href="/assets/images/icon-steam.svg" as="image" type="image/svg+xml" />
+    <link rel="prefetch" href="/assets/images/icon-telegram.svg" as="image" type="image/svg+xml" />
+    <link rel="prefetch" href="/assets/images/icon-itch.svg" as="image" type="image/svg+xml" />
+    <link rel="prefetch" href="/assets/images/icon-boosty.svg" as="image" type="image/svg+xml" />
+    <link rel="prefetch" href="/assets/images/icon-linkedin.svg" as="image" type="image/svg+xml" />
+    <link rel="prefetch" href="/assets/images/icon-headhunter.svg" as="image" type="image/svg+xml" />
+    <link rel="prefetch" href="/assets/images/icon-github.svg" as="image" type="image/svg+xml" />
+    <link rel="prefetch" href="/assets/images/icon-mail.svg" as="image" type="image/svg+xml" />
 
     <!-- Favicon -->
     <link
@@ -122,6 +133,9 @@
     <!-- Google Analytics -->
     <script src="/js/analytics.js"></script>
 
+    <!-- Preload для основного CSS -->
+    <link rel="preload" href="/scss/style.scss" as="style" />
+    
     <!-- Main CSS -->
     <link rel="stylesheet" href="/scss/style.scss" />
   </head>
