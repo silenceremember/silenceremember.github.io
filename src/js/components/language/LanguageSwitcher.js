@@ -198,8 +198,8 @@ export class LanguageSwitcher {
     let descKey = '';
     
     if (pageName === 'index.html' || pageName === '' || path === '/') {
-      titleKey = 'index.title';
-      descKey = 'index.about';
+      titleKey = 'index.meta_title';
+      descKey = 'index.meta_description';
     } else if (pageName === 'projects.html') {
       titleKey = 'projects.title';
       descKey = 'projects.description';
@@ -220,7 +220,7 @@ export class LanguageSwitcher {
     if (titleKey) {
       const title = localization.t(titleKey);
       if (title) {
-        document.title = `${title} - Maxim Elchaninov`;
+        document.title = title;
       }
     }
 

@@ -24,6 +24,8 @@
     "tagline": "SILENCEREMEMBER",
     "title": "SYSTEM GAME DESIGNER",
     "about": "I design game systems and narrative as a unified whole to create meaningful experiences. The site features my projects, research, and technical experiments.",
+    "meta_title": "Maxim Elchaninov — System Game Designer",
+    "meta_description": "Maxim Elchaninov — System Game Designer crafting meaningful player experiences through unified game systems and narrative design. Explore projects, research, and technical experiments.",
     "slideHint": "Scroll the mouse wheel to navigate between slides",
     "featuredWorks": "FEATURED WORKS",
     "whatsNext": "WHAT'S NEXT?",
@@ -33,8 +35,8 @@
     }
   },
   "projects": {
-    "title": "Portfolio",
-    "description": "Portfolio of game designer Maxim Elchaninov. Game systems, tools, and experiments.",
+    "title": "Projects | Maxim Elchaninov — System Game Designer",
+    "description": "Portfolio of projects by Maxim Elchaninov. Explore works on system game design, game mechanics creation, and narrative design.",
     "navigation": "NAVIGATION",
     "card": {
       "details": "DETAILS",
@@ -72,8 +74,8 @@
     }
   },
   "research": {
-    "title": "Research",
-    "description": "Scientific works and publications by Maxim Elchaninov on game design and game development",
+    "title": "Research | Maxim Elchaninov — System Game Designer",
+    "description": "Academic publications and research by Maxim Elchaninov in the field of game design, game systems, and interactive storytelling.",
     "navigation": "NAVIGATION",
     "diploma": {
       "title": "Qualification Work"
@@ -110,8 +112,8 @@
     }
   },
   "cv": {
-    "title": "CV",
-    "description": "CV of game designer Maxim Elchaninov. Work experience, skills, and education.",
+    "title": "CV | Maxim Elchaninov — System Game Designer",
+    "description": "Professional resume of Maxim Elchaninov. Work experience, technical skills, education, and achievements in the field of game design.",
     "navigation": "NAVIGATION",
     "name": "MAXIM ELCHANINOV",
     "role": "SYSTEM GAME DESIGNER",
@@ -169,8 +171,8 @@
     }
   },
   "community": {
-    "title": "Community",
-    "description": "Maxim Elchaninov's community. Social networks, platforms, and ways to connect",
+    "title": "Community | Maxim Elchaninov — System Game Designer",
+    "description": "Join the community of Maxim Elchaninov. Links to Discord, social networks, and ways to support.",
     "navigation": "NAVIGATION",
     "sections": {
       "discord": "DISCORD SERVER",
@@ -205,8 +207,8 @@
     "teamName": "team"
   },
   "404": {
-    "title": "Page not found",
-    "message": "Unfortunately, the requested page does not exist.",
+    "title": "404 — Page Not Found | Maxim Elchaninov",
+    "message": "The requested page was not found on Maxim Elchaninov's website.",
     "backHome": "Back to home"
   },
   "media": {
