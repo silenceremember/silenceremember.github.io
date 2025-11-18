@@ -124,6 +124,12 @@ export class BasePage {
         // Можно использовать для дополнительной логики при необходимости
       });
       this.scrollManager.init();
+      
+      // Двусторонняя связь между ScrollManager и ScrollToTopButton
+      if (this.scrollToTopButton) {
+        this.scrollToTopButton.setScrollManager(this.scrollManager);
+        this.scrollManager.setScrollToTopButton(this.scrollToTopButton);
+      }
     }
   }
 

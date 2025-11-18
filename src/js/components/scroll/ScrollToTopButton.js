@@ -18,6 +18,7 @@ export class ScrollToTopButton {
     this.initAttempts = 0;
     this.MAX_INIT_ATTEMPTS = 10;
     this.previousIsTabletMode = false;
+    this.scrollManager = null; // Ссылка на ScrollManager для синхронизации
   }
 
   /**
@@ -96,20 +97,88 @@ export class ScrollToTopButton {
   }
 
   /**
+   * Устанавливает ссылку на ScrollManager для синхронизации
+   * @param {ScrollManager} scrollManager - Экземпляр ScrollManager
+   */
+  setScrollManager(scrollManager) {
+    this.scrollManager = scrollManager;
+  }
+
+  /**
+   * Прямое обновление позиции и opacity кнопки (вызывается из ScrollManager)
+   * @param {number} footerOffset - Текущее смещение футера
+   */
+  updateButtonPositionDirect(footerOffset) {
+    if (!this.scrollToTopButton || !this.footer || !this.isTabletMode()) {
+      return;
+    }
+
+    // Получаем высоту футера
+    const root = document.documentElement;
+    const headerFooterHeight = parseFloat(
+      getComputedStyle(root).getPropertyValue('--header-footer-height')
+    ) || 0;
+
+    // Рассчитываем opacity на основе величины скрытия футера
+    // Когда футер полностью виден (offset = 0) -> opacity = 1
+    // Когда футер полностью скрыт (offset = height) -> opacity = 0
+    const opacity = Math.max(0, Math.min(1, 1 - (footerOffset / headerFooterHeight)));
+
+    // Применяем transform и opacity без transition для мгновенного следования
+    this.scrollToTopButton.style.transition = 'none';
+    this.scrollToTopButton.style.transform = `translateY(${footerOffset}px)`;
+    this.scrollToTopButton.style.opacity = opacity.toString();
+  }
+
+  /**
    * Обновляет позицию кнопки в зависимости от состояния футера
    */
   updateButtonPosition() {
     if (!this.footer) {
       this.scrollToTopButton.classList.remove('footer-hidden');
+      this.scrollToTopButton.style.transform = '';
+      this.scrollToTopButton.style.opacity = '';
       return;
     }
 
-    const isFooterHidden = this.footer.classList.contains('hidden');
+    // На мобильных/планшетах используем текущее смещение футера
+    if (this.isTabletMode()) {
+      // Получаем смещение футера напрямую из ScrollManager
+      let footerOffset = 0;
+      if (this.scrollManager && this.scrollManager.currentFooterOffset !== undefined) {
+        footerOffset = this.scrollManager.currentFooterOffset;
+      }
+      
+      // Получаем высоту футера для расчета opacity
+      const root = document.documentElement;
+      const headerFooterHeight = parseFloat(
+        getComputedStyle(root).getPropertyValue('--header-footer-height')
+      ) || 0;
 
-    if (isFooterHidden) {
-      this.scrollToTopButton.classList.add('footer-hidden');
-    } else {
+      // Рассчитываем opacity (всегда, независимо от offset)
+      const opacity = Math.max(0, Math.min(1, 1 - (footerOffset / headerFooterHeight)));
+
+      // Применяем transform и opacity
+      this.scrollToTopButton.style.transition = 'none';
+      this.scrollToTopButton.style.transform = `translateY(${footerOffset}px)`;
+      this.scrollToTopButton.style.opacity = opacity.toString();
+      
+      // Убираем класс footer-hidden, так как используем transform
       this.scrollToTopButton.classList.remove('footer-hidden');
+    } else {
+      // На десктопе используем класс
+      const isFooterHidden = this.footer.classList.contains('hidden');
+      
+      if (isFooterHidden) {
+        this.scrollToTopButton.classList.add('footer-hidden');
+      } else {
+        this.scrollToTopButton.classList.remove('footer-hidden');
+      }
+      
+      // Очищаем transform, transition и opacity на десктопе
+      this.scrollToTopButton.style.transform = '';
+      this.scrollToTopButton.style.transition = '';
+      this.scrollToTopButton.style.opacity = '';
     }
   }
 
