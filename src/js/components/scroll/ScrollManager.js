@@ -118,17 +118,18 @@ export class ScrollManager {
     // Для других страниц только в режиме планшета
     if (!this.isScrollPage && !this.isTabletMode) return;
 
-    // Учитываем высоту header и footer при расчете atBottom, если они видимы
-    // Когда header и footer видимы, они перекрывают контент, уменьшая доступную область прокрутки
-    let effectiveClientHeight = clientHeight;
-    if (this.areHeaderFooterVisible()) {
-      const headerFooterHeight = this.getHeaderFooterHeight();
-      // Вычитаем высоты header и footer из доступной высоты viewport
-      effectiveClientHeight = clientHeight - headerFooterHeight * 2;
-    }
-
+    // Учитываем высоту footer при расчете atBottom
+    // Когда footer появляется, он перекрывает нижний контент, поэтому нужно
+    // чтобы он появлялся только когда пользователь прокрутил достаточно далеко,
+    // чтобы весь контент был виден даже когда footer появится
+    const headerFooterHeight = this.getHeaderFooterHeight();
+    // Проверяем, достиг ли пользователь реального низа страницы
+    // Вычитаем высоту footer из scrollHeight, чтобы footer появлялся когда
+    // весь контент уже виден (footer перекроет только padding, который уже учтен в scrollHeight)
+    // Используем небольшой threshold (5px) для более плавного появления
     const atTop = scrollTop <= 2;
-    const atBottom = scrollTop + effectiveClientHeight >= scrollHeight - 2;
+    const atBottom =
+      scrollTop + clientHeight >= scrollHeight - headerFooterHeight - 5;
     const scrollDelta = Math.abs(scrollTop - this.lastScrollTop);
     const isScrollingDown = scrollTop > this.lastScrollTop;
     const isScrollingUp = scrollTop < this.lastScrollTop;
