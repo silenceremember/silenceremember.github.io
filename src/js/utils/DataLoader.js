@@ -40,12 +40,13 @@ export async function loadData(url, options = {}) {
   }
 
   // Создаем новый запрос с оптимизацией приоритета
+  // Не используем keepalive для JSON, так как это может помешать использованию preloaded ресурсов
   const requestPromise = fetch(url, {
     ...options,
     // Оптимизация: используем высокий приоритет для критических данных
     priority: options.priority || 'high',
-    // Используем keepalive для лучшей производительности
-    keepalive: true,
+    // Используем cache для лучшей производительности
+    cache: options.cache || 'default',
     headers: {
       'Cache-Control': 'max-age=300', // 5 минут
       ...options.headers,

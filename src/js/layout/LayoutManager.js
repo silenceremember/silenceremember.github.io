@@ -4,6 +4,11 @@
  */
 import { NavigationHelper } from '../utils/Navigation.js';
 
+// Кеш для HTML шаблонов (общий для всех экземпляров)
+const htmlCache = new Map();
+// Активные запросы для дедупликации
+const pendingRequests = new Map();
+
 export class LayoutManager {
   /**
    * Создает экземпляр менеджера layout
@@ -15,17 +20,52 @@ export class LayoutManager {
   }
 
   /**
-   * Загружает HTML из URL
+   * Загружает HTML из URL с кешированием и дедупликацией запросов
    * @param {string} url - URL для загрузки HTML
    * @returns {Promise<string>} HTML содержимое
    * @throws {Error} Если загрузка не удалась
    */
   async loadHTML(url) {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`Failed to load HTML from ${url}`);
+    // Проверяем кеш
+    if (htmlCache.has(url)) {
+      return Promise.resolve(htmlCache.get(url));
     }
-    return response.text();
+
+    // Проверяем, есть ли уже активный запрос для этого URL
+    if (pendingRequests.has(url)) {
+      return pendingRequests.get(url);
+    }
+
+    // Создаем новый запрос
+    // Не используем keepalive для HTML, так как это может помешать использованию preloaded ресурсов
+    const requestPromise = fetch(url, {
+      priority: 'high',
+      headers: {
+        'Cache-Control': 'max-age=300', // 5 минут
+      },
+    })
+      .then(async (response) => {
+        if (!response.ok) {
+          throw new Error(`Failed to load HTML from ${url}`);
+        }
+        const html = await response.text();
+        // Сохраняем в кеш
+        htmlCache.set(url, html);
+        return html;
+      })
+      .catch((error) => {
+        console.error(`Ошибка загрузки HTML из ${url}:`, error);
+        throw error;
+      })
+      .finally(() => {
+        // Удаляем из активных запросов после завершения
+        pendingRequests.delete(url);
+      });
+
+    // Сохраняем промис для дедупликации
+    pendingRequests.set(url, requestPromise);
+
+    return requestPromise;
   }
 
   /**

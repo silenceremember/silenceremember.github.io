@@ -106,8 +106,22 @@
       fetchpriority="high"
       type="image/webp"
     />
-    <!-- Prefetch для асинхронно загружаемых ресурсов -->
-    <link rel="prefetch" href="/data/locales/ru.json" as="fetch" crossorigin />
+    <!-- Preload критических HTML шаблонов -->
+    <link rel="preload" href="/components/header.html" as="fetch" crossorigin />
+    <link rel="preload" href="/components/footer.html" as="fetch" crossorigin />
+    <!-- Preload критических JSON данных -->
+    <link rel="preload" href="/data/locales/ru.json" as="fetch" crossorigin />
+    <link rel="preload" href="/data/projects.json" as="fetch" crossorigin />
+    <!-- Prefetch для SVG иконок (загружаются асинхронно через SvgLoader) -->
+    <link rel="prefetch" href="/assets/images/icon-language-ru.svg" as="image" />
+    <link rel="prefetch" href="/assets/images/icon-language-en.svg" as="image" />
+    <link rel="prefetch" href="/assets/images/icon-moon.svg" as="image" />
+    <link rel="prefetch" href="/assets/images/icon-sun.svg" as="image" />
+    <link rel="prefetch" href="/assets/images/logo-icon.svg" as="image" />
+    <link rel="prefetch" href="/assets/images/icon-linkedin.svg" as="image" />
+    <link rel="prefetch" href="/assets/images/icon-headhunter.svg" as="image" />
+    <link rel="prefetch" href="/assets/images/icon-telegram.svg" as="image" />
+    <link rel="prefetch" href="/assets/images/icon-scroll-to-top.svg" as="image" />
 
     <!-- Favicon -->
     <link
@@ -128,6 +142,14 @@
 
     <!-- Prefetch для других страниц (низкий приоритет) -->
     <link rel="prefetch" href="/projects.html" as="document" />
+
+    <!-- Preload критических JS модулей -->
+    <link rel="modulepreload" href="/js/main.js" />
+    <link rel="modulepreload" href="/js/pages/BasePage.js" />
+    <link rel="modulepreload" href="/js/components/index.js" />
+    
+    <!-- Preload основного CSS -->
+    <link rel="preload" href="/scss/style.scss" as="style" />
 
     <!-- Theme switcher script - загружается с defer для неблокирующей загрузки -->
     <script src="/js/components/ThemeInit.js" defer></script>

@@ -117,11 +117,17 @@ export class IndexPage extends BasePage {
         '.project-placeholder'
       );
       if (projectPlaceholder) {
-        // Все три слайда проектов загружаем сразу для быстрого отображения
+        // Проверяем, находимся ли мы в tablet/mobile режиме
+        const isTabletMode = this.slidesContainer?.classList.contains('tablet-scroll-mode') ||
+          window.innerWidth < 1024 || window.innerHeight < 900;
+        
+        // В tablet режиме все слайды видимы - загружаем все изображения сразу
+        // В desktop режиме: первый слайд загружаем сразу, остальные - лениво
+        const isVisible = isTabletMode || slideIndex === 0;
         backgroundImageService.loadBackgroundImage(
           projectPlaceholder,
           project.media.preview,
-          true
+          isVisible
         );
       }
 
@@ -154,6 +160,50 @@ export class IndexPage extends BasePage {
         this.populateProjectSlide(projectSlides[index], project, index);
       }
     });
+  }
+
+  /**
+   * Загружает изображение для слайда проекта при переключении
+   * Вызывается при переключении на слайд, чтобы загрузить изображение принудительно
+   * @param {number} slideIndex - Индекс слайда (1-3 для проектов)
+   */
+  loadSlideImage(slideIndex) {
+    // slideIndex 1-3 соответствуют проектам (слайды 1-3)
+    if (slideIndex < 1 || slideIndex > 3) return;
+
+    const projectIndex = slideIndex - 1; // Индекс в массиве проектов (0-based)
+    const project = this.featuredProjects[projectIndex];
+    if (!project || !project.media?.preview) return;
+
+    const slideElement = this.slidesContainer?.querySelector(
+      `.slide[data-slide="${slideIndex}"]`
+    );
+    if (!slideElement) return;
+
+    const projectPlaceholder = slideElement.querySelector('.project-placeholder');
+    if (!projectPlaceholder) return;
+
+    // Проверяем, не загружено ли уже изображение
+    const bgImage = projectPlaceholder.style.backgroundImage;
+    if (bgImage && bgImage !== 'none' && bgImage.includes(project.media.preview)) {
+      return; // Изображение уже загружено
+    }
+
+    // Отключаем наблюдение за элементом, если оно было установлено
+    // Это нужно, чтобы избежать конфликтов с Intersection Observer
+    backgroundImageService.unobserve(projectPlaceholder);
+
+    // Удаляем data-атрибут, если он есть (чтобы не загружать дважды)
+    if (projectPlaceholder.dataset.bgImage) {
+      delete projectPlaceholder.dataset.bgImage;
+    }
+
+    // Принудительно загружаем изображение (isVisible=true)
+    backgroundImageService.loadBackgroundImage(
+      projectPlaceholder,
+      project.media.preview,
+      true
+    );
   }
 
   /**
@@ -194,6 +244,9 @@ export class IndexPage extends BasePage {
     this.slidesManager = new SlidesManager();
     this.slidesManager.init();
     
+    // Подписываемся на переключение слайдов для загрузки изображений
+    this.setupSlideImageLoading();
+    
     const projectsData = await projectsDataPromise;
 
     // Скрываем индикатор загрузки и ждем завершения fadeout
@@ -229,6 +282,91 @@ export class IndexPage extends BasePage {
     };
     this.updateContentLanguage();
     window.addEventListener('languageChanged', this.languageChangeHandler);
+  }
+
+  /**
+   * Настраивает загрузку изображений при переключении слайдов
+   */
+  setupSlideImageLoading() {
+    if (!this.slidesContainer) return;
+
+    // Наблюдаем за изменениями активного слайда (для desktop режима)
+    const slideObserver = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (
+          mutation.type === 'attributes' &&
+          mutation.attributeName === 'class'
+        ) {
+          const slide = mutation.target;
+          if (
+            slide.classList.contains('active') &&
+            slide.classList.contains('slide')
+          ) {
+            const slideIndex = parseInt(slide.getAttribute('data-slide'));
+            // Загружаем изображение для проектных слайдов (1-3) только в desktop режиме
+            if (slideIndex >= 1 && slideIndex <= 3) {
+              const isTabletMode = this.slidesContainer.classList.contains('tablet-scroll-mode');
+              if (!isTabletMode) {
+                this.loadSlideImage(slideIndex);
+              }
+            }
+          }
+        }
+      });
+    });
+
+    // Наблюдаем за контейнером для отслеживания переключения режима
+    const containerObserver = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (
+          mutation.type === 'attributes' &&
+          mutation.attributeName === 'class'
+        ) {
+          const container = mutation.target;
+          if (container === this.slidesContainer) {
+            const isTabletMode = container.classList.contains('tablet-scroll-mode');
+            // Если переключились в tablet режим, загружаем все изображения
+            if (isTabletMode) {
+              this.loadAllSlideImages();
+            }
+          }
+        }
+      });
+    });
+
+    // Наблюдаем за всеми слайдами
+    const slides = this.slidesContainer.querySelectorAll('.slide');
+    slides.forEach((slide) => {
+      slideObserver.observe(slide, {
+        attributes: true,
+        attributeFilter: ['class'],
+      });
+    });
+
+    // Наблюдаем за контейнером для отслеживания режима
+    containerObserver.observe(this.slidesContainer, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+
+    // Сохраняем observers для очистки
+    this.slideImageObserver = slideObserver;
+    this.containerImageObserver = containerObserver;
+
+    // Если уже в tablet режиме при инициализации, загружаем все изображения
+    if (this.slidesContainer.classList.contains('tablet-scroll-mode')) {
+      this.loadAllSlideImages();
+    }
+  }
+
+  /**
+   * Загружает все изображения слайдов (для tablet режима)
+   */
+  loadAllSlideImages() {
+    // Загружаем изображения для всех проектных слайдов (1-3)
+    for (let slideIndex = 1; slideIndex <= 3; slideIndex++) {
+      this.loadSlideImage(slideIndex);
+    }
   }
 
   /**
@@ -282,6 +420,14 @@ export class IndexPage extends BasePage {
   cleanup() {
     if (this.languageChangeHandler) {
       window.removeEventListener('languageChanged', this.languageChangeHandler);
+    }
+    if (this.slideImageObserver) {
+      this.slideImageObserver.disconnect();
+      this.slideImageObserver = null;
+    }
+    if (this.containerImageObserver) {
+      this.containerImageObserver.disconnect();
+      this.containerImageObserver = null;
     }
     super.cleanup?.();
   }
