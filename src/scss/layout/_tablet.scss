@@ -120,6 +120,7 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
     overscroll-behavior-y: auto;
+    touch-action: pan-y;
   }
 
   body:has(.slides-container) .page-wrapper::-webkit-scrollbar {
@@ -151,6 +152,7 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
     overscroll-behavior-y: auto;
+    touch-action: pan-y;
   }
 
   body:not(.page-with-scroll) .page-wrapper::-webkit-scrollbar {
@@ -477,6 +479,7 @@
     -webkit-overflow-scrolling: touch;
     scroll-behavior: auto;
     overscroll-behavior-y: auto;
+    touch-action: pan-y;
   }
 
   body.page-404 .page-wrapper::-webkit-scrollbar {
@@ -555,6 +558,7 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
     overscroll-behavior-y: auto;
+    touch-action: pan-y;
   }
 
   body.page-with-scroll .page-wrapper::-webkit-scrollbar {
@@ -700,6 +704,7 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
     overscroll-behavior-y: auto;
+    touch-action: pan-y;
   }
 
   body.page-404 .page-wrapper::-webkit-scrollbar {
