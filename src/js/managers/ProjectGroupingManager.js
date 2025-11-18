@@ -386,6 +386,39 @@ export class ProjectGroupingManager {
       const originalCard = this.allProjectCards.get(project.id);
       if (originalCard) {
         const clonedCard = originalCard.cloneNode(true);
+        
+        // Сбрасываем атрибуты data-svg-loaded для клонированных SVG элементов,
+        // чтобы они загрузились заново для клонированной карточки
+        // Сначала обрабатываем элементы с data-svg-loaded
+        clonedCard.querySelectorAll('[data-svg-loaded]').forEach((svgElement) => {
+          svgElement.removeAttribute('data-svg-loaded');
+        });
+        
+        // Затем обрабатываем SVG элементы, которые были заменены на SVG, но не имеют data-svg-src
+        clonedCard.querySelectorAll('.project-card-star, .project-card-divider').forEach((iconElement) => {
+          // Если это уже SVG элемент без data-svg-src, нужно восстановить span
+          if (iconElement.tagName === 'svg' && !iconElement.hasAttribute('data-svg-src')) {
+            const classes = iconElement.className.baseVal || iconElement.className;
+            const isString = typeof classes === 'string';
+            const isStar = isString && classes.includes('project-card-star');
+            const isDivider = isString && classes.includes('project-card-divider');
+            
+            if (isStar || isDivider) {
+              const newSpan = document.createElement('span');
+              newSpan.className = isStar ? 'project-card-star' : 'project-card-divider';
+              newSpan.setAttribute('data-svg-src', isStar 
+                ? 'assets/images/icon-star.svg' 
+                : 'assets/images/icon-divider-small.svg');
+              if (iconElement.parentNode) {
+                iconElement.parentNode.replaceChild(newSpan, iconElement);
+              }
+            }
+          } else if (iconElement.tagName === 'SPAN' && iconElement.hasAttribute('data-svg-src')) {
+            // Если это span с data-svg-src, убеждаемся что data-svg-loaded удален
+            iconElement.removeAttribute('data-svg-loaded');
+          }
+        });
+        
         // Устанавливаем начальное состояние для анимации ПЕРЕД добавлением в DOM
         clonedCard.style.opacity = '0';
         clonedCard.style.transform = 'translateY(10px)';
@@ -425,6 +458,39 @@ export class ProjectGroupingManager {
         const originalCard = this.allProjectCards.get(project.id);
         if (originalCard) {
           const clonedCard = originalCard.cloneNode(true);
+          
+          // Сбрасываем атрибуты data-svg-loaded для клонированных SVG элементов,
+          // чтобы они загрузились заново для клонированной карточки
+          // Сначала обрабатываем элементы с data-svg-loaded
+          clonedCard.querySelectorAll('[data-svg-loaded]').forEach((svgElement) => {
+            svgElement.removeAttribute('data-svg-loaded');
+          });
+          
+          // Затем обрабатываем SVG элементы, которые были заменены на SVG, но не имеют data-svg-src
+          clonedCard.querySelectorAll('.project-card-star, .project-card-divider').forEach((iconElement) => {
+            // Если это уже SVG элемент без data-svg-src, нужно восстановить span
+            if (iconElement.tagName === 'svg' && !iconElement.hasAttribute('data-svg-src')) {
+              const classes = iconElement.className.baseVal || iconElement.className;
+              const isString = typeof classes === 'string';
+              const isStar = isString && classes.includes('project-card-star');
+              const isDivider = isString && classes.includes('project-card-divider');
+              
+              if (isStar || isDivider) {
+                const newSpan = document.createElement('span');
+                newSpan.className = isStar ? 'project-card-star' : 'project-card-divider';
+                newSpan.setAttribute('data-svg-src', isStar 
+                  ? 'assets/images/icon-star.svg' 
+                  : 'assets/images/icon-divider-small.svg');
+                if (iconElement.parentNode) {
+                  iconElement.parentNode.replaceChild(newSpan, iconElement);
+                }
+              }
+            } else if (iconElement.tagName === 'SPAN' && iconElement.hasAttribute('data-svg-src')) {
+              // Если это span с data-svg-src, убеждаемся что data-svg-loaded удален
+              iconElement.removeAttribute('data-svg-loaded');
+            }
+          });
+          
           clonedCard.classList.add('project-card-hidden');
           clonedCard.setAttribute('data-hidden-card', 'true');
           clonedCard.style.display = 'none';

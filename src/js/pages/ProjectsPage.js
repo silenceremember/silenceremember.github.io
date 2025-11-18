@@ -280,14 +280,42 @@ export class ProjectsPage extends BasePage {
       const project = this.allProjects.find(p => p.id === projectId);
       if (!project) return;
 
-      // Обновляем название
+      // Обновляем название (сохраняя звездочки и разделители)
       const title = card.querySelector('.project-card-title');
       if (title) {
         const lang = localization.getCurrentLanguage();
-        if (project.titleLocalized && project.titleLocalized[lang]) {
-          title.textContent = project.titleLocalized[lang];
-        } else {
-          title.textContent = project.title;
+        const newTitleText = project.titleLocalized && project.titleLocalized[lang] 
+          ? project.titleLocalized[lang] 
+          : project.title;
+        
+        // Сохраняем звездочки и разделители
+        const starIcon = title.querySelector('.project-card-star');
+        const dividerIcon = title.querySelector('.project-card-divider');
+        
+        // Обновляем только текстовый контент
+        const textNodes = Array.from(title.childNodes).filter(
+          node => node.nodeType === Node.TEXT_NODE
+        );
+        textNodes.forEach(node => node.remove());
+        
+        // Вставляем новый текст в начало
+        title.insertBefore(document.createTextNode(newTitleText), title.firstChild);
+        
+        // Восстанавливаем звездочки и разделители, если их нет, но должны быть
+        if (project.featured && !starIcon) {
+          const newStarIcon = document.createElement('span');
+          newStarIcon.className = 'project-card-star';
+          newStarIcon.setAttribute('data-svg-src', 'assets/images/icon-star.svg');
+          newStarIcon.setAttribute('aria-label', localization.t('projects.card.featured'));
+          title.appendChild(newStarIcon);
+        }
+        
+        if (project.tier === 2 && !dividerIcon) {
+          const newDividerIcon = document.createElement('span');
+          newDividerIcon.className = 'project-card-divider';
+          newDividerIcon.setAttribute('data-svg-src', 'assets/images/icon-divider-small.svg');
+          newDividerIcon.setAttribute('aria-label', localization.t('projects.card.tier2'));
+          title.appendChild(newDividerIcon);
         }
       }
 
