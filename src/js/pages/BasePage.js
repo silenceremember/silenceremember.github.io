@@ -241,6 +241,7 @@ export class BasePage {
     const contentWrapper = document.querySelector('.content-wrapper');
     const main = document.querySelector('main');
     const slidesContainer = document.querySelector('.slides-container');
+    const decorativeLines = document.querySelectorAll('.decorative-line-horizontal');
 
     if (headerContent) {
       fadeInElements.add(headerContent);
@@ -255,6 +256,11 @@ export class BasePage {
     if (main && !fadeInElements.has(main)) {
       fadeInElements.add(main);
     }
+
+    // Добавляем декоративные линии
+    decorativeLines.forEach((line) => {
+      fadeInElements.add(line);
+    });
 
     // Если есть слайды в tablet-scroll-mode, убеждаемся что они видимы
     if (

@@ -58,6 +58,16 @@
     right: auto !important;
   }
 
+  /* Скрываем нижнюю декоративную линию во время загрузки на mobile/tablet */
+  body:has(.slides-container) main + .decorative-line-horizontal {
+    opacity: 0;
+    transition: opacity var(--transition-duration-base) var(--timing-function-ease-out);
+  }
+
+  body:has(.slides-container) main + .decorative-line-horizontal.fade-in-visible {
+    opacity: 1;
+  }
+
   /* При высоте <900px применяем скролл для главной страницы (независимо от ширины) */
   body:has(.slides-container) .content-wrapper {
     padding-left: 0;
@@ -141,6 +151,16 @@
     bottom: auto !important;
     left: 0 !important;
     right: auto !important;
+  }
+
+  /* Скрываем нижнюю декоративную линию во время загрузки на mobile/tablet */
+  body:not(.page-with-scroll) main + .decorative-line-horizontal {
+    opacity: 0;
+    transition: opacity var(--transition-duration-base) var(--timing-function-ease-out);
+  }
+
+  body:not(.page-with-scroll) main + .decorative-line-horizontal.fade-in-visible {
+    opacity: 1;
   }
 
   .slides-container.tablet-scroll-mode {
@@ -452,6 +472,16 @@
     right: auto !important;
   }
 
+  /* Скрываем нижнюю декоративную линию во время загрузки на mobile/tablet */
+  body.page-with-scroll main + .decorative-line-horizontal {
+    opacity: 0;
+    transition: opacity var(--transition-duration-base) var(--timing-function-ease-out);
+  }
+
+  body.page-with-scroll main + .decorative-line-horizontal.fade-in-visible {
+    opacity: 1;
+  }
+
   /* Стили для 404 страницы при высоте <900px */
   html.page-404 {
     overflow: visible;
@@ -592,6 +622,16 @@
     right: auto !important;
   }
 
+  /* Скрываем нижнюю декоративную линию во время загрузки на mobile/tablet */
+  body.page-with-scroll main + .decorative-line-horizontal {
+    opacity: 0;
+    transition: opacity var(--transition-duration-base) var(--timing-function-ease-out);
+  }
+
+  body.page-with-scroll main + .decorative-line-horizontal.fade-in-visible {
+    opacity: 1;
+  }
+
   /* Стили для 404 страницы в tablet/mobile режиме */
   body.page-404 .page-wrapper {
     display: block;
@@ -653,5 +693,15 @@
     bottom: auto !important;
     left: 0 !important;
     right: auto !important;
+  }
+
+  /* Скрываем нижнюю декоративную линию во время загрузки на mobile/tablet */
+  body.page-404 main + .decorative-line-horizontal {
+    opacity: 0;
+    transition: opacity var(--transition-duration-base) var(--timing-function-ease-out);
+  }
+
+  body.page-404 main + .decorative-line-horizontal.fade-in-visible {
+    opacity: 1;
   }
 }
