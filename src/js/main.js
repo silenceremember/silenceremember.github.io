@@ -36,13 +36,13 @@ function quickInitCursor() {
  */
 async function initCurrentPage() {
   const path = window.location.pathname;
-  const pageName = path.split('/').pop() || 'index.html';
+  const pageName = path.split('/').pop() || '';
 
   let pageInstance = null;
   let hideAllSlideElementsEarly = null;
 
   try {
-    if (pageName === 'index.html' || pageName === '' || path === '/') {
+    if (pageName === '' || pageName === 'index.html' || path === '/') {
       // Импортируем только главную страницу
       const { IndexPage, hideAllSlideElementsEarly: hideSlides } = await import('./pages/IndexPage.js');
       hideAllSlideElementsEarly = hideSlides;

@@ -34,13 +34,16 @@ export class LayoutManager {
   setActiveNavLink() {
     const navLinks = document.querySelectorAll('.header-nav-item');
     let currentPage = window.location.pathname.split('/').pop();
-    if (currentPage === '' || currentPage === 'index.html') {
-      currentPage = 'index.html';
-    }
+    const isHomePage = currentPage === '' || currentPage === 'index.html' || window.location.pathname === '/';
 
     navLinks.forEach((link) => {
-      const linkPage = link.getAttribute('href').split('/').pop();
-      if (linkPage === currentPage) {
+      const linkHref = link.getAttribute('href');
+      const linkPage = linkHref.split('/').pop();
+      const isHomeLink = linkHref === '/' || linkHref === '' || linkPage === 'index.html';
+      
+      if (isHomePage && isHomeLink) {
+        link.classList.add('active');
+      } else if (!isHomePage && linkPage === currentPage) {
         link.classList.add('active');
       } else {
         link.classList.remove('active');
