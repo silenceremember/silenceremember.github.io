@@ -249,8 +249,7 @@ export class CardFactory {
     // Кнопка PDF
     if (button) {
       if (publicationUrl) {
-        button.textContent =
-          publication.type === 'diploma' ? 'ЧИТАТЬ ГЛАВУ' : 'ЧИТАТЬ';
+        button.textContent = 'ЧИТАТЬ';
         button.addEventListener('click', (e) => {
           e.stopPropagation();
           window.open(publicationUrl, '_blank', 'noopener,noreferrer');

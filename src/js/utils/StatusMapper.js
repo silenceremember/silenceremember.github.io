@@ -25,7 +25,7 @@ export class StatusMapper {
     const typeMap = {
       thesis: 'Тезисы',
       article: 'Статья',
-      diploma: 'Дипломная работа',
+      diploma: 'ВКР',
     };
     return typeMap[type] || type;
   }
