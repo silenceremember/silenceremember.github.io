@@ -103,9 +103,19 @@ export class ScrollManager {
    * Создает фиктивный элемент внизу страницы для резервирования места под footer
    */
   createSpacerElement() {
-    // Находим контейнер контента
-    const contentWrapper = document.querySelector('.content-wrapper');
-    if (!contentWrapper) return;
+    // Находим контейнер для скролла
+    // На мобильных скролл идет в page-wrapper, поэтому добавляем туда
+    // Ищем page-wrapper напрямую, так как он является контейнером для скролла
+    let targetContainer = document.querySelector('.page-wrapper');
+    if (!targetContainer) {
+      // Если page-wrapper не найден, используем scrollContainer
+      targetContainer = this.scrollContainer;
+    }
+    if (!targetContainer) {
+      // Если и scrollContainer не найден, используем content-wrapper как запасной вариант
+      targetContainer = document.querySelector('.content-wrapper');
+    }
+    if (!targetContainer) return;
 
     // Удаляем существующий элемент, если есть
     if (this.spacerElement) {
@@ -121,10 +131,11 @@ export class ScrollManager {
       pointer-events: none;
       visibility: hidden;
       flex-shrink: 0;
+      box-sizing: border-box;
     `;
 
-    // Добавляем в конец контента
-    contentWrapper.appendChild(this.spacerElement);
+    // Добавляем в конец контейнера для скролла
+    targetContainer.appendChild(this.spacerElement);
 
     // Обновляем высоту
     this.updateSpacerElement();
@@ -137,9 +148,11 @@ export class ScrollManager {
     if (!this.spacerElement) return;
 
     const headerFooterHeight = this.getHeaderFooterHeight();
-    // Устанавливаем высоту равную высоте footer
+    // Устанавливаем высоту равную высоте footer плюс запас
+    // Увеличиваем запас до 20px для надежности на мобильных устройствах
     // Это гарантирует, что когда footer появится, он не перекроет контент
-    this.spacerElement.style.height = `${headerFooterHeight}px`;
+    // и пользователь сможет прокрутить до самого низа
+    this.spacerElement.style.height = `${headerFooterHeight + 20}px`;
   }
 
   /**
@@ -165,10 +178,14 @@ export class ScrollManager {
     // Для других страниц только в режиме планшета
     if (!this.isScrollPage && !this.isTabletMode) return;
 
-    // Теперь используем простую проверку достижения низа страницы
+    // Проверяем достижение низа страницы
     // Фиктивный элемент уже занимает место под footer, поэтому footer не перекроет контент
+    // Используем небольшой threshold для более точного определения низа
     const atTop = scrollTop <= 2;
-    const atBottom = scrollTop + clientHeight >= scrollHeight - 2;
+    // Вычитаем высоту footer из scrollHeight, чтобы footer появлялся когда весь контент виден
+    const headerFooterHeight = this.getHeaderFooterHeight();
+    const atBottom =
+      scrollTop + clientHeight >= scrollHeight - headerFooterHeight - 5;
     const scrollDelta = Math.abs(scrollTop - this.lastScrollTop);
     const isScrollingDown = scrollTop > this.lastScrollTop;
     const isScrollingUp = scrollTop < this.lastScrollTop;
