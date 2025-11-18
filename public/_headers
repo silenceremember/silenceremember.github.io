@@ -77,21 +77,21 @@ https://fonts.gstatic.com/*
 
 # Безопасность и производительность
 /*
-  X-Frame-Options: DENY
+  X-Frame-Options: SAMEORIGIN
   X-XSS-Protection: 1; mode=block
   Referrer-Policy: strict-origin-when-cross-origin
   X-Content-Type-Options: nosniff
-  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
   Cross-Origin-Opener-Policy: same-origin
   Cross-Origin-Embedder-Policy: credentialless
-  Permissions-Policy: geolocation=(), microphone=(), camera=()
+  Cross-Origin-Resource-Policy: same-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()
   # Content-Security-Policy: разрешаем Google Drive для встраивания документов
   # frame-src разрешает загрузку iframes с Google Drive и Google Docs
-  # Убрали 'unsafe-inline' и 'unsafe-eval' из script-src для безопасности
+  # Добавлена поддержка Trusted Types для защиты от DOM XSS
   # Примечание: CSP warnings от Google Drive внутри iframe - это нормально и ожидаемо
   # Google Drive устанавливает свою собственную CSP политику внутри iframe, которую мы не можем контролировать
-  # Добавлены дополнительные директивы для лучшей поддержки Google Drive: form-action, script-src-elem, style-src-elem
-  Content-Security-Policy: default-src 'self'; script-src 'self' https://fonts.googleapis.com; script-src-elem 'self' https://fonts.googleapis.com https://*.google.com https://*.googleapis.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com https://*.google.com https://*.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; frame-src 'self' https://drive.google.com https://docs.google.com https://accounts.google.com https://clients6.google.com https://*.google.com https://*.googleapis.com; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://drive.google.com https://docs.google.com https://accounts.google.com https://clients6.google.com https://*.google.com https://*.googleapis.com https://*.gstatic.com https://www.google-analytics.com https://www.googletagmanager.com; form-action 'self' https://accounts.google.com https://*.google.com; worker-src 'self' blob:; object-src 'self' data: blob:; base-uri 'self'; frame-ancestors 'none'; upgrade-insecure-requests; require-trusted-types-for 'script'
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://fonts.googleapis.com https://www.googletagmanager.com; script-src-elem 'self' https://fonts.googleapis.com https://*.google.com https://*.googleapis.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com https://*.google.com https://*.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; frame-src 'self' https://drive.google.com https://docs.google.com https://accounts.google.com https://clients6.google.com https://*.google.com https://*.googleapis.com; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://drive.google.com https://docs.google.com https://accounts.google.com https://clients6.google.com https://*.google.com https://*.googleapis.com https://*.gstatic.com https://www.google-analytics.com https://www.googletagmanager.com; form-action 'self' https://accounts.google.com https://*.google.com; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; upgrade-insecure-requests
 
 # Оптимизация для Core Web Vitals
 # Preconnect для внешних ресурсов (если используются)
