@@ -495,13 +495,9 @@ export class CVPage extends BasePage {
     // Кнопка для русской версии
     const buttonRU = document.createElement('a');
     buttonRU.className = 'cv-download-button cta-button';
-    buttonRU.href = '#';
-    buttonRU.textContent = 'Скачать CV в PDF [RU]';
-    buttonRU.addEventListener('click', (e) => {
-      e.preventDefault();
-      // TODO: Реализовать генерацию/скачивание PDF для RU
-      alert('Функция скачивания PDF [RU] будет реализована позже');
-    });
+    buttonRU.href = 'https://docs.google.com/document/d/15toQDK1N_Tt6c8jg8v8mfzUBjL0Xi34xeVMMH5x_Jns/edit?usp=sharing';
+    buttonRU.textContent = 'СКАЧАТЬ CV В PDF [RU]';
+    buttonRU.target = '_blank';
 
     // Кнопка для английской версии
     const buttonEN = document.createElement('a');
