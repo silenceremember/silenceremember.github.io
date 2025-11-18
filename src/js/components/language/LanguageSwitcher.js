@@ -112,8 +112,10 @@ export class LanguageSwitcher {
     // Обновляем элементы с data-i18n атрибутами
     document.querySelectorAll('[data-i18n]').forEach(element => {
       const key = element.getAttribute('data-i18n');
+      if (!key) return;
       const text = localization.t(key);
-      if (text) {
+      // Обновляем только если перевод найден и отличается от ключа
+      if (text && text !== key) {
         element.textContent = text;
       }
     });
@@ -210,6 +212,9 @@ export class LanguageSwitcher {
     } else if (pageName === 'community.html') {
       titleKey = 'community.title';
       descKey = 'community.description';
+    } else if (pageName === '404.html') {
+      titleKey = '404.title';
+      descKey = '404.description';
     }
 
     if (titleKey) {

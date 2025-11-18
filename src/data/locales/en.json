@@ -205,9 +205,11 @@
     "teamName": "team"
   },
   "404": {
-    "title": "Page not found",
-    "message": "Unfortunately, the requested page does not exist.",
-    "backHome": "Back to home"
+    "title": "404 - Page not found",
+    "description": "Page not found - Maxim Elchaninov Portfolio",
+    "heading": "404",
+    "subtitle": "PAGE NOT FOUND",
+    "message": "The page may have been moved or deleted"
   },
   "media": {
     "previousImage": "Previous image",
