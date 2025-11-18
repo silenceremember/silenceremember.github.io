@@ -9,11 +9,79 @@ class Localization {
   }
 
   /**
-   * Инициализирует локализацию
-   * @param {string} lang - Язык по умолчанию
+   * Определяет, является ли пользователь из СНГ региона
+   * @returns {boolean}
    */
-  async init(lang = 'ru') {
-    this.currentLanguage = lang || localStorage.getItem('language') || 'ru';
+  isUserFromCIS() {
+    // Проверяем язык браузера
+    const browserLang = navigator.language || navigator.userLanguage || '';
+    if (browserLang.toLowerCase().startsWith('ru')) {
+      return true;
+    }
+
+    // Проверяем список языков браузера
+    if (navigator.languages) {
+      for (const lang of navigator.languages) {
+        if (lang.toLowerCase().startsWith('ru')) {
+          return true;
+        }
+      }
+    }
+
+    // Проверяем часовой пояс (CIS страны используют определенные таймзоны)
+    try {
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const cisTimezones = [
+        'Europe/Moscow',
+        'Europe/Minsk',
+        'Asia/Almaty',
+        'Asia/Bishkek',
+        'Asia/Yerevan',
+        'Asia/Baku',
+        'Europe/Chisinau',
+        'Asia/Dushanbe',
+        'Asia/Tashkent',
+        'Asia/Ashgabat',
+        'Europe/Kiev',
+        'Europe/Kyiv'
+      ];
+      
+      if (cisTimezones.includes(timezone)) {
+        return true;
+      }
+    } catch (e) {
+      // Если не удалось определить таймзону, продолжаем проверку
+    }
+
+    return false;
+  }
+
+  /**
+   * Определяет язык по умолчанию на основе региона пользователя
+   * @returns {string} 'ru' или 'en'
+   */
+  detectDefaultLanguage() {
+    // Сначала проверяем сохраненный язык
+    const savedLanguage = localStorage.getItem('language');
+    if (savedLanguage === 'ru' || savedLanguage === 'en') {
+      return savedLanguage;
+    }
+
+    // Если язык не сохранен, определяем по региону
+    return this.isUserFromCIS() ? 'ru' : 'en';
+  }
+
+  /**
+   * Инициализирует локализацию
+   * @param {string} lang - Язык (если не указан, определяется автоматически)
+   */
+  async init(lang = null) {
+    // Если язык явно не указан, определяем автоматически
+    if (!lang) {
+      lang = this.detectDefaultLanguage();
+    }
+    
+    this.currentLanguage = lang;
     await this.loadTranslations(this.currentLanguage);
   }
 
