@@ -3,7 +3,7 @@
   "lastUpdated": "2025-01-XX",
   "about": "Создаю системы, формирующие повествование, и нарратив, определяющий игровой процесс.\n\nПрименяю инженерный и исследовательский подход: эксперементирую с технологиями, разрабатываю утилиты и использую нейросетевые модели. Обеспечиваю полный цикл создания проектной документации – от концепт-документов до технических заданий для команды.",
   "aboutLocalized": {
-    "en": "I create systems that shape narrative and narrative that defines gameplay.\n\nI apply an engineering and research approach: experimenting with technologies, developing utilities, and using neural network models. I ensure the full cycle of project documentation creation – from concept documents to technical specifications for the team."
+    "en": "I design systems that shape the narrative, and narratives that define the gameplay.\n\nApplying an engineering and research-driven approach, I experiment with new technologies, develop custom tools, and leverage AI/ML models. I manage the entire documentation pipeline, from initial concept documents to detailed technical specifications for the development team."
   },
   "workExperience": [
     {
@@ -50,7 +50,7 @@
       },
       "direction": "09.04.03 Прикладная информатика — Разработка компьютерных игр (Гейм-дизайн)",
       "directionLocalized": {
-        "en": "09.04.03 Applied Informatics — Computer Game Development (Game Design)"
+        "en": "APPLIED COMPUTER SCIENCE — MAJOR: GAME DESIGN & DEVELOPMENT"
       },
       "degree": "Магистр",
       "degreeLocalized": {
@@ -76,7 +76,7 @@
       },
       "direction": "10.03.01 Информационная безопасность",
       "directionLocalized": {
-        "en": "10.03.01 Information Security"
+        "en": "INFORMATION SECURITY"
       },
       "degree": "Бакалавр",
       "degreeLocalized": {
@@ -132,7 +132,7 @@
       "id": "texturniy-trip",
       "title": "Текстурный трип",
       "titleLocalized": {
-        "en": "Texture Trip"
+        "en": "Texturing Trip"
       },
       "organization": "XYZ School",
       "year": 2022,
