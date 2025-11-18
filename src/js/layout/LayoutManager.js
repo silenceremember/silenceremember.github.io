@@ -33,8 +33,12 @@ export class LayoutManager {
    */
   setActiveNavLink() {
     const navLinks = document.querySelectorAll('.header-nav-item');
-    let currentPage = window.location.pathname.split('/').pop();
-    if (currentPage === '' || currentPage === 'index.html') {
+    const pathname = window.location.pathname;
+    
+    // Нормализуем текущую страницу
+    // Если путь равен "/" или заканчивается на "/" или "index.html", считаем это главной страницей
+    let currentPage = pathname.split('/').pop();
+    if (currentPage === '' || pathname === '/' || pathname.endsWith('/index.html') || currentPage === 'index.html') {
       currentPage = 'index.html';
     }
 
