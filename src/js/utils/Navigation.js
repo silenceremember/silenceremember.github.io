@@ -9,16 +9,13 @@ export class NavigationHelper {
   static setActiveNavigationLink(navSelector) {
     const navLinks = document.querySelectorAll(`${navSelector} .cta-button`);
     let currentPage = window.location.pathname.split('/').pop();
-    const isHomePage = currentPage === '' || currentPage === 'index.html' || window.location.pathname === '/';
+    if (currentPage === '' || currentPage === 'index.html') {
+      currentPage = 'index.html';
+    }
 
     navLinks.forEach((link) => {
-      const linkHref = link.getAttribute('href');
-      const linkPage = linkHref.split('/').pop();
-      const isHomeLink = linkHref === '/' || linkHref === '' || linkPage === 'index.html';
-      
-      if (isHomePage && isHomeLink) {
-        link.classList.add('active');
-      } else if (!isHomePage && linkPage === currentPage) {
+      const linkPage = link.getAttribute('href').split('/').pop();
+      if (linkPage === currentPage) {
         link.classList.add('active');
       } else {
         link.classList.remove('active');

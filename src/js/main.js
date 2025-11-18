@@ -15,69 +15,6 @@ window.scrollTo(0, 0);
 document.documentElement.scrollTop = 0;
 document.body.scrollTop = 0;
 
-// Убираем index.html из URL для чистых URL
-// Это нужно для GitHub Pages, который автоматически добавляет index.html
-(function cleanIndexHtmlFromUrl() {
-  const cleanUrl = () => {
-    const path = window.location.pathname;
-    if (path === '/index.html' || path.endsWith('/index.html')) {
-      const cleanPath = path.replace(/\/index\.html$/, '/') || '/';
-      const newUrl = cleanPath + window.location.search + window.location.hash;
-      // Используем replace вместо push, чтобы не добавлять запись в историю
-      window.history.replaceState(null, '', newUrl);
-    }
-  };
-  
-  // Очищаем URL при загрузке страницы
-  cleanUrl();
-  
-  // Очищаем URL при изменении истории (назад/вперед)
-  window.addEventListener('popstate', cleanUrl);
-  
-  // Очищаем URL периодически (на случай, если GitHub Pages добавляет index.html после загрузки)
-  // Используем MutationObserver для отслеживания изменений в DOM, которые могут указывать на изменение URL
-  if (typeof MutationObserver !== 'undefined') {
-    const observer = new MutationObserver(() => {
-      cleanUrl();
-    });
-    // Начинаем наблюдение за изменениями в document
-    if (document.body) {
-      observer.observe(document.body, { childList: false, subtree: false });
-    } else {
-      document.addEventListener('DOMContentLoaded', () => {
-        observer.observe(document.body, { childList: false, subtree: false });
-      });
-    }
-  }
-})();
-
-// Перехватываем клики по ссылкам на главную страницу
-// Используем прямой переход на / вместо стандартной навигации для предотвращения добавления index.html
-(function interceptHomePageLinks() {
-  const handleLinkClick = (e) => {
-    const link = e.target.closest('a');
-    if (!link) return;
-    
-    const href = link.getAttribute('href');
-    // Проверяем, ведет ли ссылка на главную страницу
-    if (href === '/' || href === '' || href === '/index.html' || href.endsWith('/index.html')) {
-      // Проверяем, что это не внешняя ссылка
-      if (!href.includes('://') && (href.startsWith('/') || href === '')) {
-        e.preventDefault();
-        const targetPath = '/';
-        const hash = link.hash || '';
-        const newUrl = targetPath + hash;
-        // Используем прямой переход, чтобы гарантировать загрузку страницы
-        window.location.href = newUrl;
-      }
-    }
-  };
-  
-  // Добавляем обработчик на document для делегирования событий
-  // Используем capture phase для перехвата до других обработчиков
-  document.addEventListener('click', handleLinkClick, true);
-})();
-
 /**
  * Быстрая инициализация курсора при загрузке страницы
  * Восстанавливает позицию из sessionStorage сразу для мгновенного отображения
@@ -99,13 +36,13 @@ function quickInitCursor() {
  */
 async function initCurrentPage() {
   const path = window.location.pathname;
-  const pageName = path.split('/').pop() || '';
+  const pageName = path.split('/').pop() || 'index.html';
 
   let pageInstance = null;
   let hideAllSlideElementsEarly = null;
 
   try {
-    if (pageName === '' || pageName === 'index.html' || path === '/') {
+    if (pageName === 'index.html' || pageName === '' || path === '/') {
       // Импортируем только главную страницу
       const { IndexPage, hideAllSlideElementsEarly: hideSlides } = await import('./pages/IndexPage.js');
       hideAllSlideElementsEarly = hideSlides;

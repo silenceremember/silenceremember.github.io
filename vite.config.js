@@ -112,7 +112,7 @@ export default defineConfig({
         cv: resolve(__dirname, 'src/cv.html'),
         community: resolve(__dirname, 'src/community.html'),
         research: resolve(__dirname, 'src/research.html'),
-        notFound: resolve(__dirname, 'src/404.html'),
+        404: resolve(__dirname, 'src/404.html'),
       },
       output: {
         // Оптимизация для лучшего tree shaking и уменьшения размера
