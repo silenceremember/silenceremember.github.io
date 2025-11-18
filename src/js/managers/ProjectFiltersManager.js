@@ -179,7 +179,7 @@ export class ProjectFiltersManager {
               yearDropdownButton.style.minWidth = this.savedYearButtonWidth;
               yearDropdownButton.style.maxWidth = this.savedYearButtonWidth;
               yearDropdownMenu.style.width = this.savedYearButtonWidth;
-              const isMobile = window.innerWidth < 1024;
+              const isMobile = window.innerWidth < 1024 || window.innerHeight < 900;
               if (isMobile) {
                 yearDropdownMenu.style.setProperty(
                   'width',
@@ -300,7 +300,7 @@ export class ProjectFiltersManager {
                 // Устанавливаем ширину для меню
                 yearDropdownMenu.style.width = `${width}px`;
                 // В mobile режиме используем setProperty с important для переопределения CSS
-                const isMobile = window.innerWidth < 1024;
+                const isMobile = window.innerWidth < 1024 || window.innerHeight < 900;
                 if (isMobile) {
                   yearDropdownMenu.style.setProperty(
                     'width',

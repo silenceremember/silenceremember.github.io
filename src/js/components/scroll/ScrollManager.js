@@ -334,19 +334,18 @@ export class ScrollManager {
     this.isScrollPage = document.body.classList.contains('page-with-scroll');
 
     // Создаем фиктивный элемент при первой инициализации только для desktop страниц со скроллом
-    if (!this.isInitialized && this.isScrollPage && window.innerWidth >= 1024) {
+    // Desktop режим: ширина >= 1024 И высота >= 900
+    if (!this.isInitialized && this.isScrollPage && window.innerWidth >= 1024 && window.innerHeight >= 900) {
       this.createSpacerElement();
     }
 
-    // Для страницы проектов проверяем только ширину (<1024)
-    // Для главной страницы проверяем ширину (<1024) ИЛИ высоту (<900)
-    const isNowTablet = isIndexPage
-      ? window.innerWidth < 1024 || window.innerHeight < 900
-      : window.innerWidth < 1024;
+    // Проверяем tablet режим для всех страниц: ширина <1024 ИЛИ высота <900
+    // Это обеспечивает истинный tablet режим при любом из условий
+    const isNowTablet = window.innerWidth < 1024 || window.innerHeight < 900;
 
     const wasTabletMode = this.isTabletMode;
 
-    // Для страницы проектов проверяем изменение состояния только если режим действительно изменился
+    // Проверяем изменение состояния только если режим действительно изменился
     if (
       isNowTablet === this.isTabletMode &&
       this.isScrollPage &&

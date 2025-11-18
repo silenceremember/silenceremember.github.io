@@ -604,7 +604,7 @@ export class CVPage extends BasePage {
    * Убеждается, что прокрутка остается в начале после загрузки контента
    */
   ensureScrollAtTop() {
-    const isTabletMode = window.innerWidth < 1024;
+    const isTabletMode = window.innerWidth < 1024 || window.innerHeight < 900;
     const scrollElement = isTabletMode
       ? document.querySelector('.page-wrapper')
       : window;

@@ -242,6 +242,37 @@
 /* Стили для слайдов в tablet режиме при высоте <900px (независимо от ширины) */
 /* Применяются для главной страницы (где есть .slides-container) даже с классом page-with-scroll */
 @include height-small {
+  /* Включаем прокрутку на html/body для страниц с прокруткой */
+  html.page-with-scroll {
+    height: auto;
+    min-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  html.page-with-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  body.page-with-scroll {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    height: auto !important;
+    min-height: 100vh;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  body.page-with-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
   /* Стили для главной страницы - применяются независимо от класса page-with-scroll */
   .slides-container.tablet-scroll-mode {
     display: block;
@@ -345,6 +376,68 @@
   /* Скрываем footer-decorative только на главной странице (где есть .slides-container) */
   body:has(.slides-container) .footer-decorative {
     display: none;
+  }
+
+  /* Стили для страниц с прокруткой при высоте <900px (projects, research, cv, community) */
+  body.page-with-scroll .page-wrapper {
+    display: block;
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+    box-sizing: border-box;
+    padding-bottom: 0 !important;
+  }
+
+  body.page-with-scroll .content-wrapper {
+    min-height: 100vh;
+    box-sizing: border-box;
+    display: block;
+    padding-top: 0;
+    padding-bottom: 0;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  body.page-with-scroll .header {
+    position: relative;
+    width: 100%;
+    height: var(--header-footer-height);
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    /* Background with 50% opacity to show fluid effect through */
+    background-color: color-mix(in srgb, var(--color-bg-primary) 50%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition:
+      background-color var(--transition-duration-base) var(--timing-function-ease),
+      color var(--transition-duration-base) var(--timing-function-ease);
+  }
+
+  body.page-with-scroll .footer {
+    position: relative;
+    width: 100%;
+    height: var(--header-footer-height);
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    /* Background with 50% opacity to show fluid effect through */
+    background-color: color-mix(in srgb, var(--color-bg-primary) 50%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition:
+      background-color var(--transition-duration-base) var(--timing-function-ease),
+      color var(--transition-duration-base) var(--timing-function-ease);
+  }
+
+  body.page-with-scroll .header + .decorative-line-horizontal,
+  body.page-with-scroll main + .decorative-line-horizontal {
+    position: relative;
+    width: 100%;
+    height: var(--line-width);
+    background-color: var(--line-color);
   }
 
   /* Стили для 404 страницы при высоте <900px */

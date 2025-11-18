@@ -55,10 +55,10 @@ export class ScrollToTopButton {
 
   /**
    * Определяет, находимся ли мы в tablet режиме
-   * @returns {boolean} true если ширина окна меньше 1024px
+   * @returns {boolean} true если ширина окна меньше 1024px или высота меньше 900px
    */
   isTabletMode() {
-    return window.innerWidth < 1024;
+    return window.innerWidth < 1024 || window.innerHeight < 900;
   }
 
   /**
