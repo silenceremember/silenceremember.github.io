@@ -172,25 +172,21 @@ export class ResearchPage extends BasePage {
         diplomaSection.appendChild(diplomaGrid);
 
         // Плавное появление diplomaSection с контентом, затем карточки
+        // Оптимизация: используем skipInitialState для карточки, так как начальное состояние уже установлено
         requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            const sectionOpacity = diplomaSection.style.opacity;
-            if (
-              sectionOpacity === '0' ||
-              !sectionOpacity ||
-              sectionOpacity === ''
-            ) {
-              animateSectionAppearance(diplomaSection);
-            }
+          const sectionOpacity = diplomaSection.style.opacity;
+          if (
+            sectionOpacity === '0' ||
+            !sectionOpacity ||
+            sectionOpacity === ''
+          ) {
+            animateSectionAppearance(diplomaSection);
+          }
 
-            if (diplomaCard) {
-              requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                  animateElementAppearance(diplomaCard);
-                });
-              });
-            }
-          });
+          if (diplomaCard) {
+            // Используем skipInitialState, так как opacity и transform уже установлены
+            animateElementAppearance(diplomaCard, { skipInitialState: true });
+          }
         });
       }
     }
@@ -219,19 +215,22 @@ export class ResearchPage extends BasePage {
     );
 
     // Отображаем публикации
+    // Оптимизация: используем DocumentFragment для батчинга DOM операций
     if (publicationsSection && years.length > 0) {
+      const fragment = document.createDocumentFragment();
+      
       years.forEach((year) => {
         // Заголовок года
         const yearHeader = document.createElement('h2');
         yearHeader.className = 'research-year-header';
         yearHeader.textContent = year;
-        publicationsSection.appendChild(yearHeader);
+        fragment.appendChild(yearHeader);
 
         // Сетка для карточек года
         const yearGrid = document.createElement('div');
         yearGrid.className = 'research-grid';
 
-        // Добавляем карточки
+        // Добавляем карточки в сетку
         groupedPublications[year].forEach((publication) => {
           const card = CardFactory.createResearchCard(
             this.researchCardTemplate,
@@ -245,31 +244,30 @@ export class ResearchPage extends BasePage {
           }
         });
 
-        publicationsSection.appendChild(yearGrid);
+        fragment.appendChild(yearGrid);
       });
+      
+      // Добавляем все элементы одним батчем
+      publicationsSection.appendChild(fragment);
 
       // Плавное появление publicationsSection с контентом, затем карточек
+      // Оптимизация: уменьшена вложенность requestAnimationFrame
       requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          const sectionOpacity = publicationsSection.style.opacity;
-          if (
-            sectionOpacity === '0' ||
-            !sectionOpacity ||
-            sectionOpacity === ''
-          ) {
-            animateSectionAppearance(publicationsSection);
-          }
+        const sectionOpacity = publicationsSection.style.opacity;
+        if (
+          sectionOpacity === '0' ||
+          !sectionOpacity ||
+          sectionOpacity === ''
+        ) {
+          animateSectionAppearance(publicationsSection);
+        }
 
-          requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-              const allCards =
-                publicationsSection.querySelectorAll('.research-card');
-              if (allCards.length > 0) {
-                animateElementsAppearance(allCards);
-              }
-            });
-          });
-        });
+        // Используем skipInitialState, так как opacity и transform уже установлены для карточек
+        const allCards =
+          publicationsSection.querySelectorAll('.research-card');
+        if (allCards.length > 0) {
+          animateElementsAppearance(allCards, { skipInitialState: true });
+        }
       });
     } else if (publicationsSection) {
       const sectionOpacity = publicationsSection.style.opacity;
@@ -295,8 +293,19 @@ export class ResearchPage extends BasePage {
 
   /**
    * Обновляет язык динамического контента
+   * Оптимизация: кешируем публикации по ID для быстрого доступа
    */
   updateContentLanguage() {
+    // Создаем Map для быстрого доступа к публикациям по ID
+    const publicationsMap = new Map();
+    if (this.publications) {
+      this.publications.forEach(pub => {
+        publicationsMap.set(pub.id, pub);
+      });
+    }
+
+    const lang = localization.getCurrentLanguage();
+
     // Обновляем заголовок ВКР
     const diplomaTitle = document.querySelector('#research-diploma-section .research-section-title');
     if (diplomaTitle) {
@@ -304,80 +313,59 @@ export class ResearchPage extends BasePage {
     }
 
     // Обновляем типы в карточках исследований
+    // Оптимизация: один проход по DOM, кешируем элементы
     document.querySelectorAll('.research-card').forEach(card => {
+      const researchId = card.getAttribute('data-research-id');
+      const publication = researchId ? publicationsMap.get(researchId) : null;
+
       // Обновляем название
       const titleElement = card.querySelector('.research-card-title');
-      if (titleElement) {
-        const researchId = card.getAttribute('data-research-id');
-        if (researchId && this.publications) {
-          const publication = this.publications.find(p => p.id === researchId);
-          if (publication) {
-            const lang = localization.getCurrentLanguage();
-            if (publication.titleLocalized && publication.titleLocalized[lang]) {
-              titleElement.textContent = publication.titleLocalized[lang];
-            } else {
-              titleElement.textContent = publication.title;
-            }
-          }
+      if (titleElement && publication) {
+        if (publication.titleLocalized && publication.titleLocalized[lang]) {
+          titleElement.textContent = publication.titleLocalized[lang];
+        } else {
+          titleElement.textContent = publication.title;
         }
       }
 
       // Обновляем журнал
       const journalElement = card.querySelector('.research-card-journal');
-      if (journalElement) {
-        const researchId = card.getAttribute('data-research-id');
-        if (researchId && this.publications) {
-          const publication = this.publications.find(p => p.id === researchId);
-          if (publication && publication.journal) {
-            const lang = localization.getCurrentLanguage();
-            let journalText = '';
-            if (publication.journalLocalized && publication.journalLocalized[lang]) {
-              journalText = publication.journalLocalized[lang];
-            } else {
-              journalText = publication.journal;
-            }
-            if (publication.location) {
-              const locationText = publication.locationLocalized && publication.locationLocalized[lang]
-                ? publication.locationLocalized[lang]
-                : publication.location;
-              journalText += ` (${locationText})`;
-            }
-            journalElement.textContent = journalText;
-          }
+      if (journalElement && publication && publication.journal) {
+        let journalText = '';
+        if (publication.journalLocalized && publication.journalLocalized[lang]) {
+          journalText = publication.journalLocalized[lang];
+        } else {
+          journalText = publication.journal;
         }
+        if (publication.location) {
+          const locationText = publication.locationLocalized && publication.locationLocalized[lang]
+            ? publication.locationLocalized[lang]
+            : publication.location;
+          journalText += ` (${locationText})`;
+        }
+        journalElement.textContent = journalText;
       }
 
       // Обновляем ключевые слова
       const keywordsElement = card.querySelector('.research-card-keywords');
-      if (keywordsElement) {
-        const researchId = card.getAttribute('data-research-id');
-        if (researchId && this.publications) {
-          const publication = this.publications.find(p => p.id === researchId);
-          if (publication && publication.keywords && publication.keywords.length > 0) {
-            const lang = localization.getCurrentLanguage();
-            const keywordsToUse = publication.keywordsLocalized && publication.keywordsLocalized[lang]
-              ? publication.keywordsLocalized[lang]
-              : publication.keywords;
-            keywordsElement.innerHTML = '';
-            keywordsToUse.forEach((keyword) => {
-              const keywordEl = document.createElement('span');
-              keywordEl.className = 'research-card-keyword';
-              keywordEl.textContent = keyword;
-              keywordsElement.appendChild(keywordEl);
-            });
-          }
-        }
+      if (keywordsElement && publication && publication.keywords && publication.keywords.length > 0) {
+        const keywordsToUse = publication.keywordsLocalized && publication.keywordsLocalized[lang]
+          ? publication.keywordsLocalized[lang]
+          : publication.keywords;
+        keywordsElement.innerHTML = '';
+        keywordsToUse.forEach((keyword) => {
+          const keywordEl = document.createElement('span');
+          keywordEl.className = 'research-card-keyword';
+          keywordEl.textContent = keyword;
+          keywordsElement.appendChild(keywordEl);
+        });
       }
 
       // Обновляем тип
       const typeElement = card.querySelector('.research-card-type');
       if (typeElement) {
-        const researchId = card.getAttribute('data-research-id');
-        if (researchId && this.publications) {
-          const publication = this.publications.find(p => p.id === researchId);
-          if (publication) {
-            typeElement.textContent = StatusMapper.getTypeText(publication.type);
-          }
+        if (publication) {
+          typeElement.textContent = StatusMapper.getTypeText(publication.type);
         } else {
           const type = card.getAttribute('data-type');
           if (type) {
@@ -389,26 +377,22 @@ export class ResearchPage extends BasePage {
       // Обновляем кнопку
       const button = card.querySelector('.research-card-button');
       if (button) {
-        const researchId = card.getAttribute('data-research-id');
-        if (researchId && this.publications) {
-          const publication = this.publications.find(p => p.id === researchId);
-          if (publication) {
-            // Проверяем, есть ли ссылки
-            const hasLinks = publication.links && Object.keys(publication.links).length > 0 && 
-              Object.values(publication.links).some(link => link && typeof link === 'string' && link.trim().length > 0);
-            
-            if (hasLinks) {
-              const buttonText = button.querySelector('span[data-i18n]') || button;
-              if (buttonText.textContent) {
-                buttonText.textContent = localization.t('research.card.read');
-              }
-              button.setAttribute('aria-label', localization.t('research.card.readAria'));
-              button.disabled = false;
-            } else {
-              button.textContent = localization.t('research.card.comingSoon');
-              button.setAttribute('aria-label', localization.t('research.card.comingSoonAria'));
-              button.disabled = true;
+        if (publication) {
+          // Проверяем, есть ли ссылки
+          const hasLinks = publication.links && Object.keys(publication.links).length > 0 && 
+            Object.values(publication.links).some(link => link && typeof link === 'string' && link.trim().length > 0);
+          
+          if (hasLinks) {
+            const buttonText = button.querySelector('span[data-i18n]') || button;
+            if (buttonText.textContent) {
+              buttonText.textContent = localization.t('research.card.read');
             }
+            button.setAttribute('aria-label', localization.t('research.card.readAria'));
+            button.disabled = false;
+          } else {
+            button.textContent = localization.t('research.card.comingSoon');
+            button.setAttribute('aria-label', localization.t('research.card.comingSoonAria'));
+            button.disabled = true;
           }
         } else {
           const buttonText = button.querySelector('span[data-i18n]') || button;
@@ -424,7 +408,6 @@ export class ResearchPage extends BasePage {
       if (levelElement && levelElement.textContent) {
         const levelText = levelElement.textContent.trim();
         if (levelText === 'РИНЦ' || levelText === 'RSCI') {
-          const lang = localization.getCurrentLanguage();
           levelElement.textContent = localization.t('research.levels.RSCI');
         } else if (levelText === 'Scopus') {
           levelElement.textContent = localization.t('research.levels.Scopus');

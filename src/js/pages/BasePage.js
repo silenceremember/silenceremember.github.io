@@ -197,12 +197,11 @@ export class BasePage {
         await svgLoader.init();
 
         // Initialize fluid background with a small delay to ensure canvas is in DOM
+        // Оптимизация: уменьшена вложенность requestAnimationFrame
         const fluidBackground = new FluidBackground();
         // Use requestAnimationFrame to ensure canvas is rendered
         requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            fluidBackground.init();
-          });
+          fluidBackground.init();
         });
       } catch (error) {
         console.warn('Failed to load non-critical components:', error);
