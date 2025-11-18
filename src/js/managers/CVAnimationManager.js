@@ -107,11 +107,11 @@ export class CVAnimationManager extends BaseAnimationManager {
         if (item) elementsToAnimate.push(item);
       });
 
-      // Кнопка скачивания
-      const downloadButton = section.querySelector('.cv-download-button');
-      if (downloadButton) {
-        elementsToAnimate.push(downloadButton);
-      }
+      // Кнопки скачивания
+      const downloadButtons = section.querySelectorAll('.cv-download-button');
+      downloadButtons.forEach((button) => {
+        elementsToAnimate.push(button);
+      });
 
       // Анимируем саму секцию
       animateSectionAppearance(section);
@@ -327,13 +327,13 @@ export class CVAnimationManager extends BaseAnimationManager {
                 if (item) allElementsToAnimate.push(item);
               });
 
-              // Кнопка скачивания
-              const downloadButton = section.querySelector(
+              // Кнопки скачивания
+              const downloadButtons = section.querySelectorAll(
                 '.cv-download-button'
               );
-              if (downloadButton) {
-                allElementsToAnimate.push(downloadButton);
-              }
+              downloadButtons.forEach((button) => {
+                allElementsToAnimate.push(button);
+              });
             }
           });
 

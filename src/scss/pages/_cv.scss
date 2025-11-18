@@ -709,13 +709,22 @@
 .cv-download-wrapper {
   display: flex;
   justify-content: center;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+
+  @include tablet-and-mobile {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-sm);
+  }
 }
 
 .cv-download-button {
   min-width: 200px;
 
   @include tablet-and-mobile {
-    min-width: 180px;
+    width: 100%;
+    min-width: unset;
   }
 }
 

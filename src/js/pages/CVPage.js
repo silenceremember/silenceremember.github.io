@@ -486,23 +486,36 @@ export class CVPage extends BasePage {
   }
 
   /**
-   * Создает кнопку скачивания PDF
+   * Создает кнопки скачивания PDF
    */
   createDownloadButton() {
     const section = document.createElement('div');
     section.className = 'cv-download-wrapper';
 
-    const button = document.createElement('a');
-    button.className = 'cv-download-button cta-button';
-    button.href = '#';
-    button.textContent = 'Скачать CV в PDF';
-    button.addEventListener('click', (e) => {
+    // Кнопка для русской версии
+    const buttonRU = document.createElement('a');
+    buttonRU.className = 'cv-download-button cta-button';
+    buttonRU.href = '#';
+    buttonRU.textContent = 'Скачать CV в PDF [RU]';
+    buttonRU.addEventListener('click', (e) => {
       e.preventDefault();
-      // TODO: Реализовать генерацию/скачивание PDF
-      alert('Функция скачивания PDF будет реализована позже');
+      // TODO: Реализовать генерацию/скачивание PDF для RU
+      alert('Функция скачивания PDF [RU] будет реализована позже');
     });
 
-    section.appendChild(button);
+    // Кнопка для английской версии
+    const buttonEN = document.createElement('a');
+    buttonEN.className = 'cv-download-button cta-button';
+    buttonEN.href = '#';
+    buttonEN.textContent = 'Скачать CV в PDF [EN]';
+    buttonEN.addEventListener('click', (e) => {
+      e.preventDefault();
+      // TODO: Реализовать генерацию/скачивание PDF для EN
+      alert('Функция скачивания PDF [EN] будет реализована позже');
+    });
+
+    section.appendChild(buttonRU);
+    section.appendChild(buttonEN);
     return section;
   }
 
