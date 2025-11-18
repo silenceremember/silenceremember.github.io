@@ -60,8 +60,8 @@
         "research": "Исследования"
       },
       "statuses": {
-        "completed": "ГОТОВ",
-        "inDevelopment": "В РАЗРАБОТКЕ"
+        "completed": "Готов",
+        "inDevelopment": "В разработке"
       },
       "found": "НАЙДЕНО ПРОЕКТОВ",
       "showAll": "Показать все",

@@ -60,8 +60,8 @@
         "research": "Research"
       },
       "statuses": {
-        "completed": "READY",
-        "inDevelopment": "IN DEVELOPMENT"
+        "completed": "Ready",
+        "inDevelopment": "In Development"
       },
       "found": "PROJECTS FOUND",
       "showAll": "Show All",
