@@ -1,5 +1,6 @@
+<!-- Theme initialization script - runs synchronously to prevent FOUC -->
 <script>
-  (function () {
+  (function() {
     const theme = localStorage.getItem('theme');
     if (theme === 'light') {
       document.documentElement.setAttribute('data-theme', 'light');
