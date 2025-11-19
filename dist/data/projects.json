@@ -1,0 +1,658 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2025-01-XX",
+  "projects": [
+    {
+      "id": "magic-bag",
+      "title": "Magic Bag",
+      "category": "games",
+      "type": "game",
+      "role": "solo",
+      "year": 2024,
+      "status": "completed",
+      "description": "Готовый прототип аркадного экономического симулятора",
+      "descriptionLocalized": {
+        "ru": "Готовый прототип аркадного экономического симулятора",
+        "en": "Complete prototype of an arcade economy simulator"
+      },
+      "media": {
+        "preview": "assets/images/projects/magic-bag/preview.webp",
+        "screenshots": [],
+        "videos": [
+          {
+            "type": "local",
+            "url": "assets/videos/projects/magic-bag/gameplay.mp4",
+            "thumbnail": "assets/images/projects/magic-bag/video-thumb.jpg"
+          }
+        ]
+      },
+      "documents": [
+        {
+          "type": "concept-doc",
+          "title": "Концепт-док Magic Bag",
+          "url": "assets/documents/projects/skillbox/magic-bag-concept.pdf",
+          "size": "2.5 MB",
+          "pages": 15
+        }
+      ],
+      "links": {
+        "site": "https://sites.google.com/view/maxim-elchaninov-magic-bag/magic-bag"
+      },
+      "tags": [
+        "unity",
+        "bolt",
+        "prototype"
+      ],
+      "featured": true,
+      "displayMeta": {
+        "genre": "ARCADE ECONOMY SIMULATOR",
+        "platform": "PC (UNITY)"
+      },
+      "keyContribution": "Спроектировал с нуля и реализовал полный игровой цикл: от механики крафта до системы экономики с высоким риском и наградой.",
+      "keyContributionLocalized": {
+        "ru": "Спроектировал с нуля и реализовал полный игровой цикл: от механики крафта до системы экономики с высоким риском и наградой.",
+        "en": "Designed from scratch and implemented a complete game loop: from crafting mechanics to an economy system with high risk and reward."
+      },
+      "technologies": [
+        "Unity",
+        "Bolt Visual Scripting",
+        "C#"
+      ],
+      "teamSize": 1,
+      "duration": "3 месяца"
+    },
+    {
+      "id": "capybara-bunk",
+      "title": "Capybara Bunk",
+      "category": "games",
+      "type": "game",
+      "role": "team-lead",
+      "year": 2025,
+      "status": "in-development",
+      "description": "Динамичный PvP Top-Down шутер в разработке",
+      "descriptionLocalized": {
+        "ru": "Динамичный PvP Top-Down шутер в разработке",
+        "en": "Dynamic PvP Top-Down shooter in development"
+      },
+      "media": {
+        "preview": "assets/images/projects/capybara-bunk/preview.webp",
+        "screenshots": []
+      },
+      "documents": [
+        {
+          "type": "level-concept",
+          "title": "Концепция уровня",
+          "url": "assets/documents/projects/ranepa/capybara-bunk/level-concept.pdf"
+        },
+        {
+          "type": "references",
+          "title": "Референсы графики и музыки",
+          "url": "assets/documents/projects/ranepa/capybara-bunk/references.pdf"
+        },
+        {
+          "type": "artist-brief",
+          "title": "ТЗ для художника",
+          "url": "assets/documents/projects/ranepa/capybara-bunk/artist-brief.pdf"
+        },
+        {
+          "type": "narrative-setting",
+          "title": "Нарративный концепт сеттинга",
+          "url": "assets/documents/projects/ranepa/capybara-bunk/narrative-setting.pdf"
+        },
+        {
+          "type": "three-act",
+          "title": "Трехактовый сюжет",
+          "url": "assets/documents/projects/ranepa/capybara-bunk/three-act.pdf"
+        }
+      ],
+      "links": {
+        "site": "https://sites.google.com/view/maxim-elchaninov-capybara-bunk/capybara-bunk"
+      },
+      "tags": [
+        "team-lead",
+        "gamedesign",
+        "narrative"
+      ],
+      "featured": true,
+      "displayMeta": {
+        "genre": "TOP DOWN SHOOTER",
+        "platform": "PC (В РАЗРАБОТКЕ)"
+      },
+      "keyContribution": "Руковожу командой в качестве гейм-дизайнера и тимлида. Отвечаю за стратегическое видение (Vision), лор (Bible) и проектирование ключевых систем (GDD, UI Flow), формируя ТЗ для разработки.",
+      "keyContributionLocalized": {
+        "ru": "Руковожу командой в качестве гейм-дизайнера и тимлида. Отвечаю за стратегическое видение (Vision), лор (Bible) и проектирование ключевых систем (GDD, UI Flow), формируя ТЗ для разработки.",
+        "en": "Leading the team as a game designer and team lead. Responsible for strategic vision (Vision), lore (Bible), and key system design (GDD, UI Flow), creating technical specifications for development."
+      },
+      "technologies": [],
+      "teamSize": 5,
+      "teamName": "2IQ"
+    },
+    {
+      "id": "gridsnap-addon",
+      "title": "Gridsnap Add-On",
+      "category": "tools",
+      "type": "tool",
+      "role": "solo",
+      "year": 2024,
+      "status": "completed",
+      "description": "Аддон для Unity, добавляющий сетку и привязку к сетке в Unity Shader Graph",
+      "descriptionLocalized": {
+        "ru": "Аддон для Unity, добавляющий сетку и привязку к сетке в Unity Shader Graph",
+        "en": "Unity addon that adds grid and grid snapping to Unity Shader Graph"
+      },
+      "media": {
+        "preview": "assets/images/projects/gridsnap-addon/preview.webp",
+        "screenshots": []
+      },
+      "documents": [],
+      "links": {},
+      "comingSoon": true,
+      "tags": [
+        "unity",
+        "editor-tool",
+        "csharp",
+        "shader-graph"
+      ],
+      "featured": true,
+      "displayMeta": {
+        "genre": "UNITY EDITOR TOOL",
+        "platform": "C# (UNITY)"
+      },
+      "keyContribution": "Выявил и решил проблему отсутствия сетки в Unity Shader Graph, создав уникальный редакторный аддон с помощью рефлексии.",
+      "keyContributionLocalized": {
+        "ru": "Выявил и решил проблему отсутствия сетки в Unity Shader Graph, создав уникальный редакторный аддон с помощью рефлексии.",
+        "en": "Identified and solved the problem of missing grid in Unity Shader Graph by creating a unique editor addon using reflection."
+      },
+      "technologies": [
+        "Unity",
+        "C#",
+        "Reflection"
+      ],
+      "teamSize": 1
+    },
+    {
+      "id": "cycle-of-ashes",
+      "title": "Cycle of Ashes",
+      "category": "games",
+      "type": "document",
+      "role": "solo",
+      "year": 2024,
+      "status": "completed",
+      "description": "Презентация концепта игры",
+      "descriptionLocalized": {
+        "ru": "Презентация концепта игры",
+        "en": "Game concept presentation"
+      },
+      "media": {
+        "preview": "assets/images/projects/cycle-of-ashes/preview.webp"
+      },
+      "documents": [
+        {
+          "type": "concept-doc",
+          "title": "Концепт-док Cycle of Ashes",
+          "url": "assets/documents/projects/skillbox/cycle-of-ashes-concept.pdf"
+        },
+        {
+          "type": "presentation",
+          "title": "Презентация идеи",
+          "url": "assets/documents/projects/skillbox/cycle-of-ashes-presentation.pdf"
+        }
+      ],
+      "links": {
+        "site": "https://sites.google.com/view/maxim-elchaninov-cycle-of-ashe?usp=sharing"
+      },
+      "tags": [
+        "case-study"
+      ],
+      "featured": false,
+      "tier": 2,
+      "technologies": []
+    },
+    {
+      "id": "diploma-chapter-1",
+      "title": "Система процедурной генерации нарративного дизайна для компьютерных игр жанра роуглайк",
+      "titleLocalized": {
+        "ru": "Система процедурной генерации нарративного дизайна для компьютерных игр жанра роуглайк",
+        "en": "Procedural Narrative Design Generation System for Roguelike Computer Games"
+      },
+      "category": "research",
+      "type": "document",
+      "role": "solo",
+      "year": 2025,
+      "status": "in-progress",
+      "description": "Выпускная квалификационная работа магистратуры",
+      "descriptionLocalized": {
+        "ru": "Выпускная квалификационная работа магистратуры",
+        "en": "Master's degree final qualification work"
+      },
+      "media": {
+        "preview": "assets/images/projects/diploma-chapter-1/preview.webp"
+      },
+      "documents": [
+        {
+          "type": "diploma",
+          "title": "ВКР - Глава 1",
+          "url": "https://drive.google.com/file/d/1PwLrsrIdLz6l4AsuiTbQarKr-mo6ELox/view?usp=sharing"
+        }
+      ],
+      "links": {
+        "document": "https://drive.google.com/file/d/16fNAfzXP0id_JSVj5v-CnErR3EIvChW3/view?usp=sharing"
+      },
+      "tags": [
+        "procedural-generation",
+        "narrative-design"
+      ],
+      "featured": true,
+      "technologies": []
+    },
+    {
+      "id": "assignment-concept",
+      "title": "Гейм-дизайн и анализ концепта",
+      "titleLocalized": {
+        "ru": "Гейм-дизайн и анализ концепта",
+        "en": "Game Design and Concept Analysis"
+      },
+      "category": "research",
+      "type": "document",
+      "role": "solo",
+      "year": 2024,
+      "status": "completed",
+      "description": "Разработка трех игровых концепций: от создания идеи до анализа и переработки концепта",
+      "descriptionLocalized": {
+        "ru": "Разработка трех игровых концепций: от создания идеи до анализа и переработки концепта",
+        "en": "Development of three game concepts: from idea creation to analysis and concept refinement"
+      },
+      "media": {
+        "preview": "assets/images/projects/assignment-concept/preview.webp"
+      },
+      "documents": [
+        {
+          "type": "analysis",
+          "title": "Анализ и улучшение концепта",
+          "url": "assets/documents/projects/skillbox/assignment-concept.pdf"
+        }
+      ],
+      "links": {
+        "document": "https://docs.google.com/document/d/19t0UzWGSesBgbiOmchBNCp7uN3sS9mF8qLfaWQfRTDQ/edit?usp=sharing"
+      },
+      "comingSoon": false,
+      "tags": [
+        "analysis",
+        "case-study",
+        "gamedesign"
+      ],
+      "featured": false,
+      "technologies": []
+    },
+    {
+      "id": "assignment-decomposition",
+      "title": "Деконструкция игровых механик",
+      "titleLocalized": {
+        "ru": "Деконструкция игровых механик",
+        "en": "Game Mechanics Deconstruction"
+      },
+      "category": "research",
+      "type": "document",
+      "role": "solo",
+      "year": 2024,
+      "status": "completed",
+      "description": "Серия аналитических разборов игр: декомпозиция, анализ опыта, улучшения и переработка сеттинга",
+      "descriptionLocalized": {
+        "ru": "Серия аналитических разборов игр: декомпозиция, анализ опыта, улучшения и переработка сеттинга",
+        "en": "Series of analytical game breakdowns: decomposition, experience analysis, improvements and setting refinement"
+      },
+      "media": {
+        "preview": "assets/images/projects/assignment-decomposition/preview.webp"
+      },
+      "documents": [
+        {
+          "type": "analysis",
+          "title": "Декомпозиция игр",
+          "url": "assets/documents/projects/skillbox/assignment-decomposition.pdf"
+        }
+      ],
+      "links": {
+        "document": "https://docs.google.com/document/d/14Yfol-FkqrOKm-gx2bZCW28ivScmY57XmEhz2RZ-O8U/edit?usp=sharing"
+      },
+      "comingSoon": false,
+      "tags": [
+        "analysis",
+        "decomposition",
+        "gamedesign",
+        "case-study"
+      ],
+      "featured": false,
+      "technologies": []
+    },
+    {
+      "id": "edge-of-a-blade",
+      "title": "Edge of a Blade",
+      "category": "games",
+      "type": "document",
+      "role": "solo",
+      "year": 2024,
+      "status": "completed",
+      "description": "Концепт игры с 2D симуляцией физики боя",
+      "descriptionLocalized": {
+        "ru": "Концепт игры с 2D симуляцией физики боя",
+        "en": "Game concept with 2D combat physics simulation"
+      },
+      "media": {
+        "preview": "assets/images/projects/edge-of-a-blade/preview.webp"
+      },
+      "documents": [
+        {
+          "type": "concept-doc",
+          "title": "Концепт-док Edge of a Blade",
+          "url": "assets/documents/projects/skillbox/edge-of-a-blade-concept.pdf"
+        }
+      ],
+      "links": {
+        "concept": "https://docs.google.com/spreadsheets/d/1xReKq4H_dXWN13aAuhny5kp9nOZkxFV21tLip_2XkQg/edit?usp=sharing"
+      },
+      "tags": [
+        "case-study"
+      ],
+      "featured": false,
+      "technologies": []
+    },
+    {
+      "id": "narrative-dz2",
+      "title": "DARK MESSIAH АНАЛИЗ",
+      "titleLocalized": {
+        "ru": "DARK MESSIAH АНАЛИЗ",
+        "en": "DARK MESSIAH ANALYSIS"
+      },
+      "category": "research",
+      "type": "document",
+      "role": "solo",
+      "year": 2025,
+      "status": "completed",
+      "description": "Разбор Dark Messiah of Might and Magic по пути героя Воглера",
+      "descriptionLocalized": {
+        "ru": "Разбор Dark Messiah of Might and Magic по пути героя Воглера",
+        "en": "Dark Messiah of Might and Magic breakdown following Vogler's hero's journey"
+      },
+      "media": {
+        "preview": "assets/images/projects/narrative-dz2/preview.webp"
+      },
+      "documents": [
+        {
+          "type": "presentation",
+          "title": "ДЗ2 - Dark Messiah анализ",
+          "url": "assets/documents/projects/ranepa/narrative/dz2-dark-messiah.pdf"
+        }
+      ],
+      "links": {
+        "presentation": "https://docs.google.com/presentation/d/17j2HR1JpiZh1xhHnALkh0U3Z9SRhuE4ecBb2YduRJeA/edit?usp=sharing"
+      },
+      "comingSoon": false,
+      "tags": [
+        "narrative",
+        "case-study"
+      ],
+      "featured": false,
+      "technologies": []
+    },
+    {
+      "id": "narrative-dz5",
+      "title": "DISCO ELYSIUM РАЗБОР",
+      "titleLocalized": {
+        "ru": "DISCO ELYSIUM РАЗБОР",
+        "en": "DISCO ELYSIUM BREAKDOWN"
+      },
+      "category": "research",
+      "type": "document",
+      "role": "solo",
+      "year": 2025,
+      "status": "completed",
+      "description": "Разбор пролога сюжета Disco Elysium по 4 слоям нарративного дизайна Frictional Games",
+      "descriptionLocalized": {
+        "ru": "Разбор пролога сюжета Disco Elysium по 4 слоям нарративного дизайна Frictional Games",
+        "en": "Disco Elysium prologue breakdown using Frictional Games' 4 layers of narrative design"
+      },
+      "media": {
+        "preview": "assets/images/projects/narrative-dz5/preview.webp"
+      },
+      "documents": [
+        {
+          "type": "presentation",
+          "title": "ДЗ5 - Disco Elysium разбор",
+          "url": "assets/documents/projects/ranepa/narrative/dz5-disco-elysium.pdf"
+        }
+      ],
+      "links": {
+        "presentation": "https://docs.google.com/presentation/d/1SNIyt3Yp0KUyv1EQ-WMwJTTNOOGBUl-w6hFtTFyXOHs/edit?usp=sharing"
+      },
+      "comingSoon": false,
+      "tags": [
+        "narrative",
+        "case-study"
+      ],
+      "featured": false,
+      "technologies": []
+    },
+    {
+      "id": "outer-signal",
+      "title": "Outer Signal",
+      "category": "games",
+      "type": "game",
+      "role": "team",
+      "year": 2024,
+      "status": "completed",
+      "description": "Джем-игра с красивой графикой",
+      "descriptionLocalized": {
+        "ru": "Джем-игра с красивой графикой",
+        "en": "Jam game with beautiful graphics"
+      },
+      "media": {
+        "preview": "assets/images/projects/outer-signal/preview.webp",
+        "screenshots": [
+          "assets/images/projects/outer-signal/screenshot-1.jpg"
+        ]
+      },
+      "documents": [],
+      "links": {
+        "itch": "https://silenceremember.itch.io/outer-signal"
+      },
+      "tags": [
+        "jam"
+      ],
+      "featured": false,
+      "technologies": [],
+      "highlight": "Собственная графика"
+    },
+    {
+      "id": "couch-potato-physicist",
+      "title": "Couch Potato Physicist",
+      "category": "games",
+      "type": "game",
+      "role": "team",
+      "year": 2024,
+      "status": "completed",
+      "description": "Джем-игра с таймером",
+      "descriptionLocalized": {
+        "ru": "Джем-игра с таймером",
+        "en": "Jam game with timer"
+      },
+      "media": {
+        "preview": "assets/images/projects/couch-potato-physicist/preview.webp"
+      },
+      "documents": [],
+      "links": {
+        "itch": "https://silenceremember.itch.io/couchpotatophysicist"
+      },
+      "tags": [
+        "jam"
+      ],
+      "featured": false,
+      "technologies": []
+    },
+    {
+      "id": "infernal-run",
+      "title": "Infernal Run",
+      "category": "games",
+      "type": "game",
+      "role": "team",
+      "year": 2024,
+      "status": "completed",
+      "description": "Джем-игра про погоню за демоном",
+      "descriptionLocalized": {
+        "ru": "Джем-игра про погоню за демоном",
+        "en": "Jam game about chasing a demon"
+      },
+      "media": {
+        "preview": "assets/images/projects/infernal-run/preview.webp"
+      },
+      "documents": [],
+      "links": {
+        "itch": "https://silenceremember.itch.io/infernal-run"
+      },
+      "tags": [
+        "jam"
+      ],
+      "featured": false,
+      "technologies": []
+    },
+    {
+      "id": "mushroom-loop",
+      "title": "Mushroom Loop",
+      "category": "games",
+      "type": "game",
+      "role": "team",
+      "year": 2024,
+      "status": "completed",
+      "description": "Джем-игра с головоломкой",
+      "descriptionLocalized": {
+        "ru": "Джем-игра с головоломкой",
+        "en": "Jam game with puzzle"
+      },
+      "media": {
+        "preview": "assets/images/projects/mushroom-loop/preview.webp"
+      },
+      "documents": [],
+      "links": {
+        "itch": "https://thebestmrand.itch.io/mushhoom-loop"
+      },
+      "tags": [
+        "jam"
+      ],
+      "featured": false,
+      "technologies": []
+    },
+    {
+      "id": "thermic-spirit",
+      "title": "Thermic Spirit",
+      "category": "games",
+      "type": "game",
+      "role": "team",
+      "year": 2024,
+      "status": "completed",
+      "description": "Джем-игра с двумя концовками",
+      "descriptionLocalized": {
+        "ru": "Джем-игра с двумя концовками",
+        "en": "Jam game with two endings"
+      },
+      "media": {
+        "preview": "assets/images/projects/thermic-spirit/preview.webp"
+      },
+      "documents": [],
+      "links": {
+        "itch": "https://silenceremember.itch.io/thermic-spirit"
+      },
+      "tags": [
+        "jam"
+      ],
+      "featured": false,
+      "technologies": []
+    },
+    {
+      "id": "dark-souls-ahk",
+      "title": "DARK SOULS AHK CONTROLCHANGE",
+      "category": "tools",
+      "type": "script",
+      "role": "solo",
+      "year": 2024,
+      "status": "completed",
+      "description": "Назначение пинка и атаки в прыжке на отдельные кнопки",
+      "descriptionLocalized": {
+        "ru": "Назначение пинка и атаки в прыжке на отдельные кнопки",
+        "en": "Assigning kick and jump attack to separate buttons"
+      },
+      "media": {
+        "preview": "assets/images/projects/dark-souls-ahk/preview.webp"
+      },
+      "documents": [],
+      "links": {
+        "github": "https://github.com/silenceremember/dark-souls-hotkeys"
+      },
+      "tags": [
+        "autohotkey",
+        "game-mod"
+      ],
+      "featured": false,
+      "comingSoon": true,
+      "technologies": [
+        "AutoHotkey"
+      ]
+    },
+    {
+      "id": "elden-ring-ahk",
+      "title": "ELDEN RING AHK CURSORLOCK",
+      "category": "tools",
+      "type": "script",
+      "role": "solo",
+      "year": 2024,
+      "status": "completed",
+      "description": "Решение проблемы с перемещением курсора на другой экран в игре",
+      "descriptionLocalized": {
+        "ru": "Решение проблемы с перемещением курсора на другой экран в игре",
+        "en": "Solving cursor movement to another screen issue in game"
+      },
+      "media": {
+        "preview": "assets/images/projects/elden-ring-ahk/preview.webp"
+      },
+      "documents": [],
+      "links": {
+        "github": "https://github.com/silenceremember/elden-ring-cursor-lock"
+      },
+      "tags": [
+        "autohotkey",
+        "game-mod"
+      ],
+      "featured": false,
+      "technologies": [
+        "AutoHotkey"
+      ]
+    },
+    {
+      "id": "blender-to-all-ahk",
+      "title": "BLENDER TO ALL AHK",
+      "category": "tools",
+      "type": "script",
+      "role": "solo",
+      "year": 2024,
+      "status": "completed",
+      "description": "Унификация навигации в разных 3D/2D пакетах",
+      "descriptionLocalized": {
+        "ru": "Унификация навигации в разных 3D/2D пакетах",
+        "en": "Unifying navigation across different 3D/2D packages"
+      },
+      "media": {
+        "preview": "assets/images/projects/blender-to-all-ahk/preview.webp"
+      },
+      "documents": [],
+      "links": {
+        "github": "https://github.com/silenceremember/blender-to-all"
+      },
+      "tags": [
+        "autohotkey"
+      ],
+      "featured": false,
+      "comingSoon": true,
+      "technologies": [
+        "AutoHotkey"
+      ]
+    }
+  ]
+}

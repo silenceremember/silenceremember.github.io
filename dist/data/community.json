@@ -1,0 +1,72 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2025-01-XX",
+  "discord": {
+    "link": "https://discord.gg/EGBnfMMubw",
+    "name": "2IQ",
+    "description": "Присоединяйтесь к нашему сообществу разработчиков игр",
+    "stats": {
+      "enabled": false,
+      "apiUrl": null
+    }
+  },
+  "donationLinks": [
+    {
+      "id": "boosty",
+      "platform": "Boosty",
+      "url": "https://boosty.to/silenceremember",
+      "description": "Поддержка через Boosty",
+      "icon": "boosty"
+    }
+  ],
+  "socialLinks": {
+    "steam": "https://steamcommunity.com/id/silenceremember/",
+    "telegram": "https://t.me/silenceremember",
+    "itch": "https://silenceremember.itch.io/",
+    "discord": "https://discord.gg/..."
+  },
+  "workLinks": {
+    "linkedin": "https://www.linkedin.com/in/silenceremember/",
+    "headhunter": "https://hh.ru/resume/0efeffadff0c9a053f0039ed1f4d4763506334",
+    "github": "https://github.com/silenceremember",
+    "mail": "mailto:slcrmmbr@outlook.com"
+  },
+  "plans": [
+    {
+      "id": "youtube-channel",
+      "title": "YouTube видео- и стрим-канал",
+      "description": "Создание канала о геймдизайне и разработке игр",
+      "status": "planned",
+      "priority": "high"
+    },
+    {
+      "id": "more-publications",
+      "title": "Больше публикаций",
+      "description": "Продолжение научной деятельности",
+      "status": "in-progress",
+      "priority": "high"
+    },
+    {
+      "id": "unique-games",
+      "title": "Разработка своих уникальных игр",
+      "description": "Создание коммерческих проектов",
+      "status": "planned",
+      "priority": "medium"
+    },
+    {
+      "id": "diploma-completion",
+      "title": "Завершение и сдача ВКР",
+      "description": "Завершение дипломной работы",
+      "status": "in-progress",
+      "priority": "high"
+    },
+    {
+      "id": "phd",
+      "title": "Аспирантура",
+      "description": "Поступление в аспирантуру после магистратуры в РАНХиГС",
+      "status": "planned",
+      "priority": "medium"
+    }
+  ],
+  "upcomingEvents": []
+}

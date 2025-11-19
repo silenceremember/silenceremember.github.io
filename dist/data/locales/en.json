@@ -1,0 +1,218 @@
+{
+  "common": {
+    "nav": {
+      "home": "HOME",
+      "portfolio": "PORTFOLIO",
+      "research": "RESEARCH",
+      "cv": "CV",
+      "community": "COMMUNITY"
+    },
+    "buttons": {
+      "scrollToTop": "Scroll to top",
+      "contactEmail": "CONTACT BY EMAIL",
+      "contactTelegram": "CONTACT ON TELEGRAM",
+      "downloadPDF": "DOWNLOAD PDF",
+      "navigation": "NAVIGATION"
+    },
+    "aria": {
+      "languageSwitch": "Switch language",
+      "themeSwitch": "Switch theme",
+      "menu": "Menu"
+    }
+  },
+  "index": {
+    "tagline": "SILENCEREMEMBER",
+    "title": "SYSTEM GAME DESIGNER",
+    "about": "I design game systems and narrative as a unified whole to create meaningful experiences. The site features my projects, research, and technical experiments.",
+    "meta_description": "Showcasing game design projects, research, and technical experiments, specializing in unified game systems and narrative design.",
+    "slideHint": "Scroll the mouse wheel to navigate between slides",
+    "featuredWorks": "FEATURED WORKS",
+    "whatsNext": "WHAT'S NEXT?",
+    "projectDetails": {
+      "myRole": "MY ROLE",
+      "keyContribution": "KEY CONTRIBUTION"
+    }
+  },
+  "projects": {
+    "title": "Portfolio",
+    "meta_title": "Projects",
+    "description": "Portfolio of projects. Explore works on system game design, game mechanics creation, and narrative design.",
+    "navigation": "NAVIGATION",
+    "card": {
+      "details": "DETAILS",
+      "detailsAria": "More about the project",
+      "comingSoon": "SOON",
+      "comingSoonAria": "Soon",
+      "featured": "Featured project",
+      "tier2": "Tier 2 project",
+      "types": {
+        "game": "Game",
+        "document": "Document",
+        "tool": "Tool",
+        "script": "Script"
+      }
+    },
+    "filters": {
+      "category": "Category",
+      "status": "Status",
+      "year": "Year",
+      "categories": {
+        "games": "Game Projects",
+        "tools": "Tools",
+        "research": "Research"
+      },
+      "statuses": {
+        "completed": "Ready",
+        "inDevelopment": "In Development"
+      },
+      "found": "PROJECTS FOUND",
+      "showAll": "Show All",
+      "showAllAria": "Show all projects",
+      "reset": "Reset",
+      "resetAria": "Reset filters",
+      "hide": "Hide"
+    }
+  },
+  "research": {
+    "title": "Research",
+    "meta_title": "Research",
+    "description": "Academic publications and research in the field of game design, game systems, and interactive storytelling.",
+    "navigation": "NAVIGATION",
+    "diploma": {
+      "title": "Qualification Work"
+    },
+    "card": {
+      "read": "READ",
+      "readAria": "Open publication",
+      "comingSoon": "SOON",
+      "comingSoonAria": "Soon"
+    },
+    "statuses": {
+      "published": "Published",
+      "inPublication": "SOON",
+      "inProgress": "In Progress"
+    },
+    "types": {
+      "thesis": "Thesis",
+      "article": "Article",
+      "diploma": "Diploma"
+    },
+    "levels": {
+      "РИНЦ": "RSCI",
+      "RSCI": "RSCI",
+      "Scopus": "Scopus"
+    },
+    "errors": {
+      "noPublications": "No publications found."
+    }
+  },
+  "cv": {
+    "title": "CV",
+    "meta_title": "CV",
+    "description": "Professional resume. Work experience, technical skills, education, and achievements in the field of game design.",
+    "navigation": "NAVIGATION",
+    "name": "MAXIM ELCHANINOV",
+    "role": "SYSTEM GAME DESIGNER",
+    "workDescription": "Optimized workflows and resolved technical issues",
+    "certificateUnavailable": "Certificate information unavailable",
+    "sections": {
+      "about": "ABOUT",
+      "workExperience": "WORK EXPERIENCE",
+      "education": "EDUCATION",
+      "skills": "SKILLS",
+      "certificates": "CERTIFICATIONS",
+      "courses": "COURSES",
+      "languages": "LANGUAGES"
+    },
+    "skills": {
+      "designPrototyping": "Design Prototyping",
+      "technicalScripting": "Technical Scripting",
+      "designDocumentation": "Design Documentation",
+      "productionCollaboration": "Production & Collaboration",
+      "assetCreation": "Asset Creation",
+      "categories": {
+        "designPrototyping": {
+          "title": "DESIGN & PROTOTYPING",
+          "description": "Core toolkit for creating and testing game experiences"
+        },
+        "technicalScripting": {
+          "title": "TECHNICAL SKILLS & SCRIPTING",
+          "description": "Languages and technologies for implementing systems and conducting research"
+        },
+        "designDocumentation": {
+          "title": "DESIGN DOCUMENTATION",
+          "description": "Tools for describing and visualizing game design decisions"
+        },
+        "productionCollaboration": {
+          "title": "PRODUCTION & COLLABORATION",
+          "description": "Industry standards for version control and task management"
+        },
+        "assetCreation": {
+          "title": "ASSET CREATION",
+          "description": "Supporting skills for visualizing prototypes"
+        }
+      }
+    },
+    "status": {
+      "completed": "Graduated",
+      "inProgress": "In Progress"
+    },
+    "buttons": {
+      "details": "Details",
+      "downloadRU": "DOWNLOAD CV IN PDF [RU]",
+      "downloadEN": "DOWNLOAD CV IN PDF [EN]"
+    },
+    "errors": {
+      "loadFailed": "Failed to load CV data."
+    }
+  },
+  "community": {
+    "title": "Community",
+    "meta_title": "Community",
+    "description": "Join the community. Links to Discord, social networks, and ways to support.",
+    "navigation": "NAVIGATION",
+    "sections": {
+      "discord": "DISCORD SERVER",
+      "social": "SOCIAL NETWORKS",
+      "donations": "SUPPORT",
+      "work": "WORK LINKS",
+      "events": "UPCOMING EVENTS"
+    },
+    "discord": {
+      "join": "Join our game development community"
+    },
+    "donation": {
+      "support": "Support via Boosty",
+      "supportOn": "Support on"
+    },
+    "events": {
+      "defaultTitle": "Event"
+    },
+    "discordServer": {
+      "name": "2IQ community server",
+      "comingSoon": "Discord Server (soon)",
+      "join": "Join Discord server"
+    },
+    "comingSoon": "(soon)"
+  },
+  "roles": {
+    "solo": "Solo",
+    "teamLead": "Team Lead",
+    "team": "In Team",
+    "soloDetailed": "Solo Developer",
+    "teamLeadDetailed": "Game Designer / Team Lead",
+    "teamName": "team"
+  },
+  "404": {
+    "title": "Page not found",
+    "message": "Unfortunately, the requested page does not exist.",
+    "backHome": "Back to home"
+  },
+  "media": {
+    "previousImage": "Previous image",
+    "nextImage": "Next image",
+    "close": "Close",
+    "videoNotSupported": "Your browser does not support video."
+  }
+}
+

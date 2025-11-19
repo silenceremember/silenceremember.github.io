@@ -1,0 +1,218 @@
+{
+  "common": {
+    "nav": {
+      "home": "ГЛАВНАЯ",
+      "portfolio": "ПОРТФОЛИО",
+      "research": "ИССЛЕДОВАНИЯ",
+      "cv": "РЕЗЮМЕ",
+      "community": "СООБЩЕСТВО"
+    },
+    "buttons": {
+      "scrollToTop": "Прокрутить наверх",
+      "contactEmail": "СВЯЗАТЬСЯ ПО ПОЧТЕ",
+      "contactTelegram": "СВЯЗАТЬСЯ В ТЕЛЕГРАММ",
+      "downloadPDF": "СКАЧАТЬ PDF",
+      "navigation": "НАВИГАЦИЯ"
+    },
+    "aria": {
+      "languageSwitch": "Смена языка",
+      "themeSwitch": "Смена режима",
+      "menu": "Меню"
+    }
+  },
+  "index": {
+    "tagline": "SILENCEREMEMBER",
+    "title": "SYSTEM GAME DESIGNER",
+    "about": "Проектирую игровые системы и нарратив как единое целое для создания осмысленного опыта. На сайте представлены мои проекты, исследования и технические эксперименты.",
+    "meta_description": "Системный геймдизайнер. Портфолио, демонстрирующее проекты в области геймдизайна, исследования и технические эксперименты, со специализацией на объединенных игровых системах и нарративном дизайне.",
+    "slideHint": "Прокручивайте колесико мыши для перехода между слайдами",
+    "featuredWorks": "ИЗБРАННЫЕ РАБОТЫ",
+    "whatsNext": "ЧТО ДАЛЬШЕ?",
+    "projectDetails": {
+      "myRole": "МОЯ РОЛЬ",
+      "keyContribution": "КЛЮЧЕВОЙ ВКЛАД"
+    }
+  },
+  "projects": {
+    "title": "Портфолио",
+    "meta_title": "Проекты",
+    "description": "Портфолио проектов",
+    "navigation": "НАВИГАЦИЯ",
+    "card": {
+      "details": "ПОДРОБНЕЕ",
+      "detailsAria": "Подробнее о проекте",
+      "comingSoon": "СКОРО",
+      "comingSoonAria": "Скоро будет доступно",
+      "featured": "Избранный проект",
+      "tier2": "Проект тир 2",
+      "types": {
+        "game": "Игра",
+        "document": "Документ",
+        "tool": "Инструмент",
+        "script": "Скрипт"
+      }
+    },
+    "filters": {
+      "category": "Категория",
+      "status": "Статус",
+      "year": "Год",
+      "categories": {
+        "games": "Игровые проекты",
+        "tools": "Инструменты",
+        "research": "Исследования"
+      },
+      "statuses": {
+        "completed": "Готов",
+        "inDevelopment": "В разработке"
+      },
+      "found": "НАЙДЕНО ПРОЕКТОВ",
+      "showAll": "Показать все",
+      "showAllAria": "Показать все проекты",
+      "reset": "Сбросить",
+      "resetAria": "Сбросить фильтры",
+      "hide": "Скрыть"
+    }
+  },
+  "research": {
+    "title": "Исследования",
+    "meta_title": "Исследования",
+    "description": "Научные публикации и исследования",
+    "navigation": "НАВИГАЦИЯ",
+    "diploma": {
+      "title": "Квалификационная работа"
+    },
+    "card": {
+      "read": "ЧИТАТЬ",
+      "readAria": "Открыть публикацию",
+      "comingSoon": "СКОРО",
+      "comingSoonAria": "Скоро будет доступно"
+    },
+    "statuses": {
+      "published": "Опубликовано",
+      "inPublication": "СКОРО",
+      "inProgress": "В процессе написания"
+    },
+    "types": {
+      "thesis": "Тезисы",
+      "article": "Статья",
+      "diploma": "ВКР"
+    },
+    "levels": {
+      "РИНЦ": "РИНЦ",
+      "RSCI": "РИНЦ",
+      "Scopus": "Scopus"
+    },
+    "errors": {
+      "noPublications": "Публикации не найдены."
+    }
+  },
+  "cv": {
+    "title": "Резюме",
+    "meta_title": "Резюме",
+    "description": "Профессиональное резюме",
+    "navigation": "НАВИГАЦИЯ",
+    "name": "MAXIM ELCHANINOV",
+    "role": "SYSTEM GAME DESIGNER",
+    "workDescription": "Оптимизация рабочих процессов и решение технических проблем",
+    "certificateUnavailable": "Информация о сертификате недоступна",
+    "sections": {
+      "about": "О СЕБЕ",
+      "workExperience": "ОПЫТ РАБОТЫ",
+      "education": "ОБРАЗОВАНИЕ",
+      "skills": "НАВЫКИ",
+      "certificates": "СЕРТИФИКАТЫ",
+      "courses": "КУРСЫ",
+      "languages": "ЯЗЫКИ"
+    },
+    "skills": {
+      "designPrototyping": "Прототипирование дизайна",
+      "technicalScripting": "Технический скриптинг",
+      "designDocumentation": "Дизайн-документация",
+      "productionCollaboration": "Продакшн и коллаборация",
+      "assetCreation": "Создание ассетов",
+      "categories": {
+        "designPrototyping": {
+          "title": "ДИЗАЙН И ПРОТОТИПИРОВАНИЕ",
+          "description": "Основной инструментарий для создания и проверки игрового опыта"
+        },
+        "technicalScripting": {
+          "title": "ТЕХНИЧЕСКИЕ НАВЫКИ И СКРИПТИНГ",
+          "description": "Языки и технологии для реализации систем и проведения исследований"
+        },
+        "designDocumentation": {
+          "title": "ДИЗАЙН-ДОКУМЕНТАЦИЯ",
+          "description": "Инструменты для описания и визуализации геймдизайнерских решений"
+        },
+        "productionCollaboration": {
+          "title": "ПРОИЗВОДСТВО И СОВМЕСТНАЯ РАБОТА",
+          "description": "Стандарты индустрии для управления версиями и задачами"
+        },
+        "assetCreation": {
+          "title": "СОЗДАНИЕ АССЕТОВ",
+          "description": "Вспомогательные навыки для визуализации прототипов"
+        }
+      }
+    },
+    "status": {
+      "completed": "Завершено",
+      "inProgress": "В процессе"
+    },
+    "buttons": {
+      "details": "Подробнее",
+      "downloadRU": "СКАЧАТЬ CV В PDF [RU]",
+      "downloadEN": "СКАЧАТЬ CV В PDF [EN]"
+    },
+    "errors": {
+      "loadFailed": "Не удалось загрузить данные резюме."
+    }
+  },
+  "community": {
+    "title": "Сообщество",
+    "meta_title": "Сообщество",
+    "description": "Присоединяйтесь к сообществу. Ссылки на Discord, социальные сети и способы поддержки.",
+    "navigation": "НАВИГАЦИЯ",
+    "sections": {
+      "discord": "DISCORD СЕРВЕР",
+      "social": "СОЦИАЛЬНЫЕ СЕТИ",
+      "donations": "ПОДДЕРЖКА",
+      "work": "РАБОЧИЕ ССЫЛКИ",
+      "events": "ПРЕДСТОЯЩИЕ СОБЫТИЯ"
+    },
+    "discord": {
+      "join": "Присоединяйтесь к нашему сообществу разработчиков игр"
+    },
+    "donation": {
+      "support": "Поддержка через Boosty",
+      "supportOn": "Поддержать на"
+    },
+    "events": {
+      "defaultTitle": "Событие"
+    },
+    "discordServer": {
+      "name": "сервер сообщества 2IQ",
+      "comingSoon": "Discord Сервер (скоро)",
+      "join": "Присоединиться к Discord серверу"
+    },
+    "comingSoon": "(скоро)"
+  },
+  "roles": {
+    "solo": "Соло",
+    "teamLead": "Тимлид",
+    "team": "В команде",
+    "soloDetailed": "Соло-разработчик",
+    "teamLeadDetailed": "Гейм-дизайнер / Тимлид",
+    "teamName": "команда"
+  },
+  "404": {
+    "title": "404 — Страница не найдена",
+    "message": "К сожалению, запрашиваемая страница не существует",
+    "backHome": "Вернуться на главную"
+  },
+  "media": {
+    "previousImage": "Предыдущее изображение",
+    "nextImage": "Следующее изображение",
+    "close": "Закрыть",
+    "videoNotSupported": "Ваш браузер не поддерживает видео."
+  }
+}
+

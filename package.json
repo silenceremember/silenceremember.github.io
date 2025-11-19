@@ -8,7 +8,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "deploy": "npm run build && gh-pages -d dist",
+    "deploy": "npm run build && git add dist && git commit -m \"chore: update build\" && git push origin master",
+    "deploy:gh-pages": "npm run build && gh-pages -d dist",
     "format": "prettier --write .",
     "lint:js": "eslint .",
     "lint:css": "stylelint \"src/scss/**/*.scss\""

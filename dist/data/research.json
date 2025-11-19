@@ -1,0 +1,168 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2025-01-XX",
+  "publications": [
+    {
+      "id": "procedural-narrative-generation",
+      "title": "АНАЛИЗ ОСНОВНЫХ НАПРАВЛЕНИЙ ПРОЦЕДУРНОЙ ГЕНЕРАЦИИ НАРРАТИВНОГО ДИЗАЙНА В ВИДЕОИГРАХ",
+      "titleLocalized": {
+        "ru": "АНАЛИЗ ОСНОВНЫХ НАПРАВЛЕНИЙ ПРОЦЕДУРНОЙ ГЕНЕРАЦИИ НАРРАТИВНОГО ДИЗАЙНА В ВИДЕОИГРАХ",
+        "en": "ANALYSIS OF MAIN DIRECTIONS OF PROCEDURAL NARRATIVE DESIGN GENERATION IN VIDEO GAMES"
+      },
+      "type": "thesis",
+      "journal": "Лига исследователей МГПУ",
+      "journalLocalized": {
+        "ru": "Лига исследователей МГПУ",
+        "en": "MSPU Researchers League"
+      },
+      "location": null,
+      "date": {
+        "start": "2024-11-20",
+        "end": "2024-11-24"
+      },
+      "status": "published",
+      "level": "РИНЦ",
+      "links": {
+        "document": "https://drive.google.com/file/d/1sKBDsPaCMvJ0e7Xb-ZJMw_6DNpRrylpY/view?usp=sharing"
+      },
+      "keywords": [
+        "процедурная генерация",
+        "нарративный дизайн",
+        "видеоигры",
+        "динамические сюжеты"
+      ],
+      "keywordsLocalized": {
+        "ru": ["процедурная генерация", "нарративный дизайн", "видеоигры", "динамические сюжеты"],
+        "en": ["procedural generation", "narrative design", "video games", "dynamic stories"]
+      }
+    },
+    {
+      "id": "ai-in-gamedesign",
+      "title": "ПРИМЕНЕНИЕ ИСКУССТВЕННОГО ИНТЕЛЛЕКТА В ГЕЙМ-ДИЗАЙНЕ: АНАЛИЗ СОВРЕМЕННЫХ ПОДХОДОВ И ПЕРСПЕКТИВ РАЗВИТИЯ",
+      "titleLocalized": {
+        "ru": "ПРИМЕНЕНИЕ ИСКУССТВЕННОГО ИНТЕЛЛЕКТА В ГЕЙМ-ДИЗАЙНЕ: АНАЛИЗ СОВРЕМЕННЫХ ПОДХОДОВ И ПЕРСПЕКТИВ РАЗВИТИЯ",
+        "en": "APPLICATION OF ARTIFICIAL INTELLIGENCE IN GAME DESIGN: ANALYSIS OF MODERN APPROACHES AND DEVELOPMENT PROSPECTS"
+      },
+      "type": "thesis",
+      "journal": "Лига исследователей МГПУ",
+      "journalLocalized": {
+        "ru": "Лига исследователей МГПУ",
+        "en": "MSPU Researchers League"
+      },
+      "location": null,
+      "date": {
+        "start": "2024-11-20",
+        "end": "2024-11-24"
+      },
+      "status": "published",
+      "level": "РИНЦ",
+      "links": {
+        "document": "https://drive.google.com/file/d/19dFt6Iv_eOMrGpWtKoDTZ1HzVO2hxqc7/view?usp=sharing"
+      },
+      "keywords": [
+        "искусственный интеллект",
+        "геймдизайн",
+        "машинное обучение",
+        "игровой контент"
+      ],
+      "keywordsLocalized": {
+        "ru": ["искусственный интеллект", "геймдизайн", "машинное обучение", "игровой контент"],
+        "en": ["artificial intelligence", "game design", "machine learning", "game content"]
+      }
+    },
+    {
+      "id": "ml-game-events",
+      "title": "ПРИМЕНЕНИЕ МЕТОДОВ МАШИННОГО ОБУЧЕНИЯ ДЛЯ ДИНАМИЧЕСКОЙ ГЕНЕРАЦИИ ИГРОВЫХ СОБЫТИЙ В IT-ПРОЕКТАХ ИНДУСТРИИ РАЗВЛЕЧЕНИЙ",
+      "titleLocalized": {
+        "ru": "ПРИМЕНЕНИЕ МЕТОДОВ МАШИННОГО ОБУЧЕНИЯ ДЛЯ ДИНАМИЧЕСКОЙ ГЕНЕРАЦИИ ИГРОВЫХ СОБЫТИЙ В IT-ПРОЕКТАХ ИНДУСТРИИ РАЗВЛЕЧЕНИЙ",
+        "en": "APPLICATION OF MACHINE LEARNING METHODS FOR DYNAMIC GENERATION OF GAME EVENTS IN IT PROJECTS OF THE ENTERTAINMENT INDUSTRY"
+      },
+      "type": "article",
+      "journal": "BECS-2025",
+      "journalLocalized": {
+        "ru": "BECS-2025",
+        "en": "BECS-2025"
+      },
+      "location": null,
+      "date": {
+        "year": 2025
+      },
+      "status": "in-publication",
+      "level": "РИНЦ",
+      "links": {},
+      "keywords": [
+        "машинное обучение",
+        "динамическая генерация",
+        "игровые события",
+        "IT-проекты"
+      ],
+      "keywordsLocalized": {
+        "ru": ["машинное обучение", "динамическая генерация", "игровые события", "IT-проекты"],
+        "en": ["machine learning", "dynamic generation", "game events", "IT projects"]
+      }
+    },
+    {
+      "id": "formal-narrative-systems",
+      "title": "Формальные системы алгоритмического повествования в цифровых играх",
+      "titleLocalized": {
+        "ru": "Формальные системы алгоритмического повествования в цифровых играх",
+        "en": "Formal Systems of Algorithmic Narrative in Digital Games"
+      },
+      "type": "article",
+      "journal": "Technology and Language",
+      "journalLocalized": {
+        "ru": "Technology and Language",
+        "en": "Technology and Language"
+      },
+      "location": null,
+      "date": {
+        "year": 2025
+      },
+      "status": "in-publication",
+      "level": "Scopus",
+      "links": {},
+      "keywords": [
+        "алгоритмическое повествование",
+        "формальные системы",
+        "цифровые игры",
+        "интерактивный нарратив"
+      ],
+      "keywordsLocalized": {
+        "ru": ["алгоритмическое повествование", "формальные системы", "цифровые игры", "интерактивный нарратив"],
+        "en": ["algorithmic narrative", "formal systems", "digital games", "interactive narrative"]
+      }
+    },
+    {
+      "id": "diploma-chapter-1",
+      "title": "Система процедурной генерации нарративного дизайна для компьютерных игр жанра роуглайк",
+      "titleLocalized": {
+        "ru": "Система процедурной генерации нарративного дизайна для компьютерных игр жанра роуглайк",
+        "en": "Procedural Narrative Design Generation System for Roguelike Computer Games"
+      },
+      "type": "diploma",
+      "journal": null,
+      "location": null,
+      "date": {
+        "year": 2025
+      },
+      "status": "in-progress",
+      "level": null,
+      "links": {
+        "document": "https://drive.google.com/file/d/16fNAfzXP0id_JSVj5v-CnErR3EIvChW3/view?usp=sharing"
+      },
+      "keywords": [
+        "процедурная генерация",
+        "нарративный дизайн",
+        "роуглайк",
+        "компьютерные игры"
+      ],
+      "keywordsLocalized": {
+        "ru": ["процедурная генерация", "нарративный дизайн", "роуглайк", "компьютерные игры"],
+        "en": ["procedural generation", "narrative design", "roguelike", "computer games"]
+      },
+      "chapter": 1,
+      "totalChapters": 3,
+      "accessLevel": "public"
+    }
+  ]
+}

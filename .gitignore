@@ -1,5 +1,6 @@
 # Vite
-dist
+# dist - commented out for GitHub Pages deployment (user site requires dist/ in master)
+# dist
 .vite
 
 # Node
