@@ -91,6 +91,13 @@ export class SvgLoader {
       svgNode.removeAttribute('height');
     }
 
+    // Удаляем width и height для кнопки scroll-to-top, чтобы размеры задавались через CSS
+    const parentButton = originalElement.closest('.scroll-to-top');
+    if (parentButton) {
+      svgNode.removeAttribute('width');
+      svgNode.removeAttribute('height');
+    }
+
     return svgNode;
   }
 
