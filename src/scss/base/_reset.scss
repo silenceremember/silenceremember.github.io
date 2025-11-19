@@ -67,6 +67,12 @@ body::-webkit-scrollbar {
     min-height: 100vh;
     -webkit-overflow-scrolling: touch;
     /* overscroll-behavior-y: contain; - Removed to allow pull-to-refresh */
+    overscroll-behavior-y: auto; /* Explicitly allow pull-to-refresh */
+  }
+  
+  /* Явно разрешаем pull-to-refresh для страниц с прокруткой */
+  body.page-with-scroll {
+    overscroll-behavior-y: auto; /* Allow pull-to-refresh */
   }
 }
 

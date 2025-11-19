@@ -558,6 +558,11 @@
 
 /* Стили для страниц с прокруткой в tablet/mobile режиме */
 @include tablet-and-mobile {
+  /* Явно разрешаем pull-to-refresh для страниц с прокруткой */
+  body.page-with-scroll {
+    overscroll-behavior-y: auto; /* Allow pull-to-refresh */
+  }
+  
   body.page-with-scroll .page-wrapper {
     display: block;
     height: auto;
