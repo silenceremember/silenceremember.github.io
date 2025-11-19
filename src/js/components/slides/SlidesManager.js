@@ -62,11 +62,23 @@ export class SlidesManager {
 
     if (this.menuButton) {
       this.menuButton.addEventListener('click', () => {
-        // Прокручиваем до низа страницы
-        window.scrollTo({
-          top: document.documentElement.scrollHeight,
-          behavior: 'smooth',
-        });
+        // Пытаемся найти footer для надежной прокрутки
+        const footer = document.querySelector('.footer');
+        
+        if (footer) {
+          // Используем scrollIntoView для прокрутки до footer
+          // Это работает одинаково надежно на всех устройствах
+          footer.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'end' 
+          });
+        } else {
+          // Fallback
+          window.scrollTo({
+            top: document.documentElement.scrollHeight,
+            behavior: 'smooth',
+          });
+        }
       });
     }
 

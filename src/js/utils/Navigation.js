@@ -89,19 +89,28 @@ export class MenuButtonScrollHandler {
 
       // Добавляем обработчик
       this.menuButton.addEventListener('click', () => {
-        // Прокручиваем до самого низа страницы
-        // Используем максимальное значение, чтобы учесть все элементы включая footer/header
-        const maxScrollTop = Math.max(
-          document.body.scrollHeight,
-          document.documentElement.scrollHeight,
-          document.body.offsetHeight,
-          document.documentElement.offsetHeight
-        );
+        // Пытаемся найти footer для надежной прокрутки
+        const footer = document.querySelector('.footer');
         
-        window.scrollTo({
-          top: maxScrollTop,
-          behavior: 'smooth',
-        });
+        if (footer) {
+          // Используем scrollIntoView для прокрутки до footer
+          // Это работает одинаково надежно на всех устройствах
+          footer.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'end' 
+          });
+        } else {
+          // Fallback: используем улучшенное вычисление
+          const maxScrollTop = Math.max(
+            document.body.scrollHeight,
+            document.documentElement.scrollHeight
+          );
+          
+          window.scrollTo({
+            top: maxScrollTop,
+            behavior: 'smooth',
+          });
+        }
       });
 
       // Помечаем, что обработчик добавлен
