@@ -14,7 +14,7 @@
   background: transparent;
   border: none;
   cursor: pointer;
-  z-index: 15;
+  z-index: 100;
   opacity: 0;
   visibility: hidden;
   transform: translateY(0);
@@ -83,7 +83,10 @@
 @include tablet-and-mobile {
   .scroll-to-top {
     /* Используем max() для учета безопасных зон (notch) и минимального отступа */
+    /* Fallback для браузеров без поддержки env() */
+    bottom: var(--spacing-sm) !important;
     bottom: max(var(--spacing-sm), env(safe-area-inset-bottom, 0px)) !important;
+    right: var(--spacing-sm) !important;
     right: max(var(--spacing-sm), env(safe-area-inset-right, 0px)) !important;
     width: 32px !important;
     height: 32px !important;
@@ -101,6 +104,8 @@
 
     /* На мобильных footer не скрывается, позиция фиксированная */
     &.footer-hidden {
+      /* Fallback для браузеров без поддержки env() */
+      bottom: var(--spacing-sm) !important;
       bottom: max(var(--spacing-sm), env(safe-area-inset-bottom, 0px)) !important;
     }
 
@@ -121,7 +126,10 @@
 @include height-small {
   .scroll-to-top {
     /* Используем max() для учета безопасных зон (notch) и минимального отступа */
+    /* Fallback для браузеров без поддержки env() */
+    bottom: var(--spacing-sm) !important;
     bottom: max(var(--spacing-sm), env(safe-area-inset-bottom, 0px)) !important;
+    right: var(--spacing-sm) !important;
     right: max(var(--spacing-sm), env(safe-area-inset-right, 0px)) !important;
     width: 32px !important;
     height: 32px !important;
@@ -139,6 +147,8 @@
 
     /* При высоте <900px footer не скрывается, позиция фиксированная */
     &.footer-hidden {
+      /* Fallback для браузеров без поддержки env() */
+      bottom: var(--spacing-sm) !important;
       bottom: max(var(--spacing-sm), env(safe-area-inset-bottom, 0px)) !important;
     }
 

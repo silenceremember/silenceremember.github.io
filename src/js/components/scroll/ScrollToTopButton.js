@@ -94,14 +94,16 @@ export class ScrollToTopButton {
     const scrollElement = this.getScrollElement();
     if (scrollElement === window) {
       // Используем более надежный способ получения позиции скролла для совместимости со всеми браузерами
-      // window.scrollY - современный стандарт
+      // document.scrollingElement - современный стандарт, работает лучше всего в Firefox
+      // window.scrollY - стандарт для большинства браузеров
       // window.pageYOffset - для старых браузеров
-      // document.documentElement.scrollTop - для некоторых браузеров
+      // document.documentElement.scrollTop - запасной вариант
       // document.body.scrollTop - для очень старых браузеров
+      const scrollingElement = document.scrollingElement || document.documentElement;
       return (
+        scrollingElement.scrollTop ||
         window.scrollY ||
         window.pageYOffset ||
-        document.documentElement.scrollTop ||
         document.body.scrollTop ||
         0
       );
@@ -372,8 +374,8 @@ export class ScrollToTopButton {
     }
 
     // Минимальный порог прокрутки для появления кнопки
-    // На мобильных требуется больше прокрутки, чтобы кнопка появилась
-    const minScrollForShow = isTablet ? 200 : 100;
+    // На мобильных кнопка должна появляться быстро при прокрутке вверх
+    const minScrollForShow = isTablet ? 10 : 100;
     if (scrollTop < minScrollForShow) {
       // Недостаточно прокрутили - не показываем кнопку
       this.hideButton();
@@ -382,23 +384,9 @@ export class ScrollToTopButton {
 
     // Если прокручиваем вверх
     if (isScrollingUp) {
-      // Определяем, изменилось ли направление прокрутки с вниз на вверх
-      const directionChanged = this.wasScrollingDown && isScrollingUp;
-      
-      // Если кнопка уже видима, просто обновляем позицию
-      if (this.isButtonVisible()) {
-        // Позиция будет обновлена в конце метода для десктопа
-      } else {
-        // Показываем кнопку с анимацией только при изменении направления с вниз на вверх
-        // или если кнопка еще не была показана
-        if (directionChanged || !this.wasShown) {
-          this.showButton();
-        } else {
-          // Если кнопка не видима, но мы прокручиваем вверх, показываем её без анимации
-          this.scrollToTopButton.style.display = 'flex';
-          this.scrollToTopButton.classList.add('visible');
-          this.wasShown = true;
-        }
+      // Показываем кнопку сразу при прокрутке вверх
+      if (!this.isButtonVisible()) {
+        this.showButton();
       }
       this.wasScrollingDown = false;
     } else if (isScrollingDown) {
