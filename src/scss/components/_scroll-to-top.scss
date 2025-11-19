@@ -63,6 +63,8 @@
   }
 
   &.visible {
+    /* CRITICAL: Must set display: flex to override the default display: none */
+    display: flex;
     opacity: 1;
     visibility: visible;
     transition:
