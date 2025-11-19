@@ -83,6 +83,8 @@ export function vitePurgeCSS(options = {}) {
             'decorative-line-horizontal',
             'custom-cursor',
             'container',
+            'scroll-to-top',
+            'footer-hidden',
             ...(options.safelist?.standard || []),
           ],
           deep: [
@@ -109,6 +111,7 @@ export function vitePurgeCSS(options = {}) {
             /^header/,
             /^footer/,
             /^content-/,
+            /^scroll-to-top/,
             ...(options.safelist?.greedy || []),
           ],
         },

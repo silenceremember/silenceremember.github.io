@@ -104,7 +104,7 @@ export default defineConfig({
       brotliSize: true,
     }),
     // PurgeCSS для удаления неиспользуемых стилей
-    vitePurgeCSS(),
+    // vitePurgeCSS(), // Temporarily disabled to debug scroll-to-top styles
   ],
   build: {
     outDir: '../dist',
