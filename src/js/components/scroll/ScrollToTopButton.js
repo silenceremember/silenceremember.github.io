@@ -100,13 +100,24 @@ export class ScrollToTopButton {
       // document.documentElement.scrollTop - запасной вариант
       // document.body.scrollTop - для очень старых браузеров
       const scrollingElement = document.scrollingElement || document.documentElement;
-      return (
-        scrollingElement.scrollTop ||
-        window.scrollY ||
-        window.pageYOffset ||
-        document.body.scrollTop ||
-        0
-      );
+      
+      // Проверяем значения явно, чтобы 0 не считался falsy
+      if (typeof scrollingElement.scrollTop === 'number') {
+        return scrollingElement.scrollTop;
+      }
+      if (typeof window.scrollY === 'number') {
+        return window.scrollY;
+      }
+      if (typeof window.pageYOffset === 'number') {
+        return window.pageYOffset;
+      }
+      if (typeof document.documentElement.scrollTop === 'number') {
+        return document.documentElement.scrollTop;
+      }
+      if (typeof document.body.scrollTop === 'number') {
+        return document.body.scrollTop;
+      }
+      return 0;
     } else {
       return scrollElement.scrollTop || 0;
     }
@@ -280,20 +291,18 @@ export class ScrollToTopButton {
       // Обновляем позицию до показа
       this.updateButtonPosition();
 
-      // Ждем кадр, чтобы браузер успел применить начальное состояние (opacity: 0 и позицию), 
-      // затем добавляем класс для анимации
+      // Используем один requestAnimationFrame для быстрого старта анимации
+      // Это обеспечивает начало анимации сразу во время прокрутки
       requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          if (this.scrollToTopButton) {
-            this.scrollToTopButton.classList.add('visible');
-            this.wasShown = true;
-            // Обновляем позицию после показа для синхронизации с футером
-            this.updateButtonPosition();
-            setTimeout(() => {
-              this.isAnimating = false;
-            }, 300);
-          }
-        });
+        if (this.scrollToTopButton) {
+          this.scrollToTopButton.classList.add('visible');
+          this.wasShown = true;
+          // Обновляем позицию после показа для синхронизации с футером
+          this.updateButtonPosition();
+          setTimeout(() => {
+            this.isAnimating = false;
+          }, 300);
+        }
       });
     } else {
       // Если кнопка уже была показана, просто делаем её видимой без анимации
@@ -326,6 +335,7 @@ export class ScrollToTopButton {
       this.isAnimating = true;
       this.scrollToTopButton.classList.remove('visible');
 
+      // Используем плавную анимацию для всех устройств
       this.hideTimeout = setTimeout(() => {
         if (this.scrollToTopButton) {
           // Проверяем еще раз, что кнопка не стала видимой за это время
@@ -348,11 +358,10 @@ export class ScrollToTopButton {
     if (!this.scrollToTopButton) return;
     
     const scrollTop = this.getScrollTop();
-    // Используем порог для определения направления прокрутки, чтобы избежать проблем
-    // с дробными значениями и неточностями в разных браузерах
-    // На мобильных используем больший порог из-за особенностей viewport
+    // Используем минимальный порог для определения направления прокрутки
+    // Порог должен быть очень маленьким, чтобы кнопка реагировала мгновенно
     const isTablet = this.isTabletMode();
-    const scrollThreshold = isTablet ? 5 : 1; // Больший порог для мобильных
+    const scrollThreshold = 0.5; // Минимальный порог для всех устройств
     const scrollDelta = scrollTop - this.lastScrollTop;
     const isScrollingUp = scrollDelta < -scrollThreshold;
     const isScrollingDown = scrollDelta > scrollThreshold;

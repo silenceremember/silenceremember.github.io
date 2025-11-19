@@ -92,6 +92,7 @@
     height: 32px !important;
     /* Убираем will-change на мобильных для лучшей производительности */
     will-change: auto;
+    /* Плавная анимация на мобильных */
     transition:
       opacity var(--transition-duration-base) ease-in-out,
       visibility var(--transition-duration-base) ease-in-out;
@@ -135,6 +136,7 @@
     height: 32px !important;
     /* Убираем will-change для лучшей производительности */
     will-change: auto;
+    /* Плавная анимация при высоте <900px */
     transition:
       opacity var(--transition-duration-base) ease-in-out,
       visibility var(--transition-duration-base) ease-in-out;
