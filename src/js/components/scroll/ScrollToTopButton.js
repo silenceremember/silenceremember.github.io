@@ -65,6 +65,14 @@ export class ScrollToTopButton {
   }
 
   /**
+   * Определяет, является ли устройство мобильным браузером
+   * @returns {boolean} true если это мобильный браузер
+   */
+  isMobileBrowser() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  }
+
+  /**
    * Проверяет, является ли это страницей со скроллом
    * @returns {boolean} true если body имеет класс page-with-scroll
    */
@@ -280,10 +288,18 @@ export class ScrollToTopButton {
     // Определяем, нужна ли анимация
     const isHidden = this.isButtonHidden();
     const shouldAnimate = !this.wasShown || isHidden;
+    
+    // Проверяем, находимся ли мы на мобильном устройстве
+    const isMobile = this.isTabletMode() || this.isMobileBrowser();
 
     // Убеждаемся, что элемент видим
     if (isHidden) {
-      this.scrollToTopButton.style.display = 'flex';
+      // CRITICAL FIX: На мобильных используем setProperty с important для гарантии отображения
+      if (isMobile) {
+        this.scrollToTopButton.style.setProperty('display', 'flex', 'important');
+      } else {
+        this.scrollToTopButton.style.display = 'flex';
+      }
     }
 
     if (shouldAnimate) {
@@ -347,7 +363,14 @@ export class ScrollToTopButton {
         if (this.scrollToTopButton) {
           // Проверяем еще раз, что кнопка не стала видимой за это время
           if (!this.scrollToTopButton.classList.contains('visible')) {
-            this.scrollToTopButton.style.display = 'none';
+            // На мобильных удаляем inline стиль, чтобы CSS правила взяли верх
+            const isMobile = this.isTabletMode() || this.isMobileBrowser();
+            if (isMobile) {
+              // Удаляем inline стиль display, полагаясь на CSS opacity: 0 и visibility: hidden
+              this.scrollToTopButton.style.removeProperty('display');
+            } else {
+              this.scrollToTopButton.style.display = 'none';
+            }
             // Сбрасываем флаг, чтобы при следующем показе была анимация
             this.wasShown = false;
           }

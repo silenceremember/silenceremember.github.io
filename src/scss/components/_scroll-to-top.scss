@@ -8,7 +8,8 @@
   );
   width: 40px;
   height: 40px;
-  display: flex;
+  /* Default hidden state - use display: none initially */
+  display: none;
   align-items: center;
   justify-content: center;
   background: transparent;
@@ -90,6 +91,12 @@
     right: max(var(--spacing-sm), env(safe-area-inset-right, 0px)) !important;
     width: 32px !important;
     height: 32px !important;
+    /* Ensure consistent z-index on mobile */
+    z-index: 100 !important;
+    /* Touch interaction properties for mobile browsers */
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
     /* Убираем will-change на мобильных для лучшей производительности */
     will-change: auto;
     /* Плавная анимация на мобильных */
@@ -98,6 +105,10 @@
       visibility var(--transition-duration-base) ease-in-out;
 
     &.visible {
+      /* CRITICAL FIX: Explicitly set display for mobile browsers */
+      display: flex !important;
+      opacity: 1 !important;
+      visibility: visible !important;
       transition:
         opacity var(--transition-duration-base) ease-in-out,
         visibility var(--transition-duration-base) ease-in-out;
@@ -134,6 +145,12 @@
     right: max(var(--spacing-sm), env(safe-area-inset-right, 0px)) !important;
     width: 32px !important;
     height: 32px !important;
+    /* Ensure consistent z-index on small height screens */
+    z-index: 100 !important;
+    /* Touch interaction properties for mobile browsers */
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
     /* Убираем will-change для лучшей производительности */
     will-change: auto;
     /* Плавная анимация при высоте <900px */
@@ -142,6 +159,10 @@
       visibility var(--transition-duration-base) ease-in-out;
 
     &.visible {
+      /* CRITICAL FIX: Explicitly set display for small height screens */
+      display: flex !important;
+      opacity: 1 !important;
+      visibility: visible !important;
       transition:
         opacity var(--transition-duration-base) ease-in-out,
         visibility var(--transition-duration-base) ease-in-out;
