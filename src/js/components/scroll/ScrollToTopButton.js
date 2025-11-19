@@ -348,11 +348,16 @@ export class ScrollToTopButton {
     const scrollTop = this.getScrollTop();
     // Используем порог для определения направления прокрутки, чтобы избежать проблем
     // с дробными значениями и неточностями в разных браузерах
-    const scrollThreshold = 1; // Минимальная разница для определения направления
+    // На мобильных используем больший порог из-за особенностей viewport
+    const isTablet = this.isTabletMode();
+    const scrollThreshold = isTablet ? 5 : 1; // Больший порог для мобильных
     const scrollDelta = scrollTop - this.lastScrollTop;
     const isScrollingUp = scrollDelta < -scrollThreshold;
     const isScrollingDown = scrollDelta > scrollThreshold;
-    const isAtTop = scrollTop <= scrollThreshold;
+    // На мобильных кнопка должна скрываться только при прокрутке совсем наверх
+    // На десктопе - при малейшей прокрутке к верху
+    const topThreshold = isTablet ? 50 : scrollThreshold;
+    const isAtTop = scrollTop <= topThreshold;
     
     // Обновляем lastScrollTop сразу для правильного определения направления в следующем вызове
     this.lastScrollTop = scrollTop <= 0 ? 0 : Math.round(scrollTop);
@@ -363,6 +368,15 @@ export class ScrollToTopButton {
       this.hideButton();
       // Обновляем позицию сразу
       this.updateButtonPosition();
+      return;
+    }
+
+    // Минимальный порог прокрутки для появления кнопки
+    // На мобильных требуется больше прокрутки, чтобы кнопка появилась
+    const minScrollForShow = isTablet ? 200 : 100;
+    if (scrollTop < minScrollForShow) {
+      // Недостаточно прокрутили - не показываем кнопку
+      this.hideButton();
       return;
     }
 

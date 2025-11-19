@@ -82,10 +82,13 @@
 /* Адаптивность для кнопки "Наверх" в tablet/mobile режиме */
 @include tablet-and-mobile {
   .scroll-to-top {
-    bottom: var(--spacing-sm) !important;
-    right: var(--spacing-sm) !important;
+    /* Используем max() для учета безопасных зон (notch) и минимального отступа */
+    bottom: max(var(--spacing-sm), env(safe-area-inset-bottom, 0px)) !important;
+    right: max(var(--spacing-sm), env(safe-area-inset-right, 0px)) !important;
     width: 32px !important;
     height: 32px !important;
+    /* Убираем will-change на мобильных для лучшей производительности */
+    will-change: auto;
     transition:
       opacity var(--transition-duration-base) ease-in-out,
       visibility var(--transition-duration-base) ease-in-out;
@@ -98,7 +101,7 @@
 
     /* На мобильных footer не скрывается, позиция фиксированная */
     &.footer-hidden {
-      bottom: var(--spacing-sm) !important;
+      bottom: max(var(--spacing-sm), env(safe-area-inset-bottom, 0px)) !important;
     }
 
     /* Отключаем hover эффекты на мобильных и планшетах */
@@ -117,10 +120,13 @@
 /* Адаптивность для кнопки "Наверх" при высоте <900px */
 @include height-small {
   .scroll-to-top {
-    bottom: var(--spacing-sm) !important;
-    right: var(--spacing-sm) !important;
+    /* Используем max() для учета безопасных зон (notch) и минимального отступа */
+    bottom: max(var(--spacing-sm), env(safe-area-inset-bottom, 0px)) !important;
+    right: max(var(--spacing-sm), env(safe-area-inset-right, 0px)) !important;
     width: 32px !important;
     height: 32px !important;
+    /* Убираем will-change для лучшей производительности */
+    will-change: auto;
     transition:
       opacity var(--transition-duration-base) ease-in-out,
       visibility var(--transition-duration-base) ease-in-out;
@@ -133,7 +139,7 @@
 
     /* При высоте <900px footer не скрывается, позиция фиксированная */
     &.footer-hidden {
-      bottom: var(--spacing-sm) !important;
+      bottom: max(var(--spacing-sm), env(safe-area-inset-bottom, 0px)) !important;
     }
 
     /* Отключаем hover эффекты при высоте <900px */
