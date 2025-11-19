@@ -94,29 +94,33 @@ export class ScrollToTopButton {
     const scrollElement = this.getScrollElement();
     if (scrollElement === window) {
       // Используем более надежный способ получения позиции скролла для совместимости со всеми браузерами
-      // document.scrollingElement - современный стандарт, работает лучше всего в Firefox
-      // window.scrollY - стандарт для большинства браузеров
-      // window.pageYOffset - для старых браузеров
-      // document.documentElement.scrollTop - запасной вариант
-      // document.body.scrollTop - для очень старых браузеров
-      const scrollingElement = document.scrollingElement || document.documentElement;
+      // Приоритет: window.pageYOffset (лучше для iOS) > window.scrollY > scrollingElement > остальные
       
-      // Проверяем значения явно, чтобы 0 не считался falsy
-      if (typeof scrollingElement.scrollTop === 'number') {
-        return scrollingElement.scrollTop;
-      }
-      if (typeof window.scrollY === 'number') {
-        return window.scrollY;
-      }
-      if (typeof window.pageYOffset === 'number') {
+      // window.pageYOffset - наиболее надежный для мобильных браузеров, включая iOS Safari
+      if (window.pageYOffset !== undefined) {
         return window.pageYOffset;
       }
-      if (typeof document.documentElement.scrollTop === 'number') {
+      
+      // window.scrollY - современный стандарт для большинства браузеров
+      if (window.scrollY !== undefined) {
+        return window.scrollY;
+      }
+      
+      // document.scrollingElement - современный стандарт DOM
+      const scrollingElement = document.scrollingElement || document.documentElement;
+      if (scrollingElement && scrollingElement.scrollTop !== undefined) {
+        return scrollingElement.scrollTop;
+      }
+      
+      // Запасные варианты для старых браузеров
+      if (document.documentElement && document.documentElement.scrollTop !== undefined) {
         return document.documentElement.scrollTop;
       }
-      if (typeof document.body.scrollTop === 'number') {
+      
+      if (document.body && document.body.scrollTop !== undefined) {
         return document.body.scrollTop;
       }
+      
       return 0;
     } else {
       return scrollElement.scrollTop || 0;
@@ -291,18 +295,21 @@ export class ScrollToTopButton {
       // Обновляем позицию до показа
       this.updateButtonPosition();
 
-      // Используем один requestAnimationFrame для быстрого старта анимации
-      // Это обеспечивает начало анимации сразу во время прокрутки
+      // Используем два requestAnimationFrame для корректной работы анимации
+      // Первый RAF дает браузеру время применить display: flex и убрать класс visible
+      // Второй RAF гарантирует, что браузер применил начальное состояние перед добавлением класса
       requestAnimationFrame(() => {
-        if (this.scrollToTopButton) {
-          this.scrollToTopButton.classList.add('visible');
-          this.wasShown = true;
-          // Обновляем позицию после показа для синхронизации с футером
-          this.updateButtonPosition();
-          setTimeout(() => {
-            this.isAnimating = false;
-          }, 300);
-        }
+        requestAnimationFrame(() => {
+          if (this.scrollToTopButton) {
+            this.scrollToTopButton.classList.add('visible');
+            this.wasShown = true;
+            // Обновляем позицию после показа для синхронизации с футером
+            this.updateButtonPosition();
+            setTimeout(() => {
+              this.isAnimating = false;
+            }, 300);
+          }
+        });
       });
     } else {
       // Если кнопка уже была показана, просто делаем её видимой без анимации
@@ -358,10 +365,10 @@ export class ScrollToTopButton {
     if (!this.scrollToTopButton) return;
     
     const scrollTop = this.getScrollTop();
-    // Используем минимальный порог для определения направления прокрутки
-    // Порог должен быть очень маленьким, чтобы кнопка реагировала мгновенно
+    // Используем небольшой порог для определения направления прокрутки
+    // На мобильных порог немного больше из-за особенностей touch событий
     const isTablet = this.isTabletMode();
-    const scrollThreshold = 0.5; // Минимальный порог для всех устройств
+    const scrollThreshold = isTablet ? 1 : 0.5; // Для мобильных чуть больше
     const scrollDelta = scrollTop - this.lastScrollTop;
     const isScrollingUp = scrollDelta < -scrollThreshold;
     const isScrollingDown = scrollDelta > scrollThreshold;
@@ -383,25 +390,37 @@ export class ScrollToTopButton {
     }
 
     // Минимальный порог прокрутки для появления кнопки
-    // На мобильных кнопка должна появляться быстро при прокрутке вверх
-    const minScrollForShow = isTablet ? 10 : 100;
-    if (scrollTop < minScrollForShow) {
-      // Недостаточно прокрутили - не показываем кнопку
-      this.hideButton();
-      return;
-    }
-
-    // Если прокручиваем вверх
-    if (isScrollingUp) {
-      // Показываем кнопку сразу при прокрутке вверх
-      if (!this.isButtonVisible()) {
-        this.showButton();
+    // Сделан очень маленьким для быстрой реакции на всех устройствах
+    const minScrollForShow = 10;
+    
+    // Если прокрутили достаточно и прокручиваем вверх - показываем кнопку
+    if (scrollTop >= minScrollForShow) {
+      if (isScrollingUp) {
+        // Показываем кнопку сразу при прокрутке вверх
+        if (!this.isButtonVisible()) {
+          this.showButton();
+        }
+        this.wasScrollingDown = false;
+      } else if (isScrollingDown) {
+        // Прокручиваем вниз - скрываем кнопку
+        this.wasScrollingDown = true;
+        this.hideButton();
+      } else if (isTablet && scrollDelta !== 0) {
+        // На мобильных при любом движении (даже меньше порога) проверяем направление
+        // Это нужно для корректной работы с touch событиями
+        if (scrollDelta < 0 && !this.isButtonVisible()) {
+          // Даже минимальное движение вверх - показываем кнопку
+          this.showButton();
+        } else if (scrollDelta > 0 && this.isButtonVisible()) {
+          // Даже минимальное движение вниз - скрываем кнопку
+          this.hideButton();
+        }
       }
-      this.wasScrollingDown = false;
-    } else if (isScrollingDown) {
-      // Прокручиваем вниз - скрываем кнопку
-      this.wasScrollingDown = true;
-      this.hideButton();
+    } else {
+      // Недостаточно прокрутили - скрываем кнопку если она была видна
+      if (this.isButtonVisible()) {
+        this.hideButton();
+      }
     }
     
     // На десктопе всегда обновляем позицию кнопки при скролле для синхронизации с футером
