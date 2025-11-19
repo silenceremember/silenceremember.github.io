@@ -34,7 +34,7 @@ html[lang="en"] {
 body {
   margin: 0;
   padding: 0;
-  height: 100vh;
+  height: calc(var(--vh-dynamic) * 100);
   width: 100%;
   overflow: hidden;
 }
@@ -64,7 +64,7 @@ body::-webkit-scrollbar {
     overflow-y: auto;
     overflow-x: hidden;
     height: auto;
-    min-height: 100vh;
+    min-height: calc(var(--vh-dynamic) * 100);
     -webkit-overflow-scrolling: touch;
     /* overscroll-behavior-y: contain; - Removed to allow pull-to-refresh */
     overscroll-behavior-y: auto; /* Explicitly allow pull-to-refresh */

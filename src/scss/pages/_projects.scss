@@ -169,13 +169,13 @@
 
 /* Когда показывается индикатор загрузки, content-wrapper должен занимать всю высоту */
 /* С box-sizing: border-box padding-top включается в высоту */
-/* Нужно установить высоту так, чтобы внутренний контент занимал 100vh - header - footer */
-/* Высота = (100vh - header - footer) + padding-top = 100vh - var(--header-footer-height) - var(--header-footer-height) + var(--header-footer-height) = 100vh - var(--header-footer-height) */
+/* Нужно установить высоту так, чтобы внутренний контент занимал viewport - header - footer */
+/* Высота = (viewport - header - footer) + padding-top = viewport - var(--header-footer-height) - var(--header-footer-height) + var(--header-footer-height) = viewport - var(--header-footer-height) */
 body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
   height: calc(
-    100vh - var(--header-footer-height)
+    var(--vh-dynamic) * 100 - var(--header-footer-height)
   ); /* viewport - footer (padding-top уже включен в box-sizing) */
-  min-height: calc(100vh - var(--header-footer-height));
+  min-height: calc(var(--vh-dynamic) * 100 - var(--header-footer-height));
 }
 
 .projects-page:has(.projects-loading:not(.hidden)) {

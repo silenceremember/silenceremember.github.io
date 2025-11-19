@@ -2,6 +2,11 @@
 // Импортируем только текущую страницу, остальные загружаются по требованию
 import { BasePage } from './pages/BasePage.js';
 import { CustomCursor } from './components/index.js';
+import { initViewportHeight } from './utils/ViewportHeight.js';
+
+// Инициализируем viewport height как можно раньше для корректной работы на мобильных
+// Это критически важно, так как CSS переменные используются до загрузки DOM
+initViewportHeight();
 
 // Предотвращаем восстановление позиции скролла браузером
 // Это критически важно для mobile/tablet, где header и footer скроллятся с контентом

@@ -14,7 +14,7 @@
     overflow-y: auto;
     overflow-x: hidden;
     height: auto;
-    min-height: 100vh;
+    min-height: calc(var(--vh-dynamic) * 100);
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -75,14 +75,14 @@
     max-width: none;
     width: 100vw;
     margin-left: calc(50% - 50vw);
-    min-height: 100vh;
+    min-height: calc(var(--vh-dynamic) * 100);
     box-sizing: border-box;
   }
 
   body:has(.slides-container) .page-wrapper {
     display: block;
     height: auto;
-    min-height: 100vh;
+    min-height: calc(var(--vh-dynamic) * 100);
     overflow: visible;
     box-sizing: border-box;
   }
@@ -105,7 +105,7 @@
   body:not(.page-with-scroll) .page-wrapper {
     display: block;
     height: auto;
-    min-height: 100vh;
+    min-height: calc(var(--vh-dynamic) * 100);
     overflow: visible;
     box-sizing: border-box;
   }
@@ -116,7 +116,7 @@
     max-width: none;
     width: 100vw;
     margin-left: calc(50% - 50vw);
-    min-height: 100vh;
+    min-height: calc(var(--vh-dynamic) * 100);
     box-sizing: border-box;
   }
 
@@ -273,7 +273,7 @@
   /* Включаем прокрутку на html/body для страниц с прокруткой */
   html.page-with-scroll {
     height: auto;
-    min-height: 100vh;
+    min-height: calc(var(--vh-dynamic) * 100);
     overflow-y: auto;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
@@ -290,7 +290,7 @@
     overflow-y: auto !important;
     overflow-x: hidden !important;
     height: auto !important;
-    min-height: 100vh;
+    min-height: calc(var(--vh-dynamic) * 100);
     -webkit-overflow-scrolling: touch;
     scroll-behavior: auto;
     -ms-overflow-style: none;
@@ -410,14 +410,14 @@
   body.page-with-scroll .page-wrapper {
     display: block;
     height: auto;
-    min-height: 100vh;
+    min-height: calc(var(--vh-dynamic) * 100);
     overflow: visible;
     box-sizing: border-box;
     padding-bottom: 0 !important;
   }
 
   body.page-with-scroll .content-wrapper {
-    min-height: 100vh;
+    min-height: calc(var(--vh-dynamic) * 100);
     box-sizing: border-box;
     display: block;
     padding-top: 0;
@@ -492,7 +492,7 @@
     overflow-y: auto;
     overflow-x: hidden;
     height: auto;
-    min-height: 100vh;
+    min-height: calc(var(--vh-dynamic) * 100);
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -505,13 +505,13 @@
   body.page-404 .page-wrapper {
     display: block;
     height: auto;
-    min-height: 100vh;
+    min-height: calc(var(--vh-dynamic) * 100);
     overflow: visible;
     box-sizing: border-box;
   }
 
   body.page-404 .content-wrapper {
-    min-height: 100vh;
+    min-height: calc(var(--vh-dynamic) * 100);
     box-sizing: border-box;
     display: flex;
     align-items: center;
@@ -566,13 +566,13 @@
   body.page-with-scroll .page-wrapper {
     display: block;
     height: auto;
-    min-height: 100vh;
+    min-height: calc(var(--vh-dynamic) * 100);
     overflow: visible;
     box-sizing: border-box;
   }
 
   body.page-with-scroll .content-wrapper {
-    min-height: 100vh;
+    min-height: calc(var(--vh-dynamic) * 100);
     box-sizing: border-box;
     display: block;
     padding-top: 0;
@@ -641,13 +641,13 @@
   body.page-404 .page-wrapper {
     display: block;
     height: auto;
-    min-height: 100vh;
+    min-height: calc(var(--vh-dynamic) * 100);
     overflow: visible;
     box-sizing: border-box;
   }
 
   body.page-404 .content-wrapper {
-    min-height: 100vh;
+    min-height: calc(var(--vh-dynamic) * 100);
     box-sizing: border-box;
     display: flex;
     align-items: center;

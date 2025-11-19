@@ -7,7 +7,7 @@
 @include desktop {
   html.page-with-scroll {
     height: auto;
-    min-height: 100vh;
+    min-height: calc(var(--vh-dynamic) * 100);
     overflow-y: auto;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
@@ -24,7 +24,7 @@
     overflow-y: auto !important;
     overflow-x: hidden !important;
     height: auto !important;
-    min-height: 100vh;
+    min-height: calc(var(--vh-dynamic) * 100);
     -webkit-overflow-scrolling: touch;
     scroll-behavior: auto;
     -ms-overflow-style: none;
@@ -37,7 +37,7 @@
 
   body.page-with-scroll .page-wrapper {
     height: auto !important;
-    min-height: 100vh;
+    min-height: calc(var(--vh-dynamic) * 100);
     max-height: none !important;
     overflow: visible !important;
     display: block !important;
@@ -53,7 +53,7 @@
 
   body.page-with-scroll .content-wrapper {
     overflow: visible !important;
-    min-height: calc(100vh - var(--header-footer-height) * 2);
+    min-height: calc(var(--vh-dynamic) * 100 - var(--header-footer-height) * 2);
     height: auto;
     display: flex !important;
     flex-direction: column;

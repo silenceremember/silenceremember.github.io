@@ -10,6 +10,13 @@
  */
 
 :root {
+  /* Viewport height units - поддержка мобильных устройств */
+  /* Fallback для старых браузеров (устанавливается через JS в ViewportHeight.js) */
+  --vh-fallback: 1vh;
+  /* Динамическая высота viewport с учетом адресной строки браузера */
+  /* dvh (dynamic viewport height) - автоматически адаптируется при скрытии/показе UI браузера */
+  --vh-dynamic: 1dvh;
+  
   --theme-light-text-primary: #121212;
   --theme-light-bg-primary: #f5f5f5;
   --theme-light-accent: #d90429;
@@ -138,6 +145,14 @@
   --color-divider: var(--theme-dark-divider);
   --color-placeholder: var(--theme-dark-placeholder);
   --color-secondary: var(--theme-dark-secondary);
+}
+
+/* Fallback для браузеров без поддержки dvh */
+@supports not (height: 1dvh) {
+  :root {
+    /* Для старых браузеров используем fallback значение, установленное через JavaScript */
+    --vh-dynamic: var(--vh-fallback);
+  }
 }
 
 /* Миксины для breakpoints */
