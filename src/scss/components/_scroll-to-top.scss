@@ -23,6 +23,8 @@
     visibility var(--transition-duration-base) var(--timing-function-ease-in-out),
     bottom var(--transition-duration-base) var(--timing-function-ease),
     right var(--transition-duration-base) var(--timing-function-ease);
+  /* Гарантируем, что transition для bottom всегда активен */
+  will-change: bottom;
   padding: 0;
   box-sizing: border-box;
 
@@ -68,6 +70,8 @@
       transform var(--transition-duration-base) var(--timing-function-ease-in-out),
       bottom var(--transition-duration-base) var(--timing-function-ease),
       right var(--transition-duration-base) var(--timing-function-ease);
+    /* Гарантируем, что transition для bottom активен и при видимой кнопке */
+    will-change: bottom;
   }
 
   &.footer-hidden {
