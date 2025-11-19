@@ -370,12 +370,17 @@ export class ScrollToTopButton {
     const isTablet = this.isTabletMode();
     const scrollThreshold = isTablet ? 1 : 0.5; // Для мобильных чуть больше
     const scrollDelta = scrollTop - this.lastScrollTop;
-    const isScrollingUp = scrollDelta < -scrollThreshold;
-    const isScrollingDown = scrollDelta > scrollThreshold;
-    // На мобильных кнопка должна скрываться только при прокрутке совсем наверх
-    // На десктопе - при малейшей прокрутке к верху
-    const topThreshold = isTablet ? 50 : scrollThreshold;
-    const isAtTop = scrollTop <= topThreshold;
+    // Используем <= и >= чтобы включить граничные значения
+    const isScrollingUp = scrollDelta <= -scrollThreshold;
+    const isScrollingDown = scrollDelta >= scrollThreshold;
+    
+    // Минимальный порог прокрутки для появления кнопки
+    const minScrollForShow = 10;
+    
+    // На мобильных и десктопе кнопка должна скрываться при малой прокрутке
+    // Используем строгое сравнение < чтобы при scrollTop = minScrollForShow кнопка могла появиться
+    const topThreshold = minScrollForShow;
+    const isAtTop = scrollTop < topThreshold;
     
     // Обновляем lastScrollTop сразу для правильного определения направления в следующем вызове
     this.lastScrollTop = scrollTop <= 0 ? 0 : Math.round(scrollTop);
@@ -388,33 +393,22 @@ export class ScrollToTopButton {
       this.updateButtonPosition();
       return;
     }
-
-    // Минимальный порог прокрутки для появления кнопки
-    // Сделан очень маленьким для быстрой реакции на всех устройствах
-    const minScrollForShow = 10;
     
-    // Если прокрутили достаточно и прокручиваем вверх - показываем кнопку
+    // Если прокрутили достаточно - показываем/скрываем кнопку в зависимости от направления
     if (scrollTop >= minScrollForShow) {
-      if (isScrollingUp) {
-        // Показываем кнопку сразу при прокрутке вверх
+      // Проверяем направление прокрутки
+      if (isScrollingUp || (isTablet && scrollDelta < 0)) {
+        // Прокручиваем вверх - показываем кнопку
+        // На мобильных реагируем на любое движение вверх (даже < порога)
         if (!this.isButtonVisible()) {
           this.showButton();
         }
         this.wasScrollingDown = false;
-      } else if (isScrollingDown) {
+      } else if (isScrollingDown || (isTablet && scrollDelta > 0)) {
         // Прокручиваем вниз - скрываем кнопку
+        // На мобильных реагируем на любое движение вниз (даже < порога)
         this.wasScrollingDown = true;
         this.hideButton();
-      } else if (isTablet && scrollDelta !== 0) {
-        // На мобильных при любом движении (даже меньше порога) проверяем направление
-        // Это нужно для корректной работы с touch событиями
-        if (scrollDelta < 0 && !this.isButtonVisible()) {
-          // Даже минимальное движение вверх - показываем кнопку
-          this.showButton();
-        } else if (scrollDelta > 0 && this.isButtonVisible()) {
-          // Даже минимальное движение вниз - скрываем кнопку
-          this.hideButton();
-        }
       }
     } else {
       // Недостаточно прокрутили - скрываем кнопку если она была видна
