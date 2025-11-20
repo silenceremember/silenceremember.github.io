@@ -6,6 +6,10 @@ import { constants } from 'zlib';
 import viteCompression from 'vite-plugin-compression';
 import { visualizer } from 'rollup-plugin-visualizer';
 import { vitePurgeCSS } from './vite-plugin-purgecss.js';
+import webfontDownload from 'vite-plugin-webfont-dl';
+import { createHtmlPlugin } from 'vite-plugin-html';
+import { imagetools } from 'vite-imagetools';
+import Inspect from 'vite-plugin-inspect';
 
 export default defineConfig({
   base: '/',
@@ -105,6 +109,34 @@ export default defineConfig({
     }),
     // PurgeCSS для удаления неиспользуемых стилей
     vitePurgeCSS(),
+    // Google Fonts - автоматическая загрузка и инлайн для устранения внешних запросов
+    webfontDownload([
+      'https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap',
+    ], {
+      injectAsStyleTag: true,
+      minifyCss: true,
+      async: true,
+      cache: true,
+      proxy: false,
+    }),
+    // HTML минификация и оптимизация
+    createHtmlPlugin({
+      minify: {
+        collapseWhitespace: true,
+        keepClosingSlash: true,
+        removeComments: true,
+        removeRedundantAttributes: true,
+        removeScriptTypeAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        useShortDoctype: true,
+        minifyCSS: true,
+        minifyJS: true,
+      },
+    }),
+    // Оптимизация изображений
+    imagetools(),
+    // Vite plugin inspector для отладки и анализа
+    Inspect(),
   ],
   build: {
     outDir: '../dist',
