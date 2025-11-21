@@ -99,12 +99,12 @@
       fetchpriority="high"
       type="image/webp"
     />
-    <!-- Preload критических HTML шаблонов -->
-    <link rel="preload" href="/components/header.html" as="fetch" crossorigin />
-    <link rel="preload" href="/components/footer.html" as="fetch" crossorigin />
-    <!-- Preload критических JSON данных -->
+    <!-- Prefetch для HTML шаблонов (загружаются при idle time) -->
+    <link rel="prefetch" href="/components/header.html" as="fetch" crossorigin />
+    <link rel="prefetch" href="/components/footer.html" as="fetch" crossorigin />
+    <!-- Preload критических JSON данных (язык загружается сразу) -->
     <link rel="preload" href="/data/locales/ru.json" as="fetch" crossorigin />
-    <link rel="preload" href="/data/projects.json" as="fetch" crossorigin />
+    <link rel="prefetch" href="/data/projects.json" as="fetch" crossorigin />
     <!-- Prefetch для SVG иконок (загружаются асинхронно через SvgLoader) -->
     <link rel="prefetch" href="/assets/images/icon-language-ru.svg" as="image" />
     <link rel="prefetch" href="/assets/images/icon-language-en.svg" as="image" />

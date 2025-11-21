@@ -5,21 +5,19 @@
 
 /**
  * Класс для мониторинга производительности сайта
- * Отслеживает Core Web Vitals: LCP, FID, CLS, INP, FCP, TTFB
+ * Отслеживает Core Web Vitals: LCP, CLS, INP, FCP, TTFB
  */
 export class PerformanceMonitor {
   constructor() {
     this.metrics = {
       LCP: null, // Largest Contentful Paint
-      FID: null, // First Input Delay (deprecated, replaced by INP)
       CLS: null, // Cumulative Layout Shift
-      INP: null, // Interaction to Next Paint
+      INP: null, // Interaction to Next Paint (replaces FID)
       FCP: null, // First Contentful Paint
       TTFB: null, // Time to First Byte
     };
     this.thresholds = {
       LCP: { good: 2500, needsImprovement: 4000 },
-      FID: { good: 100, needsImprovement: 300 },
       CLS: { good: 0.1, needsImprovement: 0.25 },
       INP: { good: 200, needsImprovement: 500 },
       FCP: { good: 1800, needsImprovement: 3000 },
@@ -37,15 +35,13 @@ export class PerformanceMonitor {
 
     try {
       // Динамический импорт web-vitals для уменьшения initial bundle
-      const { onLCP, onFID, onCLS, onINP, onFCP, onTTFB } = await import(
+      // Note: onFID removed in web-vitals v5.x, use onINP instead
+      const { onLCP, onCLS, onINP, onFCP, onTTFB } = await import(
         'web-vitals'
       );
 
       // Отслеживание LCP
       onLCP(this.handleMetric.bind(this, 'LCP'));
-
-      // Отслеживание FID (deprecated, но все еще полезно)
-      onFID(this.handleMetric.bind(this, 'FID'));
 
       // Отслеживание CLS
       onCLS(this.handleMetric.bind(this, 'CLS'));
