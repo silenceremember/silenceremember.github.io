@@ -116,7 +116,7 @@
       "featured": true,
       "displayMeta": {
         "genre": "TOP DOWN SHOOTER",
-        "platform": "PC (В РАЗРАБОТКЕ)"
+        "platform": "PC (IN DEVELOPMENT)"
       },
       "keyContribution": "Руковожу командой в качестве гейм-дизайнера и тимлида. Отвечаю за стратегическое видение (Vision), лор (Bible) и проектирование ключевых систем (GDD, UI Flow), формируя ТЗ для разработки.",
       "keyContributionLocalized": {
@@ -359,6 +359,10 @@
     {
       "id": "narrative-dz2",
       "title": "DARK MESSIAH АНАЛИЗ",
+      "titleLocalized": {
+        "ru": "DARK MESSIAH АНАЛИЗ",
+        "en": "DARK MESSIAH ANALYSIS"
+      },
       "category": "research",
       "type": "document",
       "role": "solo",
@@ -393,6 +397,10 @@
     {
       "id": "narrative-dz5",
       "title": "DISCO ELYSIUM РАЗБОР",
+      "titleLocalized": {
+        "ru": "DISCO ELYSIUM РАЗБОР",
+        "en": "DISCO ELYSIUM BREAKDOWN"
+      },
       "category": "research",
       "type": "document",
       "role": "solo",

@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta
+      name="description"
+      content="Showcasing game design projects, research, and technical experiments, specializing in unified game systems and narrative design."
+    />
+    <meta name="keywords" content="game designer, system game designer, game design, game development, portfolio, Maxim Elchaninov, silenceremember, game systems, narrative design, game mechanics, interactive design" />
+    <meta name="author" content="System Game Designer" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="theme-color" content="#d90429" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Maxim Elchaninov — System Game Designer</title>
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://silenceremember.github.io/index.html" />
+    
+    <!-- Security Headers -->
+    <!-- Note: X-Frame-Options is set via HTTP header in _headers file, not via meta tag -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://silenceremember.github.io/" />
+    <meta property="og:title" content="System Game Designer" />
+    <meta property="og:description" content="Showcasing game design projects, research, and technical experiments, specializing in unified game systems and narrative design." />
+    <meta property="og:image" content="https://silenceremember.github.io/favicon/web-app-manifest-512x512.png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:alt" content="Maxim Elchaninov — System Game Designer" />
+    <meta property="og:locale" content="ru_RU" />
+    <meta property="og:site_name" content="Maxim Elchaninov | Portfolio" />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://silenceremember.github.io/" />
+    <meta name="twitter:title" content="Maxim Elchaninov | Portfolio" />
+    <meta name="twitter:description" content="Showcasing game design projects, research, and technical experiments, specializing in unified game systems and narrative design." />
+    <meta name="twitter:image" content="https://silenceremember.github.io/favicon/web-app-manifest-512x512.png" />
+    <meta name="twitter:image:alt" content="Maxim Elchaninov — System Game Designer" />
+    <meta name="twitter:creator" content="@silenceremember" />
+    <meta name="twitter:site" content="@silenceremember" />
+    
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Maxim Elchaninov | Portfolio",
+      "alternateName": "silenceremember",
+      "jobTitle": "System Game Designer",
+      "url": "https://silenceremember.github.io",
+      "sameAs": [
+        "https://www.linkedin.com/in/silenceremember/",
+        "https://github.com/silenceremember",
+        "https://t.me/silenceremember"
+      ],
+      "email": "slcrmmbr@outlook.com",
+      "description": "Showcasing game design projects, research, and technical experiments, specializing in unified game systems and narrative design.",
+      "image": "https://silenceremember.github.io/favicon/web-app-manifest-512x512.png"
+    }
+    </script>
+
+    <!-- Theme initialization script - runs synchronously to prevent FOUC -->
+    <script>
+      (function() {
+        const theme = localStorage.getItem('theme');
+        if (theme === 'light') {
+          document.documentElement.setAttribute('data-theme', 'light');
+        } else {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
+
+    <!-- Critical CSS - inline для быстрой загрузки -->
+    <style>
+:root{--theme-light-text-primary:#121212;--theme-light-bg-primary:#f5f5f5;--theme-light-accent:#d90429;--theme-light-accent-bg:#f9d5db;--theme-light-divider:#cccccc;--theme-light-placeholder:#444444;--theme-light-secondary:#888888;--theme-dark-text-primary:#f5f5f5;--theme-dark-bg-primary:#121212;--theme-dark-accent:#d90429;--theme-dark-accent-bg:#641912;--theme-dark-divider:#888888;--theme-dark-placeholder:#444444;--theme-dark-secondary:#888888;--color-text-primary:var(--theme-light-text-primary);--color-bg-primary:var(--theme-light-bg-primary);--color-accent:var(--theme-light-accent);--color-accent-bg:var(--theme-light-accent-bg);--color-divider:var(--theme-light-divider);--color-placeholder:var(--theme-light-placeholder);--color-secondary:var(--theme-light-secondary);--font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;--font-size-base:1rem;--font-weight-normal:400;--font-weight-bold:700;--line-height-base:1.6;--line-height-heading:1.3;--letter-spacing-tight:-0.01em;--header-footer-height:64px;--transition-duration-base:0.3s;--timing-function-ease:ease;--spacing-sm:1rem;--spacing-xs:0.5rem;--max-width-content:calc(1200px + 1rem)}[data-theme='dark']{--color-text-primary:var(--theme-dark-text-primary);--color-bg-primary:var(--theme-dark-bg-primary);--color-accent:var(--theme-dark-accent);--color-accent-bg:var(--theme-dark-accent-bg);--color-divider:var(--theme-dark-divider);--color-placeholder:var(--theme-dark-placeholder);--color-secondary:var(--theme-dark-secondary)}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{-webkit-text-size-adjust:100%;-moz-text-size-adjust:100%;text-size-adjust:100%;height:100%;width:100%;overflow:hidden}body{margin:0;padding:0;height:100vh;width:100%;overflow:hidden;font-family:var(--font-family);font-size:var(--font-size-base);font-weight:var(--font-weight-normal);line-height:var(--line-height-base);color:var(--color-text-primary);background-color:var(--color-bg-primary);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;transition:background-color var(--transition-duration-base) ease,color var(--transition-duration-base) ease}.page-wrapper{position:relative;width:100%;height:100%;overflow:hidden}.header{width:100%;height:var(--header-footer-height);display:flex;align-items:center;position:relative;flex-shrink:0;z-index:10;background-color:transparent;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:transform var(--transition-duration-base) var(--timing-function-ease),background-color var(--transition-duration-base) var(--timing-function-ease),color var(--transition-duration-base) var(--timing-function-ease);transform:translateZ(0);backface-visibility:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.header-content{width:100%;max-width:var(--max-width-content);margin:0 auto;padding:0 var(--spacing-sm);display:flex;justify-content:space-between;align-items:center;position:relative;height:100%}.footer{width:100%;height:var(--header-footer-height);display:flex;align-items:center;position:relative;flex-shrink:0;z-index:10;background-color:transparent;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:transform var(--transition-duration-base) var(--timing-function-ease),background-color var(--transition-duration-base) var(--timing-function-ease),color var(--transition-duration-base) var(--timing-function-ease);transform:translateZ(0);backface-visibility:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.footer-content{width:100%;max-width:var(--max-width-content);margin:0 auto;padding:0 var(--spacing-sm);display:flex;justify-content:space-between;align-items:center;position:relative;height:100%}.header-content,.footer-content,.content-wrapper,main{opacity:0;transition:opacity var(--transition-duration-base) var(--timing-function-ease-out)}.header-content.fade-in-visible,.footer-content.fade-in-visible,.content-wrapper.fade-in-visible,main.fade-in-visible{opacity:1}img,picture,video,canvas,svg{display:block;max-width:100%;height:auto}
+    </style>
+    
+    <!-- Resource Hints: DNS prefetch для внешних ресурсов -->
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    
+    <!-- Google Fonts будут автоматически инлайнены через vite-plugin-webfont-dl -->
+    <!-- Это устраняет внешние запросы и улучшает LCP -->
+
+    <!-- Resource Hints: Preload критических ресурсов -->
+    <!-- Preload LCP изображения для быстрой загрузки -->
+    <link
+      rel="preload"
+      href="/assets/images/portrait.webp"
+      as="image"
+      fetchpriority="high"
+      type="image/webp"
+    />
+    <!-- Preload критических HTML шаблонов -->
+    <link rel="preload" href="/components/header.html" as="fetch" crossorigin />
+    <link rel="preload" href="/components/footer.html" as="fetch" crossorigin />
+    <!-- Preload критических JSON данных -->
+    <link rel="preload" href="/data/locales/ru.json" as="fetch" crossorigin />
+    <link rel="preload" href="/data/projects.json" as="fetch" crossorigin />
+    <!-- Prefetch для SVG иконок (загружаются асинхронно через SvgLoader) -->
+    <link rel="prefetch" href="/assets/images/icon-language-ru.svg" as="image" />
+    <link rel="prefetch" href="/assets/images/icon-language-en.svg" as="image" />
+    <link rel="prefetch" href="/assets/images/icon-moon.svg" as="image" />
+    <link rel="prefetch" href="/assets/images/icon-sun.svg" as="image" />
+    <link rel="prefetch" href="/assets/images/logo-icon.svg" as="image" />
+    <link rel="prefetch" href="/assets/images/icon-linkedin.svg" as="image" />
+    <link rel="prefetch" href="/assets/images/icon-headhunter.svg" as="image" />
+    <link rel="prefetch" href="/assets/images/icon-telegram.svg" as="image" />
+    <link rel="prefetch" href="/assets/images/icon-scroll-to-top.svg" as="image" />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/png"
+      href="/favicon/favicon-96x96.png"
+      sizes="96x96"
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/favicon/apple-touch-icon.png"
+    />
+    <meta name="apple-mobile-web-app-title" content="Maxim Elchaninov" />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+
+    <!-- Prefetch для других страниц (низкий приоритет) -->
+    <link rel="prefetch" href="/projects.html" as="document" />
+
+    <!-- Preload критических JS модулей -->
+    <link rel="modulepreload" href="/js/main.js" />
+    <link rel="modulepreload" href="/js/pages/BasePage.js" />
+    <link rel="modulepreload" href="/js/components/index.js" />
+    
+    <!-- Preload основного CSS -->
+    <link rel="preload" href="/scss/style.scss" as="style" />
+
+    <!-- Theme switcher script - загружается с defer для неблокирующей загрузки -->
+    <script src="/js/components/ThemeInit.js" defer></script>
+    
+    <!-- Google Analytics - загружается асинхронно -->
+    <script src="/js/analytics.js" defer></script>
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/scss/style.scss" />
+  </head>
+  <body>
+    <div class="page-wrapper">
+      <!-- Fluid Background Canvas -->
+      <canvas class="fluid-background-canvas"></canvas>
+
+      <!-- Header -->
+      <header class="header"></header>
+
+      <!-- Horizontal decorative line -->
+      <div class="decorative-line-horizontal"></div>
+
+      <!-- Main Content - Slides Container -->
+      <main class="content-wrapper">
+        <div class="container index-page">
+          <!-- Контейнер для индикатора загрузки -->
+          <div class="index-loading-container" id="index-loading-container">
+            <!-- Индикатор загрузки -->
+            <div class="loading" id="index-loading">
+              <div class="loading-squares">
+                <div class="loading-square"></div>
+                <div class="loading-square"></div>
+                <div class="loading-square"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="slides-container">
+            <!-- СЛАЙД 1: Главная информация -->
+            <div class="slide-wrapper">
+              <section class="slide active" data-slide="0">
+                <div class="main-grid">
+                  <div class="main-content-top">
+                    <h1 class="main-content-name">MAXIM ELCHANINOV</h1>
+                    <p class="main-content-tagline" data-i18n="index.tagline">SILENCEREMEMBER</p>
+                    <p class="main-content-title" data-i18n="index.title">SYSTEM GAME DESIGNER</p>
+                    <p class="cv-about-text" data-i18n="index.about">
+                      Проектирую игровые системы и нарратив как единое целое для
+                      создания осмысленного опыта. На сайте представлены мои
+                      проекты, исследования и технические эксперименты.
+                    </p>
+                  </div>
+                  <div class="main-content-left">
+                    <div class="portrait-container">
+                      <img
+                        src="/assets/images/portrait.webp"
+                        alt="Maxim Elchaninov - System Game Designer Portrait"
+                        class="portrait-image"
+                        fetchpriority="high"
+                        decoding="sync"
+                        loading="eager"
+                        width="280"
+                        height="420"
+                        sizes="(max-width: 1023px) 200px, 280px"
+                        srcset="/assets/images/portrait.webp 560w"
+                        onerror="this.src='/assets/images/portrait-placeholder.svg'"
+                      />
+                    </div>
+                  </div>
+                  <div class="main-content-bottom"></div>
+                </div>
+                <div class="slide-hint" id="slide-hint">
+                  <p class="slide-hint-text" data-i18n="index.slideHint">
+                    Прокручивайте колесико мыши для перехода между слайдами
+                  </p>
+                </div>
+              </section>
+            </div>
+
+            <!-- СЛАЙД 2: Проект 1 (загружается динамически) -->
+            <div class="slide-wrapper">
+              <section class="slide" data-slide="1">
+                <div class="project-slide-content">
+                  <div class="project-slide-header">
+                    <h2 class="section-title" data-i18n="index.featuredWorks">ИЗБРАННЫЕ РАБОТЫ</h2>
+                    <div class="project-info">
+                      <h3 class="project-title"></h3>
+                      <div class="project-meta">
+                        <span></span>
+                        <span></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="project-main-area">
+                    <div class="project-visual">
+                      <div class="project-placeholder"></div>
+                      <div class="project-image-previews">
+                        <div class="preview-placeholder"></div>
+                        <div class="preview-placeholder"></div>
+                        <div class="preview-placeholder"></div>
+                      </div>
+                    </div>
+                    <div class="project-details">
+                      <div class="details-block">
+                        <h4 class="details-heading" data-i18n="index.projectDetails.myRole">МОЯ РОЛЬ</h4>
+                        <p class="details-text"></p>
+                      </div>
+                      <div class="details-block">
+                        <h4 class="details-heading" data-i18n="index.projectDetails.keyContribution">КЛЮЧЕВОЙ ВКЛАД</h4>
+                        <p class="details-text"></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <!-- СЛАЙД 3: Проект 2 (загружается динамически) -->
+            <div class="slide-wrapper">
+              <section class="slide" data-slide="2">
+                <div class="project-slide-content">
+                  <div class="project-slide-header">
+                    <h2 class="section-title" data-i18n="index.featuredWorks">ИЗБРАННЫЕ РАБОТЫ</h2>
+                    <div class="project-info">
+                      <h3 class="project-title"></h3>
+                      <div class="project-meta">
+                        <span></span>
+                        <span></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="project-main-area">
+                    <div class="project-visual">
+                      <div class="project-placeholder"></div>
+                      <div class="project-image-previews">
+                        <div class="preview-placeholder"></div>
+                        <div class="preview-placeholder"></div>
+                        <div class="preview-placeholder"></div>
+                      </div>
+                    </div>
+                    <div class="project-details">
+                      <div class="details-block">
+                        <h4 class="details-heading" data-i18n="index.projectDetails.myRole">МОЯ РОЛЬ</h4>
+                        <p class="details-text"></p>
+                      </div>
+                      <div class="details-block">
+                        <h4 class="details-heading" data-i18n="index.projectDetails.keyContribution">КЛЮЧЕВОЙ ВКЛАД</h4>
+                        <p class="details-text"></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <!-- СЛАЙД 4: Проект 3 (загружается динамически) -->
+            <div class="slide-wrapper">
+              <section class="slide" data-slide="3">
+                <div class="project-slide-content">
+                  <div class="project-slide-header">
+                    <h2 class="section-title" data-i18n="index.featuredWorks">ИЗБРАННЫЕ РАБОТЫ</h2>
+                    <div class="project-info">
+                      <h3 class="project-title"></h3>
+                      <div class="project-meta">
+                        <span></span>
+                        <span></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="project-main-area">
+                    <div class="project-visual">
+                      <div class="project-placeholder"></div>
+                      <div class="project-image-previews">
+                        <div class="preview-placeholder"></div>
+                        <div class="preview-placeholder"></div>
+                        <div class="preview-placeholder"></div>
+                      </div>
+                    </div>
+                    <div class="project-details">
+                      <div class="details-block">
+                        <h4 class="details-heading" data-i18n="index.projectDetails.myRole">МОЯ РОЛЬ</h4>
+                        <p class="details-text"></p>
+                      </div>
+                      <div class="details-block">
+                        <h4 class="details-heading" data-i18n="index.projectDetails.keyContribution">КЛЮЧЕВОЙ ВКЛАД</h4>
+                        <p class="details-text"></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <!-- СЛАЙД 5: CTA Кнопки -->
+            <div class="slide-wrapper">
+              <section class="slide" data-slide="4" id="cta-section">
+                <div class="cta-slide-content">
+                  <h2 class="section-title" data-i18n="index.whatsNext">ЧТО ДАЛЬШЕ?</h2>
+                  <div class="cta-buttons">
+                    <a href="/" class="cta-button" data-i18n="common.nav.home">ГЛАВНАЯ</a>
+                    <a href="projects.html" class="cta-button" data-i18n="common.nav.portfolio">ПОРТФОЛИО</a>
+                    <a href="research.html" class="cta-button" data-i18n="common.nav.research">ИССЛЕДОВАНИЯ</a>
+                    <a href="cv.html" class="cta-button" data-i18n="common.nav.cv">РЕЗЮМЕ</a>
+                    <a href="community.html" class="cta-button" data-i18n="common.nav.community">СООБЩЕСТВО</a>
+                  </div>
+                  <div class="cta-divider"></div>
+                  <div class="cta-buttons cta-buttons-primary">
+                    <a
+                      href="mailto:slcrmmbr@outlook.com"
+                      class="cta-button cta-button-primary"
+                      data-i18n="common.buttons.contactEmail"
+                      >СВЯЗАТЬСЯ ПО ПОЧТЕ</a
+                    >
+                    <a
+                      href="https://t.me/silenceremember"
+                      class="cta-button cta-button-primary"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      data-i18n="common.buttons.contactTelegram"
+                      >СВЯЗАТЬСЯ В ТЕЛЕГРАММ</a
+                    >
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- Horizontal decorative line -->
+      <div class="decorative-line-horizontal"></div>
+
+      <!-- Footer -->
+      <footer class="footer"></footer>
+    </div>
+
+    <div class="custom-cursor"></div>
+
+    <!-- Кнопка "Наверх" -->
+    <button
+      class="scroll-to-top"
+      id="scroll-to-top"
+      data-i18n-attr="aria-label:common.buttons.scrollToTop"
+      aria-label="Прокрутить наверх"
+    >
+      <span data-svg-src="/assets/images/icon-scroll-to-top.svg"></span>
+    </button>
+
+    <!-- JavaScript -->
+    <script type="module" src="/js/main.js"></script>
+  </body>
+</html>
