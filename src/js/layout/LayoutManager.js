@@ -81,7 +81,13 @@ export class LayoutManager {
     }
 
     navLinks.forEach((link) => {
-      const linkPage = link.getAttribute('href').split('/').pop();
+      let linkPage = link.getAttribute('href').split('/').pop();
+      
+      // Обрабатываем главную страницу для href="/"
+      if (linkPage === '' || link.getAttribute('href') === '/' || linkPage === 'index.html') {
+        linkPage = 'index.html';
+      }
+      
       if (linkPage === currentPage) {
         link.classList.add('active');
       } else {
