@@ -262,9 +262,28 @@ export default defineConfig({
             return `assets/css/[name]-[hash][extname]`;
           }
           
-          // HTML файлы (компоненты, шаблоны)
+          // HTML файлы - НЕ обрабатываем через assetFileNames
+          // Они должны быть либо entry points (обрабатываются Rollup),
+          // либо находиться в public/ (копируются как есть)
+          // Если HTML попал сюда, значит он импортируется как строка/модуль,
+          // что не должно происходить с шаблонами страниц
           if (/\.html$/i.test(assetInfo.name)) {
-            return `assets/[name]-[hash][extname]`;
+            // Компоненты из public/components копируются напрямую
+            // Не добавляем хеш к компонентам
+            if (assetInfo.name.includes('component') ||
+                assetInfo.name.includes('footer') ||
+                assetInfo.name.includes('header') ||
+                assetInfo.name.includes('timeline') ||
+                assetInfo.name.includes('card') ||
+                assetInfo.name.includes('filters') ||
+                assetInfo.name.includes('gallery') ||
+                assetInfo.name.includes('scroll')) {
+              return `components/[name][extname]`;
+            }
+            // Остальные HTML (entry points) не должны попадать сюда
+            // Но если попали - не добавляем хеш
+            console.warn(`HTML file ${assetInfo.name} is being processed as asset - this may cause issues`);
+            return `[name][extname]`;
           }
           
           // JSON и другие данные

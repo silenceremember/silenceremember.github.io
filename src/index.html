@@ -133,13 +133,8 @@
     <meta name="apple-mobile-web-app-title" content="Maxim Elchaninov" />
     <link rel="manifest" href="/favicon/site.webmanifest" />
 
-    <!-- Prefetch для других страниц (низкий приоритет) -->
-    <link rel="prefetch" href="/projects.html" as="document" />
 
-    <!-- Preload критических JS модулей -->
-    <link rel="modulepreload" href="/js/main.js" />
-    <link rel="modulepreload" href="/js/pages/BasePage.js" />
-    <link rel="modulepreload" href="/js/components/index.js" />
+    <!-- Vite автоматически добавит modulepreload ссылки при сборке -->
     
     <!-- Preload основного CSS -->
     <link rel="preload" href="/scss/style.scss" as="style" />
