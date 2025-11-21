@@ -3,16 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>Research | Maxim Elchaninov — System Game Designer</title>
-    <meta name="description" content="Academic publications and research in the field of game design, game systems, and interactive storytelling." />
-    <meta name="keywords" content="исследования, геймдизайн, научные публикации, игровые системы, интерактивное повествование, Максим Ельчанинов" />
+    <title>CV | Maxim Elchaninov — System Game Designer</title>
+    <meta name="description" content="Professional resume. Work experience, technical skills, education, and achievements in the field of game design." />
+    <meta name="keywords" content="резюме, CV, системный геймдизайнер, опыт в геймдизайне, навыки, Максим Ельчанинов" />
     <meta name="author" content="Maxim Elchaninov" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="theme-color" content="#d90429" />
     <meta name="color-scheme" content="light dark" />
 
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://silenceremember.github.io/research.html" />
+    <link rel="canonical" href="https://silenceremember.github.io/cv.html" />
 
     <!-- Security Headers -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff" />
@@ -22,24 +22,24 @@
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://silenceremember.github.io/research.html" />
-    <meta property="og:title" content="Research" />
-    <meta property="og:description" content="Academic publications and research in the field of game design, game systems, and interactive storytelling." />
+    <meta property="og:url" content="https://silenceremember.github.io/cv.html" />
+    <meta property="og:title" content="CV" />
+    <meta property="og:description" content="Professional resume. Work experience, technical skills, education, and achievements in the field of game design." />
     <meta property="og:image" content="https://silenceremember.github.io/favicon/web-app-manifest-512x512.png" />
     <meta property="og:image:width" content="512" />
     <meta property="og:image:height" content="512" />
     <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:alt" content="Обложка страницы исследований" />
+    <meta property="og:image:alt" content="Фото для резюме" />
     <meta property="og:locale" content="ru_RU" />
     <meta property="og:site_name" content="Maxim Elchaninov | Portfolio" />
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:url" content="https://silenceremember.github.io/research.html" />
-    <meta name="twitter:title" content="Research" />
-    <meta name="twitter:description" content="Academic publications and research in the field of game design, game systems, and interactive storytelling." />
+    <meta name="twitter:url" content="https://silenceremember.github.io/cv.html" />
+    <meta name="twitter:title" content="CV" />
+    <meta name="twitter:description" content="Professional resume. Work experience, technical skills, education, and achievements in the field of game design." />
     <meta name="twitter:image" content="https://silenceremember.github.io/favicon/web-app-manifest-512x512.png" />
-    <meta name="twitter:image:alt" content="Обложка страницы исследований" />
+    <meta name="twitter:image:alt" content="Фото для резюме" />
     <meta name="twitter:creator" content="@silenceremember" />
     <meta name="twitter:site" content="@silenceremember" />
 
@@ -48,9 +48,9 @@
     {
       "@context": "https://schema.org",
       "@type": "WebPage",
-      "name": "Research",
-      "url": "https://silenceremember.github.io/research.html",
-      "description": "Academic publications and research",
+      "name": "CV",
+      "url": "https://silenceremember.github.io/cv.html",
+      "description": "Professional resume",
       "isPartOf": {
         "@type": "WebSite",
         "name": "Maxim Elchaninov | Portfolio",
@@ -83,15 +83,27 @@
     <!-- Это устраняет внешние запросы и улучшает LCP -->
 
     <!-- Resource Hints: Preload критических ресурсов -->
-    <!-- Prefetch для асинхронно загружаемых ресурсов -->
-    <link rel="prefetch" href="/data/research.json" as="fetch" crossorigin />
-    <link rel="prefetch" href="/data/locales/ru.json" as="fetch" crossorigin />
+    <link
+      rel="preload"
+      href="/assets/images/portrait-cv.webp"
+      as="image"
+      fetchpriority="high"
+      type="image/webp"
+    />
+    <!-- Preload критических данных для быстрой загрузки -->
+    <link rel="preload" href="/data/cv.json" as="fetch" crossorigin />
+    <link rel="preload" href="/data/community.json" as="fetch" crossorigin />
+    <link rel="preload" href="/data/locales/ru.json" as="fetch" crossorigin />
     
-    <!-- Prefetch критических компонентов для быстрой загрузки -->
-    <link rel="prefetch" href="/components/header.html" as="document" />
-    <link rel="prefetch" href="/components/footer.html" as="document" />
-    <link rel="prefetch" href="/components/research-card.html" as="document" />
-    <link rel="prefetch" href="/components/scroll-to-top.html" as="document" />
+    <!-- Preload критических компонентов для быстрой загрузки -->
+    <link rel="preload" href="/components/header.html" as="fetch" crossorigin />
+    <link rel="preload" href="/components/footer.html" as="fetch" crossorigin />
+    <link rel="preload" href="/components/timeline.html" as="fetch" crossorigin />
+    <link rel="preload" href="/components/scroll-to-top.html" as="fetch" crossorigin />
+
+    <!-- Prefetch для других страниц (низкий приоритет) -->
+    <link rel="prefetch" href="/index.html" as="document" />
+    <link rel="prefetch" href="/projects.html" as="document" />
 
     <!-- Favicon -->
     <link
@@ -110,15 +122,11 @@
     <meta name="apple-mobile-web-app-title" content="Maxim Elchaninov" />
     <link rel="manifest" href="/favicon/site.webmanifest" />
 
-    <!-- Prefetch для других страниц (низкий приоритет) -->
-    <link rel="prefetch" href="/index.html" as="document" />
-    <link rel="prefetch" href="/cv.html" as="document" />
-
     <!-- Theme switcher script - загружается синхронно для предотвращения мерцания -->
     <script src="/js/components/ThemeInit.js"></script>
     
-    <!-- Google Analytics -->
-    <script src="/js/analytics.js"></script>
+    <!-- Google Analytics - асинхронная загрузка для лучшей производительности -->
+    <script src="/js/analytics.js" defer></script>
 
     <!-- Main CSS -->
     <link rel="stylesheet" href="/scss/style.scss" />
@@ -136,14 +144,11 @@
 
       <!-- Main Content -->
       <main class="content-wrapper">
-        <div class="container research-page">
+        <div class="container cv-page">
           <!-- Контейнер для индикатора загрузки -->
-          <div
-            class="research-loading-container"
-            id="research-loading-container"
-          >
+          <div class="cv-loading-container" id="cv-loading-container">
             <!-- Индикатор загрузки -->
-            <div class="loading" id="research-loading">
+            <div class="loading" id="cv-loading">
               <div class="loading-squares">
                 <div class="loading-square"></div>
                 <div class="loading-square"></div>
@@ -152,24 +157,68 @@
             </div>
           </div>
 
-          <!-- Контейнер для ВКР -->
-          <section class="research-diploma-section" id="research-diploma-section">
-            <!-- ВКР будет загружена через JavaScript -->
+          <!-- Секция "Заголовок с фото и контактами" -->
+          <section class="cv-section cv-header-section" id="cv-header-section">
+            <!-- Будет загружено через JavaScript -->
           </section>
 
-          <!-- Контейнер для публикаций -->
-          <section
-            class="research-publications-section"
-            id="research-publications-section"
-          >
-            <!-- Публикации будут загружены через JavaScript -->
+          <!-- Секция "О себе" -->
+          <section class="cv-section cv-about-section" id="cv-about-section">
+            <!-- Будет загружено через JavaScript -->
           </section>
+
+          <!-- Секция "Опыт работы" -->
+          <section class="cv-section cv-work-section" id="cv-work-section">
+            <!-- Будет загружено через JavaScript -->
+          </section>
+
+          <!-- Секция "Образование" -->
+          <section
+            class="cv-section cv-education-section"
+            id="cv-education-section"
+          >
+            <!-- Будет загружено через JavaScript -->
+          </section>
+
+          <!-- Секция "Навыки" -->
+          <section class="cv-section cv-skills-section" id="cv-skills-section">
+            <!-- Будет загружено через JavaScript -->
+          </section>
+
+          <!-- Секция "Сертификаты" -->
+          <section
+            class="cv-section cv-certificates-section"
+            id="cv-certificates-section"
+          >
+            <!-- Будет загружено через JavaScript -->
+          </section>
+
+          <!-- Секция "Курсы" -->
+          <section
+            class="cv-section cv-courses-section"
+            id="cv-courses-section"
+          >
+            <!-- Будет загружено через JavaScript -->
+          </section>
+
+          <!-- Секция "Языки" -->
+          <section
+            class="cv-section cv-languages-section"
+            id="cv-languages-section"
+          >
+            <!-- Будет загружено через JavaScript -->
+          </section>
+
+          <!-- Кнопка скачивания PDF -->
+          <div class="cv-download-section" id="cv-download-section">
+            <!-- Будет загружено через JavaScript -->
+          </div>
 
           <!-- Навигационное меню для tablet режима -->
-          <div class="research-navigation">
+          <div class="cv-navigation">
             <h2 class="section-title" data-i18n="common.buttons.navigation">НАВИГАЦИЯ</h2>
             <div class="cta-buttons">
-              <a href="index.html" class="cta-button" data-i18n="common.nav.home">ГЛАВНАЯ</a>
+              <a href="/" class="cta-button" data-i18n="common.nav.home">ГЛАВНАЯ</a>
               <a href="projects.html" class="cta-button" data-i18n="common.nav.portfolio">ПОРТФОЛИО</a>
               <a href="research.html" class="cta-button" data-i18n="common.nav.research">ИССЛЕДОВАНИЯ</a>
               <a href="cv.html" class="cta-button" data-i18n="common.nav.cv">РЕЗЮМЕ</a>
