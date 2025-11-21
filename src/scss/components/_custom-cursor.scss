@@ -1,21 +1,45 @@
 /* Стили для кастомного курсора */
-* {
+/* Применяем cursor: none только для интерактивных элементов и общих контейнеров */
+/* Это позволяет сохранить стандартные курсоры для текстовых полей и областей выделения */
+body,
+a,
+button,
+.header-language,
+.header-theme,
+.social-link,
+.footer-decorative-square,
+.header-menu-button,
+.project-card,
+.research-card,
+.community-card,
+nav,
+.scroll-to-top-button {
   cursor: none !important;
+}
+
+/* Восстанавливаем стандартные курсоры для текстовых элементов */
+input,
+textarea,
+[contenteditable="true"],
+.selectable-text {
+  cursor: text !important;
 }
 
 .custom-cursor {
   position: fixed;
   width: 20px;
   height: 20px;
-  border: 1px solid var(--color-text-primary);
+  /* Используем box-shadow вместо border для четкой обводки */
+  box-shadow: 0 0 0 1px var(--color-text-primary);
   border-radius: 50%;
   transform: translate(-50%, -50%);
   pointer-events: none;
   z-index: 9999;
+  /* Оптимизировано: анимируем только размер, не transform */
   transition:
-    width 0.2s ease-out,
-    height 0.2s ease-out,
-    opacity 0.2s ease-out;
+    width 0.15s cubic-bezier(0.4, 0, 0.2, 1),
+    height 0.15s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   background-color: rgba(
     18,
     18,
@@ -23,6 +47,15 @@
     0.5
   ); /* Полупрозрачный --color-bg-primary */
   opacity: 0;
+  /* Свойства для чёткого рендеринга */
+  will-change: width, height;
+  /* Предотвращаем размытие при анимации */
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  /* Выравнивание по пиксельной сетке */
+  image-rendering: crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
 }
 
 .custom-cursor.visible {
@@ -30,6 +63,7 @@
 }
 
 .custom-cursor.hover {
-  width: 25px;
-  height: 25px;
+  /* Используем точные целые пиксели для избежания размытия */
+  width: 26px;
+  height: 26px;
 }

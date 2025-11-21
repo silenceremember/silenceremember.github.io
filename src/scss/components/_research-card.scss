@@ -5,14 +5,10 @@
   flex-direction: column;
   background-color: var(--color-bg-primary);
   border: var(--line-width) solid var(--color-text-primary);
+  /* Оптимизировано: оставлены только критичные transitions для hover */
   transition:
-    transform var(--transition-duration-base) var(--timing-function-ease-in-out),
-    box-shadow var(--transition-duration-base) var(--timing-function-ease-in-out),
-    background-color var(--transition-duration-base) var(--timing-function-ease),
-    border-color var(--transition-duration-base) var(--timing-function-ease),
-    color var(--transition-duration-base) var(--timing-function-ease),
-    opacity var(--transition-duration-base) var(--timing-function-ease-in-out),
-    visibility var(--transition-duration-base) var(--timing-function-ease-in-out);
+    transform var(--transition-duration-base) cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow var(--transition-duration-base) cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   overflow: hidden;
   height: 100%;
@@ -39,10 +35,10 @@
   &.research-card-hidden {
     opacity: 0;
     visibility: hidden;
+    /* Transitions для скрытия добавлены отдельно */
     transition:
-      opacity var(--transition-duration-base) var(--timing-function-ease-in-out),
-      visibility var(--transition-duration-base) var(--timing-function-ease-in-out),
-      transform var(--transition-duration-base) var(--timing-function-ease-in-out);
+      opacity var(--transition-duration-base) cubic-bezier(0.4, 0, 0.2, 1),
+      visibility var(--transition-duration-base) cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   &[style*='display: none'] {
@@ -55,8 +51,9 @@
   }
 
   &:hover {
-    transform: translate3d(0, -4px, 0);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    /* Оптимизировано: уменьшен подъём с -4px до -3px для более плавной анимации */
+    transform: translate3d(0, -3px, 0);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
     width: 100% !important;
     max-width: 100% !important;
     min-width: 0 !important;
@@ -69,6 +66,12 @@
       border-color: var(--color-accent);
       color: var(--color-bg-primary);
     }
+  }
+
+  /* will-change управляется через JavaScript динамически */
+  /* Оптимизация: добавлен для hover-эффектов */
+  &.optimized-hover {
+    will-change: transform, box-shadow;
   }
 }
 
@@ -83,9 +86,7 @@
   max-width: 100%;
   min-width: 0;
   background-color: var(--color-bg-primary);
-  transition:
-    background-color var(--transition-duration-base) var(--timing-function-ease),
-    color var(--transition-duration-base) var(--timing-function-ease);
+  /* Оптимизировано: убраны transitions для content */
   flex-shrink: 0;
   margin: 0;
   border: none;
@@ -119,7 +120,7 @@
   gap: var(--spacing-xs);
   flex-shrink: 0;
   min-height: calc(var(--font-size-h4) * var(--line-height-heading));
-  transition: color var(--transition-duration-base) var(--timing-function-ease);
+  /* Оптимизировано: убран transition */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -134,7 +135,7 @@
   white-space: nowrap;
   overflow: hidden;
   min-height: 1.5em;
-  transition: color var(--transition-duration-base) var(--timing-function-ease);
+  /* Оптимизировано: убран transition */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -148,7 +149,7 @@
     position: relative;
     flex-shrink: 0;
     white-space: nowrap;
-    transition: color var(--transition-duration-base) var(--timing-function-ease);
+    /* Оптимизировано: убран transition */
 
     &[style*='display: none'] {
       display: none !important;
@@ -162,7 +163,7 @@
       content: '•';
       margin-left: var(--spacing-xs);
       color: var(--color-divider);
-      transition: color var(--transition-duration-base) var(--timing-function-ease);
+      /* Оптимизировано: убран transition */
     }
   }
 }
@@ -208,7 +209,7 @@
   font-size: var(--font-size-small);
   color: var(--color-secondary);
   font-style: italic;
-  transition: color var(--transition-duration-base) var(--timing-function-ease);
+  /* Оптимизировано: убран transition */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -237,7 +238,7 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--color-secondary);
-  transition: color var(--transition-duration-base) var(--timing-function-ease);
+  /* Оптимизировано: убран transition */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -277,10 +278,11 @@
   border-radius: 0;
   cursor: pointer;
   font-family: var(--font-family);
+  /* Оптимизировано: transitions только для hover */
   transition:
-    background-color var(--transition-duration-base) var(--timing-function-ease),
-    color var(--transition-duration-base) var(--timing-function-ease),
-    border-color var(--transition-duration-base) var(--timing-function-ease);
+    background-color var(--transition-duration-base) cubic-bezier(0.4, 0, 0.2, 1),
+    color var(--transition-duration-base) cubic-bezier(0.4, 0, 0.2, 1),
+    border-color var(--transition-duration-base) cubic-bezier(0.4, 0, 0.2, 1);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -331,9 +333,7 @@
   font-size: var(--font-size-small);
   border-radius: 2px;
   font-weight: var(--font-weight-medium);
-  transition:
-    background-color var(--transition-duration-base) var(--timing-function-ease),
-    color var(--transition-duration-base) var(--timing-function-ease);
+  /* Оптимизировано: убраны transitions */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
@@ -366,7 +366,7 @@
   border-left: none;
   border-right: none;
   flex-shrink: 0;
-  transition: border-color var(--transition-duration-base) var(--timing-function-ease);
+  /* Оптимизировано: убран transition */
   box-sizing: border-box;
   outline: none;
 }
@@ -374,7 +374,7 @@
 .research-card-type {
   font-size: var(--font-size-small);
   color: var(--color-divider);
-  transition: color var(--transition-duration-base) var(--timing-function-ease);
+  /* Оптимизировано: убран transition */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -390,10 +390,11 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   cursor: pointer;
+  /* Оптимизировано: transitions только для hover */
   transition:
-    background-color var(--transition-duration-base) var(--timing-function-ease),
-    color var(--transition-duration-base) var(--timing-function-ease),
-    border-color var(--transition-duration-base) var(--timing-function-ease);
+    background-color var(--transition-duration-base) cubic-bezier(0.4, 0, 0.2, 1),
+    color var(--transition-duration-base) cubic-bezier(0.4, 0, 0.2, 1),
+    border-color var(--transition-duration-base) cubic-bezier(0.4, 0, 0.2, 1);
   font-family: var(--font-family);
   pointer-events: auto;
   -webkit-font-smoothing: antialiased;

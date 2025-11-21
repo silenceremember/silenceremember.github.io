@@ -24,8 +24,11 @@ export class CustomCursor {
     this.pendingStorageX = null;
     this.pendingStorageY = null;
     this.interactiveSelector =
-      'a, button, .header-language, .header-theme, .social-link, .footer-decorative-square, .header-menu-button, .project-card, .research-card';
+      'a, button, .header-language, .header-theme, .social-link, .footer-decorative-square, .header-menu-button, .project-card, .research-card, .community-card';
     this.isInitialized = false;
+    // Кэш для оптимизации проверки hover
+    this.cachedInteractiveElement = null;
+    this.hoverCheckThrottle = 100; // Увеличен с 16-50ms до 100ms для лучшей производительности
   }
 
   /**
@@ -155,6 +158,7 @@ export class CustomCursor {
 
   /**
    * Сохраняет позицию в sessionStorage с debounce
+   * Оптимизировано: увеличен debounce до 1000ms для снижения нагрузки
    * @param {number} x - Координата X курсора
    * @param {number} y - Координата Y курсора
    */
@@ -164,12 +168,16 @@ export class CustomCursor {
     clearTimeout(this.storageDebounceTimer);
     this.storageDebounceTimer = setTimeout(() => {
       if (this.pendingStorageX !== null && this.pendingStorageY !== null) {
-        sessionStorage.setItem('cursorX', String(this.pendingStorageX));
-        sessionStorage.setItem('cursorY', String(this.pendingStorageY));
+        try {
+          sessionStorage.setItem('cursorX', String(this.pendingStorageX));
+          sessionStorage.setItem('cursorY', String(this.pendingStorageY));
+        } catch (error) {
+          // Игнорируем ошибки sessionStorage
+        }
         this.pendingStorageX = null;
         this.pendingStorageY = null;
       }
-    }, 500);
+    }, 1000); // Увеличено с 500ms до 1000ms
   }
 
   /**
@@ -198,6 +206,7 @@ export class CustomCursor {
 
   /**
    * Проверяет hover состояние с оптимизированным throttling
+   * Оптимизировано: увеличен throttling интервал и добавлено кэширование
    * @param {number} x - Координата X курсора
    * @param {number} y - Координата Y курсора
    */
@@ -206,9 +215,9 @@ export class CustomCursor {
     const distanceMoved =
       Math.abs(x - this.lastHoverCheckX) + Math.abs(y - this.lastHoverCheckY);
     
-    // Оптимизированный throttling: проверяем чаще при движении и реже на месте
-    const throttleTime = distanceMoved > 10 ? 16 : 50; // ~60fps при движении, ~20fps на месте
-    if (now - this.lastHoverCheck < throttleTime && distanceMoved < 5) {
+    // Оптимизированный throttling: увеличен интервал для снижения CPU usage
+    // Проверяем только при значительном перемещении курсора
+    if (now - this.lastHoverCheck < this.hoverCheckThrottle && distanceMoved < 10) {
       return;
     }
 
@@ -225,16 +234,24 @@ export class CustomCursor {
     // Оптимизация: проверяем hover только если курсор видим
     try {
       const elementUnderCursor = document.elementFromPoint(x, y);
-    const isInteractive =
-      elementUnderCursor &&
-      elementUnderCursor.closest(this.interactiveSelector);
       
-    if (isInteractive && !this.isHovering) {
-      this.cursor.classList.add('hover');
-      this.isHovering = true;
-    } else if (!isInteractive && this.isHovering) {
-      this.cursor.classList.remove('hover');
-      this.isHovering = false;
+      // Используем кэш: если элемент не изменился, пропускаем проверку
+      if (elementUnderCursor === this.cachedInteractiveElement) {
+        return;
+      }
+      
+      this.cachedInteractiveElement = elementUnderCursor;
+      
+      const isInteractive =
+        elementUnderCursor &&
+        elementUnderCursor.closest(this.interactiveSelector);
+      
+      if (isInteractive && !this.isHovering) {
+        this.cursor.classList.add('hover');
+        this.isHovering = true;
+      } else if (!isInteractive && this.isHovering) {
+        this.cursor.classList.remove('hover');
+        this.isHovering = false;
       }
     } catch (error) {
       // Игнорируем ошибки elementFromPoint (может быть вне viewport)

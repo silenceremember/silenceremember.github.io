@@ -180,6 +180,43 @@ export class CardFactory {
       });
     }
 
+    // Оптимизация: динамически управляем will-change только во время hover анимации
+    // Добавляем will-change для карточки и вложенных элементов (изображение, overlay)
+    let hoverTimeout = null;
+    const cardImage = card.querySelector('.project-card-image');
+    const cardOverlay = card.querySelector('.project-card-overlay');
+    
+    card.addEventListener('mouseenter', () => {
+      // Добавляем класс для оптимизированного hover
+      card.classList.add('optimized-hover');
+      // Добавляем will-change для вложенных элементов
+      if (cardImage) {
+        cardImage.style.willChange = 'transform';
+      }
+      if (cardOverlay) {
+        cardOverlay.style.willChange = 'opacity';
+      }
+      
+      if (hoverTimeout) {
+        clearTimeout(hoverTimeout);
+        hoverTimeout = null;
+      }
+    }, { passive: true });
+
+    card.addEventListener('mouseleave', () => {
+      // Убираем will-change после завершения transition (300ms)
+      hoverTimeout = setTimeout(() => {
+        card.classList.remove('optimized-hover');
+        if (cardImage) {
+          cardImage.style.willChange = 'auto';
+        }
+        if (cardOverlay) {
+          cardOverlay.style.willChange = 'auto';
+        }
+        hoverTimeout = null;
+      }, 300);
+    }, { passive: true });
+
     return card;
   }
 
@@ -364,21 +401,26 @@ export class CardFactory {
     }
 
     // Оптимизация: динамически управляем will-change только во время hover анимации
+    // Улучшено: добавляем will-change для карточки через класс, используем passive events
     let hoverTimeout = null;
+    
     card.addEventListener('mouseenter', () => {
-      card.style.willChange = 'transform';
+      // Добавляем класс для оптимизированного hover
+      card.classList.add('optimized-hover');
+      
       if (hoverTimeout) {
         clearTimeout(hoverTimeout);
         hoverTimeout = null;
       }
-    });
+    }, { passive: true });
 
     card.addEventListener('mouseleave', () => {
+      // Убираем will-change после завершения transition (300ms)
       hoverTimeout = setTimeout(() => {
-        card.style.willChange = 'auto';
+        card.classList.remove('optimized-hover');
         hoverTimeout = null;
       }, 300);
-    });
+    }, { passive: true });
 
     return card;
   }

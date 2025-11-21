@@ -5,14 +5,10 @@
   flex-direction: column;
   background-color: var(--color-bg-primary);
   border: var(--line-width) solid var(--color-text-primary);
+  /* Оптимизировано: оставлены только критичные transitions для hover */
   transition:
-    transform var(--transition-duration-base) var(--timing-function-ease-in-out),
-    box-shadow var(--transition-duration-base) var(--timing-function-ease-in-out),
-    background-color var(--transition-duration-base) var(--timing-function-ease),
-    border-color var(--transition-duration-base) var(--timing-function-ease),
-    color var(--transition-duration-base) var(--timing-function-ease),
-    opacity var(--transition-duration-base) var(--timing-function-ease-in-out),
-    visibility var(--transition-duration-base) var(--timing-function-ease-in-out);
+    transform var(--transition-duration-base) cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow var(--transition-duration-base) cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   overflow: hidden;
   height: 100%;
@@ -42,9 +38,10 @@
   &.project-card-hidden {
     opacity: 0;
     visibility: hidden;
+    /* Transitions для скрытия добавлены отдельно */
     transition:
-      opacity var(--transition-duration-base) var(--timing-function-ease-in-out),
-      visibility var(--transition-duration-base) var(--timing-function-ease-in-out);
+      opacity var(--transition-duration-base) cubic-bezier(0.4, 0, 0.2, 1),
+      visibility var(--transition-duration-base) cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   &[style*='display: none'] {
@@ -52,12 +49,9 @@
   }
 
   &:hover {
-    transform: translate3d(
-      0,
-      -4px,
-      0
-    ); /* Используем translate3d для стабильности и предотвращения subpixel смещений */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    /* Оптимизировано: уменьшен подъём с -4px до -3px для более плавной анимации */
+    transform: translate3d(0, -3px, 0);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
     /* Убрано will-change из CSS - будет добавляться динамически через JS только при необходимости */
     width: 100% !important; /* Сохраняем ширину при hover */
     max-width: 100% !important; /* Предотвращаем расширение */
@@ -68,7 +62,8 @@
     transform-origin: center top;
 
     .project-card-image {
-      transform: scale(1.05);
+      /* Оптимизировано: уменьшен scale с 1.05 до 1.03 для меньшей нагрузки */
+      transform: scale(1.03);
     }
 
     .project-card-overlay {
@@ -83,6 +78,10 @@
   }
 
   /* will-change управляется через JavaScript динамически */
+  /* Оптимизация: добавлен для hover-эффектов */
+  &.optimized-hover {
+    will-change: transform, box-shadow;
+  }
 }
 
 .project-card-image-wrapper {
@@ -91,12 +90,8 @@
   padding-top: 56.25%; /* 16:9 aspect ratio */
   overflow: hidden; /* Важно: скрываем переполнение при масштабировании изображения */
   background-color: var(--color-divider);
-  transition:
-    background-color var(--transition-duration-base) var(--timing-function-ease),
-    color var(--transition-duration-base) var(--timing-function-ease);
+  /* Оптимизировано: убраны transitions для wrapper */
   flex-shrink: 0; /* Предотвращаем сжатие при трансформации */
-  backface-visibility: hidden; /* Улучшает рендеринг при трансформации */
-  transform: translateZ(0); /* Создает новый слой для GPU ускорения */
   margin: 0; /* Убираем возможные отступы */
   border: none; /* Убираем возможные границы */
   max-width: 100%; /* Предотвращаем расширение */
@@ -109,7 +104,8 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform var(--transition-duration-base) var(--timing-function-ease-in-out);
+  /* Оптимизировано: использован более быстрый timing function */
+  transition: transform var(--transition-duration-base) cubic-bezier(0.4, 0, 0.2, 1);
   /* Улучшаем четкость изображений */
   image-rendering: -webkit-optimize-contrast;
   image-rendering: auto;
@@ -135,7 +131,8 @@
   justify-content: space-between;
   padding: var(--spacing-sm);
   opacity: 0;
-  transition: opacity var(--transition-duration-base) var(--timing-function-ease-in-out);
+  /* Оптимизировано: использован более быстрый timing function */
+  transition: opacity var(--transition-duration-base) cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 2; /* Убеждаемся, что overlay поверх изображения */
 }
 
@@ -147,9 +144,7 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   border-radius: 2px;
-  transition:
-    background-color var(--transition-duration-base) var(--timing-function-ease),
-    color var(--transition-duration-base) var(--timing-function-ease);
+  /* Оптимизировано: убраны transitions, не используются при hover */
   /* Исправление размытия */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -178,9 +173,7 @@
   font-size: var(--font-size-small);
   border-radius: 2px;
   font-weight: var(--font-weight-medium);
-  transition:
-    background-color var(--transition-duration-base) var(--timing-function-ease),
-    color var(--transition-duration-base) var(--timing-function-ease);
+  /* Оптимизировано: убраны transitions, не используются при hover */
   /* Исправление размытия */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -208,12 +201,8 @@
   max-width: 100%; /* Предотвращаем расширение */
   min-width: 0; /* Позволяет сжиматься */
   background-color: var(--color-bg-primary);
-  transition:
-    background-color var(--transition-duration-base) var(--timing-function-ease),
-    color var(--transition-duration-base) var(--timing-function-ease);
+  /* Оптимизировано: убраны transitions и transform: translateZ(0) */
   flex-shrink: 0; /* Предотвращаем сжатие при трансформации */
-  backface-visibility: hidden; /* Улучшает рендеринг при трансформации */
-  transform: translateZ(0); /* Создает новый слой для GPU ускорения */
   margin: 0; /* Убираем возможные отступы */
   margin-top: -1px; /* Перекрываем возможный промежуток */
   border: none; /* Убираем возможные границы */
@@ -235,7 +224,7 @@
   gap: var(--spacing-xs);
   flex-shrink: 0;
   min-height: calc(var(--font-size-h4) * var(--line-height-heading));
-  transition: color var(--transition-duration-base) var(--timing-function-ease);
+  /* Оптимизировано: убран transition, цвет не меняется при hover */
   /* Исправление размытия текста */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -251,13 +240,12 @@
   height: 20px;
   flex-shrink: 0;
   color: var(--color-accent);
-  transition: color var(--transition-duration-base) var(--timing-function-ease);
+  /* Оптимизировано: убран transition */
 
   svg {
     width: 100%;
     height: 100%;
     fill: currentColor;
-    transition: fill var(--transition-duration-base) var(--timing-function-ease);
   }
 }
 
@@ -270,13 +258,12 @@
   height: 10px;
   flex-shrink: 0;
   color: var(--color-accent);
-  transition: color var(--transition-duration-base) var(--timing-function-ease);
+  /* Оптимизировано: убран transition */
 
   svg {
     width: 100%;
     height: 100%;
     fill: currentColor;
-    transition: fill var(--transition-duration-base) var(--timing-function-ease);
   }
 }
 
@@ -290,7 +277,7 @@
   overflow: hidden;
   min-height: 1.5em;
   align-items: center;
-  transition: color var(--transition-duration-base) var(--timing-function-ease);
+  /* Оптимизировано: убран transition */
   /* Исправление размытия текста */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -305,7 +292,7 @@
     position: relative;
     flex-shrink: 0;
     white-space: nowrap;
-    transition: color var(--transition-duration-base) var(--timing-function-ease);
+    /* Оптимизировано: убран transition */
     display: inline-flex;
     align-items: center;
 
@@ -337,7 +324,7 @@
       -webkit-mask-repeat: no-repeat;
       -webkit-mask-position: center;
       flex-shrink: 0;
-      transition: opacity var(--transition-duration-base) var(--timing-function-ease-in-out);
+      /* Оптимизировано: убран transition */
     }
   }
 }
@@ -367,7 +354,7 @@
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  transition: color var(--transition-duration-base) var(--timing-function-ease);
+  /* Оптимизировано: убран transition */
   /* Исправление размытия текста */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -390,7 +377,7 @@
   border-left: none;
   border-right: none;
   flex-shrink: 0;
-  transition: border-color var(--transition-duration-base) var(--timing-function-ease);
+  /* Оптимизировано: убран transition */
   /* Исправление размытых границ */
   box-sizing: border-box;
 }
@@ -399,7 +386,7 @@
   font-size: var(--font-size-small);
   color: var(--color-divider);
   text-transform: capitalize;
-  transition: color var(--transition-duration-base) var(--timing-function-ease);
+  /* Оптимизировано: убран transition */
   /* Исправление размытия текста */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
