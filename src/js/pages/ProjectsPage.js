@@ -305,7 +305,7 @@ export class ProjectsPage extends BasePage {
         if (project.featured && !starIcon) {
           const newStarIcon = document.createElement('span');
           newStarIcon.className = 'project-card-star';
-          newStarIcon.setAttribute('data-svg-src', 'assets/images/icon-star.svg');
+          newStarIcon.setAttribute('data-svg-src', '/assets/images/icon-star.svg');
           newStarIcon.setAttribute('aria-label', localization.t('projects.card.featured'));
           title.appendChild(newStarIcon);
         }
@@ -313,7 +313,7 @@ export class ProjectsPage extends BasePage {
         if (project.tier === 2 && !dividerIcon) {
           const newDividerIcon = document.createElement('span');
           newDividerIcon.className = 'project-card-divider';
-          newDividerIcon.setAttribute('data-svg-src', 'assets/images/icon-divider-small.svg');
+          newDividerIcon.setAttribute('data-svg-src', '/assets/images/icon-divider-small.svg');
           newDividerIcon.setAttribute('aria-label', localization.t('projects.card.tier2'));
           title.appendChild(newDividerIcon);
         }

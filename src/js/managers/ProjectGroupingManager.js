@@ -407,8 +407,8 @@ export class ProjectGroupingManager {
               const newSpan = document.createElement('span');
               newSpan.className = isStar ? 'project-card-star' : 'project-card-divider';
               newSpan.setAttribute('data-svg-src', isStar 
-                ? 'assets/images/icon-star.svg' 
-                : 'assets/images/icon-divider-small.svg');
+                ? '/assets/images/icon-star.svg' 
+                : '/assets/images/icon-divider-small.svg');
               if (iconElement.parentNode) {
                 iconElement.parentNode.replaceChild(newSpan, iconElement);
               }
@@ -479,8 +479,8 @@ export class ProjectGroupingManager {
                 const newSpan = document.createElement('span');
                 newSpan.className = isStar ? 'project-card-star' : 'project-card-divider';
                 newSpan.setAttribute('data-svg-src', isStar 
-                  ? 'assets/images/icon-star.svg' 
-                  : 'assets/images/icon-divider-small.svg');
+                  ? '/assets/images/icon-star.svg' 
+                  : '/assets/images/icon-divider-small.svg');
                 if (iconElement.parentNode) {
                   iconElement.parentNode.replaceChild(newSpan, iconElement);
                 }

@@ -87,7 +87,7 @@ export class CVPage extends BasePage {
     photo.setAttribute('width', '200');
     photo.setAttribute('height', '300');
     photo.onerror = function () {
-      this.src = 'assets/images/portrait-placeholder.svg';
+      this.src = '/assets/images/portrait-placeholder.svg';
     };
     photoContainer.appendChild(photo);
     headerContent.appendChild(photoContainer);

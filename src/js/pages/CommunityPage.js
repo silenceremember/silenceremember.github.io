@@ -38,22 +38,22 @@ export class CommunityPage extends BasePage {
    */
   getIconPath(platform) {
     const iconMap = {
-      discord: 'assets/images/icon-discord.svg',
-      'discord-server': 'assets/images/icon-discord-server.svg',
-      patreon: 'assets/images/icon-patreon.svg',
-      boosty: 'assets/images/icon-boosty.svg',
-      'ko-fi': 'assets/images/icon-ko-fi.svg',
-      github: 'assets/images/icon-github.svg',
-      itch: 'assets/images/icon-itch.svg',
-      telegram: 'assets/images/icon-telegram.svg',
-      linkedin: 'assets/images/icon-linkedin.svg',
-      headhunter: 'assets/images/icon-headhunter.svg',
-      steam: 'assets/images/icon-steam.svg',
-      mail: 'assets/images/icon-mail.svg',
+      discord: '/assets/images/icon-discord.svg',
+      'discord-server': '/assets/images/icon-discord-server.svg',
+      patreon: '/assets/images/icon-patreon.svg',
+      boosty: '/assets/images/icon-boosty.svg',
+      'ko-fi': '/assets/images/icon-ko-fi.svg',
+      github: '/assets/images/icon-github.svg',
+      itch: '/assets/images/icon-itch.svg',
+      telegram: '/assets/images/icon-telegram.svg',
+      linkedin: '/assets/images/icon-linkedin.svg',
+      headhunter: '/assets/images/icon-headhunter.svg',
+      steam: '/assets/images/icon-steam.svg',
+      mail: '/assets/images/icon-mail.svg',
     };
 
     return (
-      iconMap[platform.toLowerCase()] || 'assets/images/icon-placeholder.svg'
+      iconMap[platform.toLowerCase()] || '/assets/images/icon-placeholder.svg'
     );
   }
 

@@ -68,7 +68,7 @@ export class CardFactory {
       // Устанавливаем placeholder для предотвращения layout shift
       image.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1"%3E%3C/svg%3E';
       image.onerror = function () {
-        this.src = 'assets/images/portrait-placeholder.svg';
+        this.src = '/assets/images/portrait-placeholder.svg';
       };
     }
 
@@ -109,7 +109,7 @@ export class CardFactory {
     if (project.featured && title) {
       const starIcon = document.createElement('span');
       starIcon.className = 'project-card-star';
-      starIcon.setAttribute('data-svg-src', 'assets/images/icon-star.svg');
+      starIcon.setAttribute('data-svg-src', '/assets/images/icon-star.svg');
       starIcon.setAttribute('aria-label', localization.t('projects.card.featured'));
       title.appendChild(starIcon);
     }
@@ -118,7 +118,7 @@ export class CardFactory {
     if (project.tier === 2 && title) {
       const dividerIcon = document.createElement('span');
       dividerIcon.className = 'project-card-divider';
-      dividerIcon.setAttribute('data-svg-src', 'assets/images/icon-divider-small.svg');
+      dividerIcon.setAttribute('data-svg-src', '/assets/images/icon-divider-small.svg');
       dividerIcon.setAttribute('aria-label', localization.t('projects.card.tier2'));
       title.appendChild(dividerIcon);
     }
