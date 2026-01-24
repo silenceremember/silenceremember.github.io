@@ -184,7 +184,9 @@ const DEFAULT_CONFIG = {
   ringCount: 100,               // Уменьшено с 100 до 35 для производительности
   ringSpacing: 14,             // Увеличено с 14 до 22 для компенсации
   ringWidth: 1,                // Толщина линии 1-2px
-  segments: 200,                // Уменьшено с 200 до 72 (визуально всё ещё гладко)
+  pixelsPerSegment: 24,        // Один сегмент на каждые 12 пикселей периметра
+  minSegments: 8,             // Минимум сегментов (для маленьких колец)
+  maxSegments: 300,            // Максимум сегментов (для больших колец)
   
   // Параметры шума
   noiseScale: 0.001,           // Уменьшено с 0.001 до 0.008
@@ -205,7 +207,7 @@ const DEFAULT_CONFIG = {
   
   // Opacity градиент (растёт от центра к краям)
   minOpacity: 0.0,            // Opacity в центре (затухание)
-  maxOpacity: 0.25,           // Opacity по краям (хорошо видны)
+  maxOpacity: 0.35,           // Opacity по краям (хорошо видны)
   opacityThreshold: 0.05,     // Не рендерить кольца с opacity ниже этого
   
   // Цвета (по умолчанию)
@@ -695,9 +697,15 @@ export class NoiseRingsBackground {
     // Базовый радиус кольца
     const baseRadius = ringIndex * this.config.ringSpacing;
     
-    // Оптимизация 1: Пропуск колец за пределами экрана (с запасом 20%)
-    if (baseRadius > this.maxVisibleRadius * 1.2) {
-      return false;
+    // Оптимизация 1: Точная проверка видимости с учётом noise amplitude
+    // Учитываем максимальную деформацию от noise
+    const maxDeformation = this.currentNoiseAmplitude;
+    const ringMinRadius = baseRadius - maxDeformation;
+    
+    // Пропускаем кольцо ТОЛЬКО если оно ПОЛНОСТЬЮ за экраном
+    // Кольцо полностью снаружи = его минимальный радиус больше maxVisibleRadius
+    if (ringMinRadius > this.maxVisibleRadius) {
+      return false; // Кольцо полностью за пределами экрана
     }
     
     // Вычисление opacity на основе радиуса относительно видимой области
@@ -708,11 +716,14 @@ export class NoiseRingsBackground {
       return false;
     }
     
-    // Оптимизация 3: Уменьшение количества сегментов для дальних колец
-    // Pre-calculate constants
+    // Оптимизация 3: Динамическое количество сегментов на основе периметра
     const TWO_PI = Math.PI * 2;
-    // Близкие кольца (< 15) используют все сегменты, дальние - 50%
-    const segments = ringIndex < 15 ? this.config.segments : Math.floor(this.config.segments * 0.5);
+    const circumference = TWO_PI * baseRadius;
+    const calculatedSegments = Math.round(circumference / this.config.pixelsPerSegment);
+    const segments = Math.max(
+      this.config.minSegments,
+      Math.min(calculatedSegments, this.config.maxSegments)
+    );
     const segmentAngle = TWO_PI / segments;
     
     // Batch path rendering: один beginPath/stroke на кольцо
