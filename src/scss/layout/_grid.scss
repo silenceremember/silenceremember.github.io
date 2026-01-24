@@ -147,7 +147,7 @@
 .main-content-top {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  /* gap удалён, отступы управляются через margin на элементах */
   text-align: left; /* Выравниваем текст по левому краю на мобильных */
 }
 
@@ -166,18 +166,24 @@
   text-transform: uppercase;
   color: var(--color-text-primary);
   margin: 0;
+  /* Добавляем пробел между именем и фамилией для лучшей читаемости */
+  word-spacing: 0.3em;
   transition:
     font-size var(--transition-duration-base) var(--timing-function-ease),
     color var(--transition-duration-base) var(--timing-function-ease);
 }
 
 .main-content-tagline {
-  font-size: var(--font-size-h5);
-  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-normal);
   line-height: 1;
   text-transform: uppercase;
-  color: var(--color-accent);
+  /* Вторичный цвет для тэглайна, чтобы не конкурировал с должностью */
+  color: var(--color-secondary);
   margin: 0;
+  /* Добавляем отступ сверху для визуального разделения от имени */
+  margin-top: var(--spacing-xs);
+  letter-spacing: 0.15em;
   transition: color var(--transition-duration-base) var(--timing-function-ease);
 }
 
@@ -188,6 +194,8 @@
   text-transform: uppercase;
   color: var(--color-text-primary);
   margin: 0;
+  /* Отступ сверху для визуального разделения от тэглайна */
+  margin-top: var(--spacing-sm);
   transition:
     font-size var(--transition-duration-base) var(--timing-function-ease),
     color var(--transition-duration-base) var(--timing-function-ease);
