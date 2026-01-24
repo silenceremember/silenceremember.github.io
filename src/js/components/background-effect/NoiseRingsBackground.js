@@ -188,12 +188,12 @@ const DEFAULT_CONFIG = {
   
   // Параметры шума
   noiseScale: 0.001,          // Масштаб шума
-  noiseAmplitude: 30,         // Амплитуда деформации в пикселях
+  noiseAmplitude: 150,         // Амплитуда деформации в пикселях
   noiseSpeed: 0.5,         // Скорость анимации шума
   
   // Opacity градиент
   opacityCenter: 0,         // Opacity в центре
-  opacityEdge: 0.5,           // Opacity на краях
+  opacityEdge: 0.25,           // Opacity на краях
   
   // Parallax
   parallaxStrength: 0.05,     // Множитель 0.03-0.05
