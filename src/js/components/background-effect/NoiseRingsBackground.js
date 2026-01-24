@@ -205,7 +205,8 @@ const DEFAULT_CONFIG = {
   
   // Opacity градиент (растёт от центра к краям)
   minOpacity: 0.0,            // Opacity в центре (затухание)
-  maxOpacity: 0.25,            // Opacity по краям (хорошо видны)
+  maxOpacity: 0.25,           // Opacity по краям (хорошо видны)
+  opacityThreshold: 0.05,     // Не рендерить кольца с opacity ниже этого
   
   // Цвета (по умолчанию)
   accentColor: '#d90429',
@@ -251,6 +252,9 @@ export class NoiseRingsBackground {
     // Состояние нажатия (press & hold)
     this.isPressed = false;
     this.pressStartTime = 0;
+    
+    // Оптимизация: throttle для обновления noise time
+    this.noiseTimeUpdateCounter = 0;
     
     // Система тем
     this.themeObserver = null;
@@ -685,18 +689,33 @@ export class NoiseRingsBackground {
    * Рисует одно кольцо
    * @param {number} ringIndex - Индекс кольца
    * @param {number} time - Текущее время
+   * @returns {boolean} true если кольцо было отрисовано, false если пропущено
    */
   drawRing(ringIndex, time) {
-    const segments = this.config.segments;
-    const angleStep = (Math.PI * 2) / segments;
-    
     // Базовый радиус кольца
     const baseRadius = ringIndex * this.config.ringSpacing;
     
+    // Оптимизация 1: Пропуск колец за пределами экрана (с запасом 20%)
+    if (baseRadius > this.maxVisibleRadius * 1.2) {
+      return false;
+    }
+    
     // Вычисление opacity на основе радиуса относительно видимой области
     const opacity = this.calculateOpacity(baseRadius, ringIndex);
-    if (opacity <= 0.01) return;
     
+    // Оптимизация 2: Пропуск невидимых колец (opacity threshold из config)
+    if (opacity < this.config.opacityThreshold) {
+      return false;
+    }
+    
+    // Оптимизация 3: Уменьшение количества сегментов для дальних колец
+    // Близкие кольца (< 20) используют все сегменты, дальние - 70%
+    const segments = ringIndex < 20
+      ? this.config.segments
+      : Math.floor(this.config.segments * 0.7);
+    const angleStep = (Math.PI * 2) / segments;
+    
+    // Batch path rendering: один beginPath/stroke на кольцо
     this.ctx.beginPath();
     this.ctx.strokeStyle = this.hexToRgba(this.currentColors.accent, opacity);
     this.ctx.lineWidth = this.config.ringWidth;
@@ -721,6 +740,7 @@ export class NoiseRingsBackground {
     }
     
     this.ctx.stroke();
+    return true;
   }
   
   /**
@@ -750,7 +770,12 @@ export class NoiseRingsBackground {
     
     const dt = Math.min(rawDeltaTime / 1000, 0.033); // Cap at 30fps minimum
     this.lastFrameTime = now;
-    this.time += dt;
+    
+    // Оптимизация: Throttle noise time update (обновляем каждый 2-й кадр)
+    this.noiseTimeUpdateCounter++;
+    if (this.noiseTimeUpdateCounter % 2 === 0) {
+      this.time += dt * 2; // Компенсируем пропуск удвоением delta
+    }
     
     // Обновление динамической амплитуды шума
     this.updateNoiseAmplitude(dt);
