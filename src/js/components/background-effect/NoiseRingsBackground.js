@@ -188,20 +188,22 @@ const DEFAULT_CONFIG = {
   
   // Параметры шума
   noiseScale: 0.001,          // Масштаб шума
-  noiseAmplitude: 150,         // Амплитуда деформации в пикселях
   noiseSpeed: 0.5,         // Скорость анимации шума
+  
+  // Динамическая амплитуда шума
+  baseNoiseAmplitude: 30,     // Минимальная амплитуда в покое
+  maxNoiseAmplitude: 150,     // Максимальная амплитуда при активности
+  amplitudeLerpFactor: 0.05,  // Скорость интерполяции к target
+  amplitudeDecayFactor: 0.02, // Скорость затухания к base
+  
+  // Множители активности
+  velocityMultiplier: 0.5,    // Множитель скорости мыши
+  scrollMultiplier: 0.3,      // Множитель скролла
+  clickBurstDuration: 200,    // Длительность всплеска клика в ms
   
   // Opacity градиент
   opacityCenter: 0,         // Opacity в центре
   opacityEdge: 0.25,           // Opacity на краях
-  
-  // Parallax
-  parallaxStrength: 0.05,     // Множитель 0.03-0.05
-  centerLerpFactor: 0.05,     // Скорость интерполяции 0.05-0.1
-  
-  // Курсор
-  cursorInfluenceRadius: 180, // Радиус влияния курсора
-  cursorInfluenceStrength: 15, // Сила влияния курсора
   
   // Цвета (по умолчанию)
   accentColor: '#d90429',
@@ -235,10 +237,17 @@ export class NoiseRingsBackground {
     // Генератор шума
     this.noiseGenerator = null;
     
-    // Позиция мыши и центр эффекта (нормализованные 0-1)
-    this.mousePosition = { x: 0.5, y: 0.5 };
-    this.targetCenter = { x: 0.5, y: 0.5 };
-    this.currentCenter = { x: 0.5, y: 0.5 };
+    // Динамическая амплитуда шума
+    this.currentNoiseAmplitude = this.config.baseNoiseAmplitude;
+    this.targetNoiseAmplitude = this.config.baseNoiseAmplitude;
+    
+    // Отслеживание скорости мыши
+    this.lastMouseX = 0;
+    this.lastMouseY = 0;
+    this.lastMouseTime = 0;
+    
+    // Время всплеска клика
+    this.clickBurstTime = 0;
     
     // Система тем
     this.themeObserver = null;
@@ -252,6 +261,8 @@ export class NoiseRingsBackground {
     
     // Event handlers (сохраняем для очистки)
     this.boundHandleMouseMove = null;
+    this.boundHandleScroll = null;
+    this.boundHandleClick = null;
     this.boundHandleResize = null;
     this.boundHandleVisibilityChange = null;
     
@@ -422,13 +433,23 @@ export class NoiseRingsBackground {
    * Настройка обработчиков событий
    */
   setupEventListeners() {
-    // Throttled mouse move
+    // Throttled mouse move для отслеживания скорости
     this.boundHandleMouseMove = (e) => {
       const now = performance.now();
       if (now - this.lastMouseMoveTime < this.mouseMoveThrottleDelay) return;
       this.lastMouseMoveTime = now;
       
-      this.handleMouseMove(e);
+      this.handleMouseMove(e, now);
+    };
+    
+    // Обработчик скролла
+    this.boundHandleScroll = () => {
+      this.handleScroll();
+    };
+    
+    // Обработчик клика
+    this.boundHandleClick = () => {
+      this.handleClick();
     };
     
     // Debounced resize
@@ -443,36 +464,85 @@ export class NoiseRingsBackground {
     };
     
     window.addEventListener('mousemove', this.boundHandleMouseMove, { passive: true });
+    window.addEventListener('scroll', this.boundHandleScroll, { passive: true });
+    window.addEventListener('click', this.boundHandleClick, { passive: true });
     window.addEventListener('resize', this.boundHandleResize, { passive: true });
   }
   
   /**
-   * Обработчик движения мыши
+   * Обработчик движения мыши - отслеживает скорость
    * @param {MouseEvent} event
+   * @param {number} now - Текущее время в ms
    */
-  handleMouseMove(event) {
-    // Нормализация позиции мыши (0-1)
-    this.mousePosition.x = event.clientX / window.innerWidth;
-    this.mousePosition.y = event.clientY / window.innerHeight;
+  handleMouseMove(event, now) {
+    const mouseX = event.clientX;
+    const mouseY = event.clientY;
     
-    // Расчет целевого центра с parallax смещением
-    // Центр смещается в сторону, противоположную позиции мыши
-    const offsetX = (0.5 - this.mousePosition.x) * this.config.parallaxStrength;
-    const offsetY = (0.5 - this.mousePosition.y) * this.config.parallaxStrength;
+    // Вычисление скорости мыши
+    if (this.lastMouseTime > 0) {
+      const dt = now - this.lastMouseTime;
+      if (dt > 0) {
+        const dx = mouseX - this.lastMouseX;
+        const dy = mouseY - this.lastMouseY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        const velocity = distance / dt * 16; // Нормализация к ~60fps
+        
+        // Увеличиваем target amplitude на основе скорости
+        const velocityContribution = velocity * this.config.velocityMultiplier;
+        const maxAddition = this.config.maxNoiseAmplitude - this.config.baseNoiseAmplitude;
+        
+        this.targetNoiseAmplitude = this.config.baseNoiseAmplitude +
+          Math.min(velocityContribution, maxAddition);
+      }
+    }
     
-    this.targetCenter.x = 0.5 + offsetX;
-    this.targetCenter.y = 0.5 + offsetY;
+    // Сохраняем текущую позицию для следующего кадра
+    this.lastMouseX = mouseX;
+    this.lastMouseY = mouseY;
+    this.lastMouseTime = now;
   }
   
   /**
-   * Плавная интерполяция центра
+   * Обработчик скролла - увеличивает амплитуду
+   */
+  handleScroll() {
+    // Добавляем к target amplitude при скролле
+    const scrollContribution = 50 * this.config.scrollMultiplier;
+    const maxAddition = this.config.maxNoiseAmplitude - this.config.baseNoiseAmplitude;
+    
+    this.targetNoiseAmplitude = Math.min(
+      this.targetNoiseAmplitude + scrollContribution,
+      this.config.baseNoiseAmplitude + maxAddition
+    );
+  }
+  
+  /**
+   * Обработчик клика - создает всплеск амплитуды
+   */
+  handleClick() {
+    // Мгновенный всплеск до максимума
+    this.targetNoiseAmplitude = this.config.maxNoiseAmplitude;
+    this.clickBurstTime = performance.now();
+  }
+  
+  /**
+   * Обновление динамической амплитуды шума
    * @param {number} dt - Delta time в секундах
    */
-  lerpCenter(dt) {
-    const factor = 1 - Math.pow(1 - this.config.centerLerpFactor, dt * 60);
+  updateNoiseAmplitude(dt) {
+    // Проверяем, прошло ли время всплеска клика
+    const now = performance.now();
+    const timeSinceClick = now - this.clickBurstTime;
     
-    this.currentCenter.x += (this.targetCenter.x - this.currentCenter.x) * factor;
-    this.currentCenter.y += (this.targetCenter.y - this.currentCenter.y) * factor;
+    // Затухание target к base amplitude (если не в режиме всплеска)
+    if (timeSinceClick > this.config.clickBurstDuration) {
+      const decayFactor = 1 - Math.pow(1 - this.config.amplitudeDecayFactor, dt * 60);
+      this.targetNoiseAmplitude += (this.config.baseNoiseAmplitude - this.targetNoiseAmplitude) * decayFactor;
+    }
+    
+    // Плавная интерполяция current к target
+    const lerpFactor = 1 - Math.pow(1 - this.config.amplitudeLerpFactor, dt * 60);
+    this.currentNoiseAmplitude += (this.targetNoiseAmplitude - this.currentNoiseAmplitude) * lerpFactor;
   }
   
   /**
@@ -508,31 +578,6 @@ export class NoiseRingsBackground {
   }
   
   /**
-   * Вычисляет дополнительную деформацию вблизи курсора
-   * @param {number} pointX - X координата точки
-   * @param {number} pointY - Y координата точки
-   * @returns {number} Дополнительное смещение радиуса
-   */
-  calculateCursorInfluence(pointX, pointY) {
-    const mouseX = this.mousePosition.x * window.innerWidth;
-    const mouseY = this.mousePosition.y * window.innerHeight;
-    
-    const dx = pointX - mouseX;
-    const dy = pointY - mouseY;
-    const distance = Math.sqrt(dx * dx + dy * dy);
-    
-    const influenceRadius = this.config.cursorInfluenceRadius;
-    
-    if (distance > influenceRadius) return 0;
-    
-    // Плавное затухание влияния (smoothstep)
-    const influence = 1 - (distance / influenceRadius);
-    const smoothInfluence = influence * influence * (3 - 2 * influence);
-    
-    return smoothInfluence * this.config.cursorInfluenceStrength;
-  }
-  
-  /**
    * Вычисляет позицию точки на кольце
    * @param {number} ringIndex - Индекс кольца
    * @param {number} angle - Угол в радианах
@@ -543,8 +588,9 @@ export class NoiseRingsBackground {
     const width = window.innerWidth;
     const height = window.innerHeight;
     
-    const centerX = width * this.currentCenter.x;
-    const centerY = height * this.currentCenter.y;
+    // Центр всегда в середине экрана
+    const centerX = width * 0.5;
+    const centerY = height * 0.5;
     
     // Базовый радиус кольца
     const baseRadius = ringIndex * this.config.ringSpacing;
@@ -558,20 +604,12 @@ export class NoiseRingsBackground {
       time * this.config.noiseSpeed + ringIndex * 0.1
     );
     
-    // Амплитуда зависит от удаленности от центра
+    // Амплитуда зависит от удаленности от центра и текущей динамической амплитуды
     const distanceFactor = ringIndex / this.config.ringCount;
-    const amplitude = this.config.noiseAmplitude * (0.5 + distanceFactor * 0.5);
+    const amplitude = this.currentNoiseAmplitude * (0.5 + distanceFactor * 0.5);
     
     // Финальный радиус с деформацией
-    let radius = baseRadius + noiseValue * amplitude;
-    
-    // Вычисляем предварительную позицию для курсорного влияния
-    const tempX = centerX + Math.cos(angle) * radius;
-    const tempY = centerY + Math.sin(angle) * radius;
-    
-    // Добавляем влияние курсора
-    const cursorOffset = this.calculateCursorInfluence(tempX, tempY);
-    radius += cursorOffset;
+    const radius = baseRadius + noiseValue * amplitude;
     
     return {
       x: centerX + Math.cos(angle) * radius,
@@ -637,8 +675,8 @@ export class NoiseRingsBackground {
     this.lastFrameTime = now;
     this.time += dt;
     
-    // Интерполяция центра
-    this.lerpCenter(dt);
+    // Обновление динамической амплитуды шума
+    this.updateNoiseAmplitude(dt);
     
     // Очистка canvas
     this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
@@ -720,6 +758,12 @@ export class NoiseRingsBackground {
     // Удаление обработчиков событий
     if (this.boundHandleMouseMove) {
       window.removeEventListener('mousemove', this.boundHandleMouseMove);
+    }
+    if (this.boundHandleScroll) {
+      window.removeEventListener('scroll', this.boundHandleScroll);
+    }
+    if (this.boundHandleClick) {
+      window.removeEventListener('click', this.boundHandleClick);
     }
     if (this.boundHandleResize) {
       window.removeEventListener('resize', this.boundHandleResize);
