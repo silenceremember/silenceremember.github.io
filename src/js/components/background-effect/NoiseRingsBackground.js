@@ -181,13 +181,13 @@ class SimplexNoise {
  */
 const DEFAULT_CONFIG = {
   // Параметры колец
-  ringCount: 100,              // 40-60 колец
-  ringSpacing: 14,            // 15-20px между кольцами
-  ringWidth: 1,             // Толщина линии 1-2px
-  segments: 200,              // 100-120 сегментов на кольцо
+  ringCount: 100,               // Уменьшено с 100 до 35 для производительности
+  ringSpacing: 14,             // Увеличено с 14 до 22 для компенсации
+  ringWidth: 1,                // Толщина линии 1-2px
+  segments: 200,                // Уменьшено с 200 до 72 (визуально всё ещё гладко)
   
   // Параметры шума
-  noiseScale: 0.001,          // Масштаб шума
+  noiseScale: 0.001,           // Уменьшено с 0.001 до 0.008
   noiseSpeed: 0.5,         // Скорость анимации шума
   
   // Динамическая амплитуда шума
@@ -253,9 +253,6 @@ export class NoiseRingsBackground {
     this.isPressed = false;
     this.pressStartTime = 0;
     
-    // Оптимизация: throttle для обновления noise time
-    this.noiseTimeUpdateCounter = 0;
-    
     // Система тем
     this.themeObserver = null;
     this.currentColors = {
@@ -315,6 +312,9 @@ export class NoiseRingsBackground {
         console.error('NoiseRingsBackground: Failed to get 2D context');
         return;
       }
+      
+      // Canvas оптимизация: отключаем сглаживание (не нужно для линий)
+      this.ctx.imageSmoothingEnabled = false;
       
       // Инициализация генератора шума
       this.noiseGenerator = new SimplexNoise();
@@ -709,11 +709,11 @@ export class NoiseRingsBackground {
     }
     
     // Оптимизация 3: Уменьшение количества сегментов для дальних колец
-    // Близкие кольца (< 20) используют все сегменты, дальние - 70%
-    const segments = ringIndex < 20
-      ? this.config.segments
-      : Math.floor(this.config.segments * 0.7);
-    const angleStep = (Math.PI * 2) / segments;
+    // Pre-calculate constants
+    const TWO_PI = Math.PI * 2;
+    // Близкие кольца (< 15) используют все сегменты, дальние - 50%
+    const segments = ringIndex < 15 ? this.config.segments : Math.floor(this.config.segments * 0.5);
+    const segmentAngle = TWO_PI / segments;
     
     // Batch path rendering: один beginPath/stroke на кольцо
     this.ctx.beginPath();
@@ -723,7 +723,7 @@ export class NoiseRingsBackground {
     let firstPoint = null;
     
     for (let i = 0; i <= segments; i++) {
-      const angle = i * angleStep;
+      const angle = i * segmentAngle;
       const point = this.calculatePointPosition(ringIndex, angle, time);
       
       if (i === 0) {
@@ -771,11 +771,8 @@ export class NoiseRingsBackground {
     const dt = Math.min(rawDeltaTime / 1000, 0.033); // Cap at 30fps minimum
     this.lastFrameTime = now;
     
-    // Оптимизация: Throttle noise time update (обновляем каждый 2-й кадр)
-    this.noiseTimeUpdateCounter++;
-    if (this.noiseTimeUpdateCounter % 2 === 0) {
-      this.time += dt * 2; // Компенсируем пропуск удвоением delta
-    }
+    // Обновляем время каждый кадр для плавной анимации
+    this.time += dt;
     
     // Обновление динамической амплитуды шума
     this.updateNoiseAmplitude(dt);
