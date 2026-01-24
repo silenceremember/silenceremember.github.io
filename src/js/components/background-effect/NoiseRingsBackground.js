@@ -265,6 +265,13 @@ export class NoiseRingsBackground {
     // P1 FIX: RGBA string cache to avoid creating ~6000 strings/sec
     this.rgbaCache = new Map();
     
+    // P0 FIX: Object pooling - reusable temp point to avoid ~600,000 allocations/sec
+    this._tempPoint = { x: 0, y: 0 };
+    
+    // P0 FIX: Cached window dimensions to avoid DOM reads per point
+    this._cachedWidth = 0;
+    this._cachedHeight = 0;
+    
     // Доступность
     this.reducedMotion = false;
     
@@ -360,6 +367,12 @@ export class NoiseRingsBackground {
     const dpr = window.devicePixelRatio || 1;
     const width = window.innerWidth;
     const height = window.innerHeight;
+    
+    // P0 FIX: Cache window dimensions to avoid DOM reads per point (~600,000/sec)
+    this._cachedWidth = width;
+    this._cachedHeight = height;
+    this._cachedCenterX = width * 0.5;
+    this._cachedCenterY = height * 0.5;
     
     this.canvas.width = width * dpr;
     this.canvas.height = height * dpr;
@@ -675,26 +688,29 @@ export class NoiseRingsBackground {
   }
   
   /**
-   * Вычисляет позицию точки на кольце
+   * Вычисляет позицию точки на кольце (оптимизированная версия)
+   * P0 FIX: Uses out-parameter to avoid ~600,000 object allocations/sec
+   * P0 FIX: Uses cached dimensions to avoid DOM reads per point
+   * P1 FIX: Computes cos/sin once to eliminate duplicate trig calls
+   *
    * @param {number} ringIndex - Индекс кольца
    * @param {number} angle - Угол в радианах
    * @param {number} time - Текущее время
-   * @returns {Object} {x, y} координаты
+   * @param {number} cosAngle - Предвычисленный cos(angle)
+   * @param {number} sinAngle - Предвычисленный sin(angle)
+   * @param {Object} outPoint - Выходной объект для записи {x, y}
    */
-  calculatePointPosition(ringIndex, angle, time) {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-    
-    // Центр всегда в середине экрана
-    const centerX = width * 0.5;
-    const centerY = height * 0.5;
+  calculatePointPosition(ringIndex, angle, time, cosAngle, sinAngle, outPoint) {
+    // P0 FIX: Use cached dimensions instead of window.innerWidth/Height
+    const centerX = this._cachedCenterX;
+    const centerY = this._cachedCenterY;
     
     // Базовый радиус кольца
     const baseRadius = ringIndex * this.config.ringSpacing;
     
-    // Шумовая деформация
-    const noiseX = Math.cos(angle) * this.config.noiseScale * baseRadius;
-    const noiseY = Math.sin(angle) * this.config.noiseScale * baseRadius;
+    // P1 FIX: Reuse precomputed cos/sin for noise calculation
+    const noiseX = cosAngle * this.config.noiseScale * baseRadius;
+    const noiseY = sinAngle * this.config.noiseScale * baseRadius;
     const noiseValue = this.noiseGenerator.noise3D(
       noiseX,
       noiseY,
@@ -708,10 +724,10 @@ export class NoiseRingsBackground {
     // Финальный радиус с деформацией
     const radius = baseRadius + noiseValue * amplitude;
     
-    return {
-      x: centerX + Math.cos(angle) * radius,
-      y: centerY + Math.sin(angle) * radius
-    };
+    // P0 FIX: Write to out-parameter instead of creating new object
+    // P1 FIX: Reuse precomputed cos/sin for final position
+    outPoint.x = centerX + cosAngle * radius;
+    outPoint.y = centerY + sinAngle * radius;
   }
   
   /**
@@ -759,24 +775,30 @@ export class NoiseRingsBackground {
     this.ctx.strokeStyle = this.getCachedRgba(this.currentColors.accent, opacity);
     this.ctx.lineWidth = this.config.ringWidth;
     
-    let firstPoint = null;
+    // P0 FIX: Use pooled temp point to avoid object allocations
+    const tempPoint = this._tempPoint;
+    let firstX = 0;
+    let firstY = 0;
     
     for (let i = 0; i <= segments; i++) {
       const angle = i * segmentAngle;
-      const point = this.calculatePointPosition(ringIndex, angle, time);
+      // P1 FIX: Compute cos/sin once per iteration, pass to calculatePointPosition
+      const cosAngle = Math.cos(angle);
+      const sinAngle = Math.sin(angle);
+      this.calculatePointPosition(ringIndex, angle, time, cosAngle, sinAngle, tempPoint);
       
       if (i === 0) {
-        this.ctx.moveTo(point.x, point.y);
-        firstPoint = point;
+        this.ctx.moveTo(tempPoint.x, tempPoint.y);
+        // Save first point coordinates (primitives, no allocation)
+        firstX = tempPoint.x;
+        firstY = tempPoint.y;
       } else {
-        this.ctx.lineTo(point.x, point.y);
+        this.ctx.lineTo(tempPoint.x, tempPoint.y);
       }
     }
     
-    // Замыкаем кольцо
-    if (firstPoint) {
-      this.ctx.lineTo(firstPoint.x, firstPoint.y);
-    }
+    // Замыкаем кольцо using saved primitives
+    this.ctx.lineTo(firstX, firstY);
     
     this.ctx.stroke();
     return true;

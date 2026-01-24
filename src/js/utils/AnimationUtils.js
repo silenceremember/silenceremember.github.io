@@ -53,6 +53,11 @@ export const ANIMATION_CONFIG = {
 
 /**
  * Анимирует появление одного элемента
+ *
+ * ОПТИМИЗАЦИЯ: Убраны forced reflow (void offsetHeight) и заменены на
+ * цепочку RAF для естественного применения стилей браузером.
+ * Используется батчинг read/write операций для предотвращения layout thrashing.
+ *
  * @param {HTMLElement} element - Элемент для анимации
  * @param {Object} options - Опции анимации
  * @param {string} options.duration - Длительность анимации (по умолчанию из ANIMATION_CONFIG)
@@ -81,103 +86,65 @@ export function animateElementAppearance(element, options = {}) {
     element.style.display = '';
   }
 
-  // Устанавливаем начальное состояние СИНХРОННО перед requestAnimationFrame
+  // WRITE фаза: Устанавливаем начальное состояние синхронно
   if (!config.skipInitialState) {
-    // Принудительно устанавливаем начальное состояние
     element.style.opacity = '0';
     element.style.transform = `translateY(${config.translateYAppear})`;
     element.style.transition = 'none';
-    // Принудительный reflow для применения стилей
-    void element.offsetHeight;
   }
 
-  // Используем двойной requestAnimationFrame для синхронизации с браузером
+  // ОПТИМИЗАЦИЯ: Используем цепочку RAF вместо forced reflow
+  // RAF 1: Регистрация начальных стилей
   requestAnimationFrame(() => {
+    // RAF 2: Подтверждение применения начальных стилей
     requestAnimationFrame(() => {
-      // Убеждаемся, что начальное состояние установлено
-      if (!config.skipInitialState) {
-        element.style.opacity = '0';
-        element.style.transform = `translateY(${config.translateYAppear})`;
-        element.style.transition = 'none';
-      } else {
-        // Если skipInitialState: true, проверяем что начальное состояние действительно установлено
-        // Проверяем computed style для точности
-        const computedStyle = window.getComputedStyle(element);
-        const computedOpacity = parseFloat(computedStyle.opacity);
+      // READ фаза: Проверяем состояние элемента если skipInitialState
+      let needsInitialState = false;
+      if (config.skipInitialState) {
         const inlineOpacity = element.style.opacity;
         const inlineTransform = element.style.transform;
         const inlineTransition = element.style.transition;
-
-        // Если элемент видим или inline стили не установлены, устанавливаем начальное состояние
-        if (
-          computedOpacity > 0.01 ||
+        
+        needsInitialState =
           !inlineOpacity ||
           inlineOpacity === '' ||
           !inlineTransform ||
           inlineTransform === '' ||
-          (inlineTransition && inlineTransition !== 'none')
-        ) {
-          // Используем setProperty для гарантии применения (может быть с !important если нужно)
-          element.style.setProperty('opacity', '0', 'important');
-          element.style.setProperty(
-            'transform',
-            `translateY(${config.translateYAppear})`,
-            'important'
-          );
-          element.style.setProperty('transition', 'none', 'important');
-          // Принудительный reflow для применения стилей
-          void element.offsetHeight;
-        }
+          (inlineTransition && inlineTransition !== 'none');
+      }
+      
+      // WRITE фаза: Применяем начальное состояние если нужно
+      if (needsInitialState) {
+        element.style.setProperty('opacity', '0', 'important');
+        element.style.setProperty(
+          'transform',
+          `translateY(${config.translateYAppear})`,
+          'important'
+        );
+        element.style.setProperty('transition', 'none', 'important');
       }
 
-      // Применяем анимацию
+      // RAF 3: Применение transition
       requestAnimationFrame(() => {
-        // Финальная проверка начального состояния перед анимацией
-        const finalComputedStyle = window.getComputedStyle(element);
-        const finalOpacity = parseFloat(finalComputedStyle.opacity);
-        const finalInlineOpacity = element.style.opacity;
-        const finalInlineTransform = element.style.transform;
-
-        // Если элемент все еще видим или стили не установлены, устанавливаем начальное состояние
-        if (
-          finalOpacity > 0.01 ||
-          !finalInlineOpacity ||
-          finalInlineOpacity === '' ||
-          !finalInlineTransform ||
-          finalInlineTransform === ''
-        ) {
-          // Используем setProperty с !important для гарантии применения
-          element.style.setProperty('opacity', '0', 'important');
-          element.style.setProperty(
-            'transform',
-            `translateY(${config.translateYAppear})`,
-            'important'
-          );
-          element.style.setProperty('transition', 'none', 'important');
-          // Принудительный reflow для применения стилей
-          void element.offsetHeight;
-        }
-
-        // Устанавливаем transition и финальное состояние
-        // Важно: сначала устанавливаем transition, затем делаем reflow, затем меняем значения
-        // Убираем !important перед установкой transition для корректной работы анимации
+        // WRITE фаза: Устанавливаем transition
         element.style.removeProperty('transition');
         element.style.transition = `opacity ${config.duration} ${config.timing}, transform ${config.duration} ${config.timing}`;
-        // Принудительный reflow перед изменением opacity и transform для гарантии применения transition
-        void element.offsetHeight;
-
-        // Устанавливаем финальные значения одновременно (без !important для корректной анимации)
-        element.style.removeProperty('opacity');
-        element.style.removeProperty('transform');
-        element.style.opacity = '1';
-        element.style.transform = `translateY(${config.translateYFinal})`;
-
-        // Убираем inline стили после анимации
-        setTimeout(() => {
-          element.style.removeProperty('transform');
+        
+        // RAF 4: Применение финальных значений
+        requestAnimationFrame(() => {
+          // WRITE фаза: Устанавливаем финальные значения
           element.style.removeProperty('opacity');
-          element.style.removeProperty('transition');
-        }, config.timeout);
+          element.style.removeProperty('transform');
+          element.style.opacity = '1';
+          element.style.transform = `translateY(${config.translateYFinal})`;
+
+          // Убираем inline стили после анимации
+          setTimeout(() => {
+            element.style.removeProperty('transform');
+            element.style.removeProperty('opacity');
+            element.style.removeProperty('transition');
+          }, config.timeout);
+        });
       });
     });
   });

@@ -56,15 +56,15 @@ export class SlideAnimationManager {
       this.hideSlideElementsBeforeAnimation(slide);
     });
 
-    // Принудительный reflow для применения стилей скрытия
-    if (slides.length > 0 && slides[0].firstElementChild) {
-      void slides[0].firstElementChild.offsetHeight;
-    }
-
-    // Используем двойной requestAnimationFrame для синхронизации с браузером
+    // ОПТИМИЗАЦИЯ: Используем двойной RAF вместо forced reflow
+    // Это позволяет браузеру естественно обработать стили без synchronous layout
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         // Проверяем, что все элементы скрыты (на всякий случай)
+        // ОПТИМИЗАЦИЯ: Разделяем read и write фазы для предотвращения layout thrashing
+        
+        // Фаза 1: Собираем все элементы и их computed opacity (READ phase)
+        const elementsWithOpacity = [];
         slides.forEach((slide) => {
           const slideIndex = parseInt(slide.getAttribute('data-slide'));
           let elementsToCheck = [];
@@ -87,18 +87,22 @@ export class SlideAnimationManager {
             if (el) {
               const computedStyle = window.getComputedStyle(el);
               const opacity = parseFloat(computedStyle.opacity);
-              // Если элемент видим, устанавливаем начальное состояние снова
-              if (opacity > 0.01) {
-                el.style.setProperty('opacity', '0', 'important');
-                el.style.setProperty(
-                  'transform',
-                  'translateY(10px)',
-                  'important'
-                );
-                el.style.setProperty('transition', 'none', 'important');
-              }
+              elementsWithOpacity.push({ element: el, opacity });
             }
           });
+        });
+        
+        // Фаза 2: Применяем стили ко всем элементам (WRITE phase)
+        elementsWithOpacity.forEach(({ element, opacity }) => {
+          if (opacity > 0.01) {
+            element.style.setProperty('opacity', '0', 'important');
+            element.style.setProperty(
+              'transform',
+              'translateY(10px)',
+              'important'
+            );
+            element.style.setProperty('transition', 'none', 'important');
+          }
         });
 
         // Небольшая задержка перед запуском анимации для гарантии готовности
@@ -176,15 +180,24 @@ export class SlideAnimationManager {
       if (isTabletMode) {
         // В tablet режиме все слайды видимы - анимируем все элементы одновременно
         // НЕ скрываем элементы, если они уже видимы, чтобы избежать мерцания
-        const allElementsToAnimate = [];
-
-        // Собираем все элементы всех слайдов для одновременной анимации
+        
+        // ОПТИМИЗАЦИЯ: Разделяем read и write фазы для предотвращения layout thrashing
+        
+        // Фаза 1: READ - собираем все данные о слайдах и элементах
+        const slideVisibilityData = [];
         slides.forEach((slide) => {
-          // Проверяем, что слайд видим
           const style = window.getComputedStyle(slide);
-          if (style.opacity !== '0' && style.visibility !== 'hidden') {
-            const slideIndex = parseInt(slide.getAttribute('data-slide'));
-
+          slideVisibilityData.push({
+            slide,
+            isVisible: style.opacity !== '0' && style.visibility !== 'hidden',
+            slideIndex: parseInt(slide.getAttribute('data-slide'))
+          });
+        });
+        
+        // Собираем элементы только из видимых слайдов
+        const allElementsToAnimate = [];
+        slideVisibilityData.forEach(({ slide, isVisible, slideIndex }) => {
+          if (isVisible) {
             // Собираем элементы в зависимости от типа слайда
             if (slideIndex === 0) {
               // Первый слайд
@@ -212,31 +225,34 @@ export class SlideAnimationManager {
           }
         });
 
-        // Проверяем, какие элементы нужно анимировать (только те, что еще не видимы)
-        const elementsToAnimate = allElementsToAnimate.filter((element) => {
-          if (!element) return false;
+        // ОПТИМИЗАЦИЯ: Батчим все getComputedStyle вызовы перед записью
+        // Фаза 2: READ - собираем computed стили всех элементов
+        const elementsStyleData = allElementsToAnimate.map((element) => {
+          if (!element) return { element, shouldAnimate: false };
           const computedStyle = window.getComputedStyle(element);
           const opacity = parseFloat(computedStyle.opacity);
           const inlineOpacity = element.style.opacity;
           const inlineTransform = element.style.transform;
 
           // Если элемент уже полностью видим и не имеет inline стилей скрытия, не анимируем его
-          if (
+          const isFullyVisible =
             opacity >= 0.99 &&
             (!inlineOpacity || inlineOpacity === '' || inlineOpacity === '1') &&
             (!inlineTransform ||
               inlineTransform === '' ||
-              inlineTransform.includes('translateY(0'))
-          ) {
-            return false;
-          }
-
-          // Анимируем элемент, если он не полностью видим или имеет inline стили скрытия
-          return true;
+              inlineTransform.includes('translateY(0'));
+          
+          return { element, shouldAnimate: !isFullyVisible };
         });
+        
+        // Фаза 3: WRITE - фильтруем и применяем стили
+        const elementsToAnimate = elementsStyleData
+          .filter(({ shouldAnimate }) => shouldAnimate)
+          .map(({ element }) => element);
 
         // Если есть элементы для анимации, скрываем их перед анимацией
         if (elementsToAnimate.length > 0) {
+          // WRITE фаза - применяем все стили батчем
           elementsToAnimate.forEach((element) => {
             element.style.setProperty('opacity', '0', 'important');
             element.style.setProperty(
@@ -247,15 +263,8 @@ export class SlideAnimationManager {
             element.style.setProperty('transition', 'none', 'important');
           });
 
-          // Принудительный reflow для применения стилей скрытия
-          if (elementsToAnimate.length > 0 && elementsToAnimate[0]) {
-            void elementsToAnimate[0].offsetHeight;
-          }
-        }
-
-        // Анимируем все элементы одновременно только если есть элементы для анимации
-        // Если все элементы уже видимы, не запускаем анимацию, чтобы избежать мерцания
-        if (elementsToAnimate.length > 0) {
+          // ОПТИМИЗАЦИЯ: Используем RAF вместо forced reflow
+          // Это позволяет браузеру оптимизировать layout
           requestAnimationFrame(() => {
             requestAnimationFrame(() => {
               // Используем animateElementsAppearance для одновременной анимации всех элементов
@@ -276,12 +285,8 @@ export class SlideAnimationManager {
         if (activeSlide) {
           this.hideSlideElementsBeforeAnimation(activeSlide);
 
-          // Принудительный reflow для применения стилей скрытия
-          if (activeSlide.firstElementChild) {
-            void activeSlide.firstElementChild.offsetHeight;
-          }
-
-          // Используем requestAnimationFrame для синхронизации
+          // ОПТИМИЗАЦИЯ: Используем RAF вместо forced reflow для синхронизации
+          // Двойной RAF гарантирует применение стилей без forced layout
           requestAnimationFrame(() => {
             requestAnimationFrame(() => {
               this.animateSlideContent(activeSlide);
@@ -596,16 +601,12 @@ export class SlideAnimationManager {
     // Скрываем элементы слайда перед анимацией
     this.hideSlideElementsBeforeAnimation(slide);
 
-    // Принудительный reflow для применения стилей
-    if (slide.firstElementChild) {
-      void slide.firstElementChild.offsetHeight;
-    }
-
-    // Используем requestAnimationFrame для синхронизации
+    // ОПТИМИЗАЦИЯ: Убран forced reflow (void offsetHeight)
+    // Используем тройной requestAnimationFrame для гарантированного применения стилей
+    // Первый RAF - регистрация изменений, второй RAF - применение стилей, третий RAF - анимация
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        // Небольшая задержка для гарантии применения стилей скрытия
-        setTimeout(() => {
+        requestAnimationFrame(() => {
           // Первый слайд (слайд 0)
           if (slideIndex === 0) {
             const textElements = [
@@ -698,7 +699,7 @@ export class SlideAnimationManager {
               });
             }, elementsToAnimate.length * 30);
           }
-        }, 50); // 50ms задержка для гарантии применения стилей скрытия
+        });
       });
     });
   }
