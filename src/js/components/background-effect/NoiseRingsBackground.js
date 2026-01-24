@@ -738,7 +738,17 @@ export class NoiseRingsBackground {
     }
     
     const now = performance.now();
-    const dt = Math.min((now - this.lastFrameTime) / 1000, 0.033); // Cap at 30fps minimum
+    const rawDeltaTime = now - this.lastFrameTime;
+    
+    // Защита от огромного deltaTime после долгого отсутствия (> 1 секунды)
+    // Сбрасываем время и пропускаем этот кадр чтобы избежать резких скачков
+    if (this.lastFrameTime > 0 && rawDeltaTime > 1000) {
+      this.lastFrameTime = now;
+      this.animationFrameId = requestAnimationFrame(() => this.render());
+      return;
+    }
+    
+    const dt = Math.min(rawDeltaTime / 1000, 0.033); // Cap at 30fps minimum
     this.lastFrameTime = now;
     this.time += dt;
     
@@ -789,6 +799,11 @@ export class NoiseRingsBackground {
    */
   pause() {
     this.isPaused = true;
+    // Отменяем запланированный кадр и сбрасываем ID
+    if (this.animationFrameId) {
+      cancelAnimationFrame(this.animationFrameId);
+      this.animationFrameId = null;
+    }
   }
   
   /**
