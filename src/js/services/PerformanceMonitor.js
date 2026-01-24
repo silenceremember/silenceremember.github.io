@@ -25,6 +25,9 @@ export class PerformanceMonitor {
     };
     this.observers = [];
     this.initialized = false;
+    
+    // P1 FIX: Store bound handler for cleanup in destroy()
+    this.boundLoadHandler = null;
   }
 
   /**
@@ -165,7 +168,8 @@ export class PerformanceMonitor {
   monitorNavigationTiming() {
     if (!window.performance || !window.performance.getEntriesByType) return;
 
-    window.addEventListener('load', () => {
+    // P1 FIX: Store bound handler for cleanup in destroy()
+    this.boundLoadHandler = () => {
       const navigation = performance.getEntriesByType('navigation')[0];
       if (navigation) {
         console.group('📊 Navigation Timing');
@@ -189,7 +193,9 @@ export class PerformanceMonitor {
         );
         console.groupEnd();
       }
-    });
+    };
+    
+    window.addEventListener('load', this.boundLoadHandler);
   }
 
   /**
@@ -244,8 +250,16 @@ export class PerformanceMonitor {
    * Очистка и отключение мониторинга
    */
   destroy() {
+    // Disconnect all performance observers
     this.observers.forEach((observer) => observer.disconnect());
     this.observers = [];
+    
+    // P1 FIX: Remove load event listener
+    if (this.boundLoadHandler) {
+      window.removeEventListener('load', this.boundLoadHandler);
+      this.boundLoadHandler = null;
+    }
+    
     this.initialized = false;
   }
 }

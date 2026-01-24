@@ -29,6 +29,11 @@ export class CustomCursor {
     // Кэш для оптимизации проверки hover
     this.cachedInteractiveElement = null;
     this.hoverCheckThrottle = 100; // Увеличен с 16-50ms до 100ms для лучшей производительности
+    
+    // P0 FIX: Store bound handlers for proper cleanup in destroy()
+    this.boundTouchStart = null;
+    this.boundMouseMove = null;
+    this.boundBeforeUnload = null;
   }
 
   /**
@@ -87,19 +92,18 @@ export class CustomCursor {
    * Настраивает обработчики касаний
    */
   setupTouchHandlers() {
-    window.addEventListener(
-      'touchstart',
-      () => {
-        this.isTouching = true;
-        this.cursor.classList.remove('visible');
-        this.isVisible = false;
-        clearTimeout(this.touchTimeout);
-        this.touchTimeout = setTimeout(() => {
-          this.isTouching = false;
-        }, 500);
-      },
-      { passive: true }
-    );
+    // P0 FIX: Store bound handler for cleanup in destroy()
+    this.boundTouchStart = () => {
+      this.isTouching = true;
+      this.cursor.classList.remove('visible');
+      this.isVisible = false;
+      clearTimeout(this.touchTimeout);
+      this.touchTimeout = setTimeout(() => {
+        this.isTouching = false;
+      }, 500);
+    };
+    
+    window.addEventListener('touchstart', this.boundTouchStart, { passive: true });
   }
 
   /**
@@ -262,40 +266,40 @@ export class CustomCursor {
    * Настраивает обработчики мыши
    */
   setupMouseHandlers() {
-    window.addEventListener(
-      'mousemove',
-      (e) => {
-        if (this.isTouching) {
-          return;
-        }
+    // P0 FIX: Store bound handler for cleanup in destroy()
+    this.boundMouseMove = (e) => {
+      if (this.isTouching) {
+        return;
+      }
 
-        const x = e.clientX;
-        const y = e.clientY;
+      const x = e.clientX;
+      const y = e.clientY;
 
-        this.targetX = x;
-        this.targetY = y;
+      this.targetX = x;
+      this.targetY = y;
 
-        if (!this.isVisible) {
-          this.cursor.classList.add('visible');
-          this.isVisible = true;
-        }
+      if (!this.isVisible) {
+        this.cursor.classList.add('visible');
+        this.isVisible = true;
+      }
 
-        if (!this.rafId) {
-          this.rafId = requestAnimationFrame(() => this.updateCursorPosition());
-        }
+      if (!this.rafId) {
+        this.rafId = requestAnimationFrame(() => this.updateCursorPosition());
+      }
 
-        this.checkHoverState(x, y);
-        this.savePositionToStorage(x, y);
-      },
-      { passive: true }
-    );
+      this.checkHoverState(x, y);
+      this.savePositionToStorage(x, y);
+    };
+    
+    window.addEventListener('mousemove', this.boundMouseMove, { passive: true });
   }
 
   /**
    * Настраивает сохранение позиции при выгрузке страницы
    */
   setupBeforeUnload() {
-    window.addEventListener('beforeunload', () => {
+    // P0 FIX: Store bound handler for cleanup in destroy()
+    this.boundBeforeUnload = () => {
       if (this.pendingStorageX !== null && this.pendingStorageY !== null) {
         sessionStorage.setItem('cursorX', String(this.pendingStorageX));
         sessionStorage.setItem('cursorY', String(this.pendingStorageY));
@@ -303,6 +307,54 @@ export class CustomCursor {
         sessionStorage.setItem('cursorX', String(this.targetX));
         sessionStorage.setItem('cursorY', String(this.targetY));
       }
-    });
+    };
+    
+    window.addEventListener('beforeunload', this.boundBeforeUnload);
+  }
+  
+  /**
+   * P0 FIX: Уничтожение компонента и освобождение ресурсов
+   * Предотвращает накопление listeners при SPA-навигации
+   */
+  destroy() {
+    // Отмена pending requestAnimationFrame
+    if (this.rafId) {
+      cancelAnimationFrame(this.rafId);
+      this.rafId = null;
+    }
+    
+    // Очистка таймеров
+    if (this.touchTimeout) {
+      clearTimeout(this.touchTimeout);
+      this.touchTimeout = null;
+    }
+    
+    if (this.storageDebounceTimer) {
+      clearTimeout(this.storageDebounceTimer);
+      this.storageDebounceTimer = null;
+    }
+    
+    // Удаление event listeners
+    if (this.boundMouseMove) {
+      window.removeEventListener('mousemove', this.boundMouseMove);
+      this.boundMouseMove = null;
+    }
+    
+    if (this.boundTouchStart) {
+      window.removeEventListener('touchstart', this.boundTouchStart);
+      this.boundTouchStart = null;
+    }
+    
+    if (this.boundBeforeUnload) {
+      window.removeEventListener('beforeunload', this.boundBeforeUnload);
+      this.boundBeforeUnload = null;
+    }
+    
+    // Сброс состояния
+    this.cursor = null;
+    this.cachedInteractiveElement = null;
+    this.isInitialized = false;
+    this.isVisible = false;
+    this.isHovering = false;
   }
 }

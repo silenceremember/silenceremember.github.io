@@ -262,6 +262,9 @@ export class NoiseRingsBackground {
       background: this.config.backgroundColor
     };
     
+    // P1 FIX: RGBA string cache to avoid creating ~6000 strings/sec
+    this.rgbaCache = new Map();
+    
     // Доступность
     this.reducedMotion = false;
     
@@ -363,6 +366,9 @@ export class NoiseRingsBackground {
     this.canvas.style.width = `${width}px`;
     this.canvas.style.height = `${height}px`;
     
+    // P0 FIX: Reset transform before scaling to prevent accumulation
+    // Without this, each resize multiplies the scale (dpr^N after N resizes)
+    this.ctx.setTransform(1, 0, 0, 1, 0, 0);
     this.ctx.scale(dpr, dpr);
     
     // Вычисляем максимальный видимый радиус (расстояние от центра до угла экрана)
@@ -416,6 +422,9 @@ export class NoiseRingsBackground {
       accent: accentColor,
       background: bgColor
     };
+    
+    // P1 FIX: Clear RGBA cache when colors change
+    this.rgbaCache.clear();
   }
   
   /**
@@ -629,6 +638,24 @@ export class NoiseRingsBackground {
   }
   
   /**
+   * P1 FIX: Cached RGBA string getter to reduce GC pressure
+   * Avoids creating ~6000 new strings per second (100 rings * 60 fps)
+   * @param {string} hex - HEX цвет
+   * @param {number} opacity - Прозрачность (будет округлена до 2 знаков)
+   * @returns {string} Кэшированная RGBA строка
+   */
+  getCachedRgba(hex, opacity) {
+    // Округляем opacity до 2 знаков для уменьшения количества ключей кэша
+    const key = `${hex}_${opacity.toFixed(2)}`;
+    
+    if (!this.rgbaCache.has(key)) {
+      this.rgbaCache.set(key, this.hexToRgba(hex, opacity));
+    }
+    
+    return this.rgbaCache.get(key);
+  }
+  
+  /**
    * Вычисляет opacity с градиентом от центра к краям видимой области
    * Opacity РАСТЁТ от центра к краям (затухание к центру)
    * Opacity зависит от расстояния кольца до видимого края экрана, а не от индекса
@@ -728,7 +755,8 @@ export class NoiseRingsBackground {
     
     // Batch path rendering: один beginPath/stroke на кольцо
     this.ctx.beginPath();
-    this.ctx.strokeStyle = this.hexToRgba(this.currentColors.accent, opacity);
+    // P1 FIX: Use cached RGBA string to reduce GC pressure
+    this.ctx.strokeStyle = this.getCachedRgba(this.currentColors.accent, opacity);
     this.ctx.lineWidth = this.config.ringWidth;
     
     let firstPoint = null;
@@ -903,6 +931,12 @@ export class NoiseRingsBackground {
     // Удаление canvas
     if (this.canvas && this.canvas.parentNode) {
       this.canvas.parentNode.removeChild(this.canvas);
+    }
+    
+    // P1 FIX: Clear RGBA cache
+    if (this.rgbaCache) {
+      this.rgbaCache.clear();
+      this.rgbaCache = null;
     }
     
     // Очистка ссылок
