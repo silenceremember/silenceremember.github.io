@@ -1,0 +1,69 @@
+/* Noise Rings Background Canvas Styles */
+
+.noise-rings-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: calc(var(--vh-dynamic, 1vh) * 100);
+  z-index: -1;
+  pointer-events: none;
+  opacity: 1;
+  display: block;
+  
+  /* Fallback для высоты если --vh-dynamic не определена */
+  @supports not (height: calc(var(--vh-dynamic) * 100)) {
+    height: 100vh;
+  }
+  
+  /* GPU acceleration optimizations */
+  transform: translateZ(0);
+  will-change: contents;
+  backface-visibility: hidden;
+  
+  /* Performance optimizations - isolate rendering */
+  contain: layout style paint;
+  
+  /* Smooth transitions for opacity changes (theme switch) */
+  transition: opacity var(--transition-duration-base, 0.3s) var(--timing-function-ease, ease);
+  
+  /* Respect reduced motion preference - show static rings */
+  @media (prefers-reduced-motion: reduce) {
+    /* Компонент сам обрабатывает reduced motion, показывая статичные кольца */
+    will-change: auto;
+  }
+  
+  /* Performance optimizations for mobile devices */
+  @media (max-width: 768px) {
+    /* Reduce rendering complexity on mobile */
+    will-change: auto;
+    contain: layout;
+  }
+  
+  /* Optimizations for tablets */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    will-change: contents;
+  }
+  
+  /* Low-end device optimizations */
+  @media (max-width: 480px) {
+    will-change: auto;
+    contain: layout;
+  }
+}
+
+/* Background container styles */
+#background-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}

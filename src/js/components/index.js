@@ -6,3 +6,4 @@ export { SvgLoader } from './svg/SvgLoader.js';
 export { ThemeSwitcher } from './theme/ThemeSwitcher.js';
 export { SlidesManager } from './slides/SlidesManager.js';
 export { FluidBackground } from './background-effect/FluidBackground.js';
+export { NoiseRingsBackground } from './background-effect/NoiseRingsBackground.js';

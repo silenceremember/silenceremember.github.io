@@ -190,20 +190,20 @@ export class BasePage {
       try {
         // Динамически импортируем некритические компоненты
         // Используем глобальный экземпляр SvgLoader для переиспользования кеша
-        const [{ globalSvgLoader }, { FluidBackground }] = await Promise.all([
+        const [{ globalSvgLoader }, { NoiseRingsBackground }] = await Promise.all([
           import('../components/svg/SvgLoader.js'),
-          import('../components/index.js').then(m => ({ FluidBackground: m.FluidBackground })),
+          import('../components/index.js').then(m => ({ NoiseRingsBackground: m.NoiseRingsBackground })),
         ]);
 
         // Используем глобальный экземпляр для единого кеша
         await globalSvgLoader.init();
 
-        // Initialize fluid background with a small delay to ensure canvas is in DOM
+        // Initialize noise rings background with a small delay to ensure container is in DOM
         // Оптимизация: уменьшена вложенность requestAnimationFrame
-        const fluidBackground = new FluidBackground();
-        // Use requestAnimationFrame to ensure canvas is rendered
+        const noiseRingsBackground = new NoiseRingsBackground();
+        // Use requestAnimationFrame to ensure container is rendered
         requestAnimationFrame(() => {
-          fluidBackground.init();
+          noiseRingsBackground.init('background-container');
         });
       } catch (error) {
         console.warn('Failed to load non-critical components:', error);
