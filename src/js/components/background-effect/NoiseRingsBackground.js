@@ -193,13 +193,15 @@ const DEFAULT_CONFIG = {
   // Динамическая амплитуда шума
   baseNoiseAmplitude: 30,     // Минимальная амплитуда в покое
   maxNoiseAmplitude: 150,     // Максимальная амплитуда при активности
-  amplitudeLerpFactor: 0.05,  // Скорость интерполяции к target
-  amplitudeDecayFactor: 0.02, // Скорость затухания к base
+  amplitudeLerpFactor: 0.05,  // Скорость интерполяции к target (быстрее реакция)
+  amplitudeDecayFactor: 0.1, // Скорость затухания к base (медленнее)
   
   // Множители активности
   velocityMultiplier: 0.5,    // Множитель скорости мыши
   scrollMultiplier: 0.3,      // Множитель скролла
-  clickBurstDuration: 200,    // Длительность всплеска клика в ms
+  pressBoost: 5,             // Boost при удержании кнопки/пальца
+  scrollBoost: 10,            // Максимальный boost при прокрутке
+  moveBoost: 0.25,             // Множитель для скорости мыши/пальца
   
   // Opacity градиент
   opacityCenter: 0,         // Opacity в центре
@@ -241,13 +243,14 @@ export class NoiseRingsBackground {
     this.currentNoiseAmplitude = this.config.baseNoiseAmplitude;
     this.targetNoiseAmplitude = this.config.baseNoiseAmplitude;
     
-    // Отслеживание скорости мыши
+    // Отслеживание скорости мыши/touch
     this.lastMouseX = 0;
     this.lastMouseY = 0;
     this.lastMouseTime = 0;
     
-    // Время всплеска клика
-    this.clickBurstTime = 0;
+    // Состояние нажатия (press & hold)
+    this.isPressed = false;
+    this.pressStartTime = 0;
     
     // Система тем
     this.themeObserver = null;
@@ -262,7 +265,8 @@ export class NoiseRingsBackground {
     // Event handlers (сохраняем для очистки)
     this.boundHandleMouseMove = null;
     this.boundHandleScroll = null;
-    this.boundHandleClick = null;
+    this.boundHandlePressStart = null;
+    this.boundHandlePressEnd = null;
     this.boundHandleResize = null;
     this.boundHandleVisibilityChange = null;
     
@@ -433,7 +437,7 @@ export class NoiseRingsBackground {
    * Настройка обработчиков событий
    */
   setupEventListeners() {
-    // Throttled mouse move для отслеживания скорости
+    // Throttled mouse/touch move для отслеживания скорости
     this.boundHandleMouseMove = (e) => {
       const now = performance.now();
       if (now - this.lastMouseMoveTime < this.mouseMoveThrottleDelay) return;
@@ -443,13 +447,17 @@ export class NoiseRingsBackground {
     };
     
     // Обработчик скролла
-    this.boundHandleScroll = () => {
-      this.handleScroll();
+    this.boundHandleScroll = (e) => {
+      this.handleScroll(e);
     };
     
-    // Обработчик клика
-    this.boundHandleClick = () => {
-      this.handleClick();
+    // Обработчики нажатия (press & hold)
+    this.boundHandlePressStart = (e) => {
+      this.handlePressStart(e);
+    };
+    
+    this.boundHandlePressEnd = () => {
+      this.handlePressEnd();
     };
     
     // Debounced resize
@@ -463,86 +471,131 @@ export class NoiseRingsBackground {
       }, this.resizeDebounceDelay);
     };
     
+    // Mouse events
     window.addEventListener('mousemove', this.boundHandleMouseMove, { passive: true });
+    window.addEventListener('mousedown', this.boundHandlePressStart, { passive: true });
+    window.addEventListener('mouseup', this.boundHandlePressEnd, { passive: true });
+    
+    // Touch events
+    window.addEventListener('touchmove', this.boundHandleMouseMove, { passive: true });
+    window.addEventListener('touchstart', this.boundHandlePressStart, { passive: true });
+    window.addEventListener('touchend', this.boundHandlePressEnd, { passive: true });
+    
+    // Scroll and resize
     window.addEventListener('scroll', this.boundHandleScroll, { passive: true });
-    window.addEventListener('click', this.boundHandleClick, { passive: true });
+    window.addEventListener('wheel', this.boundHandleScroll, { passive: true });
     window.addEventListener('resize', this.boundHandleResize, { passive: true });
   }
   
   /**
-   * Обработчик движения мыши - отслеживает скорость
-   * @param {MouseEvent} event
+   * Обработчик движения мыши/touch - отслеживает скорость
+   * @param {MouseEvent|TouchEvent} event
    * @param {number} now - Текущее время в ms
    */
   handleMouseMove(event, now) {
-    const mouseX = event.clientX;
-    const mouseY = event.clientY;
+    // Поддержка touch events
+    const clientX = event.touches ? event.touches[0].clientX : event.clientX;
+    const clientY = event.touches ? event.touches[0].clientY : event.clientY;
     
-    // Вычисление скорости мыши
+    // Вычисление скорости движения
     if (this.lastMouseTime > 0) {
       const dt = now - this.lastMouseTime;
       if (dt > 0) {
-        const dx = mouseX - this.lastMouseX;
-        const dy = mouseY - this.lastMouseY;
+        const dx = clientX - this.lastMouseX;
+        const dy = clientY - this.lastMouseY;
         const distance = Math.sqrt(dx * dx + dy * dy);
         const velocity = distance / dt * 16; // Нормализация к ~60fps
         
-        // Увеличиваем target amplitude на основе скорости
-        const velocityContribution = velocity * this.config.velocityMultiplier;
-        const maxAddition = this.config.maxNoiseAmplitude - this.config.baseNoiseAmplitude;
+        // НАКОПЛЕНИЕ: добавляем к target amplitude на основе скорости
+        // moveBoost - настраиваемый множитель для скорости мыши/пальца
+        const velocityBoost = velocity * this.config.moveBoost;
         
-        this.targetNoiseAmplitude = this.config.baseNoiseAmplitude +
-          Math.min(velocityContribution, maxAddition);
+        this.targetNoiseAmplitude = Math.min(
+          this.targetNoiseAmplitude + velocityBoost,
+          this.config.maxNoiseAmplitude
+        );
       }
     }
     
     // Сохраняем текущую позицию для следующего кадра
-    this.lastMouseX = mouseX;
-    this.lastMouseY = mouseY;
+    this.lastMouseX = clientX;
+    this.lastMouseY = clientY;
     this.lastMouseTime = now;
   }
   
   /**
-   * Обработчик скролла - увеличивает амплитуду
+   * Обработчик скролла/wheel - накапливает амплитуду
+   * @param {Event|WheelEvent} event
    */
-  handleScroll() {
-    // Добавляем к target amplitude при скролле
-    const scrollContribution = 50 * this.config.scrollMultiplier;
-    const maxAddition = this.config.maxNoiseAmplitude - this.config.baseNoiseAmplitude;
+  handleScroll(event) {
+    // Определяем величину скролла
+    let scrollDelta = 50; // Значение по умолчанию для scroll event
+    
+    if (event && event.type === 'wheel') {
+      // Для wheel event используем deltaY
+      scrollDelta = Math.abs(event.deltaY) || 50;
+    }
+    
+    // НАКОПЛЕНИЕ: добавляем к target amplitude при скролле
+    // scrollBoost - максимальный boost при прокрутке (настраиваемый в config)
+    const scrollBoost = Math.min(scrollDelta * 0.2, this.config.scrollBoost);
     
     this.targetNoiseAmplitude = Math.min(
-      this.targetNoiseAmplitude + scrollContribution,
-      this.config.baseNoiseAmplitude + maxAddition
+      this.targetNoiseAmplitude + scrollBoost,
+      this.config.maxNoiseAmplitude
     );
   }
   
   /**
-   * Обработчик клика - создает всплеск амплитуды
+   * Обработчик начала нажатия (mousedown/touchstart)
+   * @param {MouseEvent|TouchEvent} event
    */
-  handleClick() {
-    // Мгновенный всплеск до максимума
-    this.targetNoiseAmplitude = this.config.maxNoiseAmplitude;
-    this.clickBurstTime = performance.now();
+  handlePressStart(event) {
+    this.isPressed = true;
+    this.pressStartTime = performance.now();
+    
+    // Начальный импульс при нажатии
+    this.targetNoiseAmplitude = Math.min(
+      this.targetNoiseAmplitude + 20,
+      this.config.maxNoiseAmplitude
+    );
   }
   
   /**
-   * Обновление динамической амплитуды шума
+   * Обработчик окончания нажатия (mouseup/touchend)
+   */
+  handlePressEnd() {
+    this.isPressed = false;
+  }
+  
+  /**
+   * Обновление динамической амплитуды шума с системой накопления
    * @param {number} dt - Delta time в секундах
    */
   updateNoiseAmplitude(dt) {
-    // Проверяем, прошло ли время всплеска клика
     const now = performance.now();
-    const timeSinceClick = now - this.clickBurstTime;
     
-    // Затухание target к base amplitude (если не в режиме всплеска)
-    if (timeSinceClick > this.config.clickBurstDuration) {
-      const decayFactor = 1 - Math.pow(1 - this.config.amplitudeDecayFactor, dt * 60);
-      this.targetNoiseAmplitude += (this.config.baseNoiseAmplitude - this.targetNoiseAmplitude) * decayFactor;
+    // Если зажата кнопка/палец - добавляем boost
+    if (this.isPressed) {
+      const pressDuration = now - this.pressStartTime;
+      // Чем дольше держим, тем больше boost (до максимума pressBoost)
+      const pressBoost = Math.min(pressDuration / 50, this.config.pressBoost);
+      
+      this.targetNoiseAmplitude = Math.min(
+        this.targetNoiseAmplitude + pressBoost * 0.1,
+        this.config.maxNoiseAmplitude
+      );
     }
     
     // Плавная интерполяция current к target
     const lerpFactor = 1 - Math.pow(1 - this.config.amplitudeLerpFactor, dt * 60);
     this.currentNoiseAmplitude += (this.targetNoiseAmplitude - this.currentNoiseAmplitude) * lerpFactor;
+    
+    // Медленное затухание target к base (только когда нет активности - не нажато)
+    if (!this.isPressed) {
+      const decayFactor = 1 - Math.pow(1 - this.config.amplitudeDecayFactor, dt * 60);
+      this.targetNoiseAmplitude += (this.config.baseNoiseAmplitude - this.targetNoiseAmplitude) * decayFactor;
+    }
   }
   
   /**
@@ -758,12 +811,19 @@ export class NoiseRingsBackground {
     // Удаление обработчиков событий
     if (this.boundHandleMouseMove) {
       window.removeEventListener('mousemove', this.boundHandleMouseMove);
+      window.removeEventListener('touchmove', this.boundHandleMouseMove);
     }
     if (this.boundHandleScroll) {
       window.removeEventListener('scroll', this.boundHandleScroll);
+      window.removeEventListener('wheel', this.boundHandleScroll);
     }
-    if (this.boundHandleClick) {
-      window.removeEventListener('click', this.boundHandleClick);
+    if (this.boundHandlePressStart) {
+      window.removeEventListener('mousedown', this.boundHandlePressStart);
+      window.removeEventListener('touchstart', this.boundHandlePressStart);
+    }
+    if (this.boundHandlePressEnd) {
+      window.removeEventListener('mouseup', this.boundHandlePressEnd);
+      window.removeEventListener('touchend', this.boundHandlePressEnd);
     }
     if (this.boundHandleResize) {
       window.removeEventListener('resize', this.boundHandleResize);
