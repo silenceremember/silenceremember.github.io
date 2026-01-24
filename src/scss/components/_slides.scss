@@ -223,40 +223,33 @@
   margin-top: var(--spacing-sm);
 }
 
-.project-image-previews {
+/* Контейнер для кнопки действия проекта */
+.project-action-container {
   display: flex;
-  justify-content: space-between;
-  gap: var(--spacing-md);
   width: 100%;
+  margin-top: var(--spacing-xs);
 }
 
-.preview-placeholder {
-  width: 48px;
-  height: 48px;
-  background-color: transparent;
-  position: relative;
+/* Кнопка действия проекта (ПОДРОБНЕЕ / СКОРО) */
+.project-action-button {
+  width: 100%;
+  display: block;
+  text-align: center;
 
-  // Большой разделитель как маска поверх изображения
-  &::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 26px;
-    height: 26px;
-    background-color: var(--color-text-primary);
-    mask-image: url('/assets/images/icon-divider-large.svg');
-    mask-size: contain;
-    mask-repeat: no-repeat;
-    mask-position: center;
-    -webkit-mask-image: url('/assets/images/icon-divider-large.svg');
-    -webkit-mask-size: contain;
-    -webkit-mask-repeat: no-repeat;
-    -webkit-mask-position: center;
+  /* Disabled состояние для кнопки "СКОРО" */
+  &.disabled {
     pointer-events: none;
-    opacity: 0.3;
-    z-index: 1;
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: transparent;
+    border-color: var(--color-divider);
+    color: var(--color-secondary);
+
+    &:hover {
+      background-color: transparent;
+      border-color: var(--color-divider);
+      color: var(--color-secondary);
+    }
   }
 }
 

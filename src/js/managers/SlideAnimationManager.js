@@ -79,7 +79,7 @@ export class SlideAnimationManager {
             );
           } else {
             elementsToCheck = slide.querySelectorAll(
-              '.section-title, .project-title, .project-meta, .project-placeholder, .details-block, .preview-placeholder'
+              '.section-title, .project-title, .project-meta, .project-placeholder, .details-block, .project-action-container'
             );
           }
 
@@ -205,7 +205,7 @@ export class SlideAnimationManager {
             } else {
               // Проектные слайды (1-3)
               const elements = slide.querySelectorAll(
-                '.section-title, .project-title, .project-meta, .project-placeholder, .details-block, .preview-placeholder'
+                '.section-title, .project-title, .project-meta, .project-placeholder, .details-block, .project-action-container'
               );
               allElementsToAnimate.push(...Array.from(elements));
             }
@@ -479,7 +479,7 @@ export class SlideAnimationManager {
         );
       } else {
         elementsToShow = slide.querySelectorAll(
-          '.section-title, .project-title, .project-meta, .project-placeholder, .details-block, .preview-placeholder'
+          '.section-title, .project-title, .project-meta, .project-placeholder, .details-block, .project-action-container'
         );
       }
 
@@ -516,7 +516,7 @@ export class SlideAnimationManager {
       );
     } else {
       elementsToShow = activeSlide.querySelectorAll(
-        '.section-title, .project-title, .project-meta, .project-placeholder, .details-block, .preview-placeholder'
+        '.section-title, .project-title, .project-meta, .project-placeholder, .details-block, .project-action-container'
       );
     }
 
@@ -569,7 +569,7 @@ export class SlideAnimationManager {
 
     // Проектные слайды (слайды 1-3)
     const elementsToHide = slide.querySelectorAll(
-      '.section-title, .project-title, .project-meta, .project-placeholder, .details-block, .preview-placeholder'
+      '.section-title, .project-title, .project-meta, .project-placeholder, .details-block, .project-action-container'
     );
     elementsToHide.forEach((el) => {
       if (el) {
@@ -687,16 +687,14 @@ export class SlideAnimationManager {
             }
           });
 
-          // Анимируем preview изображения с небольшой задержкой
-          const previewPlaceholders = slide.querySelectorAll(
-            '.preview-placeholder'
+          // Анимируем кнопку действия проекта последней в последовательности
+          const actionContainer = slide.querySelector(
+            '.project-action-container'
           );
-          if (previewPlaceholders.length > 0) {
+          if (actionContainer) {
             setTimeout(() => {
-              previewPlaceholders.forEach((placeholder) => {
-                animateElementAppearance(placeholder, {
-                  skipInitialState: true,
-                });
+              animateElementAppearance(actionContainer, {
+                skipInitialState: true,
               });
             }, elementsToAnimate.length * 30);
           }
@@ -730,7 +728,7 @@ export class SlideAnimationManager {
         );
       } else {
         elementsToHide = slide.querySelectorAll(
-          '.section-title, .project-title, .project-meta, .project-placeholder, .details-block, .preview-placeholder'
+          '.section-title, .project-title, .project-meta, .project-placeholder, .details-block, .project-action-container'
         );
       }
 

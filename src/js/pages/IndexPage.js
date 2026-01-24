@@ -130,8 +130,66 @@ export class IndexPage extends BasePage {
           isVisible
         );
       }
-
     }
+
+    // Настройка кнопки действия проекта (ПОДРОБНЕЕ / СКОРО)
+    this.setupProjectActionButton(slideElement, project);
+  }
+
+  /**
+   * Настраивает кнопку действия проекта
+   * @param {HTMLElement} slideElement - Элемент слайда
+   * @param {Object} project - Данные проекта
+   */
+  setupProjectActionButton(slideElement, project) {
+    const actionButton = slideElement.querySelector('.project-action-button');
+    if (!actionButton) return;
+
+    // Получаем первую доступную ссылку из проекта
+    const projectLink = this.getProjectLink(project);
+    
+    // Определяем, должна ли кнопка быть в режиме "СКОРО"
+    const isComingSoon = project.comingSoon === true || !projectLink;
+
+    if (isComingSoon) {
+      // Кнопка "СКОРО" - отключена
+      actionButton.classList.add('disabled');
+      actionButton.removeAttribute('href');
+      actionButton.setAttribute('data-i18n', 'projects.card.comingSoon');
+      actionButton.textContent = localization.t('projects.card.comingSoon');
+      actionButton.removeAttribute('target');
+      actionButton.removeAttribute('rel');
+    } else {
+      // Кнопка "ПОДРОБНЕЕ" - активна с ссылкой
+      actionButton.classList.remove('disabled');
+      actionButton.setAttribute('href', projectLink);
+      actionButton.setAttribute('data-i18n', 'projects.card.details');
+      actionButton.textContent = localization.t('projects.card.details');
+      actionButton.setAttribute('target', '_blank');
+      actionButton.setAttribute('rel', 'noopener noreferrer');
+    }
+  }
+
+  /**
+   * Получает первую доступную ссылку из проекта
+   * @param {Object} project - Данные проекта
+   * @returns {string|null} URL ссылки или null
+   */
+  getProjectLink(project) {
+    if (!project.links) return null;
+    
+    // Приоритет ссылок: site > itch > github > document > concept > presentation
+    const linkPriority = ['site', 'itch', 'github', 'document', 'concept', 'presentation'];
+    
+    for (const linkType of linkPriority) {
+      if (project.links[linkType]) {
+        return project.links[linkType];
+      }
+    }
+    
+    // Если известные типы не найдены, берем первую доступную ссылку
+    const linkValues = Object.values(project.links);
+    return linkValues.length > 0 ? linkValues[0] : null;
   }
 
   /**
@@ -409,6 +467,15 @@ export class IndexPage extends BasePage {
           contributionElement.textContent = project.keyContributionLocalized[lang];
         } else {
           contributionElement.textContent = project.keyContribution;
+        }
+      }
+
+      // Обновляем текст кнопки действия проекта
+      const actionButton = slide.querySelector('.project-action-button');
+      if (actionButton) {
+        const i18nKey = actionButton.getAttribute('data-i18n');
+        if (i18nKey) {
+          actionButton.textContent = localization.t(i18nKey);
         }
       }
     });
