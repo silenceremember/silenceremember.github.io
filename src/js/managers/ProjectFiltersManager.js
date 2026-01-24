@@ -54,6 +54,10 @@ export class ProjectFiltersManager {
 
     /** @type {boolean} */
     this.isApplyingFilters = false;
+
+    // Bound handler for cleanup in destroy()
+    /** @type {Function|null} */
+    this.boundDocumentClickHandler = null;
   }
 
   /**
@@ -504,7 +508,8 @@ export class ProjectFiltersManager {
     });
 
     // Закрытие dropdown при клике вне его
-    const handleDocumentClick = (e) => {
+    // Store bound handler for cleanup in destroy()
+    this.boundDocumentClickHandler = (e) => {
       if (
         !dropdownButton.contains(e.target) &&
         !dropdownMenu.contains(e.target)
@@ -522,7 +527,7 @@ export class ProjectFiltersManager {
     };
 
     // Используем capture фазу для правильной обработки кликов
-    document.addEventListener('click', handleDocumentClick, true);
+    document.addEventListener('click', this.boundDocumentClickHandler, true);
 
     // Обработка выбора года
     const handleYearOptionClick = (option) => {
@@ -929,5 +934,27 @@ export class ProjectFiltersManager {
       // Сбрасываем флаг после завершения применения фильтров
       this.isApplyingFilters = false;
     }
+  }
+
+  /**
+   * Уничтожение компонента и освобождение ресурсов
+   * Предотвращает накопление listeners при SPA-навигации
+   */
+  destroy() {
+    // Удаление document click listener
+    if (this.boundDocumentClickHandler) {
+      document.removeEventListener('click', this.boundDocumentClickHandler, true);
+      this.boundDocumentClickHandler = null;
+    }
+    
+    // Сброс состояния
+    this.activeFilters = {
+      category: [],
+      status: [],
+      year: [],
+    };
+    this.savedYearButtonWidth = null;
+    this.projectFiltersTemplate = null;
+    this.isApplyingFilters = false;
   }
 }

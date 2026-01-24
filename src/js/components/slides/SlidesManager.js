@@ -30,6 +30,10 @@ export class SlidesManager {
     this.hintShown = false;
     this.hasLeftFirstSlide = false;
     this.scrollManager = null;
+    
+    // Bound handlers for cleanup in destroy()
+    this.boundWheelHandler = null;
+    this.boundMenuButtonHandler = null;
   }
 
   /**
@@ -61,16 +65,17 @@ export class SlidesManager {
     this.slideHint = document.getElementById('slide-hint');
 
     if (this.menuButton) {
-      this.menuButton.addEventListener('click', () => {
+      // Store bound handler for cleanup in destroy()
+      this.boundMenuButtonHandler = () => {
         // Пытаемся найти footer для надежной прокрутки
         const footer = document.querySelector('.footer');
         
         if (footer) {
           // Используем scrollIntoView для прокрутки до footer
           // Это работает одинаково надежно на всех устройствах
-          footer.scrollIntoView({ 
-            behavior: 'smooth', 
-            block: 'end' 
+          footer.scrollIntoView({
+            behavior: 'smooth',
+            block: 'end'
           });
         } else {
           // Fallback
@@ -79,7 +84,8 @@ export class SlidesManager {
             behavior: 'smooth',
           });
         }
-      });
+      };
+      this.menuButton.addEventListener('click', this.boundMenuButtonHandler);
     }
 
     // Инициализируем индикаторы
@@ -345,7 +351,8 @@ export class SlidesManager {
    * Настраивает обработчик колесика мыши
    */
   setupWheelHandler() {
-    window.addEventListener('wheel', (event) => {
+    // Store bound handler for cleanup in destroy()
+    this.boundWheelHandler = (event) => {
       if (this.isScrolling || this.isTabletMode) return;
 
       // Скрываем подсказку при прокрутке
@@ -354,6 +361,66 @@ export class SlidesManager {
       const direction = event.deltaY > 0 ? 1 : -1;
       const nextIndex = this.currentSlideIndex + direction;
       this.changeSlide(nextIndex);
+    };
+    
+    // passive: true улучшает scroll performance на мобильных устройствах
+    // Можно использовать, т.к. handler не вызывает preventDefault()
+    window.addEventListener('wheel', this.boundWheelHandler, { passive: true });
+  }
+
+  /**
+   * Уничтожение компонента и освобождение ресурсов
+   * Предотвращает накопление listeners при SPA-навигации
+   */
+  destroy() {
+    // Очистка таймеров
+    if (this.hintTimeout) {
+      clearTimeout(this.hintTimeout);
+      this.hintTimeout = null;
+    }
+    
+    if (this.slideTransitionTimeout) {
+      clearTimeout(this.slideTransitionTimeout);
+      this.slideTransitionTimeout = null;
+    }
+    
+    // Удаление wheel listener
+    if (this.boundWheelHandler) {
+      window.removeEventListener('wheel', this.boundWheelHandler);
+      this.boundWheelHandler = null;
+    }
+    
+    // Удаление menu button listener
+    if (this.menuButton && this.boundMenuButtonHandler) {
+      this.menuButton.removeEventListener('click', this.boundMenuButtonHandler);
+      this.boundMenuButtonHandler = null;
+    }
+    
+    // Уничтожение ScrollManager
+    if (this.scrollManager && typeof this.scrollManager.destroy === 'function') {
+      this.scrollManager.destroy();
+      this.scrollManager = null;
+    }
+    
+    // Очистка progress dots listeners
+    this.progressDots.forEach((dot) => {
+      // Клонируем элемент для удаления всех listeners
+      const newDot = dot.cloneNode(true);
+      if (dot.parentNode) {
+        dot.parentNode.replaceChild(newDot, dot);
+      }
     });
+    this.progressDots = [];
+    
+    // Сброс состояния
+    this.slidesContainer = null;
+    this.slides = null;
+    this.progressContainer = null;
+    this.header = null;
+    this.footer = null;
+    this.decorativeLines = null;
+    this.menuButton = null;
+    this.ctaSection = null;
+    this.slideHint = null;
   }
 }

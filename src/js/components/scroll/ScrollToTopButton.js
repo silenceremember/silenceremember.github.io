@@ -20,6 +20,12 @@ export class ScrollToTopButton {
     this.previousIsTabletMode = false;
     this.scrollManager = null; // Ссылка на ScrollManager для синхронизации
     this.positionUpdateRafId = null; // ID requestAnimationFrame для отмены
+    
+    // Bound handlers for cleanup in destroy()
+    this.boundClickHandler = null;
+    this.boundResizeHandler = null;
+    this.footerObserver = null;
+    this.handleScrollBound = null;
   }
 
   /**
@@ -452,7 +458,8 @@ export class ScrollToTopButton {
    */
   setupEventListeners() {
     // Обработчик клика - плавный скролл наверх
-    this.scrollToTopButton.addEventListener('click', () => {
+    // Store bound handler for cleanup in destroy()
+    this.boundClickHandler = () => {
       const scrollElement = this.getScrollElement();
       if (scrollElement === window) {
         window.scrollTo({
@@ -465,7 +472,8 @@ export class ScrollToTopButton {
           behavior: 'smooth',
         });
       }
-    });
+    };
+    this.scrollToTopButton.addEventListener('click', this.boundClickHandler);
 
     // Наблюдаем за изменениями класса футера для синхронизации позиции кнопки
     if (this.footer) {
@@ -498,7 +506,8 @@ export class ScrollToTopButton {
     this.previousIsTabletMode = this.isTabletMode();
 
     // Обновляем обработчик при изменении размера окна
-    window.addEventListener('resize', () => {
+    // Store bound handler for cleanup in destroy()
+    this.boundResizeHandler = () => {
       const currentIsTabletMode = this.isTabletMode();
       // Обновляем обработчик только если изменился режим
       if (currentIsTabletMode !== this.previousIsTabletMode) {
@@ -508,7 +517,8 @@ export class ScrollToTopButton {
       this.handleScroll();
       // Обновляем позицию кнопки при изменении размера окна
       this.updateButtonPosition();
-    });
+    };
+    window.addEventListener('resize', this.boundResizeHandler);
   }
 
   /**
@@ -554,5 +564,58 @@ export class ScrollToTopButton {
     
     // Обновляем состояние кнопки
     this.handleScroll();
+  }
+
+  /**
+   * Уничтожение компонента и освобождение ресурсов
+   * Предотвращает накопление listeners при SPA-навигации
+   */
+  destroy() {
+    // Отмена pending requestAnimationFrame
+    if (this.positionUpdateRafId !== null) {
+      cancelAnimationFrame(this.positionUpdateRafId);
+      this.positionUpdateRafId = null;
+    }
+    
+    // Очистка таймеров
+    if (this.hideTimeout) {
+      clearTimeout(this.hideTimeout);
+      this.hideTimeout = null;
+    }
+    
+    // Удаление click listener
+    if (this.scrollToTopButton && this.boundClickHandler) {
+      this.scrollToTopButton.removeEventListener('click', this.boundClickHandler);
+      this.boundClickHandler = null;
+    }
+    
+    // Удаление resize listener
+    if (this.boundResizeHandler) {
+      window.removeEventListener('resize', this.boundResizeHandler);
+      this.boundResizeHandler = null;
+    }
+    
+    // Удаление scroll listeners
+    if (this.handleScrollBound) {
+      window.removeEventListener('scroll', this.handleScrollBound);
+      if (this.pageWrapper) {
+        this.pageWrapper.removeEventListener('scroll', this.handleScrollBound);
+      }
+      this.handleScrollBound = null;
+    }
+    
+    // Отключение MutationObserver
+    if (this.footerObserver) {
+      this.footerObserver.disconnect();
+      this.footerObserver = null;
+    }
+    
+    // Сброс состояния
+    this.scrollToTopButton = null;
+    this.footer = null;
+    this.pageWrapper = null;
+    this.scrollManager = null;
+    this.isAnimating = false;
+    this.wasShown = false;
   }
 }
