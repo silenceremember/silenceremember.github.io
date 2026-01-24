@@ -203,9 +203,9 @@ const DEFAULT_CONFIG = {
   scrollBoost: 10,            // Максимальный boost при прокрутке
   moveBoost: 0.25,             // Множитель для скорости мыши/пальца
   
-  // Opacity градиент
-  opacityCenter: 0,         // Opacity в центре
-  opacityEdge: 0.25,           // Opacity на краях
+  // Opacity градиент (растёт от центра к краям)
+  minOpacity: 0.0,            // Opacity в центре (затухание)
+  maxOpacity: 0.25,            // Opacity по краям (хорошо видны)
   
   // Цвета (по умолчанию)
   accentColor: '#d90429',
@@ -358,6 +358,12 @@ export class NoiseRingsBackground {
     this.canvas.style.height = `${height}px`;
     
     this.ctx.scale(dpr, dpr);
+    
+    // Вычисляем максимальный видимый радиус (расстояние от центра до угла экрана)
+    this.maxVisibleRadius = Math.sqrt(
+      Math.pow(width / 2, 2) +
+      Math.pow(height / 2, 2)
+    );
     
     // При reduced motion перерисовываем статичный кадр
     if (this.reducedMotion) {
@@ -617,17 +623,22 @@ export class NoiseRingsBackground {
   }
   
   /**
-   * Вычисляет opacity с градиентом от центра к краям
-   * @param {number} ringIndex - Индекс кольца
+   * Вычисляет opacity с градиентом от центра к краям видимой области
+   * Opacity РАСТЁТ от центра к краям (затухание к центру)
+   * Opacity зависит от расстояния кольца до видимого края экрана, а не от индекса
+   * @param {number} radius - Радиус кольца в пикселях
+   * @param {number} ringIndex - Индекс кольца (для обратной совместимости, не используется)
    * @returns {number} Значение opacity
    */
-  calculateOpacity(ringIndex) {
-    const distanceFactor = ringIndex / this.config.ringCount;
-    const { opacityCenter, opacityEdge } = this.config;
+  calculateOpacity(radius, ringIndex) {
+    // Позиция кольца относительно видимой области (0 = центр, 1 = край экрана)
+    const normalizedPosition = Math.min(radius / this.maxVisibleRadius, 1.0);
     
-    // Линейная интерполяция с небольшим smoothstep эффектом
-    const t = distanceFactor * distanceFactor * (3 - 2 * distanceFactor);
-    return opacityCenter - (opacityCenter - opacityEdge) * t;
+    // Opacity растёт от центра к краям видимой области
+    // minOpacity в центре, maxOpacity по краям
+    // Кольца на краю экрана ВСЕГДА имеют высокую opacity
+    return this.config.minOpacity +
+      (this.config.maxOpacity - this.config.minOpacity) * normalizedPosition;
   }
   
   /**
@@ -679,8 +690,11 @@ export class NoiseRingsBackground {
     const segments = this.config.segments;
     const angleStep = (Math.PI * 2) / segments;
     
-    // Вычисление opacity
-    const opacity = this.calculateOpacity(ringIndex);
+    // Базовый радиус кольца
+    const baseRadius = ringIndex * this.config.ringSpacing;
+    
+    // Вычисление opacity на основе радиуса относительно видимой области
+    const opacity = this.calculateOpacity(baseRadius, ringIndex);
     if (opacity <= 0.01) return;
     
     this.ctx.beginPath();
