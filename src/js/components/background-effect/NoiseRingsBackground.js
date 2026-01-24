@@ -181,8 +181,8 @@ class SimplexNoise {
  */
 const DEFAULT_CONFIG = {
   // Параметры колец
-  ringCount: 100,               // 
-  ringSpacing: 14,             // 
+  ringCount: 100,               //  Кол-во колец
+  ringSpacing: 14,             // Расстояние между кольцами
   ringWidth: 1,                // Толщина линии 1-2px
   pixelsPerSegment: 24,        // Один сегмент на каждые 12 пикселей периметра
   minSegments: 8,             // Минимум сегментов (для маленьких колец)
