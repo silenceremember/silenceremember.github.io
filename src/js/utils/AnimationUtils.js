@@ -152,6 +152,10 @@ export function animateElementAppearance(element, options = {}) {
 
 /**
  * Анимирует появление массива элементов одновременно
+ *
+ * ОПТИМИЗАЦИЯ: Убраны forced reflow (void offsetHeight) и заменены на
+ * цепочку RAF. Используется батчинг read/write операций.
+ *
  * @param {NodeList|Array<HTMLElement>} elements - Массив элементов для анимации
  * @param {Object} options - Опции анимации (см. animateElementAppearance)
  */
@@ -165,7 +169,7 @@ export function animateElementsAppearance(elements, options = {}) {
     options.translateYAppear || ANIMATION_CONFIG.translateYAppear;
   const skipInitialState = options.skipInitialState || false;
 
-  // Устанавливаем начальное состояние для всех элементов СИНХРОННО (если не пропущено)
+  // WRITE фаза: Устанавливаем начальное состояние для всех элементов (если не пропущено)
   if (!skipInitialState) {
     elementsArray.forEach((element) => {
       if (element) {
@@ -178,60 +182,47 @@ export function animateElementsAppearance(elements, options = {}) {
         element.style.setProperty('transition', 'none', 'important');
       }
     });
-
-    // Принудительный reflow для применения стилей
-    if (elementsArray.length > 0 && elementsArray[0]) {
-      void elementsArray[0].offsetHeight;
-    }
   }
 
-  // Используем двойной requestAnimationFrame для синхронизации с браузером
+  // ОПТИМИЗАЦИЯ: Используем цепочку RAF вместо forced reflow
+  // RAF 1: Регистрация начальных стилей
   requestAnimationFrame(() => {
+    // RAF 2: Подтверждение применения начальных стилей
     requestAnimationFrame(() => {
-      // Убеждаемся, что начальное состояние установлено
-      elementsArray.forEach((element) => {
-        if (element) {
-          if (skipInitialState) {
-            // Проверяем, что начальное состояние действительно установлено
-            const computedStyle = window.getComputedStyle(element);
-            const computedOpacity = parseFloat(computedStyle.opacity);
+      // READ фаза: Проверяем состояние элементов если skipInitialState
+      // Батчим все READ операции перед WRITE
+      const elementsNeedingInitialState = [];
+      
+      if (skipInitialState) {
+        elementsArray.forEach((element) => {
+          if (element) {
             const inlineOpacity = element.style.opacity;
             const inlineTransform = element.style.transform;
-
-            // Если элемент видим или inline стили не установлены, устанавливаем начальное состояние
+            
             if (
-              computedOpacity > 0.01 ||
               !inlineOpacity ||
               inlineOpacity === '' ||
               !inlineTransform ||
               inlineTransform === ''
             ) {
-              element.style.setProperty('opacity', '0', 'important');
-              element.style.setProperty(
-                'transform',
-                `translateY(${translateYAppear})`,
-                'important'
-              );
-              element.style.setProperty('transition', 'none', 'important');
+              elementsNeedingInitialState.push(element);
             }
-          } else {
-            element.style.setProperty('opacity', '0', 'important');
-            element.style.setProperty(
-              'transform',
-              `translateY(${translateYAppear})`,
-              'important'
-            );
-            element.style.setProperty('transition', 'none', 'important');
           }
-        }
+        });
+      }
+      
+      // WRITE фаза: Применяем начальное состояние к элементам, которым нужно
+      elementsNeedingInitialState.forEach((element) => {
+        element.style.setProperty('opacity', '0', 'important');
+        element.style.setProperty(
+          'transform',
+          `translateY(${translateYAppear})`,
+          'important'
+        );
+        element.style.setProperty('transition', 'none', 'important');
       });
 
-      // Принудительный reflow для применения стилей
-      if (elementsArray.length > 0 && elementsArray[0]) {
-        void elementsArray[0].offsetHeight;
-      }
-
-      // Применяем анимацию одновременно для всех элементов
+      // RAF 3: Применение transition
       requestAnimationFrame(() => {
         const config = {
           duration: options.duration || ANIMATION_CONFIG.duration,
@@ -241,39 +232,37 @@ export function animateElementsAppearance(elements, options = {}) {
           timeout: options.timeout || ANIMATION_CONFIG.timeout,
         };
 
+        // WRITE фаза: Устанавливаем transition для всех элементов
         elementsArray.forEach((element) => {
           if (element) {
-            // Убираем !important перед установкой transition для корректной работы анимации
             element.style.removeProperty('transition');
             element.style.transition = `opacity ${config.duration} ${config.timing}, transform ${config.duration} ${config.timing}`;
           }
         });
 
-        // Принудительный reflow перед изменением значений
-        if (elementsArray.length > 0 && elementsArray[0]) {
-          void elementsArray[0].offsetHeight;
-        }
-
-        elementsArray.forEach((element) => {
-          if (element) {
-            // Убираем !important перед установкой финальных значений
-            element.style.removeProperty('opacity');
-            element.style.removeProperty('transform');
-            element.style.opacity = '1';
-            element.style.transform = `translateY(${config.translateYFinal})`;
-          }
-        });
-
-        // Убираем inline стили после анимации
-        setTimeout(() => {
+        // RAF 4: Применение финальных значений
+        requestAnimationFrame(() => {
+          // WRITE фаза: Устанавливаем финальные значения для всех элементов
           elementsArray.forEach((element) => {
             if (element) {
-              element.style.removeProperty('transform');
               element.style.removeProperty('opacity');
-              element.style.removeProperty('transition');
+              element.style.removeProperty('transform');
+              element.style.opacity = '1';
+              element.style.transform = `translateY(${config.translateYFinal})`;
             }
           });
-        }, config.timeout);
+
+          // Убираем inline стили после анимации
+          setTimeout(() => {
+            elementsArray.forEach((element) => {
+              if (element) {
+                element.style.removeProperty('transform');
+                element.style.removeProperty('opacity');
+                element.style.removeProperty('transition');
+              }
+            });
+          }, config.timeout);
+        });
       });
     });
   });

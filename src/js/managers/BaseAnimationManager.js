@@ -64,50 +64,89 @@ export class BaseAnimationManager {
   /**
    * Проверяет и при необходимости снова скрывает элементы
    * Используется при повторном посещении страницы
+   *
+   * ОПТИМИЗАЦИЯ: Используется батчинг read/write операций
+   * для предотвращения layout thrashing
    */
   recheckAndHideElements() {
     const allSections = document.querySelectorAll(this.sectionSelector);
+    
+    // ОПТИМИЗАЦИЯ: Разделяем READ и WRITE фазы
+    
+    // Фаза 1: READ - собираем все computed styles
+    const sectionsData = [];
     allSections.forEach((section) => {
       if (section) {
         const computedStyle = window.getComputedStyle(section);
         const opacity = parseFloat(computedStyle.opacity);
-        // Если секция видима, снова скрываем её
-        if (opacity > 0.01) {
-          section.style.setProperty('opacity', '0', 'important');
-          section.style.setProperty(
-            'transform',
-            `translateY(${ANIMATION_CONFIG.translateYAppear})`,
-            'important'
-          );
-          section.style.setProperty('transition', 'none', 'important');
-        }
-
-        // Проверяем и скрываем элементы внутри секции
+        
         const elementsToCheck = section.querySelectorAll(this.elementsSelector);
-
+        const elementsData = [];
+        
         elementsToCheck.forEach((element) => {
           if (element) {
             const elementComputedStyle = window.getComputedStyle(element);
             const elementOpacity = parseFloat(elementComputedStyle.opacity);
-            // Если элемент видим, снова скрываем его
-            if (elementOpacity > 0.01) {
-              element.style.setProperty('opacity', '0', 'important');
-              element.style.setProperty(
-                'transform',
-                `translateY(${ANIMATION_CONFIG.translateYAppear})`,
-                'important'
-              );
-              element.style.setProperty('transition', 'none', 'important');
-            }
+            elementsData.push({ element, opacity: elementOpacity });
           }
         });
+        
+        sectionsData.push({ section, opacity, elementsData });
       }
+    });
+    
+    // Фаза 2: WRITE - применяем стили на основе собранных данных
+    sectionsData.forEach(({ section, opacity, elementsData }) => {
+      // Если секция видима, снова скрываем её
+      if (opacity > 0.01) {
+        section.style.setProperty('opacity', '0', 'important');
+        section.style.setProperty(
+          'transform',
+          `translateY(${ANIMATION_CONFIG.translateYAppear})`,
+          'important'
+        );
+        section.style.setProperty('transition', 'none', 'important');
+      }
+
+      // Скрываем видимые элементы
+      elementsData.forEach(({ element, opacity: elementOpacity }) => {
+        if (elementOpacity > 0.01) {
+          element.style.setProperty('opacity', '0', 'important');
+          element.style.setProperty(
+            'transform',
+            `translateY(${ANIMATION_CONFIG.translateYAppear})`,
+            'important'
+          );
+          element.style.setProperty('transition', 'none', 'important');
+        }
+      });
     });
   }
 
   /**
-   * Принудительный reflow для применения стилей
+   * Принудительный reflow для применения стилей.
+   *
+   * @deprecated Используйте requestAnimationFrame для разделения read/write фаз вместо forced reflow.
+   * Forced synchronous layout является дорогой операцией и может вызывать layout thrashing.
+   *
+   * Рекомендуемая альтернатива:
+   * ```javascript
+   * // Вместо:
+   * element.style.opacity = '0';
+   * this.forceReflow(element);
+   * element.style.opacity = '1';
+   *
+   * // Используйте:
+   * element.style.opacity = '0';
+   * requestAnimationFrame(() => {
+   *   requestAnimationFrame(() => {
+   *     element.style.opacity = '1';
+   *   });
+   * });
+   * ```
+   *
    * @param {HTMLElement} element - Элемент для проверки reflow
+   * @see {@link https://gist.github.com/paulirish/5d52fb081b3570c81e3a|What forces layout/reflow}
    */
   forceReflow(element = null) {
     if (element && element.firstElementChild) {
@@ -118,6 +157,24 @@ export class BaseAnimationManager {
         void firstSection.firstElementChild.offsetHeight;
       }
     }
+  }
+
+  /**
+   * Гарантирует применение стилей через цепочку requestAnimationFrame.
+   * Это предпочтительная альтернатива forceReflow, которая не вызывает
+   * forced synchronous layout.
+   *
+   * @param {Function} callback - Функция, которая будет вызвана после применения стилей
+   * @returns {void}
+   */
+  ensureStylesApplied(callback) {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        if (callback && typeof callback === 'function') {
+          callback();
+        }
+      });
+    });
   }
 
   /**

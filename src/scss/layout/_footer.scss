@@ -20,6 +20,16 @@
   backface-visibility: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Изолирует элемент от остального документа для лучшей производительности */
+  contain: layout style paint;
+
+  /* Отключаем blur на устройствах с prefers-reduced-motion для лучшей производительности */
+  @media (prefers-reduced-motion: reduce) {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    /* Используем более плотный фон вместо размытия */
+    background-color: color-mix(in srgb, var(--color-bg-primary) 95%, transparent);
+  }
 }
 
 .footer-content {
