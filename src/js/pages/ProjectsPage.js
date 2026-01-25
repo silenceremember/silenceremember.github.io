@@ -449,8 +449,8 @@ export class ProjectsPage extends BasePage {
         }
       });
 
-      // Обновляем кнопку сброса
-      const resetButton = document.getElementById('project-filters-reset');
+      // Обновляем кнопку сброса (находим в сетке проектов, так как она создается динамически)
+      const resetButton = document.querySelector('#projects-grid .projects-section-expand');
       if (resetButton) {
         const resetButtonText = resetButton.querySelector('.projects-section-expand-text');
         if (resetButtonText) {

@@ -446,14 +446,6 @@ export class ProjectFiltersManager {
         }
       });
     });
-
-    // Кнопка сброса фильтров
-    const resetButton = document.getElementById('project-filters-reset');
-    if (resetButton) {
-      resetButton.addEventListener('click', () => {
-        this.clearAllFilters();
-      });
-    }
   }
 
   /**
@@ -766,7 +758,6 @@ export class ProjectFiltersManager {
       // Добавляем кнопку "Сбросить"
       const resetButton = document.createElement('button');
       resetButton.className = 'projects-section-expand';
-      resetButton.id = 'project-filters-reset';
       resetButton.setAttribute('aria-label', localization.t('projects.filters.resetAria'));
       const resetButtonText = document.createElement('span');
       resetButtonText.className = 'projects-section-expand-text';
