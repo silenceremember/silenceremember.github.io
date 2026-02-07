@@ -23,24 +23,24 @@ class SimplexNoise {
     this.p = this.buildPermutationTable(seed);
     this.perm = new Uint8Array(512);
     this.permMod12 = new Uint8Array(512);
-    
+
     for (let i = 0; i < 512; i++) {
       this.perm[i] = this.p[i & 255];
       this.permMod12[i] = this.perm[i] % 12;
     }
-    
+
     // Градиенты для 3D noise
     this.grad3 = [
       [1, 1, 0], [-1, 1, 0], [1, -1, 0], [-1, -1, 0],
       [1, 0, 1], [-1, 0, 1], [1, 0, -1], [-1, 0, -1],
       [0, 1, 1], [0, -1, 1], [0, 1, -1], [0, -1, -1]
     ];
-    
+
     // Константы для 3D simplex
     this.F3 = 1.0 / 3.0;
     this.G3 = 1.0 / 6.0;
   }
-  
+
   /**
    * Строит таблицу перестановок с заданным seed
    */
@@ -49,7 +49,7 @@ class SimplexNoise {
     for (let i = 0; i < 256; i++) {
       p[i] = i;
     }
-    
+
     // Fisher-Yates shuffle с seed
     let n = 256;
     while (n > 1) {
@@ -58,17 +58,17 @@ class SimplexNoise {
       n--;
       [p[n], p[k]] = [p[k], p[n]];
     }
-    
+
     return p;
   }
-  
+
   /**
    * Вычисляет скалярное произведение градиента и вектора
    */
   dot3(g, x, y, z) {
     return g[0] * x + g[1] * y + g[2] * z;
   }
-  
+
   /**
    * 3D Simplex Noise (для анимации)
    * @param {number} x
@@ -78,13 +78,13 @@ class SimplexNoise {
    */
   noise3D(x, y, z) {
     const { perm, permMod12, grad3, F3, G3 } = this;
-    
+
     // Skew input space to determine simplex cell
     const s = (x + y + z) * F3;
     const i = Math.floor(x + s);
     const j = Math.floor(y + s);
     const k = Math.floor(z + s);
-    
+
     const t = (i + j + k) * G3;
     const X0 = i - t;
     const Y0 = j - t;
@@ -92,10 +92,10 @@ class SimplexNoise {
     const x0 = x - X0;
     const y0 = y - Y0;
     const z0 = z - Z0;
-    
+
     // Determine which simplex we are in
     let i1, j1, k1, i2, j2, k2;
-    
+
     if (x0 >= y0) {
       if (y0 >= z0) {
         i1 = 1; j1 = 0; k1 = 0; i2 = 1; j2 = 1; k2 = 0;
@@ -113,7 +113,7 @@ class SimplexNoise {
         i1 = 0; j1 = 1; k1 = 0; i2 = 1; j2 = 1; k2 = 0;
       }
     }
-    
+
     const x1 = x0 - i1 + G3;
     const y1 = y0 - j1 + G3;
     const z1 = z0 - k1 + G3;
@@ -123,13 +123,13 @@ class SimplexNoise {
     const x3 = x0 - 1.0 + 3.0 * G3;
     const y3 = y0 - 1.0 + 3.0 * G3;
     const z3 = z0 - 1.0 + 3.0 * G3;
-    
+
     const ii = i & 255;
     const jj = j & 255;
     const kk = k & 255;
-    
+
     let n0, n1, n2, n3;
-    
+
     // Calculate contribution from four corners
     let t0 = 0.6 - x0 * x0 - y0 * y0 - z0 * z0;
     if (t0 < 0) {
@@ -139,7 +139,7 @@ class SimplexNoise {
       const gi0 = permMod12[ii + perm[jj + perm[kk]]];
       n0 = t0 * t0 * this.dot3(grad3[gi0], x0, y0, z0);
     }
-    
+
     let t1 = 0.6 - x1 * x1 - y1 * y1 - z1 * z1;
     if (t1 < 0) {
       n1 = 0.0;
@@ -148,7 +148,7 @@ class SimplexNoise {
       const gi1 = permMod12[ii + i1 + perm[jj + j1 + perm[kk + k1]]];
       n1 = t1 * t1 * this.dot3(grad3[gi1], x1, y1, z1);
     }
-    
+
     let t2 = 0.6 - x2 * x2 - y2 * y2 - z2 * z2;
     if (t2 < 0) {
       n2 = 0.0;
@@ -157,7 +157,7 @@ class SimplexNoise {
       const gi2 = permMod12[ii + i2 + perm[jj + j2 + perm[kk + k2]]];
       n2 = t2 * t2 * this.dot3(grad3[gi2], x2, y2, z2);
     }
-    
+
     let t3 = 0.6 - x3 * x3 - y3 * y3 - z3 * z3;
     if (t3 < 0) {
       n3 = 0.0;
@@ -166,7 +166,7 @@ class SimplexNoise {
       const gi3 = permMod12[ii + 1 + perm[jj + 1 + perm[kk + 1]]];
       n3 = t3 * t3 * this.dot3(grad3[gi3], x3, y3, z3);
     }
-    
+
     // Scale result to [-1, 1]
     return 32.0 * (n0 + n1 + n2 + n3);
   }
@@ -187,37 +187,44 @@ const DEFAULT_CONFIG = {
   pixelsPerSegment: 24,        // Один сегмент на каждые 12 пикселей периметра
   minSegments: 8,             // Минимум сегментов (для маленьких колец)
   maxSegments: 300,            // Максимум сегментов (для больших колец)
-  
+
   // Параметры шума
   noiseScale: 0.001,           // Уменьшено с 0.001 до 0.008
   noiseSpeed: 0.5,         // Скорость анимации шума
-  
+
   // Динамическая амплитуда шума
   baseNoiseAmplitude: 30,     // Минимальная амплитуда в покое
   maxNoiseAmplitude: 150,     // Максимальная амплитуда при активности
   amplitudeLerpFactor: 0.05,  // Скорость интерполяции к target (быстрее реакция)
   amplitudeDecayFactor: 0.1, // Скорость затухания к base (медленнее)
-  
+
   // Множители активности
   velocityMultiplier: 0.5,    // Множитель скорости мыши
   scrollMultiplier: 0.3,      // Множитель скролла
   pressBoost: 5,             // Boost при удержании кнопки/пальца
   scrollBoost: 10,            // Максимальный boost при прокрутке
   moveBoost: 0.25,             // Множитель для скорости мыши/пальца
-  
+
   // Opacity градиент (растёт от центра к краям)
   minOpacity: 0.0,            // Opacity в центре (затухание)
   maxOpacity: 0.35,           // Opacity по краям (хорошо видны)
   opacityThreshold: 0.05,     // Не рендерить кольца с opacity ниже этого
-  
+
   // Цвета (по умолчанию)
   accentColor: '#d90429',
   backgroundColor: '#121212'
 };
 
 /**
+ * Проверка поддержки OffscreenCanvas
+ */
+const supportsOffscreenCanvas = typeof OffscreenCanvas !== 'undefined' &&
+  typeof HTMLCanvasElement.prototype.transferControlToOffscreen === 'function';
+
+/**
  * NoiseRingsBackground Class
  * Рендерит концентрические кольца с noise-деформацией
+ * Использует Web Worker с OffscreenCanvas для улучшения производительности
  */
 export class NoiseRingsBackground {
   /**
@@ -226,55 +233,55 @@ export class NoiseRingsBackground {
   constructor(config = {}) {
     // Merge конфигурации
     this.config = { ...DEFAULT_CONFIG, ...config };
-    
+
     // Canvas и контекст
     this.canvas = null;
     this.ctx = null;
     this.container = null;
-    
+
     // Состояние анимации
     this.animationFrameId = null;
     this.isInitialized = false;
     this.isPaused = false;
     this.lastFrameTime = 0;
     this.time = 0;
-    
+
     // Генератор шума
     this.noiseGenerator = null;
-    
+
     // Динамическая амплитуда шума
     this.currentNoiseAmplitude = this.config.baseNoiseAmplitude;
     this.targetNoiseAmplitude = this.config.baseNoiseAmplitude;
-    
+
     // Отслеживание скорости мыши/touch
     this.lastMouseX = 0;
     this.lastMouseY = 0;
     this.lastMouseTime = 0;
-    
+
     // Состояние нажатия (press & hold)
     this.isPressed = false;
     this.pressStartTime = 0;
-    
+
     // Система тем
     this.themeObserver = null;
     this.currentColors = {
       accent: this.config.accentColor,
       background: this.config.backgroundColor
     };
-    
+
     // P1 FIX: RGBA string cache to avoid creating ~6000 strings/sec
     this.rgbaCache = new Map();
-    
+
     // P0 FIX: Object pooling - reusable temp point to avoid ~600,000 allocations/sec
     this._tempPoint = { x: 0, y: 0 };
-    
+
     // P0 FIX: Cached window dimensions to avoid DOM reads per point
     this._cachedWidth = 0;
     this._cachedHeight = 0;
-    
+
     // Доступность
     this.reducedMotion = false;
-    
+
     // Event handlers (сохраняем для очистки)
     this.boundHandleMouseMove = null;
     this.boundHandleScroll = null;
@@ -282,14 +289,18 @@ export class NoiseRingsBackground {
     this.boundHandlePressEnd = null;
     this.boundHandleResize = null;
     this.boundHandleVisibilityChange = null;
-    
+
     // Throttling
     this.lastMouseMoveTime = 0;
     this.mouseMoveThrottleDelay = 16; // ~60fps
     this.resizeTimeout = null;
     this.resizeDebounceDelay = 100;
+
+    // Web Worker для OffscreenCanvas
+    this.worker = null;
+    this.useOffscreenCanvas = supportsOffscreenCanvas;
   }
-  
+
   /**
    * Инициализация компонента
    * @param {string} containerId - ID контейнера
@@ -299,159 +310,239 @@ export class NoiseRingsBackground {
       console.warn('NoiseRingsBackground: Already initialized');
       return;
     }
-    
+
     try {
       // Проверка reduced motion
       this.reducedMotion = window.matchMedia(
         '(prefers-reduced-motion: reduce)'
       ).matches;
-      
+
       // Находим контейнер
       this.container = document.getElementById(containerId);
       if (!this.container) {
         console.error(`NoiseRingsBackground: Container not found with id "${containerId}"`);
         return;
       }
-      
+
       // Создаем canvas
       this.canvas = document.createElement('canvas');
       this.canvas.className = 'noise-rings-background';
       this.container.appendChild(this.canvas);
-      
-      // Получаем контекст
-      this.ctx = this.canvas.getContext('2d');
-      if (!this.ctx) {
-        console.error('NoiseRingsBackground: Failed to get 2D context');
-        return;
-      }
-      
-      // Canvas оптимизация: отключаем сглаживание (не нужно для линий)
-      this.ctx.imageSmoothingEnabled = false;
-      
-      // Инициализация генератора шума
-      this.noiseGenerator = new SimplexNoise();
-      
-      // Установка размеров canvas
-      this.resizeCanvas();
-      
+
       // Инициализация цветов из CSS
       this.initColorManagement();
-      
+
+      // Попытка использовать OffscreenCanvas + Worker
+      if (this.useOffscreenCanvas && !this.reducedMotion) {
+        try {
+          this.initWithWorker();
+        } catch (workerError) {
+          console.warn('NoiseRingsBackground: Worker init failed, using fallback', workerError);
+          this.useOffscreenCanvas = false;
+          this.initWithoutWorker();
+        }
+      } else {
+        this.initWithoutWorker();
+      }
+
       // Настройка Visibility API
       this.setupVisibilityAPI();
-      
+
       // Настройка обработчиков событий
       this.setupEventListeners();
-      
+
       this.isInitialized = true;
-      
-      // Запуск анимации или статичный рендер
-      if (this.reducedMotion) {
-        this.renderStaticFrame();
-      } else {
-        this.startAnimation();
-      }
-      
+
     } catch (error) {
       console.error('NoiseRingsBackground: Initialization error', error);
       this.destroy();
     }
   }
-  
+
+  /**
+   * Инициализация с Web Worker (OffscreenCanvas)
+   */
+  initWithWorker() {
+    const dpr = window.devicePixelRatio || 1;
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    // Устанавливаем размеры canvas в DOM (worker управляет контентом)
+    this.canvas.style.width = `${width}px`;
+    this.canvas.style.height = `${height}px`;
+
+    // Передаем контроль над canvas в worker
+    const offscreen = this.canvas.transferControlToOffscreen();
+
+    // Создаем worker
+    this.worker = new Worker(
+      new URL('./NoiseRingsBackground.worker.js', import.meta.url),
+      { type: 'module' }
+    );
+
+    // Отправляем начальную конфигурацию
+    this.worker.postMessage({
+      type: 'init',
+      canvas: offscreen,
+      config: this.config,
+      width: width,
+      height: height,
+      dpr: dpr,
+      colors: this.currentColors
+    }, [offscreen]);
+
+    console.log('✅ NoiseRingsBackground: Using OffscreenCanvas Worker');
+  }
+
+  /**
+   * Инициализация без Worker (fallback)
+   */
+  initWithoutWorker() {
+    // Получаем контекст
+    this.ctx = this.canvas.getContext('2d');
+    if (!this.ctx) {
+      console.error('NoiseRingsBackground: Failed to get 2D context');
+      return;
+    }
+
+    // Canvas оптимизация: отключаем сглаживание (не нужно для линий)
+    this.ctx.imageSmoothingEnabled = false;
+
+    // Инициализация генератора шума
+    this.noiseGenerator = new SimplexNoise();
+
+    // Установка размеров canvas
+    this.resizeCanvas();
+
+    // Запуск анимации или статичный рендер
+    if (this.reducedMotion) {
+      this.renderStaticFrame();
+    } else {
+      this.startAnimation();
+    }
+
+    console.log('✅ NoiseRingsBackground: Using main thread rendering');
+  }
+
   /**
    * Изменение размера canvas
    */
   resizeCanvas() {
     if (!this.canvas) return;
-    
+
     const dpr = window.devicePixelRatio || 1;
     const width = window.innerWidth;
     const height = window.innerHeight;
-    
+
+    // Если используем worker - отправляем сообщение
+    if (this.useOffscreenCanvas && this.worker) {
+      this.canvas.style.width = `${width}px`;
+      this.canvas.style.height = `${height}px`;
+      this.worker.postMessage({
+        type: 'resize',
+        width: width,
+        height: height,
+        dpr: dpr
+      });
+      return;
+    }
+
     // P0 FIX: Cache window dimensions to avoid DOM reads per point (~600,000/sec)
     this._cachedWidth = width;
     this._cachedHeight = height;
     this._cachedCenterX = width * 0.5;
     this._cachedCenterY = height * 0.5;
-    
+
     this.canvas.width = width * dpr;
     this.canvas.height = height * dpr;
     this.canvas.style.width = `${width}px`;
     this.canvas.style.height = `${height}px`;
-    
+
     // P0 FIX: Reset transform before scaling to prevent accumulation
     // Without this, each resize multiplies the scale (dpr^N after N resizes)
-    this.ctx.setTransform(1, 0, 0, 1, 0, 0);
-    this.ctx.scale(dpr, dpr);
-    
+    if (this.ctx) {
+      this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+      this.ctx.scale(dpr, dpr);
+    }
+
     // Вычисляем максимальный видимый радиус (расстояние от центра до угла экрана)
     this.maxVisibleRadius = Math.sqrt(
       Math.pow(width / 2, 2) +
       Math.pow(height / 2, 2)
     );
-    
+
     // При reduced motion перерисовываем статичный кадр
     if (this.reducedMotion) {
       this.renderStaticFrame();
     }
   }
-  
+
   /**
    * Инициализация управления цветами
    */
   initColorManagement() {
     this.updateColorsFromCSS();
-    
+
     // Наблюдатель за изменением темы
     this.themeObserver = new MutationObserver(() => {
       this.updateColorsFromCSS();
     });
-    
+
     this.themeObserver.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ['data-theme']
     });
   }
-  
+
   /**
    * Обновление цветов из CSS переменных
    */
   updateColorsFromCSS() {
     const computedStyle = getComputedStyle(document.documentElement);
-    
+
     // Получаем accent цвет
     let accentColor = computedStyle.getPropertyValue('--color-accent').trim();
     if (!accentColor) {
       accentColor = this.config.accentColor;
     }
-    
+
     // Получаем цвет фона
     let bgColor = computedStyle.getPropertyValue('--color-bg-primary').trim();
     if (!bgColor) {
       bgColor = this.config.backgroundColor;
     }
-    
+
     this.currentColors = {
       accent: accentColor,
       background: bgColor
     };
-    
+
     // P1 FIX: Clear RGBA cache when colors change
-    this.rgbaCache.clear();
+    if (this.rgbaCache) {
+      this.rgbaCache.clear();
+    }
+
+    // Отправляем обновленные цвета в worker
+    if (this.useOffscreenCanvas && this.worker) {
+      this.worker.postMessage({
+        type: 'updateColors',
+        colors: this.currentColors
+      });
+    }
   }
-  
+
   /**
    * Ручное обновление цветов
    */
   updateColors() {
     this.updateColorsFromCSS();
-    
+
     // Если reduced motion - перерисовать статичный кадр
     if (this.reducedMotion) {
       this.renderStaticFrame();
     }
   }
-  
+
   /**
    * Настройка Visibility API
    */
@@ -463,10 +554,10 @@ export class NoiseRingsBackground {
         this.resume();
       }
     };
-    
+
     document.addEventListener('visibilitychange', this.boundHandleVisibilityChange);
   }
-  
+
   /**
    * Настройка обработчиков событий
    */
@@ -476,51 +567,51 @@ export class NoiseRingsBackground {
       const now = performance.now();
       if (now - this.lastMouseMoveTime < this.mouseMoveThrottleDelay) return;
       this.lastMouseMoveTime = now;
-      
+
       this.handleMouseMove(e, now);
     };
-    
+
     // Обработчик скролла
     this.boundHandleScroll = (e) => {
       this.handleScroll(e);
     };
-    
+
     // Обработчики нажатия (press & hold)
     this.boundHandlePressStart = (e) => {
       this.handlePressStart(e);
     };
-    
+
     this.boundHandlePressEnd = () => {
       this.handlePressEnd();
     };
-    
+
     // Debounced resize
     this.boundHandleResize = () => {
       if (this.resizeTimeout) {
         clearTimeout(this.resizeTimeout);
       }
-      
+
       this.resizeTimeout = setTimeout(() => {
         this.resizeCanvas();
       }, this.resizeDebounceDelay);
     };
-    
+
     // Mouse events
     window.addEventListener('mousemove', this.boundHandleMouseMove, { passive: true });
     window.addEventListener('mousedown', this.boundHandlePressStart, { passive: true });
     window.addEventListener('mouseup', this.boundHandlePressEnd, { passive: true });
-    
+
     // Touch events
     window.addEventListener('touchmove', this.boundHandleMouseMove, { passive: true });
     window.addEventListener('touchstart', this.boundHandlePressStart, { passive: true });
     window.addEventListener('touchend', this.boundHandlePressEnd, { passive: true });
-    
+
     // Scroll and resize
     window.addEventListener('scroll', this.boundHandleScroll, { passive: true });
     window.addEventListener('wheel', this.boundHandleScroll, { passive: true });
     window.addEventListener('resize', this.boundHandleResize, { passive: true });
   }
-  
+
   /**
    * Обработчик движения мыши/touch - отслеживает скорость
    * @param {MouseEvent|TouchEvent} event
@@ -530,7 +621,7 @@ export class NoiseRingsBackground {
     // Поддержка touch events
     const clientX = event.touches ? event.touches[0].clientX : event.clientX;
     const clientY = event.touches ? event.touches[0].clientY : event.clientY;
-    
+
     // Вычисление скорости движения
     if (this.lastMouseTime > 0) {
       const dt = now - this.lastMouseTime;
@@ -539,24 +630,30 @@ export class NoiseRingsBackground {
         const dy = clientY - this.lastMouseY;
         const distance = Math.sqrt(dx * dx + dy * dy);
         const velocity = distance / dt * 16; // Нормализация к ~60fps
-        
-        // НАКОПЛЕНИЕ: добавляем к target amplitude на основе скорости
-        // moveBoost - настраиваемый множитель для скорости мыши/пальца
+
         const velocityBoost = velocity * this.config.moveBoost;
-        
-        this.targetNoiseAmplitude = Math.min(
-          this.targetNoiseAmplitude + velocityBoost,
-          this.config.maxNoiseAmplitude
-        );
+
+        // Отправляем boost в worker или обновляем локально
+        if (this.useOffscreenCanvas && this.worker) {
+          this.worker.postMessage({
+            type: 'updateAmplitude',
+            boost: velocityBoost
+          });
+        } else {
+          this.targetNoiseAmplitude = Math.min(
+            this.targetNoiseAmplitude + velocityBoost,
+            this.config.maxNoiseAmplitude
+          );
+        }
       }
     }
-    
+
     // Сохраняем текущую позицию для следующего кадра
     this.lastMouseX = clientX;
     this.lastMouseY = clientY;
     this.lastMouseTime = now;
   }
-  
+
   /**
    * Обработчик скролла/wheel - накапливает амплитуду
    * @param {Event|WheelEvent} event
@@ -564,22 +661,28 @@ export class NoiseRingsBackground {
   handleScroll(event) {
     // Определяем величину скролла
     let scrollDelta = 50; // Значение по умолчанию для scroll event
-    
+
     if (event && event.type === 'wheel') {
       // Для wheel event используем deltaY
       scrollDelta = Math.abs(event.deltaY) || 50;
     }
-    
-    // НАКОПЛЕНИЕ: добавляем к target amplitude при скролле
-    // scrollBoost - максимальный boost при прокрутке (настраиваемый в config)
+
     const scrollBoost = Math.min(scrollDelta * 0.2, this.config.scrollBoost);
-    
-    this.targetNoiseAmplitude = Math.min(
-      this.targetNoiseAmplitude + scrollBoost,
-      this.config.maxNoiseAmplitude
-    );
+
+    // Отправляем boost в worker или обновляем локально
+    if (this.useOffscreenCanvas && this.worker) {
+      this.worker.postMessage({
+        type: 'updateAmplitude',
+        boost: scrollBoost
+      });
+    } else {
+      this.targetNoiseAmplitude = Math.min(
+        this.targetNoiseAmplitude + scrollBoost,
+        this.config.maxNoiseAmplitude
+      );
+    }
   }
-  
+
   /**
    * Обработчик начала нажатия (mousedown/touchstart)
    * @param {MouseEvent|TouchEvent} event
@@ -587,51 +690,59 @@ export class NoiseRingsBackground {
   handlePressStart(event) {
     this.isPressed = true;
     this.pressStartTime = performance.now();
-    
+
     // Начальный импульс при нажатии
-    this.targetNoiseAmplitude = Math.min(
-      this.targetNoiseAmplitude + 20,
-      this.config.maxNoiseAmplitude
-    );
+    const pressImpulse = 20;
+    if (this.useOffscreenCanvas && this.worker) {
+      this.worker.postMessage({
+        type: 'updateAmplitude',
+        boost: pressImpulse
+      });
+    } else {
+      this.targetNoiseAmplitude = Math.min(
+        this.targetNoiseAmplitude + pressImpulse,
+        this.config.maxNoiseAmplitude
+      );
+    }
   }
-  
+
   /**
    * Обработчик окончания нажатия (mouseup/touchend)
    */
   handlePressEnd() {
     this.isPressed = false;
   }
-  
+
   /**
    * Обновление динамической амплитуды шума с системой накопления
    * @param {number} dt - Delta time в секундах
    */
   updateNoiseAmplitude(dt) {
     const now = performance.now();
-    
+
     // Если зажата кнопка/палец - добавляем boost
     if (this.isPressed) {
       const pressDuration = now - this.pressStartTime;
       // Чем дольше держим, тем больше boost (до максимума pressBoost)
       const pressBoost = Math.min(pressDuration / 50, this.config.pressBoost);
-      
+
       this.targetNoiseAmplitude = Math.min(
         this.targetNoiseAmplitude + pressBoost * 0.1,
         this.config.maxNoiseAmplitude
       );
     }
-    
+
     // Плавная интерполяция current к target
     const lerpFactor = 1 - Math.pow(1 - this.config.amplitudeLerpFactor, dt * 60);
     this.currentNoiseAmplitude += (this.targetNoiseAmplitude - this.currentNoiseAmplitude) * lerpFactor;
-    
+
     // Медленное затухание target к base (только когда нет активности - не нажато)
     if (!this.isPressed) {
       const decayFactor = 1 - Math.pow(1 - this.config.amplitudeDecayFactor, dt * 60);
       this.targetNoiseAmplitude += (this.config.baseNoiseAmplitude - this.targetNoiseAmplitude) * decayFactor;
     }
   }
-  
+
   /**
    * Конвертация HEX в RGBA
    * @param {string} hex - HEX цвет
@@ -641,15 +752,15 @@ export class NoiseRingsBackground {
   hexToRgba(hex, alpha = 1) {
     // Удаляем # если есть
     hex = hex.replace('#', '');
-    
+
     // Парсим компоненты
     const r = parseInt(hex.substring(0, 2), 16);
     const g = parseInt(hex.substring(2, 4), 16);
     const b = parseInt(hex.substring(4, 6), 16);
-    
+
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
   }
-  
+
   /**
    * P1 FIX: Cached RGBA string getter to reduce GC pressure
    * Avoids creating ~6000 new strings per second (100 rings * 60 fps)
@@ -660,14 +771,14 @@ export class NoiseRingsBackground {
   getCachedRgba(hex, opacity) {
     // Округляем opacity до 2 знаков для уменьшения количества ключей кэша
     const key = `${hex}_${opacity.toFixed(2)}`;
-    
+
     if (!this.rgbaCache.has(key)) {
       this.rgbaCache.set(key, this.hexToRgba(hex, opacity));
     }
-    
+
     return this.rgbaCache.get(key);
   }
-  
+
   /**
    * Вычисляет opacity с градиентом от центра к краям видимой области
    * Opacity РАСТЁТ от центра к краям (затухание к центру)
@@ -679,14 +790,14 @@ export class NoiseRingsBackground {
   calculateOpacity(radius, ringIndex) {
     // Позиция кольца относительно видимой области (0 = центр, 1 = край экрана)
     const normalizedPosition = Math.min(radius / this.maxVisibleRadius, 1.0);
-    
+
     // Opacity растёт от центра к краям видимой области
     // minOpacity в центре, maxOpacity по краям
     // Кольца на краю экрана ВСЕГДА имеют высокую opacity
     return this.config.minOpacity +
       (this.config.maxOpacity - this.config.minOpacity) * normalizedPosition;
   }
-  
+
   /**
    * Вычисляет позицию точки на кольце (оптимизированная версия)
    * P0 FIX: Uses out-parameter to avoid ~600,000 object allocations/sec
@@ -704,10 +815,10 @@ export class NoiseRingsBackground {
     // P0 FIX: Use cached dimensions instead of window.innerWidth/Height
     const centerX = this._cachedCenterX;
     const centerY = this._cachedCenterY;
-    
+
     // Базовый радиус кольца
     const baseRadius = ringIndex * this.config.ringSpacing;
-    
+
     // P1 FIX: Reuse precomputed cos/sin for noise calculation
     const noiseX = cosAngle * this.config.noiseScale * baseRadius;
     const noiseY = sinAngle * this.config.noiseScale * baseRadius;
@@ -716,20 +827,20 @@ export class NoiseRingsBackground {
       noiseY,
       time * this.config.noiseSpeed + ringIndex * 0.1
     );
-    
+
     // Амплитуда зависит от удаленности от центра и текущей динамической амплитуды
     const distanceFactor = ringIndex / this.config.ringCount;
     const amplitude = this.currentNoiseAmplitude * (0.5 + distanceFactor * 0.5);
-    
+
     // Финальный радиус с деформацией
     const radius = baseRadius + noiseValue * amplitude;
-    
+
     // P0 FIX: Write to out-parameter instead of creating new object
     // P1 FIX: Reuse precomputed cos/sin for final position
     outPoint.x = centerX + cosAngle * radius;
     outPoint.y = centerY + sinAngle * radius;
   }
-  
+
   /**
    * Рисует одно кольцо
    * @param {number} ringIndex - Индекс кольца
@@ -739,26 +850,26 @@ export class NoiseRingsBackground {
   drawRing(ringIndex, time) {
     // Базовый радиус кольца
     const baseRadius = ringIndex * this.config.ringSpacing;
-    
+
     // Оптимизация 1: Точная проверка видимости с учётом noise amplitude
     // Учитываем максимальную деформацию от noise
     const maxDeformation = this.currentNoiseAmplitude;
     const ringMinRadius = baseRadius - maxDeformation;
-    
+
     // Пропускаем кольцо ТОЛЬКО если оно ПОЛНОСТЬЮ за экраном
     // Кольцо полностью снаружи = его минимальный радиус больше maxVisibleRadius
     if (ringMinRadius > this.maxVisibleRadius) {
       return false; // Кольцо полностью за пределами экрана
     }
-    
+
     // Вычисление opacity на основе радиуса относительно видимой области
     const opacity = this.calculateOpacity(baseRadius, ringIndex);
-    
+
     // Оптимизация 2: Пропуск невидимых колец (opacity threshold из config)
     if (opacity < this.config.opacityThreshold) {
       return false;
     }
-    
+
     // Оптимизация 3: Динамическое количество сегментов на основе периметра
     const TWO_PI = Math.PI * 2;
     const circumference = TWO_PI * baseRadius;
@@ -768,25 +879,25 @@ export class NoiseRingsBackground {
       Math.min(calculatedSegments, this.config.maxSegments)
     );
     const segmentAngle = TWO_PI / segments;
-    
+
     // Batch path rendering: один beginPath/stroke на кольцо
     this.ctx.beginPath();
     // P1 FIX: Use cached RGBA string to reduce GC pressure
     this.ctx.strokeStyle = this.getCachedRgba(this.currentColors.accent, opacity);
     this.ctx.lineWidth = this.config.ringWidth;
-    
+
     // P0 FIX: Use pooled temp point to avoid object allocations
     const tempPoint = this._tempPoint;
     let firstX = 0;
     let firstY = 0;
-    
+
     for (let i = 0; i <= segments; i++) {
       const angle = i * segmentAngle;
       // P1 FIX: Compute cos/sin once per iteration, pass to calculatePointPosition
       const cosAngle = Math.cos(angle);
       const sinAngle = Math.sin(angle);
       this.calculatePointPosition(ringIndex, angle, time, cosAngle, sinAngle, tempPoint);
-      
+
       if (i === 0) {
         this.ctx.moveTo(tempPoint.x, tempPoint.y);
         // Save first point coordinates (primitives, no allocation)
@@ -796,14 +907,14 @@ export class NoiseRingsBackground {
         this.ctx.lineTo(tempPoint.x, tempPoint.y);
       }
     }
-    
+
     // Замыкаем кольцо using saved primitives
     this.ctx.lineTo(firstX, firstY);
-    
+
     this.ctx.stroke();
     return true;
   }
-  
+
   /**
    * Основной цикл рендеринга
    */
@@ -811,16 +922,16 @@ export class NoiseRingsBackground {
     if (!this.isInitialized || this.isPaused) {
       return;
     }
-    
+
     // Пропуск рендеринга для скрытых вкладок
     if (document.hidden) {
       this.animationFrameId = requestAnimationFrame(() => this.render());
       return;
     }
-    
+
     const now = performance.now();
     const rawDeltaTime = now - this.lastFrameTime;
-    
+
     // Защита от огромного deltaTime после долгого отсутствия (> 1 секунды)
     // Сбрасываем время и пропускаем этот кадр чтобы избежать резких скачков
     if (this.lastFrameTime > 0 && rawDeltaTime > 1000) {
@@ -828,42 +939,42 @@ export class NoiseRingsBackground {
       this.animationFrameId = requestAnimationFrame(() => this.render());
       return;
     }
-    
+
     const dt = Math.min(rawDeltaTime / 1000, 0.033); // Cap at 30fps minimum
     this.lastFrameTime = now;
-    
+
     // Обновляем время каждый кадр для плавной анимации
     this.time += dt;
-    
+
     // Обновление динамической амплитуды шума
     this.updateNoiseAmplitude(dt);
-    
+
     // Очистка canvas
     this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-    
+
     // Рисование колец от внешних к внутренним
     for (let i = this.config.ringCount; i >= 1; i--) {
       this.drawRing(i, this.time);
     }
-    
+
     // Следующий кадр
     this.animationFrameId = requestAnimationFrame(() => this.render());
   }
-  
+
   /**
    * Рендеринг статичного кадра (для reduced motion)
    */
   renderStaticFrame() {
     if (!this.ctx) return;
-    
+
     this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-    
+
     // Рисуем кольца со статичным шумом (time = 0)
     for (let i = this.config.ringCount; i >= 1; i--) {
       this.drawRing(i, 0);
     }
   }
-  
+
   /**
    * Запуск анимации
    */
@@ -872,11 +983,11 @@ export class NoiseRingsBackground {
       this.renderStaticFrame();
       return;
     }
-    
+
     this.lastFrameTime = performance.now();
     this.render();
   }
-  
+
   /**
    * Пауза анимации
    */
@@ -888,22 +999,22 @@ export class NoiseRingsBackground {
       this.animationFrameId = null;
     }
   }
-  
+
   /**
    * Возобновление анимации
    */
   resume() {
     if (!this.isInitialized || this.reducedMotion) return;
-    
+
     this.isPaused = false;
     this.lastFrameTime = performance.now();
-    
+
     // Перезапуск анимации если она была остановлена
     if (!this.animationFrameId) {
       this.render();
     }
   }
-  
+
   /**
    * Уничтожение компонента и освобождение ресурсов
    */
@@ -913,13 +1024,13 @@ export class NoiseRingsBackground {
       cancelAnimationFrame(this.animationFrameId);
       this.animationFrameId = null;
     }
-    
+
     // Очистка таймеров
     if (this.resizeTimeout) {
       clearTimeout(this.resizeTimeout);
       this.resizeTimeout = null;
     }
-    
+
     // Удаление обработчиков событий
     if (this.boundHandleMouseMove) {
       window.removeEventListener('mousemove', this.boundHandleMouseMove);
@@ -943,24 +1054,31 @@ export class NoiseRingsBackground {
     if (this.boundHandleVisibilityChange) {
       document.removeEventListener('visibilitychange', this.boundHandleVisibilityChange);
     }
-    
+
     // Отключение observer
     if (this.themeObserver) {
       this.themeObserver.disconnect();
       this.themeObserver = null;
     }
-    
+
     // Удаление canvas
     if (this.canvas && this.canvas.parentNode) {
       this.canvas.parentNode.removeChild(this.canvas);
     }
-    
+
     // P1 FIX: Clear RGBA cache
     if (this.rgbaCache) {
       this.rgbaCache.clear();
       this.rgbaCache = null;
     }
-    
+
+    // Завершение worker
+    if (this.worker) {
+      this.worker.postMessage({ type: 'destroy' });
+      this.worker.terminate();
+      this.worker = null;
+    }
+
     // Очистка ссылок
     this.canvas = null;
     this.ctx = null;
