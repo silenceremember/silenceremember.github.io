@@ -43,7 +43,8 @@
         "bolt",
         "prototype"
       ],
-      "featured": true,
+      "featured": false,
+      "tier": 2,
       "displayMeta": {
         "genre": "ARCADE ECONOMY SIMULATOR",
         "platform": "PC (UNITY)"
@@ -60,6 +61,48 @@
       ],
       "teamSize": 1,
       "duration": "3 месяца"
+    },
+    {
+      "id": "architecture-rendering",
+      "title": "Unity Creative Core",
+      "category": "games",
+      "type": "game",
+      "role": "solo",
+      "year": 2026,
+      "status": "completed",
+      "description": "Интерактивное портфолио в формате игры с ироничным нарратором, ломающим четвёртую стену",
+      "descriptionLocalized": {
+        "ru": "Интерактивное портфолио в формате игры с ироничным нарратором, ломающим четвёртую стену",
+        "en": "Interactive portfolio as a game with an ironic narrator who breaks the fourth wall"
+      },
+      "media": {
+        "preview": "assets/images/projects/architecture-rendering/preview.webp",
+        "screenshots": []
+      },
+      "documents": [],
+      "links": {
+        "site": "https://silenceremember.itch.io/architecture"
+      },
+      "tags": [
+        "unity",
+        "walking-simulator",
+        "narrative"
+      ],
+      "featured": true,
+      "displayMeta": {
+        "genre": "WALKING SIMULATOR",
+        "platform": "PC (UNITY)"
+      },
+      "keyContribution": "Спроектировал и реализовал с нуля интерактивное портфолио: от системы диалогов с локализацией и визуальной новеллы до кликер-механики, квестовой системы и кинематографических камер в рамках единого нарративного опыта.",
+      "keyContributionLocalized": {
+        "ru": "Спроектировал и реализовал с нуля интерактивное портфолио: от системы диалогов с локализацией и визуальной новеллы до кликер-механики, квестовой системы и кинематографических камер в рамках единого нарративного опыта.",
+        "en": "Designed and implemented an interactive portfolio from scratch: from a dialogue system with localization and a visual novel to clicker mechanics, a quest system, and cinematic cameras within a unified narrative experience."
+      },
+      "technologies": [
+        "Unity",
+        "C#"
+      ],
+      "teamSize": 1
     },
     {
       "id": "capybara-bunk",
