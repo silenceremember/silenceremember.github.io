@@ -111,11 +111,11 @@
       "type": "game",
       "role": "team-lead",
       "year": 2025,
-      "status": "in-development",
-      "description": "Динамичный PvP Top-Down шутер в разработке",
+      "status": "completed",
+      "description": "Авторский проект, направленный на отработку навыков пре-продакшена и системного дизайна",
       "descriptionLocalized": {
-        "ru": "Динамичный PvP Top-Down шутер в разработке",
-        "en": "Dynamic PvP Top-Down shooter in development"
+        "ru": "Авторский проект, направленный на отработку навыков пре-продакшена и системного дизайна",
+        "en": "A personal project focused on honing pre-production and system design expertise"
       },
       "media": {
         "preview": "assets/images/projects/capybara-bunk/preview.webp",
@@ -159,12 +159,12 @@
       "featured": true,
       "displayMeta": {
         "genre": "TOP DOWN SHOOTER",
-        "platform": "PC (IN DEVELOPMENT)"
+        "platform": "PC"
       },
-      "keyContribution": "Руковожу командой в качестве гейм-дизайнера и тимлида. Отвечаю за стратегическое видение (Vision), лор (Bible) и проектирование ключевых систем (GDD, UI Flow), формируя ТЗ для разработки.",
+      "keyContribution": "Авторский проект, направленный на отработку навыков пре-продакшена и системного дизайна. Работа над проектом была завершена на этапе формирования полной технической и нарративной документации для MVP стадии.",
       "keyContributionLocalized": {
-        "ru": "Руковожу командой в качестве гейм-дизайнера и тимлида. Отвечаю за стратегическое видение (Vision), лор (Bible) и проектирование ключевых систем (GDD, UI Flow), формируя ТЗ для разработки.",
-        "en": "Leading the team as a game designer and team lead. Responsible for strategic vision (Vision), lore (Bible), and key system design (GDD, UI Flow), creating technical specifications for development."
+        "ru": "Авторский проект, направленный на отработку навыков пре-продакшена и системного дизайна. Работа над проектом была завершена на этапе формирования полной технической и нарративной документации для MVP стадии.",
+        "en": "A personal project focused on honing pre-production and system design expertise. The project was concluded upon the completion of a comprehensive technical and narrative documentation package for the MVP stage."
       },
       "technologies": [],
       "teamSize": 5,
@@ -188,8 +188,9 @@
         "screenshots": []
       },
       "documents": [],
-      "links": {},
-      "comingSoon": true,
+      "links": {
+        "site": "https://assetstore.unity.com/packages/tools/gui/shader-graph-gridsnap-358694"
+      },
       "tags": [
         "unity",
         "editor-tool",
@@ -201,10 +202,10 @@
         "genre": "UNITY EDITOR TOOL",
         "platform": "C# (UNITY)"
       },
-      "keyContribution": "Выявил и решил проблему отсутствия сетки в Unity Shader Graph, создав уникальный редакторный аддон с помощью рефлексии.",
+      "keyContribution": "Выявил и решил проблему отсутствия сетки в Unity Shader Graph, создав уникальный редакторный аддон с помощью рефлексии. Прошёл валидацию и опубликован в Unity Asset Store.",
       "keyContributionLocalized": {
-        "ru": "Выявил и решил проблему отсутствия сетки в Unity Shader Graph, создав уникальный редакторный аддон с помощью рефлексии.",
-        "en": "Identified and solved the problem of missing grid in Unity Shader Graph by creating a unique editor addon using reflection."
+        "ru": "Выявил и решил проблему отсутствия сетки в Unity Shader Graph, создав уникальный редакторный аддон с помощью рефлексии. Прошёл валидацию и опубликован в Unity Asset Store.",
+        "en": "Identified and solved the missing grid problem in Unity Shader Graph by creating a unique editor addon using reflection. Passed validation and published on the Unity Asset Store."
       },
       "technologies": [
         "Unity",
