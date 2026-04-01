@@ -220,9 +220,18 @@ export class CVPage extends BasePage {
       }
     }
 
-    // Описание - акцент на оптимизации процессов
+    // Описание - из responsibilities записи
     if (description) {
-      description.textContent = localization.t('cv.workDescription');
+      const lang = localization.getCurrentLanguage();
+      let descText = '';
+      if (work.responsibilitiesLocalized && work.responsibilitiesLocalized[lang]) {
+        descText = work.responsibilitiesLocalized[lang].join('. ');
+      } else if (work.responsibilities && work.responsibilities.length > 0) {
+        descText = work.responsibilities.join('. ');
+      } else {
+        descText = localization.t('cv.workDescription');
+      }
+      description.textContent = descText;
       description.style.display = 'block';
     }
 
@@ -1024,7 +1033,15 @@ export class CVPage extends BasePage {
           // Обновляем описание
           const description = item.querySelector('.timeline-description');
           if (description) {
-            description.textContent = localization.t('cv.workDescription');
+            let descText = '';
+            if (work.responsibilitiesLocalized && work.responsibilitiesLocalized[lang]) {
+              descText = work.responsibilitiesLocalized[lang].join('. ');
+            } else if (work.responsibilities && work.responsibilities.length > 0) {
+              descText = work.responsibilities.join('. ');
+            } else {
+              descText = localization.t('cv.workDescription');
+            }
+            description.textContent = descText;
           }
         }
       }

@@ -7,6 +7,32 @@
   },
   "workExperience": [
     {
+      "id": "ingvik-studios",
+      "period": {
+        "start": "2026-03",
+        "end": null,
+        "duration": "По настоящее время",
+        "durationLocalized": {
+          "en": "Present"
+        }
+      },
+      "company": "Ingvik Studios",
+      "position": "Гейм-дизайнер",
+      "positionLocalized": {
+        "en": "Game Designer"
+      },
+      "responsibilities": [
+        "Работа над неанонсированным проектом на Unity"
+      ],
+      "responsibilitiesLocalized": {
+        "en": [
+          "Working on an unannounced Unity project"
+        ]
+      },
+      "achievements": [],
+      "skills": []
+    },
+    {
       "id": "aiti-novatsiya",
       "period": {
         "start": "2023-11",
@@ -25,9 +51,13 @@
         "en": "Technical Support Engineer"
       },
       "responsibilities": [
-        "Обеспечение технической поддержки клиентов",
         "Решение проблем и оптимизация рабочих процессов"
       ],
+      "responsibilitiesLocalized": {
+        "en": [
+          "Problem solving and workflow optimization"
+        ]
+      },
       "achievements": [],
       "skills": [
         "Работа с клиентами",
@@ -91,15 +121,32 @@
     }
   ],
   "skills": {
-    "design-prototyping": ["Unity", "Unreal Engine", "Figma", "Miro"],
-    "technical-scripting": ["C#", "Blueprints", "AI / ML Models"],
+    "design-prototyping": [
+      "Unity",
+      "Unreal Engine",
+      "Figma",
+      "Miro"
+    ],
+    "technical-scripting": [
+      "C#",
+      "Blueprints",
+      "AI / ML Models"
+    ],
     "design-documentation": [
       "Google Suite (Docs, Sheets)",
       "Notion",
       "Confluence"
     ],
-    "production-collaboration": ["Git", "GitHub", "Jira"],
-    "asset-creation": ["Blender", "Substance Painter", "Adobe Photoshop"]
+    "production-collaboration": [
+      "Git",
+      "GitHub",
+      "Jira"
+    ],
+    "asset-creation": [
+      "Blender",
+      "Substance Painter",
+      "Adobe Photoshop"
+    ]
   },
   "certificates": [
     {
@@ -155,7 +202,7 @@
       "languageLocalized": {
         "en": "English"
       },
-      "level": "Pre-Intermediate"
+      "level": "Intermediate"
     }
   ]
 }
