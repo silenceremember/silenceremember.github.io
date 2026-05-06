@@ -190,19 +190,9 @@
     },
     {
       "id": "draft-punk",
-      "title": "Draft Punk. 3D-моделирование объектов",
+      "title": "3D-моделирование объектов",
       "titleLocalized": {
-        "en": "Draft Punk. 3D Object Modeling"
-      },
-      "organization": "XYZ School",
-      "year": 2022,
-      "url": null
-    },
-    {
-      "id": "texturniy-trip",
-      "title": "Текстурный трип",
-      "titleLocalized": {
-        "en": "Texturing Trip"
+        "en": "3D Object Modeling"
       },
       "organization": "XYZ School",
       "year": 2022,
