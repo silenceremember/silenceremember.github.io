@@ -33,6 +33,29 @@
       "skills": []
     },
     {
+      "id": "2iq-labs",
+      "period": {
+        "start": "2024-09",
+        "end": "2025-06",
+        "duration": "10 месяцев",
+        "durationLocalized": {
+          "en": "10 months"
+        }
+      },
+      "company": "2IQ Labs",
+      "position": "Game Design Researcher & Developer (R&D)",
+      "responsibilities": [
+        "Собственная R&D-команда по разработке инструментов и игровых прототипов"
+      ],
+      "responsibilitiesLocalized": {
+        "en": [
+          "Own R&D team focused on game tool development and interactive prototyping"
+        ]
+      },
+      "achievements": [],
+      "skills": []
+    },
+    {
       "id": "aiti-novatsiya",
       "period": {
         "start": "2023-09",
