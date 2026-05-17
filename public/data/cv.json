@@ -38,7 +38,10 @@
           "en": "1 year 5 months"
         }
       },
-      "company": "2IQ Labs",
+      "company": "РАНХиГС (2IQLabs)",
+      "companyLocalized": {
+        "en": "RANEPA (2IQLabs)"
+      },
       "position": "Руководитель R&D-группы (Game Design & Development)",
       "positionLocalized": {
         "en": "R&D Team Lead (Game Design & Development)"
