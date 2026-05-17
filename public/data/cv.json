@@ -1,6 +1,4 @@
 {
-  "version": "1.0.0",
-  "lastUpdated": "2026-05-05",
   "about": "Создаю системы, формирующие повествование, и нарратив, определяющий игровой процесс.\n\nПрименяю инженерный и исследовательский подход: эксперементирую с технологиями, разрабатываю утилиты и использую нейросетевые модели. Обеспечиваю полный цикл создания проектной документации – от концепт-документов до технических заданий для команды.",
   "aboutLocalized": {
     "en": "I design systems that shape the narrative, and narratives that define the gameplay.\n\nApplying an engineering and research-driven approach, I experiment with new technologies, develop custom tools, and leverage AI/ML models. I manage the entire documentation pipeline, from initial concept documents to detailed technical specifications for the development team."
@@ -28,22 +26,23 @@
         "en": [
           "Working on an unannounced Unity project"
         ]
-      },
-      "achievements": [],
-      "skills": []
+      }
     },
     {
       "id": "2iq-labs",
       "period": {
-        "start": "2024-09",
+        "start": "2024-02",
         "end": "2025-06",
-        "duration": "10 месяцев",
+        "duration": "1 год 5 месяцев",
         "durationLocalized": {
-          "en": "10 months"
+          "en": "1 year 5 months"
         }
       },
       "company": "2IQ Labs",
-      "position": "Game Design Researcher & Developer (R&D)",
+      "position": "Руководитель R&D-группы (Game Design & Development)",
+      "positionLocalized": {
+        "en": "R&D Team Lead (Game Design & Development)"
+      },
       "responsibilities": [
         "Собственная R&D-команда по разработке инструментов и игровых прототипов"
       ],
@@ -51,9 +50,7 @@
         "en": [
           "Own R&D team focused on game tool development and interactive prototyping"
         ]
-      },
-      "achievements": [],
-      "skills": []
+      }
     },
     {
       "id": "aiti-novatsiya",
@@ -80,13 +77,7 @@
         "en": [
           "Problem solving and workflow optimization"
         ]
-      },
-      "achievements": [],
-      "skills": [
-        "Работа с клиентами",
-        "Решение технических проблем",
-        "Оптимизация процессов"
-      ]
+      }
     }
   ],
   "education": [
@@ -109,7 +100,6 @@
       "degreeLocalized": {
         "en": "Master's Degree"
       },
-      "graduationYear": 2026,
       "status": "in-progress",
       "location": "Москва",
       "locationLocalized": {
@@ -135,7 +125,6 @@
       "degreeLocalized": {
         "en": "Bachelor's Degree"
       },
-      "graduationYear": 2024,
       "status": "completed",
       "location": "Краснодар",
       "locationLocalized": {
