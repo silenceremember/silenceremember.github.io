@@ -110,7 +110,7 @@ export class CardFactory {
     }
 
     // Добавляем звездочку для избранных проектов (тир 1)
-    if (project.featured && title) {
+    if (false && project.featured && title) {
       const starIcon = document.createElement('span');
       starIcon.className = 'project-card-star';
       starIcon.setAttribute('data-svg-src', '/assets/images/icon-star.svg');

@@ -64,29 +64,7 @@ export class SlidesManager {
     this.ctaSection = document.getElementById('cta-section');
     this.slideHint = document.getElementById('slide-hint');
 
-    if (this.menuButton) {
-      // Store bound handler for cleanup in destroy()
-      this.boundMenuButtonHandler = () => {
-        // Пытаемся найти footer для надежной прокрутки
-        const footer = document.querySelector('.footer');
-        
-        if (footer) {
-          // Используем scrollIntoView для прокрутки до footer
-          // Это работает одинаково надежно на всех устройствах
-          footer.scrollIntoView({
-            behavior: 'smooth',
-            block: 'end'
-          });
-        } else {
-          // Fallback
-          window.scrollTo({
-            top: document.documentElement.scrollHeight,
-            behavior: 'smooth',
-          });
-        }
-      };
-      this.menuButton.addEventListener('click', this.boundMenuButtonHandler);
-    }
+    // Кнопка меню открывает оверлей (BasePage), прокрутку к подвалу не вешаем
 
     // Инициализируем индикаторы
     this.createProgressDots();

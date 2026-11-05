@@ -49,7 +49,10 @@ async function initCurrentPage() {
   let hideAllSlideElementsEarly = null;
 
   try {
-    if (pageName === 'index.html' || pageName === '' || path === '/') {
+    if (document.body.classList.contains('static-page')) {
+      const { StaticPage } = await import('./pages/StaticPage.js');
+      pageInstance = new StaticPage();
+    } else if (pageName === 'index.html' || pageName === '' || path === '/') {
       // Импортируем только главную страницу
       const { IndexPage, hideAllSlideElementsEarly: hideSlides } = await import('./pages/IndexPage.js');
       hideAllSlideElementsEarly = hideSlides;

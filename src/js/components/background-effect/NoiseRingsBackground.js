@@ -390,8 +390,6 @@ export class NoiseRingsBackground {
       dpr: dpr,
       colors: this.currentColors
     }, [offscreen]);
-
-    console.log('✅ NoiseRingsBackground: Using OffscreenCanvas Worker');
   }
 
   /**
@@ -420,8 +418,6 @@ export class NoiseRingsBackground {
     } else {
       this.startAnimation();
     }
-
-    console.log('✅ NoiseRingsBackground: Using main thread rendering');
   }
 
   /**

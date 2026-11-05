@@ -1,21 +1,21 @@
 {
   "common": {
     "nav": {
-      "home": "HOME",
-      "portfolio": "CASES",
-      "research": "RESEARCH",
+      "home": "Home",
+      "portfolio": "Cases",
+      "research": "Research",
       "cv": "CV",
-      "community": "SERVICES",
-      "services": "SERVICES"
+      "community": "Services",
+      "services": "Services"
     },
     "buttons": {
       "scrollToTop": "Scroll to top",
-      "contactEmail": "EMAIL ME",
-      "contactTelegram": "MESSAGE ON TELEGRAM",
-      "downloadPDF": "DOWNLOAD PDF",
-      "navigation": "NAVIGATION",
-      "viewCases": "VIEW CASES",
-      "services": "SERVICES"
+      "contactEmail": "Email me",
+      "contactTelegram": "Message on Telegram",
+      "downloadPDF": "Download PDF",
+      "navigation": "Navigation",
+      "viewCases": "View cases",
+      "services": "Services"
     },
     "aria": {
       "languageSwitch": "Switch language",
@@ -28,15 +28,15 @@
   },
   "index": {
     "tagline": "SILENCEREMEMBER",
-    "title": "INTERFACE DESIGNER: WEB & GAMES",
+    "title": "Interface designer: web & games",
     "about": "I design interfaces for websites and games, run UX audits and build working prototypes, tools and automations with AI. Master of game design, PhD student at ETU \"LETI\", Saint Petersburg.",
     "meta_description": "Maxim Elchaninov, interface designer for web and games. UX audits, game UI, AI-built prototypes and automations. PhD student at ETU \"LETI\".",
     "slideHint": "Scroll the mouse wheel to see the cases",
-    "featuredWorks": "FEATURED CASES",
-    "whatsNext": "LET'S WORK TOGETHER",
+    "featuredWorks": "Featured cases",
+    "whatsNext": "Contact",
     "projectDetails": {
-      "myRole": "MY ROLE",
-      "keyContribution": "KEY CONTRIBUTION"
+      "myRole": "My role",
+      "keyContribution": "Key contribution"
     },
     "whatsNextText": "Remote, part-time or project-based. I reply on Telegram within a day."
   },
@@ -44,14 +44,14 @@
     "title": "Cases",
     "meta_title": "Cases",
     "description": "Cases: interfaces, games, tools and AI",
-    "navigation": "NAVIGATION",
+    "navigation": "Navigation",
     "card": {
-      "details": "OPEN CASE",
+      "details": "Open case",
       "detailsAria": "More about the project",
-      "comingSoon": "SOON",
+      "comingSoon": "Soon",
       "comingSoonAria": "Soon",
       "featured": "Featured project",
-      "tier2": "Tier 2 project",
+      "tier2": "Archived case",
       "types": {
         "game": "Game",
         "document": "Document",
@@ -61,7 +61,7 @@
         "ui": "Interface",
         "app": "Application"
       },
-      "detailsExternal": "DETAILS"
+      "detailsExternal": "Details"
     },
     "filters": {
       "category": "Category",
@@ -77,9 +77,9 @@
         "completed": "Ready",
         "inDevelopment": "In Development"
       },
-      "found": "PROJECTS FOUND",
+      "found": "Cases found",
       "showAll": "Show All",
-      "showAllAria": "Show all projects",
+      "showAllAria": "Show all cases",
       "reset": "Reset",
       "resetAria": "Reset filters",
       "hide": "Hide",
@@ -91,19 +91,19 @@
     "title": "Research",
     "meta_title": "Research",
     "description": "Publications, registration certificates and PhD topic",
-    "navigation": "NAVIGATION",
+    "navigation": "Navigation",
     "diploma": {
       "title": "Master's thesis"
     },
     "card": {
-      "read": "READ",
+      "read": "Read",
       "readAria": "Open publication",
-      "comingSoon": "SOON",
+      "comingSoon": "Soon",
       "comingSoonAria": "Soon"
     },
     "statuses": {
       "published": "Published",
-      "inPublication": "SOON",
+      "inPublication": "Soon",
       "inProgress": "In Progress",
       "completed": "Defended"
     },
@@ -127,19 +127,19 @@
     "title": "CV",
     "meta_title": "CV",
     "description": "CV: interface designer for web and games, PhD student at ETU \"LETI\".",
-    "navigation": "NAVIGATION",
-    "name": "MAXIM ELCHANINOV",
-    "role": "INTERFACE DESIGNER: WEB & GAMES",
+    "navigation": "Navigation",
+    "name": "Maxim Elchaninov",
+    "role": "Interface designer: web and games",
     "workDescription": "User support and workflow optimisation",
     "certificateUnavailable": "Certificate information unavailable",
     "sections": {
-      "about": "ABOUT",
-      "workExperience": "WORK EXPERIENCE",
-      "education": "EDUCATION",
-      "skills": "SKILLS",
-      "certificates": "CERTIFICATIONS",
-      "courses": "COURSES",
-      "languages": "LANGUAGES"
+      "about": "About",
+      "workExperience": "Work experience",
+      "education": "Education",
+      "skills": "Skills",
+      "certificates": "Certifications",
+      "courses": "Courses",
+      "languages": "Languages"
     },
     "skills": {
       "designPrototyping": "Design Prototyping",
@@ -149,24 +149,24 @@
       "assetCreation": "Asset Creation",
       "categories": {
         "designPrototyping": {
-          "title": "DESIGN & PROTOTYPING",
-          "description": "Designing and testing interfaces and prototypes"
+          "title": "Design & prototyping",
+          "description": ""
         },
         "technicalScripting": {
-          "title": "TECHNICAL SKILLS & SCRIPTING",
-          "description": "Tech I build prototypes and automations with"
+          "title": "AI-assisted building and scripts",
+          "description": ""
         },
         "designDocumentation": {
-          "title": "DESIGN DOCUMENTATION",
-          "description": "Team documentation: from concept to specification"
+          "title": "Design documentation",
+          "description": ""
         },
         "productionCollaboration": {
-          "title": "PRODUCTION & COLLABORATION",
-          "description": "Versions and tasks in a team"
+          "title": "Production & collaboration",
+          "description": ""
         },
         "assetCreation": {
-          "title": "ASSET CREATION",
-          "description": "Graphics and 3D for prototypes and promo"
+          "title": "Asset creation",
+          "description": ""
         }
       }
     },
@@ -176,8 +176,8 @@
     },
     "buttons": {
       "details": "Details",
-      "downloadRU": "DOWNLOAD CV IN PDF [RU]",
-      "downloadEN": "DOWNLOAD CV IN PDF [EN]"
+      "downloadRU": "Download CV in PDF [RU]",
+      "downloadEN": "Download CV in PDF [EN]"
     },
     "errors": {
       "loadFailed": "Failed to load CV data."
@@ -187,13 +187,13 @@
     "title": "Services",
     "meta_title": "Services",
     "description": "Join the community. Links to Discord, social networks, and ways to support.",
-    "navigation": "NAVIGATION",
+    "navigation": "Navigation",
     "sections": {
-      "discord": "DISCORD SERVER",
-      "social": "SOCIAL NETWORKS",
-      "donations": "SUPPORT",
-      "work": "WORK LINKS",
-      "events": "UPCOMING EVENTS"
+      "discord": "Discord server",
+      "social": "Social networks",
+      "donations": "Support",
+      "work": "Work links",
+      "events": "Upcoming events"
     },
     "discord": {
       "join": "Join our game development community"
@@ -222,10 +222,10 @@
   },
   "404": {
     "title": "Page not found",
-    "message": "Unfortunately, the requested page does not exist.",
+    "message": "No such page. The cases are on the Cases page.",
     "backHome": "Back to home",
     "heading": "404",
-    "subtitle": "PAGE NOT FOUND"
+    "subtitle": "Page not found"
   },
   "media": {
     "previousImage": "Previous image",

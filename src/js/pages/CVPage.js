@@ -97,7 +97,7 @@ export class CVPage extends BasePage {
     const topSection = document.createElement('div');
     topSection.className = 'cv-header-top';
 
-    const nameTitle = document.createElement('h2');
+    const nameTitle = document.createElement('h1');
     nameTitle.className = 'cv-header-name';
     nameTitle.textContent = localization.t('cv.name');
 

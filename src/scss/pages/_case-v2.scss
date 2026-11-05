@@ -1,0 +1,493 @@
+@import '../base/variables';
+
+/* ===================== Раунд 5: дизайн-ревью и антислоп ===================== */
+:root {
+  --fs-display: clamp(2.125rem, 1.4rem + 2.6vw, 3.5rem);
+  --fs-h2: clamp(1.5rem, 1.25rem + 0.8vw, 1.875rem);
+  --fs-h3: 1.25rem;
+  --fs-lead: clamp(1.125rem, 1rem + 0.4vw, 1.25rem);
+  --fs-body: 1.0625rem;
+  --fs-label: 0.75rem;
+  --measure: 46rem;
+  --section-gap: 6rem;
+}
+
+/* Капс только у H1, коротких H2, лейблов и кнопок */
+.project-card-title,
+.research-card-title,
+.research-publication-title,
+.timeline-title,
+.cv-certificate-title,
+.cv-course-title,
+.finding-title,
+.home-case-title,
+.case-next-title {
+  text-transform: none !important;
+  letter-spacing: -0.005em;
+  font-weight: 700;
+  text-wrap: balance;
+}
+
+h1,
+h2,
+.case-title {
+  text-wrap: balance;
+}
+
+.case p,
+.case-list {
+  text-wrap: pretty;
+}
+
+.case-title {
+  font-size: var(--fs-display);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.case-section-title,
+.projects-section-title,
+.research-section-title,
+.cv-section-title {
+  font-size: var(--fs-h2);
+  font-weight: 900;
+  line-height: 1.12;
+}
+
+.case-lead {
+  font-size: var(--fs-lead) !important;
+  max-width: 60ch;
+}
+
+.case p {
+  font-size: var(--fs-body);
+}
+
+.case-kicker,
+.case-meta-item dt,
+.case-next-label,
+.case-back {
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Одна сетка с JS-страницами: контейнер 1152, текст в мере */
+.case {
+  max-width: 1152px;
+  margin: 0;
+  counter-reset: fig;
+}
+
+.case p,
+.case-lead,
+.case-list,
+.research-intro {
+  max-width: var(--measure);
+}
+
+.case-section {
+  margin-top: var(--section-gap);
+  padding-top: var(--spacing-xl);
+}
+
+@include tablet-and-mobile {
+  .case-section {
+    margin-top: 4rem;
+  }
+}
+
+/* Списки: тире вместо красных квадратов */
+.case-list li::before {
+  content: '–';
+  width: auto;
+  height: auto;
+  top: 0;
+  background: none;
+  color: var(--color-secondary);
+}
+
+/* Рисунки в паспарту с нумерацией */
+.case-figure {
+  counter-increment: fig;
+  position: relative;
+  padding: 24px;
+  border: 1px solid var(--color-divider);
+  background: color-mix(in srgb, var(--color-text-primary) 5%, var(--color-bg-primary));
+
+  img {
+    border: 0;
+    display: block;
+  }
+
+  figcaption {
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+    margin-top: 16px;
+
+    &::before {
+      content: 'РИС. ' counter(fig, decimal-leading-zero);
+      flex: none;
+      font-size: var(--fs-label);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: var(--color-accent-text);
+      font-variant-numeric: tabular-nums;
+    }
+  }
+
+  @include tablet-and-mobile {
+    padding: 12px;
+  }
+}
+
+html[lang='en'] .case-figure figcaption::before {
+  content: 'FIG. ' counter(fig, decimal-leading-zero);
+}
+
+/* Находки: P0 рядом со скриншотом */
+.finding--shot {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  gap: 24px;
+  align-items: start;
+
+  .case-figure {
+    margin: 0;
+  }
+
+  @include tablet-and-mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Уголки выделения на hover и focus: Figma и HUD одновременно */
+.project-card,
+.case-figure,
+.finding,
+.home-case {
+  position: relative;
+}
+
+.project-card::after,
+.case-figure::after,
+.home-case::after {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    linear-gradient(var(--color-accent), var(--color-accent)) 0 0 / 10px 2px,
+    linear-gradient(var(--color-accent), var(--color-accent)) 0 0 / 2px 10px,
+    linear-gradient(var(--color-accent), var(--color-accent)) 100% 0 / 10px 2px,
+    linear-gradient(var(--color-accent), var(--color-accent)) 100% 0 / 2px 10px,
+    linear-gradient(var(--color-accent), var(--color-accent)) 0 100% / 10px 2px,
+    linear-gradient(var(--color-accent), var(--color-accent)) 0 100% / 2px 10px,
+    linear-gradient(var(--color-accent), var(--color-accent)) 100% 100% / 10px 2px,
+    linear-gradient(var(--color-accent), var(--color-accent)) 100% 100% / 2px 10px;
+  background-repeat: no-repeat;
+  transition: opacity 0.2s;
+}
+
+.project-card:hover::after,
+.project-card:focus-within::after,
+.case-figure:hover::after,
+.case-figure:focus-within::after,
+.home-case:hover::after,
+.home-case:focus-within::after {
+  opacity: 1;
+}
+
+/* Карточки проектов: 16:10, без зума картинки */
+.project-card-image-wrapper {
+  padding-top: 62.5% !important;
+}
+
+.project-card:hover .project-card-image,
+.project-card.optimized-hover .project-card-image {
+  transform: none !important;
+}
+
+/* Фон: кольца только на главной и тише, на остальных страницах ровный фон */
+body:not(.home) #background-container {
+  display: none;
+}
+
+body.home #background-container {
+  opacity: 0.5;
+}
+
+[data-theme='light'] body.home #background-container {
+  opacity: 0.3;
+}
+
+/* Главная */
+.home-page {
+  max-width: 1152px;
+}
+
+.home-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
+  gap: var(--spacing-xl);
+  align-items: end;
+  padding: var(--spacing-xl) 0 var(--spacing-lg);
+
+  @include tablet-and-mobile {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+  }
+
+  .cta-buttons {
+    display: flex;
+    flex-direction: row !important;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+    max-width: none !important;
+
+    .cta-button {
+      flex: 0 1 auto;
+      min-width: 0;
+      padding: 12px var(--spacing-lg);
+    }
+  }
+}
+
+.home-name {
+  margin-bottom: var(--spacing-xs);
+}
+
+.home-role {
+  margin: 0 0 var(--spacing-md);
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.home-hero .case-lead {
+  color: var(--color-text-primary);
+}
+
+.home-hero-photo {
+  img {
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+    margin-left: auto;
+    border: 1px solid var(--color-divider);
+    filter: grayscale(1);
+  }
+
+  @include tablet-and-mobile {
+    order: -1;
+
+    img {
+      max-width: 160px;
+      margin-left: 0;
+    }
+  }
+}
+
+.home-section {
+  margin-top: var(--section-gap);
+  padding-top: var(--spacing-xl);
+  border-top: 1px solid var(--color-divider);
+
+  @include tablet-and-mobile {
+    margin-top: 4rem;
+  }
+}
+
+.home-cases {
+  display: grid;
+  gap: var(--spacing-xl);
+}
+
+.home-case {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: var(--spacing-lg);
+  align-items: center;
+
+  @include tablet-and-mobile {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm);
+  }
+}
+
+.home-case-image img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  object-position: 50% 0;
+  border: 1px solid var(--color-divider);
+}
+
+.home-case-title {
+  margin: 0 0 var(--spacing-sm);
+  font-size: var(--fs-h3);
+  line-height: 1.3;
+
+  a {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover {
+      color: var(--color-accent-text);
+    }
+  }
+}
+
+.home-case-body p {
+  margin: 0 0 var(--spacing-sm);
+  color: var(--color-secondary);
+  line-height: 1.6;
+}
+
+.home-case-link,
+.home-all {
+  color: var(--color-text-primary);
+  font-weight: 700;
+  font-size: var(--font-size-small);
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-accent);
+
+  &:hover {
+    color: var(--color-accent-text);
+  }
+}
+
+.home-all {
+  display: inline-block;
+  margin-top: var(--spacing-xl);
+}
+
+.home-links {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-width: var(--measure);
+
+  li {
+    display: grid;
+    grid-template-columns: 9rem 1fr;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid var(--color-divider);
+    color: var(--color-secondary);
+
+    @include tablet-and-mobile {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+  }
+
+  a {
+    color: var(--color-text-primary);
+    font-weight: 700;
+    text-decoration: none;
+
+    &:hover {
+      color: var(--color-accent-text);
+    }
+  }
+}
+
+/* Услуги: таблица «что / пример» */
+.services-table-wrap {
+  margin-top: var(--spacing-xl);
+  overflow-x: auto;
+}
+
+.services-table {
+  width: 100%;
+  max-width: 60rem;
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: var(--spacing-sm) var(--spacing-sm) var(--spacing-sm) 0;
+    border-bottom: 1px solid var(--color-divider);
+    text-align: left;
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  th {
+    font-size: var(--fs-label);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-secondary);
+  }
+
+  td:first-child {
+    font-weight: 700;
+    width: 45%;
+  }
+
+  td a {
+    color: var(--color-text-primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+
+    &:hover {
+      color: var(--color-accent-text);
+    }
+  }
+}
+
+/* Прогресс чтения на статических страницах */
+@supports (animation-timeline: scroll()) {
+  .static-page:not(.home) .header::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 2px;
+    background: var(--color-accent);
+    transform-origin: 0 50%;
+    animation: read-progress linear both;
+    animation-timeline: scroll(root block);
+  }
+
+  @keyframes read-progress {
+    from {
+      transform: scaleX(0);
+    }
+
+    to {
+      transform: scaleX(1);
+    }
+  }
+}
+
+[class*='skill'][class*='description']:empty {
+  display: none;
+}
+
+/* Шапка JS-страниц как у статических */
+.page-head {
+  margin-bottom: var(--spacing-xl);
+
+  .case-title {
+    margin: 0 0 var(--spacing-sm);
+  }
+
+  .case-lead {
+    margin: 0;
+    color: var(--color-secondary);
+  }
+}
+
+.research-intro-title {
+  display: none;
+}

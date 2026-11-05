@@ -63,8 +63,6 @@ export class PerformanceMonitor {
       this.monitorNavigationTiming();
 
       this.initialized = true;
-
-      console.log('✅ Performance Monitor initialized');
     } catch (error) {
       console.error('❌ Failed to initialize Performance Monitor:', error);
     }

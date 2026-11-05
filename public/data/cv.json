@@ -49,13 +49,9 @@
       "positionLocalized": {
         "en": "Technical Support Engineer"
       },
-      "responsibilities": [
-        "Решение проблем и оптимизация рабочих процессов"
-      ],
+      "responsibilities": [],
       "responsibilitiesLocalized": {
-        "en": [
-          "Problem solving and workflow optimization"
-        ]
+        "en": []
       }
     }
   ],

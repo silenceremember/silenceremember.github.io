@@ -42,6 +42,12 @@ export class DateFormatter {
       }
     }
     
+    if (lang !== 'en') {
+      const ru = (v) => (v && /^\d{4}-\d{2}$/.test(v) ? `${v.slice(5)}.${v.slice(0, 4)}` : v);
+      start = ru(start);
+      end = ru(end);
+    }
+
     // Используем локализованную продолжительность, если доступна
     let duration = '';
     if (period.durationLocalized && period.durationLocalized[lang]) {
@@ -50,7 +56,7 @@ export class DateFormatter {
       duration = ` (${period.duration})`;
     }
 
-    return `${start} — ${end}${duration}`;
+    return lang === 'en' ? `${start} – ${end}${duration}` : `${start}–${end}${duration}`;
   }
 
   /**

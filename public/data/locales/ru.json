@@ -1,21 +1,21 @@
 {
   "common": {
     "nav": {
-      "home": "ГЛАВНАЯ",
-      "portfolio": "КЕЙСЫ",
-      "research": "НАУКА",
-      "cv": "РЕЗЮМЕ",
-      "community": "УСЛУГИ",
-      "services": "УСЛУГИ"
+      "home": "Главная",
+      "portfolio": "Кейсы",
+      "research": "Наука",
+      "cv": "Резюме",
+      "community": "Услуги",
+      "services": "Услуги"
     },
     "buttons": {
       "scrollToTop": "Прокрутить наверх",
-      "contactEmail": "НАПИСАТЬ НА ПОЧТУ",
-      "contactTelegram": "НАПИСАТЬ В TELEGRAM",
-      "downloadPDF": "СКАЧАТЬ PDF",
-      "navigation": "НАВИГАЦИЯ",
-      "viewCases": "СМОТРЕТЬ КЕЙСЫ",
-      "services": "УСЛУГИ"
+      "contactEmail": "Написать на почту",
+      "contactTelegram": "Написать в Telegram",
+      "downloadPDF": "Скачать PDF",
+      "navigation": "Навигация",
+      "viewCases": "Смотреть кейсы",
+      "services": "Услуги"
     },
     "aria": {
       "languageSwitch": "Смена языка",
@@ -28,15 +28,15 @@
   },
   "index": {
     "tagline": "SILENCEREMEMBER",
-    "title": "ДИЗАЙНЕР ИНТЕРФЕЙСОВ: ВЕБ И ИГРЫ",
+    "title": "Дизайнер интерфейсов: веб и игры",
     "about": "Проектирую интерфейсы сайтов и игр, провожу UX-аудиты и собираю рабочие прототипы, инструменты и автоматизации с помощью ИИ. Магистр геймдизайна, аспирант СПбГЭТУ «ЛЭТИ».",
     "meta_description": "Максим Ельчанинов, дизайнер интерфейсов: веб и игры. UX-аудиты, UI игр, прототипы и автоматизации с помощью ИИ. Аспирант СПбГЭТУ «ЛЭТИ».",
     "slideHint": "Прокручивайте колесо мыши, чтобы перейти к кейсам",
-    "featuredWorks": "ИЗБРАННЫЕ КЕЙСЫ",
-    "whatsNext": "ДАВАЙТЕ РАБОТАТЬ",
+    "featuredWorks": "Избранные кейсы",
+    "whatsNext": "Контакты",
     "projectDetails": {
-      "myRole": "МОЯ РОЛЬ",
-      "keyContribution": "КЛЮЧЕВОЙ ВКЛАД"
+      "myRole": "Моя роль",
+      "keyContribution": "Ключевой вклад"
     },
     "whatsNextText": "Удалённо, на частичную занятость или проектом. Отвечаю в Telegram в течение дня."
   },
@@ -44,14 +44,14 @@
     "title": "Кейсы",
     "meta_title": "Кейсы",
     "description": "Кейсы: интерфейсы, игры, инструменты и ИИ",
-    "navigation": "НАВИГАЦИЯ",
+    "navigation": "Навигация",
     "card": {
-      "details": "ОТКРЫТЬ КЕЙС",
+      "details": "Открыть кейс",
       "detailsAria": "Подробнее о проекте",
-      "comingSoon": "СКОРО",
+      "comingSoon": "Скоро",
       "comingSoonAria": "Скоро будет доступно",
       "featured": "Избранный проект",
-      "tier2": "Проект тир 2",
+      "tier2": "Архивный кейс",
       "types": {
         "game": "Игра",
         "document": "Документ",
@@ -61,7 +61,7 @@
         "ui": "Интерфейс",
         "app": "Приложение"
       },
-      "detailsExternal": "ПОДРОБНЕЕ"
+      "detailsExternal": "Подробнее"
     },
     "filters": {
       "category": "Категория",
@@ -77,9 +77,9 @@
         "completed": "Готов",
         "inDevelopment": "В разработке"
       },
-      "found": "НАЙДЕНО ПРОЕКТОВ",
+      "found": "Найдено кейсов",
       "showAll": "Показать все",
-      "showAllAria": "Показать все проекты",
+      "showAllAria": "Показать все кейсы",
       "reset": "Сбросить",
       "resetAria": "Сбросить фильтры",
       "hide": "Скрыть",
@@ -91,19 +91,19 @@
     "title": "Наука",
     "meta_title": "Наука",
     "description": "Публикации, свидетельства о регистрации и тема диссертации",
-    "navigation": "НАВИГАЦИЯ",
+    "navigation": "Навигация",
     "diploma": {
       "title": "Магистерская диссертация"
     },
     "card": {
-      "read": "ЧИТАТЬ",
+      "read": "Читать",
       "readAria": "Открыть публикацию",
-      "comingSoon": "СКОРО",
+      "comingSoon": "Скоро",
       "comingSoonAria": "Скоро будет доступно"
     },
     "statuses": {
       "published": "Опубликовано",
-      "inPublication": "СКОРО",
+      "inPublication": "Скоро",
       "inProgress": "В процессе написания",
       "completed": "Защищена"
     },
@@ -114,8 +114,8 @@
       "certificate": "Свидетельство"
     },
     "levels": {
-      "РИНЦ": "РИНЦ",
-      "RSCI": "РИНЦ",
+      "РИНЦ": "Ринц",
+      "RSCI": "Ринц",
       "Scopus": "Scopus",
       "Роспатент": "Роспатент"
     },
@@ -127,19 +127,19 @@
     "title": "Резюме",
     "meta_title": "Резюме",
     "description": "Резюме: дизайнер интерфейсов (веб и игры), магистр геймдизайна, аспирант СПбГЭТУ «ЛЭТИ».",
-    "navigation": "НАВИГАЦИЯ",
-    "name": "MAXIM ELCHANINOV",
-    "role": "ДИЗАЙНЕР ИНТЕРФЕЙСОВ: ВЕБ И ИГРЫ",
+    "navigation": "Навигация",
+    "name": "Максим Ельчанинов",
+    "role": "Дизайнер интерфейсов: веб и игры",
     "workDescription": "Поддержка пользователей и оптимизация рабочих процессов",
     "certificateUnavailable": "Информация о сертификате недоступна",
     "sections": {
-      "about": "О СЕБЕ",
-      "workExperience": "ОПЫТ РАБОТЫ",
-      "education": "ОБРАЗОВАНИЕ",
-      "skills": "НАВЫКИ",
-      "certificates": "СЕРТИФИКАТЫ",
-      "courses": "КУРСЫ",
-      "languages": "ЯЗЫКИ"
+      "about": "О себе",
+      "workExperience": "Опыт работы",
+      "education": "Образование",
+      "skills": "Навыки",
+      "certificates": "Сертификаты",
+      "courses": "Курсы",
+      "languages": "Языки"
     },
     "skills": {
       "designPrototyping": "Прототипирование дизайна",
@@ -149,24 +149,24 @@
       "assetCreation": "Создание ассетов",
       "categories": {
         "designPrototyping": {
-          "title": "ДИЗАЙН И ПРОТОТИПИРОВАНИЕ",
-          "description": "Проектирование и проверка интерфейсов и прототипов"
+          "title": "Дизайн и прототипирование",
+          "description": ""
         },
         "technicalScripting": {
-          "title": "ТЕХНИЧЕСКИЕ НАВЫКИ И СКРИПТИНГ",
-          "description": "Технологии, с которыми собираю прототипы и автоматизации"
+          "title": "Сборка с ИИ и скрипты",
+          "description": ""
         },
         "designDocumentation": {
-          "title": "ДИЗАЙН-ДОКУМЕНТАЦИЯ",
-          "description": "Документация для команды: от концепта до ТЗ"
+          "title": "Дизайн-документация",
+          "description": ""
         },
         "productionCollaboration": {
-          "title": "ПРОИЗВОДСТВО И СОВМЕСТНАЯ РАБОТА",
-          "description": "Версии и задачи в команде"
+          "title": "Производство и совместная работа",
+          "description": ""
         },
         "assetCreation": {
-          "title": "СОЗДАНИЕ АССЕТОВ",
-          "description": "Графика и 3D для прототипов и промо"
+          "title": "Создание ассетов",
+          "description": ""
         }
       }
     },
@@ -176,8 +176,8 @@
     },
     "buttons": {
       "details": "Подробнее",
-      "downloadRU": "СКАЧАТЬ CV В PDF [RU]",
-      "downloadEN": "СКАЧАТЬ CV В PDF [EN]"
+      "downloadRU": "Скачать CV в PDF [RU]",
+      "downloadEN": "Скачать CV в PDF [EN]"
     },
     "errors": {
       "loadFailed": "Не удалось загрузить данные резюме."
@@ -187,13 +187,13 @@
     "title": "Услуги",
     "meta_title": "Услуги",
     "description": "Присоединяйтесь к сообществу. Ссылки на Discord, социальные сети и способы поддержки.",
-    "navigation": "НАВИГАЦИЯ",
+    "navigation": "Навигация",
     "sections": {
-      "discord": "DISCORD СЕРВЕР",
-      "social": "СОЦИАЛЬНЫЕ СЕТИ",
-      "donations": "ПОДДЕРЖКА",
-      "work": "РАБОЧИЕ ССЫЛКИ",
-      "events": "ПРЕДСТОЯЩИЕ СОБЫТИЯ"
+      "discord": "Discord сервер",
+      "social": "Социальные сети",
+      "donations": "Поддержка",
+      "work": "Рабочие ссылки",
+      "events": "Предстоящие события"
     },
     "discord": {
       "join": "Присоединяйтесь к нашему сообществу разработчиков игр"
@@ -222,10 +222,10 @@
   },
   "404": {
     "title": "Страница не найдена",
-    "message": "К сожалению, запрашиваемая страница не существует",
+    "message": "Такой страницы нет. Кейсы на странице «Кейсы».",
     "backHome": "Вернуться на главную",
     "heading": "404",
-    "subtitle": "СТРАНИЦА НЕ НАЙДЕНА"
+    "subtitle": "Страница не найдена"
   },
   "media": {
     "previousImage": "Предыдущее изображение",

@@ -14,10 +14,10 @@
       "role": "solo",
       "year": 2026,
       "status": "completed",
-      "description": "Сценарий «поступление на платное»: 8 находок с приоритетами и 5 правок с наибольшим эффектом",
+      "description": "Сценарий «поступление на платное»: 8 находок, 4 из них критичные",
       "descriptionLocalized": {
-        "ru": "Сценарий «поступление на платное»: 8 находок с приоритетами и 5 правок с наибольшим эффектом",
-        "en": "Paid admission scenario: 8 prioritised findings and 5 highest-impact fixes"
+        "ru": "Сценарий «поступление на платное»: 8 находок, 4 из них критичные",
+        "en": "Paid admission path: 8 findings, 4 of them critical"
       },
       "media": {
         "preview": "assets/images/projects/ux-audit-leti/preview.webp",
@@ -303,10 +303,10 @@
       "role": "solo",
       "year": 2024,
       "status": "completed",
-      "description": "Готовый прототип аркадного экономического симулятора",
+      "description": "Прототип на Unity и Bolt: крафт предметов и экономика",
       "descriptionLocalized": {
-        "ru": "Готовый прототип аркадного экономического симулятора",
-        "en": "Complete prototype of an arcade economy simulator"
+        "ru": "Прототип на Unity и Bolt: крафт предметов и экономика",
+        "en": "Unity and Bolt prototype: item crafting and an economy"
       },
       "media": {
         "preview": "assets/images/projects/magic-bag/preview.webp",
@@ -326,10 +326,10 @@
         "genre": "ARCADE ECONOMY SIMULATOR",
         "platform": "PC (UNITY)"
       },
-      "keyContribution": "Спроектировал с нуля и реализовал полный игровой цикл: от механики крафта до системы экономики с высоким риском и наградой.",
+      "keyContribution": "Прототип на Unity и Bolt, один, за 3 месяца: крафт предметов и экономика.",
       "keyContributionLocalized": {
-        "ru": "Спроектировал с нуля и реализовал полный игровой цикл: от механики крафта до системы экономики с высоким риском и наградой.",
-        "en": "Designed from scratch and implemented a complete game loop: from crafting mechanics to an economy system with high risk and reward."
+        "ru": "Прототип на Unity и Bolt, один, за 3 месяца: крафт предметов и экономика.",
+        "en": "Unity and Bolt prototype, solo, 3 months: item crafting and an economy."
       },
       "technologies": [
         "Unity",
@@ -525,9 +525,9 @@
       "role": "solo",
       "year": 2024,
       "status": "completed",
-      "description": "Разработка трех игровых концепций: от создания идеи до анализа и переработки концепта",
+      "description": "Разработка трёх игровых концепций: от создания идеи до анализа и переработки концепта",
       "descriptionLocalized": {
-        "ru": "Разработка трех игровых концепций: от создания идеи до анализа и переработки концепта",
+        "ru": "Разработка трёх игровых концепций: от создания идеи до анализа и переработки концепта",
         "en": "Development of three game concepts: from idea creation to analysis and concept refinement"
       },
       "media": {
