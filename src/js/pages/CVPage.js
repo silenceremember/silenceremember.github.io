@@ -746,7 +746,7 @@ export class CVPage extends BasePage {
       const headerContent = this.createHeaderSection(
         communityData,
         cvData.about,
-        cvData.skills
+        (cvData.skillsLocalized && cvData.skillsLocalized[localization.getCurrentLanguage()]) || cvData.skills
       );
       if (headerContent) {
         // Секция уже очищена в начале функции, просто добавляем контент

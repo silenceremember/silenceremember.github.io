@@ -364,7 +364,7 @@ export class ProjectGroupingManager {
       const expandButton = document.createElement('button');
       expandButton.className = 'projects-section-expand';
       expandButton.setAttribute('aria-expanded', 'false');
-      expandButton.setAttribute('aria-label', localization.t('projects.filters.showAllAria'));
+
       expandButton.innerHTML = `
         <span class="projects-section-expand-text">${localization.t('projects.filters.showAll')}</span>
         <span class="projects-section-expand-count">${allCategoryProjects.length}</span>

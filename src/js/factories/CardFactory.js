@@ -382,7 +382,7 @@ export class CardFactory {
         } else {
           button.textContent = localization.t('research.card.read');
         }
-        button.setAttribute('aria-label', localization.t('research.card.readAria'));
+        button.setAttribute('aria-label', `${localization.t('research.card.read')}: ${title ? title.textContent : publication.title}`);
         button.addEventListener('click', (e) => {
           e.stopPropagation();
         });

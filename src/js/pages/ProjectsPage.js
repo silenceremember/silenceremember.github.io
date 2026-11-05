@@ -380,7 +380,7 @@ export class ProjectsPage extends BasePage {
             // Если нет span, обновляем напрямую текст кнопки
             button.textContent = localization.t(detailsKey);
           }
-          button.setAttribute('aria-label', localization.t('projects.card.detailsAria'));
+          button.setAttribute('aria-label', `${button.textContent.trim()}: ${card.querySelector('.project-card-title')?.textContent.trim() || ''}`);
         }
       }
     });
@@ -467,7 +467,7 @@ export class ProjectsPage extends BasePage {
         if (resetButtonText) {
           resetButtonText.textContent = localization.t('projects.filters.reset');
         }
-        resetButton.setAttribute('aria-label', localization.t('projects.filters.resetAria'));
+        resetButton.removeAttribute('aria-label');
       }
 
       const foundText = document.querySelector('#project-filters-results .projects-section-title-text');

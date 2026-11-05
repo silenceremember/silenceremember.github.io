@@ -522,10 +522,11 @@ html[lang='en'] .i18n-ru {
   align-items: stretch;
 }
 
-/* Сетка карточек: без пустых колонок */
-.projects-section-grid,
-.projects-grid-section {
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+/* Сетка карточек: на десктопе две колонки, одиночная карточка не растягивается */
+@include desktop {
+  .projects-section-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
 }
 
 /* Увеличение изображений кейса по клику */

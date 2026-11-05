@@ -139,19 +139,19 @@
   "skills": {
     "design-prototyping": [
       "Figma",
-      "UX audit",
+      "UX-аудит",
       "Unity",
       "Unreal Engine",
       "Miro"
     ],
     "technical-scripting": [
-      "AI-assisted development (Claude Code, Codex, Gemini)",
+      "ИИ-разработка (Claude Code, Codex, Gemini)",
       "n8n",
       "C#",
       "Blueprints"
     ],
     "design-documentation": [
-      "Google Docs & Sheets",
+      "Google Docs и Sheets",
       "Notion",
       "Confluence",
       "Markdown"
@@ -215,5 +215,37 @@
         "en": "B2 (Upper-Intermediate)"
       }
     }
-  ]
+  ],
+  "skillsLocalized": {
+    "en": {
+      "design-prototyping": [
+        "Figma",
+        "UX audit",
+        "Unity",
+        "Unreal Engine",
+        "Miro"
+      ],
+      "technical-scripting": [
+        "AI-assisted development (Claude Code, Codex, Gemini)",
+        "n8n",
+        "C#",
+        "Blueprints"
+      ],
+      "design-documentation": [
+        "Google Docs & Sheets",
+        "Notion",
+        "Confluence",
+        "Markdown"
+      ],
+      "production-collaboration": [
+        "Git",
+        "Jira"
+      ],
+      "asset-creation": [
+        "Blender",
+        "Substance Painter",
+        "Adobe Photoshop"
+      ]
+    }
+  }
 }

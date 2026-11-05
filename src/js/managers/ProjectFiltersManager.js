@@ -109,6 +109,11 @@ export class ProjectFiltersManager {
     // Вставляем фильтры
     if (this.projectFiltersTemplate) {
       filtersContainer.innerHTML = this.projectFiltersTemplate;
+      // Шаблон вставляется после общего прохода i18n: переводим его подписи сразу
+      filtersContainer.querySelectorAll('[data-i18n]').forEach((el) => {
+        const text = localization.t(el.getAttribute('data-i18n'));
+        if (text && text !== el.getAttribute('data-i18n')) el.textContent = text;
+      });
 
       // Находим контейнер фильтров для анимации
       const filtersContent = filtersContainer.querySelector(
@@ -758,7 +763,7 @@ export class ProjectFiltersManager {
       // Добавляем кнопку "Сбросить"
       const resetButton = document.createElement('button');
       resetButton.className = 'projects-section-expand';
-      resetButton.setAttribute('aria-label', localization.t('projects.filters.resetAria'));
+
       const resetButtonText = document.createElement('span');
       resetButtonText.className = 'projects-section-expand-text';
       resetButtonText.textContent = localization.t('projects.filters.reset');

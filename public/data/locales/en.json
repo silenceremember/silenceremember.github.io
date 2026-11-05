@@ -223,7 +223,9 @@
   "404": {
     "title": "Page not found",
     "message": "Unfortunately, the requested page does not exist.",
-    "backHome": "Back to home"
+    "backHome": "Back to home",
+    "heading": "404",
+    "subtitle": "PAGE NOT FOUND"
   },
   "media": {
     "previousImage": "Previous image",

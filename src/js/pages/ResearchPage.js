@@ -387,7 +387,7 @@ export class ResearchPage extends BasePage {
             if (buttonText.textContent) {
               buttonText.textContent = localization.t('research.card.read');
             }
-            button.setAttribute('aria-label', localization.t('research.card.readAria'));
+            button.setAttribute('aria-label', `${button.textContent.trim()}: ${card.querySelector('.research-card-title')?.textContent.trim() || ''}`);
             button.disabled = false;
           } else {
             button.textContent = localization.t('research.card.comingSoon');
@@ -399,7 +399,7 @@ export class ResearchPage extends BasePage {
           if (buttonText.textContent) {
             buttonText.textContent = localization.t('research.card.read');
           }
-          button.setAttribute('aria-label', localization.t('research.card.readAria'));
+          button.setAttribute('aria-label', `${button.textContent.trim()}: ${card.querySelector('.research-card-title')?.textContent.trim() || ''}`);
         }
       }
 
