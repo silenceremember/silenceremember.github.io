@@ -64,7 +64,7 @@
     .research-card-button {
       background-color: var(--color-accent);
       border-color: var(--color-accent);
-      color: var(--color-bg-primary);
+      color: #fff;
     }
   }
 
@@ -293,8 +293,8 @@
   &:focus {
     background-color: var(--color-accent);
     border-color: var(--color-accent);
-    color: var(--color-bg-primary);
-    outline: none;
+    color: #fff;
+    
   }
 }
 
@@ -409,7 +409,7 @@
   .research-card:focus-within & {
     background-color: var(--color-accent);
     border-color: var(--color-accent);
-    color: var(--color-bg-primary);
+    color: #fff;
   }
 
   /* Прямой hover на кнопку также работает */
@@ -417,8 +417,8 @@
   &:focus {
     background-color: var(--color-accent);
     border-color: var(--color-accent);
-    color: var(--color-bg-primary);
-    outline: none;
+    color: #fff;
+    
   }
 
   &:disabled {
@@ -431,7 +431,7 @@
       background-color: transparent;
       border-color: var(--color-text-primary);
       color: var(--color-text-primary);
-      outline: none;
+      
     }
   }
 
@@ -478,7 +478,7 @@
       background-color: transparent;
       border-color: var(--color-text-primary);
       color: var(--color-text-primary);
-      outline: none;
+      
     }
 
     .research-card:hover &,
@@ -496,7 +496,7 @@
       background-color: transparent;
       border-color: var(--color-text-primary);
       color: var(--color-text-primary);
-      outline: none;
+      
     }
   }
 }

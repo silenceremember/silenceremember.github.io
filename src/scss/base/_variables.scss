@@ -29,6 +29,8 @@
   --theme-dark-bg-primary: #121212;
   --theme-dark-accent: #d90429;
   --theme-dark-accent-bg: #641912;
+  --theme-dark-accent-text: #ff4d6a;
+  --theme-light-accent-text: #c00324;
   --theme-dark-divider: #888888;
   --theme-dark-placeholder: #444444;
   --theme-dark-secondary: #888888;
@@ -37,6 +39,7 @@
   --color-text-primary: var(--theme-light-text-primary);
   --color-bg-primary: var(--theme-light-bg-primary);
   --color-accent: var(--theme-light-accent);
+  --color-accent-text: var(--theme-light-accent-text);
   --color-accent-bg: var(--theme-light-accent-bg);
   --color-divider: var(--theme-light-divider);
   --color-placeholder: var(--theme-light-placeholder);
@@ -141,6 +144,7 @@
   --color-text-primary: var(--theme-dark-text-primary);
   --color-bg-primary: var(--theme-dark-bg-primary);
   --color-accent: var(--theme-dark-accent);
+  --color-accent-text: var(--theme-dark-accent-text);
   --color-accent-bg: var(--theme-dark-accent-bg);
   --color-divider: var(--theme-dark-divider);
   --color-placeholder: var(--theme-dark-placeholder);

@@ -2,14 +2,10 @@ import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import { promises as fs } from 'fs';
 import path from 'path';
-import { constants } from 'zlib';
-import viteCompression from 'vite-plugin-compression';
-import { visualizer } from 'rollup-plugin-visualizer';
 import { vitePurgeCSS } from './vite-plugin-purgecss.js';
 import webfontDownload from 'vite-plugin-webfont-dl';
 import { createHtmlPlugin } from 'vite-plugin-html';
 import { imagetools } from 'vite-imagetools';
-import Inspect from 'vite-plugin-inspect';
 
 export default defineConfig({
   base: '/',
@@ -82,36 +78,6 @@ export default defineConfig({
         });
       },
     },
-    // Compression plugin для генерации gzip и brotli версий
-    viteCompression({
-      algorithm: 'gzip',
-      ext: '.gz',
-      threshold: 1024, // Сжимать файлы больше 1KB
-      deleteOriginFile: false, // Оставляем оригинальные файлы
-      verbose: false, // Отключаем verbose для ускорения сборки
-      compressOptions: {
-        level: 6, // Баланс между скоростью и степенью сжатия (1-9, по умолчанию 9)
-      },
-    }),
-    viteCompression({
-      algorithm: 'brotliCompress',
-      ext: '.br',
-      threshold: 1024, // Сжимать файлы больше 1KB
-      deleteOriginFile: false, // Оставляем оригинальные файлы
-      verbose: false, // Отключаем verbose для ускорения сборки
-      compressOptions: {
-        params: {
-          [constants.BROTLI_PARAM_QUALITY]: 4, // Баланс скорости и сжатия (1-11, по умолчанию 11)
-        },
-      },
-    }),
-    // Bundle analyzer для визуализации размера бандла
-    visualizer({
-      filename: './dist/stats.html',
-      open: false,
-      gzipSize: true,
-      brotliSize: true,
-    }),
     // PurgeCSS для удаления неиспользуемых стилей
     vitePurgeCSS(),
     // Google Fonts - автоматическая загрузка и инлайн для устранения внешних запросов
@@ -140,8 +106,6 @@ export default defineConfig({
     }),
     // Оптимизация изображений
     imagetools(),
-    // Vite plugin inspector для отладки и анализа
-    Inspect(),
   ],
   build: {
     outDir: '../dist',

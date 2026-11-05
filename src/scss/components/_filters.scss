@@ -228,13 +228,13 @@
 
   &:hover {
     background-color: var(--color-accent);
-    color: var(--color-bg-primary);
+    color: #fff;
   }
 
   &:focus {
-    outline: none;
+    
     background-color: var(--color-accent);
-    color: var(--color-bg-primary);
+    color: #fff;
   }
 }
 

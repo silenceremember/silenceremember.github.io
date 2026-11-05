@@ -47,7 +47,19 @@
         "HTML/CSS",
         "Playwright"
       ],
-      "teamSize": 1
+      "teamSize": 1,
+      "tagsLocalized": {
+        "ru": [
+          "UX-аудит",
+          "веб",
+          "эвристики"
+        ],
+        "en": [
+          "UX audit",
+          "web",
+          "heuristics"
+        ]
+      }
     },
     {
       "id": "capybara-bunk",
@@ -94,7 +106,19 @@
         "Miro"
       ],
       "teamSize": 5,
-      "teamName": "2IQ"
+      "teamName": "2IQ",
+      "tagsLocalized": {
+        "ru": [
+          "game UI",
+          "Figma",
+          "мультиплеер"
+        ],
+        "en": [
+          "game UI",
+          "Figma",
+          "multiplayer"
+        ]
+      }
     },
     {
       "id": "gridsnap-addon",
@@ -141,7 +165,19 @@
         "C#",
         "Figma"
       ],
-      "teamSize": 1
+      "teamSize": 1,
+      "tagsLocalized": {
+        "ru": [
+          "Unity",
+          "инструмент",
+          "айдентика"
+        ],
+        "en": [
+          "Unity",
+          "tool",
+          "branding"
+        ]
+      }
     },
     {
       "id": "architecture-rendering",
@@ -178,16 +214,28 @@
         "genre": "WALKING SIMULATOR",
         "platform": "PC (UNITY)"
       },
-      "keyContribution": "Собрал с нуля игру на 15 минут: диалоги с локализацией RU/EN, визуальная новелла, квесты, кинематографические камеры. Главное меню и настройки сделал диегетическими: они нанесены на пол и стены комнаты.",
+      "keyContribution": "Превратил учебный проект Unity Creative Core в игру на 15 минут: диалоги с локализацией RU/EN, визуальная новелла, квесты, кинематографические камеры. Главное меню и настройки сделал диегетическими: они нанесены на пол и стены комнаты.",
       "keyContributionLocalized": {
-        "ru": "Собрал с нуля игру на 15 минут: диалоги с локализацией RU/EN, визуальная новелла, квесты, кинематографические камеры. Главное меню и настройки сделал диегетическими: они нанесены на пол и стены комнаты.",
-        "en": "Built a 15-minute game from scratch: RU/EN localised dialogue, a visual novel, quests, cinematic cameras. The main menu and settings are diegetic: painted onto the floor and walls of the room."
+        "ru": "Превратил учебный проект Unity Creative Core в игру на 15 минут: диалоги с локализацией RU/EN, визуальная новелла, квесты, кинематографические камеры. Главное меню и настройки сделал диегетическими: они нанесены на пол и стены комнаты.",
+        "en": "Turned a Unity Creative Core learning project into a 15-minute game: RU/EN localised dialogue, a visual novel, quests, cinematic cameras. The main menu and settings are diegetic: painted onto the floor and walls of the room."
       },
       "technologies": [
         "Unity",
         "C#"
       ],
-      "teamSize": 1
+      "teamSize": 1,
+      "tagsLocalized": {
+        "ru": [
+          "Unity",
+          "нарратив",
+          "диегетический UI"
+        ],
+        "en": [
+          "Unity",
+          "narrative",
+          "diegetic UI"
+        ]
+      }
     },
     {
       "id": "nirune",
@@ -231,7 +279,21 @@
         "en": "Designed the product and interface, built the app and its website with privacy policy using AI."
       },
       "technologies": [],
-      "teamSize": 1
+      "teamSize": 1,
+      "tagsLocalized": {
+        "ru": [
+          "продукт",
+          "ИИ",
+          "Windows",
+          "Android"
+        ],
+        "en": [
+          "product",
+          "AI",
+          "Windows",
+          "Android"
+        ]
+      }
     },
     {
       "id": "magic-bag",
@@ -275,7 +337,19 @@
         "C#"
       ],
       "teamSize": 1,
-      "duration": "3 месяца"
+      "duration": "3 месяца",
+      "tagsLocalized": {
+        "ru": [
+          "Unity",
+          "прототип",
+          "экономика"
+        ],
+        "en": [
+          "Unity",
+          "prototype",
+          "economy"
+        ]
+      }
     },
     {
       "id": "cycle-of-ashes",
@@ -304,7 +378,17 @@
       ],
       "featured": false,
       "tier": 2,
-      "technologies": []
+      "technologies": [],
+      "tagsLocalized": {
+        "ru": [
+          "концепт",
+          "презентация"
+        ],
+        "en": [
+          "concept",
+          "presentation"
+        ]
+      }
     },
     {
       "id": "edge-of-a-blade",
@@ -325,7 +409,7 @@
       },
       "documents": [],
       "links": {
-        "concept": "https://docs.google.com/spreadsheets/d/1xReKq4H_dXWN13aAuhny5kp9nOZkxFV21tLip_2XkQg/edit?usp=sharing"
+        "concept": "https://docs.google.com/spreadsheets/d/1xReKq4H_dXWN13aAuhny5kp9nOZkxFV21tLip_2XkQg/preview"
       },
       "tags": [
         "концепт",
@@ -333,7 +417,17 @@
       ],
       "featured": false,
       "technologies": [],
-      "tier": 2
+      "tier": 2,
+      "tagsLocalized": {
+        "ru": [
+          "концепт",
+          "боевая система"
+        ],
+        "en": [
+          "concept",
+          "combat system"
+        ]
+      }
     },
     {
       "id": "narrative-dz2",
@@ -357,7 +451,7 @@
       },
       "documents": [],
       "links": {
-        "presentation": "https://docs.google.com/presentation/d/17j2HR1JpiZh1xhHnALkh0U3Z9SRhuE4ecBb2YduRJeA/edit?usp=sharing"
+        "presentation": "https://docs.google.com/presentation/d/17j2HR1JpiZh1xhHnALkh0U3Z9SRhuE4ecBb2YduRJeA/preview"
       },
       "comingSoon": false,
       "tags": [
@@ -365,7 +459,17 @@
         "путь героя"
       ],
       "featured": false,
-      "technologies": []
+      "technologies": [],
+      "tagsLocalized": {
+        "ru": [
+          "нарратив",
+          "путь героя"
+        ],
+        "en": [
+          "narrative",
+          "hero's journey"
+        ]
+      }
     },
     {
       "id": "narrative-dz5",
@@ -389,7 +493,7 @@
       },
       "documents": [],
       "links": {
-        "presentation": "https://docs.google.com/presentation/d/1SNIyt3Yp0KUyv1EQ-WMwJTTNOOGBUl-w6hFtTFyXOHs/edit?usp=sharing"
+        "presentation": "https://docs.google.com/presentation/d/1SNIyt3Yp0KUyv1EQ-WMwJTTNOOGBUl-w6hFtTFyXOHs/preview"
       },
       "comingSoon": false,
       "tags": [
@@ -397,7 +501,17 @@
         "четыре слоя"
       ],
       "featured": false,
-      "technologies": []
+      "technologies": [],
+      "tagsLocalized": {
+        "ru": [
+          "нарратив",
+          "четыре слоя"
+        ],
+        "en": [
+          "narrative",
+          "four layers"
+        ]
+      }
     },
     {
       "id": "assignment-concept",
@@ -421,7 +535,7 @@
       },
       "documents": [],
       "links": {
-        "document": "https://docs.google.com/document/d/19t0UzWGSesBgbiOmchBNCp7uN3sS9mF8qLfaWQfRTDQ/edit?usp=sharing"
+        "document": "https://docs.google.com/document/d/19t0UzWGSesBgbiOmchBNCp7uN3sS9mF8qLfaWQfRTDQ/preview"
       },
       "comingSoon": false,
       "tags": [
@@ -430,7 +544,17 @@
       ],
       "featured": false,
       "technologies": [],
-      "tier": 2
+      "tier": 2,
+      "tagsLocalized": {
+        "ru": [
+          "геймдизайн",
+          "концепт"
+        ],
+        "en": [
+          "game design",
+          "concept"
+        ]
+      }
     },
     {
       "id": "assignment-decomposition",
@@ -454,7 +578,7 @@
       },
       "documents": [],
       "links": {
-        "document": "https://docs.google.com/document/d/14Yfol-FkqrOKm-gx2bZCW28ivScmY57XmEhz2RZ-O8U/edit?usp=sharing"
+        "document": "https://docs.google.com/document/d/14Yfol-FkqrOKm-gx2bZCW28ivScmY57XmEhz2RZ-O8U/preview"
       },
       "comingSoon": false,
       "tags": [
@@ -463,7 +587,17 @@
       ],
       "featured": false,
       "technologies": [],
-      "tier": 2
+      "tier": 2,
+      "tagsLocalized": {
+        "ru": [
+          "геймдизайн",
+          "декомпозиция"
+        ],
+        "en": [
+          "game design",
+          "deconstruction"
+        ]
+      }
     }
   ]
 }

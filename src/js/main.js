@@ -42,7 +42,8 @@ function quickInitCursor() {
  */
 async function initCurrentPage() {
   const path = window.location.pathname;
-  const pageName = path.split('/').pop() || 'index.html';
+  let pageName = path.split('/').pop() || 'index.html';
+  if (!pageName.includes('.')) pageName += '.html';
 
   let pageInstance = null;
   let hideAllSlideElementsEarly = null;

@@ -15,7 +15,7 @@
       "downloadPDF": "DOWNLOAD PDF",
       "navigation": "NAVIGATION",
       "viewCases": "VIEW CASES",
-      "services": "SERVICES & PRICES"
+      "services": "SERVICES"
     },
     "aria": {
       "languageSwitch": "Switch language",
@@ -93,7 +93,7 @@
     "description": "Publications, registration certificates and PhD topic",
     "navigation": "NAVIGATION",
     "diploma": {
-      "title": "Qualification Work"
+      "title": "Master's thesis"
     },
     "card": {
       "read": "READ",
@@ -108,14 +108,14 @@
       "completed": "Defended"
     },
     "types": {
-      "thesis": "Thesis",
+      "thesis": "Conference abstract",
       "article": "Article",
-      "diploma": "Diploma",
+      "diploma": "Master's thesis",
       "certificate": "Certificate"
     },
     "levels": {
-      "РИНЦ": "RSCI",
-      "RSCI": "RSCI",
+      "РИНЦ": "RINC (eLibrary)",
+      "RSCI": "RINC (eLibrary)",
       "Scopus": "Scopus",
       "Роспатент": "Rospatent"
     },
@@ -126,7 +126,7 @@
   "cv": {
     "title": "CV",
     "meta_title": "CV",
-    "description": "Professional resume. Work experience, technical skills, education, and achievements in the field of game design.",
+    "description": "CV: interface designer for web and games, PhD student at ETU \"LETI\".",
     "navigation": "NAVIGATION",
     "name": "MAXIM ELCHANINOV",
     "role": "INTERFACE DESIGNER: WEB & GAMES",
@@ -150,23 +150,23 @@
       "categories": {
         "designPrototyping": {
           "title": "DESIGN & PROTOTYPING",
-          "description": "Core toolkit for creating and testing game experiences"
+          "description": "Designing and testing interfaces and prototypes"
         },
         "technicalScripting": {
           "title": "TECHNICAL SKILLS & SCRIPTING",
-          "description": "Languages and technologies for implementing systems and conducting research"
+          "description": "Tech I build prototypes and automations with"
         },
         "designDocumentation": {
           "title": "DESIGN DOCUMENTATION",
-          "description": "Tools for describing and visualizing game design decisions"
+          "description": "Team documentation: from concept to specification"
         },
         "productionCollaboration": {
           "title": "PRODUCTION & COLLABORATION",
-          "description": "Industry standards for version control and task management"
+          "description": "Versions and tasks in a team"
         },
         "assetCreation": {
           "title": "ASSET CREATION",
-          "description": "Supporting skills for visualizing prototypes"
+          "description": "Graphics and 3D for prototypes and promo"
         }
       }
     },
@@ -216,8 +216,8 @@
     "solo": "Solo",
     "teamLead": "Team Lead",
     "team": "In Team",
-    "soloDetailed": "Solo Developer",
-    "teamLeadDetailed": "Game Designer / Team Lead",
+    "soloDetailed": "Solo",
+    "teamLeadDetailed": "Team lead, game designer, UI",
     "teamName": "team"
   },
   "404": {

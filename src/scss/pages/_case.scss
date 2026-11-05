@@ -52,7 +52,7 @@ html[lang='en'] .i18n-ru {
 
 .case-kicker {
   margin: 0 0 var(--spacing-xs);
-  color: var(--color-accent);
+  color: var(--color-accent-text);
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-bold);
   letter-spacing: 0.08em;
@@ -154,7 +154,7 @@ html[lang='en'] .i18n-ru {
 }
 
 .case-section-num {
-  color: var(--color-accent);
+  color: var(--color-accent-text);
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-bold);
   letter-spacing: 0.08em;
@@ -242,8 +242,9 @@ html[lang='en'] .i18n-ru {
 .case-ai {
   margin: var(--spacing-md) 0;
   padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--color-divider);
   border-left: 3px solid var(--color-accent);
-  background-color: var(--color-accent-bg);
+  background-color: transparent;
 
   p {
     margin: 0;
@@ -472,4 +473,137 @@ html[lang='en'] .i18n-ru {
   overflow: hidden;
   clip: rect(0 0 0 0);
   white-space: nowrap;
+}
+
+/* Наука: вводный блок */
+.research-intro {
+  max-width: 70ch;
+  margin-bottom: var(--spacing-xl);
+  padding-bottom: var(--spacing-lg);
+  border-bottom: 1px solid var(--color-divider);
+
+  p {
+    margin: 0 0 var(--spacing-xs);
+    line-height: 1.6;
+  }
+
+  a {
+    color: var(--color-text-primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+
+    &:hover {
+      color: var(--color-accent);
+    }
+  }
+}
+
+.research-intro-title {
+  margin: 0 0 var(--spacing-sm);
+  font-size: var(--font-size-h3);
+  font-weight: 900;
+}
+
+.research-intro-stats {
+  font-weight: var(--font-weight-bold);
+}
+
+.service-covers figcaption {
+  margin-top: 4px;
+  color: var(--color-secondary);
+  font-size: 0.75rem;
+}
+
+/* Кнопки в строку на кейсах и услугах */
+.case-hero .cta-buttons,
+.case-cta .cta-buttons {
+  flex-direction: row !important;
+  max-width: none !important;
+  align-items: stretch;
+}
+
+/* Сетка карточек: без пустых колонок */
+.projects-section-grid,
+.projects-grid-section {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+/* Увеличение изображений кейса по клику */
+.case-figure a {
+  display: block;
+  cursor: zoom-in;
+}
+
+/* Мобильное меню-оверлей */
+@include tablet-and-mobile {
+  .header.menu-open .header-nav {
+    display: block;
+    position: fixed;
+    top: var(--header-footer-height);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    padding: var(--spacing-lg) var(--spacing-lg);
+    background-color: var(--color-bg-primary);
+  }
+
+  .header.menu-open .header-nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .header.menu-open .header-nav-item {
+    display: block;
+    width: 100%;
+    padding: var(--spacing-sm);
+    font-size: var(--font-size-h5);
+    text-align: left;
+  }
+}
+
+.projects-empty-state {
+  max-width: 52ch;
+  margin: var(--spacing-md) 0;
+  color: var(--color-secondary);
+}
+
+/* Фильтр года: подпись «Все годы» вместо декоративного прочерка */
+.project-filters-year-button:not(.has-count) .project-filters-year-button-label {
+  min-height: 0;
+  line-height: inherit;
+  color: inherit;
+  font-size: var(--font-size-small);
+
+  &::after {
+    content: none;
+    display: none;
+  }
+}
+
+@include tablet-and-mobile {
+  /* transform и backdrop-filter у шапки ломают position: fixed у меню */
+  .header.menu-open {
+    contain: none !important;
+    transform: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background-color: var(--color-bg-primary);
+    z-index: 200;
+  }
+}
+
+@include tablet-and-mobile {
+  .header.menu-open .header-nav-list li {
+    width: 100%;
+  }
+
+  .header.menu-open .header-nav-item {
+    width: 100% !important;
+    min-width: 0;
+    height: auto;
+    justify-content: flex-start;
+    text-align: left;
+  }
 }

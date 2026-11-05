@@ -74,6 +74,7 @@ export class LayoutManager {
   setActiveNavLink() {
     const navLinks = document.querySelectorAll('.header-nav-item');
     let currentPage = window.location.pathname.split('/').pop();
+    if (currentPage && !currentPage.includes('.')) currentPage += '.html';
     
     // Обрабатываем главную страницу: '', '/', 'index.html'
     if (currentPage === '' || currentPage === 'index.html' || window.location.pathname === '/') {

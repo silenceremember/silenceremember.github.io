@@ -33,7 +33,7 @@
 .cta-button:hover {
   background-color: var(--color-accent);
   border-color: var(--color-accent);
-  color: var(--color-bg-primary);
+  color: #fff;
 }
 
 .cta-button-primary {
@@ -65,7 +65,7 @@
 #cta-section .cta-button.active:hover {
   border-color: var(--color-accent);
   background-color: var(--color-accent);
-  color: var(--color-bg-primary);
+  color: #fff;
 }
 
 /* Отключаем hover эффекты на мобильных и планшетах */

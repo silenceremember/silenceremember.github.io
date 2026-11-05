@@ -196,7 +196,8 @@ export class LanguageSwitcher {
    */
   updateMetaTags() {
     const path = window.location.pathname;
-    const pageName = path.split('/').pop() || 'index.html';
+    let pageName = path.split('/').pop() || 'index.html';
+    if (!pageName.includes('.')) pageName += '.html';
     
     let titleKey = '';
     let descKey = '';

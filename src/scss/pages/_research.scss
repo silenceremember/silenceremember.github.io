@@ -238,7 +238,7 @@
   &:hover {
     background-color: var(--color-accent);
     border-color: var(--color-accent);
-    color: var(--color-bg-primary);
+    color: #fff;
   }
 
   @include tablet-and-mobile {

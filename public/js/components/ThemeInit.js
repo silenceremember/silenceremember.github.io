@@ -41,7 +41,9 @@
     'cv.html',
     'community.html',
   ];
-  if (pagesWithScroll.some((page) => pathname.includes(page))) {
+  const pageName = (pathname.split('/').pop() || 'index.html').replace(/\.html$/, '') + '.html';
+  const isStaticPage = pageName.startsWith('case-') || pageName === 'services.html';
+  if (isStaticPage || pagesWithScroll.some((page) => pageName === page)) {
     document.documentElement.classList.add('page-with-scroll');
   }
 

@@ -95,11 +95,7 @@ export class BasePage {
     // Выделяем активную ссылку в навигации
     NavigationHelper.setActiveNavigationLink(navigationSelector);
 
-    // Инициализируем обработчик прокрутки к навигации
-    this.menuButtonScrollHandler = new MenuButtonScrollHandler(
-      navigationSelector
-    );
-    this.menuButtonScrollHandler.init();
+    // Мобильное меню открывается оверлеем (см. initGlobalComponents)
   }
 
   /**
@@ -216,6 +212,29 @@ export class BasePage {
     } else {
       setTimeout(loadNonCriticalComponents, 100);
     }
+
+    // Мобильное меню: гамбургер открывает список разделов поверх страницы
+    document.addEventListener('click', (e) => {
+      const header = document.querySelector('.header');
+      if (!header) return;
+      const button = e.target.closest('.header-menu-button');
+      if (button) {
+        const open = !header.classList.contains('menu-open');
+        header.classList.toggle('menu-open', open);
+        button.setAttribute('aria-expanded', String(open));
+        return;
+      }
+      if (e.target.closest('.header-nav-item') && header.classList.contains('menu-open')) {
+        header.classList.remove('menu-open');
+      }
+    });
+    document.addEventListener('keydown', (e) => {
+      const header = document.querySelector('.header.menu-open');
+      if (e.key === 'Escape' && header) {
+        header.classList.remove('menu-open');
+        header.querySelector('.header-menu-button')?.setAttribute('aria-expanded', 'false');
+      }
+    });
 
     globalComponentsInitialized = true;
   }

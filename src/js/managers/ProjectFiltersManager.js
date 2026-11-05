@@ -898,6 +898,12 @@ export class ProjectFiltersManager {
       countElement.textContent = visibleCount;
 
       // Добавляем сетку в контейнер секции
+      if (visibleCount === 0) {
+        const empty = document.createElement('p');
+        empty.className = 'projects-empty-state';
+        empty.textContent = localization.t('projects.filters.empty');
+        sectionContainer.appendChild(empty);
+      }
       sectionContainer.appendChild(sectionGrid);
 
       // Добавляем секцию в grid

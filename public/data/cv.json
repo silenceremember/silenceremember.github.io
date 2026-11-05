@@ -14,9 +14,9 @@
           "en": "1 year 3 months"
         }
       },
-      "company": "РАНХиГС (2IQLabs)",
+      "company": "2IQLabs, студенческая R&D-группа при РАНХиГС",
       "companyLocalized": {
-        "en": "RANEPA (2IQLabs)"
+        "en": "2IQLabs, student R&D group at RANEPA"
       },
       "position": "Руководитель R&D-группы (Game Design & Development)",
       "positionLocalized": {
@@ -139,19 +139,19 @@
   "skills": {
     "design-prototyping": [
       "Figma",
-      "UX-аудит",
+      "UX audit",
       "Unity",
       "Unreal Engine",
       "Miro"
     ],
     "technical-scripting": [
-      "ИИ-разработка (Claude Code, Codex, Gemini)",
+      "AI-assisted development (Claude Code, Codex, Gemini)",
       "n8n",
       "C#",
       "Blueprints"
     ],
     "design-documentation": [
-      "Google Docs и Sheets",
+      "Google Docs & Sheets",
       "Notion",
       "Confluence",
       "Markdown"
@@ -170,7 +170,7 @@
     {
       "id": "foundational-csharp",
       "title": "Foundational C# with Microsoft",
-      "organization": "Microsoft",
+      "organization": "Microsoft / freeCodeCamp",
       "year": 2025,
       "url": "https://www.freecodecamp.org/certification/silenceremember/foundational-c-sharp-with-microsoft"
     }
@@ -179,7 +179,7 @@
     {
       "id": "chatgpt-prompt-engineering",
       "title": "ChatGPT Prompt Engineering for Developers",
-      "organization": "Deeplearning.AI",
+      "organization": "DeepLearning.AI",
       "year": 2024,
       "url": null
     },
@@ -200,7 +200,7 @@
       "languageLocalized": {
         "en": "Russian"
       },
-      "level": "Родной",
+      "level": "родной",
       "levelLocalized": {
         "en": "Native"
       }

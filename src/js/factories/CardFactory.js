@@ -73,9 +73,10 @@ export class CardFactory {
     }
 
     // Теги
-    if (tags && project.tags?.length) {
+    const tagList = project.tagsLocalized?.[localization.getCurrentLanguage()] || project.tags;
+    if (tags && tagList?.length) {
       tags.innerHTML = '';
-      project.tags.forEach((tag) => {
+      tagList.forEach((tag) => {
         const tagEl = document.createElement('span');
         tagEl.className = 'project-card-tag';
         tagEl.textContent = tag;
@@ -188,7 +189,7 @@ export class CardFactory {
         } else {
           detailsButton.textContent = localization.t(detailsKey);
         }
-        detailsButton.setAttribute('aria-label', localization.t('projects.card.detailsAria'));
+        detailsButton.setAttribute('aria-label', `${localization.t(detailsKey)}: ${title ? title.textContent : project.title}`);
       }
       detailsButton.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -263,7 +264,7 @@ export class CardFactory {
     const title = card.querySelector('.research-card-title');
     const type = card.querySelector('.research-card-type');
     const keywords = card.querySelector('.research-card-keywords');
-    const button = card.querySelector('.research-card-button');
+    const buttonEl = card.querySelector('.research-card-button');
 
     if (title) {
       // Используем локализованную версию названия если доступна
@@ -360,7 +361,18 @@ export class CardFactory {
 
     const publicationUrl = getPublicationUrl();
 
-    // Кнопка PDF
+    // Кнопка PDF: при наличии ссылки делаем настоящую ссылку <a>
+    let button = buttonEl;
+    if (button && publicationUrl) {
+      const link = document.createElement('a');
+      link.className = button.className;
+      link.href = publicationUrl;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.innerHTML = button.innerHTML;
+      button.replaceWith(link);
+      button = link;
+    }
     if (button) {
       if (publicationUrl) {
         // Обновляем текст кнопки - проверяем наличие span с data-i18n
@@ -373,7 +385,6 @@ export class CardFactory {
         button.setAttribute('aria-label', localization.t('research.card.readAria'));
         button.addEventListener('click', (e) => {
           e.stopPropagation();
-          window.open(publicationUrl, '_blank', 'noopener,noreferrer');
         });
       } else if (publication.status === 'published') {
         // Вышедшая работа без открытой ссылки: кнопку не показываем
