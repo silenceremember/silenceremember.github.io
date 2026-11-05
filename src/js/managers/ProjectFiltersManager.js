@@ -152,7 +152,7 @@ export class ProjectFiltersManager {
         dashOption.type = 'button';
         dashOption.setAttribute('data-value', '');
         dashOption.innerHTML = `
-          <span class="project-filters-year-option-label">—</span>
+          <span class="project-filters-year-option-label">${localization.t('projects.filters.allYears')}</span>
           <span class="project-filters-year-option-count" style="display: none;"></span>
         `;
         yearDropdownMenu.appendChild(dashOption);
@@ -566,7 +566,7 @@ export class ProjectFiltersManager {
       ) {
         // Снимаем фильтр
         this.activeFilters.year = [];
-        if (buttonLabel) buttonLabel.textContent = '—';
+        if (buttonLabel) buttonLabel.textContent = localization.t('projects.filters.allYears');
         if (buttonCount) {
           buttonCount.textContent = '0';
           buttonCount.style.display = 'none';
@@ -653,7 +653,7 @@ export class ProjectFiltersManager {
       const buttonCount = dropdownButton.querySelector(
         '.project-filters-year-button-count'
       );
-      if (buttonLabel) buttonLabel.textContent = '—';
+      if (buttonLabel) buttonLabel.textContent = localization.t('projects.filters.allYears');
       if (buttonCount) {
         buttonCount.textContent = '0';
         buttonCount.style.display = 'none';
@@ -870,6 +870,8 @@ export class ProjectFiltersManager {
             if (detailsButton) {
               detailsButton.addEventListener('click', (e) => {
                 e.stopPropagation();
+                // Ссылка <a> открывается сама
+                if (detailsButton.tagName === 'A') return;
                 // Не открываем для проектов "скоро"
                 if (!project.comingSoon) {
                   this.onCardClick(project);

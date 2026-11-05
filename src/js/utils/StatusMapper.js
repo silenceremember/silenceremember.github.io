@@ -32,6 +32,7 @@ export class StatusMapper {
       thesis: 'thesis',
       article: 'article',
       diploma: 'diploma',
+      certificate: 'certificate',
     };
     const key = typeKeyMap[type];
     if (key) {

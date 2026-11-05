@@ -14,6 +14,10 @@ export class NavigationHelper {
     if (currentPage === '' || currentPage === 'index.html' || window.location.pathname === '/') {
       currentPage = 'index.html';
     }
+    // Страницы кейсов относятся к разделу «Кейсы»
+    if (currentPage.startsWith('case-')) {
+      currentPage = 'projects.html';
+    }
 
     navLinks.forEach((link) => {
       let linkPage = link.getAttribute('href').split('/').pop();

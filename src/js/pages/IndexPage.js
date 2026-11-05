@@ -165,8 +165,13 @@ export class IndexPage extends BasePage {
       actionButton.setAttribute('href', projectLink);
       actionButton.setAttribute('data-i18n', 'projects.card.details');
       actionButton.textContent = localization.t('projects.card.details');
-      actionButton.setAttribute('target', '_blank');
-      actionButton.setAttribute('rel', 'noopener noreferrer');
+      if (projectLink.startsWith('/')) {
+        actionButton.removeAttribute('target');
+        actionButton.removeAttribute('rel');
+      } else {
+        actionButton.setAttribute('target', '_blank');
+        actionButton.setAttribute('rel', 'noopener noreferrer');
+      }
     }
   }
 
@@ -179,7 +184,7 @@ export class IndexPage extends BasePage {
     if (!project.links) return null;
     
     // Приоритет ссылок: site > itch > github > document > concept > presentation
-    const linkPriority = ['site', 'itch', 'github', 'document', 'concept', 'presentation'];
+    const linkPriority = ['case', 'site', 'itch', 'document', 'concept', 'presentation'];
     
     for (const linkType of linkPriority) {
       if (project.links[linkType]) {

@@ -153,7 +153,7 @@ export class LanguageSwitcher {
    */
   updateNavigation() {
     const navItems = document.querySelectorAll('.header-nav-item');
-    const navKeys = ['common.nav.home', 'common.nav.portfolio', 'common.nav.research', 'common.nav.cv', 'common.nav.community'];
+    const navKeys = ['common.nav.home', 'common.nav.portfolio', 'common.nav.services', 'common.nav.research', 'common.nav.cv'];
     
     navItems.forEach((item, index) => {
       if (navKeys[index]) {
@@ -167,6 +167,8 @@ export class LanguageSwitcher {
     // Обновляем навигацию в CTA кнопках
     const ctaButtons = document.querySelectorAll('.cta-button');
     ctaButtons.forEach(button => {
+      // Подписи по адресу меняем только в навигационных блоках, не в CTA с собственным текстом
+      if (!button.closest('[class*="navigation"]')) return;
       const href = button.getAttribute('href');
       if (href) {
         const keyMap = {
@@ -174,9 +176,11 @@ export class LanguageSwitcher {
           'projects.html': 'common.nav.portfolio',
           'research.html': 'common.nav.research',
           'cv.html': 'common.nav.cv',
-          'community.html': 'common.nav.community'
+          'services.html': 'common.nav.services',
+          'community.html': 'common.nav.services'
         };
-        const key = keyMap[href];
+        const page = href === '/' ? 'index.html' : href.split('/').pop();
+        const key = keyMap[page];
         if (key) {
           const text = localization.t(key);
           if (text) {
@@ -197,6 +201,11 @@ export class LanguageSwitcher {
     let titleKey = '';
     let descKey = '';
     
+    // Статические страницы (кейсы, услуги) хранят заголовок и описание в HTML
+    if (pageName.startsWith('case-') || pageName === 'services.html') {
+      return;
+    }
+
     if (pageName === 'index.html' || pageName === '' || path === '/') {
       descKey = 'index.meta_description';
     } else if (pageName === 'projects.html') {
@@ -222,11 +231,11 @@ export class LanguageSwitcher {
         if (pageName === '404.html') {
           document.title = pageTitle + ' | Maxim Elchaninov';
         } else {
-          document.title = pageTitle + ' | Maxim Elchaninov — System Game Designer';
+          document.title = pageTitle + ' | ' + localization.t('common.siteName');
         }
       }
     } else {
-      document.title = 'Maxim Elchaninov — System Game Designer';
+      document.title = localization.t('common.siteName') + ': ' + localization.t('common.siteRole');
     }
 
     if (descKey) {

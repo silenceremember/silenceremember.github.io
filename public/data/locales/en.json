@@ -2,44 +2,51 @@
   "common": {
     "nav": {
       "home": "HOME",
-      "portfolio": "PORTFOLIO",
+      "portfolio": "CASES",
       "research": "RESEARCH",
       "cv": "CV",
-      "community": "COMMUNITY"
+      "community": "SERVICES",
+      "services": "SERVICES"
     },
     "buttons": {
       "scrollToTop": "Scroll to top",
-      "contactEmail": "CONTACT BY EMAIL",
-      "contactTelegram": "CONTACT ON TELEGRAM",
+      "contactEmail": "EMAIL ME",
+      "contactTelegram": "MESSAGE ON TELEGRAM",
       "downloadPDF": "DOWNLOAD PDF",
-      "navigation": "NAVIGATION"
+      "navigation": "NAVIGATION",
+      "viewCases": "VIEW CASES",
+      "services": "SERVICES & PRICES"
     },
     "aria": {
       "languageSwitch": "Switch language",
       "themeSwitch": "Switch theme",
       "menu": "Menu"
-    }
+    },
+    "availability": "Open to remote work: part-time or project-based",
+    "siteName": "Maxim Elchaninov",
+    "siteRole": "interface designer"
   },
   "index": {
     "tagline": "SILENCEREMEMBER",
-    "title": "SYSTEM GAME DESIGNER",
-    "about": "I design game systems and narrative as a unified whole to create meaningful experiences. The site features my projects, research, and technical experiments.",
-    "meta_description": "Showcasing game design projects, research, and technical experiments, specializing in unified game systems and narrative design.",
-    "slideHint": "Scroll the mouse wheel to navigate between slides",
-    "featuredWorks": "FEATURED WORKS",
-    "whatsNext": "WHAT'S NEXT?",
+    "title": "INTERFACE DESIGNER: WEB & GAMES",
+    "about": "I design interfaces for websites and games, run UX audits and build working prototypes, tools and automations with AI. Master of game design, PhD student at ETU \"LETI\", Saint Petersburg.",
+    "meta_description": "Maxim Elchaninov, interface designer for web and games. UX audits, game UI, AI-built prototypes and automations. PhD student at ETU \"LETI\".",
+    "slideHint": "Scroll the mouse wheel to see the cases",
+    "featuredWorks": "FEATURED CASES",
+    "whatsNext": "LET'S WORK TOGETHER",
     "projectDetails": {
       "myRole": "MY ROLE",
       "keyContribution": "KEY CONTRIBUTION"
-    }
+    },
+    "whatsNextText": "Remote, part-time or project-based. I reply on Telegram within a day."
   },
   "projects": {
-    "title": "Portfolio",
-    "meta_title": "Projects",
-    "description": "Portfolio of projects. Explore works on system game design, game mechanics creation, and narrative design.",
+    "title": "Cases",
+    "meta_title": "Cases",
+    "description": "Cases: interfaces, games, tools and AI",
     "navigation": "NAVIGATION",
     "card": {
-      "details": "DETAILS",
+      "details": "OPEN CASE",
       "detailsAria": "More about the project",
       "comingSoon": "SOON",
       "comingSoonAria": "Soon",
@@ -49,17 +56,22 @@
         "game": "Game",
         "document": "Document",
         "tool": "Tool",
-        "script": "Script"
-      }
+        "script": "Script",
+        "audit": "UX audit",
+        "ui": "Interface",
+        "app": "Application"
+      },
+      "detailsExternal": "DETAILS"
     },
     "filters": {
       "category": "Category",
       "status": "Status",
       "year": "Year",
       "categories": {
-        "games": "Game Projects",
-        "tools": "Tools",
-        "research": "Research"
+        "games": "Games & narrative",
+        "tools": "Tools & AI",
+        "research": "Breakdowns",
+        "ux": "Interfaces"
       },
       "statuses": {
         "completed": "Ready",
@@ -70,13 +82,15 @@
       "showAllAria": "Show all projects",
       "reset": "Reset",
       "resetAria": "Reset filters",
-      "hide": "Hide"
+      "hide": "Hide",
+      "allYears": "All years",
+      "empty": "Nothing matches these filters. Reset them to see all work."
     }
   },
   "research": {
     "title": "Research",
     "meta_title": "Research",
-    "description": "Academic publications and research in the field of game design, game systems, and interactive storytelling.",
+    "description": "Publications, registration certificates and PhD topic",
     "navigation": "NAVIGATION",
     "diploma": {
       "title": "Qualification Work"
@@ -90,17 +104,20 @@
     "statuses": {
       "published": "Published",
       "inPublication": "SOON",
-      "inProgress": "In Progress"
+      "inProgress": "In Progress",
+      "completed": "Defended"
     },
     "types": {
       "thesis": "Thesis",
       "article": "Article",
-      "diploma": "Diploma"
+      "diploma": "Diploma",
+      "certificate": "Certificate"
     },
     "levels": {
       "РИНЦ": "RSCI",
       "RSCI": "RSCI",
-      "Scopus": "Scopus"
+      "Scopus": "Scopus",
+      "Роспатент": "Rospatent"
     },
     "errors": {
       "noPublications": "No publications found."
@@ -112,8 +129,8 @@
     "description": "Professional resume. Work experience, technical skills, education, and achievements in the field of game design.",
     "navigation": "NAVIGATION",
     "name": "MAXIM ELCHANINOV",
-    "role": "SYSTEM GAME DESIGNER",
-    "workDescription": "Optimized workflows and resolved technical issues",
+    "role": "INTERFACE DESIGNER: WEB & GAMES",
+    "workDescription": "User support and workflow optimisation",
     "certificateUnavailable": "Certificate information unavailable",
     "sections": {
       "about": "ABOUT",
@@ -167,8 +184,8 @@
     }
   },
   "community": {
-    "title": "Community",
-    "meta_title": "Community",
+    "title": "Services",
+    "meta_title": "Services",
     "description": "Join the community. Links to Discord, social networks, and ways to support.",
     "navigation": "NAVIGATION",
     "sections": {
@@ -215,4 +232,3 @@
     "videoNotSupported": "Your browser does not support video."
   }
 }
-

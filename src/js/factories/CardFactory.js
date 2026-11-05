@@ -101,6 +101,9 @@ export class CardFactory {
         document: localization.t('projects.card.types.document'),
         tool: localization.t('projects.card.types.tool'),
         script: localization.t('projects.card.types.script'),
+        audit: localization.t('projects.card.types.audit'),
+        ui: localization.t('projects.card.types.ui'),
+        app: localization.t('projects.card.types.app'),
       };
       type.textContent = typeLabels[project.type] || project.type;
     }
@@ -153,8 +156,23 @@ export class CardFactory {
       }
     });
 
-    // Кнопка "Подробнее" или "Скоро"
-    const detailsButton = card.querySelector('.project-card-button');
+    // Кнопка "Подробнее" или "Скоро": для проектов со ссылкой делаем настоящую ссылку <a>
+    let detailsButton = card.querySelector('.project-card-button');
+    const projectUrl = !project.comingSoon && project.links
+      ? (project.links.case || project.links.site || Object.values(project.links).find((l) => typeof l === 'string' && l.trim()))
+      : null;
+    if (detailsButton && projectUrl) {
+      const link = document.createElement('a');
+      link.className = detailsButton.className;
+      link.href = projectUrl;
+      if (!projectUrl.startsWith('/')) {
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+      }
+      link.innerHTML = detailsButton.innerHTML;
+      detailsButton.replaceWith(link);
+      detailsButton = link;
+    }
     if (detailsButton) {
       // Обновляем текст кнопки и aria-label
       if (project.comingSoon) {
@@ -163,17 +181,19 @@ export class CardFactory {
         detailsButton.setAttribute('aria-label', localization.t('projects.card.comingSoonAria'));
       } else {
         // Обновляем текст кнопки для обычных проектов
+        const detailsKey = project.links && project.links.case ? 'projects.card.details' : 'projects.card.detailsExternal';
         const buttonText = detailsButton.querySelector('span[data-i18n]');
         if (buttonText) {
-          buttonText.textContent = localization.t('projects.card.details');
+          buttonText.textContent = localization.t(detailsKey);
         } else {
-          detailsButton.textContent = localization.t('projects.card.details');
+          detailsButton.textContent = localization.t(detailsKey);
         }
         detailsButton.setAttribute('aria-label', localization.t('projects.card.detailsAria'));
       }
       detailsButton.addEventListener('click', (e) => {
         e.stopPropagation();
-        // Не открываем для проектов "скоро"
+        // Ссылка <a> открывается сама; для кнопки вызываем обработчик
+        if (detailsButton.tagName === 'A') return;
         if (!project.comingSoon && onCardClick) {
           onCardClick(project);
         }
@@ -355,6 +375,9 @@ export class CardFactory {
           e.stopPropagation();
           window.open(publicationUrl, '_blank', 'noopener,noreferrer');
         });
+      } else if (publication.status === 'published') {
+        // Вышедшая работа без открытой ссылки: кнопку не показываем
+        button.style.display = 'none';
       } else {
         button.disabled = true;
         // Для заблокированных публикаций показываем "СКОРО" / "SOON"

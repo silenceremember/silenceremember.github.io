@@ -1,24 +1,419 @@
 {
-  "version": "1.0.0",
-  "lastUpdated": "2025-01-XX",
+  "version": "2.0.0",
+  "lastUpdated": "2026-11-05",
+  "profiles": {
+    "orcid": "https://orcid.org/0009-0000-0383-7357",
+    "elibrary": "https://elibrary.ru/author_items.asp?authorid=1349798"
+  },
   "publications": [
     {
-      "id": "procedural-narrative-generation",
-      "title": "АНАЛИЗ ОСНОВНЫХ НАПРАВЛЕНИЙ ПРОЦЕДУРНОЙ ГЕНЕРАЦИИ НАРРАТИВНОГО ДИЗАЙНА В ВИДЕОИГРАХ",
+      "id": "diploma-2026",
+      "title": "Система процедурной генерации нарративного дизайна для компьютерных игр жанра роуглайк",
       "titleLocalized": {
-        "ru": "АНАЛИЗ ОСНОВНЫХ НАПРАВЛЕНИЙ ПРОЦЕДУРНОЙ ГЕНЕРАЦИИ НАРРАТИВНОГО ДИЗАЙНА В ВИДЕОИГРАХ",
-        "en": "ANALYSIS OF MAIN DIRECTIONS OF PROCEDURAL NARRATIVE DESIGN GENERATION IN VIDEO GAMES"
+        "ru": "Система процедурной генерации нарративного дизайна для компьютерных игр жанра роуглайк",
+        "en": "Procedural narrative design generation system for roguelike computer games"
       },
-      "type": "thesis",
-      "journal": "Лига исследователей МГПУ",
+      "type": "diploma",
+      "journal": "ВКР магистратуры, РАНХиГС, 2026",
       "journalLocalized": {
-        "ru": "Лига исследователей МГПУ",
-        "en": "MSPU Researchers League"
+        "ru": "ВКР магистратуры, РАНХиГС, 2026",
+        "en": "Master's thesis, RANEPA, 2026"
       },
       "location": null,
       "date": {
-        "start": "2024-11-20",
-        "end": "2024-11-24"
+        "year": 2026
+      },
+      "status": "completed",
+      "level": null,
+      "links": {
+        "document": "https://drive.google.com/file/d/16fNAfzXP0id_JSVj5v-CnErR3EIvChW3/view?usp=sharing"
+      },
+      "keywords": [
+        "процедурная генерация",
+        "нарративный дизайн",
+        "роуглайк"
+      ],
+      "keywordsLocalized": {
+        "ru": [
+          "процедурная генерация",
+          "нарративный дизайн",
+          "роуглайк"
+        ],
+        "en": [
+          "procedural generation",
+          "narrative design",
+          "roguelike"
+        ]
+      }
+    },
+    {
+      "id": "requirements-spec-2026",
+      "title": "Сравнительный анализ методов спецификации требований к игровому программному обеспечению",
+      "titleLocalized": {
+        "ru": "Сравнительный анализ методов спецификации требований к игровому программному обеспечению",
+        "en": "Comparative analysis of requirements specification methods for game software"
+      },
+      "type": "article",
+      "journal": "Бюллетень науки и практики, 2026, т. 12, № 9, с. 168–175",
+      "journalLocalized": {
+        "ru": "Бюллетень науки и практики, 2026, т. 12, № 9, с. 168–175",
+        "en": "Bulletin of Science and Practice, 2026, vol. 12, no. 9, pp. 168–175"
+      },
+      "location": null,
+      "date": {
+        "year": 2026
+      },
+      "status": "published",
+      "level": "РИНЦ",
+      "links": {
+        "doi": "https://doi.org/10.33619/2414-2948/130/17"
+      },
+      "keywords": [
+        "требования",
+        "спецификация",
+        "игровое ПО"
+      ],
+      "keywordsLocalized": {
+        "ru": [
+          "требования",
+          "спецификация",
+          "игровое ПО"
+        ],
+        "en": [
+          "requirements",
+          "specification",
+          "game software"
+        ]
+      }
+    },
+    {
+      "id": "vestnik-nauki-1",
+      "title": "Разделение описания, сохраняемого прогресса и представления в сцене для ветвящихся заданий в Unity и Unreal Engine",
+      "titleLocalized": {
+        "ru": "Разделение описания, сохраняемого прогресса и представления в сцене для ветвящихся заданий в Unity и Unreal Engine",
+        "en": "Separating description, saved progress and scene presentation for branching quests in Unity and Unreal Engine"
+      },
+      "type": "article",
+      "journal": "Вестник науки, 2026, т. 1, № 8 (101)",
+      "journalLocalized": {
+        "ru": "Вестник науки, 2026, т. 1, № 8 (101)",
+        "en": "Vestnik Nauki, 2026, vol. 1, no. 8 (101)"
+      },
+      "location": null,
+      "date": {
+        "year": 2026
+      },
+      "status": "published",
+      "level": "РИНЦ",
+      "links": {},
+      "keywords": [
+        "ветвящиеся задания",
+        "архитектура",
+        "Unity",
+        "Unreal Engine"
+      ],
+      "keywordsLocalized": {
+        "ru": [
+          "ветвящиеся задания",
+          "архитектура",
+          "Unity",
+          "Unreal Engine"
+        ],
+        "en": [
+          "branching quests",
+          "architecture",
+          "Unity",
+          "Unreal Engine"
+        ]
+      }
+    },
+    {
+      "id": "vestnik-nauki-2",
+      "title": "Согласование сохраняемого состояния с загружаемой версией игрового мира в Unity и Unreal Engine",
+      "titleLocalized": {
+        "ru": "Согласование сохраняемого состояния с загружаемой версией игрового мира в Unity и Unreal Engine",
+        "en": "Reconciling saved state with the loaded version of the game world in Unity and Unreal Engine"
+      },
+      "type": "article",
+      "journal": "Вестник науки, 2026, т. 1, № 8 (101)",
+      "journalLocalized": {
+        "ru": "Вестник науки, 2026, т. 1, № 8 (101)",
+        "en": "Vestnik Nauki, 2026, vol. 1, no. 8 (101)"
+      },
+      "location": null,
+      "date": {
+        "year": 2026
+      },
+      "status": "published",
+      "level": "РИНЦ",
+      "links": {},
+      "keywords": [
+        "сохранения",
+        "версионирование",
+        "Unity",
+        "Unreal Engine"
+      ],
+      "keywordsLocalized": {
+        "ru": [
+          "сохранения",
+          "версионирование",
+          "Unity",
+          "Unreal Engine"
+        ],
+        "en": [
+          "save games",
+          "versioning",
+          "Unity",
+          "Unreal Engine"
+        ]
+      }
+    },
+    {
+      "id": "vestnik-nauki-3",
+      "title": "Сценарно-критериальная модель выбора архитектурных механизмов Unity и Unreal Engine",
+      "titleLocalized": {
+        "ru": "Сценарно-критериальная модель выбора архитектурных механизмов Unity и Unreal Engine",
+        "en": "Scenario and criteria model for choosing architectural mechanisms in Unity and Unreal Engine"
+      },
+      "type": "article",
+      "journal": "Вестник науки, 2026, т. 1, № 8 (101)",
+      "journalLocalized": {
+        "ru": "Вестник науки, 2026, т. 1, № 8 (101)",
+        "en": "Vestnik Nauki, 2026, vol. 1, no. 8 (101)"
+      },
+      "location": null,
+      "date": {
+        "year": 2026
+      },
+      "status": "published",
+      "level": "РИНЦ",
+      "links": {},
+      "keywords": [
+        "архитектура",
+        "выбор механизмов",
+        "Unity",
+        "Unreal Engine"
+      ],
+      "keywordsLocalized": {
+        "ru": [
+          "архитектура",
+          "выбор механизмов",
+          "Unity",
+          "Unreal Engine"
+        ],
+        "en": [
+          "architecture",
+          "mechanism selection",
+          "Unity",
+          "Unreal Engine"
+        ]
+      }
+    },
+    {
+      "id": "vestnik-nauki-4",
+      "title": "Критерии применимости Unity Entities и Unreal Engine Mass Entity для обработки больших групп игровых агентов",
+      "titleLocalized": {
+        "ru": "Критерии применимости Unity Entities и Unreal Engine Mass Entity для обработки больших групп игровых агентов",
+        "en": "Applicability criteria for Unity Entities and Unreal Engine Mass Entity in processing large groups of game agents"
+      },
+      "type": "article",
+      "journal": "Вестник науки, 2026, т. 1, № 8 (101)",
+      "journalLocalized": {
+        "ru": "Вестник науки, 2026, т. 1, № 8 (101)",
+        "en": "Vestnik Nauki, 2026, vol. 1, no. 8 (101)"
+      },
+      "location": null,
+      "date": {
+        "year": 2026
+      },
+      "status": "published",
+      "level": "РИНЦ",
+      "links": {},
+      "keywords": [
+        "ECS",
+        "Unity Entities",
+        "Mass Entity"
+      ],
+      "keywordsLocalized": {
+        "ru": [
+          "ECS",
+          "Unity Entities",
+          "Mass Entity"
+        ],
+        "en": [
+          "ECS",
+          "Unity Entities",
+          "Mass Entity"
+        ]
+      }
+    },
+    {
+      "id": "markov-threshold-2026",
+      "title": "Вычислительный метод оптимизации пороговых стратегий в стохастических системах поэтапного улучшения на основе поглощающих цепей Маркова",
+      "titleLocalized": {
+        "ru": "Вычислительный метод оптимизации пороговых стратегий в стохастических системах поэтапного улучшения на основе поглощающих цепей Маркова",
+        "en": "Computational method for optimizing threshold strategies in stochastic staged-upgrade systems based on absorbing Markov chains"
+      },
+      "type": "article",
+      "journal": "Вестник науки и образования, 2026, № 6-3 (173), с. 13–21",
+      "journalLocalized": {
+        "ru": "Вестник науки и образования, 2026, № 6-3 (173), с. 13–21",
+        "en": "Bulletin of Science and Education, 2026, no. 6-3 (173), pp. 13–21"
+      },
+      "location": null,
+      "date": {
+        "year": 2026
+      },
+      "status": "published",
+      "level": "РИНЦ",
+      "links": {},
+      "keywords": [
+        "цепи Маркова",
+        "оптимизация",
+        "игровая экономика"
+      ],
+      "keywordsLocalized": {
+        "ru": [
+          "цепи Маркова",
+          "оптимизация",
+          "игровая экономика"
+        ],
+        "en": [
+          "Markov chains",
+          "optimization",
+          "game economy"
+        ]
+      }
+    },
+    {
+      "id": "markov-gear-2026",
+      "title": "Оценка ресурсных затрат и оптимизация стратегий поэтапного улучшения игрового снаряжения на основе поглощающих цепей Маркова",
+      "titleLocalized": {
+        "ru": "Оценка ресурсных затрат и оптимизация стратегий поэтапного улучшения игрового снаряжения на основе поглощающих цепей Маркова",
+        "en": "Estimating resource costs and optimizing staged gear-upgrade strategies with absorbing Markov chains"
+      },
+      "type": "article",
+      "journal": "Дневник науки, 2026, № 6 (114)",
+      "journalLocalized": {
+        "ru": "Дневник науки, 2026, № 6 (114)",
+        "en": "Dnevnik Nauki, 2026, no. 6 (114)"
+      },
+      "location": null,
+      "date": {
+        "year": 2026
+      },
+      "status": "published",
+      "level": "РИНЦ",
+      "links": {
+        "document": "https://dnevniknauki.ru/images/publications/2026/6/technics/Elchaninov.pdf"
+      },
+      "keywords": [
+        "цепи Маркова",
+        "баланс",
+        "игровое снаряжение"
+      ],
+      "keywordsLocalized": {
+        "ru": [
+          "цепи Маркова",
+          "баланс",
+          "игровое снаряжение"
+        ],
+        "en": [
+          "Markov chains",
+          "balance",
+          "game gear"
+        ]
+      }
+    },
+    {
+      "id": "damage-matrix-2026",
+      "title": "Алгоритм автоматической проверки баланса матриц урона в пошаговых ролевых играх",
+      "titleLocalized": {
+        "ru": "Алгоритм автоматической проверки баланса матриц урона в пошаговых ролевых играх",
+        "en": "Algorithm for automatic balance checking of damage matrices in turn-based role-playing games"
+      },
+      "type": "article",
+      "journal": "Наукосфера, 2026, № 6-1, с. 308–313",
+      "journalLocalized": {
+        "ru": "Наукосфера, 2026, № 6-1, с. 308–313",
+        "en": "Naukosfera, 2026, no. 6-1, pp. 308–313"
+      },
+      "location": null,
+      "date": {
+        "year": 2026
+      },
+      "status": "published",
+      "level": "РИНЦ",
+      "links": {},
+      "keywords": [
+        "баланс",
+        "матрицы урона",
+        "RPG"
+      ],
+      "keywordsLocalized": {
+        "ru": [
+          "баланс",
+          "матрицы урона",
+          "RPG"
+        ],
+        "en": [
+          "balance",
+          "damage matrices",
+          "RPG"
+        ]
+      }
+    },
+    {
+      "id": "ml-game-events",
+      "title": "Применение методов машинного обучения для динамической генерации игровых событий в IT-проектах индустрии развлечений",
+      "titleLocalized": {
+        "ru": "Применение методов машинного обучения для динамической генерации игровых событий в IT-проектах индустрии развлечений",
+        "en": "Machine learning methods for dynamic generation of game events in entertainment IT projects"
+      },
+      "type": "article",
+      "journal": "Бизнес-инжиниринг сложных систем (BECS-2025), Донецк, 2025, с. 350–355. Соавторы: Метлушко Р.П., Будник Е.А.",
+      "journalLocalized": {
+        "ru": "Бизнес-инжиниринг сложных систем (BECS-2025), Донецк, 2025, с. 350–355. Соавторы: Метлушко Р.П., Будник Е.А.",
+        "en": "Business Engineering of Complex Systems (BECS-2025), Donetsk, 2025, pp. 350–355. Co-authors: R. Metlushko, E. Budnik"
+      },
+      "location": null,
+      "date": {
+        "year": 2025
+      },
+      "status": "published",
+      "level": "РИНЦ",
+      "links": {},
+      "keywords": [
+        "машинное обучение",
+        "игровые события"
+      ],
+      "keywordsLocalized": {
+        "ru": [
+          "машинное обучение",
+          "игровые события"
+        ],
+        "en": [
+          "machine learning",
+          "game events"
+        ]
+      }
+    },
+    {
+      "id": "procedural-narrative-generation",
+      "title": "Анализ основных направлений процедурной генерации нарративного дизайна в видеоиграх",
+      "titleLocalized": {
+        "ru": "Анализ основных направлений процедурной генерации нарративного дизайна в видеоиграх",
+        "en": "Analysis of main directions of procedural narrative design generation in video games"
+      },
+      "type": "thesis",
+      "journal": "Лига исследователей МГПУ, 2024",
+      "journalLocalized": {
+        "ru": "Лига исследователей МГПУ, 2024",
+        "en": "MCU Researchers League, 2024"
+      },
+      "location": null,
+      "date": {
+        "year": 2024
       },
       "status": "published",
       "level": "РИНЦ",
@@ -27,32 +422,35 @@
       },
       "keywords": [
         "процедурная генерация",
-        "нарративный дизайн",
-        "видеоигры",
-        "динамические сюжеты"
+        "нарративный дизайн"
       ],
       "keywordsLocalized": {
-        "ru": ["процедурная генерация", "нарративный дизайн", "видеоигры", "динамические сюжеты"],
-        "en": ["procedural generation", "narrative design", "video games", "dynamic stories"]
+        "ru": [
+          "процедурная генерация",
+          "нарративный дизайн"
+        ],
+        "en": [
+          "procedural generation",
+          "narrative design"
+        ]
       }
     },
     {
       "id": "ai-in-gamedesign",
-      "title": "ПРИМЕНЕНИЕ ИСКУССТВЕННОГО ИНТЕЛЛЕКТА В ГЕЙМ-ДИЗАЙНЕ: АНАЛИЗ СОВРЕМЕННЫХ ПОДХОДОВ И ПЕРСПЕКТИВ РАЗВИТИЯ",
+      "title": "Применение искусственного интеллекта в геймдизайне: анализ современных подходов и перспектив развития",
       "titleLocalized": {
-        "ru": "ПРИМЕНЕНИЕ ИСКУССТВЕННОГО ИНТЕЛЛЕКТА В ГЕЙМ-ДИЗАЙНЕ: АНАЛИЗ СОВРЕМЕННЫХ ПОДХОДОВ И ПЕРСПЕКТИВ РАЗВИТИЯ",
-        "en": "APPLICATION OF ARTIFICIAL INTELLIGENCE IN GAME DESIGN: ANALYSIS OF MODERN APPROACHES AND DEVELOPMENT PROSPECTS"
+        "ru": "Применение искусственного интеллекта в геймдизайне: анализ современных подходов и перспектив развития",
+        "en": "Application of artificial intelligence in game design: modern approaches and prospects"
       },
       "type": "thesis",
-      "journal": "Лига исследователей МГПУ",
+      "journal": "Лига исследователей МГПУ, 2024. Соавтор: Смирнов В.Д.",
       "journalLocalized": {
-        "ru": "Лига исследователей МГПУ",
-        "en": "MSPU Researchers League"
+        "ru": "Лига исследователей МГПУ, 2024. Соавтор: Смирнов В.Д.",
+        "en": "MCU Researchers League, 2024. Co-author: V. Smirnov"
       },
       "location": null,
       "date": {
-        "start": "2024-11-20",
-        "end": "2024-11-24"
+        "year": 2024
       },
       "status": "published",
       "level": "РИНЦ",
@@ -61,108 +459,144 @@
       },
       "keywords": [
         "искусственный интеллект",
-        "геймдизайн",
-        "машинное обучение",
-        "игровой контент"
+        "геймдизайн"
       ],
       "keywordsLocalized": {
-        "ru": ["искусственный интеллект", "геймдизайн", "машинное обучение", "игровой контент"],
-        "en": ["artificial intelligence", "game design", "machine learning", "game content"]
+        "ru": [
+          "искусственный интеллект",
+          "геймдизайн"
+        ],
+        "en": [
+          "artificial intelligence",
+          "game design"
+        ]
       }
     },
     {
-      "id": "ml-game-events",
-      "title": "ПРИМЕНЕНИЕ МЕТОДОВ МАШИННОГО ОБУЧЕНИЯ ДЛЯ ДИНАМИЧЕСКОЙ ГЕНЕРАЦИИ ИГРОВЫХ СОБЫТИЙ В IT-ПРОЕКТАХ ИНДУСТРИИ РАЗВЛЕЧЕНИЙ",
+      "id": "rid-latextoequations",
+      "title": "Программный модуль автоматического преобразования нотации LaTeX в объекты формул MS Word «LaTeXtoEquations»",
       "titleLocalized": {
-        "ru": "ПРИМЕНЕНИЕ МЕТОДОВ МАШИННОГО ОБУЧЕНИЯ ДЛЯ ДИНАМИЧЕСКОЙ ГЕНЕРАЦИИ ИГРОВЫХ СОБЫТИЙ В IT-ПРОЕКТАХ ИНДУСТРИИ РАЗВЛЕЧЕНИЙ",
-        "en": "APPLICATION OF MACHINE LEARNING METHODS FOR DYNAMIC GENERATION OF GAME EVENTS IN IT PROJECTS OF THE ENTERTAINMENT INDUSTRY"
+        "ru": "Программный модуль автоматического преобразования нотации LaTeX в объекты формул MS Word «LaTeXtoEquations»",
+        "en": "LaTeXtoEquations: automatic conversion of LaTeX notation into MS Word equation objects"
       },
-      "type": "article",
-      "journal": "BECS-2025",
+      "type": "certificate",
+      "journal": "Свидетельство о регистрации программы для ЭВМ RU 2026684561, 2026 (единолично)",
       "journalLocalized": {
-        "ru": "BECS-2025",
-        "en": "BECS-2025"
+        "ru": "Свидетельство о регистрации программы для ЭВМ RU 2026684561, 2026 (единолично)",
+        "en": "Software registration certificate RU 2026684561, 2026 (sole author)"
       },
       "location": null,
       "date": {
-        "year": 2025
+        "year": 2026
       },
-      "status": "in-publication",
-      "level": "РИНЦ",
-      "links": {},
-      "keywords": [
-        "машинное обучение",
-        "динамическая генерация",
-        "игровые события",
-        "IT-проекты"
-      ],
-      "keywordsLocalized": {
-        "ru": ["машинное обучение", "динамическая генерация", "игровые события", "IT-проекты"],
-        "en": ["machine learning", "dynamic generation", "game events", "IT projects"]
-      }
+      "status": "published",
+      "level": "Роспатент",
+      "links": {}
     },
     {
-      "id": "formal-narrative-systems",
-      "title": "Формальные системы алгоритмического повествования в цифровых играх",
+      "id": "rid-os-tests",
+      "title": "Тестовые задания: Operating System Core Concepts and Strategies",
       "titleLocalized": {
-        "ru": "Формальные системы алгоритмического повествования в цифровых играх",
-        "en": "Formal Systems of Algorithmic Narrative in Digital Games"
+        "ru": "Тестовые задания: Operating System Core Concepts and Strategies",
+        "en": "Test items: Operating System Core Concepts and Strategies"
       },
-      "type": "article",
-      "journal": "Technology and Language",
+      "type": "certificate",
+      "journal": "Свидетельство о регистрации базы данных RU 2024626084, 2024",
       "journalLocalized": {
-        "ru": "Technology and Language",
-        "en": "Technology and Language"
+        "ru": "Свидетельство о регистрации базы данных RU 2024626084, 2024",
+        "en": "Database registration certificate RU 2024626084, 2024"
       },
       "location": null,
       "date": {
-        "year": 2025
+        "year": 2024
       },
-      "status": "in-publication",
-      "level": "Scopus",
-      "links": {},
-      "keywords": [
-        "алгоритмическое повествование",
-        "формальные системы",
-        "цифровые игры",
-        "интерактивный нарратив"
-      ],
-      "keywordsLocalized": {
-        "ru": ["алгоритмическое повествование", "формальные системы", "цифровые игры", "интерактивный нарратив"],
-        "en": ["algorithmic narrative", "formal systems", "digital games", "interactive narrative"]
-      }
+      "status": "published",
+      "level": "Роспатент",
+      "links": {}
     },
     {
-      "id": "diploma-chapter-1",
-      "title": "Система процедурной генерации нарративного дизайна для компьютерных игр жанра роуглайк",
+      "id": "rid-infosec-tests",
+      "title": "Тестовые задания: Comprehensive Information Security Strategy",
       "titleLocalized": {
-        "ru": "Система процедурной генерации нарративного дизайна для компьютерных игр жанра роуглайк",
-        "en": "Procedural Narrative Design Generation System for Roguelike Computer Games"
+        "ru": "Тестовые задания: Comprehensive Information Security Strategy",
+        "en": "Test items: Comprehensive Information Security Strategy"
       },
-      "type": "diploma",
-      "journal": null,
+      "type": "certificate",
+      "journal": "Свидетельство о регистрации базы данных RU 2024626417, 2024",
+      "journalLocalized": {
+        "ru": "Свидетельство о регистрации базы данных RU 2024626417, 2024",
+        "en": "Database registration certificate RU 2024626417, 2024"
+      },
       "location": null,
       "date": {
-        "year": 2025
+        "year": 2024
       },
-      "status": "in-progress",
-      "level": null,
-      "links": {
-        "document": "https://drive.google.com/file/d/16fNAfzXP0id_JSVj5v-CnErR3EIvChW3/view?usp=sharing"
+      "status": "published",
+      "level": "Роспатент",
+      "links": {}
+    },
+    {
+      "id": "rid-kuznechik",
+      "title": "Программа-обучение алгоритму шифрования «Кузнечик»",
+      "titleLocalized": {
+        "ru": "Программа-обучение алгоритму шифрования «Кузнечик»",
+        "en": "Training program for the Kuznyechik cipher"
       },
-      "keywords": [
-        "процедурная генерация",
-        "нарративный дизайн",
-        "роуглайк",
-        "компьютерные игры"
-      ],
-      "keywordsLocalized": {
-        "ru": ["процедурная генерация", "нарративный дизайн", "роуглайк", "компьютерные игры"],
-        "en": ["procedural generation", "narrative design", "roguelike", "computer games"]
+      "type": "certificate",
+      "journal": "Свидетельство о регистрации программы для ЭВМ RU 2023667076, 2023",
+      "journalLocalized": {
+        "ru": "Свидетельство о регистрации программы для ЭВМ RU 2023667076, 2023",
+        "en": "Software registration certificate RU 2023667076, 2023"
       },
-      "chapter": 1,
-      "totalChapters": 3,
-      "accessLevel": "public"
+      "location": null,
+      "date": {
+        "year": 2023
+      },
+      "status": "published",
+      "level": "Роспатент",
+      "links": {}
+    },
+    {
+      "id": "rid-night-vision",
+      "title": "Сводные таблицы характеристик приборов ночного видения",
+      "titleLocalized": {
+        "ru": "Сводные таблицы характеристик приборов ночного видения",
+        "en": "Summary tables of night vision device characteristics"
+      },
+      "type": "certificate",
+      "journal": "Свидетельство о регистрации программы для ЭВМ RU 2023666390, 2023",
+      "journalLocalized": {
+        "ru": "Свидетельство о регистрации программы для ЭВМ RU 2023666390, 2023",
+        "en": "Software registration certificate RU 2023666390, 2023"
+      },
+      "location": null,
+      "date": {
+        "year": 2023
+      },
+      "status": "published",
+      "level": "Роспатент",
+      "links": {}
+    },
+    {
+      "id": "rid-crypto-history",
+      "title": "База данных тестовых заданий «History of Cryptography»",
+      "titleLocalized": {
+        "ru": "База данных тестовых заданий «History of Cryptography»",
+        "en": "Test item database: History of Cryptography"
+      },
+      "type": "certificate",
+      "journal": "Свидетельство о регистрации базы данных RU 2022621896, 2022",
+      "journalLocalized": {
+        "ru": "Свидетельство о регистрации базы данных RU 2022621896, 2022",
+        "en": "Database registration certificate RU 2022621896, 2022"
+      },
+      "location": null,
+      "date": {
+        "year": 2022
+      },
+      "status": "published",
+      "level": "Роспатент",
+      "links": {}
     }
   ]
 }

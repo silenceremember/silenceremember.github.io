@@ -65,6 +65,9 @@ async function initCurrentPage() {
     } else if (pageName === 'community.html') {
       const { CommunityPage } = await import('./pages/CommunityPage.js');
       pageInstance = new CommunityPage();
+    } else if (pageName.startsWith('case-') || pageName === 'services.html') {
+      const { StaticPage } = await import('./pages/StaticPage.js');
+      pageInstance = new StaticPage();
     } else if (pageName === '404.html') {
       const { NotFoundPage } = await import('./pages/NotFoundPage.js');
       pageInstance = new NotFoundPage();

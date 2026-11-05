@@ -312,9 +312,10 @@ export class ProjectGroupingManager {
     // Тир 1: featured: true
     // Тир 2: tier === 2
     // Тир 3: остальные
-    const tier1Projects = allCategoryProjects.filter((p) => p.featured);
-    const tier2Projects = allCategoryProjects.filter((p) => !p.featured && p.tier === 2);
-    const tier3Projects = allCategoryProjects.filter((p) => !p.featured && p.tier !== 2);
+    // Видимы сразу все проекты, кроме архивных (tier 2); избранные идут первыми
+    const tier1Projects = allCategoryProjects.filter((p) => p.tier !== 2);
+    const tier2Projects = allCategoryProjects.filter((p) => p.tier === 2);
+    const tier3Projects = [];
     
     // Сортируем каждый тир по дате (year) - сначала более новые
     const sortByDate = (a, b) => {
@@ -323,7 +324,7 @@ export class ProjectGroupingManager {
       return yearB - yearA; // Сортировка по убыванию (новые сначала)
     };
     
-    tier1Projects.sort(sortByDate);
+    tier1Projects.sort((a, b) => (Number(!!b.featured) - Number(!!a.featured)) || sortByDate(a, b));
     tier2Projects.sort(sortByDate);
     tier3Projects.sort(sortByDate);
     
@@ -436,6 +437,8 @@ export class ProjectGroupingManager {
         if (detailsButton) {
           detailsButton.addEventListener('click', (e) => {
             e.stopPropagation();
+            // Ссылка <a> открывается сама
+            if (detailsButton.tagName === 'A') return;
             // Не открываем для проектов "скоро"
             if (!project.comingSoon) {
               this.onCardClick(project);
@@ -517,6 +520,8 @@ export class ProjectGroupingManager {
           if (detailsButton) {
             detailsButton.addEventListener('click', (e) => {
               e.stopPropagation();
+              // Ссылка <a> открывается сама
+              if (detailsButton.tagName === 'A') return;
               // Не открываем для проектов "скоро"
               if (!project.comingSoon) {
                 this.onCardClick(project);
@@ -604,6 +609,7 @@ export class ProjectGroupingManager {
 
       // Группируем проекты по категориям
       const grouped = {
+        ux: [],
         games: [],
         tools: [],
         research: [],
@@ -617,6 +623,7 @@ export class ProjectGroupingManager {
 
       // Заголовки разделов
       const sectionTitles = {
+        ux: localization.t('projects.filters.categories.ux'),
         games: localization.t('projects.filters.categories.games'),
         tools: localization.t('projects.filters.categories.tools'),
         research: localization.t('projects.filters.categories.research'),

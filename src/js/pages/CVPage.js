@@ -59,7 +59,8 @@ export class CVPage extends BasePage {
    * Загружает данные сообщества для контактов
    */
   async loadCommunityData() {
-    return this.loadPageData('/data/community.json', {}, null);
+    // Контакты захардкожены в шапке CV; отдельного файла сообщества больше нет
+    return null;
   }
 
   /**
@@ -554,16 +555,18 @@ export class CVPage extends BasePage {
     // Кнопка для русской версии
     const buttonRU = document.createElement('a');
     buttonRU.className = 'cv-download-button cta-button';
-    buttonRU.href = 'https://docs.google.com/document/d/15toQDK1N_Tt6c8jg8v8mfzUBjL0Xi34xeVMMH5x_Jns/edit?usp=sharing';
+    buttonRU.href = '/assets/documents/cv/Elchaninov_CV_RU.pdf';
     buttonRU.textContent = localization.t('cv.buttons.downloadRU');
     buttonRU.target = '_blank';
+    buttonRU.rel = 'noopener';
 
     // Кнопка для английской версии
     const buttonEN = document.createElement('a');
     buttonEN.className = 'cv-download-button cta-button';
-    buttonEN.href = 'https://docs.google.com/document/d/1XUQqdlww_pMwcZ04OSdwZJq9leMMBnhE9d7yyT_5LTQ/edit?tab=t.0';
+    buttonEN.href = '/assets/documents/cv/Elchaninov_CV_EN.pdf';
     buttonEN.textContent = localization.t('cv.buttons.downloadEN');
     buttonEN.target = '_blank';
+    buttonEN.rel = 'noopener';
 
     section.appendChild(buttonRU);
     section.appendChild(buttonEN);

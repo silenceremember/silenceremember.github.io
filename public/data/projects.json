@@ -1,7 +1,238 @@
 {
-  "version": "1.0.0",
-  "lastUpdated": "2025-01-XX",
+  "version": "2.0.0",
+  "lastUpdated": "2026-11-05",
   "projects": [
+    {
+      "id": "ux-audit-leti",
+      "title": "UX-аудит сайта приёмной ЛЭТИ",
+      "titleLocalized": {
+        "ru": "UX-аудит сайта приёмной ЛЭТИ",
+        "en": "UX audit of the LETI admissions website"
+      },
+      "category": "ux",
+      "type": "audit",
+      "role": "solo",
+      "year": 2026,
+      "status": "completed",
+      "description": "Сценарий «поступление на платное»: 8 находок с приоритетами и 5 правок с наибольшим эффектом",
+      "descriptionLocalized": {
+        "ru": "Сценарий «поступление на платное»: 8 находок с приоритетами и 5 правок с наибольшим эффектом",
+        "en": "Paid admission scenario: 8 prioritised findings and 5 highest-impact fixes"
+      },
+      "media": {
+        "preview": "assets/images/projects/ux-audit-leti/preview.webp",
+        "screenshots": []
+      },
+      "documents": [],
+      "links": {
+        "case": "/case-ux-audit-leti.html"
+      },
+      "tags": [
+        "UX-аудит",
+        "веб",
+        "эвристики"
+      ],
+      "featured": true,
+      "displayMeta": {
+        "genre": "UX AUDIT",
+        "platform": "WEB"
+      },
+      "keyContribution": "Прошёл путь абитуриента через пять страниц и два домена, нашёл 8 проблем (4 высокого приоритета) и собрал 5 правок с оценкой эффекта и затрат. Через 2,5 месяца перепроверил: 7 находок из 8 актуальны.",
+      "keyContributionLocalized": {
+        "ru": "Прошёл путь абитуриента через пять страниц и два домена, нашёл 8 проблем (4 высокого приоритета) и собрал 5 правок с оценкой эффекта и затрат. Через 2,5 месяца перепроверил: 7 находок из 8 актуальны.",
+        "en": "Walked the applicant path across five pages and two domains, found 8 issues (4 high priority) and proposed 5 fixes rated by impact and effort. Re-checked 2.5 months later: 7 of 8 findings still stand."
+      },
+      "technologies": [
+        "Figma",
+        "HTML/CSS",
+        "Playwright"
+      ],
+      "teamSize": 1
+    },
+    {
+      "id": "capybara-bunk",
+      "title": "Capybara Bunk: интерфейс мультиплеера",
+      "titleLocalized": {
+        "ru": "Capybara Bunk: интерфейс мультиплеера",
+        "en": "Capybara Bunk: multiplayer interface"
+      },
+      "category": "ux",
+      "type": "ui",
+      "role": "team-lead",
+      "year": 2025,
+      "status": "completed",
+      "description": "UI-кит многопользовательской игры: меню, лобби хоста и клиента, HUD, пауза, счёт, диалоги",
+      "descriptionLocalized": {
+        "ru": "UI-кит многопользовательской игры: меню, лобби хоста и клиента, HUD, пауза, счёт, диалоги",
+        "en": "Multiplayer game UI kit: menus, host and client lobby, HUD, pause, scoreboard, dialogs"
+      },
+      "media": {
+        "preview": "assets/images/projects/capybara-bunk/preview.webp",
+        "screenshots": []
+      },
+      "documents": [],
+      "links": {
+        "case": "/case-capybara-bunk.html"
+      },
+      "tags": [
+        "game UI",
+        "Figma",
+        "мультиплеер"
+      ],
+      "featured": true,
+      "displayMeta": {
+        "genre": "GAME UI",
+        "platform": "PC"
+      },
+      "keyContribution": "Спроектировал систему экранов мультиплеерного шутера: роли хоста и клиента, состояния лобби, HUD, итоги раунда и матча, около десяти диалогов подтверждения и единый стайлшит. Вёл команду 2IQ из пяти человек до полной документации MVP.",
+      "keyContributionLocalized": {
+        "ru": "Спроектировал систему экранов мультиплеерного шутера: роли хоста и клиента, состояния лобби, HUD, итоги раунда и матча, около десяти диалогов подтверждения и единый стайлшит. Вёл команду 2IQ из пяти человек до полной документации MVP.",
+        "en": "Designed the screen system of a multiplayer shooter: host and client roles, lobby states, HUD, round and match results, about ten confirmation dialogs and a single stylesheet. Led the five-person 2IQ team to a complete MVP documentation package."
+      },
+      "technologies": [
+        "Figma",
+        "Miro"
+      ],
+      "teamSize": 5,
+      "teamName": "2IQ"
+    },
+    {
+      "id": "gridsnap-addon",
+      "title": "Gridsnap для Unity Shader Graph",
+      "titleLocalized": {
+        "ru": "Gridsnap для Unity Shader Graph",
+        "en": "Gridsnap for Unity Shader Graph"
+      },
+      "category": "tools",
+      "type": "tool",
+      "role": "solo",
+      "year": 2024,
+      "status": "completed",
+      "description": "Аддон для Unity: сетка и привязка к сетке в Shader Graph. Опубликован в Unity Asset Store",
+      "descriptionLocalized": {
+        "ru": "Аддон для Unity: сетка и привязка к сетке в Shader Graph. Опубликован в Unity Asset Store",
+        "en": "Unity add-on: grid and grid snapping for Shader Graph. Published on the Unity Asset Store"
+      },
+      "media": {
+        "preview": "assets/images/projects/gridsnap-addon/preview.webp",
+        "screenshots": []
+      },
+      "documents": [],
+      "links": {
+        "case": "/case-gridsnap.html"
+      },
+      "tags": [
+        "Unity",
+        "инструмент",
+        "айдентика"
+      ],
+      "featured": true,
+      "displayMeta": {
+        "genre": "UNITY EDITOR TOOL",
+        "platform": "UNITY ASSET STORE"
+      },
+      "keyContribution": "Нашёл проблему, которую Unity не решает штатно, сделал аддон через рефлексию редактора, прошёл модерацию Asset Store. Сам сделал логотип, иконки переключателей в тулбаре и промо-слайды.",
+      "keyContributionLocalized": {
+        "ru": "Нашёл проблему, которую Unity не решает штатно, сделал аддон через рефлексию редактора, прошёл модерацию Asset Store. Сам сделал логотип, иконки переключателей в тулбаре и промо-слайды.",
+        "en": "Found a gap Unity doesn't cover, built the add-on via editor reflection and passed Asset Store moderation. Designed the logo, toolbar toggle icons and promo slides myself."
+      },
+      "technologies": [
+        "Unity",
+        "C#",
+        "Figma"
+      ],
+      "teamSize": 1
+    },
+    {
+      "id": "architecture-rendering",
+      "title": "Architecture Rendering: игра-портфолио",
+      "titleLocalized": {
+        "ru": "Architecture Rendering: игра-портфолио",
+        "en": "Architecture Rendering: a portfolio game"
+      },
+      "category": "games",
+      "type": "game",
+      "role": "solo",
+      "year": 2026,
+      "status": "completed",
+      "description": "Короткая игра на Unity с ироничным рассказчиком и меню, встроенным прямо в комнату",
+      "descriptionLocalized": {
+        "ru": "Короткая игра на Unity с ироничным рассказчиком и меню, встроенным прямо в комнату",
+        "en": "A short Unity game with an ironic narrator and a menu built right into the room"
+      },
+      "media": {
+        "preview": "assets/images/projects/architecture-rendering/shot-01.webp",
+        "screenshots": []
+      },
+      "documents": [],
+      "links": {
+        "case": "/case-architecture-rendering.html"
+      },
+      "tags": [
+        "Unity",
+        "нарратив",
+        "диегетический UI"
+      ],
+      "featured": true,
+      "displayMeta": {
+        "genre": "WALKING SIMULATOR",
+        "platform": "PC (UNITY)"
+      },
+      "keyContribution": "Собрал с нуля игру на 15 минут: диалоги с локализацией RU/EN, визуальная новелла, квесты, кинематографические камеры. Главное меню и настройки сделал диегетическими: они нанесены на пол и стены комнаты.",
+      "keyContributionLocalized": {
+        "ru": "Собрал с нуля игру на 15 минут: диалоги с локализацией RU/EN, визуальная новелла, квесты, кинематографические камеры. Главное меню и настройки сделал диегетическими: они нанесены на пол и стены комнаты.",
+        "en": "Built a 15-minute game from scratch: RU/EN localised dialogue, a visual novel, quests, cinematic cameras. The main menu and settings are diegetic: painted onto the floor and walls of the room."
+      },
+      "technologies": [
+        "Unity",
+        "C#"
+      ],
+      "teamSize": 1
+    },
+    {
+      "id": "nirune",
+      "title": "NIRUNE: музыкальное приложение",
+      "titleLocalized": {
+        "ru": "NIRUNE: музыкальное приложение",
+        "en": "NIRUNE: music application"
+      },
+      "category": "tools",
+      "type": "app",
+      "role": "solo",
+      "year": 2026,
+      "status": "in-development",
+      "description": "Приложение для Windows и Android: локальная музыка и подключённые каталоги в одном интерфейсе. Закрытое превью",
+      "descriptionLocalized": {
+        "ru": "Приложение для Windows и Android: локальная музыка и подключённые каталоги в одном интерфейсе. Закрытое превью",
+        "en": "Windows and Android app: local music and connected catalogues in one interface. Private preview"
+      },
+      "media": {
+        "preview": "assets/images/projects/nirune/preview.webp",
+        "screenshots": []
+      },
+      "documents": [],
+      "links": {
+        "site": "https://nirune.site/"
+      },
+      "tags": [
+        "продукт",
+        "ИИ",
+        "Windows",
+        "Android"
+      ],
+      "featured": false,
+      "displayMeta": {
+        "genre": "MUSIC APP",
+        "platform": "WINDOWS, ANDROID"
+      },
+      "keyContribution": "Продумал продукт и интерфейс, собрал приложение и сайт с политикой конфиденциальности с помощью ИИ.",
+      "keyContributionLocalized": {
+        "ru": "Продумал продукт и интерфейс, собрал приложение и сайт с политикой конфиденциальности с помощью ИИ.",
+        "en": "Designed the product and interface, built the app and its website with privacy policy using AI."
+      },
+      "technologies": [],
+      "teamSize": 1
+    },
     {
       "id": "magic-bag",
       "title": "Magic Bag",
@@ -17,34 +248,18 @@
       },
       "media": {
         "preview": "assets/images/projects/magic-bag/preview.webp",
-        "screenshots": [],
-        "videos": [
-          {
-            "type": "local",
-            "url": "assets/videos/projects/magic-bag/gameplay.mp4",
-            "thumbnail": "assets/images/projects/magic-bag/video-thumb.jpg"
-          }
-        ]
+        "screenshots": []
       },
-      "documents": [
-        {
-          "type": "concept-doc",
-          "title": "Концепт-док Magic Bag",
-          "url": "assets/documents/projects/skillbox/magic-bag-concept.pdf",
-          "size": "2.5 MB",
-          "pages": 15
-        }
-      ],
+      "documents": [],
       "links": {
         "site": "https://sites.google.com/view/maxim-elchaninov-magic-bag/magic-bag"
       },
       "tags": [
-        "unity",
-        "bolt",
-        "prototype"
+        "Unity",
+        "прототип",
+        "экономика"
       ],
       "featured": false,
-      "tier": 2,
       "displayMeta": {
         "genre": "ARCADE ECONOMY SIMULATOR",
         "platform": "PC (UNITY)"
@@ -63,158 +278,6 @@
       "duration": "3 месяца"
     },
     {
-      "id": "architecture-rendering",
-      "title": "Unity Creative Core",
-      "category": "games",
-      "type": "game",
-      "role": "solo",
-      "year": 2026,
-      "status": "completed",
-      "description": "Интерактивное портфолио в формате игры с ироничным нарратором, ломающим четвёртую стену",
-      "descriptionLocalized": {
-        "ru": "Интерактивное портфолио в формате игры с ироничным нарратором, ломающим четвёртую стену",
-        "en": "Interactive portfolio as a game with an ironic narrator who breaks the fourth wall"
-      },
-      "media": {
-        "preview": "assets/images/projects/architecture-rendering/preview.webp",
-        "screenshots": []
-      },
-      "documents": [],
-      "links": {
-        "site": "https://silenceremember.itch.io/architecture"
-      },
-      "tags": [
-        "unity",
-        "walking-simulator",
-        "narrative"
-      ],
-      "featured": true,
-      "displayMeta": {
-        "genre": "WALKING SIMULATOR",
-        "platform": "PC (UNITY)"
-      },
-      "keyContribution": "Спроектировал и реализовал с нуля интерактивное портфолио: от системы диалогов с локализацией и визуальной новеллы до кликер-механики, квестовой системы и кинематографических камер в рамках единого нарративного опыта.",
-      "keyContributionLocalized": {
-        "ru": "Спроектировал и реализовал с нуля интерактивное портфолио: от системы диалогов с локализацией и визуальной новеллы до кликер-механики, квестовой системы и кинематографических камер в рамках единого нарративного опыта.",
-        "en": "Designed and implemented an interactive portfolio from scratch: from a dialogue system with localization and a visual novel to clicker mechanics, a quest system, and cinematic cameras within a unified narrative experience."
-      },
-      "technologies": [
-        "Unity",
-        "C#"
-      ],
-      "teamSize": 1
-    },
-    {
-      "id": "capybara-bunk",
-      "title": "Capybara Bunk",
-      "category": "games",
-      "type": "game",
-      "role": "team-lead",
-      "year": 2025,
-      "status": "completed",
-      "description": "Авторский проект, направленный на отработку навыков пре-продакшена и системного дизайна",
-      "descriptionLocalized": {
-        "ru": "Авторский проект, направленный на отработку навыков пре-продакшена и системного дизайна",
-        "en": "A personal project focused on honing pre-production and system design expertise"
-      },
-      "media": {
-        "preview": "assets/images/projects/capybara-bunk/preview.webp",
-        "screenshots": []
-      },
-      "documents": [
-        {
-          "type": "level-concept",
-          "title": "Концепция уровня",
-          "url": "assets/documents/projects/ranepa/capybara-bunk/level-concept.pdf"
-        },
-        {
-          "type": "references",
-          "title": "Референсы графики и музыки",
-          "url": "assets/documents/projects/ranepa/capybara-bunk/references.pdf"
-        },
-        {
-          "type": "artist-brief",
-          "title": "ТЗ для художника",
-          "url": "assets/documents/projects/ranepa/capybara-bunk/artist-brief.pdf"
-        },
-        {
-          "type": "narrative-setting",
-          "title": "Нарративный концепт сеттинга",
-          "url": "assets/documents/projects/ranepa/capybara-bunk/narrative-setting.pdf"
-        },
-        {
-          "type": "three-act",
-          "title": "Трехактовый сюжет",
-          "url": "assets/documents/projects/ranepa/capybara-bunk/three-act.pdf"
-        }
-      ],
-      "links": {
-        "site": "https://sites.google.com/view/maxim-elchaninov-capybara-bunk/capybara-bunk"
-      },
-      "tags": [
-        "team-lead",
-        "gamedesign",
-        "narrative"
-      ],
-      "featured": true,
-      "displayMeta": {
-        "genre": "TOP DOWN SHOOTER",
-        "platform": "PC"
-      },
-      "keyContribution": "Авторский проект, направленный на отработку навыков пре-продакшена и системного дизайна. Работа над проектом была завершена на этапе формирования полной технической и нарративной документации для MVP стадии.",
-      "keyContributionLocalized": {
-        "ru": "Авторский проект, направленный на отработку навыков пре-продакшена и системного дизайна. Работа над проектом была завершена на этапе формирования полной технической и нарративной документации для MVP стадии.",
-        "en": "A personal project focused on honing pre-production and system design expertise. The project was concluded upon the completion of a comprehensive technical and narrative documentation package for the MVP stage."
-      },
-      "technologies": [],
-      "teamSize": 5,
-      "teamName": "2IQ"
-    },
-    {
-      "id": "gridsnap-addon",
-      "title": "Gridsnap Add-On",
-      "category": "tools",
-      "type": "tool",
-      "role": "solo",
-      "year": 2024,
-      "status": "completed",
-      "description": "Аддон для Unity, добавляющий сетку и привязку к сетке в Unity Shader Graph",
-      "descriptionLocalized": {
-        "ru": "Аддон для Unity, добавляющий сетку и привязку к сетке в Unity Shader Graph",
-        "en": "Unity addon that adds grid and grid snapping to Unity Shader Graph"
-      },
-      "media": {
-        "preview": "assets/images/projects/gridsnap-addon/preview.webp",
-        "screenshots": []
-      },
-      "documents": [],
-      "links": {
-        "site": "https://assetstore.unity.com/packages/tools/gui/shader-graph-gridsnap-358694"
-      },
-      "tags": [
-        "unity",
-        "editor-tool",
-        "csharp",
-        "shader-graph"
-      ],
-      "featured": true,
-      "displayMeta": {
-        "genre": "UNITY EDITOR TOOL",
-        "platform": "C# (UNITY)"
-      },
-      "keyContribution": "Выявил и решил проблему отсутствия сетки в Unity Shader Graph, создав уникальный редакторный аддон с помощью рефлексии. Прошёл валидацию и опубликован в Unity Asset Store.",
-      "keyContributionLocalized": {
-        "ru": "Выявил и решил проблему отсутствия сетки в Unity Shader Graph, создав уникальный редакторный аддон с помощью рефлексии. Прошёл валидацию и опубликован в Unity Asset Store.",
-        "en": "Identified and solved the missing grid problem in Unity Shader Graph by creating a unique editor addon using reflection. Passed validation and published on the Unity Asset Store."
-      },
-      "technologies": [
-        "Unity",
-        "C#",
-        "Reflection"
-      ],
-      "teamSize": 1
-    },
-    {
       "id": "cycle-of-ashes",
       "title": "Cycle of Ashes",
       "category": "games",
@@ -228,144 +291,19 @@
         "en": "Game concept presentation"
       },
       "media": {
-        "preview": "assets/images/projects/cycle-of-ashes/preview.webp"
+        "preview": "assets/images/projects/cycle-of-ashes/preview.webp",
+        "screenshots": []
       },
-      "documents": [
-        {
-          "type": "concept-doc",
-          "title": "Концепт-док Cycle of Ashes",
-          "url": "assets/documents/projects/skillbox/cycle-of-ashes-concept.pdf"
-        },
-        {
-          "type": "presentation",
-          "title": "Презентация идеи",
-          "url": "assets/documents/projects/skillbox/cycle-of-ashes-presentation.pdf"
-        }
-      ],
+      "documents": [],
       "links": {
         "site": "https://sites.google.com/view/maxim-elchaninov-cycle-of-ashe?usp=sharing"
       },
       "tags": [
-        "case-study"
+        "концепт",
+        "презентация"
       ],
       "featured": false,
       "tier": 2,
-      "technologies": []
-    },
-    {
-      "id": "diploma-chapter-1",
-      "title": "Система процедурной генерации нарративного дизайна для компьютерных игр жанра роуглайк",
-      "titleLocalized": {
-        "ru": "Система процедурной генерации нарративного дизайна для компьютерных игр жанра роуглайк",
-        "en": "Procedural Narrative Design Generation System for Roguelike Computer Games"
-      },
-      "category": "research",
-      "type": "document",
-      "role": "solo",
-      "year": 2025,
-      "status": "in-progress",
-      "description": "Выпускная квалификационная работа магистратуры",
-      "descriptionLocalized": {
-        "ru": "Выпускная квалификационная работа магистратуры",
-        "en": "Master's degree final qualification work"
-      },
-      "media": {
-        "preview": "assets/images/projects/diploma-chapter-1/preview.webp"
-      },
-      "documents": [
-        {
-          "type": "diploma",
-          "title": "ВКР - Глава 1",
-          "url": "https://drive.google.com/file/d/1PwLrsrIdLz6l4AsuiTbQarKr-mo6ELox/view?usp=sharing"
-        }
-      ],
-      "links": {
-        "document": "https://drive.google.com/file/d/16fNAfzXP0id_JSVj5v-CnErR3EIvChW3/view?usp=sharing"
-      },
-      "tags": [
-        "procedural-generation",
-        "narrative-design"
-      ],
-      "featured": true,
-      "technologies": []
-    },
-    {
-      "id": "assignment-concept",
-      "title": "Гейм-дизайн и анализ концепта",
-      "titleLocalized": {
-        "ru": "Гейм-дизайн и анализ концепта",
-        "en": "Game Design and Concept Analysis"
-      },
-      "category": "research",
-      "type": "document",
-      "role": "solo",
-      "year": 2024,
-      "status": "completed",
-      "description": "Разработка трех игровых концепций: от создания идеи до анализа и переработки концепта",
-      "descriptionLocalized": {
-        "ru": "Разработка трех игровых концепций: от создания идеи до анализа и переработки концепта",
-        "en": "Development of three game concepts: from idea creation to analysis and concept refinement"
-      },
-      "media": {
-        "preview": "assets/images/projects/assignment-concept/preview.webp"
-      },
-      "documents": [
-        {
-          "type": "analysis",
-          "title": "Анализ и улучшение концепта",
-          "url": "assets/documents/projects/skillbox/assignment-concept.pdf"
-        }
-      ],
-      "links": {
-        "document": "https://docs.google.com/document/d/19t0UzWGSesBgbiOmchBNCp7uN3sS9mF8qLfaWQfRTDQ/edit?usp=sharing"
-      },
-      "comingSoon": false,
-      "tags": [
-        "analysis",
-        "case-study",
-        "gamedesign"
-      ],
-      "featured": false,
-      "technologies": []
-    },
-    {
-      "id": "assignment-decomposition",
-      "title": "Деконструкция игровых механик",
-      "titleLocalized": {
-        "ru": "Деконструкция игровых механик",
-        "en": "Game Mechanics Deconstruction"
-      },
-      "category": "research",
-      "type": "document",
-      "role": "solo",
-      "year": 2024,
-      "status": "completed",
-      "description": "Серия аналитических разборов игр: декомпозиция, анализ опыта, улучшения и переработка сеттинга",
-      "descriptionLocalized": {
-        "ru": "Серия аналитических разборов игр: декомпозиция, анализ опыта, улучшения и переработка сеттинга",
-        "en": "Series of analytical game breakdowns: decomposition, experience analysis, improvements and setting refinement"
-      },
-      "media": {
-        "preview": "assets/images/projects/assignment-decomposition/preview.webp"
-      },
-      "documents": [
-        {
-          "type": "analysis",
-          "title": "Декомпозиция игр",
-          "url": "assets/documents/projects/skillbox/assignment-decomposition.pdf"
-        }
-      ],
-      "links": {
-        "document": "https://docs.google.com/document/d/14Yfol-FkqrOKm-gx2bZCW28ivScmY57XmEhz2RZ-O8U/edit?usp=sharing"
-      },
-      "comingSoon": false,
-      "tags": [
-        "analysis",
-        "decomposition",
-        "gamedesign",
-        "case-study"
-      ],
-      "featured": false,
       "technologies": []
     },
     {
@@ -382,30 +320,27 @@
         "en": "Game concept with 2D combat physics simulation"
       },
       "media": {
-        "preview": "assets/images/projects/edge-of-a-blade/preview.webp"
+        "preview": "assets/images/projects/edge-of-a-blade/preview.webp",
+        "screenshots": []
       },
-      "documents": [
-        {
-          "type": "concept-doc",
-          "title": "Концепт-док Edge of a Blade",
-          "url": "assets/documents/projects/skillbox/edge-of-a-blade-concept.pdf"
-        }
-      ],
+      "documents": [],
       "links": {
         "concept": "https://docs.google.com/spreadsheets/d/1xReKq4H_dXWN13aAuhny5kp9nOZkxFV21tLip_2XkQg/edit?usp=sharing"
       },
       "tags": [
-        "case-study"
+        "концепт",
+        "боевая система"
       ],
       "featured": false,
-      "technologies": []
+      "technologies": [],
+      "tier": 2
     },
     {
       "id": "narrative-dz2",
-      "title": "DARK MESSIAH АНАЛИЗ",
+      "title": "Dark Messiah: разбор по пути героя",
       "titleLocalized": {
-        "ru": "DARK MESSIAH АНАЛИЗ",
-        "en": "DARK MESSIAH ANALYSIS"
+        "ru": "Dark Messiah: разбор по пути героя",
+        "en": "Dark Messiah: hero's journey breakdown"
       },
       "category": "research",
       "type": "document",
@@ -420,30 +355,24 @@
       "media": {
         "preview": "assets/images/projects/narrative-dz2/preview.webp"
       },
-      "documents": [
-        {
-          "type": "presentation",
-          "title": "ДЗ2 - Dark Messiah анализ",
-          "url": "assets/documents/projects/ranepa/narrative/dz2-dark-messiah.pdf"
-        }
-      ],
+      "documents": [],
       "links": {
         "presentation": "https://docs.google.com/presentation/d/17j2HR1JpiZh1xhHnALkh0U3Z9SRhuE4ecBb2YduRJeA/edit?usp=sharing"
       },
       "comingSoon": false,
       "tags": [
-        "narrative",
-        "case-study"
+        "нарратив",
+        "путь героя"
       ],
       "featured": false,
       "technologies": []
     },
     {
       "id": "narrative-dz5",
-      "title": "DISCO ELYSIUM РАЗБОР",
+      "title": "Disco Elysium: разбор пролога",
       "titleLocalized": {
-        "ru": "DISCO ELYSIUM РАЗБОР",
-        "en": "DISCO ELYSIUM BREAKDOWN"
+        "ru": "Disco Elysium: разбор пролога",
+        "en": "Disco Elysium: prologue breakdown"
       },
       "category": "research",
       "type": "document",
@@ -458,111 +387,83 @@
       "media": {
         "preview": "assets/images/projects/narrative-dz5/preview.webp"
       },
-      "documents": [
-        {
-          "type": "presentation",
-          "title": "ДЗ5 - Disco Elysium разбор",
-          "url": "assets/documents/projects/ranepa/narrative/dz5-disco-elysium.pdf"
-        }
-      ],
+      "documents": [],
       "links": {
         "presentation": "https://docs.google.com/presentation/d/1SNIyt3Yp0KUyv1EQ-WMwJTTNOOGBUl-w6hFtTFyXOHs/edit?usp=sharing"
       },
       "comingSoon": false,
       "tags": [
-        "narrative",
-        "case-study"
+        "нарратив",
+        "четыре слоя"
       ],
       "featured": false,
       "technologies": []
     },
     {
-      "id": "dark-souls-ahk",
-      "title": "DARK SOULS AHK CONTROLCHANGE",
-      "category": "tools",
-      "type": "script",
+      "id": "assignment-concept",
+      "title": "Геймдизайн и анализ концепта",
+      "titleLocalized": {
+        "ru": "Геймдизайн и анализ концепта",
+        "en": "Game design and concept analysis"
+      },
+      "category": "research",
+      "type": "document",
       "role": "solo",
       "year": 2024,
       "status": "completed",
-      "description": "Назначение пинка и атаки в прыжке на отдельные кнопки",
+      "description": "Разработка трех игровых концепций: от создания идеи до анализа и переработки концепта",
       "descriptionLocalized": {
-        "ru": "Назначение пинка и атаки в прыжке на отдельные кнопки",
-        "en": "Assigning kick and jump attack to separate buttons"
+        "ru": "Разработка трех игровых концепций: от создания идеи до анализа и переработки концепта",
+        "en": "Development of three game concepts: from idea creation to analysis and concept refinement"
       },
       "media": {
-        "preview": "assets/images/projects/dark-souls-ahk/preview.webp"
+        "preview": "assets/images/projects/assignment-concept/preview.webp"
       },
       "documents": [],
       "links": {
-        "github": "https://github.com/silenceremember/dark-souls-hotkeys"
+        "document": "https://docs.google.com/document/d/19t0UzWGSesBgbiOmchBNCp7uN3sS9mF8qLfaWQfRTDQ/edit?usp=sharing"
       },
+      "comingSoon": false,
       "tags": [
-        "autohotkey",
-        "game-mod"
+        "геймдизайн",
+        "концепт"
       ],
       "featured": false,
-      "comingSoon": true,
-      "technologies": [
-        "AutoHotkey"
-      ]
+      "technologies": [],
+      "tier": 2
     },
     {
-      "id": "elden-ring-ahk",
-      "title": "ELDEN RING AHK CURSORLOCK",
-      "category": "tools",
-      "type": "script",
+      "id": "assignment-decomposition",
+      "title": "Деконструкция игровых механик",
+      "titleLocalized": {
+        "ru": "Деконструкция игровых механик",
+        "en": "Game mechanics deconstruction"
+      },
+      "category": "research",
+      "type": "document",
       "role": "solo",
       "year": 2024,
       "status": "completed",
-      "description": "Решение проблемы с перемещением курсора на другой экран в игре",
+      "description": "Серия аналитических разборов игр: декомпозиция, анализ опыта, улучшения и переработка сеттинга",
       "descriptionLocalized": {
-        "ru": "Решение проблемы с перемещением курсора на другой экран в игре",
-        "en": "Solving cursor movement to another screen issue in game"
+        "ru": "Серия аналитических разборов игр: декомпозиция, анализ опыта, улучшения и переработка сеттинга",
+        "en": "Series of analytical game breakdowns: decomposition, experience analysis, improvements and setting refinement"
       },
       "media": {
-        "preview": "assets/images/projects/elden-ring-ahk/preview.webp"
+        "preview": "assets/images/projects/assignment-decomposition/preview.webp"
       },
       "documents": [],
       "links": {
-        "github": "https://github.com/silenceremember/elden-ring-cursor-lock"
+        "document": "https://docs.google.com/document/d/14Yfol-FkqrOKm-gx2bZCW28ivScmY57XmEhz2RZ-O8U/edit?usp=sharing"
       },
+      "comingSoon": false,
       "tags": [
-        "autohotkey",
-        "game-mod"
+        "геймдизайн",
+        "декомпозиция"
       ],
       "featured": false,
-      "technologies": [
-        "AutoHotkey"
-      ]
-    },
-    {
-      "id": "blender-to-all-ahk",
-      "title": "BLENDER TO ALL AHK",
-      "category": "tools",
-      "type": "script",
-      "role": "solo",
-      "year": 2024,
-      "status": "completed",
-      "description": "Унификация навигации в разных 3D/2D пакетах",
-      "descriptionLocalized": {
-        "ru": "Унификация навигации в разных 3D/2D пакетах",
-        "en": "Unifying navigation across different 3D/2D packages"
-      },
-      "media": {
-        "preview": "assets/images/projects/blender-to-all-ahk/preview.webp"
-      },
-      "documents": [],
-      "links": {
-        "github": "https://github.com/silenceremember/blender-to-all"
-      },
-      "tags": [
-        "autohotkey"
-      ],
-      "featured": false,
-      "comingSoon": true,
-      "technologies": [
-        "AutoHotkey"
-      ]
+      "technologies": [],
+      "tier": 2
     }
   ]
 }

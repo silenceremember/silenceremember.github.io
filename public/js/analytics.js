@@ -17,11 +17,18 @@ const isAnalyticsEnabled = () => {
 
 // Инициализация Google Analytics
 if (isAnalyticsEnabled() && GA_MEASUREMENT_ID) {
-  // Загружаем Google Analytics скрипт
-  const script = document.createElement('script');
-  script.async = true;
-  script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
-  document.head.appendChild(script);
+  // Загружаем Google Analytics после полной загрузки страницы, чтобы не мешать первому показу
+  const loadGtag = () => {
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+    document.head.appendChild(script);
+  };
+  if (document.readyState === 'complete') {
+    setTimeout(loadGtag, 1500);
+  } else {
+    window.addEventListener('load', () => setTimeout(loadGtag, 1500), { once: true });
+  }
 
   // Инициализируем gtag
   window.dataLayer = window.dataLayer || [];

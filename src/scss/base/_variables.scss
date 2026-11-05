@@ -247,9 +247,9 @@
   flex-shrink: 0;
   z-index: 10;
   /* Background with 10% opacity to show fluid effect through */
-  background-color: color-mix(in srgb, var(--color-bg-primary) 10%, transparent);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  background-color: color-mix(in srgb, var(--color-bg-primary) 88%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   transition:
     transform var(--transition-duration-base) var(--timing-function-ease),
     background-color var(--transition-duration-base) var(--timing-function-ease),

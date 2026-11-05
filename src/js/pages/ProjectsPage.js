@@ -88,6 +88,12 @@ export class ProjectsPage extends BasePage {
       return;
     }
     
+    // Страница кейса на самом сайте открывается в той же вкладке
+    if (project.links && project.links.case) {
+      window.location.href = project.links.case;
+      return;
+    }
+
     // Если есть ссылка на сайт, открываем её
     if (project.links && project.links.site) {
       window.open(project.links.site, '_blank', 'noopener,noreferrer');
@@ -345,6 +351,9 @@ export class ProjectsPage extends BasePage {
           document: localization.t('projects.card.types.document'),
           tool: localization.t('projects.card.types.tool'),
           script: localization.t('projects.card.types.script'),
+          audit: localization.t('projects.card.types.audit'),
+          ui: localization.t('projects.card.types.ui'),
+          app: localization.t('projects.card.types.app'),
         };
         type.textContent = typeLabels[project.type] || project.type;
       }
@@ -363,12 +372,13 @@ export class ProjectsPage extends BasePage {
           button.setAttribute('aria-label', localization.t('projects.card.comingSoonAria'));
         } else {
           // Обновляем текст кнопки - проверяем наличие span с data-i18n
+          const detailsKey = project.links && project.links.case ? 'projects.card.details' : 'projects.card.detailsExternal';
           const buttonText = button.querySelector('span[data-i18n]');
           if (buttonText) {
-            buttonText.textContent = localization.t('projects.card.details');
+            buttonText.textContent = localization.t(detailsKey);
           } else {
             // Если нет span, обновляем напрямую текст кнопки
-            button.textContent = localization.t('projects.card.details');
+            button.textContent = localization.t(detailsKey);
           }
           button.setAttribute('aria-label', localization.t('projects.card.detailsAria'));
         }
@@ -429,6 +439,7 @@ export class ProjectsPage extends BasePage {
             
             if (filterType === 'category') {
               const categoryMap = {
+                'ux': 'projects.filters.categories.ux',
                 'games': 'projects.filters.categories.games',
                 'tools': 'projects.filters.categories.tools',
                 'research': 'projects.filters.categories.research',
@@ -469,6 +480,7 @@ export class ProjectsPage extends BasePage {
     if (this.groupingManager) {
       // Обновляем заголовки секций
       const sectionTitles = {
+        ux: localization.t('projects.filters.categories.ux'),
         games: localization.t('projects.filters.categories.games'),
         tools: localization.t('projects.filters.categories.tools'),
         research: localization.t('projects.filters.categories.research'),

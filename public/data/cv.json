@@ -1,41 +1,17 @@
 {
-  "about": "Создаю системы, формирующие повествование, и нарратив, определяющий игровой процесс.\n\nПрименяю инженерный и исследовательский подход: эксперементирую с технологиями, разрабатываю утилиты и использую нейросетевые модели. Обеспечиваю полный цикл создания проектной документации – от концепт-документов до технических заданий для команды.",
+  "about": "Проектирую интерфейсы сайтов и игр: от UX-аудита и сценариев до макетов в Figma и игрового UI. Код вручную не пишу: прототипы, инструменты и автоматизации собираю с ИИ, сам ставлю задачу, проверяю и отвечаю за результат.\n\nМагистр геймдизайна, аспирант СПбГЭТУ «ЛЭТИ»: исследую инструменты документации программного обеспечения. Веду документацию полного цикла: от концепт-документов до технических заданий для команды.",
   "aboutLocalized": {
-    "en": "I design systems that shape the narrative, and narratives that define the gameplay.\n\nApplying an engineering and research-driven approach, I experiment with new technologies, develop custom tools, and leverage AI/ML models. I manage the entire documentation pipeline, from initial concept documents to detailed technical specifications for the development team."
+    "en": "I design interfaces for websites and games: from UX audits and user flows to Figma layouts and game UI. I don't hand-write code: I build prototypes, tools and automations with AI, set the task, verify the result and own it.\n\nMaster of game design and PhD student at ETU \"LETI\", researching software documentation tools. I run the full documentation cycle, from concept documents to technical specifications for the team."
   },
   "workExperience": [
-    {
-      "id": "ingvik-studios",
-      "period": {
-        "start": "2025-04",
-        "end": null,
-        "duration": "По настоящее время",
-        "durationLocalized": {
-          "en": "Present"
-        }
-      },
-      "company": "Ingvik Studios",
-      "position": "Гейм-дизайнер",
-      "positionLocalized": {
-        "en": "Game Designer"
-      },
-      "responsibilities": [
-        "Работа над неанонсированным проектом на Unity"
-      ],
-      "responsibilitiesLocalized": {
-        "en": [
-          "Working on an unannounced Unity project"
-        ]
-      }
-    },
     {
       "id": "2iq-labs",
       "period": {
         "start": "2024-02",
-        "end": "2025-06",
-        "duration": "1 год 5 месяцев",
+        "end": "2025-04",
+        "duration": "1 год 3 месяца",
         "durationLocalized": {
-          "en": "1 year 5 months"
+          "en": "1 year 3 months"
         }
       },
       "company": "РАНХиГС (2IQLabs)",
@@ -47,11 +23,11 @@
         "en": "R&D Team Lead (Game Design & Development)"
       },
       "responsibilities": [
-        "Собственная R&D-команда по разработке инструментов и игровых прототипов"
+        "Собрал и вёл R&D-команду: инструменты разработки, игровые прототипы, система документации Wobbledink"
       ],
       "responsibilitiesLocalized": {
         "en": [
-          "Own R&D team focused on game tool development and interactive prototyping"
+          "Built and led an R&D team: development tools, game prototypes, the Wobbledink documentation system"
         ]
       }
     },
@@ -85,6 +61,31 @@
   ],
   "education": [
     {
+      "id": "leti-phd",
+      "period": {
+        "start": "2026",
+        "end": "2029"
+      },
+      "institution": "Санкт-Петербургский государственный электротехнический университет «ЛЭТИ» им. В.И. Ульянова (Ленина)",
+      "institutionShort": "СПбГЭТУ «ЛЭТИ»",
+      "institutionShortLocalized": {
+        "en": "ETU \"LETI\""
+      },
+      "direction": "2.3.5 Математическое и программное обеспечение вычислительных систем, комплексов и компьютерных сетей",
+      "directionLocalized": {
+        "en": "MATHEMATICAL AND SOFTWARE SUPPORT OF COMPUTING SYSTEMS (2.3.5)"
+      },
+      "degree": "Аспирантура",
+      "degreeLocalized": {
+        "en": "PhD studies"
+      },
+      "status": "in-progress",
+      "location": "Санкт-Петербург",
+      "locationLocalized": {
+        "en": "Saint Petersburg"
+      }
+    },
+    {
       "id": "ranepa-masters",
       "period": {
         "start": "2024",
@@ -95,15 +96,15 @@
       "institutionShortLocalized": {
         "en": "RANEPA"
       },
-      "direction": "09.04.03 Прикладная информатика — Разработка компьютерных игр (Гейм-дизайн)",
+      "direction": "09.04.03 Прикладная информатика: разработка компьютерных игр (геймдизайн)",
       "directionLocalized": {
-        "en": "APPLIED COMPUTER SCIENCE — MAJOR: GAME DESIGN & DEVELOPMENT"
+        "en": "APPLIED COMPUTER SCIENCE: GAME DESIGN & DEVELOPMENT"
       },
       "degree": "Магистр",
       "degreeLocalized": {
         "en": "Master's Degree"
       },
-      "status": "in-progress",
+      "status": "completed",
       "location": "Москва",
       "locationLocalized": {
         "en": "Moscow"
@@ -137,24 +138,26 @@
   ],
   "skills": {
     "design-prototyping": [
+      "Figma",
+      "UX-аудит",
       "Unity",
       "Unreal Engine",
-      "Figma",
       "Miro"
     ],
     "technical-scripting": [
+      "ИИ-разработка (Claude Code, Codex, Gemini)",
+      "n8n",
       "C#",
-      "Blueprints",
-      "AI / ML Models"
+      "Blueprints"
     ],
     "design-documentation": [
-      "Google Suite (Docs, Sheets)",
+      "Google Docs и Sheets",
       "Notion",
-      "Confluence"
+      "Confluence",
+      "Markdown"
     ],
     "production-collaboration": [
       "Git",
-      "GitHub",
       "Jira"
     ],
     "asset-creation": [
@@ -207,7 +210,10 @@
       "languageLocalized": {
         "en": "English"
       },
-      "level": "Intermediate"
+      "level": "B2",
+      "levelLocalized": {
+        "en": "B2 (Upper-Intermediate)"
+      }
     }
   ]
 }

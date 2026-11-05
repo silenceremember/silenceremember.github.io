@@ -61,6 +61,11 @@ export default defineConfig({
             await fs.access(filePath);
             next();
           } catch (e) {
+            // HTML-компоненты лежат в public/ (header.html и т.п.): отдаём их как статику
+            try {
+              await fs.access(path.join(server.config.publicDir, cleanUrl));
+              return next();
+            } catch {}
             try {
               const notFoundHtml = await fs.readFile(
                 path.join(rootPath, '404.html'),
@@ -156,6 +161,11 @@ export default defineConfig({
         community: resolve(__dirname, 'src/community.html'),
         research: resolve(__dirname, 'src/research.html'),
         404: resolve(__dirname, 'src/404.html'),
+        services: resolve(__dirname, 'src/services.html'),
+        caseUxAudit: resolve(__dirname, 'src/case-ux-audit-leti.html'),
+        caseCapybara: resolve(__dirname, 'src/case-capybara-bunk.html'),
+        caseGridsnap: resolve(__dirname, 'src/case-gridsnap.html'),
+        caseArchitecture: resolve(__dirname, 'src/case-architecture-rendering.html'),
       },
       output: {
         // Оптимизация для лучшего tree shaking и уменьшения размера
