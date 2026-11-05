@@ -1,7 +1,7 @@
 {
-  "about": "Проектирую интерфейсы сайтов и игр: от UX-аудита и сценариев до макетов в Figma и игрового UI. Код вручную не пишу: прототипы, инструменты и автоматизации собираю с ИИ, сам ставлю задачу, проверяю и отвечаю за результат.\n\nМагистр геймдизайна, аспирант СПбГЭТУ «ЛЭТИ»: исследую инструменты документации программного обеспечения. Веду документацию полного цикла: от концепт-документов до технических заданий для команды.",
+  "about": "Проектирую интерфейсы сайтов и игр: UX-аудит и сценарии, макеты в Figma, игровой UI. Сам собираю рабочие прототипы и инструменты, чтобы проверить идею до передачи в разработку.\n\nМагистр геймдизайна, аспирант СПбГЭТУ «ЛЭТИ»: исследую инструменты документации программного обеспечения. Пишу документацию для команды: концепт-документы и технические задания.",
   "aboutLocalized": {
-    "en": "I design interfaces for websites and games: from UX audits and user flows to Figma layouts and game UI. I don't hand-write code: I build prototypes, tools and automations with AI, set the task, verify the result and own it.\n\nMaster of game design and PhD student at ETU \"LETI\", researching software documentation tools. I run the full documentation cycle, from concept documents to technical specifications for the team."
+    "en": "I design interfaces for websites and games: UX audits and user flows, Figma layouts, game UI. I build working prototypes and tools myself to test an idea before it goes to development.\n\nMaster of game design and PhD student at ETU \"LETI\", researching software documentation tools. I write team documentation: concept documents and technical specifications."
   },
   "workExperience": [
     {
@@ -141,20 +141,19 @@
       "Miro"
     ],
     "technical-scripting": [
-      "ИИ-разработка (Claude Code, Codex, Gemini)",
-      "n8n",
       "C#",
-      "Blueprints"
+      "Blueprints",
+      "n8n",
+      "Git"
     ],
     "design-documentation": [
       "Google Docs и Sheets",
-      "Notion",
       "Confluence",
       "Markdown"
     ],
     "production-collaboration": [
-      "Git",
-      "Jira"
+      "Jira",
+      "Notion"
     ],
     "asset-creation": [
       "Blender",
@@ -222,20 +221,19 @@
         "Miro"
       ],
       "technical-scripting": [
-        "AI-assisted development (Claude Code, Codex, Gemini)",
-        "n8n",
         "C#",
-        "Blueprints"
+        "Blueprints",
+        "n8n",
+        "Git"
       ],
       "design-documentation": [
         "Google Docs & Sheets",
-        "Notion",
         "Confluence",
         "Markdown"
       ],
       "production-collaboration": [
-        "Git",
-        "Jira"
+        "Jira",
+        "Notion"
       ],
       "asset-creation": [
         "Blender",

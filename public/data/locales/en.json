@@ -29,8 +29,8 @@
   "index": {
     "tagline": "SILENCEREMEMBER",
     "title": "Interface designer: web & games",
-    "about": "I design interfaces for websites and games, run UX audits and build working prototypes, tools and automations with AI. Master of game design, PhD student at ETU \"LETI\", Saint Petersburg.",
-    "meta_description": "Maxim Elchaninov, interface designer for web and games. UX audits, game UI, AI-built prototypes and automations. PhD student at ETU \"LETI\".",
+    "about": "I design interfaces for websites and games, run UX audits and build working prototypes and tools. Master of game design, PhD student at ETU \"LETI\", Saint Petersburg.",
+    "meta_description": "Maxim Elchaninov, interface designer for web and games. UX audits, game UI, prototypes and tools. PhD student at ETU \"LETI\".",
     "slideHint": "Scroll the mouse wheel to see the cases",
     "featuredWorks": "Featured cases",
     "whatsNext": "Contact",
@@ -43,7 +43,7 @@
   "projects": {
     "title": "Cases",
     "meta_title": "Cases",
-    "description": "Cases: interfaces, games, tools and AI",
+    "description": "Cases: interfaces, games, tools",
     "navigation": "Navigation",
     "card": {
       "details": "Open case",
@@ -69,7 +69,7 @@
       "year": "Year",
       "categories": {
         "games": "Games & narrative",
-        "tools": "Tools & AI",
+        "tools": "Tools",
         "research": "Breakdowns",
         "ux": "Interfaces"
       },
@@ -153,7 +153,7 @@
           "description": ""
         },
         "technicalScripting": {
-          "title": "AI-assisted building and scripts",
+          "title": "Scripting and automation",
           "description": ""
         },
         "designDocumentation": {
