@@ -29,8 +29,8 @@
   "index": {
     "tagline": "SILENCEREMEMBER",
     "title": "Interface and game design",
-    "about": "I design interfaces and games: mechanics and systems, team documentation, narrative. Master of game design, PhD student at ETU \"LETI\", Saint Petersburg.",
-    "meta_description": "Maxim Elchaninov: interface and game design, systems design, documentation and narrative. PhD student at ETU \"LETI\".",
+    "about": "I design interfaces for websites and games. Master of game design, PhD student at ETU \"LETI\", Saint Petersburg.",
+    "meta_description": "Maxim Elchaninov: interface and game design. UX audit, game UI, Unity tools. PhD student at ETU \"LETI\".",
     "slideHint": "Scroll the mouse wheel to see the cases",
     "featuredWorks": "Featured cases",
     "whatsNext": "Contact",
@@ -126,7 +126,7 @@
   "cv": {
     "title": "CV",
     "meta_title": "CV",
-    "description": "CV: interface and game design, game design documentation and narrative. PhD student at ETU \"LETI\".",
+    "description": "CV: interface and game design. Master of game design, PhD student at ETU \"LETI\".",
     "navigation": "Navigation",
     "name": "Maxim Elchaninov",
     "role": "Interface and game design",
