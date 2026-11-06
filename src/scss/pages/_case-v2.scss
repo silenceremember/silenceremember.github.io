@@ -740,7 +740,33 @@ body.home #background-container {
 
   .case-figure img[src*='bite/skills'],
   .case-figure img[src*='bite/upgrades'] {
-    width: 720px;
+    width: 1100px;
     max-width: none;
   }
+}
+
+/* Подсказка, что схему можно листать вбок */
+@include tablet-and-mobile {
+  .case-figure a:has(img[src*='bite/skills']),
+  .case-figure a:has(img[src*='bite/upgrades']) {
+    -webkit-mask-image: linear-gradient(90deg, #000 82%, transparent);
+    mask-image: linear-gradient(90deg, #000 82%, transparent);
+  }
+}
+
+/* Ссылки без стрелок: красная линия снизу, как у «Открыть кейс» */
+.case-back,
+.case-next-title,
+.home-links a {
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-accent);
+}
+
+.case-back {
+  display: inline-block;
+  padding-bottom: 1px;
+}
+
+.case-next-title {
+  display: inline;
 }
