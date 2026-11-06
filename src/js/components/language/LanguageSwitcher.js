@@ -215,6 +215,16 @@ export class LanguageSwitcher {
       img.setAttribute('alt', isEn ? img.dataset.altEn : img.dataset.altRu);
     });
 
+    // Картинки с отдельной английской версией
+    document.querySelectorAll('img[data-src-en]').forEach((img) => {
+      if (img.dataset.srcRu === undefined) img.dataset.srcRu = img.getAttribute('src');
+      img.setAttribute('src', isEn ? img.dataset.srcEn : img.dataset.srcRu);
+    });
+    document.querySelectorAll('a[data-href-en]').forEach((link) => {
+      if (link.dataset.hrefRu === undefined) link.dataset.hrefRu = link.getAttribute('href');
+      link.setAttribute('href', isEn ? link.dataset.hrefEn : link.dataset.hrefRu);
+    });
+
     // aria статичных компонентов
     const ariaMap = [
       ['.header-menu-button', 'common.aria.menu'],

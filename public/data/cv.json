@@ -5,6 +5,29 @@
   },
   "workExperience": [
     {
+      "id": "ingvik",
+      "period": {
+        "start": "2025-04",
+        "end": null
+      },
+      "company": "Ingvik Studios",
+      "companyLocalized": {
+        "en": "Ingvik Studios"
+      },
+      "position": "Гейм-дизайнер",
+      "positionLocalized": {
+        "en": "Game Designer"
+      },
+      "responsibilities": [
+        "Геймдизайн асимметричной RTS B.I.T.E.: навыки вампиров и улучшения фракций; генератор деревьев в Houdini"
+      ],
+      "responsibilitiesLocalized": {
+        "en": [
+          "Game design for the asymmetric RTS B.I.T.E.: vampire skills and faction upgrades; a tree generator in Houdini"
+        ]
+      }
+    },
+    {
       "id": "2iq-labs",
       "period": {
         "start": "2024-02",
