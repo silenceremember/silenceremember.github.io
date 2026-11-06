@@ -355,6 +355,65 @@
       "teamName": "2IQ"
     },
     {
+      "id": "bite",
+      "title": "B.I.T.E.: асимметричная RTS про вампиров",
+      "titleLocalized": {
+        "ru": "B.I.T.E.: асимметричная RTS про вампиров",
+        "en": "B.I.T.E.: an asymmetric vampire RTS"
+      },
+      "category": "games",
+      "type": "game",
+      "role": "game-designer",
+      "year": 2026,
+      "status": "in-development",
+      "description": "Асимметричная мультиплеерная RTS: 10 людей против 2 вампиров. Проектирую навыки вампиров и улучшения фракций",
+      "descriptionLocalized": {
+        "ru": "Асимметричная мультиплеерная RTS: 10 людей против 2 вампиров. Проектирую навыки вампиров и улучшения фракций",
+        "en": "Asymmetric multiplayer RTS: 10 humans against 2 vampires. I design the vampire skills and faction upgrades"
+      },
+      "media": {
+        "preview": "assets/images/projects/bite/preview.webp",
+        "screenshots": []
+      },
+      "documents": [],
+      "links": {
+        "case": "/case-bite.html"
+      },
+      "tags": [
+        "геймдизайн",
+        "RTS",
+        "Unity"
+      ],
+      "tagsLocalized": {
+        "ru": [
+          "геймдизайн",
+          "RTS",
+          "Unity"
+        ],
+        "en": [
+          "game design",
+          "RTS",
+          "Unity"
+        ]
+      },
+      "featured": true,
+      "displayMeta": {
+        "genre": "ASYMMETRIC RTS",
+        "platform": "PC"
+      },
+      "keyContribution": "Гейм-дизайнер в Ingvik Studios: спроектировал три ветки навыков вампиров с прогрессией по уровням и улучшения фракций людей с обоснованием каждого. Собрал генератор деревьев в Houdini и лес на карте.",
+      "keyContributionLocalized": {
+        "ru": "Гейм-дизайнер в Ingvik Studios: спроектировал три ветки навыков вампиров с прогрессией по уровням и улучшения фракций людей с обоснованием каждого. Собрал генератор деревьев в Houdini и лес на карте.",
+        "en": "Game designer at Ingvik Studios: designed three vampire skill branches with level progression and human faction upgrades with a rationale for each. Built a Houdini tree generator and the map’s forest."
+      },
+      "technologies": [
+        "Unity",
+        "Google Sheets",
+        "Houdini"
+      ],
+      "teamName": "Ingvik Studios"
+    },
+    {
       "id": "nirune",
       "title": "NIRUNE: музыкальное приложение",
       "titleLocalized": {

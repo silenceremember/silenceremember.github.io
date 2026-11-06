@@ -132,6 +132,7 @@ export default defineConfig({
         caseArchitecture: resolve(__dirname, 'src/case-architecture-rendering.html'),
         caseShards: resolve(__dirname, 'src/case-shards-of-sanity.html'),
         caseWobbledink: resolve(__dirname, 'src/case-wobbledink.html'),
+        caseBite: resolve(__dirname, 'src/case-bite.html'),
       },
       output: {
         // Оптимизация для лучшего tree shaking и уменьшения размера

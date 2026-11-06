@@ -19,6 +19,7 @@ export function getRoleLabel(role, detailed = false, teamName = null) {
     'team-lead': detailed ? 'teamLeadDetailed' : 'teamLead',
     team: 'team',
     'art-director': 'artDirector',
+    'game-designer': 'gameDesigner',
   };
   
   const key = roleKeyMap[role];
