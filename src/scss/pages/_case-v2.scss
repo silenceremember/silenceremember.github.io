@@ -506,3 +506,11 @@ body.home #background-container {
 .home-hero-photo img {
   filter: none;
 }
+
+.home-areas {
+  margin: calc(var(--spacing-md) * -0.5) 0 var(--spacing-md);
+  color: var(--color-secondary);
+  font-size: var(--font-size-small);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}

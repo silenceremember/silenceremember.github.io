@@ -24,13 +24,13 @@
     },
     "availability": "Open to remote work: part-time or project-based",
     "siteName": "Maxim Elchaninov",
-    "siteRole": "interface designer"
+    "siteRole": "interface and game design"
   },
   "index": {
     "tagline": "SILENCEREMEMBER",
-    "title": "Interface designer: web & games",
-    "about": "I design interfaces for websites and games, run UX audits and build working prototypes, tools and automations with AI. Master of game design, PhD student at ETU \"LETI\", Saint Petersburg.",
-    "meta_description": "Maxim Elchaninov, interface designer for web and games. UX audits, game UI, AI-built prototypes and automations. PhD student at ETU \"LETI\".",
+    "title": "Interface and game design",
+    "about": "I design interfaces and games: mechanics and systems, team documentation, narrative. Master of game design, PhD student at ETU \"LETI\", Saint Petersburg.",
+    "meta_description": "Maxim Elchaninov: interface and game design, systems design, documentation and narrative. PhD student at ETU \"LETI\".",
     "slideHint": "Scroll the mouse wheel to see the cases",
     "featuredWorks": "Featured cases",
     "whatsNext": "Contact",
@@ -126,10 +126,10 @@
   "cv": {
     "title": "CV",
     "meta_title": "CV",
-    "description": "CV: interface designer for web and games, PhD student at ETU \"LETI\".",
+    "description": "CV: interface and game design, game design documentation and narrative. PhD student at ETU \"LETI\".",
     "navigation": "Navigation",
     "name": "Maxim Elchaninov",
-    "role": "Interface designer: web and games",
+    "role": "Interface and game design",
     "workDescription": "User support and workflow optimisation",
     "certificateUnavailable": "Certificate information unavailable",
     "sections": {
