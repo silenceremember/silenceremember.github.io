@@ -180,6 +180,66 @@
       }
     },
     {
+      "id": "wobbledink",
+      "title": "Wobbledink: живые термины и значения",
+      "titleLocalized": {
+        "ru": "Wobbledink: живые термины и значения",
+        "en": "Wobbledink: live terms and values"
+      },
+      "category": "tools",
+      "type": "tool",
+      "role": "team-lead",
+      "year": 2026,
+      "status": "in-development",
+      "description": "Система документации в трёх форматах: веб-приложение команды, расширение для Google Docs и reader для VS Code",
+      "descriptionLocalized": {
+        "ru": "Система документации в трёх форматах: веб-приложение команды, расширение для Google Docs и reader для VS Code",
+        "en": "A documentation system in three formats: the team's web app, a Google Docs extension and a VS Code reader"
+      },
+      "media": {
+        "preview": "assets/images/projects/wobbledink/preview.webp",
+        "screenshots": []
+      },
+      "documents": [],
+      "links": {
+        "case": "/case-wobbledink.html"
+      },
+      "tags": [
+        "документация",
+        "Google Docs",
+        "VS Code"
+      ],
+      "tagsLocalized": {
+        "ru": [
+          "документация",
+          "Google Docs",
+          "VS Code"
+        ],
+        "en": [
+          "documentation",
+          "Google Docs",
+          "VS Code"
+        ]
+      },
+      "featured": true,
+      "displayMeta": {
+        "genre": "DOCUMENTATION TOOL",
+        "platform": "WEB · CHROME · VS CODE"
+      },
+      "keyContribution": "Архитектор и руководитель разработки веб-версии в команде 2IQ. Расширения для Google Docs и VS Code сделал соло, код с ИИ.",
+      "keyContributionLocalized": {
+        "ru": "Архитектор и руководитель разработки веб-версии в команде 2IQ. Расширения для Google Docs и VS Code сделал соло, код с ИИ.",
+        "en": "Architect and development lead of the web version in team 2IQ. Built the Google Docs and VS Code extensions solo, code with AI."
+      },
+      "technologies": [
+        "Blazor",
+        "ASP.NET Core",
+        "PostgreSQL",
+        "JavaScript"
+      ],
+      "teamName": "2IQ"
+    },
+    {
       "id": "architecture-rendering",
       "title": "Architecture Rendering: игра-портфолио",
       "titleLocalized": {
@@ -236,6 +296,64 @@
           "diegetic UI"
         ]
       }
+    },
+    {
+      "id": "shards-of-sanity",
+      "title": "Shards of Sanity: кооперативный шутер с обороной",
+      "titleLocalized": {
+        "ru": "Shards of Sanity: кооперативный шутер с обороной",
+        "en": "Shards of Sanity: a co-op shooter with tower defence"
+      },
+      "category": "games",
+      "type": "game",
+      "role": "art-director",
+      "year": 2026,
+      "status": "in-development",
+      "description": "Шутер от первого лица с защитой башнями и роглайтом на 1–4 игроков. Отвечаю за геймдизайн и визуальный стиль",
+      "descriptionLocalized": {
+        "ru": "Шутер от первого лица с защитой башнями и роглайтом на 1–4 игроков. Отвечаю за геймдизайн и визуальный стиль",
+        "en": "First-person shooter with tower defence and roguelite runs for 1–4 players. I own game design and the visual style"
+      },
+      "media": {
+        "preview": "assets/images/projects/shards-of-sanity/preview.webp",
+        "screenshots": []
+      },
+      "documents": [],
+      "links": {
+        "case": "/case-shards-of-sanity.html"
+      },
+      "tags": [
+        "арт-дирекшн",
+        "геймдизайн",
+        "Unity"
+      ],
+      "tagsLocalized": {
+        "ru": [
+          "арт-дирекшн",
+          "геймдизайн",
+          "Unity"
+        ],
+        "en": [
+          "art direction",
+          "game design",
+          "Unity"
+        ]
+      },
+      "featured": true,
+      "displayMeta": {
+        "genre": "CO-OP FPS",
+        "platform": "PC"
+      },
+      "keyContribution": "Веду геймдизайн и визуальный стиль: концепт и документацию с 2024 года, эмблему, интерфейс, концепты врагов. Продюсер и программисты в команде 2IQ отдельно.",
+      "keyContributionLocalized": {
+        "ru": "Веду геймдизайн и визуальный стиль: концепт и документацию с 2024 года, эмблему, интерфейс, концепты врагов. Продюсер и программисты в команде 2IQ отдельно.",
+        "en": "I lead game design and the visual style: the concept and documentation since 2024, the emblem, the interface, enemy concepts. The producer and the programmers are other members of team 2IQ."
+      },
+      "technologies": [
+        "Unity",
+        "Figma"
+      ],
+      "teamName": "2IQ"
     },
     {
       "id": "nirune",

@@ -703,3 +703,10 @@ body.home #background-container {
     font-size: 1rem;
   }
 }
+
+/* Логотип Shards of Sanity не растягиваем на всю ширину */
+.case-figure img[src*='shards-of-sanity/logo'] {
+  width: auto;
+  max-width: min(100%, 360px);
+  margin: 0 auto;
+}

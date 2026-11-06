@@ -218,7 +218,8 @@
     "team": "In Team",
     "soloDetailed": "Solo",
     "teamLeadDetailed": "Team lead, game designer, UI",
-    "teamName": "team"
+    "teamName": "team",
+    "artDirector": "Art director and game designer"
   },
   "404": {
     "title": "Page not found",

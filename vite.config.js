@@ -130,6 +130,8 @@ export default defineConfig({
         caseCapybara: resolve(__dirname, 'src/case-capybara-bunk.html'),
         caseGridsnap: resolve(__dirname, 'src/case-gridsnap.html'),
         caseArchitecture: resolve(__dirname, 'src/case-architecture-rendering.html'),
+        caseShards: resolve(__dirname, 'src/case-shards-of-sanity.html'),
+        caseWobbledink: resolve(__dirname, 'src/case-wobbledink.html'),
       },
       output: {
         // Оптимизация для лучшего tree shaking и уменьшения размера
