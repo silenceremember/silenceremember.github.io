@@ -161,8 +161,10 @@ if (document.readyState === 'loading') {
 }
 
 // Инициализация Performance Monitor
-// Запускаем с низким приоритетом, чтобы не влиять на загрузку страницы
-if (window.requestIdleCallback) {
+// Только в режиме разработки: в продакшене консоль чистая
+if (!import.meta.env.DEV) {
+  // ничего не делаем
+} else if (window.requestIdleCallback) {
   requestIdleCallback(() => {
     const performanceMonitor = getPerformanceMonitor();
     performanceMonitor.init();

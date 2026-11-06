@@ -101,7 +101,7 @@ export class CVPage extends BasePage {
     nameTitle.className = 'cv-header-name';
     nameTitle.textContent = localization.t('cv.name');
 
-    const roleSubtitle = document.createElement('h3');
+    const roleSubtitle = document.createElement('h2');
     roleSubtitle.className = 'cv-header-role';
     roleSubtitle.textContent = localization.t('cv.role');
 
@@ -914,6 +914,29 @@ export class CVPage extends BasePage {
    * Обновляет язык динамического контента
    */
   updateContentLanguage() {
+    // Шапка и навыки при живом переключении языка
+    const lang = localization.getCurrentLanguage();
+    const nameEl = document.querySelector('.cv-header-name');
+    if (nameEl) nameEl.textContent = localization.t('cv.name');
+    const roleEl = document.querySelector('.cv-header-role');
+    if (roleEl) roleEl.textContent = localization.t('cv.role');
+    const skills = this.cvData?.skillsLocalized?.[lang] || this.cvData?.skills;
+    if (skills) {
+      const order = [
+        'design-prototyping',
+        'technical-scripting',
+        'design-documentation',
+        'production-collaboration',
+        'asset-creation',
+      ].filter((key) => skills[key]?.length);
+      document.querySelectorAll('.cv-skill-list').forEach((list, i) => {
+        list.querySelectorAll('.cv-skill-tag').forEach((tag, j) => {
+          const value = skills[order[i]]?.[j];
+          if (value) tag.textContent = value;
+        });
+      });
+    }
+
     // Обновляем заголовки секций
     const sectionTitles = {
       'cv-work-section': 'cv.sections.workExperience',

@@ -225,7 +225,7 @@ export class LanguageSwitcher {
     } else if (pageName === 'community.html') {
       titleKey = 'community.meta_title';
       descKey = 'community.description';
-    } else if (pageName === '404.html') {
+    } else if (pageName === '404.html' || document.body.classList.contains('page-404')) {
       titleKey = '404.title';
       descKey = '404.message'; // Using message for description on 404
     }
@@ -233,11 +233,7 @@ export class LanguageSwitcher {
     if (titleKey) {
       const pageTitle = localization.t(titleKey);
       if (pageTitle) {
-        if (pageName === '404.html') {
-          document.title = pageTitle + ' | Maxim Elchaninov';
-        } else {
-          document.title = pageTitle + ' | ' + localization.t('common.siteName');
-        }
+        document.title = pageTitle + ' | ' + localization.t('common.siteName');
       }
     } else {
       document.title = localization.t('common.siteName') + ': ' + localization.t('common.siteRole');

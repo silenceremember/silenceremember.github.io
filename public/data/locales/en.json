@@ -75,7 +75,7 @@
       },
       "statuses": {
         "completed": "Ready",
-        "inDevelopment": "In Development"
+        "inDevelopment": "In development"
       },
       "found": "Cases found",
       "showAll": "Show all",

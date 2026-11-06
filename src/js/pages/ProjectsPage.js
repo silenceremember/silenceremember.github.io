@@ -306,6 +306,7 @@ export class ProjectsPage extends BasePage {
         
         // Текст идёт после красной метки избранного, если она есть
         const mark = title.querySelector('.project-card-mark');
+        if (mark) mark.setAttribute('aria-label', localization.t('projects.card.featured'));
         const textNode = document.createTextNode(newTitleText);
         if (mark) {
           mark.after(textNode);
@@ -354,6 +355,20 @@ export class ProjectsPage extends BasePage {
           app: localization.t('projects.card.types.app'),
         };
         type.textContent = typeLabels[project.type] || project.type;
+      }
+
+      // Обновляем теги
+      const tagsEl = card.querySelector('.project-card-tags');
+      const tagList = project.tagsLocalized?.[localization.getCurrentLanguage()] || project.tags;
+      if (tagsEl && tagList?.length) {
+        tagsEl.replaceChildren(
+          ...tagList.map((tag) => {
+            const tagEl = document.createElement('span');
+            tagEl.className = 'project-card-tag';
+            tagEl.textContent = tag;
+            return tagEl;
+          })
+        );
       }
 
       // Обновляем роль
