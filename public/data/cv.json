@@ -1,5 +1,5 @@
 {
-  "about": "Гейм-дизайнер: проектирую механики, системы и интерфейсы игр, пишу документацию и нарратив.\n\nДелаю UX-аудиты и интерфейсы сайтов. Прототипы и инструменты собираю с ИИ, чтобы проверить идею до передачи в разработку. Аспирант СПбГЭТУ «ЛЭТИ»: исследую инструменты документации программного обеспечения.",
+  "about": "Геймдизайнер: проектирую механики, системы и интерфейсы игр, пишу документацию и нарратив.\n\nДелаю UX-аудиты и интерфейсы сайтов. Прототипы и инструменты собираю с ИИ, чтобы проверить идею до передачи в разработку. Аспирант СПбГЭТУ «ЛЭТИ»: исследую инструменты документации программного обеспечения.",
   "aboutLocalized": {
     "en": "Game designer: I design game mechanics, systems and interfaces, and write documentation and narrative.\n\nI also do UX audits and website interfaces. I build prototypes and tools with AI to test an idea before it goes to development. PhD student at ETU “LETI”, researching software documentation tools."
   },
@@ -14,7 +14,7 @@
       "companyLocalized": {
         "en": "Ingvik Studios"
       },
-      "position": "Гейм-дизайнер",
+      "position": "Геймдизайнер",
       "positionLocalized": {
         "en": "Game Designer"
       },

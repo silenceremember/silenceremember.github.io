@@ -401,9 +401,9 @@
         "genre": "ASYMMETRIC RTS",
         "platform": "PC"
       },
-      "keyContribution": "Гейм-дизайнер в Ingvik Studios: спроектировал три ветки навыков вампиров с прогрессией по уровням и улучшения фракций людей с обоснованием каждого. Собрал генератор деревьев в Houdini и лес на карте.",
+      "keyContribution": "Геймдизайнер в Ingvik Studios: спроектировал три ветки навыков вампиров с прогрессией по уровням и улучшения фракций людей с обоснованием каждого. Собрал генератор деревьев в Houdini и лес на карте.",
       "keyContributionLocalized": {
-        "ru": "Гейм-дизайнер в Ingvik Studios: спроектировал три ветки навыков вампиров с прогрессией по уровням и улучшения фракций людей с обоснованием каждого. Собрал генератор деревьев в Houdini и лес на карте.",
+        "ru": "Геймдизайнер в Ingvik Studios: спроектировал три ветки навыков вампиров с прогрессией по уровням и улучшения фракций людей с обоснованием каждого. Собрал генератор деревьев в Houdini и лес на карте.",
         "en": "Game designer at Ingvik Studios: designed three vampire skill branches with level progression and human faction upgrades with a rationale for each. Built a Houdini tree generator and the map’s forest."
       },
       "technologies": [
