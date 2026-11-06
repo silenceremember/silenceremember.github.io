@@ -110,12 +110,13 @@ export class CardFactory {
     }
 
     // Добавляем звездочку для избранных проектов (тир 1)
-    if (false && project.featured && title) {
-      const starIcon = document.createElement('span');
-      starIcon.className = 'project-card-star';
-      starIcon.setAttribute('data-svg-src', '/assets/images/icon-star.svg');
-      starIcon.setAttribute('aria-label', localization.t('projects.card.featured'));
-      title.appendChild(starIcon);
+    // Избранные кейсы отмечены красным квадратом перед названием
+    if (project.featured && title) {
+      const mark = document.createElement('span');
+      mark.className = 'project-card-mark';
+      mark.setAttribute('role', 'img');
+      mark.setAttribute('aria-label', localization.t('projects.card.featured'));
+      title.prepend(mark);
     }
 
     // Добавляем акцентный прочерк для тир 2 проектов

@@ -264,6 +264,7 @@
       },
       "tags": [
         "продукт",
+        "ИИ",
         "Windows",
         "Android"
       ],
@@ -272,21 +273,23 @@
         "genre": "MUSIC APP",
         "platform": "WINDOWS, ANDROID"
       },
-      "keyContribution": "Придумал продукт и интерфейс, собрал приложение и сайт с политикой конфиденциальности.",
+      "keyContribution": "Продумал продукт и интерфейс, собрал приложение и сайт с политикой конфиденциальности с помощью ИИ.",
       "keyContributionLocalized": {
-        "ru": "Придумал продукт и интерфейс, собрал приложение и сайт с политикой конфиденциальности.",
-        "en": "Came up with the product and interface, built the app and its website with a privacy policy."
+        "ru": "Продумал продукт и интерфейс, собрал приложение и сайт с политикой конфиденциальности с помощью ИИ.",
+        "en": "Designed the product and interface, built the app and its website with privacy policy using AI."
       },
       "technologies": [],
       "teamSize": 1,
       "tagsLocalized": {
         "ru": [
           "продукт",
+          "ИИ",
           "Windows",
           "Android"
         ],
         "en": [
           "product",
+          "AI",
           "Windows",
           "Android"
         ]

@@ -491,3 +491,18 @@ body.home #background-container {
 .research-intro-title {
   display: none;
 }
+
+/* Метка избранного кейса: красный квадрат */
+.project-card-mark {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 10px;
+  vertical-align: 0.15em;
+  background-color: var(--color-accent);
+  flex-shrink: 0;
+}
+
+.home-hero-photo img {
+  filter: none;
+}
