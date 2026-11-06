@@ -614,6 +614,11 @@ body.home #background-container {
   }
 
   .project-filters-options[data-filter='category'] {
+    @media (min-width: 600px) {
+      flex-wrap: wrap;
+      overflow-x: visible;
+    }
+
     flex-wrap: nowrap;
     overflow-x: auto;
     scrollbar-width: none;
@@ -687,5 +692,14 @@ body.home #background-container {
     border-bottom: 0;
     padding: 0;
     width: auto !important;
+  }
+}
+
+/* Дизайнер r4, N3: разделитель в «о себе» той же ширины, что текст */
+.cv-about-divider {
+  font-size: var(--fs-body);
+
+  @include tablet-and-mobile {
+    font-size: 1rem;
   }
 }

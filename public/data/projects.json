@@ -132,9 +132,9 @@
       "role": "solo",
       "year": 2024,
       "status": "completed",
-      "description": "Сетка и привязка узлов в Unity Shader Graph. Опубликован в Unity Asset Store",
+      "description": "Аддон с сеткой и привязкой узлов для Unity Shader Graph, опубликован в Unity Asset Store",
       "descriptionLocalized": {
-        "ru": "Аддон для Unity: сетка и привязка к сетке в Shader Graph. Опубликован в Unity Asset Store",
+        "ru": "Аддон с сеткой и привязкой узлов для Unity Shader Graph, опубликован в Unity Asset Store",
         "en": "Grid and node snapping for Unity Shader Graph. Published on the Unity Asset Store"
       },
       "media": {
@@ -193,7 +193,7 @@
       "status": "completed",
       "description": "Короткая игра на Unity с ироничным рассказчиком; главное меню нарисовано на полу комнаты",
       "descriptionLocalized": {
-        "ru": "Короткая игра на Unity с ироничным рассказчиком и меню, встроенным прямо в комнату",
+        "ru": "Короткая игра на Unity с ироничным рассказчиком; главное меню нарисовано на полу комнаты",
         "en": "A short Unity game with an ironic narrator; the main menu is painted on the room's floor"
       },
       "media": {
@@ -305,7 +305,7 @@
       "status": "completed",
       "description": "Прототип на Unity и Bolt про крафт предметов и экономику",
       "descriptionLocalized": {
-        "ru": "Прототип на Unity и Bolt: крафт предметов и экономика",
+        "ru": "Прототип на Unity и Bolt про крафт предметов и экономику",
         "en": "Unity and Bolt prototype about item crafting and an in-game economy"
       },
       "media": {
@@ -400,7 +400,7 @@
       "status": "completed",
       "description": "Концепт игры с 2D-симуляцией физики боя",
       "descriptionLocalized": {
-        "ru": "Концепт игры с 2D симуляцией физики боя",
+        "ru": "Концепт игры с 2D-симуляцией физики боя",
         "en": "Game concept built around 2D physics-based combat"
       },
       "media": {
@@ -485,7 +485,7 @@
       "status": "completed",
       "description": "Разбор пролога сюжета Disco Elysium по четырём слоям нарративного дизайна Frictional Games",
       "descriptionLocalized": {
-        "ru": "Разбор пролога сюжета Disco Elysium по 4 слоям нарративного дизайна Frictional Games",
+        "ru": "Разбор пролога сюжета Disco Elysium по четырём слоям нарративного дизайна Frictional Games",
         "en": "Disco Elysium prologue breakdown using Frictional Games' four layers of narrative design"
       },
       "media": {
@@ -525,9 +525,9 @@
       "role": "solo",
       "year": 2024,
       "status": "completed",
-      "description": "Три концепта игр. Каждый после разбора переписан заново",
+      "description": "Три концепта игр, каждый переписан после разбора",
       "descriptionLocalized": {
-        "ru": "Разработка трёх игровых концепций: от создания идеи до анализа и переработки концепта",
+        "ru": "Три концепта игр, каждый переписан после разбора",
         "en": "Three game concepts, each analysed and then rewritten"
       },
       "media": {
@@ -560,7 +560,7 @@
       "id": "assignment-decomposition",
       "title": "Разбор игровых механик",
       "titleLocalized": {
-        "ru": "Деконструкция игровых механик",
+        "ru": "Разбор игровых механик",
         "en": "Game mechanics breakdown"
       },
       "category": "research",
@@ -570,7 +570,7 @@
       "status": "completed",
       "description": "Разборы игр по механикам и опыту игрока с предложениями правок и новым сеттингом",
       "descriptionLocalized": {
-        "ru": "Серия аналитических разборов игр: декомпозиция, анализ опыта, улучшения и переработка сеттинга",
+        "ru": "Разборы игр по механикам и опыту игрока с предложениями правок и новым сеттингом",
         "en": "Game breakdowns by mechanics and player experience, with suggested changes and a reworked setting"
       },
       "media": {
@@ -591,11 +591,11 @@
       "tagsLocalized": {
         "ru": [
           "геймдизайн",
-          "декомпозиция"
+          "механики"
         ],
         "en": [
           "game design",
-          "deconstruction"
+          "mechanics"
         ]
       }
     }

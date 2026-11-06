@@ -89,6 +89,8 @@ export class CardFactory {
       const statusKey = project.status === 'completed' ? 'completed' : 'inDevelopment';
       status.textContent = localization.t(`projects.filters.statuses.${statusKey}`);
       status.className = `project-card-status project-card-status-${project.status}`;
+      // Статус уже есть в подвале карточки, бейдж на обложке декоративный
+      status.setAttribute('aria-hidden', 'true');
     }
 
     // Мета-информация

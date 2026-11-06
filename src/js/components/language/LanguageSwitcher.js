@@ -233,6 +233,15 @@ export class LanguageSwitcher {
       document.title = isEn ? root.dataset.titleEn : root.dataset.titleRu;
       const metaDesc = document.querySelector('meta[name="description"]');
       if (metaDesc) metaDesc.setAttribute('content', isEn ? root.dataset.descEn : root.dataset.descRu);
+      const ogMap = {
+        'meta[property="og:title"]': isEn ? root.dataset.titleEn : root.dataset.titleRu,
+        'meta[name="twitter:title"]': isEn ? root.dataset.titleEn : root.dataset.titleRu,
+        'meta[property="og:description"]': isEn ? root.dataset.descEn : root.dataset.descRu,
+        'meta[name="twitter:description"]': isEn ? root.dataset.descEn : root.dataset.descRu,
+      };
+      Object.entries(ogMap).forEach(([selector, value]) => {
+        document.querySelector(selector)?.setAttribute('content', value);
+      });
       return;
     }
 
