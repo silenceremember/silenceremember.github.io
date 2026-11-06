@@ -50,11 +50,11 @@
         "en": "Technical Support Engineer"
       },
       "responsibilities": [
-        "Поддержка пользователей"
+        "Установка и настройка ViPNet, удалённое устранение неполадок, в том числе с координаторами ViPNet"
       ],
       "responsibilitiesLocalized": {
         "en": [
-          "User support"
+          "ViPNet installation and setup, remote troubleshooting, including ViPNet Coordinator issues"
         ]
       }
     }

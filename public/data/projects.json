@@ -96,10 +96,10 @@
         "genre": "GAME UI",
         "platform": "PC"
       },
-      "keyContribution": "Спроектировал систему экранов мультиплеерного шутера: роли хоста и клиента, состояния лобби, HUD, итоги раунда и матча, около десяти диалогов подтверждения и единый стайлшит. Вёл команду 2IQ из пяти человек до полной документации MVP.",
+      "keyContribution": "Спроектировал систему экранов мультиплеерного шутера: роли хоста и клиента, состояния лобби, HUD, итоги раунда и матча, диалоги подтверждения и единый стайлшит. Вёл команду 2IQ из пяти человек до полной документации MVP.",
       "keyContributionLocalized": {
-        "ru": "Спроектировал систему экранов мультиплеерного шутера: роли хоста и клиента, состояния лобби, HUD, итоги раунда и матча, около десяти диалогов подтверждения и единый стайлшит. Вёл команду 2IQ из пяти человек до полной документации MVP.",
-        "en": "Designed the screen system of a multiplayer shooter: host and client roles, lobby states, HUD, round and match results, about ten confirmation dialogs and a single stylesheet. Led the five-person 2IQ team to a complete MVP documentation package."
+        "ru": "Спроектировал систему экранов мультиплеерного шутера: роли хоста и клиента, состояния лобби, HUD, итоги раунда и матча, диалоги подтверждения и единый стайлшит. Вёл команду 2IQ из пяти человек до полной документации MVP.",
+        "en": "Designed the screen system of a multiplayer shooter: host and client roles, lobby states, HUD, round and match results, confirmation dialogs and a single stylesheet. Led the five-person 2IQ team to a complete MVP documentation package."
       },
       "technologies": [
         "Figma",
@@ -515,9 +515,9 @@
     },
     {
       "id": "assignment-concept",
-      "title": "Геймдизайн и анализ концепта",
+      "title": "Геймдизайн и анализ концептов",
       "titleLocalized": {
-        "ru": "Геймдизайн и анализ концепта",
+        "ru": "Геймдизайн и анализ концептов",
         "en": "Game design and concept analysis"
       },
       "category": "research",
