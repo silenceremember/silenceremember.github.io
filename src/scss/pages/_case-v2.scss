@@ -710,3 +710,22 @@ body.home #background-container {
   max-width: min(100%, 360px);
   margin: 0 auto;
 }
+
+/* Дизайнер r5, P1-1: кнопка карточки в одну строку при длинной роли */
+.project-card-button {
+  white-space: nowrap;
+  flex: none;
+}
+
+@include tablet-and-mobile {
+  .project-card-footer {
+    flex-wrap: wrap;
+    row-gap: var(--spacing-xs);
+  }
+}
+
+.case-figure img[src*='shards-of-sanity/logo'] {
+  width: min(100%, 360px);
+  max-width: none;
+  height: auto;
+}

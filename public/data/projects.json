@@ -194,7 +194,7 @@
       "description": "Система документации в трёх форматах: веб-приложение команды, расширение для Google Docs и reader для VS Code",
       "descriptionLocalized": {
         "ru": "Система документации в трёх форматах: веб-приложение команды, расширение для Google Docs и reader для VS Code",
-        "en": "A documentation system in three formats: the team's web app, a Google Docs extension and a VS Code reader"
+        "en": "A documentation system in three formats: the team’s web app, a Google Docs extension and a VS Code reader"
       },
       "media": {
         "preview": "assets/images/projects/wobbledink/preview.webp",
@@ -226,10 +226,10 @@
         "genre": "DOCUMENTATION TOOL",
         "platform": "WEB · CHROME · VS CODE"
       },
-      "keyContribution": "Архитектор и руководитель разработки веб-версии в команде 2IQ. Расширения для Google Docs и VS Code сделал соло, код с ИИ.",
+      "keyContribution": "Архитектор и руководитель разработки веб-версии в команде 2IQ. Расширения для Google Docs и VS Code делаю один, код пишу с ИИ.",
       "keyContributionLocalized": {
-        "ru": "Архитектор и руководитель разработки веб-версии в команде 2IQ. Расширения для Google Docs и VS Code сделал соло, код с ИИ.",
-        "en": "Architect and development lead of the web version in team 2IQ. Built the Google Docs and VS Code extensions solo, code with AI."
+        "ru": "Архитектор и руководитель разработки веб-версии в команде 2IQ. Расширения для Google Docs и VS Code делаю один, код пишу с ИИ.",
+        "en": "Architect and development lead of the web version in team 2IQ. I build the Google Docs and VS Code extensions on my own, writing the code with AI."
       },
       "technologies": [
         "Blazor",
@@ -302,7 +302,7 @@
       "title": "Shards of Sanity: кооперативный шутер с обороной",
       "titleLocalized": {
         "ru": "Shards of Sanity: кооперативный шутер с обороной",
-        "en": "Shards of Sanity: a co-op shooter with tower defence"
+        "en": "Shards of Sanity: a co‑op shooter with tower defence"
       },
       "category": "games",
       "type": "game",
@@ -323,13 +323,13 @@
         "case": "/case-shards-of-sanity.html"
       },
       "tags": [
-        "арт-дирекшн",
+        "арт-дирекция",
         "геймдизайн",
         "Unity"
       ],
       "tagsLocalized": {
         "ru": [
-          "арт-дирекшн",
+          "арт-дирекция",
           "геймдизайн",
           "Unity"
         ],
@@ -344,14 +344,13 @@
         "genre": "CO-OP FPS",
         "platform": "PC"
       },
-      "keyContribution": "Веду геймдизайн и визуальный стиль: концепт и документацию с 2024 года, эмблему, интерфейс, концепты врагов. Продюсер и программисты в команде 2IQ отдельно.",
+      "keyContribution": "Веду геймдизайн и визуальный стиль: концепт и документацию с 2024 года, эмблему, интерфейс, концепты врагов. Продюсер и программисты – другие участники 2IQ.",
       "keyContributionLocalized": {
-        "ru": "Веду геймдизайн и визуальный стиль: концепт и документацию с 2024 года, эмблему, интерфейс, концепты врагов. Продюсер и программисты в команде 2IQ отдельно.",
-        "en": "I lead game design and the visual style: the concept and documentation since 2024, the emblem, the interface, enemy concepts. The producer and the programmers are other members of team 2IQ."
+        "ru": "Веду геймдизайн и визуальный стиль: концепт и документацию с 2024 года, эмблему, интерфейс, концепты врагов. Продюсер и программисты – другие участники 2IQ.",
+        "en": "I lead game design and the visual style: the concept and documentation since 2024, the emblem, the interface, enemy concepts. The producer and the programmers are other members of 2IQ."
       },
       "technologies": [
-        "Unity",
-        "Figma"
+        "Unity"
       ],
       "teamName": "2IQ"
     },
