@@ -729,3 +729,16 @@ body.home #background-container {
   max-width: none;
   height: auto;
 }
+
+/* Схема навыков B.I.T.E. на телефоне: прокрутка вместо сжатия */
+@include tablet-and-mobile {
+  .case-figure a:has(img[src*='bite/skills']) {
+    display: block;
+    overflow-x: auto;
+  }
+
+  .case-figure img[src*='bite/skills'] {
+    width: 720px;
+    max-width: none;
+  }
+}

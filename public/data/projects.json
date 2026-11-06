@@ -73,10 +73,10 @@
       "role": "team-lead",
       "year": 2025,
       "status": "completed",
-      "description": "UI-кит многопользовательской игры: меню, лобби хоста и клиента, HUD, пауза, счёт, диалоги",
+      "description": "Интерфейс мультиплеера, сеттинг в духе нео-нуара и сюжет в трёх актах",
       "descriptionLocalized": {
-        "ru": "UI-кит многопользовательской игры: меню, лобби хоста и клиента, HUD, пауза, счёт, диалоги",
-        "en": "Multiplayer game UI kit: menus, host and client lobby, HUD, pause, scoreboard, dialogs"
+        "ru": "Интерфейс мультиплеера, сеттинг в духе нео-нуара и сюжет в трёх актах",
+        "en": "Multiplayer interface, a neo-noir setting and a three-act story"
       },
       "media": {
         "preview": "assets/images/projects/capybara-bunk/preview.webp",
@@ -88,18 +88,18 @@
       },
       "tags": [
         "game UI",
-        "Figma",
-        "мультиплеер"
+        "нарратив",
+        "Figma"
       ],
       "featured": true,
       "displayMeta": {
         "genre": "GAME UI",
         "platform": "PC"
       },
-      "keyContribution": "Спроектировал систему экранов мультиплеерного шутера: роли хоста и клиента, состояния лобби, HUD, итоги раунда и матча, диалоги подтверждения и единый стайлшит. Вёл команду 2IQ из пяти человек до полной документации MVP.",
+      "keyContribution": "Спроектировал систему экранов мультиплеерного шутера: роли хоста и клиента, состояния лобби, HUD, итоги раунда и матча, диалоги подтверждения и единый стайлшит. Вёл команду 2IQ из пяти человек до полной документации MVP. Написал сеттинг и трёхактный сюжет.",
       "keyContributionLocalized": {
-        "ru": "Спроектировал систему экранов мультиплеерного шутера: роли хоста и клиента, состояния лобби, HUD, итоги раунда и матча, диалоги подтверждения и единый стайлшит. Вёл команду 2IQ из пяти человек до полной документации MVP.",
-        "en": "Designed the screen system of a multiplayer shooter: host and client roles, lobby states, HUD, round and match results, confirmation dialogs and a single stylesheet. Led the five-person 2IQ team to a complete MVP documentation package."
+        "ru": "Спроектировал систему экранов мультиплеерного шутера: роли хоста и клиента, состояния лобби, HUD, итоги раунда и матча, диалоги подтверждения и единый стайлшит. Вёл команду 2IQ из пяти человек до полной документации MVP. Написал сеттинг и трёхактный сюжет.",
+        "en": "Designed the screen system of a multiplayer shooter: host and client roles, lobby states, HUD, round and match results, confirmation dialogs and a single stylesheet. Led the five-person 2IQ team to a complete MVP documentation package. Wrote the setting and the three-act story."
       },
       "technologies": [
         "Figma",
@@ -110,13 +110,13 @@
       "tagsLocalized": {
         "ru": [
           "game UI",
-          "Figma",
-          "мультиплеер"
+          "нарратив",
+          "Figma"
         ],
         "en": [
           "game UI",
-          "Figma",
-          "multiplayer"
+          "narrative",
+          "Figma"
         ]
       }
     },
