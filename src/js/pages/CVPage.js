@@ -79,7 +79,7 @@ export class CVPage extends BasePage {
 
     const photo = document.createElement('img');
     photo.src = 'assets/images/portrait-cv.webp';
-    photo.alt = 'Maxim Elchaninov';
+    photo.alt = localization.t('cv.name');
     photo.className = 'cv-header-photo-image';
     photo.decoding = 'async';
     photo.loading = 'eager';
@@ -920,6 +920,8 @@ export class CVPage extends BasePage {
     if (nameEl) nameEl.textContent = localization.t('cv.name');
     const roleEl = document.querySelector('.cv-header-role');
     if (roleEl) roleEl.textContent = localization.t('cv.role');
+    const photoEl = document.querySelector('.cv-header-photo-image');
+    if (photoEl) photoEl.alt = localization.t('cv.name');
     const skills = this.cvData?.skillsLocalized?.[lang] || this.cvData?.skills;
     if (skills) {
       const order = [

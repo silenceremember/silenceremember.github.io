@@ -206,8 +206,33 @@ export class LanguageSwitcher {
     let titleKey = '';
     let descKey = '';
     
-    // Статические страницы (кейсы, услуги) хранят заголовок и описание в HTML
-    if (pageName.startsWith('case-') || pageName === 'services.html') {
+    const lang = localization.getCurrentLanguage();
+    const isEn = lang === 'en';
+
+    // Alt картинок статических страниц: RU в alt, EN в data-alt-en
+    document.querySelectorAll('img[data-alt-en]').forEach((img) => {
+      if (img.dataset.altRu === undefined) img.dataset.altRu = img.getAttribute('alt') || '';
+      img.setAttribute('alt', isEn ? img.dataset.altEn : img.dataset.altRu);
+    });
+
+    // aria статичных компонентов
+    const ariaMap = [
+      ['.header-menu-button', 'common.aria.menu'],
+      ['.scroll-to-top', 'common.buttons.scrollToTop'],
+    ];
+    ariaMap.forEach(([selector, key]) => {
+      const label = localization.t(key);
+      if (label && label !== key) {
+        document.querySelectorAll(selector).forEach((el) => el.setAttribute('aria-label', label));
+      }
+    });
+
+    // Статические страницы хранят заголовок и описание на двух языках в <html>
+    const root = document.documentElement;
+    if (root.dataset.titleEn) {
+      document.title = isEn ? root.dataset.titleEn : root.dataset.titleRu;
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) metaDesc.setAttribute('content', isEn ? root.dataset.descEn : root.dataset.descRu);
       return;
     }
 

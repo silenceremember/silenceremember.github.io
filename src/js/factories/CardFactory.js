@@ -62,7 +62,7 @@ export class CardFactory {
     if (image && project.media?.preview) {
       // Используем data-src для ленивой загрузки через Intersection Observer
       image.dataset.src = project.media.preview;
-      image.alt = project.title;
+      image.alt = project.titleLocalized?.[localization.getCurrentLanguage()] || project.title;
       image.loading = 'lazy';
       image.decoding = 'async';
       // Устанавливаем placeholder для предотвращения layout shift
@@ -307,6 +307,7 @@ export class CardFactory {
         // Используем локализованную версию уровня если доступна
         const lang = localization.getCurrentLanguage();
         const levelKey = publication.level === 'РИНЦ' ? 'RSCI' : publication.level;
+        level.dataset.level = levelKey;
         const levelText = localization.t(`research.levels.${levelKey}`);
         if (levelText && levelText !== `research.levels.${levelKey}`) {
           level.textContent = levelText;

@@ -591,3 +591,101 @@ body.home #background-container {
 .project-card-role:empty {
   display: none;
 }
+
+/* Раунд 9: без Title Case в подписях карточек */
+.project-card-role,
+.project-card-type {
+  text-transform: none;
+}
+
+/* Дизайнер r3, P1-1: копирайт в мобильном подвале в одну строку */
+@include tablet-and-mobile {
+  .footer-copyright {
+    white-space: nowrap;
+    font-size: 0.75rem;
+  }
+}
+
+/* P1-2: на мобильном фильтры не занимают первый экран */
+@include tablet-and-mobile {
+  .project-filters-group:has([data-filter='status']),
+  .project-filters-group:has([data-filter='year']) {
+    display: none;
+  }
+
+  .project-filters-options[data-filter='category'] {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+
+    .project-filters-option {
+      flex: none;
+    }
+  }
+}
+
+/* P1-3: «о себе» в резюме читаемым кеглем, без пустоты сверху */
+.cv-about-text {
+  font-size: var(--fs-body);
+  color: var(--color-text-primary);
+  max-width: 68ch;
+
+  @include tablet-and-mobile {
+    font-size: 1rem;
+  }
+}
+
+.cv-about-divider {
+  max-width: 68ch;
+  background-color: var(--color-divider);
+}
+
+@include desktop-large {
+  .cv-header-content {
+    grid-template-rows: auto 1fr;
+  }
+}
+
+/* P2-4: роль в резюме строчными, как на главной */
+.cv-header-role {
+  text-transform: none;
+  font-weight: 700;
+  line-height: 1.25;
+  margin-top: var(--spacing-xs);
+}
+
+/* P2-2: на мобильном обложки карточек без затемнения и тегов */
+@include tablet-and-mobile {
+  .project-card .project-card-overlay,
+  .project-card:hover .project-card-overlay {
+    opacity: 0;
+  }
+}
+
+/* P2-9: кнопки hero помещаются в первый экран 375x812 */
+@include tablet-and-mobile {
+  .home-hero {
+    padding-top: var(--spacing-md);
+  }
+}
+
+/* P2-12: таблица услуг на мобильном в одну колонку */
+@include tablet-and-mobile {
+  .services-table thead {
+    display: none;
+  }
+
+  .services-table tr {
+    display: grid;
+    gap: 4px;
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid var(--color-divider);
+  }
+
+  .services-table td {
+    border-bottom: 0;
+    padding: 0;
+    width: auto !important;
+  }
+}

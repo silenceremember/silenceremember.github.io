@@ -357,6 +357,12 @@ export class ProjectsPage extends BasePage {
         type.textContent = typeLabels[project.type] || project.type;
       }
 
+      // Обновляем alt обложки
+      const coverImg = card.querySelector('.project-card-image');
+      if (coverImg) {
+        coverImg.alt = project.titleLocalized?.[localization.getCurrentLanguage()] || project.title;
+      }
+
       // Обновляем теги
       const tagsEl = card.querySelector('.project-card-tags');
       const tagList = project.tagsLocalized?.[localization.getCurrentLanguage()] || project.tags;

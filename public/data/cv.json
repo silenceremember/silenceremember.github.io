@@ -1,7 +1,7 @@
 {
   "about": "Проектирую интерфейсы сайтов и игр: UX-аудит и сценарии, макеты в Figma, игровой UI. Прототипы и инструменты собираю с ИИ, чтобы проверить идею до передачи в разработку; так сделаны Gridsnap и этот сайт.\n\nМагистр геймдизайна, аспирант СПбГЭТУ «ЛЭТИ»: исследую инструменты документации программного обеспечения. Пишу для команды концепт-документы и технические задания.",
   "aboutLocalized": {
-    "en": "I design interfaces for websites and games: UX audits and user flows, Figma layouts, game UI. I build prototypes and tools with AI to test an idea before it goes to development; Gridsnap and this site were made that way.\n\nMaster of game design and PhD student at ETU \"LETI\", researching software documentation tools. I write concept documents and technical specifications for the team."
+    "en": "I design interfaces for websites and games: UX audits and user flows, Figma layouts, game UI. I build prototypes and tools with AI to test an idea before it goes to development; Gridsnap and this site were made that way.\n\nMaster of game design and PhD student at ETU “LETI”, researching software documentation tools. I write concept documents and technical specifications for the team."
   },
   "workExperience": [
     {
@@ -18,16 +18,16 @@
       "companyLocalized": {
         "en": "2IQLabs, student R&D group at RANEPA"
       },
-      "position": "Руководитель R&D-группы (Game Design & Development)",
+      "position": "Руководитель R&D-группы (геймдизайн и разработка)",
       "positionLocalized": {
-        "en": "R&D Team Lead (Game Design & Development)"
+        "en": "R&D Team Lead (game design and development)"
       },
       "responsibilities": [
-        "Собрал и вёл R&D-команду: инструменты разработки, игровые прототипы, система документации Wobbledink"
+        "Собрал и вёл команду: инструменты разработки, игровые прототипы, система документации Wobbledink"
       ],
       "responsibilitiesLocalized": {
         "en": [
-          "Built and led an R&D team: development tools, game prototypes, the Wobbledink documentation system"
+          "Built and led the team: development tools, game prototypes, the Wobbledink documentation system"
         ]
       }
     },
@@ -41,7 +41,7 @@
           "en": "1 year"
         }
       },
-      "company": "ООО Айти Новация",
+      "company": "ООО «Айти Новация»",
       "companyLocalized": {
         "en": "IT Novation LLC"
       },
@@ -49,9 +49,13 @@
       "positionLocalized": {
         "en": "Technical Support Engineer"
       },
-      "responsibilities": [],
+      "responsibilities": [
+        "Поддержка пользователей"
+      ],
       "responsibilitiesLocalized": {
-        "en": []
+        "en": [
+          "User support"
+        ]
       }
     }
   ],
@@ -65,11 +69,11 @@
       "institution": "Санкт-Петербургский государственный электротехнический университет «ЛЭТИ» им. В.И. Ульянова (Ленина)",
       "institutionShort": "СПбГЭТУ «ЛЭТИ»",
       "institutionShortLocalized": {
-        "en": "ETU \"LETI\""
+        "en": "ETU “LETI”"
       },
       "direction": "2.3.5 Математическое и программное обеспечение вычислительных систем, комплексов и компьютерных сетей",
       "directionLocalized": {
-        "en": "MATHEMATICAL AND SOFTWARE SUPPORT OF COMPUTING SYSTEMS (2.3.5)"
+        "en": "2.3.5 Mathematical support and software of computing systems, complexes and computer networks"
       },
       "degree": "аспирантура",
       "degreeLocalized": {
@@ -94,11 +98,11 @@
       },
       "direction": "09.04.03 Прикладная информатика: разработка компьютерных игр (геймдизайн)",
       "directionLocalized": {
-        "en": "APPLIED COMPUTER SCIENCE: GAME DESIGN & DEVELOPMENT"
+        "en": "09.04.03 Applied informatics: computer game development (game design)"
       },
       "degree": "магистр",
       "degreeLocalized": {
-        "en": "Master's Degree"
+        "en": "Master's degree"
       },
       "status": "completed",
       "location": "Москва",
@@ -119,11 +123,11 @@
       },
       "direction": "10.03.01 Информационная безопасность",
       "directionLocalized": {
-        "en": "INFORMATION SECURITY"
+        "en": "10.03.01 Information security"
       },
       "degree": "бакалавр",
       "degreeLocalized": {
-        "en": "Bachelor's Degree"
+        "en": "Bachelor's degree"
       },
       "status": "completed",
       "location": "Краснодар",
@@ -141,7 +145,7 @@
       "Miro"
     ],
     "technical-scripting": [
-      "ИИ-разработка (Claude Code, Codex, Gemini)",
+      "Claude Code, Codex, Gemini",
       "n8n",
       "C#",
       "Blueprints"
@@ -222,13 +226,13 @@
         "Miro"
       ],
       "technical-scripting": [
-        "AI-assisted development (Claude Code, Codex, Gemini)",
+        "Claude Code, Codex, Gemini",
         "n8n",
         "C#",
         "Blueprints"
       ],
       "design-documentation": [
-        "Google Docs & Sheets",
+        "Google Docs and Sheets",
         "Notion",
         "Confluence",
         "Markdown"

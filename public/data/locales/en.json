@@ -29,8 +29,8 @@
   "index": {
     "tagline": "SILENCEREMEMBER",
     "title": "Interface and game design",
-    "about": "I design interfaces for websites and games. Master of game design, PhD student at ETU \"LETI\", Saint Petersburg.",
-    "meta_description": "Maxim Elchaninov: interface and game design. UX audit, game UI, Unity tools. PhD student at ETU \"LETI\".",
+    "about": "I design interfaces for websites and games. Master of game design, PhD student at ETU “LETI”, Saint Petersburg.",
+    "meta_description": "Maxim Elchaninov: interface and game design. UX audit, game UI, Unity tools. PhD student at ETU “LETI”.",
     "slideHint": "Scroll the mouse wheel to see the cases",
     "featuredWorks": "Featured cases",
     "whatsNext": "Contact",
@@ -68,7 +68,7 @@
       "status": "Status",
       "year": "Year",
       "categories": {
-        "games": "Games & narrative",
+        "games": "Games and narrative",
         "tools": "Tools and apps",
         "research": "Breakdowns",
         "ux": "Interfaces"
@@ -104,7 +104,7 @@
     "statuses": {
       "published": "Published",
       "inPublication": "Soon",
-      "inProgress": "In Progress",
+      "inProgress": "In progress",
       "completed": "Defended"
     },
     "types": {
@@ -114,8 +114,8 @@
       "certificate": "Certificate"
     },
     "levels": {
-      "РИНЦ": "RINC (eLibrary)",
-      "RSCI": "RINC (eLibrary)",
+      "РИНЦ": "RSCI",
+      "RSCI": "RSCI",
       "Scopus": "Scopus",
       "Роспатент": "Rospatent"
     },
@@ -126,11 +126,11 @@
   "cv": {
     "title": "CV",
     "meta_title": "CV",
-    "description": "CV: interface and game design. Master of game design, PhD student at ETU \"LETI\".",
+    "description": "CV: interface and game design. Master of game design, PhD student at ETU “LETI”.",
     "navigation": "Navigation",
     "name": "Maxim Elchaninov",
     "role": "Interface and game design",
-    "workDescription": "User support and workflow optimisation",
+    "workDescription": "User support",
     "certificateUnavailable": "Certificate information unavailable",
     "sections": {
       "about": "About",
@@ -145,15 +145,15 @@
       "designPrototyping": "Design Prototyping",
       "technicalScripting": "Technical Scripting",
       "designDocumentation": "Design Documentation",
-      "productionCollaboration": "Production & Collaboration",
+      "productionCollaboration": "Production and collaboration",
       "assetCreation": "Asset Creation",
       "categories": {
         "designPrototyping": {
-          "title": "Design & prototyping",
+          "title": "Design and prototyping",
           "description": ""
         },
         "technicalScripting": {
-          "title": "AI-assisted building and scripts",
+          "title": "AI-assisted development and scripting",
           "description": ""
         },
         "designDocumentation": {
@@ -161,7 +161,7 @@
           "description": ""
         },
         "productionCollaboration": {
-          "title": "Production & collaboration",
+          "title": "Production and collaboration",
           "description": ""
         },
         "assetCreation": {
@@ -172,7 +172,7 @@
     },
     "status": {
       "completed": "Graduated",
-      "inProgress": "In Progress"
+      "inProgress": "In progress"
     },
     "buttons": {
       "details": "Details",
@@ -214,7 +214,7 @@
   },
   "roles": {
     "solo": "Solo",
-    "teamLead": "Team Lead",
+    "teamLead": "Team lead",
     "team": "In Team",
     "soloDetailed": "Solo",
     "teamLeadDetailed": "Team lead, game designer, UI",
@@ -222,7 +222,7 @@
   },
   "404": {
     "title": "Page not found",
-    "message": "No such page. The cases are on the Cases page.",
+    "message": "This page doesn't exist. Start from the home page or open the cases.",
     "backHome": "Back to home",
     "heading": "404",
     "subtitle": "Page not found"

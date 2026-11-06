@@ -405,12 +405,11 @@ export class ResearchPage extends BasePage {
 
       // Обновляем уровень публикации (РИНЦ -> RSCI)
       const levelElement = card.querySelector('.research-card-level');
-      if (levelElement && levelElement.textContent) {
-        const levelText = levelElement.textContent.trim();
-        if (levelText === 'РИНЦ' || levelText === 'RSCI') {
-          levelElement.textContent = localization.t('research.levels.RSCI');
-        } else if (levelText === 'Scopus') {
-          levelElement.textContent = localization.t('research.levels.Scopus');
+      if (levelElement && levelElement.dataset.level) {
+        const key = `research.levels.${levelElement.dataset.level}`;
+        const levelText = localization.t(key);
+        if (levelText && levelText !== key) {
+          levelElement.textContent = levelText;
         }
       }
     });
