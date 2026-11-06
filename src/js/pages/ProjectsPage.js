@@ -9,7 +9,7 @@ import { ProjectGroupingManager } from '../managers/ProjectGroupingManager.js';
 import { PageReadyManager } from '../utils/PageReady.js';
 import { lazyImageLoader } from '../utils/LazyImageLoader.js';
 import { localization } from '../utils/Localization.js';
-import { getRoleLabel } from '../utils/RoleMapper.js';
+import { getRoleLabel, getCardFooterLabel } from '../utils/RoleMapper.js';
 
 /**
  * Класс страницы проектов
@@ -304,17 +304,15 @@ export class ProjectsPage extends BasePage {
         );
         textNodes.forEach(node => node.remove());
         
-        // Вставляем новый текст в начало
-        title.insertBefore(document.createTextNode(newTitleText), title.firstChild);
-        
-        // Восстанавливаем звездочки и разделители, если их нет, но должны быть
-        if (project.featured && !starIcon) {
-          const newStarIcon = document.createElement('span');
-          newStarIcon.className = 'project-card-star';
-          newStarIcon.setAttribute('data-svg-src', '/assets/images/icon-star.svg');
-          newStarIcon.setAttribute('aria-label', localization.t('projects.card.featured'));
-          title.appendChild(newStarIcon);
+        // Текст идёт после красной метки избранного, если она есть
+        const mark = title.querySelector('.project-card-mark');
+        const textNode = document.createTextNode(newTitleText);
+        if (mark) {
+          mark.after(textNode);
+        } else {
+          title.insertBefore(textNode, title.firstChild);
         }
+        if (starIcon) starIcon.remove();
         
         if (project.tier === 2 && !dividerIcon) {
           const newDividerIcon = document.createElement('span');
@@ -361,7 +359,7 @@ export class ProjectsPage extends BasePage {
       // Обновляем роль
       const role = card.querySelector('.project-card-role');
       if (role) {
-        role.textContent = getRoleLabel(project.role, false, project.teamName);
+        role.textContent = getCardFooterLabel(project);
       }
 
       // Обновляем кнопку

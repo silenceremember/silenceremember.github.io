@@ -19,7 +19,7 @@
     },
     "aria": {
       "languageSwitch": "Смена языка",
-      "themeSwitch": "Смена режима",
+      "themeSwitch": "Смена темы",
       "menu": "Меню"
     },
     "availability": "Открыт к удалённой работе: частичная занятость или проекты",
@@ -43,7 +43,7 @@
   "projects": {
     "title": "Кейсы",
     "meta_title": "Кейсы",
-    "description": "Кейсы: интерфейсы, игры, инструменты и ИИ",
+    "description": "Кейсы: интерфейсы, игры, инструменты и разборы",
     "navigation": "Навигация",
     "card": {
       "details": "Открыть кейс",
@@ -69,7 +69,7 @@
       "year": "Год",
       "categories": {
         "games": "Игры и нарратив",
-        "tools": "Инструменты и ИИ",
+        "tools": "Инструменты и приложения",
         "research": "Разборы",
         "ux": "Интерфейсы"
       },
@@ -176,8 +176,8 @@
     },
     "buttons": {
       "details": "Подробнее",
-      "downloadRU": "Скачать CV в PDF [RU]",
-      "downloadEN": "Скачать CV в PDF [EN]"
+      "downloadRU": "PDF на русском",
+      "downloadEN": "PDF на английском"
     },
     "errors": {
       "loadFailed": "Не удалось загрузить данные резюме."

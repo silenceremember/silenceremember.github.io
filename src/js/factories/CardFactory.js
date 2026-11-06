@@ -1,7 +1,7 @@
 /**
  * Фабрика для создания различных типов карточек
  */
-import { getRoleLabel } from '../utils/RoleMapper.js';
+import { getRoleLabel, getCardFooterLabel } from '../utils/RoleMapper.js';
 import { StatusMapper } from '../utils/StatusMapper.js';
 import { localization } from '../utils/Localization.js';
 
@@ -133,7 +133,7 @@ export class CardFactory {
     }
 
     if (role) {
-      role.textContent = getRoleLabel(project.role, false, project.teamName);
+      role.textContent = getCardFooterLabel(project);
     }
 
     // Добавляем data-атрибуты

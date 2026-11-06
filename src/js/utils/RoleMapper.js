@@ -12,6 +12,8 @@ import { localization } from './Localization.js';
  * @returns {string} Читаемое название роли
  */
 export function getRoleLabel(role, detailed = false, teamName = null) {
+  // На карточках показываем только командные роли; «Соло» очевидно по умолчанию
+  if (role === 'solo' && !detailed) return '';
   const roleKeyMap = {
     solo: detailed ? 'soloDetailed' : 'solo',
     'team-lead': detailed ? 'teamLeadDetailed' : 'teamLead',
@@ -28,4 +30,15 @@ export function getRoleLabel(role, detailed = false, teamName = null) {
   }
 
   return label;
+}
+
+/**
+ * Подпись в подвале карточки: командная роль и «В разработке», если проект не закончен
+ */
+export function getCardFooterLabel(project) {
+  const parts = [getRoleLabel(project.role, false, project.teamName)];
+  if (project.status === 'in-development') {
+    parts.push(localization.t('projects.filters.statuses.inDevelopment'));
+  }
+  return parts.filter(Boolean).join(' · ');
 }

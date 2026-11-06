@@ -43,7 +43,7 @@
   "projects": {
     "title": "Cases",
     "meta_title": "Cases",
-    "description": "Cases: interfaces, games, tools and AI",
+    "description": "Cases: interfaces, games, tools and breakdowns",
     "navigation": "Navigation",
     "card": {
       "details": "Open case",
@@ -69,7 +69,7 @@
       "year": "Year",
       "categories": {
         "games": "Games & narrative",
-        "tools": "Tools & AI",
+        "tools": "Tools and apps",
         "research": "Breakdowns",
         "ux": "Interfaces"
       },
@@ -78,7 +78,7 @@
         "inDevelopment": "In Development"
       },
       "found": "Cases found",
-      "showAll": "Show All",
+      "showAll": "Show all",
       "showAllAria": "Show all cases",
       "reset": "Reset",
       "resetAria": "Reset filters",
@@ -176,8 +176,8 @@
     },
     "buttons": {
       "details": "Details",
-      "downloadRU": "Download CV in PDF [RU]",
-      "downloadEN": "Download CV in PDF [EN]"
+      "downloadRU": "PDF in Russian",
+      "downloadEN": "PDF in English"
     },
     "errors": {
       "loadFailed": "Failed to load CV data."

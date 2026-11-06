@@ -514,3 +514,80 @@ body.home #background-container {
   font-weight: 600;
   letter-spacing: 0.02em;
 }
+
+/* Раунд 7 */
+.case .case-kicker,
+.home-page .case-kicker {
+  font-size: var(--fs-label);
+  max-width: none;
+}
+
+.project-card-title {
+  display: block;
+}
+
+.project-card::after {
+  inset: 0;
+  z-index: 2;
+}
+
+@media (min-width: 1024px) {
+  .home-page {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.case-figure:not(:has(figcaption)) {
+  counter-increment: none;
+}
+
+.finding--shot {
+  border: 0;
+  background: none;
+  padding: var(--spacing-lg) 0 0;
+  border-top: 1px solid var(--color-divider);
+
+  .finding-title {
+    font-size: var(--fs-h3);
+  }
+}
+
+.case .finding p {
+  font-size: 0.9375rem;
+}
+
+@include tablet-and-mobile {
+  .home-hero-photo img {
+    max-width: 96px;
+  }
+
+  .home-role {
+    font-size: 1.25rem;
+    text-wrap: balance;
+  }
+}
+
+/* Разделитель в мете карточек: точка вместо «×» */
+.project-card-meta span:not(:last-child):not([style*='display: none'])::after {
+  content: '·';
+  width: auto;
+  height: auto;
+  mask-image: none;
+  -webkit-mask-image: none;
+  background: none;
+  color: var(--color-secondary);
+}
+
+.project-card-type {
+  text-transform: none;
+}
+
+/* «Готов» на карточках не показываем: показываем только «В разработке» */
+.project-card-status-completed {
+  display: none !important;
+}
+
+.project-card-role:empty {
+  display: none;
+}
