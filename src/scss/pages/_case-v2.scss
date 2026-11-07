@@ -846,3 +846,183 @@ body.home #background-container {
 .home-case-image img {
   border-color: var(--color-divider);
 }
+
+/* Раунд 20: большой первый экран (портрет без рамки, имя на всю ширину) и строки на всю ширину */
+.home-hero.hh {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr auto auto;
+  gap: 0;
+  min-height: clamp(640px, calc(100svh - 7rem), 900px);
+  padding: var(--spacing-lg) 0 var(--spacing-xl);
+  isolation: isolate;
+}
+
+.hh-portrait {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  right: 4%;
+  bottom: 22%;
+  width: min(46%, 520px);
+  pointer-events: none;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: 50% 100%;
+    border: 0;
+    filter: none;
+    mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
+  }
+}
+
+.hh-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--spacing-md);
+
+  .home-location,
+  .home-role {
+    margin: 0;
+  }
+
+  .home-role {
+    font-size: var(--font-size-small);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+}
+
+.hh-name {
+  grid-row: 3;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  font-size: min(10.4vw, 152px);
+  font-weight: 900;
+  line-height: 0.86;
+  letter-spacing: -0.045em;
+  text-transform: uppercase;
+
+  .hh-line {
+    display: block;
+  }
+
+  .hh-line:last-child::after {
+    content: '';
+    display: inline-block;
+    width: 0.16em;
+    height: 0.16em;
+    margin-left: 0.04em;
+    background: var(--color-accent);
+    vertical-align: baseline;
+  }
+}
+
+.hh-bottom {
+  grid-row: 4;
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: var(--spacing-xl);
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--color-divider);
+
+  .case-lead {
+    margin: 0;
+    max-width: 40rem;
+  }
+
+  .home-areas {
+    margin: 0 0 var(--spacing-md);
+  }
+
+  .cta-buttons {
+    margin-top: 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hh-line {
+    animation: hh-rise 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+
+  .hh-line:last-child {
+    animation-delay: 0.08s;
+  }
+
+  .hh-portrait img {
+    animation: hh-fade 0.7s ease-out both;
+  }
+}
+
+@keyframes hh-rise {
+  from {
+    clip-path: inset(0 0 100% 0);
+    transform: translateY(0.3em);
+  }
+  to {
+    clip-path: inset(0 0 -10% 0);
+    transform: none;
+  }
+}
+
+@keyframes hh-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@include tablet-and-mobile {
+  .home-hero.hh {
+    min-height: 0;
+    padding-top: var(--spacing-md);
+  }
+
+  .hh-portrait {
+    position: relative;
+    grid-row: 2;
+    right: auto;
+    bottom: auto;
+    width: 100%;
+    height: 52vh;
+    max-height: 420px;
+    margin: var(--spacing-md) 0 calc(var(--spacing-xl) * -1);
+    z-index: -1;
+  }
+
+  .hh-top {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .hh-name {
+    font-size: 11.6vw;
+
+    .hh-line {
+      white-space: nowrap;
+    }
+  }
+
+  .hh-bottom {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+}
+
+/* Строки «Ещё на сайте» и «Контакты» на всю ширину рамки */
+.home-links {
+  max-width: none;
+
+  li {
+    grid-template-columns: 14rem 1fr;
+  }
+}
