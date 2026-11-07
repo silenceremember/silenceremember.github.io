@@ -37,14 +37,6 @@
 }
 
 @include mobile-extra-small {
-  .cta-button {
-    font-size: var(--font-size-small);
-    padding: var(--spacing-xs) var(--spacing-lg);
-    transition:
-      font-size var(--transition-duration-base) var(--timing-function-ease),
-      padding var(--transition-duration-base) var(--timing-function-ease);
-  }
-
   .project-meta {
     font-size: var(--font-size-small);
     flex-direction: column;

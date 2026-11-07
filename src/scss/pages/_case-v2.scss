@@ -1,16 +1,6 @@
 @import '../base/variables';
 
-/* ===================== Раунд 5: дизайн-ревью и антислоп ===================== */
-:root {
-  --fs-display: clamp(2.125rem, 1.4rem + 2.6vw, 3.5rem);
-  --fs-h2: clamp(1.5rem, 1.25rem + 0.8vw, 1.875rem);
-  --fs-h3: 1.25rem;
-  --fs-lead: clamp(1.125rem, 1rem + 0.4vw, 1.25rem);
-  --fs-body: 1.0625rem;
-  --fs-label: 0.75rem;
-  --measure: 46rem;
-  --section-gap: 6rem;
-}
+/* Шкала: токены --fs-* в base/_variables.scss */
 
 /* Капс только у H1, коротких H2, лейблов и кнопок */
 .project-card-title,
@@ -20,7 +10,6 @@
 .cv-certificate-title,
 .cv-course-title,
 .finding-title,
-.home-case-title,
 .case-next-title {
   text-transform: none !important;
   letter-spacing: -0.005em;
@@ -39,28 +28,53 @@ h2,
   text-wrap: pretty;
 }
 
-.case-title {
-  font-size: var(--fs-display);
+/* H1 страницы: кейсы, услуги, наука, резюме, 404 */
+.case-title,
+.cv-header-name,
+.page-404-container .main-content-name {
+  font-size: var(--fs-h1);
+  font-weight: 900;
   line-height: 1.05;
-  letter-spacing: -0.02em;
+  letter-spacing: var(--ls-heading);
 }
 
+/* H2 раздела на всех страницах, включая главную */
 .case-section-title,
+.case-cta-title,
 .projects-section-title,
 .research-section-title,
 .cv-section-title {
   font-size: var(--fs-h2);
-  font-weight: 900;
-  line-height: 1.12;
+  font-weight: 800;
+  line-height: var(--lh-heading);
+  letter-spacing: var(--ls-heading);
 }
 
-.case-lead {
+/* H3: названия кейсов, карточек, должностей */
+.project-card-title,
+.research-card-title,
+.research-publication-title,
+.timeline-title,
+.cv-certificate-title,
+.cv-course-title,
+.cv-skill-category-title,
+.finding-title {
+  font-size: var(--fs-h3);
+  line-height: 1.25;
+}
+
+.case-lead,
+.cv-header-role {
   font-size: var(--fs-lead) !important;
+  line-height: 1.45;
   max-width: 60ch;
 }
 
-.case p {
+.case p,
+.project-card-description,
+.timeline-subtitle {
   font-size: var(--fs-body);
+  line-height: var(--lh-body);
 }
 
 .case-kicker,
@@ -69,7 +83,7 @@ h2,
 .case-back {
   font-size: var(--fs-label);
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: var(--ls-label);
   text-transform: uppercase;
   font-variant-numeric: tabular-nums;
 }
@@ -89,14 +103,8 @@ h2,
 }
 
 .case-section {
-  margin-top: var(--section-gap);
-  padding-top: var(--spacing-xl);
-}
-
-@include tablet-and-mobile {
-  .case-section {
-    margin-top: 4rem;
-  }
+  margin-top: calc(var(--section-gap) - var(--section-pad));
+  padding-top: var(--section-pad);
 }
 
 /* Списки: тире вместо красных квадратов */
@@ -222,183 +230,6 @@ body.home #background-container {
   opacity: 0.5;
 }
 
-[data-theme='light'] body.home #background-container {
-  opacity: 0.3;
-}
-
-/* Главная */
-.home-page {
-  max-width: 1152px;
-}
-
-.home-hero {
-  display: grid;
-  grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
-  gap: var(--spacing-xl);
-  align-items: end;
-  padding: var(--spacing-xl) 0 var(--spacing-lg);
-
-  @include tablet-and-mobile {
-    grid-template-columns: 1fr;
-    gap: var(--spacing-lg);
-  }
-
-  .cta-buttons {
-    display: flex;
-    flex-direction: row !important;
-    flex-wrap: wrap;
-    gap: var(--spacing-sm);
-    margin-top: var(--spacing-md);
-    max-width: none !important;
-
-    .cta-button {
-      flex: 0 1 auto;
-      min-width: 0;
-      padding: 12px var(--spacing-lg);
-    }
-  }
-}
-
-.home-name {
-  margin-bottom: var(--spacing-xs);
-}
-
-.home-role {
-  margin: 0 0 var(--spacing-md);
-  font-size: 1.5rem;
-  font-weight: 700;
-  line-height: 1.2;
-}
-
-.home-hero .case-lead {
-  color: var(--color-text-primary);
-}
-
-.home-hero-photo {
-  img {
-    width: 100%;
-    max-width: 280px;
-    height: auto;
-    margin-left: auto;
-    border: 1px solid var(--color-divider);
-    filter: grayscale(1);
-  }
-
-  @include tablet-and-mobile {
-    order: -1;
-
-    img {
-      max-width: 160px;
-      margin-left: 0;
-    }
-  }
-}
-
-.home-section {
-  margin-top: var(--section-gap);
-  padding-top: var(--spacing-xl);
-  border-top: 1px solid var(--color-divider);
-
-  @include tablet-and-mobile {
-    margin-top: 4rem;
-  }
-}
-
-.home-cases {
-  display: grid;
-  gap: var(--spacing-xl);
-}
-
-.home-case {
-  display: grid;
-  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-  gap: var(--spacing-lg);
-  align-items: center;
-
-  @include tablet-and-mobile {
-    grid-template-columns: 1fr;
-    gap: var(--spacing-sm);
-  }
-}
-
-.home-case-image img {
-  width: 100%;
-  height: auto;
-  aspect-ratio: 16 / 10;
-  object-fit: cover;
-  object-position: 50% 0;
-  border: 1px solid var(--color-divider);
-}
-
-.home-case-title {
-  margin: 0 0 var(--spacing-sm);
-  font-size: var(--fs-h3);
-  line-height: 1.3;
-
-  a {
-    color: inherit;
-    text-decoration: none;
-
-    &:hover {
-      color: var(--color-accent-text);
-    }
-  }
-}
-
-.home-case-body p {
-  margin: 0 0 var(--spacing-sm);
-  color: var(--color-secondary);
-  line-height: 1.6;
-}
-
-.home-case-link,
-.home-all {
-  color: var(--color-text-primary);
-  font-weight: 700;
-  font-size: var(--font-size-small);
-  text-decoration: none;
-  border-bottom: 1px solid var(--color-accent);
-
-  &:hover {
-    color: var(--color-accent-text);
-  }
-}
-
-.home-all {
-  display: inline-block;
-  margin-top: var(--spacing-xl);
-}
-
-.home-links {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  max-width: var(--measure);
-
-  li {
-    display: grid;
-    grid-template-columns: 9rem 1fr;
-    gap: var(--spacing-sm);
-    padding: var(--spacing-sm) 0;
-    border-bottom: 1px solid var(--color-divider);
-    color: var(--color-secondary);
-
-    @include tablet-and-mobile {
-      grid-template-columns: 1fr;
-      gap: 4px;
-    }
-  }
-
-  a {
-    color: var(--color-text-primary);
-    font-weight: 700;
-    text-decoration: none;
-
-    &:hover {
-      color: var(--color-accent-text);
-    }
-  }
-}
 
 /* Услуги: таблица «что / пример» */
 .services-table-wrap {
@@ -503,18 +334,6 @@ body.home #background-container {
   flex-shrink: 0;
 }
 
-.home-hero-photo img {
-  filter: none;
-}
-
-.home-areas {
-  margin: calc(var(--spacing-md) * -0.5) 0 var(--spacing-md);
-  color: var(--color-secondary);
-  font-size: var(--font-size-small);
-  font-weight: 600;
-  letter-spacing: 0.02em;
-}
-
 /* Раунд 7 */
 .case .case-kicker,
 .home-page .case-kicker {
@@ -555,17 +374,6 @@ body.home #background-container {
 
 .case .finding p {
   font-size: 0.9375rem;
-}
-
-@include tablet-and-mobile {
-  .home-hero-photo img {
-    max-width: 96px;
-  }
-
-  .home-role {
-    font-size: 1.25rem;
-    text-wrap: balance;
-  }
 }
 
 /* Разделитель в мете карточек: точка вместо «×» */
@@ -668,13 +476,6 @@ body.home #background-container {
   }
 }
 
-/* P2-9: кнопки hero помещаются в первый экран 375x812 */
-@include tablet-and-mobile {
-  .home-hero {
-    padding-top: var(--spacing-md);
-  }
-}
-
 /* P2-12: таблица услуг на мобильном в одну колонку */
 @include tablet-and-mobile {
   .services-table thead {
@@ -750,43 +551,46 @@ body.home #background-container {
   }
 }
 
-/* Ссылки без стрелок: красная линия снизу, как у «Открыть кейс» */
-.case-back,
-.case-next-title,
-.home-links a {
-  text-decoration: none;
-  border-bottom: 1px solid var(--color-accent);
-}
 
-.case-back {
+
+/* Ссылки внутри таблиц и текста: рамка вместо подчёркивания */
+.services-table td a,
+.research-intro a,
+.research-publication-abstract-toggle {
   display: inline-block;
-  padding-bottom: 1px;
+  margin: 2px 6px 2px 0;
+  padding: 3px 10px;
+  border: 1px solid currentColor;
+  color: var(--color-text-primary);
+  text-decoration: none;
+  line-height: 1.35;
+  transition: background-color 0.1s, color 0.1s;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--color-text-primary);
+    color: var(--color-bg-primary);
+  }
 }
 
-.case-next-title {
-  display: inline;
-}
-
-/* Раунд 19 (владелец): ссылки в рамках, чистый первый экран, карточки кейсов */
-.home-case-link,
+/* ===================== Рамки-ссылки: один стиль на весь сайт ===================== */
 .home-all,
-.home-links a,
 .case-back,
 .case-next-title {
   display: inline-flex;
   align-items: center;
   justify-self: start;
   width: fit-content;
-  padding: 6px 14px;
+  min-height: var(--target-min);
+  padding: var(--btn-pad-y) var(--btn-pad-x);
   border: 1px solid var(--color-text-primary);
-  border-bottom: 1px solid var(--color-text-primary);
   color: var(--color-text-primary);
-  font-size: var(--font-size-small);
+  font-size: var(--fs-button);
   font-weight: 600;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--ls-label);
+  line-height: 1.2;
   text-transform: uppercase;
   text-decoration: none;
-  line-height: 1.2;
   transition: background-color 0.1s, color 0.1s, border-color 0.1s;
 
   &:hover,
@@ -798,64 +602,30 @@ body.home #background-container {
 
 .case-next-title {
   font-size: var(--fs-h3);
+  font-weight: 700;
+  letter-spacing: var(--ls-heading);
   text-transform: none;
-  letter-spacing: 0;
-  padding: 10px 18px;
 }
 
-.home-links li {
-  align-items: center;
+html,
+body {
+  scroll-padding-top: calc(var(--header-footer-height) + 1rem);
+  scroll-padding-bottom: calc(var(--header-footer-height) + 1rem);
 }
 
-.home-location {
-  margin: 0 0 var(--spacing-sm);
-  color: var(--color-secondary);
-  font-size: var(--font-size-small);
-  font-weight: 500;
+/* ===================== Главная ===================== */
+.home-page {
+  max-width: 1152px;
 }
 
-.home-areas {
-  color: var(--color-text-primary);
-  opacity: 0.8;
-  font-weight: 500;
-  letter-spacing: 0;
-}
-
-.home-case {
-  align-items: start;
-}
-
-.home-case-body {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding-top: 2px;
-}
-
-.home-case-meta {
-  margin: 0 0 var(--spacing-xs);
-  color: var(--color-secondary);
-  font-size: var(--font-size-small);
-  font-weight: 500;
-}
-
-.home-case-body p {
-  margin-bottom: var(--spacing-md);
-}
-
-.home-case-image img {
-  border-color: var(--color-divider);
-}
-
-/* Раунд 20: большой первый экран (портрет без рамки, имя на всю ширину) и строки на всю ширину */
+/* Первый экран: имя, портрет, роль и кнопки */
 .home-hero.hh {
   position: relative;
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: auto 1fr auto auto;
-  gap: 0;
-  min-height: clamp(640px, calc(100svh - 7rem), 900px);
-  padding: var(--spacing-lg) 0 var(--spacing-xl);
+  min-height: min(640px, calc(100svh - var(--header-footer-height) * 2 - 1rem));
+  padding: var(--spacing-md) 0;
   isolation: isolate;
 }
 
@@ -864,8 +634,8 @@ body.home #background-container {
   z-index: -1;
   top: 0;
   right: 4%;
-  bottom: 22%;
-  width: min(46%, 520px);
+  bottom: 20%;
+  width: min(40%, 440px);
   pointer-events: none;
 
   img {
@@ -874,28 +644,15 @@ body.home #background-container {
     object-fit: contain;
     object-position: 50% 100%;
     border: 0;
-    filter: none;
     mask-image: linear-gradient(to bottom, #121212 70%, transparent 100%);
   }
 }
 
-.hh-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: var(--spacing-md);
-
-  .home-location,
-  .home-role {
-    margin: 0;
-  }
-
-  .home-role {
-    font-size: var(--font-size-small);
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-  }
+.home-location {
+  margin: 0;
+  color: var(--color-secondary);
+  font-size: var(--fs-small);
+  font-weight: 500;
 }
 
 .hh-name {
@@ -903,16 +660,17 @@ body.home #background-container {
   display: flex;
   flex-direction: column;
   margin: 0;
-  font-size: min(10.4vw, 152px);
+  font-size: var(--fs-display);
   font-weight: 900;
-  line-height: 0.86;
-  letter-spacing: -0.045em;
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-display);
   text-transform: uppercase;
 
   .hh-line {
     display: block;
   }
 
+  /* Знак владельца: красный квадрат вместо точки */
   .hh-line:last-child::after {
     content: '';
     display: inline-block;
@@ -927,23 +685,33 @@ body.home #background-container {
 .hh-bottom {
   grid-row: 4;
   display: grid;
-  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-  gap: var(--spacing-xl);
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--spacing-sm) var(--spacing-xl);
   margin-top: var(--spacing-lg);
   padding-top: var(--spacing-md);
-  border-top: 1px solid var(--color-divider);
 
-  .case-lead {
+  .home-role {
     margin: 0;
-    max-width: 40rem;
-  }
-
-  .home-areas {
-    margin: 0 0 var(--spacing-md);
+    font-size: var(--fs-role);
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    text-transform: none;
   }
 
   .cta-buttons {
-    margin-top: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+    width: auto;
+    max-width: none;
+    margin: 0;
+  }
+
+  .cta-button {
+    flex: 0 1 auto;
   }
 }
 
@@ -981,80 +749,27 @@ body.home #background-container {
   }
 }
 
-@include tablet-and-mobile {
-  .home-hero.hh {
-    min-height: 0;
-    padding-top: var(--spacing-md);
-  }
-
-  .hh-portrait {
-    position: relative;
-    grid-row: 2;
-    right: auto;
-    bottom: auto;
-    width: 100%;
-    height: 52vh;
-    max-height: 420px;
-    margin: var(--spacing-md) 0 calc(var(--spacing-xl) * -1);
-    z-index: -1;
-  }
-
-  .hh-top {
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .hh-name {
-    font-size: 11.6vw;
-
-    .hh-line {
-      white-space: nowrap;
-    }
-  }
-
-  .hh-bottom {
-    grid-template-columns: 1fr;
-    gap: var(--spacing-md);
-  }
-}
-
-/* Строки «Ещё на сайте» и «Контакты» на всю ширину рамки */
-.home-links {
-  max-width: none;
-
-  li {
-    grid-template-columns: 14rem 1fr;
-  }
-}
-
-/* Раунд 21: манифест и крупные кейсы на главной */
-.hh-bottom {
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-
-  .home-areas {
-    margin: 0;
-  }
-}
-
+/* Текст о себе: лид; слова загораются при прокрутке только с мышью */
 .home-manifesto {
-  margin-top: var(--section-gap);
-  padding-top: var(--spacing-xl);
-  border-top: 1px solid var(--color-divider);
+  margin-top: var(--spacing-xl);
+  padding-top: var(--section-pad);
 }
 
 .hm-text {
   margin: 0;
-  max-width: none;
-  font-size: clamp(1.25rem, 2.5vw, 2.25rem);
-  font-weight: 800;
-  line-height: 1.12;
-  letter-spacing: -0.025em;
+  max-width: 40em;
+  font-size: var(--fs-lead-plus);
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: -0.005em;
   text-wrap: pretty;
 }
 
 .hm-w {
-  color: var(--color-text-primary);
+  opacity: 1;
+}
+
+.hm-ready .hm-w {
   opacity: 0.18;
   transition: opacity 0.12s linear;
 
@@ -1064,95 +779,26 @@ body.home #background-container {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hm-w {
+  .hm-ready .hm-w {
     opacity: 1;
   }
 }
 
-.home-cases {
-  gap: calc(var(--spacing-xl) * 1.5);
-}
+/* Разделы */
+.home-section {
+  margin-top: calc(var(--section-gap) - var(--section-pad));
+  padding-top: var(--section-pad);
 
-.home-case {
-  grid-template-columns: 1fr;
-  gap: var(--spacing-md);
-}
-
-.home-case-image {
-  display: block;
-  overflow: hidden;
-
-  img {
-    aspect-ratio: 16 / 9;
-    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  > .case-section-title {
+    margin: 0 0 var(--spacing-lg);
   }
 }
 
-.home-case:hover .home-case-image img {
-  transform: scale(1.02);
-}
-
-.home-case-body {
-  display: grid;
-  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-  column-gap: var(--spacing-xl);
-  align-items: start;
-
-  .home-case-meta {
-    grid-column: 1;
-    grid-row: 1;
-  }
-
-  .home-case-title {
-    grid-column: 1;
-    grid-row: 2;
-    font-size: clamp(1.75rem, 3.4vw, 3rem);
-    font-weight: 900;
-    line-height: 1.02;
-    letter-spacing: -0.03em;
-    text-transform: uppercase;
-  }
-
-  p:not(.home-case-meta) {
-    grid-column: 2;
-    grid-row: 1 / span 2;
-    margin: 0 0 var(--spacing-md);
-  }
-
-  .home-case-link {
-    grid-column: 2;
-    grid-row: 3;
-  }
-
-  @include tablet-and-mobile {
-    grid-template-columns: 1fr;
-
-    .home-case-meta,
-    .home-case-title,
-    p:not(.home-case-meta),
-    .home-case-link {
-      grid-column: 1;
-      grid-row: auto;
-    }
-  }
-}
-
-@include tablet-and-mobile {
-  .hh-bottom {
-    grid-template-columns: 1fr;
-  }
-
-  .home-case-image img {
-    aspect-ratio: 16 / 10;
-  }
-}
-
-/* Раунд 22: горизонтальные разделители от линии до линии рамки */
+/* Горизонтальные линии разделов от линии до линии рамки */
 .home-section,
 .home-manifesto,
 .hh-bottom {
   position: relative;
-  border-top-color: transparent !important;
 
   &::before {
     content: '';
@@ -1178,56 +824,95 @@ body.home #background-container {
   }
 }
 
-/* Раунд 23: без повторов на первом экране */
-.hh-bottom .home-role {
-  margin: 0;
-  font-size: clamp(1.25rem, 2vw, 1.75rem);
-  font-weight: 800;
-  letter-spacing: -0.01em;
+/* Избранные кейсы */
+.home-cases {
+  display: grid;
+  gap: 4rem;
+}
+
+.home-case {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: 2rem 3rem;
+  align-items: center;
+}
+
+.home-case-image {
+  display: block;
+  overflow: hidden;
+  border: 1px solid var(--color-divider);
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    object-position: 50% 0;
+    transition: filter 0.25s ease, transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+}
+
+.home-case-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.home-case-meta {
+  margin: 0 0 var(--spacing-xs);
+  color: var(--color-secondary);
+  font-size: var(--fs-small);
+  font-weight: 500;
+}
+
+/* Названия кейсов в карточках и в списке: один стиль */
+.home-case-title,
+.hi-title {
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: var(--ls-heading);
   text-transform: none;
 }
 
-.home-manifesto {
-  margin-top: var(--spacing-xl);
+.home-case-title {
+  margin: 0 0 var(--spacing-sm);
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 }
 
-.hm-text {
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  line-height: 1.25;
+.home-case-body p:not(.home-case-meta) {
+  margin: 0;
+  max-width: 34em;
+  color: var(--color-text-muted);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
 }
 
-.home-hero.hh {
-  padding-bottom: var(--spacing-md);
+/* Ч/б в покое и цвет при наведении: только с мышью. На тач-экранах всегда в цвете */
+@media (hover: hover) and (pointer: fine) {
+  .home-case-image img {
+    filter: grayscale(1) contrast(1.08);
+  }
+
+  .home-case:hover .home-case-image img,
+  .home-case:focus-within .home-case-image img {
+    filter: none;
+    transform: scale(1.02);
+  }
+
+  .home-case:hover .home-case-title a {
+    color: var(--color-accent-text);
+  }
 }
 
-/* Раунд 24: иерархия заголовков на главной: имя > раздел > кейс */
-.home-page .home-section > .case-section-title {
-  margin-bottom: var(--spacing-lg);
-  font-size: clamp(2.25rem, 4.8vw, 4.25rem);
-  font-weight: 900;
-  line-height: 0.95;
-  letter-spacing: -0.035em;
-}
-
-.home-case-body .home-case-title {
-  font-size: clamp(1.375rem, 2.3vw, 2rem);
-  line-height: 1.08;
-}
-
-/* Раунд 25: кадры кейсов ч/б в покое, цвет при наведении; типографский список кейсов */
-.home-case-image img {
-  filter: grayscale(1) contrast(1.08);
-  transition: filter 0.25s ease, transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.home-case:hover .home-case-image img,
-.home-case:focus-within .home-case-image img {
-  filter: none;
-}
-
+/* Остальные кейсы: строки списка */
 .home-index {
-  margin: calc(var(--spacing-xl) * 1.5) 0 0;
+  margin: var(--spacing-xxl) 0 0;
   padding: 0;
   list-style: none;
   border-top: 1px solid var(--color-divider);
@@ -1238,7 +923,7 @@ body.home #background-container {
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: baseline;
   gap: var(--spacing-md);
-  padding: var(--spacing-md) 0;
+  padding: var(--spacing-sm) 0;
   border-bottom: 1px solid var(--color-divider);
   color: var(--color-text-primary);
   text-decoration: none;
@@ -1249,24 +934,21 @@ body.home #background-container {
 }
 
 .hi-title {
-  font-size: clamp(1.5rem, 3.4vw, 3rem);
-  font-weight: 900;
-  line-height: 1;
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
   transition: color 0.1s, transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .hi-meta {
   color: var(--color-secondary);
-  font-size: var(--font-size-small);
+  font-size: var(--fs-small);
   text-align: right;
 }
 
-.hi-row a:hover .hi-title,
-.hi-row a:focus-visible .hi-title {
-  color: var(--color-accent-text);
-  transform: translateX(12px);
+@media (hover: hover) and (pointer: fine) {
+  .hi-row a:hover .hi-title,
+  .hi-row a:focus-visible .hi-title {
+    color: var(--color-accent-text);
+    transform: translateX(8px);
+  }
 }
 
 .hi-float {
@@ -1274,7 +956,7 @@ body.home #background-container {
   left: 0;
   top: 0;
   z-index: 50;
-  width: 280px;
+  width: 240px;
   aspect-ratio: 16 / 10;
   pointer-events: none;
   opacity: 0;
@@ -1293,16 +975,64 @@ body.home #background-container {
   }
 }
 
+.home-all {
+  margin-top: var(--spacing-lg);
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .hi-row a:hover .hi-title {
+  .hi-row a:hover .hi-title,
+  .hi-row a:focus-visible .hi-title,
+  .home-case:hover .home-case-image img,
+  .home-case:focus-within .home-case-image img {
     transform: none;
   }
 }
 
+@media (min-width: 1024px) {
+  .home-page {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
 @include tablet-and-mobile {
+  .home-hero.hh {
+    min-height: 0;
+  }
+
+  .hh-portrait {
+    position: relative;
+    grid-row: 2;
+    right: auto;
+    bottom: auto;
+    width: 100%;
+    height: 44vh;
+    max-height: 360px;
+    margin: var(--spacing-sm) 0 calc(var(--spacing-lg) * -1);
+  }
+
+  .hh-name .hh-line {
+    white-space: nowrap;
+  }
+
+  .hh-bottom {
+    grid-template-columns: 1fr;
+  }
+
+  .home-case {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm);
+  }
+
+  .home-cases {
+    gap: var(--spacing-xl);
+  }
+
   .hi-row a {
     grid-template-columns: 72px minmax(0, 1fr);
     align-items: center;
+    column-gap: var(--spacing-sm);
+    row-gap: 2px;
   }
 
   .hi-thumb {
@@ -1311,122 +1041,9 @@ body.home #background-container {
     width: 72px;
     height: 45px;
     object-fit: cover;
-    filter: grayscale(1);
   }
 
   .hi-meta {
     text-align: left;
-  }
-
-  .home-case-image img {
-    filter: none;
-  }
-}
-
-/* Один размер для названий кейсов: в карточках и в списке */
-.home-case-body .home-case-title,
-.hi-title {
-  font-size: clamp(1.5rem, 2.8vw, 2.5rem);
-}
-
-@include tablet-and-mobile {
-  .home-links li {
-    grid-template-columns: 1fr;
-    gap: 6px;
-  }
-}
-
-/* Раунд 26: ошибки по итогам UX-проверки */
-/* Манифест: по умолчанию виден, приглушаем только когда JS включил эффект */
-.hm-w {
-  opacity: 1;
-}
-
-.hm-ready .hm-w {
-  opacity: 0.18;
-
-  &.on {
-    opacity: 1;
-  }
-}
-
-/* Светлая тема: первый экран остаётся тёмной полосой, имя не наезжает на чёрный фон портрета */
-[data-theme='light'] .home-hero.hh {
-  color: #f5f5f5;
-
-  &::after {
-    content: '';
-    position: absolute;
-    z-index: -2;
-    top: 0;
-    bottom: 0;
-    left: calc((100vw - 100%) / -2);
-    right: calc((100vw - 100%) / -2);
-    background: #121212;
-  }
-
-  .home-location {
-    color: #a3a3a3;
-  }
-
-  .cta-button:not(.cta-button-primary) {
-    color: #f5f5f5;
-    border-color: #f5f5f5;
-
-    &:hover {
-      background: #f5f5f5;
-      color: #121212;
-    }
-  }
-}
-
-@media (min-width: 1232px) {
-  [data-theme='light'] .home-hero.hh::after {
-    left: calc((100% - var(--max-width-large)) / 2 - var(--spacing-content-side));
-    right: calc((100% - var(--max-width-large)) / 2 - var(--spacing-content-side));
-  }
-}
-
-/* Кнопки первого экрана не уходят под фиксированную нижнюю панель */
-.home-hero.hh {
-  min-height: min(900px, calc(100svh - var(--header-footer-height) * 2 - 1rem));
-  padding-top: var(--spacing-md);
-}
-
-html,
-body {
-  scroll-padding-bottom: calc(var(--header-footer-height) + 1rem);
-  scroll-padding-top: calc(var(--header-footer-height) + 1rem);
-}
-
-/* Ссылки внутри таблиц и текста: рамка вместо подчёркивания */
-.services-table td a,
-.research-intro a,
-.research-publication-abstract-toggle {
-  display: inline-block;
-  margin: 2px 6px 2px 0;
-  padding: 3px 10px;
-  border: 1px solid currentColor;
-  color: var(--color-text-primary);
-  text-decoration: none;
-  line-height: 1.35;
-  transition: background-color 0.1s, color 0.1s;
-
-  &:hover,
-  &:focus-visible {
-    background: var(--color-text-primary);
-    color: var(--color-bg-primary);
-  }
-}
-
-[data-theme='light'] .home-hero.hh {
-  .hh-name,
-  .home-role,
-  .hh-line {
-    color: #f5f5f5;
-  }
-
-  &::after {
-    top: -2rem;
   }
 }
