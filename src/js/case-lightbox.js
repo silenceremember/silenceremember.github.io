@@ -13,6 +13,14 @@ if (links.length && typeof HTMLDialogElement === 'function') {
   const img = d.querySelector('img');
   const cap = d.querySelector('.lightbox-caption');
   const btn = d.querySelector('.lightbox-close');
+  // Подпись кнопки есть сразу, до первого открытия
+  const setCloseLabel = () => {
+    const en = document.documentElement.lang === 'en';
+    btn.textContent = en ? 'Close' : 'Закрыть';
+    btn.setAttribute('aria-label', en ? 'Close image' : 'Закрыть рисунок');
+  };
+  setCloseLabel();
+  window.addEventListener('languageChanged', setCloseLabel);
   let opener = null;
   const root = document.documentElement;
 
@@ -27,7 +35,7 @@ if (links.length && typeof HTMLDialogElement === 'function') {
     cap.hidden = !capText;
     if (capText) d.setAttribute('aria-describedby', 'lightbox-caption');
     else d.removeAttribute('aria-describedby');
-    btn.textContent = en ? 'Close' : 'Закрыть';
+    setCloseLabel();
     d.setAttribute('aria-label', img.alt || (en ? 'Image' : 'Изображение'));
     // Широкие схемы (навыки B.I.T.E.) на телефоне листаются вбок в полном размере
     d.classList.toggle('lightbox--wide', a.scrollWidth > a.clientWidth + 1);

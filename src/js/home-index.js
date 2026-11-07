@@ -8,6 +8,10 @@ if (list && matchMedia('(hover: hover) and (pointer: fine)').matches) {
   box.setAttribute('aria-hidden', 'true');
   const img = document.createElement('img');
   img.alt = '';
+  img.width = 240;
+  img.height = 150;
+  img.decoding = 'async';
+  box.hidden = true; // не участвует в раскладке и не грузит кадр до первого наведения
   box.appendChild(img);
   document.body.appendChild(box);
 
@@ -33,6 +37,7 @@ if (list && matchMedia('(hover: hover) and (pointer: fine)').matches) {
     box.style.transform = `translate(${Math.round(x)}px, ${Math.round(y)}px)`;
   };
   const show = (a) => {
+    box.hidden = false;
     img.src = a.dataset.preview;
     place(a);
     box.classList.add('on');

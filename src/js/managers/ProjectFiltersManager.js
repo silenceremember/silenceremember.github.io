@@ -68,6 +68,7 @@ export class ProjectFiltersManager {
     if (projects) {
       this.projects = projects;
     }
+    this.ensureStatusRegion();
 
     const filtersContainer = document.getElementById(
       'projects-filters-container'
@@ -629,6 +630,30 @@ export class ProjectFiltersManager {
   }
 
   /**
+   * Постоянная невидимая область role="status" вне сетки: скринридер слышит, сколько кейсов найдено
+   */
+  ensureStatusRegion() {
+    if (document.getElementById('projects-status')) return;
+    const page = document.querySelector('.projects-page');
+    if (!page) return;
+    const status = document.createElement('p');
+    status.id = 'projects-status';
+    status.className = 'visually-hidden';
+    status.setAttribute('role', 'status');
+    status.setAttribute('aria-live', 'polite');
+    page.appendChild(status);
+  }
+
+  /**
+   * Сообщает число найденных кейсов в область role="status"
+   * @param {number} count - Число видимых карточек
+   */
+  announceCount(count) {
+    const status = document.getElementById('projects-status');
+    if (status) status.textContent = `${localization.t('projects.filters.found')}: ${count}`;
+  }
+
+  /**
    * Очищает все фильтры
    */
   clearAllFilters() {
@@ -721,6 +746,7 @@ export class ProjectFiltersManager {
         }
 
         await this.onRenderGrouped();
+        this.announceCount(this.projects.length);
         return;
       }
 
@@ -768,12 +794,16 @@ export class ProjectFiltersManager {
       resetButtonText.className = 'projects-section-expand-text';
       resetButtonText.textContent = localization.t('projects.filters.reset');
       resetButton.appendChild(resetButtonText);
+      resetButton.type = 'button';
       resetButton.addEventListener('click', () => {
         this.clearAllFilters();
+        // Кнопка исчезает вместе с результатами: фокус на первый фильтр, а не на body
+        document.querySelector('.project-filters-option')?.focus();
       });
-      sectionTitle.appendChild(resetButton);
 
+      // «Сбросить» рядом с заголовком, а не внутри h2
       sectionHeader.appendChild(sectionTitle);
+      sectionHeader.appendChild(resetButton);
       sectionContainer.appendChild(sectionHeader);
 
       // Создаем сетку для проектов
@@ -901,6 +931,7 @@ export class ProjectFiltersManager {
 
       // Обновляем счетчик
       countElement.textContent = visibleCount;
+      this.announceCount(visibleCount);
 
       // Добавляем сетку в контейнер секции
       if (visibleCount === 0) {

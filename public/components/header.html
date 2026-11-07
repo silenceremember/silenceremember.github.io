@@ -1,22 +1,13 @@
 <div class="header-content">
   <div class="header-left">
     <div class="header-language" role="group" aria-label="Язык сайта">
-      <button type="button" class="header-language-option active" data-lang="ru" lang="ru" aria-pressed="true" aria-label="Русский">RU</button>
+      <button type="button" class="header-language-option active" data-lang="ru" lang="ru" aria-pressed="true" aria-label="RU, русский">RU</button>
       <span class="header-language-divider" aria-hidden="true"></span>
-      <button type="button" class="header-language-option" data-lang="en" lang="en" aria-pressed="false" aria-label="English">EN</button>
+      <button type="button" class="header-language-option" data-lang="en" lang="en" aria-pressed="false" aria-label="EN, English">EN</button>
     </div>
   </div>
 
-  <nav class="header-nav">
-    <ul class="header-nav-list" id="header-nav-list">
-      <li><a href="/" class="header-nav-item">ГЛАВНАЯ</a></li>
-      <li><a href="/projects.html" class="header-nav-item">КЕЙСЫ</a></li>
-      <li><a href="/services.html" class="header-nav-item">УСЛУГИ</a></li>
-      <li><a href="/research.html" class="header-nav-item">НАУКА</a></li>
-      <li><a href="/cv.html" class="header-nav-item">РЕЗЮМЕ</a></li>
-    </ul>
-  </nav>
-
+  <!-- Кнопка меню перед <nav>: на телефоне фокус идёт кнопка, затем пункты открытого меню -->
   <button class="header-menu-button" aria-label="Меню" aria-expanded="false" aria-controls="header-nav-list">
     <svg
       width="24"
@@ -37,4 +28,15 @@
       />
     </svg>
   </button>
+
+  <nav class="header-nav">
+    <ul class="header-nav-list" id="header-nav-list">
+      <li><a href="/" class="header-nav-item">ГЛАВНАЯ</a></li>
+      <li><a href="/projects.html" class="header-nav-item">КЕЙСЫ</a></li>
+      <li><a href="/services.html" class="header-nav-item">УСЛУГИ</a></li>
+      <li><a href="/research.html" class="header-nav-item">НАУКА</a></li>
+      <li><a href="/cv.html" class="header-nav-item">РЕЗЮМЕ</a></li>
+    </ul>
+  </nav>
+
 </div>

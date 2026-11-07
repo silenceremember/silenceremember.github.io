@@ -4,6 +4,7 @@ import { BasePage } from './pages/BasePage.js';
 import './konami-trigger.js';
 import './home-index.js';
 import './case-lightbox.js';
+import './new-tab-note.js';
 import { CustomCursor } from './components/index.js';
 import { initViewportHeight } from './utils/ViewportHeight.js';
 import { getPerformanceMonitor } from './services/PerformanceMonitor.js';

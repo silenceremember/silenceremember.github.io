@@ -13,6 +13,20 @@ import { localization } from '../utils/Localization.js';
  */
 export class CVPage extends BasePage {
   /**
+   * Подпись кнопки «Подробнее» у сертификата: что откроется и что в новой вкладке
+   * @param {HTMLElement} button - Кнопка сертификата с data-title
+   */
+  static labelDetails(button) {
+    const en = localization.getCurrentLanguage() === 'en';
+    const title = button.dataset.title || '';
+    const details = localization.t('cv.buttons.details');
+    button.setAttribute(
+      'aria-label',
+      `${details}: ${title}, ${en ? 'opens in a new tab' : 'откроется в новой вкладке'}`
+    );
+  }
+
+  /**
    * Создает экземпляр страницы резюме
    */
   constructor() {
@@ -440,6 +454,8 @@ export class CVPage extends BasePage {
       const detailsButton = document.createElement('button');
       detailsButton.className = 'cv-certificate-button';
       detailsButton.textContent = localization.t('cv.buttons.details');
+      detailsButton.dataset.title = cert.title || '';
+      CVPage.labelDetails(detailsButton);
 
       if (cert.url) {
         detailsButton.addEventListener('click', () => {
@@ -1006,6 +1022,7 @@ export class CVPage extends BasePage {
     // Обновляем кнопки "Подробнее"
     document.querySelectorAll('.cv-certificate-button').forEach(button => {
       button.textContent = localization.t('cv.buttons.details');
+      CVPage.labelDetails(button);
     });
 
     // Обновляем текст "О себе"

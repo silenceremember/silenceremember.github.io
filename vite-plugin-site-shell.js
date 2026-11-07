@@ -45,8 +45,9 @@ const markActive = (header, page) =>
       : m;
   });
 
-// Без JS бургер не откроется: на телефоне пункты меню видны строкой с прокруткой вбок
-const NOSCRIPT_NAV = `<noscript><style>@media (max-width:1023px){.header-menu-button{display:none!important}.header-nav{display:block!important;flex:1;min-width:0;margin-left:12px;overflow-x:auto;scrollbar-width:none}.header-nav-list{display:flex!important;justify-content:flex-start!important;width:max-content;gap:6px}.header-nav-list li{flex:none!important}.header-nav-item{min-height:44px!important;height:44px!important;padding:0 10px!important;font-size:12px!important}}</style></noscript>`;
+// Без JS бургер не откроется: на телефоне пункты меню видны строкой с прокруткой вбок.
+// Переключатель языка без JS не работает: прячем его
+const NOSCRIPT_NAV = `<noscript><style>.header-language{display:none!important}@media (max-width:1023px){.header-menu-button{display:none!important}.header-nav{display:block!important;flex:1;min-width:0;margin-left:12px;overflow-x:auto;scrollbar-width:none}.header-nav-list{display:flex!important;justify-content:flex-start!important;width:max-content;gap:6px}.header-nav-list li{flex:none!important}.header-nav-item{min-height:44px!important;height:44px!important;padding:0 10px!important;font-size:12px!important}}</style></noscript>`;
 
 export function siteShell({ publicDir }) {
   // SVG-иконки шапки и подвала сразу в HTML (SvgLoader их больше не подгружает): видны и без JS
@@ -72,6 +73,17 @@ export function siteShell({ publicDir }) {
       let out = html
         .replace(/<header class="header">\s*<\/header>/, `<header class="header">${header}</header>`)
         .replace(/<footer class="footer">\s*<\/footer>/, `<footer class="footer">${footer}</footer>`);
+      // Фон с кольцами декоративный: скрыт от скринридеров
+      out = out.replace('<div id="background-container"></div>', '<div id="background-container" aria-hidden="true"></div>');
+      // У main всегда id="main", на всех страницах есть ссылка «К содержанию»
+      out = out.replace(/<main class="content-wrapper"(?![^>]*id=)/, '<main class="content-wrapper" id="main"');
+      if (!out.includes('class="skip-link"')) {
+        out = out.replace(
+          /(<body[^>]*>)/,
+          `$1
+    <a class="skip-link" href="#main"><span class="i18n-ru">К содержанию</span><span class="i18n-en" lang="en">Skip to content</span></a>`
+        );
+      }
       if (!out.includes('id="font-faces"')) {
         out = out.replace(/(<meta name="viewport"[^>]*>)/, `$1\n    ${fontHead()}\n    ${NOSCRIPT_NAV}`);
       }
