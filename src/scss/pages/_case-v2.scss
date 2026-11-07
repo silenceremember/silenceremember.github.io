@@ -766,3 +766,83 @@ body.home #background-container {
 .case-next-title {
   display: inline;
 }
+
+/* Раунд 19 (владелец): ссылки в рамках, чистый первый экран, карточки кейсов */
+.home-case-link,
+.home-all,
+.home-links a,
+.case-back,
+.case-next-title {
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  width: fit-content;
+  padding: 6px 14px;
+  border: 1px solid var(--color-text-primary);
+  border-bottom: 1px solid var(--color-text-primary);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-small);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  line-height: 1.2;
+  transition: background-color 0.1s, color 0.1s, border-color 0.1s;
+
+  &:hover,
+  &:focus-visible {
+    background-color: var(--color-text-primary);
+    color: var(--color-bg-primary);
+  }
+}
+
+.case-next-title {
+  font-size: var(--fs-h3);
+  text-transform: none;
+  letter-spacing: 0;
+  padding: 10px 18px;
+}
+
+.home-links li {
+  align-items: center;
+}
+
+.home-location {
+  margin: 0 0 var(--spacing-sm);
+  color: var(--color-secondary);
+  font-size: var(--font-size-small);
+  font-weight: 500;
+}
+
+.home-areas {
+  color: var(--color-text-primary);
+  opacity: 0.8;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.home-case {
+  align-items: start;
+}
+
+.home-case-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-top: 2px;
+}
+
+.home-case-meta {
+  margin: 0 0 var(--spacing-xs);
+  color: var(--color-secondary);
+  font-size: var(--font-size-small);
+  font-weight: 500;
+}
+
+.home-case-body p {
+  margin-bottom: var(--spacing-md);
+}
+
+.home-case-image img {
+  border-color: var(--color-divider);
+}
