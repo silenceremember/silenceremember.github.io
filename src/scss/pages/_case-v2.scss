@@ -1026,3 +1026,123 @@ body.home #background-container {
     grid-template-columns: 14rem 1fr;
   }
 }
+
+/* Раунд 21: манифест и крупные кейсы на главной */
+.hh-bottom {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+
+  .home-areas {
+    margin: 0;
+  }
+}
+
+.home-manifesto {
+  margin-top: var(--section-gap);
+  padding-top: var(--spacing-xl);
+  border-top: 1px solid var(--color-divider);
+}
+
+.hm-text {
+  margin: 0;
+  max-width: none;
+  font-size: clamp(1.75rem, 3.9vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  text-wrap: pretty;
+}
+
+.hm-w {
+  color: var(--color-text-primary);
+  opacity: 0.18;
+  transition: opacity 0.12s linear;
+
+  &.on {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hm-w {
+    opacity: 1;
+  }
+}
+
+.home-cases {
+  gap: calc(var(--spacing-xl) * 1.5);
+}
+
+.home-case {
+  grid-template-columns: 1fr;
+  gap: var(--spacing-md);
+}
+
+.home-case-image {
+  display: block;
+  overflow: hidden;
+
+  img {
+    aspect-ratio: 16 / 9;
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+}
+
+.home-case:hover .home-case-image img {
+  transform: scale(1.02);
+}
+
+.home-case-body {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  column-gap: var(--spacing-xl);
+  align-items: start;
+
+  .home-case-meta {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .home-case-title {
+    grid-column: 1;
+    grid-row: 2;
+    font-size: clamp(1.75rem, 3.4vw, 3rem);
+    font-weight: 900;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+  }
+
+  p:not(.home-case-meta) {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    margin: 0 0 var(--spacing-md);
+  }
+
+  .home-case-link {
+    grid-column: 2;
+    grid-row: 3;
+  }
+
+  @include tablet-and-mobile {
+    grid-template-columns: 1fr;
+
+    .home-case-meta,
+    .home-case-title,
+    p:not(.home-case-meta),
+    .home-case-link {
+      grid-column: 1;
+      grid-row: auto;
+    }
+  }
+}
+
+@include tablet-and-mobile {
+  .hh-bottom {
+    grid-template-columns: 1fr;
+  }
+
+  .home-case-image img {
+    aspect-ratio: 16 / 10;
+  }
+}
