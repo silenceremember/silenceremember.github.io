@@ -47,10 +47,8 @@ export async function loadData(url, options = {}) {
     priority: options.priority || 'high',
     // Используем cache для лучшей производительности
     cache: options.cache || 'default',
-    headers: {
-      'Cache-Control': 'max-age=300', // 5 минут
-      ...options.headers,
-    },
+    // Без своих заголовков запроса: тогда fetch совпадает с <link rel="preload" as="fetch"> и берёт его ответ
+    headers: { ...options.headers },
   })
     .then(async (response) => {
       if (!response.ok) {

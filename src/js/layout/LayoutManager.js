@@ -95,8 +95,10 @@ export class LayoutManager {
       
       if (linkPage === currentPage) {
         link.classList.add('active');
+        link.setAttribute('aria-current', 'page');
       } else {
         link.classList.remove('active');
+        link.removeAttribute('aria-current');
       }
     });
   }
@@ -113,12 +115,15 @@ export class LayoutManager {
       '#scroll-to-top-container'
     );
 
-    // Используем Promise.all для параллельной загрузки компонентов
+    // Шапку и подвал вставляет в HTML плагин сборки (vite-plugin-site-shell.js), навигация есть и без JS.
+    // Загружаем их по сети, только если разметки нет (например, страница открыта не через Vite)
+    const headerReady = !!this.headerElement?.querySelector('.header-content');
+    const footerReady = !!this.footerElement?.querySelector('.footer-content');
     const loadPromises = [
-      this.headerElement
+      this.headerElement && !headerReady
         ? this.loadHTML('/components/header.html')
         : Promise.resolve(null),
-      this.footerElement
+      this.footerElement && !footerReady
         ? this.loadHTML('/components/footer.html')
         : Promise.resolve(null),
     ];
@@ -138,6 +143,8 @@ export class LayoutManager {
 
     if (this.headerElement && headerHTML) {
       this.headerElement.innerHTML = headerHTML;
+    }
+    if (this.headerElement) {
       this.setActiveNavLink();
     }
 

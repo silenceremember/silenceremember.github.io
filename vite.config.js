@@ -3,9 +3,9 @@ import { defineConfig } from 'vite';
 import { promises as fs } from 'fs';
 import path from 'path';
 import { vitePurgeCSS } from './vite-plugin-purgecss.js';
-import webfontDownload from 'vite-plugin-webfont-dl';
 import { createHtmlPlugin } from 'vite-plugin-html';
 import { imagetools } from 'vite-imagetools';
+import { siteShell } from './vite-plugin-site-shell.js';
 
 export default defineConfig({
   base: '/',
@@ -80,16 +80,8 @@ export default defineConfig({
     },
     // PurgeCSS для удаления неиспользуемых стилей
     vitePurgeCSS(),
-    // Google Fonts - автоматическая загрузка и инлайн для устранения внешних запросов
-    webfontDownload([
-      'https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap',
-    ], {
-      injectAsStyleTag: true,
-      minifyCss: true,
-      async: true,
-      cache: true,
-      proxy: false,
-    }),
+    // Шапка и подвал в HTML (навигация без JS), Inter 400–900 своими файлами, preload и запасной шрифт с метриками
+    siteShell({ publicDir: resolve(__dirname, 'public') }),
     // HTML минификация и оптимизация
     createHtmlPlugin({
       minify: {

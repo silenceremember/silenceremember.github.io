@@ -1327,6 +1327,12 @@ body {
   object-fit: contain;
 }
 
+/* Пока окно открыто, страница под ним стоит на месте (прокручивается окно или body) */
+html.lightbox-open,
+html.lightbox-open body {
+  overflow: hidden !important;
+}
+
 /* Широкие схемы на телефоне: полный размер и прокрутка вбок */
 .lightbox--wide .lightbox-frame {
   overflow-x: auto;
@@ -1357,5 +1363,58 @@ body {
   .research-card p,
   .home-case p {
     cursor: none;
+  }
+}
+
+/* ===================== Без JS: запасное содержимое «Кейсов» и резюме ===================== */
+.noscript-block {
+  display: grid;
+  gap: var(--spacing-sm);
+  justify-items: start;
+  padding: var(--spacing-lg) 0;
+}
+
+.noscript-text {
+  max-width: var(--measure);
+  font-size: var(--fs-body);
+}
+
+.noscript-list {
+  display: grid;
+  gap: var(--spacing-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--target-min);
+    padding: var(--btn-pad-y) var(--btn-pad-x);
+    border: 1px solid var(--color-text-primary);
+    color: var(--color-text-primary);
+    font-size: var(--fs-body);
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+      background-color: var(--color-text-primary);
+      color: var(--color-bg-primary);
+    }
+  }
+}
+
+/* Резюме рисуется из JSON: место под содержимое занято сразу, подвал не прыгает */
+.cv-page {
+  min-height: calc(100svh - var(--header-footer-height) * 2);
+}
+
+/* Шапка резюме (фото, контакты, PDF, о себе, навыки) всегда выше этих значений */
+#cv-header-section {
+  min-height: 420px;
+
+  @include tablet-and-mobile {
+    min-height: 760px;
   }
 }

@@ -6,7 +6,7 @@ if (links.length && typeof HTMLDialogElement === 'function') {
   const d = document.createElement('dialog');
   d.className = 'lightbox';
   d.innerHTML =
-    '<div class="lightbox-bar"><p class="lightbox-caption"></p>' +
+    '<div class="lightbox-bar"><p class="lightbox-caption" id="lightbox-caption"></p>' +
     '<button type="button" class="cta-button lightbox-close"></button></div>' +
     '<div class="lightbox-frame"><img alt="" decoding="async" /></div>';
   document.body.appendChild(d);
@@ -14,6 +14,7 @@ if (links.length && typeof HTMLDialogElement === 'function') {
   const cap = d.querySelector('.lightbox-caption');
   const btn = d.querySelector('.lightbox-close');
   let opener = null;
+  const root = document.documentElement;
 
   const open = (a) => {
     const en = document.documentElement.lang === 'en';
@@ -24,16 +25,22 @@ if (links.length && typeof HTMLDialogElement === 'function') {
     img.alt = thumb?.getAttribute('alt') || '';
     cap.textContent = capText;
     cap.hidden = !capText;
+    if (capText) d.setAttribute('aria-describedby', 'lightbox-caption');
+    else d.removeAttribute('aria-describedby');
     btn.textContent = en ? 'Close' : 'Закрыть';
     d.setAttribute('aria-label', img.alt || (en ? 'Image' : 'Изображение'));
     // Широкие схемы (навыки B.I.T.E.) на телефоне листаются вбок в полном размере
     d.classList.toggle('lightbox--wide', a.scrollWidth > a.clientWidth + 1);
     opener = a;
+    // Страница под окном не прокручивается
+    root.classList.add('lightbox-open');
     d.showModal();
     btn.focus();
   };
 
   links.forEach((a) => {
+    // Ссылка открывает окно только при работающем JS: тогда и сообщаем об этом
+    a.setAttribute('aria-haspopup', 'dialog');
     a.addEventListener('click', (e) => {
       if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
       e.preventDefault();
@@ -48,7 +55,13 @@ if (links.length && typeof HTMLDialogElement === 'function') {
   });
   d.addEventListener('close', () => {
     img.removeAttribute('src');
-    if (opener) opener.focus({ preventScroll: true });
+    root.classList.remove('lightbox-open');
+    if (opener) {
+      // Фокус возвращается к рисунку; если он ушёл из вида, страница докручивает до него
+      opener.focus();
+      const r = opener.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > innerHeight) opener.scrollIntoView({ block: 'center' });
+    }
     opener = null;
   });
 }
