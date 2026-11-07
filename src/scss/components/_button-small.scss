@@ -1,5 +1,5 @@
 /* Общий стиль для маленьких кнопок (фильтры, переключатели) */
-/* Используется для project-filters-option, projects-section-expand, project-filters-year-button и других маленьких кнопок */
+/* Используется для project-filters-option, projects-section-expand и других маленьких кнопок */
 
 %button-base {
   display: flex;
@@ -76,44 +76,6 @@
   }
 }
 
-/* Кнопка выбора года */
-.project-filters-year-button {
-  @extend %button-base;
-  width: auto;
-  min-width: fit-content;
-
-  // Ширина устанавливается через JavaScript и должна быть фиксированной во всех режимах
-  // Inline стили имеют приоритет, поэтому CSS не должен переопределять их
-  &[style*='width'] {
-    min-width: unset;
-  }
-
-  &[aria-expanded='true'] {
-    background-color: var(--color-text-primary);
-    border-color: var(--color-text-primary);
-    color: var(--color-bg-primary);
-
-    &:hover {
-      border-color: var(--color-accent);
-      background-color: var(--color-accent);
-      color: #f5f5f5;
-    }
-  }
-
-  // Активное состояние когда выбран год (не прочерк)
-  &.has-count {
-    background-color: var(--color-text-primary);
-    border-color: var(--color-text-primary);
-    color: var(--color-bg-primary);
-
-    &:hover {
-      border-color: var(--color-accent);
-      background-color: var(--color-accent);
-      color: #f5f5f5;
-    }
-  }
-}
-
 /* Отключаем hover эффекты на мобильных и планшетах */
 @include tablet-and-mobile {
   %button-base {
@@ -136,24 +98,6 @@
 
   .projects-section-expand {
     &[aria-expanded='true'] {
-      &:hover {
-        border-color: var(--color-text-primary);
-        background-color: var(--color-text-primary);
-        color: var(--color-bg-primary);
-      }
-    }
-  }
-
-  .project-filters-year-button {
-    &[aria-expanded='true'] {
-      &:hover {
-        border-color: var(--color-text-primary);
-        background-color: var(--color-text-primary);
-        color: var(--color-bg-primary);
-      }
-    }
-
-    &.has-count {
       &:hover {
         border-color: var(--color-text-primary);
         background-color: var(--color-text-primary);

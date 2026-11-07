@@ -413,8 +413,6 @@ export class ProjectsPage extends BasePage {
               const filterType = filterOptions.getAttribute('data-filter');
               const keyMap = {
                 'category': 'projects.filters.category',
-                'status': 'projects.filters.status',
-                'year': 'projects.filters.year',
               };
               if (keyMap[filterType]) {
                 title.textContent = localization.t(keyMap[filterType]);
@@ -459,14 +457,6 @@ export class ProjectsPage extends BasePage {
               };
               if (categoryMap[value]) {
                 label.textContent = localization.t(categoryMap[value]);
-              }
-            } else if (filterType === 'status') {
-              const statusMap = {
-                'completed': 'projects.filters.statuses.completed',
-                'in-development': 'projects.filters.statuses.inDevelopment',
-              };
-              if (statusMap[value]) {
-                label.textContent = localization.t(statusMap[value]);
               }
             }
           }

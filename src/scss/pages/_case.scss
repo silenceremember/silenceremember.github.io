@@ -429,19 +429,6 @@ html[lang='en'] .i18n-ru {
   color: var(--color-secondary);
 }
 
-/* Фильтр года: подпись «Все годы» вместо декоративного прочерка */
-.project-filters-year-button:not(.has-count) .project-filters-year-button-label {
-  min-height: 0;
-  line-height: inherit;
-  color: inherit;
-  font-size: var(--font-size-small);
-
-  &::after {
-    content: none;
-    display: none;
-  }
-}
-
 @include tablet-and-mobile {
   /* transform и backdrop-filter у шапки ломают position: fixed у меню */
   .header.menu-open {

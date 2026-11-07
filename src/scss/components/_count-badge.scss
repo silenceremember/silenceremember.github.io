@@ -54,25 +54,3 @@
     }
   }
 }
-
-/* Стили для счетчиков в dropdown года */
-.project-filters-year-button-count,
-.project-filters-year-option-count {
-  @extend %count-badge-base;
-
-  /* Активное состояние - работает всегда */
-  .project-filters-year-button.has-count & {
-    background-color: var(--theme-dark-bg-primary);
-    color: var(--theme-dark-text-primary);
-  }
-
-  /* Hover и focus эффекты - только на десктопе */
-  @include desktop {
-    .project-filters-year-button:hover &,
-    .project-filters-year-option:hover &,
-    .project-filters-year-option:focus & {
-      background-color: var(--theme-dark-bg-primary);
-      color: var(--theme-dark-text-primary);
-    }
-  }
-}

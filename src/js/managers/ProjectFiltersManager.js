@@ -1,6 +1,6 @@
 /**
  * Менеджер фильтров проектов
- * Управляет фильтрацией проектов по категориям, статусам и годам
+ * Управляет фильтрацией проектов по категориям
  */
 
 import {
@@ -39,22 +39,13 @@ export class ProjectFiltersManager {
     /** @type {Object<string, Array<string>>} */
     this.activeFilters = {
       category: [],
-      status: [],
-      year: [],
     };
-
-    /** @type {string|null} */
-    this.savedYearButtonWidth = null;
 
     /** @type {string|null} */
     this.projectFiltersTemplate = null;
 
     /** @type {boolean} */
     this.isApplyingFilters = false;
-
-    // Bound handler for cleanup in destroy()
-    /** @type {Function|null} */
-    this.boundDocumentClickHandler = null;
   }
 
   /**
@@ -84,26 +75,6 @@ export class ProjectFiltersManager {
       }
     }
 
-    // Сохраняем ширину кнопки года перед пересозданием фильтров (если она существует)
-    const existingYearButton = filtersContainer.querySelector(
-      '#project-filters-year-button'
-    );
-    if (existingYearButton && existingYearButton.style.width) {
-      this.savedYearButtonWidth = existingYearButton.style.width;
-    }
-
-    // Получаем уникальные значения для фильтров
-    const categories = [...new Set(this.projects.map((p) => p.category))];
-    const statuses = [...new Set(this.projects.map((p) => p.status))];
-    const years = [
-      ...new Set(
-        this.projects
-          .map((p) => p.year)
-          .filter(Boolean)
-          .sort((a, b) => b - a)
-      ),
-    ];
-
     // Вставляем фильтры
     if (this.projectFiltersTemplate) {
       filtersContainer.innerHTML = this.projectFiltersTemplate;
@@ -118,8 +89,7 @@ export class ProjectFiltersManager {
         '.project-filters-content'
       );
 
-      // Устанавливаем начальное состояние для всей секции фильтров ДО любых операций
-      // Это предотвращает мерцание кнопки года и других элементов
+      // Начальное состояние блока фильтров до появления
       if (filtersContent) {
         filtersContent.style.opacity = '0';
         filtersContent.style.transform = 'translateY(10px)';
@@ -128,260 +98,13 @@ export class ProjectFiltersManager {
         void filtersContent.offsetHeight;
       }
 
-      // Подсчитываем проекты по годам для dropdown
-      const yearCounts = {};
-      this.projects.forEach((project) => {
-        if (project.year) {
-          yearCounts[project.year] = (yearCounts[project.year] || 0) + 1;
-        }
-      });
-
-      // Добавляем динамические опции по годам в dropdown
-      const yearDropdownMenu = filtersContainer.querySelector(
-        '#project-filters-year-dropdown-menu'
-      );
-      const yearDropdownButton = filtersContainer.querySelector(
-        '#project-filters-year-button'
-      );
-
-      // Флаг для отслеживания, была ли запущена анимация фильтров
-      let filtersAnimationStarted = false;
-
-      if (yearDropdownMenu) {
-        // Добавляем опцию с прочерком для отмены выбора года
-        const dashOption = document.createElement('button');
-        dashOption.className =
-          'project-filters-year-option project-filters-year-option-dash';
-        dashOption.type = 'button';
-        dashOption.setAttribute('data-value', '');
-        dashOption.innerHTML = `
-          <span class="project-filters-year-option-label">${localization.t('projects.filters.allYears')}</span>
-          <span class="project-filters-year-option-count" style="display: none;"></span>
-        `;
-        yearDropdownMenu.appendChild(dashOption);
-
-        // Добавляем опции по годам
-        years.forEach((year) => {
-          const option = document.createElement('button');
-          option.className = 'project-filters-year-option';
-          option.type = 'button';
-          option.setAttribute('data-value', year.toString());
-          option.innerHTML = `
-            <span class="project-filters-year-option-label">${year}</span>
-            <span class="project-filters-year-option-count">${yearCounts[year] || 0}</span>
-          `;
-          yearDropdownMenu.appendChild(option);
-        });
-
-        // Устанавливаем ширину кнопки равной самому широкому элементу в dropdown
-        // Ширина устанавливается один раз при инициализации и не меняется при изменении размера окна
-        if (yearDropdownButton) {
-          let fixedButtonWidth = null; // Сохраняем фиксированную ширину
-          let shouldCalculateWidth = true; // Флаг для определения, нужно ли пересчитывать ширину
-
-          // Если есть сохраненная ширина из предыдущей инициализации, применяем ее сразу
-          if (this.savedYearButtonWidth) {
-            const widthValue = parseFloat(this.savedYearButtonWidth);
-            if (widthValue > 0) {
-              yearDropdownButton.style.width = this.savedYearButtonWidth;
-              yearDropdownButton.style.minWidth = this.savedYearButtonWidth;
-              yearDropdownButton.style.maxWidth = this.savedYearButtonWidth;
-              yearDropdownMenu.style.width = this.savedYearButtonWidth;
-              const isMobile = window.innerWidth < 1024 || window.innerHeight < 900;
-              if (isMobile) {
-                yearDropdownMenu.style.setProperty(
-                  'width',
-                  this.savedYearButtonWidth,
-                  'important'
-                );
-                yearDropdownMenu.style.setProperty(
-                  'min-width',
-                  '0',
-                  'important'
-                );
-              }
-              fixedButtonWidth = widthValue;
-              // Кнопка уже видима, не нужно скрывать/показывать и пересчитывать
-              shouldCalculateWidth = false;
-            }
-          }
-
-          // Пересчитываем ширину только если она не была восстановлена из сохраненного значения
-          if (shouldCalculateWidth) {
-            const calculateYearDropdownWidth = () => {
-              // Используем двойной requestAnimationFrame для гарантии завершения рендеринга
-              return new Promise((resolve) => {
-                requestAnimationFrame(() => {
-                  requestAnimationFrame(() => {
-                    // Сохраняем текущие inline стили
-                    const buttonOriginalWidth = yearDropdownButton.style.width;
-                    const menuOriginalWidth = yearDropdownMenu.style.width;
-
-                    // Временно убираем inline стили для правильного измерения
-                    yearDropdownButton.style.width = '';
-                    yearDropdownMenu.style.width = '';
-
-                    // Создаем временный контейнер вне viewport для точного измерения
-                    // Это гарантирует, что измерение не зависит от текущего размера окна
-                    const tempContainer = document.createElement('div');
-                    tempContainer.style.position = 'absolute';
-                    tempContainer.style.visibility = 'hidden';
-                    tempContainer.style.top = '-9999px';
-                    tempContainer.style.left = '-9999px';
-                    tempContainer.style.display = 'flex';
-                    tempContainer.style.flexDirection = 'column';
-                    tempContainer.style.width = 'auto';
-                    tempContainer.style.height = 'auto';
-                    tempContainer.style.overflow = 'visible';
-                    document.body.appendChild(tempContainer);
-
-                    // Клонируем меню и опции для измерения
-                    const clonedMenu = yearDropdownMenu.cloneNode(true);
-                    clonedMenu.hidden = false;
-                    clonedMenu.style.display = 'flex';
-                    clonedMenu.style.flexDirection = 'column';
-                    clonedMenu.style.visibility = 'visible';
-                    clonedMenu.style.position = 'static';
-                    clonedMenu.style.width = 'auto';
-                    clonedMenu.style.minWidth = 'auto';
-                    clonedMenu.style.maxWidth = 'none';
-                    clonedMenu.style.maxHeight = 'none';
-                    clonedMenu.style.overflow = 'visible';
-                    tempContainer.appendChild(clonedMenu);
-
-                    // Находим максимальную ширину среди всех опций
-                    const options = clonedMenu.querySelectorAll(
-                      '.project-filters-year-option'
-                    );
-                    let maxWidth = 0;
-
-                    if (options.length === 0) {
-                      // Если опций нет, удаляем временный контейнер и возвращаем 0
-                      document.body.removeChild(tempContainer);
-                      yearDropdownButton.style.width = buttonOriginalWidth;
-                      yearDropdownMenu.style.width = menuOriginalWidth;
-                      resolve(0);
-                      return;
-                    }
-
-                    options.forEach((option) => {
-                      // Временно сбрасываем любые inline стили для правильного измерения
-                      const originalWidth = option.style.width;
-                      const originalDisplay = option.style.display;
-                      option.style.width = 'auto';
-                      option.style.display = 'flex';
-
-                      // Используем getBoundingClientRect для более точного измерения
-                      // включая padding и border
-                      const rect = option.getBoundingClientRect();
-                      const width = rect.width;
-
-                      // Восстанавливаем оригинальные стили
-                      option.style.width = originalWidth;
-                      option.style.display = originalDisplay;
-
-                      if (width > maxWidth) {
-                        maxWidth = width;
-                      }
-                    });
-
-                    // Удаляем временный контейнер
-                    document.body.removeChild(tempContainer);
-
-                    // Возвращаем кнопку и меню в исходное состояние
-                    yearDropdownButton.style.width = buttonOriginalWidth;
-                    yearDropdownMenu.style.width = menuOriginalWidth;
-
-                    resolve(maxWidth);
-                  });
-                });
-              });
-            };
-
-            const setYearDropdownWidth = (width) => {
-              if (width > 0) {
-                // Устанавливаем фиксированную ширину для кнопки
-                yearDropdownButton.style.width = `${width}px`;
-                yearDropdownButton.style.minWidth = `${width}px`;
-                yearDropdownButton.style.maxWidth = `${width}px`;
-
-                // Устанавливаем ширину для меню
-                yearDropdownMenu.style.width = `${width}px`;
-                // В mobile режиме используем setProperty с important для переопределения CSS
-                const isMobile = window.innerWidth < 1024 || window.innerHeight < 900;
-                if (isMobile) {
-                  yearDropdownMenu.style.setProperty(
-                    'width',
-                    `${width}px`,
-                    'important'
-                  );
-                  yearDropdownMenu.style.setProperty(
-                    'min-width',
-                    '0',
-                    'important'
-                  );
-                }
-
-                fixedButtonWidth = width;
-
-                // Сохраняем ширину для следующей инициализации
-                this.savedYearButtonWidth = `${width}px`;
-              }
-            };
-
-            // Устанавливаем ширину при инициализации один раз
-            // Используем дополнительную задержку для гарантии полного рендеринга после hideLoadingIndicator
-            requestAnimationFrame(() => {
-              requestAnimationFrame(() => {
-                setTimeout(() => {
-                  calculateYearDropdownWidth().then((maxWidth) => {
-                    setYearDropdownWidth(maxWidth);
-                    // После установки ширины запускаем анимацию фильтров
-                    // Это гарантирует, что кнопка года не будет мерцать
-                    if (filtersContent && !filtersAnimationStarted) {
-                      filtersAnimationStarted = true;
-                      requestAnimationFrame(() => {
-                        requestAnimationFrame(() => {
-                          animateElementAppearance(filtersContent);
-                        });
-                      });
-                    }
-                  });
-                }, 50); // Небольшая задержка для гарантии рендеринга
-              });
-            });
-          } else {
-            // Если ширина уже была восстановлена, сразу запускаем анимацию фильтров
-            if (filtersContent && !filtersAnimationStarted) {
-              filtersAnimationStarted = true;
-              requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                  animateElementAppearance(filtersContent);
-                });
-              });
-            }
-          }
-        } else {
-          // Если кнопка года не найдена, запускаем анимацию фильтров сразу
-          if (filtersContent && !filtersAnimationStarted) {
-            filtersAnimationStarted = true;
-            requestAnimationFrame(() => {
-              requestAnimationFrame(() => {
-                animateElementAppearance(filtersContent);
-              });
-            });
-          }
-        }
-      } else {
-        // Если dropdown меню не найдено, запускаем анимацию фильтров сразу
-        if (filtersContent && !filtersAnimationStarted) {
-          filtersAnimationStarted = true;
+      // Плавное появление блока фильтров
+      if (filtersContent) {
+        requestAnimationFrame(() => {
           requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-              animateElementAppearance(filtersContent);
-            });
+            animateElementAppearance(filtersContent);
           });
-        }
+        });
       }
     }
 
@@ -390,8 +113,6 @@ export class ProjectFiltersManager {
 
     // Инициализируем фильтры
     this.initFilterButtons();
-    // Инициализируем dropdown после создания опций
-    this.initYearDropdown();
   }
 
   /**
@@ -399,17 +120,15 @@ export class ProjectFiltersManager {
    * @param {Array<Object>} projects - Массив проектов для подсчета
    */
   updateFilterCounts(projects) {
-    // Подсчитываем проекты по категориям и статусам
+    // Подсчитываем проекты по категориям
     const categoryCounts = {};
-    const statusCounts = {};
 
     projects.forEach((project) => {
       categoryCounts[project.category] =
         (categoryCounts[project.category] || 0) + 1;
-      statusCounts[project.status] = (statusCounts[project.status] || 0) + 1;
     });
 
-    // Обновляем счетчики для категорий и статусов
+    // Обновляем счетчики категорий
     document.querySelectorAll('.project-filters-option').forEach((button) => {
       const value = button.getAttribute('data-value');
       const countEl = button.querySelector('.project-filters-option-count');
@@ -423,8 +142,6 @@ export class ProjectFiltersManager {
 
       if (filterType === 'category') {
         count = categoryCounts[value] || 0;
-      } else if (filterType === 'status') {
-        count = statusCounts[value] || 0;
       }
 
       countEl.textContent = count;
@@ -452,156 +169,8 @@ export class ProjectFiltersManager {
   }
 
   /**
-   * Инициализирует dropdown для фильтра по году
-   */
-  initYearDropdown() {
-    const dropdownButton = document.getElementById(
-      'project-filters-year-button'
-    );
-    const dropdownMenu = document.getElementById(
-      'project-filters-year-dropdown-menu'
-    );
-
-    // Фильтра по году больше нет: тихо выходим
-    if (!dropdownButton || !dropdownMenu) {
-      return;
-    }
-
-    // Открытие/закрытие dropdown
-    dropdownButton.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const isExpanded =
-        dropdownButton.getAttribute('aria-expanded') === 'true';
-      const newExpandedState = !isExpanded;
-
-      dropdownButton.setAttribute('aria-expanded', newExpandedState);
-
-      if (newExpandedState) {
-        // Открываем меню с анимацией
-        dropdownMenu.hidden = false;
-        // Очищаем inline стили для правильного позиционирования из CSS
-        dropdownMenu.style.top = '';
-        dropdownMenu.style.left = '';
-        // Устанавливаем начальное состояние
-        dropdownMenu.style.opacity = '0';
-        // Запускаем анимацию появления быстрее, как у карточек
-        requestAnimationFrame(() => {
-          dropdownMenu.style.transition = 'opacity 0.15s ease-in-out';
-          dropdownMenu.style.opacity = '1';
-        });
-      } else {
-        // Закрываем меню с анимацией
-        dropdownMenu.style.transition = 'opacity 0.15s ease-in-out';
-        dropdownMenu.style.opacity = '0';
-        setTimeout(() => {
-          dropdownMenu.hidden = true;
-          // Очищаем inline стили после анимации
-          dropdownMenu.style.opacity = '';
-          dropdownMenu.style.transition = '';
-        }, 150);
-      }
-    });
-
-    // Закрытие dropdown при клике вне его
-    // Store bound handler for cleanup in destroy()
-    this.boundDocumentClickHandler = (e) => {
-      if (
-        !dropdownButton.contains(e.target) &&
-        !dropdownMenu.contains(e.target)
-      ) {
-        dropdownButton.setAttribute('aria-expanded', 'false');
-        dropdownMenu.style.transition = 'opacity 0.15s ease-in-out';
-        dropdownMenu.style.opacity = '0';
-        setTimeout(() => {
-          dropdownMenu.hidden = true;
-          // Очищаем inline стили после анимации
-          dropdownMenu.style.opacity = '';
-          dropdownMenu.style.transition = '';
-        }, 150);
-      }
-    };
-
-    // Используем capture фазу для правильной обработки кликов
-    document.addEventListener('click', this.boundDocumentClickHandler, true);
-
-    // Обработка выбора года
-    const handleYearOptionClick = (option) => {
-      const year = option.getAttribute('data-value');
-      const yearLabelEl = option.querySelector(
-        '.project-filters-year-option-label'
-      );
-      const yearCountEl = option.querySelector(
-        '.project-filters-year-option-count'
-      );
-
-      // Извлекаем текст и счетчик
-      const yearLabel = yearLabelEl ? yearLabelEl.textContent.trim() : year;
-      const yearCount =
-        yearCountEl && yearCountEl.style.display !== 'none'
-          ? yearCountEl.textContent.trim()
-          : '0';
-
-      // Обновляем кнопку dropdown
-      const buttonLabel = dropdownButton.querySelector(
-        '.project-filters-year-button-label'
-      );
-      const buttonCount = dropdownButton.querySelector(
-        '.project-filters-year-button-count'
-      );
-
-      // Закрываем dropdown с анимацией
-      dropdownButton.setAttribute('aria-expanded', 'false');
-      dropdownMenu.style.transition = 'opacity 0.15s ease-in-out';
-      dropdownMenu.style.opacity = '0';
-      setTimeout(() => {
-        dropdownMenu.hidden = true;
-        // Очищаем inline стили после анимации
-        dropdownMenu.style.opacity = '';
-        dropdownMenu.style.transition = '';
-      }, 150);
-
-      // Если выбран прочерк (пустое значение) или тот же год, снимаем фильтр
-      if (
-        !year ||
-        year === '' ||
-        (this.activeFilters.year.length > 0 &&
-          this.activeFilters.year[0] === year)
-      ) {
-        // Снимаем фильтр
-        this.activeFilters.year = [];
-        if (buttonLabel) buttonLabel.textContent = localization.t('projects.filters.allYears');
-        if (buttonCount) {
-          buttonCount.textContent = '0';
-          buttonCount.style.display = 'none';
-        }
-        dropdownButton.classList.remove('has-count');
-      } else {
-        // Устанавливаем новый фильтр
-        this.activeFilters.year = [year];
-        if (buttonLabel) buttonLabel.textContent = yearLabel;
-        if (buttonCount) {
-          buttonCount.textContent = yearCount;
-          buttonCount.style.display = 'flex';
-        }
-        dropdownButton.classList.add('has-count');
-      }
-
-      this.applyFilters();
-    };
-
-    // Добавляем обработчики событий на опции (используем делегирование событий)
-    dropdownMenu.addEventListener('click', (e) => {
-      const option = e.target.closest('.project-filters-year-option');
-      if (option) {
-        e.stopPropagation();
-        handleYearOptionClick(option);
-      }
-    });
-  }
-
-  /**
    * Переключает фильтр
-   * @param {string} type - Тип фильтра ('category', 'status', 'year')
+   * @param {string} type - Тип фильтра ('category')
    * @param {string} value - Значение фильтра
    * @param {HTMLElement} button - Кнопка фильтра
    */
@@ -656,8 +225,6 @@ export class ProjectFiltersManager {
   clearAllFilters() {
     this.activeFilters = {
       category: [],
-      status: [],
-      year: [],
     };
 
     // Сбрасываем все кнопки
@@ -666,41 +233,6 @@ export class ProjectFiltersManager {
       button.classList.remove('active');
     });
 
-    // Сбрасываем dropdown года (без ожидания анимации - она выполнится асинхронно)
-    const dropdownButton = document.getElementById(
-      'project-filters-year-button'
-    );
-    const dropdownMenu = document.getElementById(
-      'project-filters-year-dropdown-menu'
-    );
-    if (dropdownButton) {
-      const buttonLabel = dropdownButton.querySelector(
-        '.project-filters-year-button-label'
-      );
-      const buttonCount = dropdownButton.querySelector(
-        '.project-filters-year-button-count'
-      );
-      if (buttonLabel) buttonLabel.textContent = localization.t('projects.filters.allYears');
-      if (buttonCount) {
-        buttonCount.textContent = '0';
-        buttonCount.style.display = 'none';
-      }
-      dropdownButton.classList.remove('has-count');
-      dropdownButton.setAttribute('aria-expanded', 'false');
-    }
-    if (dropdownMenu) {
-      // Закрываем dropdown с анимацией, но не ждем её завершения
-      dropdownMenu.style.transition = 'opacity 0.15s ease-in-out';
-      dropdownMenu.style.opacity = '0';
-      setTimeout(() => {
-        dropdownMenu.hidden = true;
-        // Очищаем inline стили после анимации
-        dropdownMenu.style.opacity = '';
-        dropdownMenu.style.transition = '';
-      }, 150);
-    }
-
-    // Применяем фильтры сразу, не дожидаясь анимации dropdown
     this.applyFilters();
   }
 
@@ -820,22 +352,6 @@ export class ProjectFiltersManager {
           }
         }
 
-        // Проверяем статус
-        if (visible && this.activeFilters.status.length > 0) {
-          if (!this.activeFilters.status.includes(project.status)) {
-            visible = false;
-          }
-        }
-
-        // Проверяем год
-        if (visible && this.activeFilters.year.length > 0) {
-          if (
-            project.year &&
-            !this.activeFilters.year.includes(project.year.toString())
-          ) {
-            visible = false;
-          }
-        }
 
         // Добавляем только видимые карточки
         if (visible) {
@@ -973,19 +489,10 @@ export class ProjectFiltersManager {
    * Предотвращает накопление listeners при SPA-навигации
    */
   destroy() {
-    // Удаление document click listener
-    if (this.boundDocumentClickHandler) {
-      document.removeEventListener('click', this.boundDocumentClickHandler, true);
-      this.boundDocumentClickHandler = null;
-    }
-    
     // Сброс состояния
     this.activeFilters = {
       category: [],
-      status: [],
-      year: [],
     };
-    this.savedYearButtonWidth = null;
     this.projectFiltersTemplate = null;
     this.isApplyingFilters = false;
   }
