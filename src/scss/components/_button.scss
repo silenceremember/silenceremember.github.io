@@ -68,3 +68,23 @@
     color: var(--color-bg-primary);
   }
 }
+
+/* Главная кнопка выглядит как остальные: рамка, без заливки и без красного квадрата
+   (красная заливка читалась бы как «включено»); при наведении красная заливка */
+.cta-button-primary {
+  background-color: transparent;
+  border-color: var(--color-text-primary);
+  color: var(--color-text-primary);
+}
+
+.cta-button-primary::before {
+  content: none;
+  display: none;
+}
+
+.cta-button-primary:hover,
+.cta-button-primary:focus-visible {
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #f5f5f5;
+}

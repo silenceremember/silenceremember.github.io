@@ -226,10 +226,6 @@ body:not(.home) #background-container {
   display: none;
 }
 
-body.home #background-container {
-  opacity: 0.5;
-}
-
 /* Услуги: таблица «что / пример» */
 .services-table-wrap {
   margin-top: var(--spacing-xl);
@@ -567,84 +563,6 @@ body {
   scroll-padding-bottom: calc(var(--header-footer-height) + 1rem);
 }
 
-/* ===================== Главная ===================== */
-
-/* Контейнер как у остальных страниц (page-container): поля 32 px, при 1440 контент по линии x = 144 */
-
-/* Первый экран: имя, портрет, роль и кнопки */
-.home-hero.hh {
-  position: relative;
-  grid-template-columns: 1fr;
-  grid-template-rows: auto 1fr auto auto;
-  isolation: isolate;
-}
-
-.hh-portrait {
-  position: absolute;
-  z-index: -1;
-  top: 0;
-  right: 4%;
-  bottom: 20%;
-  width: min(40%, 440px);
-  pointer-events: none;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    object-position: 50% 100%;
-    border: 0;
-    mask-image: linear-gradient(to bottom, #121212 70%, transparent 100%);
-  }
-}
-
-.home-location {
-  margin: 0;
-  color: var(--color-secondary);
-  font-size: var(--fs-small);
-  font-weight: 500;
-}
-
-.hh-name {
-  grid-row: 3;
-  display: flex;
-  flex-direction: column;
-  font-size: var(--fs-display);
-  font-weight: 900;
-  line-height: var(--lh-display);
-  letter-spacing: var(--ls-display);
-  text-transform: uppercase;
-
-  .hh-line {
-    display: block;
-  }
-
-  /* Знак владельца: красный квадрат вместо точки */
-  .hh-line:last-child::after {
-    content: '';
-    display: inline-block;
-    width: 0.16em;
-    height: 0.16em;
-    margin-left: 0.04em;
-    background: var(--color-accent);
-    vertical-align: baseline;
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .hh-line {
-    animation: hh-rise 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-  }
-
-  .hh-line:last-child {
-    animation-delay: 0.08s;
-  }
-
-  .hh-portrait img {
-    animation: hh-fade 0.7s ease-out both;
-  }
-}
-
 @keyframes hh-rise {
   from {
     clip-path: inset(0 0 100% 0);
@@ -667,342 +585,7 @@ body {
   }
 }
 
-/* Разделы */
-.home-section {
-  margin-top: calc(var(--section-gap) - var(--section-pad));
-  padding-top: var(--section-pad);
-
-  > .case-section-title {
-    margin: 0 0 var(--spacing-lg);
-  }
-}
-
-/* Горизонтальные линии разделов от линии до линии рамки */
-.home-section {
-  position: relative;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: -1px;
-    left: calc((100vw - 100%) / -2);
-    right: calc((100vw - 100%) / -2);
-    height: 1px;
-    background: var(--line-color);
-    opacity: 0.35;
-    pointer-events: none;
-  }
-}
-
-@media (min-width: 1232px) {
-  .home-section {
-    &::before {
-      left: calc((100% - var(--max-width-large)) / 2 - var(--spacing-content-side));
-      right: calc((100% - var(--max-width-large)) / 2 - var(--spacing-content-side));
-    }
-  }
-}
-
-/* Избранные кейсы */
-.home-cases {
-  display: grid;
-  gap: 4rem;
-}
-
-.home-case {
-  display: grid;
-  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-  gap: 2rem 3rem;
-  align-items: center;
-}
-
-.home-case-image {
-  display: block;
-  overflow: hidden;
-  border: 1px solid var(--color-divider);
-
-  img {
-    display: block;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 16 / 10;
-    object-fit: cover;
-    object-position: 50% 0;
-    transition: filter 0.25s ease, transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
-}
-
-.home-case-body {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.home-case-meta {
-  margin: 0 0 var(--spacing-xs);
-  color: var(--color-secondary);
-  font-size: var(--fs-small);
-  font-weight: 500;
-}
-
-/* Названия кейсов в карточках и в списке: один стиль */
-.home-case-title,
-.hi-title {
-  font-size: var(--fs-h3);
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: var(--ls-heading);
-  text-transform: none;
-}
-
-.home-case-title {
-  margin: 0 0 var(--spacing-sm);
-
-  a {
-    color: inherit;
-    text-decoration: none;
-
-    /* Единственная ссылка карточки растянута на всю карточку */
-    &::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-    }
-
-    /* Глобальный :focus-visible с !important: перебиваем тем же весом, рамка одна на карточке */
-    &:focus-visible {
-      outline: none !important;
-    }
-
-    /* На тач-экранах сама ссылка-заголовок тоже не ниже 44 px */
-    @media (pointer: coarse) {
-      display: inline-flex;
-      align-items: center;
-      min-height: var(--target-min);
-    }
-  }
-}
-
-/* Фокус с клавиатуры обводит всю карточку, а не только заголовок */
-.home-case:has(.home-case-title a:focus-visible) {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 8px;
-}
-
-.home-case-body p:not(.home-case-meta) {
-  margin: 0;
-  max-width: 34em;
-  color: var(--color-text-muted);
-  font-size: var(--fs-body);
-  line-height: var(--lh-body);
-}
-
 /* Ч/б в покое и цвет при наведении: только с мышью. На тач-экранах всегда в цвете */
-@media (hover: hover) and (pointer: fine) {
-  .home-case-image img {
-    filter: grayscale(1) contrast(1.08);
-  }
-
-  .home-case:hover .home-case-image img,
-  .home-case:focus-within .home-case-image img {
-    filter: none;
-    transform: scale(1.02);
-  }
-
-  .home-case:hover .home-case-title a {
-    color: var(--color-accent-text);
-  }
-}
-
-/* Остальные кейсы: строки списка */
-.home-index {
-  margin: var(--spacing-xxl) 0 0;
-  padding: 0;
-  list-style: none;
-  border-top: 1px solid var(--color-divider);
-}
-
-.hi-row a {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: baseline;
-  gap: var(--spacing-md);
-  padding: var(--spacing-sm) 0;
-  border-bottom: 1px solid var(--color-divider);
-  color: var(--color-text-primary);
-  text-decoration: none;
-}
-
-.hi-thumb {
-  display: none;
-}
-
-.hi-title {
-  justify-self: start;
-  transition: color 0.1s, transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-/* Ширина по тексту: по ней кадр превью встаёт между названием и подписью */
-.hi-meta {
-  justify-self: end;
-  color: var(--color-secondary);
-  font-size: var(--fs-small);
-  text-align: right;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .hi-row a:hover .hi-title,
-  .hi-row a:focus-visible .hi-title {
-    color: var(--color-accent-text);
-    transform: translateX(8px);
-  }
-}
-
-.hi-float {
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 50;
-  width: 240px;
-  aspect-ratio: 16 / 10;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.12s;
-  border: 1px solid var(--line-color);
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  &.on {
-    opacity: 1;
-  }
-}
-
-.home-all {
-  margin-top: var(--spacing-lg);
-}
-
-/* Контакты: одна рамка на контакт, название и адрес внутри */
-.home-contact-list {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--spacing-sm);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.home-contact {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
-  width: 100%;
-  min-height: 0;
-  padding: var(--spacing-md);
-  border: 1px solid var(--color-text-primary);
-  color: var(--color-text-primary);
-  text-decoration: none;
-  transition: background-color 0.1s, color 0.1s;
-
-  &:hover,
-  &:focus-visible {
-    background-color: var(--color-text-primary);
-    color: var(--color-bg-primary);
-
-    .home-contact-label {
-      color: inherit;
-    }
-  }
-}
-
-.home-contact-label {
-  color: var(--color-secondary);
-  font-size: var(--fs-label);
-  font-weight: 600;
-  letter-spacing: var(--ls-label);
-  text-transform: uppercase;
-}
-
-.home-contact-value {
-  font-size: var(--fs-h3);
-  font-weight: 600;
-  line-height: 1.25;
-  letter-spacing: var(--ls-heading);
-  overflow-wrap: anywhere;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hi-row a:hover .hi-title,
-  .hi-row a:focus-visible .hi-title,
-  .home-case:hover .home-case-image img,
-  .home-case:focus-within .home-case-image img {
-    transform: none;
-  }
-}
-
-@include tablet-and-mobile {
-  .home-hero.hh {
-    min-height: 0;
-  }
-
-  .hh-portrait {
-    position: relative;
-    grid-row: 2;
-    right: auto;
-    bottom: auto;
-    width: 100%;
-    height: 44vh;
-    max-height: 360px;
-    margin: var(--spacing-sm) 0 calc(var(--spacing-lg) * -1);
-  }
-
-  .hh-name .hh-line {
-    white-space: nowrap;
-  }
-
-  .home-case {
-    grid-template-columns: 1fr;
-    gap: var(--spacing-sm);
-  }
-
-  .home-cases {
-    gap: var(--spacing-xl);
-  }
-
-  .home-contact-list {
-    grid-template-columns: 1fr;
-  }
-
-  .home-contact {
-    padding: var(--spacing-sm) var(--spacing-md);
-  }
-
-  .hi-row a {
-    grid-template-columns: 72px minmax(0, 1fr);
-    align-items: center;
-    column-gap: var(--spacing-sm);
-    row-gap: 2px;
-  }
-
-  .hi-thumb {
-    display: block;
-    grid-row: span 2;
-    width: 72px;
-    height: 45px;
-    object-fit: cover;
-  }
-
-  .hi-meta {
-    justify-self: start;
-    text-align: left;
-  }
-}
 
 /* ===================== 404: одна кнопка «На главную» ===================== */
 .page-404-content {
@@ -1059,16 +642,6 @@ body {
    в base/_typography.scss, миксинах page-title/section-title и в правилах H1/H2 в начале файла */
 
 /* Карточка кейса на главной: картинка около 480 px, текст рядом */
-@media (min-width: 1024px) {
-  .home-case {
-    grid-template-columns: minmax(0, 480px) minmax(0, 1fr);
-    gap: 1.5rem 3rem;
-  }
-
-  .home-cases {
-    gap: 3rem;
-  }
-}
 
 /* Мобильные поля 20 px */
 @include tablet-and-mobile {
@@ -1079,16 +652,6 @@ body {
 }
 
 /* Первый экран под новую шкалу: портрет и высота соразмерны имени */
-@media (min-width: 1024px) {
-  .home-hero.hh {
-    min-height: 0;
-    padding: 3rem 0 1.5rem;
-  }
-
-  .hh-name {
-    margin-top: 12rem;
-  }
-}
 
 /* «Кейсы»: первая секция ближе к фильтру категорий */
 .projects-grid > .projects-section:first-child .projects-section-header {
@@ -1281,127 +844,6 @@ html.lightbox-open body {
   }
 }
 
-/* Раунд 28: первый экран одним блоком (имя, роль, текст, кнопки без разделителей) */
-.home-hero.hh {
-  display: block;
-  min-height: 0;
-  padding: 3rem 0 4rem;
-}
-
-.hh-top {
-  margin-bottom: 9rem;
-}
-
-.hh-name {
-  margin: 0;
-}
-
-.hh-body {
-  max-width: 36rem;
-  margin-top: 1.75rem;
-
-  .home-role {
-    margin: 0 0 0.75rem;
-    font-size: var(--fs-role);
-    font-weight: 600;
-  }
-
-  .hh-lead {
-    margin: 0 0 1.75rem;
-    font-size: var(--fs-lead);
-    line-height: 1.55;
-    color: var(--color-text-primary);
-    opacity: 0.86;
-  }
-
-  .cta-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    margin: 0;
-  }
-}
-
-@media (min-width: 1024px) {
-  .hh-portrait {
-    top: 2rem;
-    bottom: auto;
-    height: calc(100% - 4rem);
-    width: min(38%, 420px);
-    right: 4%;
-  }
-}
-
-@include tablet-and-mobile {
-  .hh-top {
-    margin-bottom: 0;
-  }
-
-  .home-hero.hh {
-    display: flex;
-    flex-direction: column;
-    padding-bottom: 3rem;
-  }
-
-  .hh-portrait {
-    order: 1;
-  }
-
-  .hh-name {
-    order: 2;
-  }
-
-  .hh-body {
-    order: 3;
-  }
-}
-
-/* Главная кнопка не залита красным: красная заливка читается как «включено».
-   Все кнопки в рамке, главная отмечена красным квадратом */
-.cta-button-primary {
-  background-color: transparent;
-  border-color: var(--color-text-primary);
-  color: var(--color-text-primary);
-
-  &::before {
-    width: 0.5em;
-    height: 0.5em;
-    margin-right: 0.55em;
-    background: var(--color-accent);
-    vertical-align: 0.06em;
-  }
-}
-
-.hh-body .cta-buttons {
-  flex-direction: row !important;
-  max-width: none !important;
-
-  .cta-button {
-    flex: 0 1 auto;
-    min-width: 0;
-  }
-}
-
-@media (min-width: 1024px) {
-  .hh-top {
-    margin-bottom: 6rem;
-  }
-}
-
-/* Владелец: без красных квадратов в кнопках, все кнопки одинаковые в рамке */
-.cta-button-primary::before {
-  content: none;
-  display: none;
-}
-
-/* «Кейсы» ведёт себя как остальные кнопки: при наведении красная заливка */
-.cta-button-primary:hover,
-.cta-button-primary:focus-visible {
-  background-color: var(--color-accent);
-  border-color: var(--color-accent);
-  color: #f5f5f5;
-}
-
 /* ===================== Фаза A: доступность и единообразие ===================== */
 
 /* Кнопки одного размера и вида везде: рамка, 13 px капсом, 40 px (44 px на тач-экранах), заливка красным при наведении */
@@ -1453,10 +895,6 @@ html.lightbox-open body {
   color: #f5f5f5;
 }
 
-.hh-body .cta-buttons .cta-button {
-  padding: var(--btn-pad-y) var(--btn-pad-x);
-}
-
 /* Шапка: плотная подложка, текст меню читается поверх анимированных колец */
 .header {
   background-color: rgba(18, 18, 18, 0.85);
@@ -1464,12 +902,6 @@ html.lightbox-open body {
 
 /* Мелкие ссылки не меньше 24 px по высоте (44 px на тач-экранах) */
 .footer-email {
-  display: inline-flex;
-  align-items: center;
-  min-height: 24px;
-}
-
-.home-case-title a {
   display: inline-flex;
   align-items: center;
   min-height: 24px;
@@ -1505,26 +937,10 @@ html.lightbox-open body {
   min-height: 100svh;
 }
 
-/* Равные отступы между разделами главной: от кнопок первого экрана до «Избранных кейсов»
-   столько же, сколько от «Все кейсы» до «Контактов» (отступ задаёт .home-section) */
-.home-hero.hh {
-  padding-bottom: 0 !important;
-}
-
 /* Первый экран главной на низких экранах (1024×768, 1366×768) занимает весь экран:
    заголовок следующего раздела не режется сгибом */
-@media (min-width: 1024px) and (max-height: 800px) {
-  .home-hero.hh {
-    min-height: calc(100svh - var(--header-footer-height));
-  }
-}
 
 /* Телефон: портрет ниже, все три кнопки первого экрана видны без прокрутки */
-@include tablet-and-mobile {
-  .hh-portrait {
-    height: min(30svh, 300px);
-  }
-}
 
 /* Окно рисунка: подпись кнопки и видимый фокус сразу */
 .lightbox-close:focus {

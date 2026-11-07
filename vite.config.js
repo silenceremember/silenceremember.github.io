@@ -78,7 +78,7 @@ export default defineConfig({
       },
     },
     // PurgeCSS для удаления неиспользуемых стилей
-    vitePurgeCSS(),
+    vitePurgeCSS({ publicDir: resolve(__dirname, 'public') }),
     // Шапка и подвал в HTML (навигация без JS), Inter 400–900 своими файлами, preload и запасной шрифт с метриками
     siteShell({ publicDir: resolve(__dirname, 'public') }),
     // HTML минификация и оптимизация
