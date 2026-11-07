@@ -1535,3 +1535,9 @@ html.lightbox-open body {
     margin-bottom: 6rem;
   }
 }
+
+/* Владелец: без красных квадратов в кнопках, все кнопки одинаковые в рамке */
+.cta-button-primary::before {
+  content: none;
+  display: none;
+}
