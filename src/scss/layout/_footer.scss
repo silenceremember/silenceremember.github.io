@@ -39,8 +39,8 @@
   gap: var(--spacing-md);
   align-items: center;
   height: 100%;
-  /* Отступ var(--spacing-sm) слева и справа во всех режимах */
-  padding: 0 var(--spacing-sm);
+  /* Поля как у контента: 32 px на десктопе, 20 px на планшете и телефоне */
+  padding: 0 var(--spacing-lg);
   /* Контент ограничивается вертикальными линиями */
   /* Вертикальные линии находятся на: calc((100% - var(--max-width-large)) / 2 - var(--spacing-content-side)) от краёв */
   /* Ширина между линиями: var(--max-width-content) */
@@ -50,8 +50,8 @@
   /* На мобильных устройствах контент на всю ширину с отступами */
   @include tablet-and-mobile {
     max-width: 100%;
-    padding-left: var(--spacing-sm);
-    padding-right: var(--spacing-sm);
+    padding-left: 20px;
+    padding-right: 20px;
   }
 }
 

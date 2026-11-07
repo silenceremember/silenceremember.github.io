@@ -337,12 +337,6 @@ body.home #background-container {
   z-index: 2;
 }
 
-@media (min-width: 1024px) {
-  .home-page {
-    padding-left: 0;
-    padding-right: 0;
-  }
-}
 
 .case-figure:not(:has(figcaption)) {
   counter-increment: none;
@@ -398,25 +392,21 @@ body.home #background-container {
 @include tablet-and-mobile {
   .footer-copyright {
     white-space: nowrap;
-    font-size: 0.75rem;
+    font-size: var(--fs-label);
   }
 }
 
-/* P1-2: на мобильном фильтры не занимают первый экран */
+/* Фильтры категорий на телефоне переносятся на новую строку, а не уходят за край */
 @include tablet-and-mobile {
   .project-filters-options[data-filter='category'] {
-    @media (min-width: 600px) {
-      flex-wrap: wrap;
-      overflow-x: visible;
-    }
-
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    scrollbar-width: none;
-    padding-bottom: 2px;
+    flex-wrap: wrap;
+    overflow-x: visible;
 
     .project-filters-option {
-      flex: none;
+      flex: 0 1 auto;
+      max-width: 100%;
+      white-space: normal;
+      text-align: left;
     }
   }
 }
@@ -483,9 +473,12 @@ body.home #background-container {
 
 
 /* Дизайнер r5, P1-1: кнопка карточки в одну строку при длинной роли */
+/* Длинные подписи («Презентация в Google Slides») переносятся, а не обрезаются на 320 px */
 .project-card-button {
-  white-space: nowrap;
-  flex: none;
+  flex: 0 1 auto;
+  max-width: 100%;
+  white-space: normal;
+  text-align: center;
 }
 
 @include tablet-and-mobile {
@@ -590,9 +583,7 @@ body {
 }
 
 /* ===================== Главная ===================== */
-.home-page {
-  max-width: 1152px;
-}
+/* Контейнер как у остальных страниц (page-container): поля 32 px, при 1440 контент по линии x = 144 */
 
 /* Первый экран: имя, портрет, роль и кнопки */
 .home-hero.hh {
@@ -1043,12 +1034,6 @@ body {
   }
 }
 
-@media (min-width: 1024px) {
-  .home-page {
-    padding-left: 0;
-    padding-right: 0;
-  }
-}
 
 @include tablet-and-mobile {
   .home-hero.hh {
@@ -1220,31 +1205,11 @@ body {
   margin-top: var(--spacing-md);
 }
 
-.cv-header-contact-link,
-.cv-header-contact-link:hover {
-  display: inline-flex;
-  align-items: center;
-  min-height: var(--target-min);
-  padding: 0 14px;
-  border: 1px solid var(--color-text-primary);
+/* Вид рамки задан общим правилом кнопок в блоке «Фаза A» */
+.cv-header-contact-link {
   color: var(--color-text-primary);
-  font-size: var(--fs-small);
-  font-weight: 500;
-  line-height: 1.2;
   text-decoration: none;
-  transition: background-color 0.1s, color 0.1s;
-}
-
-.cv-header-contact-link:focus-visible {
-  background-color: var(--color-text-primary);
-  color: var(--color-bg-primary);
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .cv-header-contact-link:hover {
-    background-color: var(--color-text-primary);
-    color: var(--color-bg-primary);
-  }
+  transition: background-color 0.1s, color 0.1s, border-color 0.1s;
 }
 
 /* Мета сертификатов и курсов: точка вместо «×» */
@@ -1548,4 +1513,133 @@ html.lightbox-open body {
   background-color: var(--color-accent);
   border-color: var(--color-accent);
   color: #f5f5f5;
+}
+
+/* ===================== Фаза A: доступность и единообразие ===================== */
+/* Кнопки одного размера и вида везде: рамка, 13 px капсом, 40 px (44 px на тач-экранах), заливка красным при наведении */
+.cta-button,
+.project-card-button,
+.research-card-button,
+.cv-certificate-button,
+.project-filters-option,
+.header-nav-item,
+.research-intro a,
+.cv-header-contact-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--target-min);
+  height: auto;
+  padding: var(--btn-pad-y) var(--btn-pad-x);
+  border: 1px solid var(--color-text-primary);
+  font-size: var(--fs-button);
+  font-weight: 600;
+  letter-spacing: var(--ls-label);
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+/* Меню: белые рамки, тёмная подложка поверх колец фона; текущий пункт залит белым */
+.header-nav-item {
+  background-color: var(--color-bg-primary);
+
+  &.active {
+    background-color: var(--color-text-primary);
+    color: var(--color-bg-primary);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .research-intro a:hover,
+  .cv-header-contact-link:hover {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #f5f5f5;
+  }
+}
+
+.research-intro a:focus-visible,
+.cv-header-contact-link:focus-visible {
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #f5f5f5;
+}
+
+.hh-body .cta-buttons .cta-button {
+  padding: var(--btn-pad-y) var(--btn-pad-x);
+}
+
+/* Шапка: плотная подложка, текст меню читается поверх анимированных колец */
+.header {
+  background-color: rgba(18, 18, 18, 0.85);
+}
+
+/* Мелкие ссылки не меньше 24 px по высоте (44 px на тач-экранах) */
+.footer-email {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+}
+
+.home-case-title a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+}
+
+/* Разделы на «Резюме», «Кейсах» и «Науке» разделены линией, как на главной и в кейсах */
+.cv-section:not(.cv-header-section),
+.projects-section + .projects-section,
+.research-diploma-section,
+.research-publications-section {
+  border-top: 1px solid var(--color-divider);
+  padding-top: var(--section-pad);
+}
+
+/* Кегли по шкале */
+.research-year-header {
+  font-size: var(--fs-h2);
+}
+
+.cv-header-role {
+  font-size: var(--fs-h3) !important;
+}
+
+/* Обложки «Кейсов» от левого верхнего угла: у Capybara видна левая колонка, у документов начало страницы */
+.project-card-image {
+  object-position: 0 0;
+}
+
+/* Страницы, которые рисует JS, сразу занимают экран: подвал на телефоне не прыгает */
+.projects-page,
+.research-page,
+.cv-page {
+  min-height: 100svh;
+}
+
+/* Равные отступы между разделами главной: от кнопок первого экрана до «Избранных кейсов»
+   столько же, сколько от «Все кейсы» до «Контактов» (отступ задаёт .home-section) */
+.home-hero.hh {
+  padding-bottom: 0 !important;
+}
+
+/* Первый экран главной на низких экранах (1024×768, 1366×768) занимает весь экран:
+   заголовок следующего раздела не режется сгибом */
+@media (min-width: 1024px) and (max-height: 800px) {
+  .home-hero.hh {
+    min-height: calc(100svh - var(--header-footer-height));
+  }
+}
+
+/* Телефон: портрет ниже, все три кнопки первого экрана видны без прокрутки */
+@include tablet-and-mobile {
+  .hh-portrait {
+    height: min(30svh, 300px);
+  }
+}
+
+/* Окно рисунка: подпись кнопки и видимый фокус сразу */
+.lightbox-close:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
 }

@@ -770,10 +770,6 @@
 
 /* Отключаем hover эффекты на мобильных и планшетах */
 @include tablet-and-mobile {
-  .cv-header-contact-link:hover {
-    color: var(--color-secondary);
-  }
-
   .cv-contact-item:hover {
     color: var(--color-text-primary);
   }

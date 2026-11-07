@@ -205,7 +205,7 @@ html[lang='en'] .i18n-ru {
   display: inline-block;
   margin-bottom: var(--spacing-xs);
   padding: 2px 8px;
-  font-size: 0.75rem;
+  font-size: var(--fs-label);
   font-weight: var(--font-weight-bold);
   letter-spacing: 0.06em;
   border: 1px solid currentColor;
