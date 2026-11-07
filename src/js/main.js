@@ -1,6 +1,7 @@
 // Динамические импорты для уменьшения initial bundle size
 // Импортируем только текущую страницу, остальные загружаются по требованию
 import { BasePage } from './pages/BasePage.js';
+import './konami-trigger.js';
 import { CustomCursor } from './components/index.js';
 import { initViewportHeight } from './utils/ViewportHeight.js';
 import { getPerformanceMonitor } from './services/PerformanceMonitor.js';
