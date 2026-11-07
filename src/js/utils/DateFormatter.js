@@ -28,8 +28,6 @@ export class DateFormatter {
         const [year, month] = start.split('-');
         const monthIndex = parseInt(month, 10) - 1;
         start = `${monthNames[monthIndex]} ${year}`;
-      } else if (start && start.match(/^\d{4}$/)) {
-        start = start;
       }
       
       // Форматируем конечную дату
@@ -37,8 +35,6 @@ export class DateFormatter {
         const [year, month] = end.split('-');
         const monthIndex = parseInt(month, 10) - 1;
         end = `${monthNames[monthIndex]} ${year}`;
-      } else if (end && end.match(/^\d{4}$/)) {
-        end = end;
       }
     }
     

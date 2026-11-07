@@ -1,3 +1,16 @@
 {
-  "extends": ["stylelint-config-standard", "stylelint-config-prettier"]
+  "extends": ["stylelint-config-standard"],
+  "rules": {
+    "at-rule-no-unknown": [
+      true,
+      {
+        "ignoreAtRules": ["use", "forward", "import", "mixin", "include", "extend", "content", "if", "else", "each", "for", "while", "function", "return", "debug", "warn", "error"]
+      }
+    ],
+    "import-notation": "string",
+    "no-invalid-position-at-import-rule": null,
+    "function-no-unknown": null,
+    "no-invalid-double-slash-comments": null,
+    "nesting-selector-no-missing-scoping-root": null
+  }
 }
