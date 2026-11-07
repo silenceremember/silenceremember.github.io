@@ -13,15 +13,8 @@
     background-color var(--transition-duration-base) ease,
     color var(--transition-duration-base) ease;
 
-  /* Светлый режим: черный фон */
-  background-color: var(--theme-light-text-primary);
-  color: var(--theme-light-bg-primary);
-
-  /* Темный режим: белый фон */
-  [data-theme='dark'] & {
-    background-color: var(--theme-dark-text-primary);
-    color: var(--theme-dark-bg-primary);
-  }
+  background-color: var(--theme-dark-text-primary);
+  color: var(--theme-dark-bg-primary);
 }
 
 /* Стили для счетчиков в кнопках фильтров */
@@ -30,25 +23,15 @@
 
   /* Активное состояние - работает всегда */
   .project-filters-option[aria-pressed='true'] & {
-    background-color: var(--theme-light-bg-primary);
-    color: var(--theme-light-text-primary);
-
-    [data-theme='dark'] & {
-      background-color: var(--theme-dark-bg-primary);
-      color: var(--theme-dark-text-primary);
-    }
+    background-color: var(--theme-dark-bg-primary);
+    color: var(--theme-dark-text-primary);
   }
 
   /* Hover эффект - только на десктопе */
   @include desktop {
     .project-filters-option:hover & {
-      background-color: var(--theme-light-bg-primary);
-      color: var(--theme-light-text-primary);
-
-      [data-theme='dark'] & {
-        background-color: var(--theme-dark-bg-primary);
-        color: var(--theme-dark-text-primary);
-      }
+      background-color: var(--theme-dark-bg-primary);
+      color: var(--theme-dark-text-primary);
     }
   }
 }
@@ -59,25 +42,15 @@
 
   /* Активное состояние - работает всегда */
   .projects-section-expand[aria-expanded='true'] & {
-    background-color: var(--theme-light-bg-primary);
-    color: var(--theme-light-text-primary);
-
-    [data-theme='dark'] & {
-      background-color: var(--theme-dark-bg-primary);
-      color: var(--theme-dark-text-primary);
-    }
+    background-color: var(--theme-dark-bg-primary);
+    color: var(--theme-dark-text-primary);
   }
 
   /* Hover эффект - только на десктопе */
   @include desktop {
     .projects-section-expand:hover & {
-      background-color: var(--theme-light-bg-primary);
-      color: var(--theme-light-text-primary);
-
-      [data-theme='dark'] & {
-        background-color: var(--theme-dark-bg-primary);
-        color: var(--theme-dark-text-primary);
-      }
+      background-color: var(--theme-dark-bg-primary);
+      color: var(--theme-dark-text-primary);
     }
   }
 }
@@ -89,13 +62,8 @@
 
   /* Активное состояние - работает всегда */
   .project-filters-year-button.has-count & {
-    background-color: var(--theme-light-bg-primary);
-    color: var(--theme-light-text-primary);
-
-    [data-theme='dark'] & {
-      background-color: var(--theme-dark-bg-primary);
-      color: var(--theme-dark-text-primary);
-    }
+    background-color: var(--theme-dark-bg-primary);
+    color: var(--theme-dark-text-primary);
   }
 
   /* Hover и focus эффекты - только на десктопе */
@@ -103,13 +71,8 @@
     .project-filters-year-button:hover &,
     .project-filters-year-option:hover &,
     .project-filters-year-option:focus & {
-      background-color: var(--theme-light-bg-primary);
-      color: var(--theme-light-text-primary);
-
-      [data-theme='dark'] & {
-        background-color: var(--theme-dark-bg-primary);
-        color: var(--theme-dark-text-primary);
-      }
+      background-color: var(--theme-dark-bg-primary);
+      color: var(--theme-dark-text-primary);
     }
   }
 }

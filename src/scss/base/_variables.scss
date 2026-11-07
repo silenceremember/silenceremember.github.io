@@ -17,20 +17,12 @@
   /* dvh (dynamic viewport height) - автоматически адаптируется при скрытии/показе UI браузера */
   --vh-dynamic: 1dvh;
   
-  --theme-light-text-primary: #121212;
-  --theme-light-bg-primary: #f5f5f5;
-  --theme-light-accent: #d90429;
-  --theme-light-accent-bg: rgba(217, 4, 41, 0.12);
-  --theme-light-divider: #b3b3b3; /* Улучшена контрастность: было #cccccc (1.6:1), стало #b3b3b3 (3.2:1) */
-  --theme-light-placeholder: #444444;
-  --theme-light-secondary: #666666; /* Улучшена контрастность: было #888888 (3.1:1), стало #666666 (4.6:1) для соответствия WCAG AA */
 
   --theme-dark-text-primary: #f5f5f5;
   --theme-dark-bg-primary: #121212;
   --theme-dark-accent: #d90429;
   --theme-dark-accent-bg: rgba(217, 4, 41, 0.22);
   --theme-dark-accent-text: #d90429;
-  --theme-light-accent-text: #d90429;
   --theme-dark-divider: #888888;
   --theme-dark-placeholder: #444444;
   --theme-dark-secondary: #888888;
@@ -176,17 +168,6 @@
 
   /* Размеры для компонентов */
   --loading-square-size: 14px; /* Размер квадратиков в индикаторе загрузки на мобильных */
-}
-
-[data-theme='dark'] {
-  --color-text-primary: var(--theme-dark-text-primary);
-  --color-bg-primary: var(--theme-dark-bg-primary);
-  --color-accent: var(--theme-dark-accent);
-  --color-accent-text: var(--theme-dark-accent-text);
-  --color-accent-bg: var(--theme-dark-accent-bg);
-  --color-divider: var(--theme-dark-divider);
-  --color-placeholder: var(--theme-dark-placeholder);
-  --color-secondary: var(--theme-dark-secondary);
 }
 
 @media (pointer: coarse) {

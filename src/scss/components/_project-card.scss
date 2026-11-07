@@ -152,15 +152,8 @@
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
 
-  /* Светлый режим: светлый фон с темным текстом */
-  background-color: var(--theme-light-bg-primary);
-  color: var(--theme-light-text-primary);
-
-  /* Темный режим: темный фон со светлым текстом */
-  [data-theme='dark'] & {
-    background-color: var(--theme-dark-bg-primary);
-    color: var(--theme-dark-text-primary);
-  }
+  background-color: var(--theme-dark-bg-primary);
+  color: var(--theme-dark-text-primary);
 }
 
 .project-card-tags {

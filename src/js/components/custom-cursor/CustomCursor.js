@@ -24,7 +24,7 @@ export class CustomCursor {
     this.pendingStorageX = null;
     this.pendingStorageY = null;
     this.interactiveSelector =
-      'a, button, .header-language, .header-theme, .social-link, .footer-decorative-square, .header-menu-button, .project-card, .research-card, .community-card';
+      'a, button, .header-language, .social-link, .footer-decorative-square, .header-menu-button, .project-card, .research-card, .community-card';
     this.isInitialized = false;
     // Кэш для оптимизации проверки hover
     this.cachedInteractiveElement = null;

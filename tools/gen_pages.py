@@ -117,8 +117,6 @@ def page(slug, title_ru, desc_ru, og, body, page_class, body_class='', og_type='
 {JSONLD if slug == 'index.html' else ''}
     <script>
       (function () {{
-        var theme = localStorage.getItem('theme');
-        document.documentElement.setAttribute('data-theme', theme === 'light' ? 'light' : 'dark');
         if (localStorage.getItem('language') === 'en') document.documentElement.setAttribute('lang', 'en');
       }})();
     </script>

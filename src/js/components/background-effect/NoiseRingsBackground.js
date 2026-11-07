@@ -263,7 +263,6 @@ export class NoiseRingsBackground {
     this.pressStartTime = 0;
 
     // Система тем
-    this.themeObserver = null;
     this.currentColors = {
       accent: this.config.accentColor,
       background: this.config.backgroundColor
@@ -479,15 +478,6 @@ export class NoiseRingsBackground {
   initColorManagement() {
     this.updateColorsFromCSS();
 
-    // Наблюдатель за изменением темы
-    this.themeObserver = new MutationObserver(() => {
-      this.updateColorsFromCSS();
-    });
-
-    this.themeObserver.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['data-theme']
-    });
   }
 
   /**
@@ -1052,10 +1042,6 @@ export class NoiseRingsBackground {
     }
 
     // Отключение observer
-    if (this.themeObserver) {
-      this.themeObserver.disconnect();
-      this.themeObserver = null;
-    }
 
     // Удаление canvas
     if (this.canvas && this.canvas.parentNode) {
