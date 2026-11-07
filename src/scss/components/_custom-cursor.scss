@@ -42,12 +42,8 @@ textarea,
     width 0.15s cubic-bezier(0.4, 0, 0.2, 1),
     height 0.15s cubic-bezier(0.4, 0, 0.2, 1),
     opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-  background-color: rgba(
-    18,
-    18,
-    18,
-    0.5
-  ); /* Полупрозрачный --color-bg-primary */
+  /* Полупрозрачный фон палитры */
+  background-color: color-mix(in srgb, var(--color-bg-primary) 50%, transparent);
   opacity: 0;
   /* Свойства для чёткого рендеринга */
   will-change: width, height;

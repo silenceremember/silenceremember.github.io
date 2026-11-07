@@ -24,3 +24,31 @@
     fill: var(--color-text-primary);
   }
 }
+
+/* Почта иконкой только на тач-экранах: там адрес текстом не помещается в 44 px по высоте */
+.social-link-mail {
+  display: none;
+}
+
+/* Тач: зона нажатия 44×44, иконка остаётся 24 px */
+@media (pointer: coarse) {
+  .footer-social {
+    gap: 0;
+    margin-left: -10px;
+  }
+
+  .social-link {
+    box-sizing: border-box;
+    width: 44px;
+    height: 44px;
+    padding: 10px;
+  }
+
+  .social-link-mail {
+    display: block;
+  }
+
+  .footer-email {
+    display: none;
+  }
+}

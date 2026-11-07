@@ -23,15 +23,6 @@ export class LanguageSwitcher {
     this.languageButton = document.querySelector('.header-language');
     if (!this.languageButton) return;
 
-    const ruIcon = this.languageButton.querySelector('.language-icon-ru');
-    const enIcon = this.languageButton.querySelector('.language-icon-en');
-    
-    // Убеждаемся, что начальное состояние установлено правильно
-    if (ruIcon && enIcon) {
-      ruIcon.classList.remove('active');
-      enIcon.classList.remove('active');
-    }
-
     this.applyLanguage(localization.getCurrentLanguage());
     this.languageButton.addEventListener('click', () => this.toggleLanguage());
 
@@ -40,24 +31,6 @@ export class LanguageSwitcher {
       this.applyLanguage(lang);
       this.updatePageContent();
     });
-
-    // Периодически проверяем и обновляем состояние после загрузки SVG
-    this.checkInterval = setInterval(() => {
-      const ruSvg = this.languageButton.querySelector('.language-icon-ru svg');
-      const enSvg = this.languageButton.querySelector('.language-icon-en svg');
-
-      if (ruSvg && enSvg) {
-        this.applyLanguage(localization.getCurrentLanguage());
-        clearInterval(this.checkInterval);
-      }
-    }, 50);
-
-    // Останавливаем проверку через 2 секунды, если SVG не загрузились
-    setTimeout(() => {
-      if (this.checkInterval) {
-        clearInterval(this.checkInterval);
-      }
-    }, 2000);
 
     // Обновляем контент страницы при инициализации
     this.updatePageContent();
@@ -68,25 +41,16 @@ export class LanguageSwitcher {
    * @param {string} lang - Код языка ('ru' или 'en')
    */
   applyLanguage(lang) {
-    const ruIcon = this.languageButton?.querySelector('.language-icon-ru');
-    const enIcon = this.languageButton?.querySelector('.language-icon-en');
+    if (!this.languageButton) return;
 
-    if (!ruIcon || !enIcon) return;
+    // Текущий язык виден текстом: активный вариант белый, второй серый
+    this.languageButton.querySelectorAll('.header-language-option').forEach((option) => {
+      option.classList.toggle('active', option.dataset.lang === lang);
+    });
 
-    // Убираем класс active со всех иконок
-    ruIcon.classList.remove('active');
-    enIcon.classList.remove('active');
-
-    // Добавляем класс active только к активной иконке
-    if (lang === 'ru') {
-      ruIcon.classList.add('active');
-    } else {
-      enIcon.classList.add('active');
-    }
-
-    // Обновляем aria-label
-    if (this.languageButton) {
-      const label = localization.t('common.aria.languageSwitch');
+    // aria-label называет текущий язык и язык, на который переключит кнопка
+    const label = localization.t('common.aria.languageSwitch');
+    if (label && label !== 'common.aria.languageSwitch') {
       this.languageButton.setAttribute('aria-label', label);
     }
     const themeButton = document.querySelector('.header-theme');

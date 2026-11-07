@@ -853,6 +853,11 @@ export class CVPage extends BasePage {
     // Кнопка скачивания PDF
     const downloadSection = document.getElementById('cv-download-section');
     if (downloadSection) {
+      // PDF сразу в шапке резюме, под именем и контактами: на телефоне это первый экран
+      const headerTop = document.querySelector('.cv-header-top');
+      if (headerTop && downloadSection.parentElement !== headerTop) {
+        headerTop.appendChild(downloadSection);
+      }
       // Сначала показываем секцию, чтобы CSS :empty не скрывал её
       downloadSection.style.display = 'block';
       downloadSection.style.visibility = 'visible';

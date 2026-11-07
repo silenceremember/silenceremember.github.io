@@ -61,6 +61,17 @@ main.fade-in-visible {
   /* Transition достаточно для плавной анимации */
 }
 
+/* Без появления при prefers-reduced-motion: контент виден сразу */
+@media (prefers-reduced-motion: reduce) {
+  .header-content,
+  .footer-content,
+  .content-wrapper,
+  main {
+    opacity: 1;
+    transition: none;
+  }
+}
+
 @include desktop {
   .header,
   .footer {

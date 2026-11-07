@@ -12,8 +12,9 @@
 
   .header-menu-button {
     display: flex;
-    width: 24px;
-    height: 24px;
+    width: var(--target-min);
+    height: var(--target-min);
+    margin-right: -10px;
     background-color: transparent;
     border: none;
     padding: 0;

@@ -767,37 +767,20 @@
 }
 
 /* Кнопка скачивания PDF */
+/* PDF резюме сразу под шапкой: одна из двух главных задач страницы */
 .cv-download-section {
-  margin-top: var(--spacing-section-large);
-  margin-bottom: var(--spacing-section-large-mobile);
-  text-align: center;
-
-  @include tablet-and-mobile {
-    margin-top: var(--spacing-section-large-mobile);
-    margin-bottom: var(--spacing-section-medium-mobile);
-  }
+  margin-top: var(--spacing-md);
+  margin-bottom: 0;
 }
 
 .cv-download-wrapper {
   display: flex;
-  justify-content: center;
-  gap: var(--spacing-md);
   flex-wrap: wrap;
-
-  @include tablet-and-mobile {
-    flex-direction: column;
-    align-items: center;
-    gap: var(--spacing-sm);
-  }
+  gap: var(--spacing-xs);
 }
 
 .cv-download-button {
-  min-width: 200px;
-
-  @include tablet-and-mobile {
-    width: 100%;
-    min-width: unset;
-  }
+  flex: 0 1 auto;
 }
 
 /* Навигационное меню для tablet режима */

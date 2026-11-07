@@ -68,70 +68,45 @@
   }
 }
 
+/* Переключатель языка: оба варианта текстом, текущий белый, второй серый */
 .header-language {
-  width: 34px;
-  height: 20px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
+  min-width: var(--target-min);
+  min-height: var(--target-min);
+  margin-left: -6px;
+  padding: 0 6px;
   background-color: transparent;
   border: none;
   cursor: pointer;
-  padding: 0;
-  position: relative;
+  font-family: var(--font-family);
+  font-size: var(--fs-small);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  line-height: 1;
 }
 
-.header-language svg {
-  width: auto;
-  height: 20px;
-  color: var(--color-text-primary);
-  transition: color var(--transition-duration-base) var(--timing-function-ease);
-  display: block;
-  margin: 0 auto;
+.header-language-option {
+  color: var(--color-secondary);
+  transition: color var(--transition-duration-fast) var(--timing-function-ease);
+
+  &.active {
+    color: var(--color-text-primary);
+  }
 }
 
-.header-language:hover svg {
-  color: var(--color-accent);
+.header-language-divider {
+  width: 1px;
+  height: 12px;
+  background: var(--color-secondary);
 }
 
-.language-icon-ru,
-.language-icon-en {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity var(--transition-duration-base) var(--timing-function-ease),
-    visibility var(--transition-duration-base) var(--timing-function-ease);
-}
-
-/* Показываем только активную иконку */
-.language-icon-ru.active,
-.language-icon-en.active {
-  opacity: 1 !important;
-  visibility: visible !important;
-}
-
-/* Скрываем неактивную иконку явно */
-.language-icon-ru:not(.active),
-.language-icon-en:not(.active) {
-  opacity: 0 !important;
-  visibility: hidden !important;
-}
-
-.language-icon-ru svg,
-.language-icon-en svg {
-  width: 34px !important;
-  height: 20px !important;
-  max-width: 34px;
-  max-height: 20px;
-  display: block;
-  margin: 0 auto;
+@media (hover: hover) and (pointer: fine) {
+  .header-language:hover .header-language-option:not(.active) {
+    color: var(--color-text-primary);
+  }
 }
 
 .header-theme {
@@ -298,10 +273,6 @@
 
 /* Отключаем hover эффекты на мобильных и планшетах */
 @include tablet-and-mobile {
-  .header-language:hover svg {
-    color: var(--color-text-primary);
-  }
-
   .header-theme:hover svg {
     fill: var(--color-text-primary);
   }

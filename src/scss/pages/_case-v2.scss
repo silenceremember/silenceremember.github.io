@@ -76,7 +76,6 @@ h2,
   line-height: var(--lh-body);
 }
 
-.case-kicker,
 .case-meta-item dt,
 .case-next-label,
 .case-back {
@@ -140,8 +139,9 @@ h2,
       flex: none;
       font-size: var(--fs-label);
       font-weight: 600;
-      letter-spacing: 0.08em;
-      color: var(--color-accent-text);
+      letter-spacing: var(--ls-label);
+      /* Мелкий текст не красный: 3,57:1 на тёмном фоне не проходит AA */
+      color: var(--color-secondary);
       font-variant-numeric: tabular-nums;
     }
   }
@@ -263,15 +263,6 @@ body.home #background-container {
     width: 45%;
   }
 
-  td a {
-    color: var(--color-text-primary);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-
-    &:hover {
-      color: var(--color-accent-text);
-    }
-  }
 }
 
 /* Прогресс чтения на статических страницах */
@@ -331,13 +322,6 @@ body.home #background-container {
   vertical-align: 0.15em;
   background-color: var(--color-accent);
   flex-shrink: 0;
-}
-
-/* Раунд 7 */
-.case .case-kicker,
-.home-page .case-kicker {
-  font-size: var(--fs-label);
-  max-width: none;
 }
 
 .project-card-title {
@@ -1141,4 +1125,30 @@ body {
   justify-content: center;
   width: auto;
   margin-top: var(--spacing-md);
+}
+
+/* ===================== Зоны нажатия на тач-экранах: не меньше 44×44 ===================== */
+@media (pointer: coarse) {
+  .project-filters-option,
+  .projects-section-expand,
+  .project-card-button,
+  .research-card-button,
+  .cv-certificate-button {
+    min-height: var(--target-min);
+    height: auto;
+  }
+
+  .services-table td a,
+  .research-intro a,
+  .research-publication-abstract-toggle,
+  .cv-header-contact-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--target-min);
+  }
+
+  /* Глаз в подвале: 7 тапов открывают пасхалку */
+  .footer-logo {
+    min-height: var(--target-min);
+  }
 }

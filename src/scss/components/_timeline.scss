@@ -111,10 +111,12 @@
 }
 
 .timeline-description {
-  font-size: var(--font-size-small);
-  color: var(--color-secondary);
+  max-width: var(--measure);
+  font-size: 1rem;
+  line-height: var(--lh-body);
+  color: var(--color-text-muted);
   margin-top: var(--spacing-xs);
-  font-style: italic;
+  font-style: normal;
   /* Разрешаем выделение текста */
   user-select: text;
   -webkit-user-select: text;
@@ -133,7 +135,8 @@
   li {
     position: relative;
     padding-left: var(--spacing-md);
-    font-size: var(--font-size-base);
+    max-width: var(--measure);
+    font-size: 1rem;
     line-height: var(--line-height-base);
     color: var(--color-text-primary);
 
@@ -146,7 +149,6 @@
     }
 
     @include tablet-and-mobile {
-      font-size: var(--font-size-small);
       padding-left: var(--spacing-sm);
     }
   }
