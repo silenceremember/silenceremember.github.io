@@ -20,7 +20,7 @@
   --theme-light-text-primary: #121212;
   --theme-light-bg-primary: #f5f5f5;
   --theme-light-accent: #d90429;
-  --theme-light-accent-bg: #f9d5db;
+  --theme-light-accent-bg: rgba(217, 4, 41, 0.12);
   --theme-light-divider: #b3b3b3; /* Улучшена контрастность: было #cccccc (1.6:1), стало #b3b3b3 (3.2:1) */
   --theme-light-placeholder: #444444;
   --theme-light-secondary: #666666; /* Улучшена контрастность: было #888888 (3.1:1), стало #666666 (4.6:1) для соответствия WCAG AA */
@@ -28,9 +28,9 @@
   --theme-dark-text-primary: #f5f5f5;
   --theme-dark-bg-primary: #121212;
   --theme-dark-accent: #d90429;
-  --theme-dark-accent-bg: #641912;
-  --theme-dark-accent-text: #ff4d6a;
-  --theme-light-accent-text: #c00324;
+  --theme-dark-accent-bg: rgba(217, 4, 41, 0.22);
+  --theme-dark-accent-text: #d90429;
+  --theme-light-accent-text: #d90429;
   --theme-dark-divider: #888888;
   --theme-dark-placeholder: #444444;
   --theme-dark-secondary: #888888;

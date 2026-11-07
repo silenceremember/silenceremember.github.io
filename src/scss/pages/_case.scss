@@ -218,7 +218,7 @@ html[lang='en'] .i18n-ru {
   border: 1px solid currentColor;
 
   &-p0 {
-    color: #fff;
+    color: #f5f5f5;
     background-color: var(--color-accent);
     border-color: var(--color-accent);
   }
@@ -390,7 +390,7 @@ html[lang='en'] .i18n-ru {
   z-index: 1000;
   padding: var(--spacing-xs) var(--spacing-sm);
   background-color: var(--color-accent);
-  color: #fff;
+  color: #f5f5f5;
   text-decoration: none;
 
   &:focus {

@@ -744,8 +744,8 @@ body.home #background-container {
 @include tablet-and-mobile {
   .case-figure a:has(img[src*='bite/skills']),
   .case-figure a:has(img[src*='bite/upgrades']) {
-    -webkit-mask-image: linear-gradient(90deg, #000 82%, transparent);
-    mask-image: linear-gradient(90deg, #000 82%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, #121212 82%, transparent);
+    mask-image: linear-gradient(90deg, #121212 82%, transparent);
     padding-right: 3rem;
   }
 }
@@ -875,7 +875,7 @@ body.home #background-container {
     object-position: 50% 100%;
     border: 0;
     filter: none;
-    mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #121212 70%, transparent 100%);
   }
 }
 
