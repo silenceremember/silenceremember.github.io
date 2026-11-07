@@ -1328,3 +1328,10 @@ body.home #background-container {
 .hi-title {
   font-size: clamp(1.5rem, 2.8vw, 2.5rem);
 }
+
+@include tablet-and-mobile {
+  .home-links li {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}
