@@ -74,10 +74,10 @@
 /* Заголовки разделов */
 .projects-section-title {
   font-size: var(--font-size-h2);
-  font-weight: 900;
+  font-weight: 700;
   color: var(--color-text-primary);
   margin: 0;
-  text-transform: uppercase;
+  text-transform: none;
   letter-spacing: var(--letter-spacing-tight);
   display: flex;
   align-items: center;
@@ -219,8 +219,8 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
 
 .projects-empty-title {
   font-size: var(--font-size-h2);
-  font-weight: 900;
-  text-transform: uppercase;
+  font-weight: 700;
+  text-transform: none;
   color: var(--color-text-primary);
   margin: 0;
   letter-spacing: var(--letter-spacing-tight);
@@ -230,8 +230,8 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
 .projects-empty-subtitle {
   font-size: var(--font-size-h3);
   font-weight: var(--font-weight-bold);
-  text-transform: uppercase;
-  color: var(--color-accent);
+  text-transform: none;
+  color: var(--color-text-primary);
   margin: 0;
   letter-spacing: var(--letter-spacing-tight);
   line-height: 1;

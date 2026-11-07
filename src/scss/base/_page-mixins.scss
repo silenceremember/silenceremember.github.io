@@ -102,8 +102,8 @@
 /* Используется для: research-page-title, cv-page-title */
 @mixin page-title {
   font-size: var(--font-size-h1);
-  font-weight: 900;
-  text-transform: uppercase;
+  font-weight: 800;
+  text-transform: none;
   color: var(--color-text-primary);
   margin: 0 0 var(--spacing-xl) 0;
   letter-spacing: var(--letter-spacing-tight);
@@ -119,8 +119,8 @@
 /* Используется для: research-section-title, community-section-title, cv-section-title */
 @mixin section-title {
   font-size: var(--font-size-h2);
-  font-weight: 900;
-  text-transform: uppercase;
+  font-weight: 700;
+  text-transform: none;
   color: var(--color-text-primary);
   margin: 0 0 var(--spacing-lg) 0;
   letter-spacing: var(--letter-spacing-tight);

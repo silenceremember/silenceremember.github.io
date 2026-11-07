@@ -314,14 +314,8 @@ export class ProjectsPage extends BasePage {
           title.insertBefore(textNode, title.firstChild);
         }
         if (starIcon) starIcon.remove();
-        
-        if (project.tier === 2 && !dividerIcon) {
-          const newDividerIcon = document.createElement('span');
-          newDividerIcon.className = 'project-card-divider';
-          newDividerIcon.setAttribute('data-svg-src', '/assets/images/icon-divider-small.svg');
-          newDividerIcon.setAttribute('aria-label', localization.t('projects.card.tier2'));
-          title.appendChild(newDividerIcon);
-        }
+        // Красный «×» после названий архивных карточек читался как «закрыть»: убираем
+        if (dividerIcon) dividerIcon.remove();
       }
 
       // Обновляем описание

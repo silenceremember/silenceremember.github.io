@@ -446,13 +446,6 @@ body.home #background-container {
   margin-top: var(--spacing-xs);
 }
 
-/* P2-2: на мобильном обложки карточек без затемнения и тегов */
-@include tablet-and-mobile {
-  .project-card .project-card-overlay,
-  .project-card:hover .project-card-overlay {
-    opacity: 0;
-  }
-}
 
 /* P2-12: таблица услуг на мобильном в одну колонку */
 @include tablet-and-mobile {
@@ -1218,4 +1211,9 @@ h3,
     right: 6%;
     bottom: 18%;
   }
+}
+
+/* «Кейсы»: первая секция ближе к фильтру категорий */
+.projects-grid > .projects-section:first-child .projects-section-header {
+  margin-top: var(--spacing-md);
 }

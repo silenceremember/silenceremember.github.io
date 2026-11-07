@@ -115,7 +115,9 @@
   /* will-change управляется через JavaScript динамически */
 }
 
+/* Статус уже есть в подвале карточки, бирки под названием: затемнение по наведению не нужно */
 .project-card-overlay {
+  display: none !important;
   position: absolute;
   top: 0;
   left: 0;
@@ -164,30 +166,21 @@
 .project-card-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--spacing-xs);
-  align-self: flex-start; /* Выравниваем теги слева */
+  gap: 4px var(--spacing-sm);
+
+  &:empty {
+    display: none;
+  }
 }
 
 .project-card-tag {
-  padding: 4px var(--spacing-xs);
-  font-size: var(--font-size-small);
-  border-radius: 2px;
-  font-weight: var(--font-weight-medium);
-  /* Оптимизировано: убраны transitions, не используются при hover */
-  /* Исправление размытия */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  box-sizing: border-box;
-
-  /* Светлый режим: темный текст на светлом фоне */
-  background-color: var(--theme-light-bg-primary);
-  color: var(--theme-light-text-primary);
-
-  /* Темный режим: светлый текст на темном фоне */
-  [data-theme='dark'] & {
-    background-color: var(--theme-dark-bg-primary);
-    color: var(--theme-dark-text-primary);
-  }
+  /* Тихая бирка: не нажимается, поэтому без заливки и рамки */
+  padding: 0;
+  font-size: var(--fs-small);
+  font-weight: var(--font-weight-normal);
+  line-height: 1.5;
+  color: var(--color-text-muted);
+  background: none;
 }
 
 .project-card-content {

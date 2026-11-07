@@ -464,8 +464,8 @@ export class ProjectFiltersManager {
       'project-filters-year-dropdown-menu'
     );
 
+    // Фильтра по году больше нет: тихо выходим
     if (!dropdownButton || !dropdownMenu) {
-      console.warn('Dropdown элементы не найдены');
       return;
     }
 

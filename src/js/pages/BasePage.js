@@ -10,7 +10,6 @@ import {
 import { ScrollToTopButton } from '../components/scroll/ScrollToTopButton.js';
 import { ScrollManager } from '../components/scroll/ScrollManager.js';
 import { LayoutManager } from '../layout/LayoutManager.js';
-import { ThemeSwitcher } from '../components/index.js';
 import { LanguageSwitcher } from '../components/index.js';
 import { CustomCursor } from '../components/index.js';
 import { LoadingIndicatorService } from '../services/LoadingIndicatorService.js';
@@ -159,8 +158,7 @@ export class BasePage {
     const layoutManager = new LayoutManager();
     await layoutManager.init();
 
-    const themeSwitcher = new ThemeSwitcher();
-    themeSwitcher.init();
+    // Сайт только в тёмной теме: переключателя нет, ThemeSwitcher не запускаем
 
     const languageSwitcher = new LanguageSwitcher();
     await languageSwitcher.init();

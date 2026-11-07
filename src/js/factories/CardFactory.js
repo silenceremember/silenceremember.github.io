@@ -121,15 +121,6 @@ export class CardFactory {
       title.prepend(mark);
     }
 
-    // Добавляем акцентный прочерк для тир 2 проектов
-    if (project.tier === 2 && title) {
-      const dividerIcon = document.createElement('span');
-      dividerIcon.className = 'project-card-divider';
-      dividerIcon.setAttribute('data-svg-src', '/assets/images/icon-divider-small.svg');
-      dividerIcon.setAttribute('aria-label', localization.t('projects.card.tier2'));
-      title.appendChild(dividerIcon);
-    }
-
     if (year && project.year) {
       year.textContent = project.year;
     }

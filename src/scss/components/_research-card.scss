@@ -113,7 +113,7 @@
   line-height: var(--line-height-heading);
   color: var(--color-text-primary);
   margin: 0;
-  text-transform: uppercase;
+  text-transform: none;
   letter-spacing: var(--letter-spacing-tight);
   display: flex;
   align-items: flex-start;
@@ -319,7 +319,7 @@
 .research-card-keywords {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--spacing-xs);
+  gap: 4px var(--spacing-sm);
   flex-shrink: 0;
   margin-top: auto;
 
@@ -329,31 +329,13 @@
 }
 
 .research-card-keyword {
-  padding: 4px var(--spacing-xs);
-  font-size: var(--font-size-small);
-  border-radius: 2px;
-  font-weight: var(--font-weight-medium);
-  /* Оптимизировано: убраны transitions */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  box-sizing: border-box;
-  position: relative;
-
-  /* Подложка цвета текста, текст цвета bg */
-  color: var(--color-bg-primary);
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: var(--color-text-primary);
-    opacity: 1;
-    border-radius: 2px;
-    z-index: -1;
-  }
+  /* Тихая бирка: не нажимается, поэтому без заливки и рамки */
+  padding: 0;
+  font-size: var(--fs-small);
+  font-weight: var(--font-weight-normal);
+  line-height: 1.5;
+  color: var(--color-text-muted);
+  background: none;
 }
 
 .research-card-footer {

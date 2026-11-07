@@ -42,7 +42,7 @@
 .cv-section-title {
   font-size: var(--font-size-h2);
   font-weight: 700;
-  text-transform: uppercase;
+  text-transform: none;
   color: var(--color-text-primary);
   margin: 0 0 var(--spacing-lg) 0;
   letter-spacing: var(--letter-spacing-tight);
@@ -81,8 +81,8 @@
 
 .cv-header-name {
   font-size: var(--font-size-h1);
-  font-weight: 900;
-  text-transform: uppercase;
+  font-weight: 800;
+  text-transform: none;
   color: var(--color-text-primary);
   margin: 0;
   letter-spacing: var(--letter-spacing-tight);
@@ -97,7 +97,7 @@
 .cv-header-role {
   font-size: var(--font-size-h3);
   font-weight: 600;
-  text-transform: uppercase;
+  text-transform: none;
   color: var(--color-text-primary);
   margin: 0;
   letter-spacing: var(--letter-spacing-tight);
@@ -399,37 +399,17 @@
 .cv-skill-list {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--spacing-xs);
+  gap: 4px var(--spacing-sm);
 }
 
 .cv-skill-tag {
-  padding: 4px var(--spacing-xs);
-  font-size: var(--font-size-small);
-  border-radius: 2px;
-  font-weight: var(--font-weight-medium);
-  transition:
-    background-color var(--transition-duration-base) var(--timing-function-ease),
-    color var(--transition-duration-base) var(--timing-function-ease);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  box-sizing: border-box;
-  position: relative;
-
-  /* Подложка цвета текста, текст цвета bg */
-  color: var(--color-bg-primary);
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: var(--color-text-primary);
-    opacity: 1;
-    border-radius: 2px;
-    z-index: -1;
-  }
+  /* Тихая бирка: не нажимается, поэтому без заливки и рамки */
+  padding: 0;
+  font-size: var(--fs-small);
+  font-weight: var(--font-weight-normal);
+  line-height: 1.5;
+  color: var(--color-text-muted);
+  background: none;
 }
 
 /* Секция "Сертификаты" */

@@ -53,10 +53,6 @@ export class LanguageSwitcher {
     if (label && label !== 'common.aria.languageSwitch') {
       this.languageButton.setAttribute('aria-label', label);
     }
-    const themeButton = document.querySelector('.header-theme');
-    if (themeButton) {
-      themeButton.setAttribute('aria-label', localization.t('common.aria.themeSwitch'));
-    }
   }
 
   /**
