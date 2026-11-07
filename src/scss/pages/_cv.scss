@@ -1,4 +1,6 @@
 /* Стили для страницы резюме */
+@use '../base/variables' as *;
+@use '../base/page-mixins' as *;
 
 /* Общие стили для .page-with-scroll находятся в _responsive-base.scss */
 

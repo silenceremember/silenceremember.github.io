@@ -1,4 +1,5 @@
 /* Стили для карточки проекта */
+@use '../base/variables' as *;
 
 .project-card {
   display: flex;

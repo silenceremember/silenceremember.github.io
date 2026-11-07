@@ -1,45 +1,45 @@
-/* Главный файл стилей - импорт всех модулей */
+// Главный файл стилей - импорт всех модулей
 
-/* Порядок импортов оптимизирован для производительности: критические стили загружаются первыми */
+// Порядок импортов оптимизирован для производительности: критические стили загружаются первыми
 
-/* 1. БАЗОВЫЕ СТИЛИ (переменные, сброс, типографика, анимации) - КРИТИЧЕСКИЕ */
-@import 'base/variables';
-@import 'base/page-mixins';
-@import 'base/reset';
-@import 'base/typography';
+// 1. БАЗОВЫЕ СТИЛИ (переменные, сброс, типографика, анимации) - КРИТИЧЕСКИЕ
+@use 'base/variables' as *;
+@use 'base/page-mixins';
+@use 'base/reset';
+@use 'base/typography';
 
-/* 2. СТИЛИ КОМПОНЕНТОВ (переиспользуемые элементы) */
-@import 'components/icon-divider';
-@import 'components/social-links';
-@import 'components/slides';
-@import 'components/custom-cursor';
-@import 'components/project-card';
-@import 'components/research-card';
-@import 'components/button';
-@import 'components/button-small';
-@import 'components/count-badge';
-@import 'components/filters';
-@import 'components/timeline';
-@import 'components/loading';
-@import 'components/scroll-to-top';
-@import 'components/noise-rings-background';
+// 2. СТИЛИ КОМПОНЕНТОВ (переиспользуемые элементы)
+@use 'components/icon-divider';
+@use 'components/social-links';
+@use 'components/slides';
+@use 'components/custom-cursor';
+@use 'components/project-card';
+@use 'components/research-card';
+@use 'components/button';
+@use 'components/button-small';
+@use 'components/count-badge';
+@use 'components/filters';
+@use 'components/timeline';
+@use 'components/loading';
+@use 'components/scroll-to-top';
+@use 'components/noise-rings-background';
 
-/* 3. СТИЛИ МАКЕТА (сетка, хедер, футер) */
-@import 'layout/grid';
-@import 'layout/header';
-@import 'layout/footer';
-@import 'layout/responsive-base';
-@import 'layout/tablet';
-@import 'layout/mobile';
+// 3. СТИЛИ МАКЕТА (сетка, хедер, футер)
+@use 'layout/grid';
+@use 'layout/header';
+@use 'layout/footer';
+@use 'layout/responsive-base';
+@use 'layout/tablet';
+@use 'layout/mobile';
 
-/* 4. СТИЛИ СТРАНИЦ */
-@import 'pages/projects';
-@import 'pages/research';
-@import 'pages/cv';
-@import 'pages/community';
-@import 'pages/case';
-@import 'pages/case-v2';
-@import 'pages/home';
+// 4. СТИЛИ СТРАНИЦ
+@use 'pages/projects';
+@use 'pages/research';
+@use 'pages/cv';
+@use 'pages/community';
+@use 'pages/case';
+@use 'pages/case-v2';
+@use 'pages/home';
 
 /* 5. ПОЯВЛЕНИЕ КОНТЕНТА */
 

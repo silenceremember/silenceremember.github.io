@@ -1,4 +1,5 @@
 /* Стили для фильтров проектов */
+@use '../base/variables' as *;
 
 .project-filters {
   margin-bottom: var(--spacing-xl);

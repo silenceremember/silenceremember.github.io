@@ -1,5 +1,6 @@
 
 /* Шкала: токены --fs-* в base/_variables.scss */
+@use '../base/variables' as *;
 
 /* Капс только у H1, коротких H2, лейблов и кнопок */
 .project-card-title,

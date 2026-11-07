@@ -1,4 +1,5 @@
 /* Кнопка "Наверх" */
+@use '../base/variables' as *;
 .scroll-to-top {
   position: fixed;
   bottom: calc(var(--header-footer-height) + var(--spacing-md) - var(--spacing-content-side));

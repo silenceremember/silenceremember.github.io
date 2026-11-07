@@ -1,4 +1,5 @@
 /* Карточка сообщества в стиле header-nav-item */
+@use '../base/variables' as *;
 .community-card {
   display: flex;
   flex-direction: column;

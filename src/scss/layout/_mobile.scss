@@ -1,5 +1,6 @@
 
 /* Стили для мобильной навигации */
+@use '../base/variables' as *;
 @include tablet-and-mobile {
   body.page-404 .header-menu-button {
     display: none;
