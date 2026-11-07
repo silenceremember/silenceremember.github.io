@@ -1152,3 +1152,70 @@ body {
     min-height: var(--target-min);
   }
 }
+
+
+/* Раунд 27: шкала по замерам референсов (bench.md): заголовки без капса, мягче начертание */
+h1,
+h2,
+h3,
+.case-title,
+.case-section-title,
+.home-case-title,
+.hi-title {
+  text-transform: none;
+}
+
+.case-title,
+.cv-header-name {
+  font-weight: 800;
+}
+
+.case-section-title,
+.case-cta-title,
+.projects-section-title,
+.research-section-title,
+.cv-section-title {
+  font-weight: 700;
+}
+
+.hh-name {
+  text-transform: uppercase;
+}
+
+/* Карточка кейса на главной: картинка около 480 px, текст рядом */
+@media (min-width: 1024px) {
+  .home-case {
+    grid-template-columns: minmax(0, 480px) minmax(0, 1fr);
+    gap: 1.5rem 3rem;
+  }
+
+  .home-cases {
+    gap: 3rem;
+  }
+}
+
+/* Мобильные поля 20 px */
+@include tablet-and-mobile {
+  .container {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+/* Первый экран под новую шкалу: портрет и высота соразмерны имени */
+@media (min-width: 1024px) {
+  .home-hero.hh {
+    min-height: 0;
+    padding: 3rem 0 1.5rem;
+  }
+
+  .hh-name {
+    margin-top: 12rem;
+  }
+
+  .hh-portrait {
+    width: min(34%, 380px);
+    right: 6%;
+    bottom: 18%;
+  }
+}
