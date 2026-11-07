@@ -1,22 +1,25 @@
 /* Стили для кастомного курсора */
 /* Применяем cursor: none только для интерактивных элементов и общих контейнеров */
 /* Это позволяет сохранить стандартные курсоры для текстовых полей и областей выделения */
+/* Системный курсор прячем, только когда скрипт нарисовал свой (класс has-cursor) */
 @media (hover: hover) and (pointer: fine) {
-body,
-a,
-button,
-.header-language,
-.header-theme,
-.social-link,
-.footer-decorative-square,
-.header-menu-button,
-.project-card,
-.research-card,
-.community-card,
-nav,
-.scroll-to-top-button {
-  cursor: none;
-}
+  html.has-cursor {
+    body,
+    a,
+    button,
+    .header-language,
+    .header-theme,
+    .social-link,
+    .footer-decorative-square,
+    .header-menu-button,
+    .project-card,
+    .research-card,
+    .community-card,
+    nav,
+    .scroll-to-top-button {
+      cursor: none;
+    }
+  }
 }
 
 /* Восстанавливаем стандартные курсоры для текстовых элементов */

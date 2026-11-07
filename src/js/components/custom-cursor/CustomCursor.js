@@ -55,6 +55,9 @@ export class CustomCursor {
       return;
     }
 
+    // Свой курсор есть: теперь можно прятать системный
+    document.documentElement.classList.add('has-cursor');
+
     // Восстанавливаем позицию сразу (синхронно) для мгновенного отображения
     this.restorePosition();
 
@@ -83,6 +86,8 @@ export class CustomCursor {
       if (this.cursor) this.cursor.style.display = 'none';
       return;
     }
+
+    document.documentElement.classList.add('has-cursor');
 
     // Только восстановление позиции для мгновенного отображения
     this.restorePosition();
