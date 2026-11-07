@@ -62,22 +62,4 @@ export class DOMHelper {
       void element.offsetHeight;
     }
   }
-
-  /**
-   * Убирает inline стили анимации с элементов
-   * @param {NodeList|Array<HTMLElement>} elements - Элементы для очистки
-   */
-  static clearAnimationStyles(elements) {
-    const elementsArray = Array.isArray(elements)
-      ? elements
-      : Array.from(elements);
-
-    elementsArray.forEach((element) => {
-      if (element) {
-        element.style.removeProperty('opacity');
-        element.style.removeProperty('transform');
-        element.style.removeProperty('transition');
-      }
-    });
-  }
 }

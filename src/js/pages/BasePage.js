@@ -2,10 +2,7 @@
  * Базовый класс для всех страниц
  */
 import { PageReadyManager } from '../utils/PageReady.js';
-import {
-  NavigationHelper,
-  MenuButtonScrollHandler,
-} from '../utils/Navigation.js';
+import { NavigationHelper } from '../utils/Navigation.js';
 // Критические компоненты - импортируем статически
 import { ScrollToTopButton } from '../components/scroll/ScrollToTopButton.js';
 import { ScrollManager } from '../components/scroll/ScrollManager.js';
@@ -130,7 +127,7 @@ export class BasePage {
     const is404Page = document.body.classList.contains('page-404');
     
     if (isScrollPage || is404Page) {
-      this.scrollManager = new ScrollManager('.page-wrapper', (isTablet) => {
+      this.scrollManager = new ScrollManager('.page-wrapper', () => {
         // Callback для уведомления об изменении режима планшета
         // Можно использовать для дополнительной логики при необходимости
       });
@@ -248,18 +245,6 @@ export class BasePage {
   }
 
   /**
-   * Ленивая загрузка менеджера анимаций (deprecated - используйте статические импорты)
-   * @deprecated Этот метод больше не используется, так как все менеджеры теперь импортируются статически
-   * @param {string} managerPath - Путь к модулю менеджера (например, '../managers/CVAnimationManager.js')
-   * @param {Array} constructorArgs - Аргументы для конструктора менеджера (опционально)
-   * @returns {Promise<any>} Экземпляр менеджера анимаций
-   */
-  async loadAnimationManager(managerPath, constructorArgs = []) {
-    console.warn('loadAnimationManager is deprecated. Use static imports instead.');
-    return null;
-  }
-
-  /**
    * Обновляет элементы для fade-in анимации
    */
   static updateFadeInElements() {
@@ -268,7 +253,6 @@ export class BasePage {
     const footerContent = document.querySelector('.footer-content');
     const contentWrapper = document.querySelector('.content-wrapper');
     const main = document.querySelector('main');
-    const slidesContainer = document.querySelector('.slides-container');
     const decorativeLines = document.querySelectorAll('.decorative-line-horizontal');
 
     if (headerContent) {
@@ -289,18 +273,6 @@ export class BasePage {
     decorativeLines.forEach((line) => {
       fadeInElements.add(line);
     });
-
-    // Если есть слайды в tablet-scroll-mode, убеждаемся что они видимы
-    if (
-      slidesContainer &&
-      slidesContainer.classList.contains('tablet-scroll-mode')
-    ) {
-      const slides = slidesContainer.querySelectorAll('.slide');
-      slides.forEach((slide) => {
-        slide.style.opacity = '1';
-        slide.style.visibility = 'visible';
-      });
-    }
 
     // Используем двойной requestAnimationFrame для гарантии готовности стилей
     requestAnimationFrame(() => {
@@ -432,18 +404,6 @@ export class BasePage {
     } catch (error) {
       console.error(`Ошибка загрузки шаблона ${url}:`, error);
       return null;
-    }
-  }
-
-  /**
-   * Очищает кеш шаблонов (может быть полезно при обновлении данных)
-   * @param {string} url - URL шаблона для очистки (опционально, если не указан - очищает весь кеш)
-   */
-  static clearTemplateCache(url = null) {
-    if (url) {
-      templateCache.delete(url);
-    } else {
-      templateCache.clear();
     }
   }
 

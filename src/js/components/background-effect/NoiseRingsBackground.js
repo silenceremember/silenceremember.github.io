@@ -683,7 +683,7 @@ export class NoiseRingsBackground {
    * Обработчик начала нажатия (mousedown/touchstart)
    * @param {MouseEvent|TouchEvent} event
    */
-  handlePressStart(event) {
+  handlePressStart() {
     this.isPressed = true;
     this.pressStartTime = performance.now();
 
@@ -783,7 +783,7 @@ export class NoiseRingsBackground {
    * @param {number} ringIndex - Индекс кольца (для обратной совместимости, не используется)
    * @returns {number} Значение opacity
    */
-  calculateOpacity(radius, ringIndex) {
+  calculateOpacity(radius) {
     // Позиция кольца относительно видимой области (0 = центр, 1 = край экрана)
     const normalizedPosition = Math.min(radius / this.maxVisibleRadius, 1.0);
 

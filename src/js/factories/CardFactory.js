@@ -1,7 +1,7 @@
 /**
  * Фабрика для создания различных типов карточек
  */
-import { getRoleLabel, getCardFooterLabel, getDetailsKey } from '../utils/RoleMapper.js';
+import { getCardFooterLabel, getDetailsKey } from '../utils/RoleMapper.js';
 import { StatusMapper } from '../utils/StatusMapper.js';
 import { localization } from '../utils/Localization.js';
 
@@ -305,7 +305,6 @@ export class CardFactory {
 
       if (level && publication.level) {
         // Используем локализованную версию уровня если доступна
-        const lang = localization.getCurrentLanguage();
         const levelKey = publication.level === 'РИНЦ' ? 'RSCI' : publication.level;
         level.dataset.level = levelKey;
         const levelText = localization.t(`research.levels.${levelKey}`);
@@ -457,151 +456,6 @@ export class CardFactory {
         hoverTimeout = null;
       }, 300);
     }, { passive: true });
-
-    return card;
-  }
-
-  /**
-   * Создает карточку сообщества
-   * @param {Object} config - Конфигурация карточки
-   * @param {string} config.url - URL ссылки
-   * @param {string} config.iconPath - Путь к иконке
-   * @param {string} config.platformName - Название платформы
-   * @param {string} config.ariaLabel - ARIA label
-   * @param {string} config.description - Описание (опционально)
-   * @param {string} config.subtitle - Подзаголовок (опционально)
-   * @param {boolean} config.isDiscord - Использовать стиль Discord карточки
-   * @returns {HTMLElement} Созданная карточка
-   */
-  static createCommunityCard(config) {
-    const {
-      url,
-      iconPath,
-      platformName,
-      ariaLabel,
-      description,
-      subtitle,
-      isDiscord,
-    } = config;
-
-    if (isDiscord) {
-      return this.createDiscordCard(
-        url,
-        iconPath,
-        platformName,
-        ariaLabel,
-        description,
-        subtitle
-      );
-    }
-
-    const card = document.createElement('a');
-    card.href = url || '#';
-    card.target = '_blank';
-    card.rel = 'noopener noreferrer';
-    card.className = 'community-card';
-    card.setAttribute('aria-label', ariaLabel);
-
-    const content = document.createElement('div');
-    content.className = 'community-card-content';
-
-    const title = document.createElement('h3');
-    title.className = 'community-card-title';
-
-    const iconContainer = document.createElement('div');
-    iconContainer.className = 'community-card-icon';
-
-    const iconSpan = document.createElement('span');
-    iconSpan.setAttribute('data-svg-src', iconPath);
-    iconContainer.appendChild(iconSpan);
-
-    title.appendChild(iconContainer);
-
-    const titleText = document.createElement('span');
-    titleText.className = 'community-card-title-text';
-    titleText.textContent = platformName;
-    title.appendChild(titleText);
-
-    content.appendChild(title);
-
-    if (subtitle) {
-      const subtitleElement = document.createElement('p');
-      subtitleElement.className = 'community-card-subtitle';
-      subtitleElement.textContent = subtitle;
-      content.appendChild(subtitleElement);
-    }
-
-    if (description) {
-      const descriptionElement = document.createElement('p');
-      descriptionElement.className = 'community-card-description';
-      descriptionElement.textContent = description;
-      content.appendChild(descriptionElement);
-    }
-
-    card.appendChild(content);
-
-    return card;
-  }
-
-  /**
-   * Создает карточку Discord с горизонтальной раскладкой
-   */
-  static createDiscordCard(
-    url,
-    iconPath,
-    platformName,
-    ariaLabel,
-    description,
-    subtitle
-  ) {
-    const card = document.createElement('a');
-    card.href = url || '#';
-    card.target = '_blank';
-    card.rel = 'noopener noreferrer';
-    card.className = 'community-card community-card-discord';
-    card.setAttribute('aria-label', ariaLabel);
-
-    const content = document.createElement('div');
-    content.className = 'community-card-content';
-
-    const iconContainer = document.createElement('div');
-    iconContainer.className = 'community-card-icon community-card-icon-left';
-
-    const iconSpan = document.createElement('span');
-    iconSpan.setAttribute('data-svg-src', iconPath);
-    iconContainer.appendChild(iconSpan);
-
-    content.appendChild(iconContainer);
-
-    const textBlock = document.createElement('div');
-    textBlock.className = 'community-card-text-block';
-
-    const title = document.createElement('h3');
-    title.className = 'community-card-title';
-
-    const titleText = document.createElement('span');
-    titleText.className = 'community-card-title-text';
-    titleText.textContent = platformName;
-    title.appendChild(titleText);
-
-    textBlock.appendChild(title);
-
-    if (subtitle) {
-      const subtitleElement = document.createElement('p');
-      subtitleElement.className = 'community-card-subtitle';
-      subtitleElement.textContent = subtitle;
-      textBlock.appendChild(subtitleElement);
-    }
-
-    if (description) {
-      const descriptionElement = document.createElement('p');
-      descriptionElement.className = 'community-card-description';
-      descriptionElement.textContent = description;
-      textBlock.appendChild(descriptionElement);
-    }
-
-    content.appendChild(textBlock);
-    card.appendChild(content);
 
     return card;
   }

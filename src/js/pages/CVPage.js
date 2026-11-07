@@ -713,7 +713,7 @@ export class CVPage extends BasePage {
     await this.initAnimationManager();
 
     // Параллельная загрузка шаблонов и данных для ускорения
-    const [cvData, communityData, timelineTemplate] = await Promise.all([
+    const [cvData, communityData] = await Promise.all([
       this.loadCVData(),
       this.loadCommunityData(),
       this.loadTemplates(),

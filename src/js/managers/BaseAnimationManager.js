@@ -160,24 +160,6 @@ export class BaseAnimationManager {
   }
 
   /**
-   * Гарантирует применение стилей через цепочку requestAnimationFrame.
-   * Это предпочтительная альтернатива forceReflow, которая не вызывает
-   * forced synchronous layout.
-   *
-   * @param {Function} callback - Функция, которая будет вызвана после применения стилей
-   * @returns {void}
-   */
-  ensureStylesApplied(callback) {
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        if (callback && typeof callback === 'function') {
-          callback();
-        }
-      });
-    });
-  }
-
-  /**
    * Базовый метод инициализации анимаций
    * Должен быть переопределен в дочерних классах
    * @abstract

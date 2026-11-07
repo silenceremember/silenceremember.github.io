@@ -56,36 +56,6 @@ export class DateFormatter {
   }
 
   /**
-   * Форматирует дату для отображения
-   * @param {Object} date - Объект даты с полями year, start, end
-   * @param {number} [date.year] - Год
-   * @param {string} [date.start] - Начальная дата (ISO строка)
-   * @param {string} [date.end] - Конечная дата (ISO строка)
-   * @returns {string} Отформатированная строка даты
-   */
-  static formatDate(date) {
-    if (!date) return '';
-
-    if (date.year) {
-      return date.year.toString();
-    }
-
-    if (date.start && date.end) {
-      const startDate = new Date(date.start);
-      const endDate = new Date(date.end);
-
-      return `${startDate.getDate()}.${String(startDate.getMonth() + 1).padStart(2, '0')}.${startDate.getFullYear()} — ${endDate.getDate()}.${String(endDate.getMonth() + 1).padStart(2, '0')}.${endDate.getFullYear()}`;
-    }
-
-    if (date.start) {
-      const startDate = new Date(date.start);
-      return `${startDate.getDate()}.${String(startDate.getMonth() + 1).padStart(2, '0')}.${startDate.getFullYear()}`;
-    }
-
-    return '';
-  }
-
-  /**
    * Извлекает год из объекта даты
    * @param {Object} date - Объект даты с полями year, start, end
    * @param {number} [date.year] - Год

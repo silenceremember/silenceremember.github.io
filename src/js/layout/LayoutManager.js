@@ -2,7 +2,6 @@
  * Менеджер layout страницы
  * Управляет загрузкой и отображением header, footer и других компонентов макета
  */
-import { NavigationHelper } from '../utils/Navigation.js';
 
 // Кеш для HTML шаблонов (общий для всех экземпляров)
 const htmlCache = new Map();

@@ -219,32 +219,6 @@ export class PerformanceMonitor {
   }
 
   /**
-   * Получить все метрики
-   * @returns {Object} - Объект с метриками
-   */
-  getMetrics() {
-    return { ...this.metrics };
-  }
-
-  /**
-   * Получить сводку производительности
-   * @returns {Object} - Сводка с оценками
-   */
-  getSummary() {
-    const summary = {};
-    for (const [name, value] of Object.entries(this.metrics)) {
-      if (value !== null) {
-        summary[name] = {
-          value: value,
-          rating: this.getRating(name, value),
-          formatted: this.formatValue(name, value),
-        };
-      }
-    }
-    return summary;
-  }
-
-  /**
    * Очистка и отключение мониторинга
    */
   destroy() {

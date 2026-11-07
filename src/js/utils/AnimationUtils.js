@@ -269,28 +269,6 @@ export function animateElementsAppearance(elements, options = {}) {
 }
 
 /**
- * Анимирует появление текстовых элементов с последовательной задержкой
- * @param {HTMLElement} container - Контейнер с текстовыми элементами
- * @param {string} selector - Селектор для поиска элементов
- * @param {Object} options - Опции анимации
- * @param {number} options.delay - Задержка между элементами в миллисекундах (по умолчанию 100)
- */
-export function animateTextElements(container, selector, options = {}) {
-  if (!container) return;
-
-  const elements = container.querySelectorAll(selector);
-  if (elements.length === 0) return;
-
-  const delay = options.delay || 100;
-
-  Array.from(elements).forEach((element, index) => {
-    setTimeout(() => {
-      animateElementAppearance(element, options);
-    }, index * delay);
-  });
-}
-
-/**
  * Анимирует появление секции с контентом
  * Используется для секций, которые содержат другие анимируемые элементы
  * @param {HTMLElement} section - Секция для анимации

@@ -3,14 +3,11 @@
  * Управляет фильтрацией проектов по категориям, статусам и годам
  */
 
-import { CardFactory } from '../factories/CardFactory.js';
 import {
-  ANIMATION_CONFIG,
   animateElementsAppearance,
   animateElementAppearance,
 } from '../utils/AnimationUtils.js';
 import { LayoutManager } from '../layout/LayoutManager.js';
-import { SvgLoader } from '../components/index.js';
 import { lazyImageLoader } from '../utils/LazyImageLoader.js';
 import { localization } from '../utils/Localization.js';
 

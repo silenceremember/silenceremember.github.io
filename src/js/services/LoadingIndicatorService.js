@@ -1,7 +1,6 @@
 /**
  * Сервис для управления индикаторами загрузки с анимацией появления/скрытия
  */
-import { ANIMATION_CONFIG } from '../utils/AnimationUtils.js';
 
 export class LoadingIndicatorService {
   /**
@@ -60,9 +59,6 @@ export class LoadingIndicatorService {
         resolve();
         return;
       }
-
-      const shouldHideContent =
-        this.container && this.container.contains(this.loadingElement);
 
       // Убеждаемся, что loading элемент имеет transition для анимации
       this.loadingElement.style.transition =

@@ -327,9 +327,6 @@ export class ScrollManager {
    * Проверяет viewport и настраивает обработчики скролла
    */
   checkViewportForScroll() {
-    // Определяем, является ли это главной страницей (есть контейнер слайдов)
-    const isIndexPage = !!document.querySelector('.slides-container');
-
     // Обновляем isScrollPage на основе текущего состояния класса
     this.isScrollPage = document.body.classList.contains('page-with-scroll');
 
@@ -428,16 +425,5 @@ export class ScrollManager {
     }
 
     this.isInitialized = true;
-  }
-
-  /**
-   * Возвращает текущее смещение футера для других компонентов
-   * @returns {number} Смещение в пикселях (положительное значение = виден больше)
-   */
-  getFooterOffset() {
-    // На мобильных/планшетах footer всегда видим, смещение = 0
-    if (this.isTabletMode) return 0;
-    // На десктопе проверяем класс hidden
-    return this.footer && this.footer.classList.contains('hidden') ? this.headerFooterHeight : 0;
   }
 }

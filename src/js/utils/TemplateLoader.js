@@ -38,23 +38,3 @@ export async function loadTemplate(url, selector, loadHTMLFunction) {
     return null;
   }
 }
-
-/**
- * Загружает HTML шаблон и возвращает весь HTML как строку
- * @param {string} url - URL шаблона
- * @param {Function} loadHTMLFunction - Функция для загрузки HTML
- * @returns {Promise<string|null>} HTML содержимое или null при ошибке
- * @throws {Error} Если loadHTMLFunction не предоставлена
- */
-export async function loadTemplateHTML(url, loadHTMLFunction) {
-  if (!loadHTMLFunction) {
-    throw new Error('loadHTMLFunction is required');
-  }
-
-  try {
-    return await loadHTMLFunction(url);
-  } catch (error) {
-    console.error(`Ошибка загрузки HTML шаблона ${url}:`, error);
-    return null;
-  }
-}

@@ -9,7 +9,7 @@ import { ProjectGroupingManager } from '../managers/ProjectGroupingManager.js';
 import { PageReadyManager } from '../utils/PageReady.js';
 import { lazyImageLoader } from '../utils/LazyImageLoader.js';
 import { localization } from '../utils/Localization.js';
-import { getRoleLabel, getCardFooterLabel, getDetailsKey } from '../utils/RoleMapper.js';
+import { getCardFooterLabel, getDetailsKey } from '../utils/RoleMapper.js';
 
 /**
  * Класс страницы проектов
@@ -212,7 +212,7 @@ export class ProjectsPage extends BasePage {
 
     // Параллельная загрузка шаблона и данных для ускорения
     // Используем Promise.all для максимальной параллельности
-    const [projects, template] = await Promise.all([
+    const [projects] = await Promise.all([
       this.loadProjectsData(),
       this.loadProjectTemplate(),
     ]);
@@ -250,7 +250,7 @@ export class ProjectsPage extends BasePage {
     }
 
     // Параллельная инициализация фильтров и рендеринг проектов
-    const [renderPromise] = await Promise.all([
+    await Promise.all([
       this.renderGroupedProjects(),
       this.initFilters(projects), // Инициализируем фильтры параллельно
     ]);
@@ -404,7 +404,7 @@ export class ProjectsPage extends BasePage {
       const filtersContent = document.querySelector('.project-filters-content');
       if (filtersContent) {
         const filterGroups = filtersContent.querySelectorAll('.project-filters-group');
-        filterGroups.forEach((group, index) => {
+        filterGroups.forEach((group) => {
           const title = group.querySelector('.project-filters-group-title');
           if (title) {
             // Определяем тип фильтра по data-filter атрибуту дочернего элемента

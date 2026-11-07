@@ -190,30 +190,6 @@ export class CustomCursor {
   }
 
   /**
-   * Скрывает курсор
-   */
-  hideCursor() {
-    if (this.isVisible) {
-      this.cursor.classList.remove('visible');
-      this.isVisible = false;
-    }
-    if (this.isHovering) {
-      this.cursor.classList.remove('hover');
-      this.isHovering = false;
-    }
-  }
-
-  /**
-   * Показывает курсор
-   */
-  showCursor() {
-    if (!this.isVisible && !this.isTouching) {
-      this.cursor.classList.add('visible');
-      this.isVisible = true;
-    }
-  }
-
-  /**
    * Проверяет hover состояние с оптимизированным throttling
    * Оптимизировано: увеличен throttling интервал и добавлено кэширование
    * @param {number} x - Координата X курсора

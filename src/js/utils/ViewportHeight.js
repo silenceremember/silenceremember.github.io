@@ -120,25 +120,6 @@ export function initViewportHeight() {
 }
 
 /**
- * Получает текущую высоту viewport в пикселях
- * Полезная утилита для компонентов, которым нужна реальная высота
- * 
- * @returns {number} Высота viewport в пикселях
- */
-export function getViewportHeight() {
-  return window.innerHeight;
-}
-
-/**
- * Получает текущую ширину viewport в пикселях
- * 
- * @returns {number} Ширина viewport в пикселях
- */
-export function getViewportWidth() {
-  return window.innerWidth;
-}
-
-/**
  * Проверяет, является ли устройство мобильным/планшетом
  * @returns {boolean} true если ширина < 1024px или высота < 900px
  */

@@ -7,7 +7,6 @@ import {
   ANIMATION_CONFIG,
   animateElementsAppearance,
 } from '../utils/AnimationUtils.js';
-import { SvgLoader } from '../components/index.js';
 import { lazyImageLoader } from '../utils/LazyImageLoader.js';
 import { localization } from '../utils/Localization.js';
 
@@ -77,7 +76,7 @@ export class ProjectGroupingManager {
    * @param {HTMLElement} button - Кнопка переключения
    * @param {Array<Object>} hiddenProjects - Массив скрытых проектов
    */
-  toggleSectionExpansion(category, button, hiddenProjects) {
+  toggleSectionExpansion(category, button) {
     const section = document.querySelector(`[data-category="${category}"]`);
     if (!section) return;
 
@@ -569,7 +568,7 @@ export class ProjectGroupingManager {
     this.isRendering = true;
 
     // Отменяем все активные анимации и таймауты перед новым рендерингом
-    this.activeTimeouts.forEach((timeouts, category) => {
+    this.activeTimeouts.forEach((timeouts) => {
       timeouts.forEach((timeoutId) => {
         clearTimeout(timeoutId);
       });
