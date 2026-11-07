@@ -6,7 +6,6 @@
 @import 'base/page-mixins';
 @import 'base/reset';
 @import 'base/typography';
-@import 'base/animations';
 
 /* 2. СТИЛИ КОМПОНЕНТОВ (переиспользуемые элементы) */
 @import 'components/icon-divider';
@@ -15,7 +14,6 @@
 @import 'components/custom-cursor';
 @import 'components/project-card';
 @import 'components/research-card';
-@import 'components/media-gallery';
 @import 'components/button';
 @import 'components/button-small';
 @import 'components/count-badge';
@@ -34,7 +32,6 @@
 @import 'layout/mobile';
 
 /* 4. СТИЛИ СТРАНИЦ */
-@import 'pages/index';
 @import 'pages/projects';
 @import 'pages/research';
 @import 'pages/cv';

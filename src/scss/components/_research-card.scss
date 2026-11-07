@@ -32,15 +32,6 @@
   /* Явно задаем border-bottom для предотвращения артефактов в Firefox */
   border-bottom: var(--line-width) solid var(--color-text-primary);
 
-  &.research-card-hidden {
-    opacity: 0;
-    visibility: hidden;
-    /* Transitions для скрытия добавлены отдельно */
-    transition:
-      opacity var(--transition-duration-base) cubic-bezier(0.4, 0, 0.2, 1),
-      visibility var(--transition-duration-base) cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
   &[style*='display: none'] {
     display: none !important;
   }
@@ -126,48 +117,6 @@
   text-rendering: optimizeLegibility;
 }
 
-.research-card-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-xs) var(--spacing-sm);
-  font-size: var(--font-size-small);
-  color: var(--color-secondary);
-  white-space: nowrap;
-  overflow: hidden;
-  min-height: 1.5em;
-  /* Оптимизировано: убран transition */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-  /* Разрешаем выделение метаданных */
-  user-select: text;
-  -webkit-user-select: text;
-  -moz-user-select: text;
-  -ms-user-select: text;
-
-  span {
-    position: relative;
-    flex-shrink: 0;
-    white-space: nowrap;
-    /* Оптимизировано: убран transition */
-
-    &[style*='display: none'] {
-      display: none !important;
-
-      &::after {
-        display: none;
-      }
-    }
-
-    &:not(:last-child):not([style*='display: none'])::after {
-      content: '•';
-      margin-left: var(--spacing-xs);
-      color: var(--color-divider);
-      /* Оптимизировано: убран transition */
-    }
-  }
-}
-
 .research-card-journal-wrapper {
   display: flex;
   align-items: center;
@@ -207,14 +156,6 @@
   }
 }
 
-.research-card-date {
-  color: var(--color-secondary);
-}
-
-.research-card-pages {
-  color: var(--color-secondary);
-}
-
 .research-card-level {
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-semibold);
@@ -236,67 +177,6 @@
   &[style*='display: none'] {
     display: none !important;
   }
-}
-
-.research-card-description-container {
-  margin-top: var(--spacing-xs);
-  flex-shrink: 0;
-
-  &[style*='display: none'] {
-    display: none !important;
-  }
-}
-
-.research-card-abstract-toggle {
-  display: inline-block;
-  padding: var(--spacing-xs) var(--spacing-md);
-  margin-bottom: var(--spacing-xs);
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-semibold);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--color-text-primary);
-  background-color: transparent;
-  border: var(--line-width) solid var(--color-text-primary);
-  border-radius: 0;
-  cursor: pointer;
-  font-family: var(--font-family);
-  /* Оптимизировано: transitions только для hover */
-  transition:
-    background-color var(--transition-duration-base) cubic-bezier(0.4, 0, 0.2, 1),
-    color var(--transition-duration-base) cubic-bezier(0.4, 0, 0.2, 1),
-    border-color var(--transition-duration-base) cubic-bezier(0.4, 0, 0.2, 1);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-  border-style: solid;
-  box-sizing: border-box;
-
-  &:hover,
-  &:focus {
-    background-color: var(--color-accent);
-    border-color: var(--color-accent);
-    color: #f5f5f5;
-    
-  }
-}
-
-.research-card-description {
-  font-size: var(--font-size-base);
-  line-height: var(--line-height-base);
-  color: var(--color-text-primary);
-  margin-top: var(--spacing-sm);
-  padding: var(--spacing-md);
-  background-color: var(--color-bg-primary);
-  border-left: 3px solid var(--color-divider);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-  /* Разрешаем выделение текста */
-  user-select: text;
-  -webkit-user-select: text;
-  -moz-user-select: text;
-  -ms-user-select: text;
 }
 
 .research-card-keywords {
@@ -420,11 +300,6 @@
     font-size: var(--font-size-h5);
   }
 
-  .research-card-description {
-    font-size: var(--font-size-small);
-    padding: var(--spacing-sm);
-  }
-
   /* Отключаем hover эффекты на мобильных и планшетах */
   .research-card:hover {
     transform: none;
@@ -452,16 +327,6 @@
       background-color: transparent;
       border-color: var(--color-text-primary);
       color: var(--color-text-primary);
-    }
-  }
-
-  .research-card-abstract-toggle {
-    &:hover,
-    &:focus {
-      background-color: transparent;
-      border-color: var(--color-text-primary);
-      color: var(--color-text-primary);
-      
     }
   }
 }

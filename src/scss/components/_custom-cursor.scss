@@ -15,8 +15,7 @@
     .project-card,
     .research-card,
     .community-card,
-    nav,
-    .scroll-to-top-button {
+    nav {
       cursor: none;
     }
   }
@@ -25,8 +24,7 @@
 /* Восстанавливаем стандартные курсоры для текстовых элементов */
 input,
 textarea,
-[contenteditable="true"],
-.selectable-text {
+[contenteditable="true"] {
   cursor: text !important;
 }
 

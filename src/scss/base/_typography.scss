@@ -72,15 +72,6 @@ h6 {
   font-size: var(--font-size-h6);
 }
 
-/* Крупный заголовок для hero-секций */
-.display-large {
-  font-size: var(--font-size-display);
-  font-weight: var(--font-weight-bold);
-  line-height: var(--line-height-heading);
-  letter-spacing: var(--letter-spacing-tight);
-  text-transform: uppercase;
-}
-
 /* Параграфы */
 p {
   margin-bottom: var(--spacing-md);
@@ -106,12 +97,6 @@ a:hover {
   a:hover {
     color: var(--color-text-primary);
   }
-}
-
-/* Маленький текст */
-.text-small {
-  font-size: var(--font-size-small);
-  line-height: var(--line-height-base);
 }
 
 /* Стили для выделения текста */

@@ -24,11 +24,6 @@
   }
 }
 
-/* Базовый класс для счетчиков */
-.count-badge {
-  @extend %count-badge-base;
-}
-
 /* Стили для счетчиков в кнопках фильтров */
 .project-filters-option-count {
   @extend %count-badge-base;

@@ -12,11 +12,6 @@
   @include page-loading-container;
 }
 
-/* Заголовок страницы */
-.cv-page-title {
-  @include page-title;
-}
-
 /* Секции резюме */
 .cv-section {
   @include section-spacing('large');
@@ -191,37 +186,6 @@
   }
 }
 
-.cv-header-right {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-lg);
-  justify-content: flex-start;
-
-  @include desktop-large {
-    grid-column: 2;
-    grid-row: 2;
-    text-align: left;
-    align-self: end;
-    justify-content: flex-end;
-  }
-
-  @include tablet-and-mobile {
-    width: 100%;
-    align-items: flex-start;
-  }
-}
-
-.cv-header-contacts {
-  display: flex;
-  align-items: center;
-
-  @include tablet-and-mobile {
-    width: 100%;
-    justify-content: flex-start;
-  }
-}
-
 .cv-header-contacts-wrapper {
   display: flex;
   flex-direction: column;
@@ -270,56 +234,6 @@
     width: 100%;
     text-align: left;
     order: 3;
-  }
-}
-
-.cv-about-contact-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xs);
-  width: 100%;
-  align-items: stretch;
-
-  .research-card-journal-wrapper {
-    text-align: center;
-    justify-content: center;
-
-    .research-card-journal {
-      text-decoration: none;
-      cursor: pointer;
-    }
-  }
-
-  @include tablet-and-mobile {
-    gap: var(--spacing-xs);
-  }
-}
-
-.cv-contacts-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-md);
-  align-items: center;
-
-  @include tablet-and-mobile {
-    gap: var(--spacing-sm);
-    justify-content: flex-start;
-  }
-}
-
-.cv-contact-item {
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-primary);
-  text-decoration: none;
-  transition: color var(--transition-duration-base) var(--timing-function-ease);
-
-  &:hover {
-    color: var(--color-accent);
-  }
-
-  @include tablet-and-mobile {
-    font-size: var(--font-size-small);
   }
 }
 
@@ -770,9 +684,6 @@
 
 /* Отключаем hover эффекты на мобильных и планшетах */
 @include tablet-and-mobile {
-  .cv-contact-item:hover {
-    color: var(--color-text-primary);
-  }
 
   .cv-certificate-button {
     &:hover:not(:disabled),

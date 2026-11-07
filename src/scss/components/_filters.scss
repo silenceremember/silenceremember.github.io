@@ -42,14 +42,6 @@
 
 /* Стили для .project-filters-option-count теперь в _count-badge.scss */
 
-.project-filters-results-header {
-  margin: var(--spacing-xl) 0 var(--spacing-md) 0;
-
-  &[hidden] {
-    display: none;
-  }
-}
-
 .project-filters-results {
   font-size: var(--font-size-h3);
   font-weight: var(--font-weight-bold);
@@ -87,22 +79,10 @@
     }
   }
 
-  .project-filters-results-header {
-    margin: var(--spacing-lg) 0 var(--spacing-sm) 0;
-  }
-
   .project-filters-results {
     font-size: var(--font-size-h4);
     gap: var(--spacing-sm);
   }
-}
-
-/* Стили для dropdown фильтра по году */
-.project-filters-year-dropdown {
-  position: relative;
-  display: inline-block;
-  width: auto;
-  min-width: fit-content;
 }
 
 /* Стили для .project-filters-year-button теперь в _button.scss */
@@ -285,10 +265,6 @@
 
 /* Адаптивность для dropdown года */
 @include tablet-and-mobile {
-  .project-filters-year-dropdown {
-    width: auto;
-    max-width: 100%;
-  }
 
   .project-filters-year-dropdown-menu {
     max-height: 200px;

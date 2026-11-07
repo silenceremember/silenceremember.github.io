@@ -203,40 +203,6 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
   }
 }
 
-/* Сообщение об отсутствии проектов */
-.projects-empty {
-  text-align: center;
-  padding: var(--spacing-xl);
-  opacity: 1;
-  transition:
-    opacity var(--transition-duration-base) ease-in-out,
-    transform var(--transition-duration-base) ease-in-out;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.projects-empty-title {
-  font-size: var(--font-size-h2);
-  font-weight: 700;
-  text-transform: none;
-  color: var(--color-text-primary);
-  margin: 0;
-  letter-spacing: var(--letter-spacing-tight);
-  line-height: 1;
-}
-
-.projects-empty-subtitle {
-  font-size: var(--font-size-h3);
-  font-weight: var(--font-weight-bold);
-  text-transform: none;
-  color: var(--color-text-primary);
-  margin: 0;
-  letter-spacing: var(--letter-spacing-tight);
-  line-height: 1;
-}
-
 /* Навигационное меню для tablet режима */
 .projects-navigation {
   @include page-navigation;
@@ -283,16 +249,6 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
       font-size var(--transition-duration-base) var(--timing-function-ease),
       padding var(--transition-duration-base) var(--timing-function-ease);
   }
-
-  .projects-empty-title {
-    font-size: var(--font-size-h3);
-    transition: font-size var(--transition-duration-base) var(--timing-function-ease);
-  }
-
-  .projects-empty-subtitle {
-    font-size: var(--font-size-base);
-    transition: font-size var(--transition-duration-base) var(--timing-function-ease);
-  }
 }
 
 /* Планшеты (от 768px до 1023px) - 2 колонки */
@@ -334,16 +290,6 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
     transition:
       font-size var(--transition-duration-base) var(--timing-function-ease),
       padding var(--transition-duration-base) var(--timing-function-ease);
-  }
-
-  .projects-empty-title {
-    font-size: var(--font-size-h3);
-    transition: font-size var(--transition-duration-base) var(--timing-function-ease);
-  }
-
-  .projects-empty-subtitle {
-    font-size: var(--font-size-base);
-    transition: font-size var(--transition-duration-base) var(--timing-function-ease);
   }
 }
 

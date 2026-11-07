@@ -5,7 +5,6 @@
 /* Капс только у H1, коротких H2, лейблов и кнопок */
 .project-card-title,
 .research-card-title,
-.research-publication-title,
 .timeline-title,
 .cv-certificate-title,
 .cv-course-title,
@@ -54,7 +53,6 @@ h2,
 /* H3: названия кейсов, карточек, должностей */
 .project-card-title,
 .research-card-title,
-.research-publication-title,
 .timeline-title,
 .cv-certificate-title,
 .cv-course-title,
@@ -233,7 +231,6 @@ body.home #background-container {
   opacity: 0.5;
 }
 
-
 /* Услуги: таблица «что / пример» */
 .services-table-wrap {
   margin-top: var(--spacing-xl);
@@ -336,7 +333,6 @@ body.home #background-container {
   inset: 0;
   z-index: 2;
 }
-
 
 .case-figure:not(:has(figcaption)) {
   counter-increment: none;
@@ -441,7 +437,6 @@ body.home #background-container {
   margin-top: var(--spacing-xs);
 }
 
-
 /* P2-12: таблица услуг на мобильном в одну колонку */
 @include tablet-and-mobile {
   .services-table thead {
@@ -470,7 +465,6 @@ body.home #background-container {
     font-size: 1rem;
   }
 }
-
 
 /* Дизайнер r5, P1-1: кнопка карточки в одну строку при длинной роли */
 /* Длинные подписи («Презентация в Google Slides») переносятся, а не обрезаются на 320 px */
@@ -520,12 +514,9 @@ body.home #background-container {
   }
 }
 
-
-
 /* Ссылки внутри таблиц и текста: рамка вместо подчёркивания */
 .services-table td a,
-.research-intro a,
-.research-publication-abstract-toggle {
+.research-intro a {
   display: inline-block;
   margin: 2px 6px 2px 0;
   padding: 8px 12px;
@@ -649,39 +640,6 @@ body {
   }
 }
 
-.hh-bottom {
-  grid-row: 4;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: var(--spacing-sm) var(--spacing-xl);
-  margin-top: var(--spacing-lg);
-  padding-top: var(--spacing-md);
-
-  .home-role {
-    margin: 0;
-    font-size: var(--fs-role);
-    font-weight: 600;
-    line-height: 1.3;
-    letter-spacing: -0.01em;
-    text-transform: none;
-  }
-
-  .cta-buttons {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: var(--spacing-xs);
-    width: auto;
-    max-width: none;
-    margin: 0;
-  }
-
-  .cta-button {
-    flex: 0 1 auto;
-  }
-}
-
 @media (prefers-reduced-motion: no-preference) {
   .hh-line {
     animation: hh-rise 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
@@ -716,41 +674,6 @@ body {
   }
 }
 
-/* Текст о себе: лид; слова загораются при прокрутке только с мышью */
-.home-manifesto {
-  margin-top: var(--spacing-xl);
-  padding-top: var(--section-pad);
-}
-
-.hm-text {
-  margin: 0;
-  max-width: 40em;
-  font-size: var(--fs-lead-plus);
-  font-weight: 400;
-  line-height: 1.45;
-  letter-spacing: -0.005em;
-  text-wrap: pretty;
-}
-
-.hm-w {
-  opacity: 1;
-}
-
-.hm-ready .hm-w {
-  opacity: 0.18;
-  transition: opacity 0.12s linear;
-
-  &.on {
-    opacity: 1;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hm-ready .hm-w {
-    opacity: 1;
-  }
-}
-
 /* Разделы */
 .home-section {
   margin-top: calc(var(--section-gap) - var(--section-pad));
@@ -762,9 +685,7 @@ body {
 }
 
 /* Горизонтальные линии разделов от линии до линии рамки */
-.home-section,
-.home-manifesto,
-.hh-bottom {
+.home-section {
   position: relative;
 
   &::before {
@@ -781,9 +702,7 @@ body {
 }
 
 @media (min-width: 1232px) {
-  .home-section,
-  .home-manifesto,
-  .hh-bottom {
+  .home-section {
     &::before {
       left: calc((100% - var(--max-width-large)) / 2 - var(--spacing-content-side));
       right: calc((100% - var(--max-width-large)) / 2 - var(--spacing-content-side));
@@ -1034,7 +953,6 @@ body {
   }
 }
 
-
 @include tablet-and-mobile {
   .home-hero.hh {
     min-height: 0;
@@ -1053,10 +971,6 @@ body {
 
   .hh-name .hh-line {
     white-space: nowrap;
-  }
-
-  .hh-bottom {
-    grid-template-columns: 1fr;
   }
 
   .home-case {
@@ -1136,8 +1050,7 @@ body {
   }
 
   .services-table td a,
-  .research-intro a,
-  .research-publication-abstract-toggle {
+  .research-intro a {
     display: inline-flex;
     align-items: center;
     min-height: var(--target-min);
@@ -1148,7 +1061,6 @@ body {
     min-height: var(--target-min);
   }
 }
-
 
 /* Раунд 27: шкала по замерам референсов (bench.md). Регистр и начертание заголовков заданы
    в base/_typography.scss, миксинах page-title/section-title и в правилах H1/H2 в начале файла */

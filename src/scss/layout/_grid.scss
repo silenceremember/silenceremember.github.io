@@ -92,72 +92,6 @@
   transition: transform var(--transition-duration-base) var(--timing-function-ease);
 }
 
-/* Основная сетка для контента */
-.main-grid {
-  display: grid;
-  grid-template-columns: 1fr; /* Одна колонка по умолчанию (mobile-first) */
-  gap: var(--spacing-md);
-  margin: 0 auto;
-  box-sizing: border-box;
-  padding: var(--spacing-lg) 0;
-  align-items: center; /* Центрируем элементы по вертикали */
-  justify-items: start; /* Выравниваем элементы по левому краю */
-  transition: gap var(--transition-duration-base) var(--timing-function-ease);
-  width: 100%;
-
-  /* На tablet/mobile отступы управляются через родительские слайды */
-  @include tablet-and-mobile {
-    padding-top: 0;
-    padding-bottom: 0;
-    gap: var(--spacing-md);
-  }
-}
-
-/* Колонки контента */
-.main-content-left {
-  min-width: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: auto;
-}
-
-/* Стили для портрета */
-.portrait-container {
-  width: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.portrait-image {
-  width: 280px;
-  height: 420px;
-  max-width: 280px;
-  max-height: 420px;
-  border: 1px solid var(--color-text-primary);
-  object-fit: cover;
-  user-select: none; /* Запрещаем выделение изображения */
-  transition:
-    width var(--transition-duration-base) var(--timing-function-ease),
-    height var(--transition-duration-base) var(--timing-function-ease);
-}
-
-/* Стили для текстового контента */
-.main-content-top {
-  display: flex;
-  flex-direction: column;
-  /* gap удалён, отступы управляются через margin на элементах */
-  text-align: left; /* Выравниваем текст по левому краю на мобильных */
-}
-
-.main-content-bottom {
-  display: flex;
-  flex-direction: column;
-  max-width: 800px; /* Расширенная ширина для большего текста */
-  text-align: left; /* Выравниваем текст по левому краю на мобильных */
-}
-
 .main-content-name {
   font-size: var(--font-size-display);
   font-weight: 900;
@@ -171,20 +105,6 @@
   transition:
     font-size var(--transition-duration-base) var(--timing-function-ease),
     color var(--transition-duration-base) var(--timing-function-ease);
-}
-
-.main-content-tagline {
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-normal);
-  line-height: 1;
-  text-transform: uppercase;
-  /* Вторичный цвет для тэглайна, чтобы не конкурировал с должностью */
-  color: var(--color-secondary);
-  margin: 0;
-  /* Добавляем отступ сверху для визуального разделения от имени */
-  margin-top: var(--spacing-xs);
-  letter-spacing: 0.15em;
-  transition: color var(--transition-duration-base) var(--timing-function-ease);
 }
 
 .main-content-title {
@@ -210,35 +130,6 @@
 }
 
 /* Адаптивность для больших экранов */
-@include desktop-large {
-  .main-grid {
-    grid-template-columns: auto 1fr;
-    grid-template-rows: 1fr auto;
-    gap: var(--spacing-md) var(--spacing-lg);
-    align-items: stretch;
-    justify-items: start;
-  }
-
-  .main-content-top {
-    grid-column: 2;
-    grid-row: 1;
-    text-align: left; /* Возвращаем выравнивание по левому краю */
-    align-self: start; /* Прижимаем к верху ячейки */
-  }
-
-  .main-content-left {
-    grid-column: 1;
-    grid-row: 1 / span 2;
-  }
-
-  .main-content-bottom {
-    grid-column: 2;
-    grid-row: 2;
-    text-align: left; /* Возвращаем выравнивание по левому краю */
-    align-self: end; /* Прижимаем к низу ячейки */
-    justify-content: flex-end;
-  }
-}
 
 body.page-404 .content-wrapper {
   display: flex;

@@ -29,26 +29,8 @@
 }
 
 /* Стили для маленьких мобильных устройств */
-@include mobile-small {
-  .project-info {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--spacing-xxs);
-  }
-}
 
 @include mobile-extra-small {
-  .project-meta {
-    font-size: var(--font-size-small);
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0;
-    transition: font-size var(--transition-duration-base) var(--timing-function-ease);
-
-    span::after {
-      display: none !important;
-    }
-  }
 
   .main-content-name {
     font-size: var(--font-size-h2);
@@ -76,16 +58,6 @@
   }
 }
 
-@include mobile-mini {
-  .portrait-image {
-    width: clamp(260px, 90.9vw - 30.9px, 280px);
-    height: clamp(390px, 136.4vw - 46.4px, 420px);
-    transition:
-      width var(--transition-duration-base) var(--timing-function-ease),
-      height var(--transition-duration-base) var(--timing-function-ease);
-  }
-}
-
 @include mobile-minimum {
   .page-wrapper {
     min-width: 320px;
@@ -96,9 +68,5 @@
 
   .page-wrapper::-webkit-scrollbar {
     display: none;
-  }
-
-  .slides-container.tablet-scroll-mode .slide:not(:last-child)::after {
-    width: 320px;
   }
 }

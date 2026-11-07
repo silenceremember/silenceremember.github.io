@@ -50,7 +50,6 @@ html[lang='en'] .i18n-ru {
   }
 }
 
-
 .case-title {
   margin: 0 0 var(--spacing-md);
   font-size: var(--font-size-display);
@@ -146,13 +145,6 @@ html[lang='en'] .i18n-ru {
   line-height: 1.2;
 }
 
-.case-section-num {
-  color: var(--color-accent-text);
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-bold);
-  letter-spacing: 0.08em;
-}
-
 .case-list {
   margin: 0 0 var(--spacing-md);
   padding: 0;
@@ -232,27 +224,6 @@ html[lang='en'] .i18n-ru {
   line-height: 1.35;
 }
 
-.case-ai {
-  margin: var(--spacing-md) 0;
-  padding: var(--spacing-sm) var(--spacing-md);
-  border: 1px solid var(--color-divider);
-  border-left: 3px solid var(--color-accent);
-  background-color: transparent;
-
-  p {
-    margin: 0;
-  }
-}
-
-.case-ai-label {
-  display: block;
-  margin-bottom: 4px;
-  font-size: 0.75rem;
-  font-weight: var(--font-weight-bold);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
 .case-actions {
   display: flex;
   flex-wrap: wrap;
@@ -325,56 +296,6 @@ html[lang='en'] .i18n-ru {
   transition: color var(--transition-duration-fast) ease;
 }
 
-/* Услуги */
-.services-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--spacing-sm);
-  margin-top: var(--spacing-lg);
-
-  @include tablet-and-mobile {
-    grid-template-columns: 1fr;
-  }
-}
-
-.service {
-  padding: var(--spacing-md);
-  border: 1px solid var(--color-divider);
-
-  .case-list {
-    margin: 0;
-  }
-
-  li {
-    font-size: var(--font-size-small);
-  }
-}
-
-.service-title {
-  margin: 0 0 var(--spacing-sm);
-  font-size: var(--font-size-h5);
-  font-weight: 900;
-}
-
-.service-covers {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--spacing-xs);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-
-  @include tablet-and-mobile {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  img {
-    width: 100%;
-    height: auto;
-    border: 1px solid var(--color-divider);
-  }
-}
-
 /* Ссылка «к содержанию» для клавиатуры */
 .skip-link {
   position: absolute;
@@ -401,8 +322,7 @@ html[lang='en'] .i18n-ru {
 }
 
 .finding-title,
-.case-next-title,
-.service-title {
+.case-next-title {
   text-transform: none;
 }
 
@@ -418,46 +338,6 @@ html[lang='en'] .i18n-ru {
   flex-wrap: wrap;
   gap: var(--spacing-sm);
   margin-top: var(--spacing-md);
-}
-
-/* Главная: оффер и кнопки на первом экране */
-.hero-availability {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-xs);
-  margin-top: var(--spacing-sm);
-  color: var(--color-text-primary);
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-semibold);
-
-  &::before {
-    content: '';
-    width: 8px;
-    height: 8px;
-    background-color: var(--color-accent);
-    flex-shrink: 0;
-  }
-}
-
-.hero-cta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-sm);
-  margin-top: var(--spacing-md);
-
-  .cta-button {
-    flex: 0 1 auto;
-    min-width: 0;
-    padding: 12px var(--spacing-lg);
-    font-size: var(--font-size-small);
-  }
-}
-
-.cta-slide-text {
-  max-width: 52ch;
-  margin: 0 auto var(--spacing-lg);
-  color: var(--color-secondary);
-  text-align: center;
 }
 
 .visually-hidden {
@@ -491,12 +371,6 @@ html[lang='en'] .i18n-ru {
 
 .research-intro-stats {
   font-weight: var(--font-weight-bold);
-}
-
-.service-covers figcaption {
-  margin-top: 4px;
-  color: var(--color-secondary);
-  font-size: 0.75rem;
 }
 
 /* Кнопки в строку на кейсах и услугах */

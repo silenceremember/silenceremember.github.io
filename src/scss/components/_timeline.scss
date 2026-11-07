@@ -161,22 +161,6 @@
   margin-top: var(--spacing-sm);
 }
 
-.timeline-tag {
-  display: inline-block;
-  padding: 0.25rem var(--spacing-sm);
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-primary);
-  background-color: var(--color-bg-primary);
-  border: var(--line-width) solid var(--color-divider);
-  border-radius: 0;
-
-  @include tablet-and-mobile {
-    font-size: 0.75rem;
-    padding: 0.2rem var(--spacing-xs);
-  }
-}
-
 /* Особые стили для опыта работы */
 .timeline-work {
   .timeline-item {
