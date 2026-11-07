@@ -309,9 +309,9 @@
       "role": "art-director",
       "year": 2026,
       "status": "in-development",
-      "description": "Шутер от первого лица с защитой башнями и роглайтом на 1–4 игроков. Отвечаю за геймдизайн и визуальный стиль",
+      "description": "Шутер от первого лица с защитой башнями и роглайтом на 1–4 игроков. Отвечаю за гейм-дизайн и визуальный стиль",
       "descriptionLocalized": {
-        "ru": "Шутер от первого лица с защитой башнями и роглайтом на 1–4 игроков. Отвечаю за геймдизайн и визуальный стиль",
+        "ru": "Шутер от первого лица с защитой башнями и роглайтом на 1–4 игроков. Отвечаю за гейм-дизайн и визуальный стиль",
         "en": "First-person shooter with tower defence and roguelite runs for 1–4 players. I own game design and the visual style"
       },
       "media": {
@@ -324,13 +324,13 @@
       },
       "tags": [
         "арт-дирекция",
-        "геймдизайн",
+        "гейм-дизайн",
         "Unity"
       ],
       "tagsLocalized": {
         "ru": [
           "арт-дирекция",
-          "геймдизайн",
+          "гейм-дизайн",
           "Unity"
         ],
         "en": [
@@ -344,9 +344,9 @@
         "genre": "CO-OP FPS",
         "platform": "PC"
       },
-      "keyContribution": "Веду геймдизайн и визуальный стиль: концепт и документацию с 2024 года, эмблему, интерфейс, концепты врагов. Продюсер и программисты – другие участники 2IQ.",
+      "keyContribution": "Веду гейм-дизайн и визуальный стиль: концепт и документацию с 2024 года, эмблему, интерфейс, концепты врагов. Продюсер и программисты – другие участники 2IQ.",
       "keyContributionLocalized": {
-        "ru": "Веду геймдизайн и визуальный стиль: концепт и документацию с 2024 года, эмблему, интерфейс, концепты врагов. Продюсер и программисты – другие участники 2IQ.",
+        "ru": "Веду гейм-дизайн и визуальный стиль: концепт и документацию с 2024 года, эмблему, интерфейс, концепты врагов. Продюсер и программисты – другие участники 2IQ.",
         "en": "I lead game design and the visual style: the concept and documentation since 2024, the emblem, the interface, enemy concepts. The producer and the programmers are other members of 2IQ."
       },
       "technologies": [
@@ -380,13 +380,13 @@
         "case": "/case-bite.html"
       },
       "tags": [
-        "геймдизайн",
+        "гейм-дизайн",
         "RTS",
         "Unity"
       ],
       "tagsLocalized": {
         "ru": [
-          "геймдизайн",
+          "гейм-дизайн",
           "RTS",
           "Unity"
         ],
@@ -401,9 +401,9 @@
         "genre": "ASYMMETRIC RTS",
         "platform": "PC"
       },
-      "keyContribution": "Геймдизайнер в Ingvik Studios: спроектировал три ветки навыков вампиров с прогрессией по уровням и улучшения фракций людей с обоснованием каждого. Собрал генератор деревьев в Houdini и лес на карте.",
+      "keyContribution": "Гейм-дизайнер в Ingvik Studios: спроектировал три ветки навыков вампиров с прогрессией по уровням и улучшения фракций людей с обоснованием каждого. Собрал генератор деревьев в Houdini и лес на карте.",
       "keyContributionLocalized": {
-        "ru": "Геймдизайнер в Ingvik Studios: спроектировал три ветки навыков вампиров с прогрессией по уровням и улучшения фракций людей с обоснованием каждого. Собрал генератор деревьев в Houdini и лес на карте.",
+        "ru": "Гейм-дизайнер в Ingvik Studios: спроектировал три ветки навыков вампиров с прогрессией по уровням и улучшения фракций людей с обоснованием каждого. Собрал генератор деревьев в Houdini и лес на карте.",
         "en": "Game designer at Ingvik Studios: designed three vampire skill branches with level progression and human faction upgrades with a rationale for each. Built a Houdini tree generator and the map’s forest."
       },
       "technologies": [
@@ -691,9 +691,9 @@
     },
     {
       "id": "assignment-concept",
-      "title": "Геймдизайн и анализ концептов",
+      "title": "Гейм-дизайн и анализ концептов",
       "titleLocalized": {
-        "ru": "Геймдизайн и анализ концептов",
+        "ru": "Гейм-дизайн и анализ концептов",
         "en": "Game design and concept analysis"
       },
       "category": "research",
@@ -715,7 +715,7 @@
       },
       "comingSoon": false,
       "tags": [
-        "геймдизайн",
+        "гейм-дизайн",
         "концепт"
       ],
       "featured": false,
@@ -723,7 +723,7 @@
       "tier": 2,
       "tagsLocalized": {
         "ru": [
-          "геймдизайн",
+          "гейм-дизайн",
           "концепт"
         ],
         "en": [
@@ -758,7 +758,7 @@
       },
       "comingSoon": false,
       "tags": [
-        "геймдизайн",
+        "гейм-дизайн",
         "механики"
       ],
       "featured": false,
@@ -766,7 +766,7 @@
       "tier": 2,
       "tagsLocalized": {
         "ru": [
-          "геймдизайн",
+          "гейм-дизайн",
           "механики"
         ],
         "en": [
