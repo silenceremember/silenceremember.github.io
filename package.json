@@ -11,6 +11,9 @@
     "deploy": "npm run build && git add dist && git commit -m \"chore: update build\" && git push origin master",
     "deploy:gh-pages": "npm run build && gh-pages -d dist",
     "format": "prettier --write .",
+    "gen": "python tools/gen_pages.py",
+    "gen:check": "python tools/gen_pages.py && git diff --exit-code -- src/index.html src/services.html \"src/case-*.html\"",
+    "lint": "npm run lint:js && npm run lint:css",
     "lint:js": "eslint .",
     "lint:css": "stylelint \"src/scss/**/*.scss\""
   },
