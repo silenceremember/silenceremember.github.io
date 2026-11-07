@@ -5,6 +5,7 @@
   flex-direction: column;
   background-color: var(--color-bg-primary);
   border: var(--line-width) solid var(--color-text-primary);
+
   /* Оптимизировано: оставлены только критичные transitions для hover */
   transition:
     transform var(--transition-duration-base) cubic-bezier(0.4, 0, 0.2, 1),
@@ -29,6 +30,7 @@
   opacity: 1;
   visibility: visible;
   outline: none;
+
   /* Явно задаем border-bottom для предотвращения артефактов в Firefox */
   border-bottom: var(--line-width) solid var(--color-text-primary);
 
@@ -54,6 +56,7 @@
   }
 
   /* will-change управляется через JavaScript динамически */
+
   /* Оптимизация: добавлен для hover-эффектов */
   &.optimized-hover {
     will-change: transform, box-shadow;
@@ -71,6 +74,7 @@
   max-width: 100%;
   min-width: 0;
   background-color: var(--color-bg-primary);
+
   /* Оптимизировано: убраны transitions для content */
   flex-shrink: 0;
   margin: 0;
@@ -80,6 +84,7 @@
   box-sizing: border-box;
   outline: none;
   box-shadow: none;
+
   /* Убираем transform и backface-visibility, которые могут вызывать проблемы в Firefox */
   transform: none;
   backface-visibility: visible;
@@ -100,6 +105,7 @@
   gap: var(--spacing-xs);
   flex-shrink: 0;
   min-height: calc(var(--font-size-h4) * var(--line-height-heading));
+
   /* Оптимизировано: убран transition */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -130,10 +136,12 @@
   font-size: var(--font-size-small);
   color: var(--color-secondary);
   font-style: normal;
+
   /* Оптимизировано: убран transition */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+
   /* Разрешаем выделение текста */
   user-select: text;
   -webkit-user-select: text;
@@ -151,12 +159,14 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--color-secondary);
+
   /* Оптимизировано: убран transition */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   display: inline-flex;
   align-items: center;
+
   /* Разрешаем выделение текста */
   user-select: text;
   -webkit-user-select: text;
@@ -200,6 +210,7 @@
   border-left: none;
   border-right: none;
   flex-shrink: 0;
+
   /* Оптимизировано: убран transition */
   box-sizing: border-box;
   outline: none;
@@ -208,6 +219,7 @@
 .research-card-type {
   font-size: var(--font-size-small);
   color: var(--color-secondary);
+
   /* Оптимизировано: убран transition */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -218,6 +230,7 @@
   background-color: transparent;
   color: var(--color-text-primary);
   cursor: pointer;
+
   /* Оптимизировано: transitions только для hover */
   transition:
     background-color var(--transition-duration-base) cubic-bezier(0.4, 0, 0.2, 1),

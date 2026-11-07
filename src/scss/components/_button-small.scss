@@ -1,4 +1,5 @@
 /* Общий стиль для маленьких кнопок (фильтры, переключатели) */
+
 /* Используется для project-filters-option, projects-section-expand и других маленьких кнопок */
 
 %button-base {
@@ -20,6 +21,7 @@
   font-family: var(--font-family);
   white-space: nowrap;
   box-sizing: border-box;
+
   /* Фиксированная высота для всех кнопок */
   min-height: calc(
     var(--font-size-small) + (var(--spacing-xs) * 2) + (var(--line-width) * 2) +

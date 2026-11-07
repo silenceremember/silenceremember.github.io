@@ -1,12 +1,16 @@
 /* Стили для страницы проектов */
+
 /* Общие стили для .page-with-scroll находятся в _responsive-base.scss */
 
 .projects-page {
   @include page-container;
+
   position: relative;
 
   /* Контент ограничивается вертикальными линиями */
+
   /* Вертикальные линии находятся на: calc((100% - var(--max-width-large)) / 2 - var(--spacing-content-side)) от краёв */
+
   /* Ширина между линиями: var(--max-width-content) */
 
   /* Дополнительный transition для projects-page */
@@ -55,6 +59,7 @@
 .projects-section {
   grid-column: 1 / -1;
   @include section-spacing('medium');
+
   opacity: 1;
 
   &:first-child {
@@ -149,7 +154,9 @@
 /* Сообщение о загрузке */
 .projects-loading {
   grid-column: 1 / -1;
+
   /* Занимает оставшееся пространство от фильтров до низа страницы */
+
   /* Используем flex: 1 для автоматического заполнения доступного пространства */
   flex: 1;
   min-height: 0;
@@ -163,18 +170,23 @@
 }
 
 /* Когда показывается индикатор загрузки, content-wrapper должен занимать всю высоту */
+
 /* С box-sizing: border-box padding-top включается в высоту */
+
 /* Нужно установить высоту так, чтобы внутренний контент занимал viewport - header - footer */
+
 /* Высота = (viewport - header - footer) + padding-top = viewport - var(--header-footer-height) - var(--header-footer-height) + var(--header-footer-height) = viewport - var(--header-footer-height) */
 body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
   height: calc(
     var(--vh-dynamic) * 100 - var(--header-footer-height)
   ); /* viewport - footer (padding-top уже включен в box-sizing) */
+
   min-height: calc(var(--vh-dynamic) * 100 - var(--header-footer-height));
 }
 
 .projects-page:has(.projects-loading:not(.hidden)) {
   min-height: 0;
+
   /* Используем flex для распределения пространства между фильтрами и индикатором загрузки */
   display: flex;
   flex-direction: column;
@@ -204,9 +216,9 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
 }
 
 /* Адаптивность */
+
 /* Мобильные устройства (до 767px) - 1 колонка */
 @include mobile-small {
-
   .projects-grid {
     grid-template-columns: 1fr;
     gap: var(--spacing-md);
@@ -248,7 +260,6 @@ body.page-with-scroll .content-wrapper:has(.projects-loading:not(.hidden)) {
 
 /* Планшеты (от 768px до 1023px) - 2 колонки */
 @include tablet {
-
   .projects-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: var(--spacing-md);

@@ -8,6 +8,7 @@
   position: relative;
   flex-shrink: 0;
   z-index: 10;
+
   /* Background with 10% opacity to show fluid effect through */
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -19,6 +20,7 @@
   backface-visibility: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
   /* Изолирует элемент от остального документа для лучшей производительности */
   contain: layout style paint;
 
@@ -26,6 +28,7 @@
   @media (prefers-reduced-motion: reduce) {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
+
     /* Используем более плотный фон вместо размытия */
     background-color: color-mix(in srgb, var(--color-bg-primary) 95%, transparent);
   }
@@ -33,11 +36,15 @@
 
 .header-content {
   width: 100%;
+
   /* Контент ограничивается вертикальными линиями */
+
   /* Вертикальные линии находятся на: calc((100% - var(--max-width-large)) / 2 - var(--spacing-content-side)) от краёв */
+
   /* Ширина между линиями: var(--max-width-content) */
   max-width: var(--max-width-content);
   margin: 0 auto;
+
   /* Поля как у контента: 32 px на десктопе (по линии текста), 20 px на планшете и телефоне */
   padding: 0 var(--spacing-lg);
   display: flex;
@@ -160,6 +167,7 @@
   cursor: pointer;
   white-space: nowrap;
   box-sizing: border-box;
+
   /* Фиксированная высота для всех кнопок */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -210,7 +218,6 @@
 
 /* Отключаем hover эффекты на мобильных и планшетах */
 @include tablet-and-mobile {
-
   .header-nav-item:hover {
     border-color: var(--color-divider);
     background-color: transparent;

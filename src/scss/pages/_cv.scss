@@ -1,9 +1,11 @@
 /* Стили для страницы резюме */
+
 /* Общие стили для .page-with-scroll находятся в _responsive-base.scss */
 
 /* Основной контейнер страницы */
 .cv-page {
   @include page-container;
+
   position: relative;
 }
 
@@ -265,6 +267,7 @@
   margin: 0;
   margin-top: calc(var(--spacing-xs) * -1);
   margin-bottom: var(--spacing-xs);
+
   /* Разрешаем выделение текста */
   user-select: text;
   -webkit-user-select: text;
@@ -336,6 +339,7 @@
   flex-wrap: wrap;
   gap: 0;
   align-items: center;
+
   /* Разрешаем выделение метаданных */
   user-select: text;
   -webkit-user-select: text;
@@ -353,6 +357,7 @@
   font-weight: var(--font-weight-medium);
   color: var(--color-secondary);
   transition: color var(--transition-duration-base) var(--timing-function-ease);
+
   /* Исправление размытия текста */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -395,6 +400,7 @@
   font-weight: var(--font-weight-semibold);
   color: var(--color-secondary);
   transition: color var(--transition-duration-base) var(--timing-function-ease);
+
   /* Исправление размытия текста */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -493,6 +499,7 @@
   flex-wrap: wrap;
   gap: 0;
   align-items: center;
+
   /* Разрешаем выделение метаданных */
   user-select: text;
   -webkit-user-select: text;
@@ -510,6 +517,7 @@
   font-weight: var(--font-weight-medium);
   color: var(--color-secondary);
   transition: color var(--transition-duration-base) var(--timing-function-ease);
+
   /* Исправление размытия текста */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -552,6 +560,7 @@
   font-weight: var(--font-weight-semibold);
   color: var(--color-secondary);
   transition: color var(--transition-duration-base) var(--timing-function-ease);
+
   /* Исправление размытия текста */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -612,6 +621,7 @@
 }
 
 /* Кнопка скачивания PDF */
+
 /* PDF резюме сразу под шапкой: одна из двух главных задач страницы */
 .cv-download-section {
   margin-top: var(--spacing-md);
@@ -635,7 +645,6 @@
 
 /* Отключаем hover эффекты на мобильных и планшетах */
 @include tablet-and-mobile {
-
   .cv-certificate-button {
     &:hover:not(:disabled),
     &:focus:not(:disabled) {

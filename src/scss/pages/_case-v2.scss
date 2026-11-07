@@ -140,6 +140,7 @@ h2,
       font-size: var(--fs-label);
       font-weight: 600;
       letter-spacing: var(--ls-label);
+
       /* Мелкий текст не красный: 3,57:1 на тёмном фоне не проходит AA */
       color: var(--color-secondary);
       font-variant-numeric: tabular-nums;
@@ -459,6 +460,7 @@ body.home #background-container {
 }
 
 /* Дизайнер r5, P1-1: кнопка карточки в одну строку при длинной роли */
+
 /* Длинные подписи («Презентация в Google Slides») переносятся, а не обрезаются на 320 px */
 .project-card-button {
   flex: 0 1 auto;
@@ -566,6 +568,7 @@ body {
 }
 
 /* ===================== Главная ===================== */
+
 /* Контейнер как у остальных страниц (page-container): поля 32 px, при 1440 контент по линии x = 144 */
 
 /* Первый экран: имя, портрет, роль и кнопки */
@@ -647,6 +650,7 @@ body {
     clip-path: inset(0 0 100% 0);
     transform: translateY(0.3em);
   }
+
   to {
     clip-path: inset(0 0 -10% 0);
     transform: none;
@@ -657,6 +661,7 @@ body {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -1091,6 +1096,7 @@ body {
 }
 
 /* ===================== Резюме ===================== */
+
 /* Контакты в шапке: рамки, как все ссылки сайта */
 .cv-header-contacts-wrapper {
   flex-direction: row;
@@ -1397,6 +1403,7 @@ html.lightbox-open body {
 }
 
 /* ===================== Фаза A: доступность и единообразие ===================== */
+
 /* Кнопки одного размера и вида везде: рамка, 13 px капсом, 40 px (44 px на тач-экранах), заливка красным при наведении */
 .cta-button,
 .project-card-button,

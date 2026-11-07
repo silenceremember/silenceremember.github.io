@@ -12,6 +12,7 @@ body {
     color var(--transition-duration-base) ease;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
   /* Фиксируем размер шрифта независимо от языка для Firefox */
   -moz-text-size-adjust: 100%;
   text-size-adjust: 100%;
@@ -42,6 +43,7 @@ h6 {
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-heading);
   letter-spacing: var(--letter-spacing-tight);
+
   /* Заголовки строчными (sentence case); капсом только имя на главной, лейблы и кнопки */
   text-transform: none;
   color: var(--color-text-primary);

@@ -30,7 +30,6 @@
 /* Стили для маленьких мобильных устройств */
 
 @include mobile-extra-small {
-
   .main-content-name {
     font-size: var(--font-size-h2);
     transition: font-size var(--transition-duration-base) var(--timing-function-ease);

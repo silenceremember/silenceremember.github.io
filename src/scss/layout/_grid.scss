@@ -48,12 +48,16 @@
   flex-grow: 1;
   width: 100%;
   overflow: hidden;
+
   /* Высота: вся высота viewport минус хедер, футер и две декоративные линии */
   height: calc(var(--vh-dynamic) * 100 - var(--header-footer-height) * 2 - var(--line-width) * 2);
   min-height: calc(var(--vh-dynamic) * 100 - var(--header-footer-height) * 2 - var(--line-width) * 2);
   max-height: calc(var(--vh-dynamic) * 100 - var(--header-footer-height) * 2 - var(--line-width) * 2);
+
   /* Контент ограничивается вертикальными линиями */
+
   /* Вертикальные линии находятся на: calc((100% - var(--max-width-large)) / 2 - var(--spacing-content-side)) от краёв */
+
   /* Ширина между линиями: var(--max-width-content) */
   max-width: var(--max-width-content);
   margin: 0 auto;
@@ -65,6 +69,7 @@
     margin: 0 !important;
     padding-left: 0 !important;
     padding-right: 0 !important;
+
     /* Для страниц с прокруткой высота вычисляется отдельно */
     height: auto !important;
     min-height: calc(var(--vh-dynamic) * 100 - var(--header-footer-height) * 2) !important;
@@ -99,6 +104,7 @@
   text-transform: uppercase;
   color: var(--color-text-primary);
   margin: 0;
+
   /* Добавляем пробел между именем и фамилией для лучшей читаемости */
   word-spacing: 0.3em;
   transition:
@@ -113,6 +119,7 @@
   text-transform: uppercase;
   color: var(--color-text-primary);
   margin: 0;
+
   /* Отступ сверху для визуального разделения от тэглайна */
   margin-top: var(--spacing-sm);
   transition:
@@ -134,6 +141,7 @@ body.page-404 .content-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
+
   /* Высота: вся высота viewport минус хедер, футер и две декоративные линии */
   height: calc(var(--vh-dynamic) * 100 - var(--header-footer-height) * 2 - var(--line-width) * 2);
   min-height: calc(var(--vh-dynamic) * 100 - var(--header-footer-height) * 2 - var(--line-width) * 2);

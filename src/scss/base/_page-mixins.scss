@@ -5,6 +5,7 @@
 
 
 /* Миксин для базовых стилей контейнеров страниц */
+
 /* Используется для: projects-page, research-page, cv-page, community-page */
 @mixin page-container {
   padding: var(--spacing-page-top) var(--spacing-lg);
@@ -26,6 +27,7 @@
 }
 
 /* Миксин для контейнеров загрузки */
+
 /* Используется для: index-loading-container, projects-loading-container, research-loading-container, cv-loading-container, community-loading-container, notfound-loading-container */
 @mixin page-loading-container {
   position: absolute;
@@ -56,6 +58,7 @@
 }
 
 /* Миксин для навигационных блоков */
+
 /* Используется для: projects-navigation, research-navigation, cv-navigation, community-navigation */
 @mixin page-navigation {
   display: none;
@@ -98,6 +101,7 @@
 }
 
 /* Миксин для заголовков страниц */
+
 /* Используется для: research-page-title, cv-page-title */
 @mixin page-title {
   font-size: var(--font-size-h1);
@@ -115,6 +119,7 @@
 }
 
 /* Миксин для заголовков секций */
+
 /* Используется для: research-section-title, community-section-title, cv-section-title */
 @mixin section-title {
   font-size: var(--font-size-h2);
@@ -132,7 +137,9 @@
 }
 
 /* Миксин для отступов секций */
+
 /* Используется для унификации отступов между секциями на страницах */
+
 /* Варианты: 'large' (64px/48px) или 'medium' (48px/32px) */
 @mixin section-spacing($variant: 'large') {
   @if $variant == 'large' {

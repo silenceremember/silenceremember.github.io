@@ -1,6 +1,9 @@
 /* Стили для кастомного курсора */
+
 /* Применяем cursor: none только для интерактивных элементов и общих контейнеров */
+
 /* Это позволяет сохранить стандартные курсоры для текстовых полей и областей выделения */
+
 /* Системный курсор прячем, только когда скрипт нарисовал свой (класс has-cursor) */
 @media (hover: hover) and (pointer: fine) {
   html.has-cursor {
@@ -31,26 +34,32 @@ textarea,
   position: fixed;
   width: 20px;
   height: 20px;
+
   /* Используем box-shadow вместо border для четкой обводки */
   box-shadow: 0 0 0 1px var(--color-text-primary);
   border-radius: 50%;
   transform: translate(-50%, -50%);
   pointer-events: none;
   z-index: 9999;
+
   /* Оптимизировано: анимируем только размер, не transform */
   transition:
     width 0.15s cubic-bezier(0.4, 0, 0.2, 1),
     height 0.15s cubic-bezier(0.4, 0, 0.2, 1),
     opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+
   /* Полупрозрачный фон палитры */
   background-color: color-mix(in srgb, var(--color-bg-primary) 50%, transparent);
   opacity: 0;
+
   /* Свойства для чёткого рендеринга */
   will-change: width, height;
+
   /* Предотвращаем размытие при анимации */
   transform-style: preserve-3d;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+
   /* Выравнивание по пиксельной сетке */
   image-rendering: crisp-edges;
   image-rendering: -webkit-optimize-contrast;

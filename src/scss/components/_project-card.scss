@@ -5,6 +5,7 @@
   flex-direction: column;
   background-color: var(--color-bg-primary);
   border: var(--line-width) solid var(--color-text-primary);
+
   /* Оптимизировано: оставлены только критичные transitions для hover */
   transition:
     transform var(--transition-duration-base) cubic-bezier(0.4, 0, 0.2, 1),
@@ -18,15 +19,19 @@
   min-width: 0; /* Позволяет карточке сжиматься в grid */
   margin-left: 0; /* Убираем возможные отступы */
   margin-right: 0; /* Убираем возможные отступы */
+
   /* Исправление размытых границ */
   border-style: solid;
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+
   /* Выравнивание по целым пикселям для четкости */
+
   /* Изоляция карточки для предотвращения влияния на размеры */
   contain: layout style;
+
   /* Точка трансформации - центр верхнего края, чтобы не было смещения влево */
   transform-origin: center top;
 
@@ -37,6 +42,7 @@
   &.project-card-hidden {
     opacity: 0;
     visibility: hidden;
+
     /* Transitions для скрытия добавлены отдельно */
     transition:
       opacity var(--transition-duration-base) cubic-bezier(0.4, 0, 0.2, 1),
@@ -51,12 +57,14 @@
     /* Оптимизировано: уменьшен подъём с -4px до -3px для более плавной анимации */
     transform: translate3d(0, -3px, 0);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+
     /* Убрано will-change из CSS - будет добавляться динамически через JS только при необходимости */
     width: 100% !important; /* Сохраняем ширину при hover */
     max-width: 100% !important; /* Предотвращаем расширение */
     min-width: 0 !important; /* Предотвращаем расширение */
     margin-left: 0 !important; /* Фиксируем отступ слева */
     margin-right: 0 !important; /* Фиксируем отступ справа */
+
     /* Убеждаемся, что transform-origin остается в центре */
     transform-origin: center top;
 
@@ -66,6 +74,7 @@
   }
 
   /* will-change управляется через JavaScript динамически */
+
   /* Оптимизация: добавлен для hover-эффектов */
   &.optimized-hover {
     will-change: transform, box-shadow;
@@ -77,6 +86,7 @@
   width: 100%; /* 16:9 aspect ratio */
   overflow: hidden; /* Важно: скрываем переполнение при масштабировании изображения */
   background-color: var(--color-divider);
+
   /* Оптимизировано: убраны transitions для wrapper */
   flex-shrink: 0; /* Предотвращаем сжатие при трансформации */
   margin: 0; /* Убираем возможные отступы */
@@ -91,11 +101,14 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+
   /* Оптимизировано: использован более быстрый timing function */
   transition: transform var(--transition-duration-base) cubic-bezier(0.4, 0, 0.2, 1);
+
   /* Улучшаем четкость изображений */
   image-rendering: -webkit-optimize-contrast;
   image-rendering: auto;
+
   /* Предотвращаем размытие при масштабировании */
   transform-origin: center center;
 
@@ -120,6 +133,7 @@
   justify-content: space-between;
   padding: var(--spacing-sm);
   opacity: 0;
+
   /* Оптимизировано: использован более быстрый timing function */
   transition: opacity var(--transition-duration-base) cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 2; /* Убеждаемся, что overlay поверх изображения */
@@ -133,12 +147,13 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   border-radius: 2px;
+
   /* Оптимизировано: убраны transitions, не используются при hover */
+
   /* Исправление размытия */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
-
   background-color: var(--theme-dark-bg-primary);
   color: var(--theme-dark-text-primary);
 }
@@ -174,6 +189,7 @@
   max-width: 100%; /* Предотвращаем расширение */
   min-width: 0; /* Позволяет сжиматься */
   background-color: var(--color-bg-primary);
+
   /* Оптимизировано: убраны transitions и transform: translateZ(0) */
   flex-shrink: 0; /* Предотвращаем сжатие при трансформации */
   margin: 0; /* Убираем возможные отступы */
@@ -191,7 +207,9 @@
   gap: var(--spacing-xs);
   flex-shrink: 0;
   min-height: calc(var(--font-size-h4) * var(--line-height-heading));
+
   /* Оптимизировано: убран transition, цвет не меняется при hover */
+
   /* Исправление размытия текста */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -207,6 +225,7 @@
   height: 20px;
   flex-shrink: 0;
   color: var(--color-accent);
+
   /* Оптимизировано: убран transition */
 
   svg {
@@ -225,6 +244,7 @@
   height: 10px;
   flex-shrink: 0;
   color: var(--color-accent);
+
   /* Оптимизировано: убран transition */
 
   svg {
@@ -244,11 +264,14 @@
   overflow: hidden;
   min-height: 1.5em;
   align-items: center;
+
   /* Оптимизировано: убран transition */
+
   /* Исправление размытия текста */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+
   /* Разрешаем выделение метаданных */
   user-select: text;
   -webkit-user-select: text;
@@ -259,6 +282,7 @@
     position: relative;
     flex-shrink: 0;
     white-space: nowrap;
+
     /* Оптимизировано: убран transition */
     display: inline-flex;
     align-items: center;
@@ -286,6 +310,7 @@
       -webkit-mask-repeat: no-repeat;
       -webkit-mask-position: center;
       flex-shrink: 0;
+
       /* Оптимизировано: убран transition */
     }
   }
@@ -311,11 +336,14 @@
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+
   /* Оптимизировано: убран transition */
+
   /* Исправление размытия текста */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+
   /* Разрешаем выделение текста */
   user-select: text;
   -webkit-user-select: text;
@@ -334,7 +362,9 @@
   border-left: none;
   border-right: none;
   flex-shrink: 0;
+
   /* Оптимизировано: убран transition */
+
   /* Исправление размытых границ */
   box-sizing: border-box;
 }
@@ -342,7 +372,9 @@
 .project-card-role {
   font-size: var(--font-size-small);
   color: var(--color-secondary);
+
   /* Оптимизировано: убран transition */
+
   /* Исправление размытия текста */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -364,6 +396,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+
   /* Обеспечиваем четкий рендеринг границ */
   border-style: solid;
   box-sizing: border-box;

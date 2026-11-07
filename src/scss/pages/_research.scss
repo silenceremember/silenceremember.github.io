@@ -1,9 +1,11 @@
 /* Стили для страницы исследований */
+
 /* Общие стили для .page-with-scroll находятся в _responsive-base.scss */
 
 /* Используем те же стили для прокрутки, что и для projects */
 .research-page {
   @include page-container;
+
   position: relative;
 }
 

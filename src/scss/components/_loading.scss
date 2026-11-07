@@ -52,13 +52,16 @@
   100% {
     transform: translateY(0);
   }
+
   /* Подпрыгивание происходит в первые 0.6s */
   21.4% {
     transform: translateY(-18px);
   }
+
   42.8% {
     transform: translateY(0);
   }
+
   /* Пауза с 42.8% до 100% (остается внизу) */
 }
 

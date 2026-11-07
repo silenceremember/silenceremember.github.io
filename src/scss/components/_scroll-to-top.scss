@@ -8,6 +8,7 @@
   );
   width: 40px;
   height: 40px;
+
   /* Default hidden state - use display: none initially */
   display: none;
   align-items: center;
@@ -24,6 +25,7 @@
     visibility var(--transition-duration-base) var(--timing-function-ease-in-out),
     bottom var(--transition-duration-base) var(--timing-function-ease),
     right var(--transition-duration-base) var(--timing-function-ease);
+
   /* Гарантируем, что transition для bottom всегда активен */
   will-change: bottom;
   padding: 0;
@@ -52,7 +54,6 @@
 
   &:hover,
   &:focus {
-
     svg path.scroll-to-top-bg,
     path.scroll-to-top-bg,
     svg circle.scroll-to-top-circle,
@@ -72,6 +73,7 @@
       transform var(--transition-duration-base) var(--timing-function-ease-in-out),
       bottom var(--transition-duration-base) var(--timing-function-ease),
       right var(--transition-duration-base) var(--timing-function-ease);
+
     /* Гарантируем, что transition для bottom активен и при видимой кнопке */
     will-change: bottom;
   }
@@ -85,6 +87,7 @@
 @include tablet-and-mobile {
   .scroll-to-top {
     /* Используем max() для учета безопасных зон (notch) и минимального отступа */
+
     /* Fallback для браузеров без поддержки env() */
     bottom: var(--spacing-sm) !important;
     bottom: max(var(--spacing-sm), env(safe-area-inset-bottom, 0px)) !important;
@@ -92,14 +95,18 @@
     right: max(var(--spacing-sm), env(safe-area-inset-right, 0px)) !important;
     width: 32px !important;
     height: 32px !important;
+
     /* Ensure consistent z-index on mobile */
     z-index: 100 !important;
+
     /* Touch interaction properties for mobile browsers */
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
     cursor: pointer;
+
     /* Убираем will-change на мобильных для лучшей производительности */
     will-change: auto;
+
     /* Плавная анимация на мобильных */
     transition:
       opacity var(--transition-duration-base) ease-in-out,
@@ -139,6 +146,7 @@
 @include height-small {
   .scroll-to-top {
     /* Используем max() для учета безопасных зон (notch) и минимального отступа */
+
     /* Fallback для браузеров без поддержки env() */
     bottom: var(--spacing-sm) !important;
     bottom: max(var(--spacing-sm), env(safe-area-inset-bottom, 0px)) !important;
@@ -146,14 +154,18 @@
     right: max(var(--spacing-sm), env(safe-area-inset-right, 0px)) !important;
     width: 32px !important;
     height: 32px !important;
+
     /* Ensure consistent z-index on small height screens */
     z-index: 100 !important;
+
     /* Touch interaction properties for mobile browsers */
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
     cursor: pointer;
+
     /* Убираем will-change для лучшей производительности */
     will-change: auto;
+
     /* Плавная анимация при высоте <900px */
     transition:
       opacity var(--transition-duration-base) ease-in-out,

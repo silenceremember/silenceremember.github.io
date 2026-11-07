@@ -1,4 +1,5 @@
 /* Базовые responsive стили для всех страниц с прокруткой */
+
 /* Используется для страниц: projects, research, cv, community */
 
 
@@ -76,6 +77,7 @@
     display: flex;
     align-items: center;
     flex-shrink: 0;
+
     /* Background with 10% opacity to show fluid effect through */
     background-color: color-mix(in srgb, var(--color-bg-primary) 88%, transparent);
     backdrop-filter: blur(12px);
@@ -92,6 +94,7 @@
   }
 
   /* Убрано will-change для header - это большой элемент (100vw ширина) */
+
   /* Transition достаточно для плавной анимации */
 
   body.page-with-scroll .header-content,
@@ -113,6 +116,7 @@
     display: flex;
     align-items: center;
     flex-shrink: 0;
+
     /* Background with 10% opacity to show fluid effect through */
     background-color: color-mix(in srgb, var(--color-bg-primary) 88%, transparent);
     backdrop-filter: blur(12px);
@@ -129,6 +133,7 @@
   }
 
   /* Убрано will-change для footer - это большой элемент (100vw ширина) */
+
   /* Transition достаточно для плавной анимации */
 
   body.page-with-scroll .footer-content,
@@ -157,6 +162,7 @@
   }
 
   /* Убрано will-change для декоративных линий - это большие элементы (100vw ширина) */
+
   /* Transition достаточно для плавной анимации */
 
   body.page-with-scroll .header + .decorative-line-horizontal {

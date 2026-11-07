@@ -14,11 +14,13 @@ html {
   height: 100%;
   width: 100%;
   overflow: hidden;
+
   /* Плавная смена темы - переходы применяются на уровне html для каскадирования */
   transition-property:
     color, background-color, border-color, fill, stroke, box-shadow;
   transition-duration: var(--transition-duration-base);
   transition-timing-function: ease;
+
   /* Фиксируем размер шрифта независимо от языка для Firefox */
   font-size: 16px;
 }
@@ -66,6 +68,7 @@ body::-webkit-scrollbar {
     height: auto;
     min-height: calc(var(--vh-dynamic) * 100);
     -webkit-overflow-scrolling: touch;
+
     /* overscroll-behavior-y: contain; - Removed to allow pull-to-refresh */
     overscroll-behavior-y: auto; /* Explicitly allow pull-to-refresh */
   }
@@ -112,6 +115,7 @@ table {
 }
 
 /* Плавная смена темы для всех элементов */
+
 /* Добавляем transition только для цветовых свойств, чтобы не конфликтовать с существующими transition */
 *,
 *::before,

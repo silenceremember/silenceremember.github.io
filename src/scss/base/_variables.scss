@@ -11,9 +11,12 @@
 
 :root {
   /* Viewport height units - поддержка мобильных устройств */
+
   /* Fallback для старых браузеров (устанавливается через JS в ViewportHeight.js) */
   --vh-fallback: 1vh;
+
   /* Динамическая высота viewport с учетом адресной строки браузера */
+
   /* dvh (dynamic viewport height) - автоматически адаптируется при скрытии/показе UI браузера */
   --vh-dynamic: 1dvh;
   
@@ -23,9 +26,10 @@
   --theme-dark-accent: #d90429;
   --theme-dark-accent-bg: rgba(217, 4, 41, 0.22);
   --theme-dark-accent-text: #d90429;
-  --theme-dark-divider: #888888;
-  --theme-dark-placeholder: #444444;
-  --theme-dark-secondary: #888888;
+  --theme-dark-divider: #888;
+  --theme-dark-placeholder: #444;
+  --theme-dark-secondary: #888;
+
   /* Вторичный текст описаний: нейтральный серый, 10:1 на #121212 */
   --color-text-muted: #bdbdbd;
 
@@ -110,6 +114,7 @@
   --breakpoint-tablet: 481px;
   --breakpoint-desktop: 1024px;
   --breakpoint-large: 1025px;
+
   /* Breakpoint для высоты экрана */
   --breakpoint-height-small: 900px;
 
@@ -118,6 +123,7 @@
   --max-width-tablet: 720px;
   --max-width-desktop: 960px;
   --max-width-large: 1200px;
+
   /* Ширина контента с учетом отступов для вертикальных линий (1200px + 16px) */
   --max-width-content: calc(var(--max-width-large) + var(--spacing-sm));
 
@@ -128,6 +134,7 @@
   --spacing-lg: 2rem; /* 32px */
   --spacing-xl: 3rem; /* 48px */
   --spacing-xxl: 4rem; /* 64px */
+
   /* Отступ для вертикальных линий от края контента */
   --spacing-content-side: var(--spacing-xs); /* 8px */
 
@@ -185,6 +192,7 @@
 }
 
 /* Миксины для breakpoints */
+
 /* 
  * Основной breakpoint: 1024px - граница между desktop и tablet/mobile
  * Breakpoint для высоты: 900px - для маленьких экранов по высоте
@@ -275,6 +283,7 @@
   align-items: center;
   flex-shrink: 0;
   z-index: 10;
+
   /* Background with 10% opacity to show fluid effect through */
   background-color: color-mix(in srgb, var(--color-bg-primary) 88%, transparent);
   backdrop-filter: blur(12px);
