@@ -19,15 +19,11 @@ html[lang='en'] .i18n-ru {
 
 .case {
   width: 100%;
-  max-width: 960px;
-  margin: 0 auto;
   padding-bottom: var(--spacing-xxl);
   color: var(--color-text-primary);
 
   p {
-    font-size: var(--font-size-h6);
     line-height: 1.65;
-    max-width: 70ch;
     margin: 0 0 var(--spacing-sm);
   }
 }
@@ -37,25 +33,11 @@ html[lang='en'] .i18n-ru {
 }
 
 .case-back {
-  display: inline-block;
   margin-bottom: var(--spacing-lg);
-  color: var(--color-secondary);
-  text-decoration: none;
-  font-size: var(--font-size-small);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-
-  &:hover {
-    color: var(--color-accent);
-  }
 }
 
 .case-title {
   margin: 0 0 var(--spacing-md);
-  font-size: var(--font-size-display);
-  font-weight: 900;
-  line-height: 1.1;
-  letter-spacing: var(--letter-spacing-tight);
 
   @include tablet-and-mobile {
     font-size: var(--font-size-h2);
@@ -63,9 +45,7 @@ html[lang='en'] .i18n-ru {
 }
 
 .case-lead {
-  font-size: var(--font-size-h5) !important;
   line-height: 1.55 !important;
-  max-width: 62ch;
 }
 
 .case-meta {
@@ -99,9 +79,6 @@ html[lang='en'] .i18n-ru {
   dt {
     margin-bottom: 4px;
     color: var(--color-secondary);
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
   }
 
   dd {
@@ -118,20 +95,16 @@ html[lang='en'] .i18n-ru {
   img {
     width: 100%;
     height: auto;
-    border: 1px solid var(--color-divider);
     background-color: var(--color-placeholder);
   }
 
   figcaption {
-    margin-top: var(--spacing-xs);
     color: var(--color-secondary);
     font-size: var(--font-size-small);
   }
 }
 
 .case-section {
-  padding-top: var(--spacing-xl);
-  margin-top: var(--spacing-lg);
   border-top: 1px solid var(--color-divider);
 }
 
@@ -140,8 +113,6 @@ html[lang='en'] .i18n-ru {
   align-items: baseline;
   gap: var(--spacing-sm);
   margin: 0 0 var(--spacing-md);
-  font-size: var(--font-size-h3);
-  font-weight: 900;
   line-height: 1.2;
 }
 
@@ -149,7 +120,6 @@ html[lang='en'] .i18n-ru {
   margin: 0 0 var(--spacing-md);
   padding: 0;
   list-style: none;
-  max-width: 70ch;
 
   li {
     position: relative;
@@ -158,12 +128,8 @@ html[lang='en'] .i18n-ru {
     line-height: 1.6;
 
     &::before {
-      content: '';
       position: absolute;
       left: 0;
-      top: 0.65em;
-      width: 8px;
-      height: 8px;
       background-color: var(--color-accent);
     }
   }
@@ -219,9 +185,6 @@ html[lang='en'] .i18n-ru {
 
 .finding-title {
   margin: 0 0 var(--spacing-xs);
-  font-size: var(--font-size-h6);
-  font-weight: var(--font-weight-bold);
-  line-height: 1.35;
 }
 
 .case-actions {
@@ -229,10 +192,6 @@ html[lang='en'] .i18n-ru {
   flex-wrap: wrap;
   gap: var(--spacing-sm);
   margin-top: var(--spacing-md);
-
-  .cta-button {
-    width: auto;
-  }
 }
 
 .case-cta {
@@ -260,8 +219,6 @@ html[lang='en'] .i18n-ru {
 
 .case-cta-title {
   margin: 0 0 var(--spacing-sm);
-  font-size: var(--font-size-h2);
-  font-weight: 900;
   line-height: 1.15;
 
   @include tablet-and-mobile {
@@ -285,15 +242,6 @@ html[lang='en'] .i18n-ru {
 .case-next-label {
   display: block;
   color: var(--color-secondary);
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-.case-next-title {
-  font-size: var(--font-size-h4);
-  font-weight: var(--font-weight-bold);
-  transition: color var(--transition-duration-fast) ease;
 }
 
 /* Ссылка «к содержанию» для клавиатуры */
@@ -321,11 +269,6 @@ html[lang='en'] .i18n-ru {
   outline-offset: 2px;
 }
 
-.finding-title,
-.case-next-title {
-  text-transform: none;
-}
-
 .case-actions .cta-button,
 .case-cta .cta-button,
 .case-hero .cta-button {
@@ -351,7 +294,6 @@ html[lang='en'] .i18n-ru {
 
 /* Наука: вводный блок */
 .research-intro {
-  max-width: 70ch;
   margin-bottom: var(--spacing-xl);
   padding-bottom: var(--spacing-lg);
   border-bottom: 1px solid var(--color-divider);
@@ -416,10 +358,8 @@ html[lang='en'] .i18n-ru {
 
   .header.menu-open .header-nav-item {
     display: block;
-    width: 100%;
     padding: var(--spacing-sm);
     font-size: var(--font-size-h5);
-    text-align: left;
   }
 }
 

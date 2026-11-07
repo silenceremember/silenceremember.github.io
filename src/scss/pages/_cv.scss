@@ -35,12 +35,9 @@
 }
 
 .cv-section-title {
-  font-size: var(--font-size-h2);
-  font-weight: 700;
   text-transform: none;
   color: var(--color-text-primary);
   margin: 0 0 var(--spacing-lg) 0;
-  letter-spacing: var(--letter-spacing-tight);
   line-height: var(--line-height-heading);
 
   @include tablet-and-mobile {
@@ -75,13 +72,9 @@
 }
 
 .cv-header-name {
-  font-size: var(--font-size-h1);
-  font-weight: 800;
   text-transform: none;
   color: var(--color-text-primary);
   margin: 0;
-  letter-spacing: var(--letter-spacing-tight);
-  line-height: 1;
 
   @include tablet-and-mobile {
     font-size: var(--font-size-h2);
@@ -90,13 +83,9 @@
 }
 
 .cv-header-role {
-  font-size: var(--font-size-h3);
-  font-weight: 600;
-  text-transform: none;
   color: var(--color-text-primary);
   margin: 0;
   letter-spacing: var(--letter-spacing-tight);
-  line-height: 1;
 
   @include tablet-and-mobile {
     font-size: var(--font-size-h4);
@@ -117,7 +106,6 @@
 
   @include desktop-large {
     grid-template-columns: auto 1fr;
-    grid-template-rows: 1fr auto;
     gap: var(--spacing-md) var(--spacing-lg);
     align-items: stretch;
     justify-items: start;
@@ -188,10 +176,7 @@
 
 .cv-header-contacts-wrapper {
   display: flex;
-  flex-direction: column;
-  gap: 0.125rem;
   align-items: flex-start;
-  margin-top: 0.25rem;
 
   @include tablet-and-mobile {
     align-items: flex-start;
@@ -199,15 +184,8 @@
 }
 
 .cv-header-contact-link {
-  font-size: var(--font-size-small);
-  line-height: var(--line-height-base);
-  color: var(--color-secondary);
-  font-weight: var(--font-weight-normal);
-  text-transform: none;
-  text-decoration: none;
   cursor: pointer;
   white-space: nowrap;
-  transition: color var(--transition-duration-base) var(--timing-function-ease);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -239,24 +217,15 @@
 
 /* Секция "О себе" */
 .cv-about-text {
-  font-size: var(--font-size-small);
   line-height: var(--line-height-base);
-  color: var(--color-secondary);
   margin: 0;
-  max-width: 800px;
-
-  @include tablet-and-mobile {
-    font-size: var(--font-size-small);
-  }
 }
 
 .cv-about-divider {
   width: 100%;
   height: var(--line-width);
-  background-color: var(--color-secondary);
   margin: 12px 0;
   padding: 0;
-  max-width: 800px;
   flex-shrink: 0;
 }
 
@@ -281,11 +250,8 @@
 }
 
 .cv-skill-category-title {
-  font-size: var(--font-size-h4);
-  font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
   margin: 0;
-  line-height: var(--line-height-heading);
 
   @include tablet-and-mobile {
     font-size: var(--font-size-h5);
@@ -357,11 +323,8 @@
 }
 
 .cv-certificate-title {
-  font-size: var(--font-size-h5);
-  font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
   margin: 0;
-  line-height: var(--line-height-heading);
 
   @include tablet-and-mobile {
     font-size: var(--font-size-base);
@@ -443,14 +406,8 @@
 }
 
 .cv-certificate-button {
-  padding: var(--spacing-xs) var(--spacing-md);
   background-color: transparent;
-  border: var(--line-width) solid var(--color-text-primary);
   color: var(--color-text-primary);
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-semibold);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
   cursor: pointer;
   transition:
     background-color var(--transition-duration-base) var(--timing-function-ease),
@@ -523,11 +480,8 @@
 }
 
 .cv-course-title {
-  font-size: var(--font-size-h5);
-  font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
   margin: 0;
-  line-height: var(--line-height-heading);
 
   @include tablet-and-mobile {
     font-size: var(--font-size-base);
@@ -639,11 +593,8 @@
 }
 
 .cv-language-name {
-  font-size: var(--font-size-h5);
-  font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
   margin: 0;
-  line-height: var(--line-height-heading);
 
   @include tablet-and-mobile {
     font-size: var(--font-size-base);

@@ -9,7 +9,6 @@
   flex-shrink: 0;
   z-index: 10;
   /* Background with 10% opacity to show fluid effect through */
-  background-color: color-mix(in srgb, var(--color-bg-primary) 88%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   transition:
@@ -150,18 +149,8 @@
 }
 
 .header-nav-item {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 100%;
-  padding: var(--spacing-xs) var(--spacing-lg);
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-medium);
-  line-height: 1;
-  text-transform: uppercase;
   color: var(--color-text-primary);
-  background-color: transparent;
-  border: var(--line-width) solid var(--color-divider);
   text-decoration: none;
   transition:
     background-color var(--transition-duration-base) var(--timing-function-ease),
@@ -172,14 +161,6 @@
   white-space: nowrap;
   box-sizing: border-box;
   /* Фиксированная высота для всех кнопок */
-  min-height: calc(
-    var(--font-size-small) + (var(--spacing-xs) * 2) + (var(--line-width) * 2) +
-      4px
-  );
-  height: calc(
-    var(--font-size-small) + (var(--spacing-xs) * 2) + (var(--line-width) * 2) +
-      4px
-  );
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -192,9 +173,7 @@
 }
 
 .header-nav-item.active {
-  background-color: var(--color-text-primary);
   border-color: var(--color-text-primary);
-  color: var(--color-bg-primary);
 
   &:hover {
     border-color: var(--color-accent);
@@ -242,9 +221,5 @@
     border-color: var(--color-text-primary);
     background-color: var(--color-text-primary);
     color: var(--color-bg-primary);
-  }
-
-  .header-menu-button:hover {
-    color: var(--color-text-primary);
   }
 }

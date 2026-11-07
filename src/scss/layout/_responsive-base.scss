@@ -1,7 +1,6 @@
 /* Базовые responsive стили для всех страниц с прокруткой */
 /* Используется для страниц: projects, research, cv, community */
 
-@import '../base/variables';
 
 /* Desktop стили для страниц с прокруткой */
 @include desktop {

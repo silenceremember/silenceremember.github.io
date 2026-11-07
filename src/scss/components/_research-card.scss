@@ -51,12 +51,6 @@
     margin-left: 0 !important;
     margin-right: 0 !important;
     transform-origin: center top;
-
-    .research-card-button {
-      background-color: var(--color-accent);
-      border-color: var(--color-accent);
-      color: #f5f5f5;
-    }
   }
 
   /* will-change управляется через JavaScript динамически */
@@ -99,13 +93,8 @@
 }
 
 .research-card-title {
-  font-size: var(--font-size-h4);
-  font-weight: var(--font-weight-bold);
-  line-height: var(--line-height-heading);
   color: var(--color-text-primary);
   margin: 0;
-  text-transform: none;
-  letter-spacing: var(--letter-spacing-tight);
   display: flex;
   align-items: flex-start;
   gap: var(--spacing-xs);
@@ -226,14 +215,8 @@
 }
 
 .research-card-button {
-  padding: var(--spacing-xs) var(--spacing-md);
   background-color: transparent;
-  border: var(--line-width) solid var(--color-text-primary);
   color: var(--color-text-primary);
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-semibold);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
   cursor: pointer;
   /* Оптимизировано: transitions только для hover */
   transition:
@@ -304,12 +287,6 @@
   .research-card:hover {
     transform: none;
     box-shadow: none;
-
-    .research-card-button {
-      background-color: transparent;
-      border-color: var(--color-text-primary);
-      color: var(--color-text-primary);
-    }
   }
 
   .research-card-button {

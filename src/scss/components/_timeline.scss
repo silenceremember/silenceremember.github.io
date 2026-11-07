@@ -77,11 +77,8 @@
 }
 
 .timeline-title {
-  font-size: var(--font-size-h4);
-  font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
   margin: 0;
-  line-height: var(--line-height-heading);
   /* Разрешаем выделение текста */
   user-select: text;
   -webkit-user-select: text;
@@ -94,7 +91,6 @@
 }
 
 .timeline-subtitle {
-  font-size: var(--font-size-base);
   font-weight: var(--font-weight-medium);
   color: var(--color-secondary);
   margin: 0;
@@ -111,7 +107,6 @@
 }
 
 .timeline-description {
-  max-width: var(--measure);
   font-size: var(--fs-body);
   line-height: var(--lh-body);
   color: var(--color-text-muted);
@@ -135,7 +130,6 @@
   li {
     position: relative;
     padding-left: var(--spacing-md);
-    max-width: var(--measure);
     font-size: var(--fs-body);
     line-height: var(--line-height-base);
     color: var(--color-text-primary);

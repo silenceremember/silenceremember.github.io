@@ -51,7 +51,6 @@
 
 /* Заголовок года */
 .research-year-header {
-  font-size: var(--font-size-h3);
   font-weight: 700;
   text-transform: none;
   color: var(--color-text-primary);
@@ -67,7 +66,6 @@
 
   @include tablet-and-mobile {
     font-size: var(--font-size-h4);
-    margin-top: var(--spacing-section-medium-mobile);
     margin-bottom: var(--spacing-md);
   }
 }

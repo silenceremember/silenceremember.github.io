@@ -37,10 +37,8 @@
 
   /* Когда показывается индикатор загрузки, используем flex для распределения пространства */
   &:has(.projects-loading:not(.hidden)) {
-    margin-bottom: 0;
     display: flex;
     flex-direction: column;
-    min-height: 0;
   }
 
   .project-card {
@@ -73,12 +71,9 @@
 
 /* Заголовки разделов */
 .projects-section-title {
-  font-size: var(--font-size-h2);
-  font-weight: 700;
   color: var(--color-text-primary);
   margin: 0;
   text-transform: none;
-  letter-spacing: var(--letter-spacing-tight);
   display: flex;
   align-items: center;
   gap: var(--spacing-md);

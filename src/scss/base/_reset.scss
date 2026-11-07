@@ -71,9 +71,6 @@ body::-webkit-scrollbar {
   }
   
   /* Явно разрешаем pull-to-refresh для страниц с прокруткой */
-  body.page-with-scroll {
-    overscroll-behavior-y: auto; /* Allow pull-to-refresh */
-  }
 }
 
 img,
@@ -102,7 +99,6 @@ button {
 
 a {
   text-decoration: none;
-  color: inherit;
 }
 
 ul,
