@@ -1541,3 +1541,11 @@ html.lightbox-open body {
   content: none;
   display: none;
 }
+
+/* «Кейсы» ведёт себя как остальные кнопки: при наведении красная заливка */
+.cta-button-primary:hover,
+.cta-button-primary:focus-visible {
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #f5f5f5;
+}
