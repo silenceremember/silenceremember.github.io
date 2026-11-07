@@ -1200,3 +1200,17 @@ body.home #background-container {
 .home-hero.hh {
   padding-bottom: var(--spacing-md);
 }
+
+/* Раунд 24: иерархия заголовков на главной: имя > раздел > кейс */
+.home-page .home-section > .case-section-title {
+  margin-bottom: var(--spacing-lg);
+  font-size: clamp(2.25rem, 4.8vw, 4.25rem);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+}
+
+.home-case-body .home-case-title {
+  font-size: clamp(1.375rem, 2.3vw, 2rem);
+  line-height: 1.08;
+}
