@@ -1418,3 +1418,120 @@ html.lightbox-open body {
     min-height: 760px;
   }
 }
+
+/* Раунд 28: первый экран одним блоком (имя, роль, текст, кнопки без разделителей) */
+.home-hero.hh {
+  display: block;
+  min-height: 0;
+  padding: 3rem 0 4rem;
+}
+
+.hh-top {
+  margin-bottom: 9rem;
+}
+
+.hh-name {
+  margin: 0;
+}
+
+.hh-body {
+  max-width: 36rem;
+  margin-top: 1.75rem;
+
+  .home-role {
+    margin: 0 0 0.75rem;
+    font-size: var(--fs-role);
+    font-weight: 600;
+  }
+
+  .hh-lead {
+    margin: 0 0 1.75rem;
+    font-size: var(--fs-lead);
+    line-height: 1.55;
+    color: var(--color-text-primary);
+    opacity: 0.86;
+  }
+
+  .cta-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hh-portrait {
+    top: 2rem;
+    bottom: auto;
+    height: calc(100% - 4rem);
+    width: min(38%, 420px);
+    right: 4%;
+  }
+}
+
+@include tablet-and-mobile {
+  .hh-top {
+    margin-bottom: 0;
+  }
+
+  .home-hero.hh {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 3rem;
+  }
+
+  .hh-portrait {
+    order: 1;
+  }
+
+  .hh-name {
+    order: 2;
+  }
+
+  .hh-body {
+    order: 3;
+  }
+}
+
+/* Главная кнопка не залита красным: красная заливка читается как «включено».
+   Все кнопки в рамке, главная отмечена красным квадратом */
+.cta-button-primary {
+  background-color: transparent;
+  border-color: var(--color-text-primary);
+  color: var(--color-text-primary);
+
+  &::before {
+    content: '';
+    display: inline-block;
+    width: 0.5em;
+    height: 0.5em;
+    margin-right: 0.55em;
+    background: var(--color-accent);
+    vertical-align: 0.06em;
+  }
+
+  &:hover,
+  &:focus-visible {
+    background-color: var(--color-text-primary);
+    border-color: var(--color-text-primary);
+    color: var(--color-bg-primary);
+  }
+}
+
+.hh-body .cta-buttons {
+  flex-direction: row !important;
+  max-width: none !important;
+
+  .cta-button {
+    flex: 0 1 auto;
+    min-width: 0;
+    padding: 12px 20px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hh-top {
+    margin-bottom: 6rem;
+  }
+}
