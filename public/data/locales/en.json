@@ -61,7 +61,12 @@
         "ui": "Interface",
         "app": "Application"
       },
-      "detailsExternal": "Details"
+      "detailsExternal": "Details",
+      "linkGoogleSites": "Google Sites page",
+      "linkSite": "Project website",
+      "linkSheet": "Google Sheets table",
+      "linkSlides": "Google Slides deck",
+      "linkDoc": "Google Docs document"
     },
     "filters": {
       "category": "Category",

@@ -1,7 +1,7 @@
 /**
  * Фабрика для создания различных типов карточек
  */
-import { getRoleLabel, getCardFooterLabel } from '../utils/RoleMapper.js';
+import { getRoleLabel, getCardFooterLabel, getDetailsKey } from '../utils/RoleMapper.js';
 import { StatusMapper } from '../utils/StatusMapper.js';
 import { localization } from '../utils/Localization.js';
 
@@ -185,7 +185,7 @@ export class CardFactory {
         detailsButton.setAttribute('aria-label', localization.t('projects.card.comingSoonAria'));
       } else {
         // Обновляем текст кнопки для обычных проектов
-        const detailsKey = project.links && project.links.case ? 'projects.card.details' : 'projects.card.detailsExternal';
+        const detailsKey = getDetailsKey(project);
         const buttonText = detailsButton.querySelector('span[data-i18n]');
         if (buttonText) {
           buttonText.textContent = localization.t(detailsKey);

@@ -9,7 +9,7 @@ import { ProjectGroupingManager } from '../managers/ProjectGroupingManager.js';
 import { PageReadyManager } from '../utils/PageReady.js';
 import { lazyImageLoader } from '../utils/LazyImageLoader.js';
 import { localization } from '../utils/Localization.js';
-import { getRoleLabel, getCardFooterLabel } from '../utils/RoleMapper.js';
+import { getRoleLabel, getCardFooterLabel, getDetailsKey } from '../utils/RoleMapper.js';
 
 /**
  * Класс страницы проектов
@@ -391,7 +391,7 @@ export class ProjectsPage extends BasePage {
           button.setAttribute('aria-label', localization.t('projects.card.comingSoonAria'));
         } else {
           // Обновляем текст кнопки - проверяем наличие span с data-i18n
-          const detailsKey = project.links && project.links.case ? 'projects.card.details' : 'projects.card.detailsExternal';
+          const detailsKey = getDetailsKey(project);
           const buttonText = button.querySelector('span[data-i18n]');
           if (buttonText) {
             buttonText.textContent = localization.t(detailsKey);

@@ -44,3 +44,20 @@ export function getCardFooterLabel(project) {
   }
   return parts.filter(Boolean).join(' · ');
 }
+
+/**
+ * Ключ подписи ссылки карточки по месту назначения: кейс на сайте, Google Sites, документ и т. д.
+ * @param {Object} project - Данные проекта
+ * @returns {string} Ключ локализации
+ */
+export function getDetailsKey(project) {
+  const links = project.links || {};
+  if (links.case) return 'projects.card.details';
+  const url = links.site || links.concept || links.presentation || links.document || '';
+  if (url.includes('sites.google.com')) return 'projects.card.linkGoogleSites';
+  if (links.site) return 'projects.card.linkSite';
+  if (url.includes('/spreadsheets/')) return 'projects.card.linkSheet';
+  if (url.includes('/presentation/')) return 'projects.card.linkSlides';
+  if (url.includes('/document/')) return 'projects.card.linkDoc';
+  return 'projects.card.detailsExternal';
+}

@@ -332,9 +332,9 @@ export class ProjectGroupingManager {
     const hiddenProjects = [...tier2Projects, ...tier3Projects];
 
     // Если нет отмеченных проектов, показываем все
-    const hasFeatured = tier1Projects.length > 0;
-    const projectsToShow = hasFeatured ? tier1Projects : allCategoryProjects;
-    const hasMoreProjects = hasFeatured && hiddenProjects.length > 0;
+    // Показываем все карточки сразу, без кнопки «Показать все»: архивные идут последними
+    const projectsToShow = [...tier1Projects, ...hiddenProjects];
+    const hasMoreProjects = false;
 
     // Создаем контейнер раздела
     const sectionContainer = document.createElement('div');

@@ -30,8 +30,7 @@ h2,
 
 /* H1 страницы: кейсы, услуги, наука, резюме, 404 */
 .case-title,
-.cv-header-name,
-.page-404-container .main-content-name {
+.cv-header-name {
   font-size: var(--fs-h1);
   font-weight: 900;
   line-height: 1.05;
@@ -416,11 +415,6 @@ body.home #background-container {
 
 /* P1-2: на мобильном фильтры не занимают первый экран */
 @include tablet-and-mobile {
-  .project-filters-group:has([data-filter='status']),
-  .project-filters-group:has([data-filter='year']) {
-    display: none;
-  }
-
   .project-filters-options[data-filter='category'] {
     @media (min-width: 600px) {
       flex-wrap: wrap;
@@ -882,7 +876,25 @@ body {
   a {
     color: inherit;
     text-decoration: none;
+
+    /* Единственная ссылка карточки растянута на всю карточку */
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+
+    &:focus-visible {
+      outline: none;
+    }
   }
+}
+
+/* Фокус с клавиатуры обводит всю карточку, а не только заголовок */
+.home-case:has(.home-case-title a:focus-visible) {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 8px;
 }
 
 .home-case-body p:not(.home-case-meta) {
@@ -979,6 +991,56 @@ body {
   margin-top: var(--spacing-lg);
 }
 
+/* Контакты: одна рамка на контакт, название и адрес внутри */
+.home-contact-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--spacing-sm);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.home-contact {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  width: 100%;
+  min-height: 0;
+  padding: var(--spacing-md);
+  border: 1px solid var(--color-text-primary);
+  color: var(--color-text-primary);
+  text-decoration: none;
+  transition: background-color 0.1s, color 0.1s;
+
+  &:hover,
+  &:focus-visible {
+    background-color: var(--color-text-primary);
+    color: var(--color-bg-primary);
+
+    .home-contact-label {
+      color: inherit;
+    }
+  }
+}
+
+.home-contact-label {
+  color: var(--color-secondary);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+}
+
+.home-contact-value {
+  font-size: var(--fs-h3);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: var(--ls-heading);
+  overflow-wrap: anywhere;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hi-row a:hover .hi-title,
   .hi-row a:focus-visible .hi-title,
@@ -1028,6 +1090,14 @@ body {
     gap: var(--spacing-xl);
   }
 
+  .home-contact-list {
+    grid-template-columns: 1fr;
+  }
+
+  .home-contact {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
   .hi-row a {
     grid-template-columns: 72px minmax(0, 1fr);
     align-items: center;
@@ -1046,4 +1116,29 @@ body {
   .hi-meta {
     text-align: left;
   }
+}
+
+/* ===================== 404: одна кнопка «На главную» ===================== */
+.page-404-content {
+  gap: var(--spacing-sm);
+}
+
+.page-404-container .main-content-name {
+  font-size: var(--fs-display);
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-display);
+  word-spacing: normal;
+}
+
+.page-404-container .main-content-title {
+  margin-top: var(--spacing-sm);
+  font-size: var(--fs-h3);
+  line-height: var(--lh-heading);
+}
+
+.page-404-container .cta-buttons {
+  flex-direction: row;
+  justify-content: center;
+  width: auto;
+  margin-top: var(--spacing-md);
 }

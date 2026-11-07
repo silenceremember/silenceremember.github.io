@@ -61,7 +61,12 @@
         "ui": "Интерфейс",
         "app": "Приложение"
       },
-      "detailsExternal": "Подробнее"
+      "detailsExternal": "Подробнее",
+      "linkGoogleSites": "Страница на Google Sites",
+      "linkSite": "Сайт проекта",
+      "linkSheet": "Таблица в Google Sheets",
+      "linkSlides": "Презентация в Google Slides",
+      "linkDoc": "Документ в Google Docs"
     },
     "filters": {
       "category": "Категория",
