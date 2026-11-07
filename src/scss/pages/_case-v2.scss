@@ -9,6 +9,8 @@
 .timeline-title,
 .cv-certificate-title,
 .cv-course-title,
+.cv-skill-category-title,
+.cv-language-name,
 .finding-title,
 .case-next-title {
   text-transform: none !important;
@@ -57,6 +59,7 @@ h2,
 .cv-certificate-title,
 .cv-course-title,
 .cv-skill-category-title,
+.cv-language-name,
 .finding-title {
   font-size: var(--fs-h3);
   line-height: 1.25;
@@ -530,7 +533,7 @@ body.home #background-container {
 .research-publication-abstract-toggle {
   display: inline-block;
   margin: 2px 6px 2px 0;
-  padding: 3px 10px;
+  padding: 8px 12px;
   border: 1px solid currentColor;
   color: var(--color-text-primary);
   text-decoration: none;
@@ -1133,8 +1136,7 @@ body {
 
   .services-table td a,
   .research-intro a,
-  .research-publication-abstract-toggle,
-  .cv-header-contact-link {
+  .research-publication-abstract-toggle {
     display: inline-flex;
     align-items: center;
     min-height: var(--target-min);
@@ -1216,4 +1218,61 @@ h3,
 /* «Кейсы»: первая секция ближе к фильтру категорий */
 .projects-grid > .projects-section:first-child .projects-section-header {
   margin-top: var(--spacing-md);
+}
+
+/* ===================== Резюме ===================== */
+/* Контакты в шапке: рамки, как все ссылки сайта */
+.cv-header-contacts-wrapper {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-md);
+}
+
+.cv-header-contact-link,
+.cv-header-contact-link:hover {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target-min);
+  padding: 0 14px;
+  border: 1px solid var(--color-text-primary);
+  color: var(--color-text-primary);
+  font-size: var(--fs-small);
+  font-weight: 500;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: background-color 0.1s, color 0.1s;
+}
+
+.cv-header-contact-link:focus-visible {
+  background-color: var(--color-text-primary);
+  color: var(--color-bg-primary);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cv-header-contact-link:hover {
+    background-color: var(--color-text-primary);
+    color: var(--color-bg-primary);
+  }
+}
+
+/* Мета сертификатов и курсов: точка вместо «×» */
+.cv-page .cv-certificate-meta > *:not(:last-child)::after,
+.cv-page .cv-course-meta > *:not(:last-child)::after {
+  content: '·';
+  width: auto;
+  height: auto;
+  margin: 0 var(--spacing-xs);
+  background: none;
+  color: var(--color-secondary);
+  mask-image: none;
+  -webkit-mask-image: none;
+}
+
+/* Мера текста в резюме: не длиннее 75 знаков и в EN */
+.cv-about-text,
+.cv-about-divider,
+.timeline-description,
+.timeline-list li {
+  max-width: 38rem;
 }

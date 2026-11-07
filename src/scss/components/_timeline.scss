@@ -112,7 +112,7 @@
 
 .timeline-description {
   max-width: var(--measure);
-  font-size: 1rem;
+  font-size: var(--fs-body);
   line-height: var(--lh-body);
   color: var(--color-text-muted);
   margin-top: var(--spacing-xs);
@@ -136,7 +136,7 @@
     position: relative;
     padding-left: var(--spacing-md);
     max-width: var(--measure);
-    font-size: 1rem;
+    font-size: var(--fs-body);
     line-height: var(--line-height-base);
     color: var(--color-text-primary);
 
