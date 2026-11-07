@@ -76,7 +76,7 @@ export function siteShell({ publicDir }) {
       // Фон с кольцами декоративный: скрыт от скринридеров
       out = out.replace('<div id="background-container"></div>', '<div id="background-container" aria-hidden="true"></div>');
       // У main всегда id="main", на всех страницах есть ссылка «К содержанию»
-      out = out.replace(/<main class="content-wrapper"(?![^>]*id=)/, '<main class="content-wrapper" id="main"');
+      out = out.replace(/<main class="content-wrapper"(?![^>]*\bid=)/, '<main class="content-wrapper" id="main"');
       if (!out.includes('class="skip-link"')) {
         out = out.replace(
           /(<body[^>]*>)/,

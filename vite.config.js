@@ -134,86 +134,11 @@ export default defineConfig({
         },
         // Компактный вывод для уменьшения размера
         compact: true,
-        // Стратегия разделения чанков для лучшего кеширования и уменьшения unused JS
-        manualChunks: (id) => {
-          // Разделяем node_modules на отдельные чанки
-          if (id.includes('node_modules')) {
-            // Разделяем большие библиотеки для лучшего code splitting
-            if (id.includes('three') || id.includes('cannon')) {
-              return 'vendor-physics';
-            }
-            // Vite и его зависимости (если есть)
-            if (id.includes('vite')) {
-              return 'vite-vendor';
-            }
-            // Остальные vendor библиотеки
-            return 'vendor';
-          }
-          // Разделяем страницы на отдельные чанки для lazy loading
-          if (id.includes('/js/pages/') || id.includes('/pages/')) {
-            const pageMatch = id.match(/\/(pages|js\/pages)\/([^/]+)\./);
-            if (pageMatch) {
-              const pageName = pageMatch[2];
-              // Конвертируем PascalCase в kebab-case для имен чанков
-              const kebabCase = pageName
-                .replace(/([A-Z])/g, '-$1')
-                .toLowerCase()
-                .replace(/^-/, '');
-              return `page-${kebabCase}`;
-            }
-          }
-          // Разделяем утилиты и компоненты для лучшего кеширования
-          if (id.includes('/js/utils/')) {
-            return 'utils';
-          }
-          // Разделяем компоненты на более мелкие чанки для лучшей производительности
-          if (id.includes('/js/components/')) {
-            // Критические компоненты (тема, язык, курсор) - загружаются сразу
-            if (
-              id.includes('/components/theme/') ||
-              id.includes('/components/language/') ||
-              id.includes('/components/custom-cursor/')
-            ) {
-              return 'components-core';
-            }
-            // Компоненты скролла - отдельный чанк
-            if (id.includes('/components/scroll/')) {
-              return 'components-scroll';
-            }
-            // Фоновые эффекты - большой компонент, отдельный чанк
-            if (id.includes('/components/background-effect/')) {
-              return 'components-background';
-            }
-            // SVG loader - отдельный чанк
-            if (id.includes('/components/svg/')) {
-              return 'components-svg';
-            }
-            // Остальные компоненты
-            return 'components';
-          }
-          if (id.includes('/js/services/')) {
-            return 'services';
-          }
-          // Общий layout код
-          if (id.includes('/js/layout/')) {
-            return 'layout';
-          }
-          // Менеджеры анимаций - могут быть большими, разделяем
-          if (id.includes('/js/managers/') || id.includes('/managers/')) {
-            return 'managers';
-          }
-          // Фабрики
-          if (id.includes('/js/factories/')) {
-            return 'factories';
-          }
-        },
+        // Чанки делит Rollup по графу импортов: каждая страница грузит только свой код
         // Оптимизация имен файлов для кеширования
         chunkFileNames: 'assets/js/[name]-[hash].js',
         entryFileNames: 'assets/js/[name]-[hash].js',
         assetFileNames: (assetInfo) => {
-          const info = assetInfo.name.split('.');
-          const ext = info[info.length - 1];
-          
           // Изображения
           if (
             /\.(png|jpe?g|svg|gif|tiff|bmp|ico|webp)$/i.test(assetInfo.name)
@@ -270,12 +195,6 @@ export default defineConfig({
     chunkSizeWarningLimit: 200, // Уменьшено для более строгого контроля размера и лучшего code splitting
     // Включаем source maps только для production debugging (опционально)
     sourcemap: false,
-    // Оптимизация tree shaking
-    treeshake: {
-      moduleSideEffects: false,
-      propertyReadSideEffects: false,
-      tryCatchDeoptimization: false,
-    },
     // Оптимизация target для современных браузеров
     target: ['esnext', 'edge88', 'firefox78', 'chrome87', 'safari14'],
     // Минификация CSS с оптимизацией
