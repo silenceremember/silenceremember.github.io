@@ -1177,3 +1177,26 @@ body.home #background-container {
     }
   }
 }
+
+/* Раунд 23: без повторов на первом экране */
+.hh-bottom .home-role {
+  margin: 0;
+  font-size: clamp(1.25rem, 2vw, 1.75rem);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  text-transform: none;
+}
+
+.home-manifesto {
+  margin-top: var(--spacing-xl);
+}
+
+.hm-text {
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+
+.home-hero.hh {
+  padding-bottom: var(--spacing-md);
+}
