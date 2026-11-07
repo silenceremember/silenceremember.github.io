@@ -31,11 +31,7 @@
       "id": "2iq-labs",
       "period": {
         "start": "2024-02",
-        "end": "2025-04",
-        "duration": "1 год 3 месяца",
-        "durationLocalized": {
-          "en": "1 year 3 months"
-        }
+        "end": null
       },
       "company": "2IQLabs, студенческая R&D-группа при РАНХиГС",
       "companyLocalized": {
@@ -46,11 +42,13 @@
         "en": "R&D Team Lead (game design and development)"
       },
       "responsibilities": [
-        "Собрал и вёл команду: инструменты разработки, игровые прототипы, система документации Wobbledink"
+        "Собрал команду и до апреля 2025 вёл её: инструменты разработки, игровые прототипы, система документации Wobbledink",
+        "Сейчас задаю направление Shards of Sanity и Wobbledink"
       ],
       "responsibilitiesLocalized": {
         "en": [
-          "Built and led the team: development tools, game prototypes, the Wobbledink documentation system"
+          "Built the team and led it until April 2025: development tools, game prototypes, the Wobbledink documentation system",
+          "Now I set the direction for Shards of Sanity and Wobbledink"
         ]
       }
     },
