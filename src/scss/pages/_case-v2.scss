@@ -1046,7 +1046,7 @@ body.home #background-container {
 .hm-text {
   margin: 0;
   max-width: none;
-  font-size: clamp(1.75rem, 3.9vw, 3.5rem);
+  font-size: clamp(1.25rem, 2.5vw, 2.25rem);
   font-weight: 800;
   line-height: 1.12;
   letter-spacing: -0.025em;
@@ -1144,5 +1144,36 @@ body.home #background-container {
 
   .home-case-image img {
     aspect-ratio: 16 / 10;
+  }
+}
+
+/* Раунд 22: горизонтальные разделители от линии до линии рамки */
+.home-section,
+.home-manifesto,
+.hh-bottom {
+  position: relative;
+  border-top-color: transparent !important;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: calc((100vw - 100%) / -2);
+    right: calc((100vw - 100%) / -2);
+    height: 1px;
+    background: var(--line-color);
+    opacity: 0.35;
+    pointer-events: none;
+  }
+}
+
+@media (min-width: 1232px) {
+  .home-section,
+  .home-manifesto,
+  .hh-bottom {
+    &::before {
+      left: calc((100% - var(--max-width-large)) / 2 - var(--spacing-content-side));
+      right: calc((100% - var(--max-width-large)) / 2 - var(--spacing-content-side));
+    }
   }
 }
