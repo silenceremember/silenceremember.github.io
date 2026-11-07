@@ -135,6 +135,7 @@ h2,
     display: flex;
     gap: 12px;
     align-items: baseline;
+    max-width: 60ch;
     margin-top: 16px;
 
     &::before {
@@ -359,7 +360,8 @@ body.home #background-container {
 }
 
 .case .finding p {
-  font-size: 0.9375rem;
+  font-size: var(--fs-body);
+  color: var(--color-text-muted);
 }
 
 /* Разделитель в мете карточек: точка вместо «×» */
@@ -926,10 +928,13 @@ body {
 }
 
 .hi-title {
+  justify-self: start;
   transition: color 0.1s, transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
+/* Ширина по тексту: по ней кадр превью встаёт между названием и подписью */
 .hi-meta {
+  justify-self: end;
   color: var(--color-secondary);
   font-size: var(--fs-small);
   text-align: right;
@@ -1094,6 +1099,7 @@ body {
   }
 
   .hi-meta {
+    justify-self: start;
     text-align: left;
   }
 }
@@ -1275,4 +1281,96 @@ h3,
 .timeline-description,
 .timeline-list li {
   max-width: 38rem;
+}
+
+/* ===================== Кейсы: рисунок в окне <dialog> ===================== */
+.case-figure a[data-lightbox] {
+  display: block;
+  cursor: zoom-in;
+}
+
+.lightbox {
+  /* Сброс обнуляет margin у всех элементов: возвращаем центрирование окна */
+  margin: auto;
+  width: auto;
+  max-width: min(96vw, 1600px);
+  max-height: 96vh;
+  padding: 0;
+  border: 1px solid var(--color-text-primary);
+  background: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  overflow: auto;
+
+  &::backdrop {
+    background: color-mix(in srgb, var(--color-bg-primary) 92%, transparent);
+  }
+}
+
+.lightbox-bar {
+  position: sticky;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: var(--color-bg-primary);
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.lightbox-caption {
+  margin: 0;
+  max-width: 60ch;
+  color: var(--color-text-muted);
+  font-size: var(--fs-small);
+  line-height: 1.4;
+}
+
+.lightbox-close {
+  flex: none;
+  margin-left: auto;
+}
+
+.lightbox-frame img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: calc(96vh - 64px);
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+/* Широкие схемы на телефоне: полный размер и прокрутка вбок */
+.lightbox--wide .lightbox-frame {
+  overflow-x: auto;
+}
+
+.lightbox--wide .lightbox-frame img {
+  max-width: none;
+  width: 1100px;
+  max-height: none;
+}
+
+/* Над текстом системный курсор выделения, кружок курсора остаётся над ссылками */
+@media (hover: hover) and (pointer: fine) {
+  p,
+  li,
+  dd,
+  figcaption,
+  td {
+    cursor: text;
+  }
+
+  a p,
+  a li,
+  a dd,
+  li a,
+  td a,
+  .project-card p,
+  .research-card p,
+  .home-case p {
+    cursor: none;
+  }
 }
