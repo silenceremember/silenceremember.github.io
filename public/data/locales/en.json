@@ -24,13 +24,13 @@
     },
     "availability": "Open to remote work: part-time or project-based",
     "siteName": "Maxim Elchaninov",
-    "siteRole": "interface and game design"
+    "siteRole": "game design and interfaces"
   },
   "index": {
     "tagline": "SILENCEREMEMBER",
-    "title": "Interface and game design",
+    "title": "Game design and interfaces",
     "about": "I design interfaces for websites and games. Master’s in game design, PhD student at ETU “LETI”, Saint Petersburg.",
-    "meta_description": "Maxim Elchaninov: interface and game design. UX audit, game UI, Unity tools. PhD student at ETU “LETI”.",
+    "meta_description": "Maxim Elchaninov: game design and interfaces. UX audit, game UI, Unity tools. PhD student at ETU “LETI”.",
     "slideHint": "Scroll the mouse wheel to see the cases",
     "featuredWorks": "Featured cases",
     "whatsNext": "Contact",
@@ -126,10 +126,10 @@
   "cv": {
     "title": "CV",
     "meta_title": "CV",
-    "description": "CV: interface and game design. Master’s in game design, PhD student at ETU “LETI”.",
+    "description": "CV: game design and interfaces. Master’s in game design, PhD student at ETU “LETI”.",
     "navigation": "Navigation",
     "name": "Maxim Elchaninov",
-    "role": "Interface and game design",
+    "role": "Game design and interfaces",
     "workDescription": "User support",
     "certificateUnavailable": "Certificate information unavailable",
     "sections": {

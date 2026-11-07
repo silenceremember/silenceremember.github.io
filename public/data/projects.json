@@ -181,10 +181,10 @@
     },
     {
       "id": "wobbledink",
-      "title": "Wobbledink: живые термины и значения",
+      "title": "Wobbledink: система документации",
       "titleLocalized": {
-        "ru": "Wobbledink: живые термины и значения",
-        "en": "Wobbledink: live terms and values"
+        "ru": "Wobbledink: система документации",
+        "en": "Wobbledink: a documentation system"
       },
       "category": "tools",
       "type": "tool",
