@@ -1,10 +1,10 @@
 <div class="header-content">
   <div class="header-left">
-    <button class="header-language" type="button" aria-label="Язык: русский. Переключить на английский">
-      <span class="header-language-option active" data-lang="ru" aria-hidden="true">RU</span>
+    <div class="header-language" role="group" aria-label="Язык сайта">
+      <button type="button" class="header-language-option active" data-lang="ru" lang="ru" aria-pressed="true" aria-label="Русский">RU</button>
       <span class="header-language-divider" aria-hidden="true"></span>
-      <span class="header-language-option" data-lang="en" aria-hidden="true">EN</span>
-    </button>
+      <button type="button" class="header-language-option" data-lang="en" lang="en" aria-pressed="false" aria-label="English">EN</button>
+    </div>
   </div>
 
   <nav class="header-nav">
@@ -26,7 +26,13 @@
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
+        class="menu-icon-bars"
         d="M23 10C23.5523 10 24 10.4477 24 11C24 11.5523 23.5523 12 23 12H1C0.447715 12 0 11.5523 0 11C0 10.4477 0.447715 10 1 10H23ZM23 0C23.5523 2.57704e-07 24 0.447715 24 1C24 1.55228 23.5523 2 23 2H1C0.447715 2 0 1.55228 0 1C0 0.447715 0.447715 1.61065e-08 1 0H23Z"
+        fill="currentColor"
+      />
+      <path
+        class="menu-icon-close"
+        d="M7 0L12 5L17 0L18.4 1.4L13.4 6L18.4 10.6L17 12L12 7L7 12L5.6 10.6L10.6 6L5.6 1.4Z"
         fill="currentColor"
       />
     </svg>

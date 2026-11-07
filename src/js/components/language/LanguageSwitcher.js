@@ -24,7 +24,15 @@ export class LanguageSwitcher {
     if (!this.languageButton) return;
 
     this.applyLanguage(localization.getCurrentLanguage());
-    this.languageButton.addEventListener('click', () => this.toggleLanguage());
+    // Две кнопки «RU» и «EN»: нажатие на текущий язык ничего не меняет
+    this.languageButton.querySelectorAll('.header-language-option').forEach((option) => {
+      option.addEventListener('click', () => {
+        const lang = option.dataset.lang;
+        if (lang && lang !== localization.getCurrentLanguage()) {
+          localization.switchLanguage(lang);
+        }
+      });
+    });
 
     // Подписываемся на изменения языка
     this.unsubscribe = localization.subscribe((lang) => {
@@ -43,12 +51,14 @@ export class LanguageSwitcher {
   applyLanguage(lang) {
     if (!this.languageButton) return;
 
-    // Текущий язык виден текстом: активный вариант белый, второй серый
+    // Текущий язык виден текстом (белый) и отмечен aria-pressed; второй серый
     this.languageButton.querySelectorAll('.header-language-option').forEach((option) => {
-      option.classList.toggle('active', option.dataset.lang === lang);
+      const current = option.dataset.lang === lang;
+      option.classList.toggle('active', current);
+      option.setAttribute('aria-pressed', String(current));
     });
 
-    // aria-label называет текущий язык и язык, на который переключит кнопка
+    // Подпись группы называет текущий язык и язык, на который переключит вторая кнопка
     const label = localization.t('common.aria.languageSwitch');
     if (label && label !== 'common.aria.languageSwitch') {
       this.languageButton.setAttribute('aria-label', label);
@@ -186,8 +196,9 @@ export class LanguageSwitcher {
     });
 
     // aria статичных компонентов
+    const menuOpen = document.querySelector('.header.menu-open');
     const ariaMap = [
-      ['.header-menu-button', 'common.aria.menu'],
+      ['.header-menu-button', menuOpen ? 'common.aria.menuClose' : 'common.aria.menu'],
       ['.scroll-to-top', 'common.buttons.scrollToTop'],
     ];
     ariaMap.forEach(([selector, key]) => {

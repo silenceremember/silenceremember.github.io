@@ -42,7 +42,8 @@ h6 {
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-heading);
   letter-spacing: var(--letter-spacing-tight);
-  text-transform: uppercase;
+  /* Заголовки строчными (sentence case); капсом только имя на главной, лейблы и кнопки */
+  text-transform: none;
   color: var(--color-text-primary);
   transition: color var(--transition-duration-base) ease;
 }

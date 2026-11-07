@@ -13,6 +13,7 @@ import { LayoutManager } from '../layout/LayoutManager.js';
 import { LanguageSwitcher } from '../components/index.js';
 import { CustomCursor } from '../components/index.js';
 import { LoadingIndicatorService } from '../services/LoadingIndicatorService.js';
+import { localization } from '../utils/Localization.js';
 // Некритические компоненты - загружаем динамически
 // import { SvgLoader } from '../components/svg/SvgLoader.js';
 // import { FluidBackground } from '../components/index.js';
@@ -24,6 +25,20 @@ let globalComponentsInitialized = false;
 
 // Кеш для шаблонов (общий для всех страниц)
 const templateCache = new Map();
+
+/**
+ * Открывает и закрывает мобильное меню: иконка становится крестиком, подпись кнопки меняется
+ * @param {HTMLElement} header - Шапка сайта
+ * @param {boolean} open - Открыть меню
+ */
+function setMenu(header, open) {
+  header.classList.toggle('menu-open', open);
+  const button = header.querySelector('.header-menu-button');
+  if (!button) return;
+  button.setAttribute('aria-expanded', String(open));
+  const label = localization.t(open ? 'common.aria.menuClose' : 'common.aria.menu');
+  if (label && !label.startsWith('common.')) button.setAttribute('aria-label', label);
+}
 
 export class BasePage {
   /**
@@ -217,21 +232,16 @@ export class BasePage {
       if (!header) return;
       const button = e.target.closest('.header-menu-button');
       if (button) {
-        const open = !header.classList.contains('menu-open');
-        header.classList.toggle('menu-open', open);
-        button.setAttribute('aria-expanded', String(open));
+        setMenu(header, !header.classList.contains('menu-open'));
         return;
       }
       if (e.target.closest('.header-nav-item') && header.classList.contains('menu-open')) {
-        header.classList.remove('menu-open');
+        setMenu(header, false);
       }
     });
     document.addEventListener('keydown', (e) => {
       const header = document.querySelector('.header.menu-open');
-      if (e.key === 'Escape' && header) {
-        header.classList.remove('menu-open');
-        header.querySelector('.header-menu-button')?.setAttribute('aria-expanded', 'false');
-      }
+      if (e.key === 'Escape' && header) setMenu(header, false);
     });
 
     globalComponentsInitialized = true;

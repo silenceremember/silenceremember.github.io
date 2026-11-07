@@ -20,7 +20,8 @@
     "aria": {
       "languageSwitch": "Language: English. Switch to Russian",
       "themeSwitch": "Switch theme",
-      "menu": "Menu"
+      "menu": "Menu",
+      "menuClose": "Close menu"
     },
     "availability": "Open to remote work: part-time or project-based",
     "siteName": "Maxim Elchaninov",
@@ -229,7 +230,7 @@
   },
   "404": {
     "title": "Page not found",
-    "message": "This page doesn't exist. Start from the home page or open the cases.",
+    "message": "This page doesn't exist. Start from the home page.",
     "backHome": "Back to home",
     "heading": "404",
     "subtitle": "Page not found"

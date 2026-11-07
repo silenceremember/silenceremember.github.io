@@ -42,34 +42,14 @@
 @import 'pages/case';
 @import 'pages/case-v2';
 
-/* 5. АНИМАЦИИ ПОЯВЛЕНИЯ КОНТЕНТА */
-/* Fade-in анимация для контента при загрузке страницы */
+/* 5. ПОЯВЛЕНИЕ КОНТЕНТА */
+/* Контент виден с первой отрисовки: шапка, подвал и main больше не прячутся до загрузки JS.
+   Класс fade-in-visible оставлен для совместимости и ничего не скрывает. */
 .header-content,
 .footer-content,
 .content-wrapper,
 main {
-  opacity: 0;
-  transition: opacity var(--transition-duration-base) var(--timing-function-ease-out);
-}
-
-.header-content.fade-in-visible,
-.footer-content.fade-in-visible,
-.content-wrapper.fade-in-visible,
-main.fade-in-visible {
   opacity: 1;
-  /* Убрано will-change для больших элементов - превышает бюджет памяти браузера */
-  /* Transition достаточно для плавной анимации */
-}
-
-/* Без появления при prefers-reduced-motion: контент виден сразу */
-@media (prefers-reduced-motion: reduce) {
-  .header-content,
-  .footer-content,
-  .content-wrapper,
-  main {
-    opacity: 1;
-    transition: none;
-  }
 }
 
 @include desktop {

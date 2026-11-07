@@ -34,7 +34,7 @@ h2,
 .case-title,
 .cv-header-name {
   font-size: var(--fs-h1);
-  font-weight: 900;
+  font-weight: 800;
   line-height: 1.05;
   letter-spacing: var(--ls-heading);
 }
@@ -46,7 +46,7 @@ h2,
 .research-section-title,
 .cv-section-title {
   font-size: var(--fs-h2);
-  font-weight: 800;
+  font-weight: 700;
   line-height: var(--lh-heading);
   letter-spacing: var(--ls-heading);
 }
@@ -867,8 +867,16 @@ body {
       z-index: 1;
     }
 
+    /* Глобальный :focus-visible с !important: перебиваем тем же весом, рамка одна на карточке */
     &:focus-visible {
-      outline: none;
+      outline: none !important;
+    }
+
+    /* На тач-экранах сама ссылка-заголовок тоже не ниже 44 px */
+    @media (pointer: coarse) {
+      display: inline-flex;
+      align-items: center;
+      min-height: var(--target-min);
     }
   }
 }
@@ -1110,6 +1118,8 @@ body {
 }
 
 .page-404-container .main-content-name {
+  font-weight: 800;
+  text-transform: none;
   font-size: var(--fs-display);
   line-height: var(--lh-display);
   letter-spacing: var(--ls-display);
@@ -1155,33 +1165,8 @@ body {
 }
 
 
-/* Раунд 27: шкала по замерам референсов (bench.md): заголовки без капса, мягче начертание */
-h1,
-h2,
-h3,
-.case-title,
-.case-section-title,
-.home-case-title,
-.hi-title {
-  text-transform: none;
-}
-
-.case-title,
-.cv-header-name {
-  font-weight: 800;
-}
-
-.case-section-title,
-.case-cta-title,
-.projects-section-title,
-.research-section-title,
-.cv-section-title {
-  font-weight: 700;
-}
-
-.hh-name {
-  text-transform: uppercase;
-}
+/* Раунд 27: шкала по замерам референсов (bench.md). Регистр и начертание заголовков заданы
+   в base/_typography.scss, миксинах page-title/section-title и в правилах H1/H2 в начале файла */
 
 /* Карточка кейса на главной: картинка около 480 px, текст рядом */
 @media (min-width: 1024px) {

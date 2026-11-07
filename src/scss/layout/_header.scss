@@ -68,17 +68,21 @@
   }
 }
 
-/* Переключатель языка: оба варианта текстом, текущий белый, второй серый */
+/* Переключатель языка: две кнопки текстом, текущая белая и с aria-pressed, вторая серая */
 .header-language {
   display: inline-flex;
   align-items: center;
+  margin-left: -8px;
+}
+
+.header-language-option {
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
-  gap: 8px;
-  min-width: var(--target-min);
+  min-width: 32px;
   min-height: var(--target-min);
-  margin-left: -6px;
-  padding: 0 6px;
-  background-color: transparent;
+  padding: 0 4px;
+  background: none;
   border: none;
   cursor: pointer;
   font-family: var(--font-family);
@@ -86,14 +90,16 @@
   font-weight: 800;
   letter-spacing: 0.02em;
   line-height: 1;
-}
-
-.header-language-option {
   color: var(--color-secondary);
   transition: color var(--transition-duration-fast) var(--timing-function-ease);
 
   &.active {
     color: var(--color-text-primary);
+    cursor: default;
+  }
+
+  @media (pointer: coarse) {
+    min-width: var(--target-min);
   }
 }
 
@@ -104,8 +110,23 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .header-language:hover .header-language-option:not(.active) {
+  .header-language-option:not(.active):hover {
     color: var(--color-text-primary);
+  }
+}
+
+/* Иконка меню: три полосы или крестик, когда меню открыто */
+.menu-icon-close {
+  display: none;
+}
+
+.header.menu-open {
+  .menu-icon-bars {
+    display: none;
+  }
+
+  .menu-icon-close {
+    display: inline;
   }
 }
 
