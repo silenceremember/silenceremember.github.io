@@ -21,7 +21,9 @@ if (list && matchMedia('(hover: hover) and (pointer: fine)').matches) {
     const title = a.querySelector('.hi-title');
     const w = box.offsetWidth;
     const h = box.offsetHeight;
-    const metaLeft = meta ? meta.getBoundingClientRect().left : row.right;
+    // Самый левый край подписи во всём списке: превью высотой больше строки задевает и соседние
+    const metas = [...list.querySelectorAll('.hi-meta')].map((m) => m.getBoundingClientRect().left);
+    const metaLeft = metas.length ? Math.min(...metas) : meta ? meta.getBoundingClientRect().left : row.right;
     const titleRight = title ? title.getBoundingClientRect().right : row.left;
     let x = metaLeft - w - GAP;
     x = Math.max(x, titleRight + GAP);

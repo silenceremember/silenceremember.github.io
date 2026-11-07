@@ -18,7 +18,7 @@
       "services": "Services"
     },
     "aria": {
-      "languageSwitch": "Language: English. Switch to Russian",
+      "languageSwitch": "Site language",
       "themeSwitch": "Switch theme",
       "menu": "Menu",
       "menuClose": "Close menu"

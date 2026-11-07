@@ -381,6 +381,9 @@ html[lang='en'] .i18n-ru {
   top: -100px;
   left: var(--spacing-sm);
   z-index: 1000;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target-min);
   padding: var(--spacing-xs) var(--spacing-sm);
   background-color: var(--color-accent);
   color: #f5f5f5;

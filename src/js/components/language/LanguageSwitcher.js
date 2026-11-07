@@ -58,7 +58,7 @@ export class LanguageSwitcher {
       option.setAttribute('aria-pressed', String(current));
     });
 
-    // Подпись группы называет текущий язык и язык, на который переключит вторая кнопка
+    // Подпись группы: «Язык сайта»; кнопки называют свой язык, текущий отмечен aria-pressed
     const label = localization.t('common.aria.languageSwitch');
     if (label && label !== 'common.aria.languageSwitch') {
       this.languageButton.setAttribute('aria-label', label);
@@ -183,6 +183,12 @@ export class LanguageSwitcher {
     document.querySelectorAll('img[data-alt-en]').forEach((img) => {
       if (img.dataset.altRu === undefined) img.dataset.altRu = img.getAttribute('alt') || '';
       img.setAttribute('alt', isEn ? img.dataset.altEn : img.dataset.altRu);
+    });
+
+    // Подписи областей для скринридеров: RU в aria-label, EN в data-aria-label-en
+    document.querySelectorAll('[data-aria-label-en]').forEach((el) => {
+      if (el.dataset.ariaLabelRu === undefined) el.dataset.ariaLabelRu = el.getAttribute('aria-label') || '';
+      el.setAttribute('aria-label', isEn ? el.dataset.ariaLabelEn : el.dataset.ariaLabelRu);
     });
 
     // Картинки с отдельной английской версией
