@@ -70,7 +70,10 @@ export function siteShell({ publicDir }) {
       const page = pageOf(ctx.filename || ctx.path);
       const header = markActive(read('header.html'), page);
       const footer = read('footer.html');
+      // Критический CSS (один файл на все страницы) вместо метки в <head>
+      const critical = readFileSync(path.join(path.dirname(publicDir), 'src', 'partials', 'critical.css'), 'utf8').trim();
       let out = html
+        .replace("<!-- critical-css: вставляет vite-plugin-site-shell из src/partials/critical.css -->", () => `<style>${critical}</style>`)
         .replace(/<header class="header">\s*<\/header>/, `<header class="header">${header}</header>`)
         .replace(/<footer class="footer">\s*<\/footer>/, `<footer class="footer">${footer}</footer>`);
       // Фон с кольцами декоративный: скрыт от скринридеров

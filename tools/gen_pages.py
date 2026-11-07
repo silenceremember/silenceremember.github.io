@@ -12,7 +12,8 @@ import html, re, sys, pathlib
 S = pathlib.Path(__file__).resolve().parent.parent
 OUT = pathlib.Path(sys.argv[sys.argv.index('--out') + 1]).resolve() if '--out' in sys.argv else S
 SITE = 'https://silenceremember.github.io'
-CRIT = re.search(r'<style>.*?</style>', (S / 'src/projects.html').read_text(encoding='utf8'), re.S).group(0)
+# Критический CSS один на все страницы: метку заменяет vite-plugin-site-shell (src/partials/critical.css)
+CRIT = '<!-- critical-css: вставляет vite-plugin-site-shell из src/partials/critical.css -->'
 TG = 'https://t.me/silenceremember'
 MAIL = 'mailto:slcrmmbr@outlook.com'
 
