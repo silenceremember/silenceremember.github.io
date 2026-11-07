@@ -1335,3 +1335,98 @@ body.home #background-container {
     gap: 6px;
   }
 }
+
+/* Раунд 26: ошибки по итогам UX-проверки */
+/* Манифест: по умолчанию виден, приглушаем только когда JS включил эффект */
+.hm-w {
+  opacity: 1;
+}
+
+.hm-ready .hm-w {
+  opacity: 0.18;
+
+  &.on {
+    opacity: 1;
+  }
+}
+
+/* Светлая тема: первый экран остаётся тёмной полосой, имя не наезжает на чёрный фон портрета */
+[data-theme='light'] .home-hero.hh {
+  color: #f5f5f5;
+
+  &::after {
+    content: '';
+    position: absolute;
+    z-index: -2;
+    top: 0;
+    bottom: 0;
+    left: calc((100vw - 100%) / -2);
+    right: calc((100vw - 100%) / -2);
+    background: #121212;
+  }
+
+  .home-location {
+    color: #a3a3a3;
+  }
+
+  .cta-button:not(.cta-button-primary) {
+    color: #f5f5f5;
+    border-color: #f5f5f5;
+
+    &:hover {
+      background: #f5f5f5;
+      color: #121212;
+    }
+  }
+}
+
+@media (min-width: 1232px) {
+  [data-theme='light'] .home-hero.hh::after {
+    left: calc((100% - var(--max-width-large)) / 2 - var(--spacing-content-side));
+    right: calc((100% - var(--max-width-large)) / 2 - var(--spacing-content-side));
+  }
+}
+
+/* Кнопки первого экрана не уходят под фиксированную нижнюю панель */
+.home-hero.hh {
+  min-height: min(900px, calc(100svh - var(--header-footer-height) * 2 - 1rem));
+  padding-top: var(--spacing-md);
+}
+
+html,
+body {
+  scroll-padding-bottom: calc(var(--header-footer-height) + 1rem);
+  scroll-padding-top: calc(var(--header-footer-height) + 1rem);
+}
+
+/* Ссылки внутри таблиц и текста: рамка вместо подчёркивания */
+.services-table td a,
+.research-intro a,
+.research-publication-abstract-toggle {
+  display: inline-block;
+  margin: 2px 6px 2px 0;
+  padding: 3px 10px;
+  border: 1px solid currentColor;
+  color: var(--color-text-primary);
+  text-decoration: none;
+  line-height: 1.35;
+  transition: background-color 0.1s, color 0.1s;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--color-text-primary);
+    color: var(--color-bg-primary);
+  }
+}
+
+[data-theme='light'] .home-hero.hh {
+  .hh-name,
+  .home-role,
+  .hh-line {
+    color: #f5f5f5;
+  }
+
+  &::after {
+    top: -2rem;
+  }
+}
