@@ -26,12 +26,9 @@
   document.addEventListener('keydown', registerUserInteraction, { passive: true, once: true });
   document.addEventListener('scroll', registerUserInteraction, { passive: true, once: true });
   
-  const theme = localStorage.getItem('theme');
-  if (theme === 'light') {
-    document.documentElement.setAttribute('data-theme', 'light');
-  } else {
-    document.documentElement.setAttribute('data-theme', 'dark');
-  }
+  // Сайт только в тёмной теме
+  document.documentElement.setAttribute('data-theme', 'dark');
+  try { localStorage.removeItem('theme'); } catch (e) {}
 
   // Добавляем класс для скролла к html для страниц с прокруткой
   const pathname = window.location.pathname;
