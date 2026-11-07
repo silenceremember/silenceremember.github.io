@@ -62,12 +62,19 @@ export class CardFactory {
     if (image && project.media?.preview) {
       // Используем data-src для ленивой загрузки через Intersection Observer
       image.dataset.src = project.media.preview;
+      // Копия 800 px для телефонов (public/…/preview-800w.webp, делается из оригинала заранее)
+      if (/\.webp$/.test(project.media.preview)) {
+        const preview = project.media.preview.replace(/^\/?/, '/');
+        image.dataset.srcset = `${preview.replace(/\.webp$/, '-800w.webp')} 800w, ${preview} 1600w`;
+        image.dataset.sizes = '(max-width: 1023px) calc(100vw - 40px), 560px';
+      }
       image.alt = project.titleLocalized?.[localization.getCurrentLanguage()] || project.title;
       image.loading = 'lazy';
       image.decoding = 'async';
       // Устанавливаем placeholder для предотвращения layout shift
       image.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1"%3E%3C/svg%3E';
       image.onerror = function () {
+        this.removeAttribute('srcset');
         this.src = '/assets/images/portrait-placeholder.svg';
       };
     }

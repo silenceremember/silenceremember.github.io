@@ -31,6 +31,11 @@ export class LazyImageLoader {
               if (!img.hasAttribute('loading')) {
                 img.loading = 'lazy';
               }
+              if (img.dataset.srcset) {
+                img.sizes = img.dataset.sizes || '100vw';
+                img.srcset = img.dataset.srcset;
+                img.removeAttribute('data-srcset');
+              }
               img.src = imageUrl;
               img.removeAttribute('data-src');
               

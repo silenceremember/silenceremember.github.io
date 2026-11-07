@@ -105,14 +105,9 @@ export function initViewportHeight() {
         setTimeout(setViewportHeightVariable, 100);
       }, { passive: true });
     }
-  } else {
-    // Даже если dvh поддерживается, устанавливаем fallback значение
-    // на случай, если понадобится для других расчетов
-    setViewportHeightVariable();
-    
-    // И обновляем при resize для консистентности
-    window.addEventListener('resize', debouncedSetViewportHeight, { passive: true });
   }
+  // С dvh переменная --vh-fallback не используется: не читаем innerHeight и не слушаем resize
+  // (это давало принудительный пересчёт макета при загрузке)
   
   isInitialized = true;
   
