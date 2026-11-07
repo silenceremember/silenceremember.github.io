@@ -4,7 +4,6 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import { vitePurgeCSS } from './vite-plugin-purgecss.js';
 import { createHtmlPlugin } from 'vite-plugin-html';
-import { imagetools } from 'vite-imagetools';
 import { siteShell } from './vite-plugin-site-shell.js';
 
 export default defineConfig({
@@ -96,8 +95,6 @@ export default defineConfig({
         minifyJS: true,
       },
     }),
-    // Оптимизация изображений
-    imagetools(),
   ],
   build: {
     outDir: '../dist',

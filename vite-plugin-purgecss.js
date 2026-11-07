@@ -1,6 +1,4 @@
 import { PurgeCSS } from 'purgecss';
-import { promises as fs } from 'fs';
-import path from 'path';
 
 /**
  * Vite plugin для PurgeCSS
